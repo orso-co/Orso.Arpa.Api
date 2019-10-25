@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Api", "Orso.Arpa.Api.csproj", "{80572D87-E9A0-428C-BFC2-F598F5615EB9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80572D87-E9A0-428C-BFC2-F598F5615EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80572D87-E9A0-428C-BFC2-F598F5615EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80572D87-E9A0-428C-BFC2-F598F5615EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80572D87-E9A0-428C-BFC2-F598F5615EB9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67B63CDA-710A-4F59-AD13-05CD24CBFABA}
+	EndGlobalSection
+EndGlobal
