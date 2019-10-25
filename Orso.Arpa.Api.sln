@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Api", "Orso.Arpa.Api.csproj", "{80572D87-E9A0-428C-BFC2-F598F5615EB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Api", "Orso.Arpa.Api\Orso.Arpa.Api.csproj", "{80572D87-E9A0-428C-BFC2-F598F5615EB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
