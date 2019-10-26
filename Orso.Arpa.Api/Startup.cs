@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Orso.Arpa.Domain;
 using Orso.Arpa.Persistence;
 
 namespace Orso.Arpa.Api
@@ -20,15 +22,33 @@ namespace Orso.Arpa.Api
             get;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ArpaContext>(opt =>
-            {
-                opt.UseLazyLoadingProxies();
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            ConfigureDatabse(services);
 
+            ConfigureCors(services);
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            ConfigureAuthentication(services);
+        }
+
+        private static void ConfigureAuthentication(IServiceCollection services)
+        {
+            IdentityBuilder builder = services.AddIdentityCore<User>();
+            var identityBuilder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
+            identityBuilder
+                .AddEntityFrameworkStores<ArpaContext>()
+                .AddSignInManager<SignInManager<User>>()
+                .AddEntityFrameworkStores<ArpaContext>()
+                .AddDefaultTokenProviders()
+                .AddRoleValidator<RoleValidator<AppRole>>()
+                .AddRoleManager<RoleManager<AppRole>>();
+        }
+
+        private static void ConfigureCors(IServiceCollection services)
+        {
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
@@ -39,12 +59,17 @@ namespace Orso.Arpa.Api
                         .AllowAnyOrigin();
                 });
             });
-
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        private void ConfigureDatabse(IServiceCollection services)
+        {
+            services.AddDbContext<ArpaContext>(opt =>
+            {
+                opt.UseLazyLoadingProxies();
+                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            });
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -53,11 +78,11 @@ namespace Orso.Arpa.Api
             }
             else
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseCors("CorsPolicy");
             app.UseMvc();
         }
