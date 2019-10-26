@@ -1,0 +1,46 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Orso.Arpa.Domain;
+using Orso.Arpa.Persistence;
+
+namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
+
+{
+    public class TestStartup : Startup
+    {
+        public TestStartup(IConfiguration configuration) : base(configuration)
+        {
+        }
+        protected override void ConfigureDatabase(IServiceCollection services)
+        {
+            services.AddDbContext<ArpaContext>(options =>
+                options.UseInMemoryDatabase("DefaultConnection"));
+        }
+
+        protected override void EnsureDatabaseMigrations(IApplicationBuilder app)
+        {
+            using (IServiceScope scope = app.ApplicationServices.CreateScope())
+            {
+                System.IServiceProvider services = scope.ServiceProvider;
+                try
+                {
+                    ArpaContext context = services.GetRequiredService<ArpaContext>();
+                    UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
+                    Seed.SeedDataAsync(userManager).Wait();
+                }
+                catch (System.Exception ex)
+                {
+                    ILogger<TestStartup> logger = services.GetRequiredService<ILogger<TestStartup>>();
+                    logger.LogError(ex, "An error occured during test database migration");
+                    throw;
+                }
+            }
+        }
+    }
+}
