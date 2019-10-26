@@ -8,15 +8,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{723AFD46-71A3-41C1-BBBD-1A92CCF3B9F7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		README.MD = README.MD
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Application", "Orso.Arpa.Application\Orso.Arpa.Application.csproj", "{7A28509A-C423-449C-B708-5F2B8430C68A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Application", "Orso.Arpa.Application\Orso.Arpa.Application.csproj", "{7A28509A-C423-449C-B708-5F2B8430C68A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Domain", "Orso.Arpa.Domain\Orso.Arpa.Domain.csproj", "{C1EEA031-1656-40A0-9F94-B032BC78CB18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Domain", "Orso.Arpa.Domain\Orso.Arpa.Domain.csproj", "{C1EEA031-1656-40A0-9F94-B032BC78CB18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Persistence", "Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj", "{463EC3A6-DD58-46F6-8BDB-49A6437F4ADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Persistence", "Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj", "{463EC3A6-DD58-46F6-8BDB-49A6437F4ADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Infrastructure", "Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj", "{74FE5128-DA11-4624-B123-AD372423E40C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Infrastructure", "Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj", "{74FE5128-DA11-4624-B123-AD372423E40C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
