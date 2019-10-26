@@ -1,0 +1,13 @@
+namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
+{
+    public static class ApiEndpoints
+    {
+        private static string Base => "api";
+
+        public static class AuthController
+        {
+            private static string Auth => $"{Base}/auth";
+            public static string Login() => $"{Auth}/login";
+        }
+    }
+}
