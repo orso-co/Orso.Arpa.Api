@@ -8,6 +8,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             private static string Auth => $"{Base}/auth";
             public static string Login() => $"{Auth}/login";
+            public static string Register() => $"{Auth}/register";
         }
     }
 }

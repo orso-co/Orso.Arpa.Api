@@ -29,5 +29,15 @@ namespace Orso.Arpa.Tests.Shared.Identity
         {
             return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase)));
         }
+
+        public override Task<User> FindByNameAsync(string userName)
+        {
+            return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase)));
+        }
+
+        public override Task<IdentityResult> CreateAsync(User user, string password)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
     }
 }

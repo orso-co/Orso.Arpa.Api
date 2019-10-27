@@ -12,7 +12,7 @@ using Orso.Arpa.Tests.Shared.SeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
-    public class AuthControllerIntegrationTest : IntegrationTestBase
+    public class AuthControllerTest : IntegrationTestBase
     {
         [Test]
         public async Task Should_Login()
@@ -78,6 +78,73 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Test]
+        public async Task Should_Register()
+        {
+            // Arrange
+            var registerCommand = new Register.Command
+            {
+                Email = "ludmilla@test.com",
+                Username = "ludmilla",
+                Password = UserSeedData.ValidPassword
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerCommand));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            TokenDto result = JsonConvert.DeserializeObject<TokenDto>(responseString);
+
+            result.Token.Should().NotBeNullOrEmpty();
+
+            JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(result.Token);
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(registerCommand.Username);
+        }
+
+        [Test]
+        public async Task Should_Not_Register_Existing_Email()
+        {
+            // Arrange
+            var registerCommand = new Register.Command
+            {
+                Email = UserSeedData.Egon.Email,
+                Username = "ludmilla",
+                Password = UserSeedData.ValidPassword
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerCommand));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Test]
+        public async Task Should_Not_Register_Existing_Username()
+        {
+            // Arrange
+            var registerCommand = new Register.Command
+            {
+                Email = "ludmilla@test.com",
+                Username = UserSeedData.Egon.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerCommand));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }
