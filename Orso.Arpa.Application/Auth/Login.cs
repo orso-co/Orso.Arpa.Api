@@ -36,22 +36,19 @@ namespace Orso.Arpa.Application.Auth
         public class Handler : IRequestHandler<Query, string>
         {
             private readonly SignInManager<User> _signInManager;
-            private readonly UserManager<User> _userManager;
             private readonly IJwtGenerator _jwtGenerator;
 
             public Handler(
-                UserManager<User> userManager,
                 SignInManager<User> signInManager,
                 IJwtGenerator jwtGenerator)
             {
                 _signInManager = signInManager;
-                _userManager = userManager;
                 _jwtGenerator = jwtGenerator;
             }
 
             public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
-                User user = await _userManager.FindByEmailAsync(request.Email);
+                User user = await _signInManager.UserManager.FindByEmailAsync(request.Email);
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
