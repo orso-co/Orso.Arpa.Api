@@ -9,7 +9,7 @@ namespace Orso.Arpa.Api.Controllers
     {
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserDto>> Login(Login.Query query)
+        public async Task<ActionResult<string>> Login(Login.Query query)
         {
             return await Mediator.Send(query);
         }

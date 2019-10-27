@@ -12,7 +12,7 @@ namespace Orso.Arpa.Application.Auth
 {
     public static class Login
     {
-        public class Query : IRequest<UserDto>
+        public class Query : IRequest<string>
         {
             public string Email { get; set; }
             public string Password { get; set; }
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.Auth
             }
         }
 
-        public class Handler : IRequestHandler<Query, UserDto>
+        public class Handler : IRequestHandler<Query, string>
         {
             private readonly SignInManager<User> _signInManager;
             private readonly UserManager<User> _userManager;
@@ -43,7 +43,7 @@ namespace Orso.Arpa.Application.Auth
                 _jwtGenerator = jwtGenerator;
             }
 
-            public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
                 User user = await ValidateAsync(request);
 
@@ -51,13 +51,8 @@ namespace Orso.Arpa.Application.Auth
 
                 if (result.Succeeded)
                 {
-                    return new UserDto
-                    {
-                        Token = _jwtGenerator.CreateToken(user),
-                        Username = user.UserName,
-                    };
-                }
-
+                    return _jwtGenerator.CreateToken(user);
+                };
                 throw new RestException(HttpStatusCode.Unauthorized);
             }
 

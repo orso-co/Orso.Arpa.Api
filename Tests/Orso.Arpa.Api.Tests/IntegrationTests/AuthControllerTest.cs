@@ -1,8 +1,9 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Auth;
@@ -15,9 +16,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Login()
         {
             // Act
+            Domain.User user = Seed.Egon;
             var loginQuery = new Login.Query
             {
-                Email = "egon@test.de",
+                Email = user.Email,
                 Password = "Pa$$w0rd"
             };
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
@@ -25,12 +27,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginQuery));
 
             // Assert
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            var token = await responseMessage.Content.ReadAsStringAsync();
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            UserDto result = JsonConvert.DeserializeObject<UserDto>(responseString);
-            result.Username.Should().Be("egon");
-            result.Token.Should().NotBeNullOrEmpty();
+            token.Should().NotBeNullOrEmpty();
+
+            JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
         }
     }
 }
