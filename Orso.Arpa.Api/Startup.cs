@@ -17,6 +17,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Infrastructure.Security;
 using Orso.Arpa.Persistence;
+using Swashbuckle.AspNetCore.Swagger;
 using static Orso.Arpa.Application.Auth.Login;
 
 namespace Orso.Arpa.Api
@@ -45,6 +46,11 @@ namespace Orso.Arpa.Api
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddFluentValidation(config =>
                     config.RegisterValidatorsFromAssemblyContaining<QueryValidator>());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Orso.Arpa.Api", Version = "v1" });
+            });
 
             ConfigureAuthentication(services);
 
@@ -116,10 +122,22 @@ namespace Orso.Arpa.Api
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+
+            AddSwagger(app);
+
             app.UseCors("CorsPolicy");
             app.UseMvc();
 
             EnsureDatabaseMigrations(app);
+        }
+
+        private static void AddSwagger(IApplicationBuilder app)
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
+            });
         }
 
         protected virtual void EnsureDatabaseMigrations(IApplicationBuilder app)
