@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.Auth
                     .NotEmpty()
                     .EmailAddress()
                     .MustAsync(async (email, cancellation) => (await userManager.FindByEmailAsync(email)) != null)
-                    .WithMessage("Unauthorized");
+                    .OnFailure(_ => throw new RestException(HttpStatusCode.Unauthorized));
                 RuleFor(q => q.Password)
                     .NotEmpty();
             }
@@ -55,7 +55,8 @@ namespace Orso.Arpa.Application.Auth
                 if (result.Succeeded)
                 {
                     return _jwtGenerator.CreateToken(user);
-                };
+                }
+
                 throw new RestException(HttpStatusCode.Unauthorized);
             }
         }
