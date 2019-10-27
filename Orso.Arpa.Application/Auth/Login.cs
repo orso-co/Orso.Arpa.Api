@@ -20,10 +20,16 @@ namespace Orso.Arpa.Application.Auth
 
         public class QueryValidator : AbstractValidator<Query>
         {
-            public QueryValidator()
+            public QueryValidator(UserManager<User> userManager)
             {
-                RuleFor(q => q.Email).NotEmpty().EmailAddress();
-                RuleFor(q => q.Password).NotEmpty();
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(q => q.Email)
+                    .NotEmpty()
+                    .EmailAddress()
+                    .MustAsync(async (email, cancellation) => (await userManager.FindByEmailAsync(email)) != null)
+                    .WithMessage("Unauthorized");
+                RuleFor(q => q.Password)
+                    .NotEmpty();
             }
         }
 
@@ -45,7 +51,7 @@ namespace Orso.Arpa.Application.Auth
 
             public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
-                User user = await ValidateAsync(request);
+                User user = await _userManager.FindByEmailAsync(request.Email);
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
@@ -54,18 +60,6 @@ namespace Orso.Arpa.Application.Auth
                     return _jwtGenerator.CreateToken(user);
                 };
                 throw new RestException(HttpStatusCode.Unauthorized);
-            }
-
-            private async Task<User> ValidateAsync(Query request)
-            {
-                User user = await _userManager.FindByEmailAsync(request.Email);
-
-                if (user == null)
-                {
-                    throw new RestException(HttpStatusCode.Unauthorized);
-                }
-
-                return user;
             }
         }
     }
