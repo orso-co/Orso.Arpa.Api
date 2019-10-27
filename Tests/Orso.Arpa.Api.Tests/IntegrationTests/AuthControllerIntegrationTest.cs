@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Auth;
@@ -30,12 +31,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginQuery));
 
             // Assert
-            var token = await responseMessage.Content.ReadAsStringAsync();
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            TokenDto result = JsonConvert.DeserializeObject<TokenDto>(responseString);
 
-            token.Should().NotBeNullOrEmpty();
+            result.Token.Should().NotBeNullOrEmpty();
 
-            JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(result.Token);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
         }
 

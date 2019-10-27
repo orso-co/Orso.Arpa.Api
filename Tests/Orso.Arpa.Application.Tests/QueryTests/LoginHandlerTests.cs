@@ -36,10 +36,10 @@ namespace Orso.Arpa.Application.Tests.QueryTests
             _jwtGenerator.CreateToken(Arg.Any<User>()).Returns(expectedToken);
 
             // Act
-            string token = await _handler.Handle(query, new CancellationToken());
+            TokenDto dto = await _handler.Handle(query, new CancellationToken());
 
             // Assert
-            token.Should().BeEquivalentTo(expectedToken);
+            dto.Token.Should().BeEquivalentTo(expectedToken);
         }
     }
 }
