@@ -146,5 +146,67 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Test]
+        public async Task Should_Change_Password()
+        {
+            // Arrange
+            Domain.User user = UserSeedData.Egon;
+            var command = new ChangePassword.Command
+            {
+                CurrentPassword = UserSeedData.ValidPassword,
+                NewPassword = "NewPa$$w0rd"
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(user)
+                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(command));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Should_Not_Change_Wrong_Password()
+        {
+            // Arrange
+            Domain.User user = UserSeedData.Egon;
+            var command = new ChangePassword.Command
+            {
+                CurrentPassword = "WrongPassword",
+                NewPassword = "NewPa$$w0rd"
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(user)
+                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(command));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Test]
+        public async Task Should_Not_Change_Password_Of_Unauthenticated_User()
+        {
+            // Arrange
+            Domain.User user = UserSeedData.Egon;
+            var command = new ChangePassword.Command
+            {
+                CurrentPassword = UserSeedData.ValidPassword,
+                NewPassword = "NewPa$$w0rd"
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(command));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
     }
 }

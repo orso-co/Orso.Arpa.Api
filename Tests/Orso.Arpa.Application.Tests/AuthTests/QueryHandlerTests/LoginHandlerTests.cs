@@ -10,7 +10,7 @@ using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.SeedData;
 
-namespace Orso.Arpa.Application.Tests.QueryTests
+namespace Orso.Arpa.Application.Tests.AuthTests.QueryHandlerTests
 {
     public class LoginHandlerTests
     {

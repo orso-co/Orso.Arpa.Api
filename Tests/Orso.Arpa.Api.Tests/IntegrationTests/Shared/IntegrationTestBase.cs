@@ -14,17 +14,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     public abstract class IntegrationTestBase
     {
         protected TestServer _unAuthenticatedServer;
+        protected TestServer _authenticatedServer;
 
         [OneTimeTearDown]
         public virtual void Cleanup()
         {
             _unAuthenticatedServer.Dispose();
+            _authenticatedServer.Dispose();
         }
 
         [OneTimeSetUp]
         public virtual void Initialize()
         {
-            _unAuthenticatedServer = CreateServer();
+            _unAuthenticatedServer = CreateServer(false);
+            _authenticatedServer = CreateServer(true);
         }
 
         protected StringContent BuildStringContent(object unserializedObject)
@@ -35,13 +38,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 MediaTypeNames.Application.Json);
         }
 
-        protected TestServer CreateServer()
+        protected TestServer CreateServer(bool authenticated)
         {
             IWebHostBuilder webHostBuilder = WebHost.CreateDefaultBuilder();
 
             webHostBuilder.UseContentRoot(Directory.GetCurrentDirectory());
 
-            webHostBuilder.UseStartup<TestStartup>();
+            if (authenticated)
+            {
+                webHostBuilder.UseStartup<AuthenticatedTestStartup>();
+            }
+            else
+            {
+                webHostBuilder.UseStartup<TestStartup>();
+            }
 
             webHostBuilder.UseEnvironment("Test");
 

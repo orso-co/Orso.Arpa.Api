@@ -60,6 +60,7 @@ namespace Orso.Arpa.Api
         private static void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -111,7 +112,7 @@ namespace Orso.Arpa.Api
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
 

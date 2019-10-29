@@ -10,7 +10,7 @@ using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.SeedData;
 
-namespace Orso.Arpa.Application.Tests.QueryTests
+namespace Orso.Arpa.Application.Tests.AuthTests.CommandHandlerTests
 {
     public class RegisterHandlerTests
     {
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.QueryTests
         {
             // Arrange
             string expectedToken = "TestToken";
-            var query = new Register.Command
+            var command = new Register.Command
             {
                 Email = "ludmilla@test.com",
                 Password = UserSeedData.ValidPassword,
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Application.Tests.QueryTests
             _jwtGenerator.CreateToken(Arg.Any<User>()).Returns(expectedToken);
 
             // Act
-            TokenDto dto = await _handler.Handle(query, new CancellationToken());
+            TokenDto dto = await _handler.Handle(command, new CancellationToken());
 
             // Assert
             dto.Token.Should().BeEquivalentTo(expectedToken);

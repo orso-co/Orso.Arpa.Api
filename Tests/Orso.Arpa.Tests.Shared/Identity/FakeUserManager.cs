@@ -39,5 +39,15 @@ namespace Orso.Arpa.Tests.Shared.Identity
         {
             return Task.FromResult(IdentityResult.Success);
         }
+
+        public override Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
+
+        public override Task<bool> CheckPasswordAsync(User user, string password)
+        {
+            return Task.FromResult(password.Equals(UserSeedData.ValidPassword));
+        }
     }
 }
