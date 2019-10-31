@@ -1,4 +1,4 @@
-namespace Orso.Arpa.Application.Auth
+namespace Orso.Arpa.Application.Auth.Dtos
 {
     public class TokenDto
     {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Orso.Arpa.Application.Auth.Dtos;
 using Orso.Arpa.Application.Errors;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;

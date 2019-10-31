@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Auth;
+using Orso.Arpa.Application.Auth.Dtos;
 using Orso.Arpa.Tests.Shared.SeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests

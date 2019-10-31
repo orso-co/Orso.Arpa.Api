@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Application.Auth;
+using Orso.Arpa.Application.Auth.Dtos;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
