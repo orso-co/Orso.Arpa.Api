@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.Auth
                     .NotEmpty()
                     .EmailAddress()
                     .MustAsync(async (email, cancellation) => (await userManager.FindByEmailAsync(email)) != null)
-                    .OnFailure(_ => throw new RestException(HttpStatusCode.Unauthorized));
+                    .OnFailure(_ => throw new RestException("Authorization failed", HttpStatusCode.Unauthorized));
                 RuleFor(q => q.Password)
                     .NotEmpty();
             }
@@ -57,7 +57,7 @@ namespace Orso.Arpa.Application.Auth
                     return new TokenDto { Token = _jwtGenerator.CreateToken(user) };
                 }
 
-                throw new RestException(HttpStatusCode.Unauthorized);
+                throw new RestException("Authorization failed", HttpStatusCode.Unauthorized);
             }
         }
     }

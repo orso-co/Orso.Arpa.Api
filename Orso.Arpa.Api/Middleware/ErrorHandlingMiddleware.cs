@@ -34,31 +34,42 @@ namespace Orso.Arpa.Api.Middleware
             }
         }
 
+        private class ErrorMessage
+        {
+            public string Message { get; set; }
+            public object Errors { get; set; }
+        }
+
         private async Task HandleExceptionAsync(
             HttpContext context,
             Exception ex)
         {
-            object errors = null;
+            ErrorMessage errorMessage = null;
             switch (ex)
             {
                 case RestException re:
                     _logger.LogError(ex, "REST ERROR");
-                    errors = re.Errors;
+                    errorMessage = new ErrorMessage { Message = re.Message, Errors = re.Errors };
                     context.Response.StatusCode = (int)re.Code;
+                    break;
+                case IdentityException ie:
+                    _logger.LogError(ex, "IDENTITY ERROR");
+                    errorMessage = new ErrorMessage { Message = ie.Message, Errors = ie.IdentityErrors };
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
                 case Exception e:
                     _logger.LogError(ex, "SERVER ERROR");
-                    errors = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message;
+                    errorMessage = new ErrorMessage { Message = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message };
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }
 
             context.Response.ContentType = MediaTypeNames.Application.Json;
-            if (errors != null)
+            if (errorMessage != null)
             {
                 var result = JsonConvert.SerializeObject(new
                 {
-                    errors
+                    errorMessage
                 });
 
                 await context.Response.WriteAsync(result);

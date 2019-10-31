@@ -1,9 +1,9 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Orso.Arpa.Application.Errors;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Validators;
 using Orso.Arpa.Domain;
@@ -70,7 +70,7 @@ namespace Orso.Arpa.Application.Auth
                     };
                 }
 
-                throw new Exception($"Problem creating user: {string.Join("; ", result.Errors)}");
+                throw new IdentityException("Problem creating user", result.Errors);
             }
         }
     }
