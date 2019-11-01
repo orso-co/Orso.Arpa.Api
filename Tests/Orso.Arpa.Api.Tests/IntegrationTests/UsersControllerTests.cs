@@ -5,6 +5,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Users;
+using Orso.Arpa.Application.Users.Dtos;
+using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.SeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -44,6 +46,25 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Test]
+        public async Task Should_Get_Current_User_Profile()
+        {
+            // Arrange
+            UserProfileDto expectedDto = UserProfileDtoData.Egon;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(UserSeedData.Egon)
+                .GetAsync(ApiEndpoints.UsersController.GetProfileOfCurrentUser());
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            UserProfileDto result = await DeserializeResponseMessageAsync<UserProfileDto>(responseMessage);
+
+            result.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

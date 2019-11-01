@@ -32,11 +32,6 @@ namespace Orso.Arpa.Application.Auth
                     .MustAsync(async (oldPassword, cancellation) =>
                     {
                         User user = await userAccessor.GetCurrentUserAsync();
-                        if (user == null)
-                        {
-                            return false;
-                        }
-
                         return await userManager.CheckPasswordAsync(user, oldPassword);
                     })
                     .WithMessage("User does not exist or wrong password supplied");
