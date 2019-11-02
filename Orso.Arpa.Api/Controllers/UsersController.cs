@@ -22,5 +22,11 @@ namespace Orso.Arpa.Api.Controllers
         {
             return await Mediator.Send(new CurrentUser.Query());
         }
+
+        [HttpPut("{username}/roles/set/{roleName}")]
+        public async Task<ActionResult<Unit>> SetRole(string username, string roleName)
+        {
+            return await Mediator.Send(new SetRole.Command(username, roleName));
+        }
     }
 }

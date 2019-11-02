@@ -27,10 +27,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 await userManager.AddToRoleAsync(orsianer, RoleNames.Orsianer);
 
                 User orsonaut = await userManager.FindByEmailAsync(UserSeedData.Orsonaut.Email);
-                await userManager.AddToRolesAsync(orsonaut, new[] { RoleNames.Orsianer, RoleNames.Orsonaut });
+                await userManager.AddToRoleAsync(orsonaut, RoleNames.Orsonaut);
 
                 User admin = await userManager.FindByEmailAsync(UserSeedData.Orsoadmin.Email);
-                await userManager.AddToRolesAsync(admin, new[] { RoleNames.Orsianer, RoleNames.Orsonaut, RoleNames.Orsoadmin });
+                await userManager.AddToRoleAsync(admin, RoleNames.Orsoadmin);
             }
         }
     }
