@@ -1,6 +1,6 @@
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests
 {
@@ -12,7 +12,7 @@ namespace Orso.Arpa.Domain.Tests
         public void Should_Set_Deletion_Flag()
         {
             // Arrange
-            User user = UserSeedData.Egon;
+            User user = UserSeedData.Orsianer;
 
             // Act
             user.Delete();

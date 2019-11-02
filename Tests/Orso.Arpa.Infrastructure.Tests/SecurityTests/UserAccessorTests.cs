@@ -11,7 +11,7 @@ using Orso.Arpa.Application.Errors;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Infrastructure.Security;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
 {
@@ -65,7 +65,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         public async Task Should_Get_Current_User()
         {
             // Arrange
-            User expectedUser = UserSeedData.Egon;
+            User expectedUser = UserSeedData.Orsianer;
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, expectedUser.UserName)

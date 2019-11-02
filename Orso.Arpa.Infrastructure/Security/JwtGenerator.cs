@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Orso.Arpa.Application.Interfaces;
@@ -13,13 +15,15 @@ namespace Orso.Arpa.Infrastructure.Security
     public class JwtGenerator : IJwtGenerator
     {
         private readonly IConfiguration _configuration;
+        private readonly UserManager<User> _userManager;
 
-        public JwtGenerator(IConfiguration configuration)
+        public JwtGenerator(IConfiguration configuration, UserManager<User> userManager)
         {
             _configuration = configuration;
+            _userManager = userManager;
         }
 
-        public string CreateToken(User user)
+        public async Task<string> CreateTokenAsync(User user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]));
 
@@ -28,11 +32,18 @@ namespace Orso.Arpa.Infrastructure.Security
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
             };
 
+            IList<string> roles = await _userManager.GetRolesAsync(user);
+            var claimsIdentity = new ClaimsIdentity(claims, "Token");
+            foreach (var role in roles)
+            {
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDesriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims),
+                Subject = claimsIdentity,
                 Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = credentials
             };

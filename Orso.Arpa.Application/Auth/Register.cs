@@ -67,7 +67,7 @@ namespace Orso.Arpa.Application.Auth
                 {
                     return new TokenDto
                     {
-                        Token = _jwtGenerator.CreateToken(user),
+                        Token = await _jwtGenerator.CreateTokenAsync(user),
                     };
                 }
 

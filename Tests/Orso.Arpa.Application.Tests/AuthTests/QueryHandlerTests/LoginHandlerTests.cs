@@ -9,7 +9,7 @@ using Orso.Arpa.Application.Auth.Dtos;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.AuthTests.QueryHandlerTests
 {
@@ -32,9 +32,9 @@ namespace Orso.Arpa.Application.Tests.AuthTests.QueryHandlerTests
         {
             // Arrange
             string expectedToken = "TestToken";
-            User user = UserSeedData.Egon;
+            User user = UserSeedData.Orsianer;
             var query = new Login.Query { Email = user.Email, Password = UserSeedData.ValidPassword };
-            _jwtGenerator.CreateToken(Arg.Any<User>()).Returns(expectedToken);
+            _jwtGenerator.CreateTokenAsync(Arg.Any<User>()).Returns(expectedToken);
 
             // Act
             TokenDto dto = await _handler.Handle(query, new CancellationToken());

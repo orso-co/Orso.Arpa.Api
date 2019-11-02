@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -6,7 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Orso.Arpa.Domain;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Domain.Seed;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.Identity
 {
@@ -53,6 +55,11 @@ namespace Orso.Arpa.Tests.Shared.Identity
         public override Task<IdentityResult> UpdateAsync(User user)
         {
             return Task.FromResult(IdentityResult.Success);
+        }
+
+        public override Task<IList<string>> GetRolesAsync(User user)
+        {
+            return Task.FromResult(RoleSeedData.Roles.Select(r => r.Name).ToList() as IList<string>);
         }
     }
 }

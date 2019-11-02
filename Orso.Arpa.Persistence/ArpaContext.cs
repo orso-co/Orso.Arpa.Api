@@ -6,7 +6,7 @@ using Orso.Arpa.Persistence.Configurations;
 
 namespace Orso.Arpa.Persistence
 {
-    public class ArpaContext : IdentityDbContext<User, AppRole, Guid>
+    public class ArpaContext : IdentityDbContext<User, Role, Guid>
     {
         public ArpaContext(DbContextOptions options) : base(options)
         {

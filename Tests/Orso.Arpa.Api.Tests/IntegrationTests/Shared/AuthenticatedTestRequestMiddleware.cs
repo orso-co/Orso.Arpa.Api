@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
@@ -22,27 +21,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             _jwtGenerator = jwtGenerator;
         }
 
-        public async Task Invoke(HttpContext context, IConfiguration configuration)
+        public async Task Invoke(HttpContext context)
         {
             var userJson =
                 context.Request.Headers["user"].FirstOrDefault() ?? string.Empty;
 
             User user = JsonConvert.DeserializeObject<User>(userJson);
 
-            var token = BuildAuthenticationToken(
-                configuration,
-                user);
+            var token = await _jwtGenerator.CreateTokenAsync(user);
 
             context.Request.Headers.Add("Authorization", "Bearer " + token);
 
             await _next(context);
-        }
-
-        private string BuildAuthenticationToken(
-            IConfiguration configuration,
-            User user)
-        {
-            return _jwtGenerator.CreateToken(user);
         }
     }
 }

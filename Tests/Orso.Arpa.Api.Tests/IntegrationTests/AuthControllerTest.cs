@@ -8,7 +8,7 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Auth.Dtos;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -18,7 +18,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Login()
         {
             // Arrange
-            Domain.User user = UserSeedData.Egon;
+            Domain.User user = UserSeedData.Orsianer;
             var loginQuery = new Login.Query
             {
                 Email = user.Email,
@@ -63,7 +63,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Login_Invalid_Password()
         {
             // Arrange
-            Domain.User user = UserSeedData.Egon;
+            Domain.User user = UserSeedData.Orsianer;
             var loginQuery = new Login.Query
             {
                 Email = user.Email,
@@ -111,7 +111,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var registerCommand = new Register.Command
             {
-                Email = UserSeedData.Egon.Email,
+                Email = UserSeedData.Orsianer.Email,
                 Username = "ludmilla",
                 Password = UserSeedData.ValidPassword
             };
@@ -132,7 +132,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var registerCommand = new Register.Command
             {
                 Email = "ludmilla@test.com",
-                Username = UserSeedData.Egon.UserName,
+                Username = UserSeedData.Orsianer.UserName,
                 Password = UserSeedData.ValidPassword
             };
 
@@ -149,7 +149,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Change_Password()
         {
             // Arrange
-            Domain.User user = UserSeedData.Egon;
             var command = new ChangePassword.Command
             {
                 CurrentPassword = UserSeedData.ValidPassword,
@@ -159,7 +158,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(user)
+                .AuthenticateWith(_orsianer)
                 .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(command));
 
             // Assert
@@ -170,7 +169,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Change_Wrong_Password()
         {
             // Arrange
-            Domain.User user = UserSeedData.Egon;
             var command = new ChangePassword.Command
             {
                 CurrentPassword = "WrongPassword",
@@ -180,7 +178,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(user)
+                .AuthenticateWith(_orsianer)
                 .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(command));
 
             // Assert
@@ -191,7 +189,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Change_Password_Of_Unauthenticated_User()
         {
             // Arrange
-            Domain.User user = UserSeedData.Egon;
+            Domain.User user = UserSeedData.Orsianer;
             var command = new ChangePassword.Command
             {
                 CurrentPassword = UserSeedData.ValidPassword,

@@ -9,7 +9,7 @@ using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Errors;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
 {
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(query => query.Email, UserSeedData.Egon.Email);
+            _validator.ShouldNotHaveValidationErrorFor(query => query.Email, UserSeedData.Orsianer.Email);
         }
 
         [Test]

@@ -55,7 +55,7 @@ namespace Orso.Arpa.Application.Auth
 
                 if (result.Succeeded)
                 {
-                    return new TokenDto { Token = _jwtGenerator.CreateToken(user) };
+                    return new TokenDto { Token = await _jwtGenerator.CreateTokenAsync(user) };
                 }
 
                 throw new RestException("Authorization failed", HttpStatusCode.Unauthorized);

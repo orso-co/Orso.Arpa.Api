@@ -6,7 +6,7 @@ using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
 {
@@ -42,21 +42,21 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Current_Password_Is_Supplied([Values(null, "")]string currentPassword)
         {
-            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Egon);
+            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
             _validator.ShouldHaveValidationErrorFor(command => command.CurrentPassword, currentPassword);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Wrong_Current_Password_Is_Supplied()
         {
-            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Egon);
+            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
             _validator.ShouldHaveValidationErrorFor(command => command.CurrentPassword, "WrongPassword");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Correct_Current_Password_Is_Supplied()
         {
-            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Egon);
+            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
             _validator.ShouldNotHaveValidationErrorFor(command => command.CurrentPassword, UserSeedData.ValidPassword);
         }
     }
