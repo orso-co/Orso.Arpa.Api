@@ -10,6 +10,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Login() => $"{Auth}/login";
             public static string Register() => $"{Auth}/register";
             public static string Password() => $"{Auth}/password";
+            public static string SetRole() => $"{Auth}/role";
         }
 
         public static class UsersController

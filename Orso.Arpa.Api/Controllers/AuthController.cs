@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Api.Authorization;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Auth.Dtos;
 
@@ -25,6 +26,13 @@ namespace Orso.Arpa.Api.Controllers
 
         [HttpPut("password")]
         public async Task<ActionResult<Unit>> ChangePassword(ChangePassword.Command command)
+        {
+            return await Mediator.Send(command);
+        }
+
+        [HttpPut("role")]
+        [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
+        public async Task<ActionResult<Unit>> SetRole(SetRole.Command command)
         {
             return await Mediator.Send(command);
         }

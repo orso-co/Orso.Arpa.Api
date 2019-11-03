@@ -13,7 +13,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new List<User> {
                     Orsianer,
                     Orsonaut,
-                    Orsoadmin
+                    Orsoadmin,
+                    DeletedUser,
+                    UserWithoutRole
                 };
             }
         }
@@ -58,16 +60,31 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static User DeletedUser
+        public static User UserWithoutRole
         {
             get
             {
                 return new User
                 {
+                    Id = Guid.Parse("9E96F67D-6972-4889-BB64-6BCEED23D095"),
+                    UserName = "kunibald",
+                    Email = "kunibald@test.com"
+                };
+            }
+        }
+
+        public static User DeletedUser
+        {
+            get
+            {
+                var user = new User
+                {
                     Id = Guid.Parse("ddfa6a35-ba75-46a3-9f32-6cab236ef0a3"),
                     UserName = "mechthilde",
-                    Email = "mechthilde@test.com"
+                    Email = "mechthilde@test.com",
                 };
+                user.Delete();
+                return user;
             }
         }
 

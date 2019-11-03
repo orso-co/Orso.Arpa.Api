@@ -61,5 +61,32 @@ namespace Orso.Arpa.Tests.Shared.Identity
         {
             return Task.FromResult(RoleSeedData.Roles.Select(r => r.Name).ToList() as IList<string>);
         }
+
+        public override Task<IdentityResult> AddToRoleAsync(User user, string role)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
+
+        public override Task<IdentityResult> RemoveFromRoleAsync(User user, string role)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
+
+        public override Task<bool> IsInRoleAsync(User user, string role)
+        {
+            if (user.Id == UserSeedData.Orsoadmin.Id && role == RoleNames.Orsoadmin)
+            {
+                return Task.FromResult(true);
+            }
+            if (user.Id == UserSeedData.Orsianer.Id && role == RoleNames.Orsianer)
+            {
+                return Task.FromResult(true);
+            }
+            if (user.Id == UserSeedData.Orsonaut.Id && role == RoleNames.Orsonaut)
+            {
+                return Task.FromResult(true);
+            }
+            return Task.FromResult(false);
+        }
     }
 }

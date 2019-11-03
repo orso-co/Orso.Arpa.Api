@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -44,6 +45,13 @@ namespace Orso.Arpa.Infrastructure.Security
                 throw new RestException("Authorization failed", HttpStatusCode.Unauthorized);
             }
             return user;
+        }
+
+        public IEnumerable<string> GetCurrentUserRoles()
+        {
+            return _httpContextAccessor.HttpContext.User?.Claims?
+                .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)?
+                .Select(c => c.Value);
         }
     }
 }

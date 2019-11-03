@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,7 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Auth.Dtos;
+using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -203,6 +205,47 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        private static IEnumerable<TestCaseData> SetRoleTestData
+        {
+            get
+            {
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsoadmin, RoleNames.Orsoadmin, HttpStatusCode.OK);
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsonaut, RoleNames.Orsoadmin, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsianer, RoleNames.Orsoadmin, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsoadmin, RoleNames.Orsonaut, HttpStatusCode.OK);
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsonaut, RoleNames.Orsonaut, HttpStatusCode.OK);
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsianer, RoleNames.Orsonaut, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsoadmin, RoleNames.Orsianer, HttpStatusCode.OK);
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsonaut, RoleNames.Orsianer, HttpStatusCode.OK);
+                yield return new TestCaseData(UserSeedData.UserWithoutRole, UserSeedData.Orsianer, RoleNames.Orsianer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(UserSeedData.Orsoadmin, UserSeedData.Orsonaut, RoleNames.Orsianer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(UserSeedData.Orsoadmin, UserSeedData.Orsianer, RoleNames.Orsianer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(UserSeedData.Orsoadmin, UserSeedData.Orsoadmin, RoleNames.Orsianer, HttpStatusCode.OK);
+            }
+        }
+
+        [Test]
+        [TestCaseSource(nameof(SetRoleTestData))]
+        public async Task Should_Set_Role(User userToEdit, User currentUser, string newRole, HttpStatusCode expectedStatusCode)
+        {
+            // Arrange
+            User user = userToEdit;
+            var setRolesCommand = new SetRole.Command
+            {
+                RoleName = newRole,
+                Username = user.UserName
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(currentUser)
+                .PutAsync(ApiEndpoints.AuthController.SetRole(), BuildStringContent(setRolesCommand));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(expectedStatusCode);
         }
     }
 }
