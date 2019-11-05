@@ -1,0 +1,10 @@
+language: csharp
+mono: none
+dotnet: 2.2.402
+solution: solution-name.sln
+script:
+    - dotnet restore
+    - dotnet test
+notifications:
+  slack:
+    secure: vfukdC/FBcJAIB7uxNUUhVxWHQ9NsgQiFJUxzET64Ik38qzYITT/3i/8P4KI/voNxbFxeQ1hP4gIeT4AuXhc9IJcIO5OwtpMPC6kMRSFH7AnwXgUdB3m5gGAYQpBbeyNiEIQbSTzknxO1sNNqZ6ySgRjRFpcidOmxxFwefx6iB6NZhscwNqgHF3HkrKeW5X+W/eaqjxsV4d1SiblYZ7y9calje9m5lIF14qIaz56D6rloPQiulfKKP3q+da+yivNx7qlFPz7Sq+8h68jBRANnZM2ytOtbnf+vIqu0owOlnaFwak9kh0MJjJNylgKL2sd7A3oMRcuivfU5432ADzBdIegdOgpBziKjlcaLn4wQY8dS1fdDAkjSfC0L766R3cZbvJw2MLZq/WYxwh31ltDSLGkKbaGJXkj0XjKouE/Q/WNlN8+BYMrypOE81cwykLGcef+okbDKD0KXLQZ/PjV5kRe4h/71UGMGwqBawKh9JDbr9/jJRq5zPDZlx6cXH0z9vR0ijwxbI0aNiARqr07U4R4cja3VRSH0ePaYCDjUJEStaf36R/TMeb2ZbYOdCxKNOOJQzDSYqo+1WMzDaCsFa/+9CRFDEZGozJvVoG0EWYM3uGPm5kpMYWlqnOv79h4LuhieZCXl7EeAGzgld9JijyBYo0XpHkvgHet8fZh4vM=
