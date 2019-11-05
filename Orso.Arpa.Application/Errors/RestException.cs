@@ -5,7 +5,7 @@ namespace Orso.Arpa.Application.Errors
 {
     public class RestException : Exception
     {
-        public RestException(HttpStatusCode code, object errors = null)
+        public RestException(string message, HttpStatusCode code, object errors = null) : base(message)
         {
             Code = code;
             Errors = errors;

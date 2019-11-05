@@ -27,12 +27,12 @@ namespace Orso.Arpa.Tests.Shared.Identity
 
         public override Task<User> FindByEmailAsync(string email)
         {
-            return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
         }
 
         public override Task<User> FindByNameAsync(string userName)
         {
-            return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
         }
 
         public override Task<IdentityResult> CreateAsync(User user, string password)
@@ -48,6 +48,11 @@ namespace Orso.Arpa.Tests.Shared.Identity
         public override Task<bool> CheckPasswordAsync(User user, string password)
         {
             return Task.FromResult(password.Equals(UserSeedData.ValidPassword));
+        }
+
+        public override Task<IdentityResult> UpdateAsync(User user)
+        {
+            return Task.FromResult(IdentityResult.Success);
         }
     }
 }

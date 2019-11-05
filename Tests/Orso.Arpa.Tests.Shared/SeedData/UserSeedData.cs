@@ -58,6 +58,19 @@ namespace Orso.Arpa.Tests.Shared.SeedData
             }
         }
 
+        public static User DeletedUser
+        {
+            get
+            {
+                return new User
+                {
+                    Id = Guid.Parse("ddfa6a35-ba75-46a3-9f32-6cab236ef0a3"),
+                    UserName = "mechthilde",
+                    Email = "mechthilde@test.com"
+                };
+            }
+        }
+
         public static string ValidPassword
         {
             get
