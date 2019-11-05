@@ -13,5 +13,12 @@ namespace Orso.Arpa.Api.Controllers
         {
             return await Mediator.Send(query);
         }
+
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<ActionResult<TokenDto>> Register(Register.Command command)
+        {
+            return await Mediator.Send(command);
+        }
     }
 }
