@@ -31,6 +31,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             var token = await _jwtGenerator.CreateTokenAsync(user);
 
             context.Request.Headers.Add("Authorization", "Bearer " + token);
+            context.Request.Headers.Remove("user");
 
             await _next(context);
         }

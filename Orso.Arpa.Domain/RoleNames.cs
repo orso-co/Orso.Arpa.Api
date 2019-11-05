@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Orso.Arpa.Domain
 {
     public static class RoleNames
@@ -5,5 +7,18 @@ namespace Orso.Arpa.Domain
         public const string Orsianer = "Orsianer";
         public const string Orsonaut = "Orsonaut";
         public const string Orsoadmin = "Orsoadmin";
+
+        public static IList<string> Roles
+        {
+            get
+            {
+                return new List<string>
+                {
+                    Orsianer,
+                    Orsonaut,
+                    Orsoadmin
+                };
+            }
+        }
     }
 }

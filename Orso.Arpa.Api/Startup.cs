@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Orso.Arpa.Api.Authorization;
+using Orso.Arpa.Api.Authorization.AuthorizationHandlers;
+using Orso.Arpa.Api.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Interfaces;
@@ -58,6 +62,12 @@ namespace Orso.Arpa.Api
             });
 
             ConfigureAuthentication(services);
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
+                    policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
+            });
         }
 
         private static void RegisterServices(IServiceCollection services)
@@ -65,6 +75,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IDataSeeder, DataSeeder>();
+            services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -119,6 +130,7 @@ namespace Orso.Arpa.Api
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
             if (!env.IsDevelopment())
             {

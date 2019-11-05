@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orso.Arpa.Domain;
 
@@ -7,5 +8,6 @@ namespace Orso.Arpa.Application.Interfaces
     {
         string GetCurrentUsername();
         Task<User> GetCurrentUserAsync();
+        IEnumerable<string> GetCurrentUserRoles();
     }
 }
