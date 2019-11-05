@@ -11,7 +11,7 @@ using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.SeedData;
 
-namespace Orso.Arpa.Application.Tests.ValidationTests
+namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
 {
     [TestFixture]
     public class LoginQueryValidatorTests
