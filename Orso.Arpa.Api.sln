@@ -8,15 +8,29 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{723AFD46-71A3-41C1-BBBD-1A92CCF3B9F7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		README.MD = README.MD
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Application", "Orso.Arpa.Application\Orso.Arpa.Application.csproj", "{7A28509A-C423-449C-B708-5F2B8430C68A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Application", "Orso.Arpa.Application\Orso.Arpa.Application.csproj", "{7A28509A-C423-449C-B708-5F2B8430C68A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Domain", "Orso.Arpa.Domain\Orso.Arpa.Domain.csproj", "{C1EEA031-1656-40A0-9F94-B032BC78CB18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Domain", "Orso.Arpa.Domain\Orso.Arpa.Domain.csproj", "{C1EEA031-1656-40A0-9F94-B032BC78CB18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Persistence", "Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj", "{463EC3A6-DD58-46F6-8BDB-49A6437F4ADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Persistence", "Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj", "{463EC3A6-DD58-46F6-8BDB-49A6437F4ADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Infrastructure", "Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj", "{74FE5128-DA11-4624-B123-AD372423E40C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Infrastructure", "Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj", "{74FE5128-DA11-4624-B123-AD372423E40C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{87630E76-AA8B-4C4A-A785-DBA57CC10B7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Api.Tests", "Tests\Orso.Arpa.Api.Tests\Orso.Arpa.Api.Tests.csproj", "{DEB1C854-7924-410D-B3EC-86715376946E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Application.Tests", "Tests\Orso.Arpa.Application.Tests\Orso.Arpa.Application.Tests.csproj", "{C2A73B0F-F230-47F5-9EFE-F93E1611E376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Domain.Tests", "Tests\Orso.Arpa.Domain.Tests\Orso.Arpa.Domain.Tests.csproj", "{23DF8EEB-36DB-4530-9478-D8480EC2620F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Infrastructure.Tests", "Tests\Orso.Arpa.Infrastructure.Tests\Orso.Arpa.Infrastructure.Tests.csproj", "{E3AB7C7A-6DBE-4B71-8620-30BE52CEF57B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Persistence.Tests", "Tests\Orso.Arpa.Persistence.Tests\Orso.Arpa.Persistence.Tests.csproj", "{15C49C80-E005-4CDC-965D-7A99B31A4E83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,9 +58,36 @@ Global
 		{74FE5128-DA11-4624-B123-AD372423E40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74FE5128-DA11-4624-B123-AD372423E40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74FE5128-DA11-4624-B123-AD372423E40C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEB1C854-7924-410D-B3EC-86715376946E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEB1C854-7924-410D-B3EC-86715376946E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEB1C854-7924-410D-B3EC-86715376946E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEB1C854-7924-410D-B3EC-86715376946E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2A73B0F-F230-47F5-9EFE-F93E1611E376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A73B0F-F230-47F5-9EFE-F93E1611E376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A73B0F-F230-47F5-9EFE-F93E1611E376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A73B0F-F230-47F5-9EFE-F93E1611E376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23DF8EEB-36DB-4530-9478-D8480EC2620F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23DF8EEB-36DB-4530-9478-D8480EC2620F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23DF8EEB-36DB-4530-9478-D8480EC2620F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23DF8EEB-36DB-4530-9478-D8480EC2620F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3AB7C7A-6DBE-4B71-8620-30BE52CEF57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3AB7C7A-6DBE-4B71-8620-30BE52CEF57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3AB7C7A-6DBE-4B71-8620-30BE52CEF57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3AB7C7A-6DBE-4B71-8620-30BE52CEF57B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15C49C80-E005-4CDC-965D-7A99B31A4E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15C49C80-E005-4CDC-965D-7A99B31A4E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15C49C80-E005-4CDC-965D-7A99B31A4E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15C49C80-E005-4CDC-965D-7A99B31A4E83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DEB1C854-7924-410D-B3EC-86715376946E} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
+		{C2A73B0F-F230-47F5-9EFE-F93E1611E376} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
+		{23DF8EEB-36DB-4530-9478-D8480EC2620F} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
+		{E3AB7C7A-6DBE-4B71-8620-30BE52CEF57B} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
+		{15C49C80-E005-4CDC-965D-7A99B31A4E83} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67B63CDA-710A-4F59-AD13-05CD24CBFABA}

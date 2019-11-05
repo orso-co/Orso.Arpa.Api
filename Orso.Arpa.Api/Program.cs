@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Orso.Arpa.Persistence;
 
 namespace Orso.Arpa.Api
 {
@@ -14,7 +11,30 @@ namespace Orso.Arpa.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            IWebHost host = CreateWebHostBuilder(args).Build();
+
+            EnsureDatabaseMigration(host);
+
+            host.Run();
+        }
+
+        private static void EnsureDatabaseMigration(IWebHost host)
+        {
+            using (IServiceScope scope = host.Services.CreateScope())
+            {
+                System.IServiceProvider services = scope.ServiceProvider;
+                try
+                {
+                    ArpaContext context = services.GetRequiredService<ArpaContext>();
+                    context.Database.Migrate();
+                }
+                catch (System.Exception ex)
+                {
+                    ILogger<Program> logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occured during migration");
+                    throw;
+                }
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
