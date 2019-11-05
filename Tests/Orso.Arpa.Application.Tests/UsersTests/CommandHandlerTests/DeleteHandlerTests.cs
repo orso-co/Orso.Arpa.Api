@@ -9,7 +9,7 @@ using Orso.Arpa.Application.Errors;
 using Orso.Arpa.Application.Users;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.UsersTests.CommandHandlerTests
 {
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.Tests.UsersTests.CommandHandlerTests
         public async Task Should_Delete_User()
         {
             // Arrange
-            User user = UserSeedData.Egon;
+            User user = UserSeedData.Orsianer;
 
             // Act
             Unit result = await _handler.Handle(new Delete.Command(user.UserName), new CancellationToken());

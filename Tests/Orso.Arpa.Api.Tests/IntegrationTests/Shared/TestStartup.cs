@@ -32,7 +32,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                     UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
                     context.Database.EnsureDeleted();
                     context.Database.EnsureCreated();
-                    Seed.SeedDataAsync(userManager).Wait();
+                    IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
+                    dataSeeder.SeedDataAsync().Wait();
+                    TestSeed.SeedDataAsync(userManager).Wait();
                 }
                 catch (System.Exception ex)
                 {

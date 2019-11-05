@@ -9,7 +9,7 @@ using Orso.Arpa.Application.Auth.Dtos;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.AuthTests.CommandHandlerTests
 {
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.CommandHandlerTests
                 Password = UserSeedData.ValidPassword,
                 Username = "ludmilla"
             };
-            _jwtGenerator.CreateToken(Arg.Any<User>()).Returns(expectedToken);
+            _jwtGenerator.CreateTokenAsync(Arg.Any<User>()).Returns(expectedToken);
 
             // Act
             TokenDto dto = await _handler.Handle(command, new CancellationToken());

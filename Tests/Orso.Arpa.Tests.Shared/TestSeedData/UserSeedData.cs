@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain;
 
-namespace Orso.Arpa.Tests.Shared.SeedData
+namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
     public static class UserSeedData
     {
@@ -11,15 +11,15 @@ namespace Orso.Arpa.Tests.Shared.SeedData
             get
             {
                 return new List<User> {
-                    Egon,
-                    Erna,
-                    Fritz
+                    Orsianer,
+                    Orsonaut,
+                    Orsoadmin
                 };
             }
         }
 
 
-        public static User Egon
+        public static User Orsianer
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Tests.Shared.SeedData
             }
         }
 
-        public static User Erna
+        public static User Orsonaut
         {
             get
             {
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Tests.Shared.SeedData
             }
         }
 
-        public static User Fritz
+        public static User Orsoadmin
         {
             get
             {

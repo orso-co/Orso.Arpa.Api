@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
 {
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Email_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Email, UserSeedData.Egon.Email);
+            _validator.ShouldHaveValidationErrorFor(command => command.Email, UserSeedData.Orsianer.Email);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Username_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Username, UserSeedData.Egon.UserName);
+            _validator.ShouldHaveValidationErrorFor(command => command.Username, UserSeedData.Orsianer.UserName);
         }
 
         [Test]

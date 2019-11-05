@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Orso.Arpa.Domain;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
@@ -16,6 +18,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     {
         protected TestServer _unAuthenticatedServer;
         protected TestServer _authenticatedServer;
+        protected User _orsianer;
+        protected User _orsonaut;
+        protected User _orsoadmin;
 
         [OneTimeTearDown]
         public virtual void Cleanup()
@@ -29,6 +34,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             _unAuthenticatedServer = CreateServer(false);
             _authenticatedServer = CreateServer(true);
+            _orsianer = UserSeedData.Orsianer;
+            _orsonaut = UserSeedData.Orsonaut;
+            _orsoadmin = UserSeedData.Orsoadmin;
         }
 
         protected async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)

@@ -9,7 +9,7 @@ using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.AuthTests.CommandHandlerTests
 {
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.CommandHandlerTests
         public async Task Should_Change_Password()
         {
             // Arrange
-            User user = UserSeedData.Egon;
+            User user = UserSeedData.Orsianer;
             var command = new ChangePassword.Command
             {
                 CurrentPassword = UserSeedData.ValidPassword,

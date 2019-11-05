@@ -38,6 +38,8 @@ namespace Orso.Arpa.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            RegisterServices(services);
+
             ConfigureDatabase(services);
 
             ConfigureCors(services);
@@ -56,27 +58,26 @@ namespace Orso.Arpa.Api
             });
 
             ConfigureAuthentication(services);
-
-            RegisterServices(services);
         }
 
         private static void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IDataSeeder, DataSeeder>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
         {
             IdentityBuilder builder = services.AddIdentityCore<User>();
-            var identityBuilder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
+            var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             identityBuilder
                 .AddEntityFrameworkStores<ArpaContext>()
                 .AddSignInManager<SignInManager<User>>()
                 .AddEntityFrameworkStores<ArpaContext>()
                 .AddDefaultTokenProviders()
-                .AddRoleValidator<RoleValidator<AppRole>>()
-                .AddRoleManager<RoleManager<AppRole>>();
+                .AddRoleValidator<RoleValidator<Role>>()
+                .AddRoleManager<RoleManager<Role>>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -153,6 +154,8 @@ namespace Orso.Arpa.Api
                 {
                     ArpaContext context = services.GetRequiredService<ArpaContext>();
                     context.Database.Migrate();
+                    IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
+                    dataSeeder.SeedDataAsync().Wait();
                 }
                 catch (System.Exception ex)
                 {

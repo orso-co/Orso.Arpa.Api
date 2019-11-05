@@ -8,7 +8,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Users;
 using Orso.Arpa.Application.Users.Dtos;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.SeedData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.UsersTests.QueryHandlerTests
 {
@@ -31,9 +31,9 @@ namespace Orso.Arpa.Application.Tests.UsersTests.QueryHandlerTests
         public async Task Should_Get_Current_User_Profile()
         {
             // Arrange
-            Domain.User user = UserSeedData.Egon;
+            Domain.User user = UserSeedData.Orsianer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
-            UserProfileDto expectedDto = UserProfileDtoData.Egon;
+            UserProfileDto expectedDto = UserProfileDtoData.Orsianer;
             _mapper.Map<UserProfileDto>(Arg.Any<Domain.User>()).Returns(expectedDto);
 
             // Act
