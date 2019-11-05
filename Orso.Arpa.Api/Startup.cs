@@ -1,3 +1,7 @@
+using System.Text;
+using FluentValidation.AspNetCore;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -5,8 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Orso.Arpa.Api.Middleware;
+using Orso.Arpa.Application.Auth;
+using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
+using Orso.Arpa.Infrastructure.Security;
 using Orso.Arpa.Persistence;
+using static Orso.Arpa.Application.Auth.Login;
 
 namespace Orso.Arpa.Api
 {
@@ -24,17 +35,28 @@ namespace Orso.Arpa.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureDatabse(services);
+            ConfigureDatabase(services);
 
             ConfigureCors(services);
 
+            services.AddMediatR(typeof(Login.Handler).Assembly);
+
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation(config =>
+                    config.RegisterValidatorsFromAssemblyContaining<QueryValidator>());
 
             ConfigureAuthentication(services);
+
+            RegisterServices(services);
         }
 
-        private static void ConfigureAuthentication(IServiceCollection services)
+        private static void RegisterServices(IServiceCollection services)
+        {
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+        }
+
+        private void ConfigureAuthentication(IServiceCollection services)
         {
             IdentityBuilder builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
@@ -45,6 +67,19 @@ namespace Orso.Arpa.Api
                 .AddDefaultTokenProviders()
                 .AddRoleValidator<RoleValidator<AppRole>>()
                 .AddRoleManager<RoleManager<AppRole>>();
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateAudience = false,
+                        ValidateIssuer = false
+                    };
+                });
         }
 
         private static void ConfigureCors(IServiceCollection services)
@@ -61,7 +96,7 @@ namespace Orso.Arpa.Api
             });
         }
 
-        private void ConfigureDatabse(IServiceCollection services)
+        protected virtual void ConfigureDatabase(IServiceCollection services)
         {
             services.AddDbContext<ArpaContext>(opt =>
             {
@@ -72,11 +107,9 @@ namespace Orso.Arpa.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
+            if (!env.IsDevelopment())
             {
                 app.UseHsts();
             }
@@ -85,6 +118,27 @@ namespace Orso.Arpa.Api
             app.UseAuthentication();
             app.UseCors("CorsPolicy");
             app.UseMvc();
+
+            EnsureDatabaseMigrations(app);
+        }
+
+        protected virtual void EnsureDatabaseMigrations(IApplicationBuilder app)
+        {
+            using (IServiceScope scope = app.ApplicationServices.CreateScope())
+            {
+                System.IServiceProvider services = scope.ServiceProvider;
+                try
+                {
+                    ArpaContext context = services.GetRequiredService<ArpaContext>();
+                    context.Database.Migrate();
+                }
+                catch (System.Exception ex)
+                {
+                    ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                    logger.LogError(ex, "An error occured during database migration");
+                    throw;
+                }
+            }
         }
     }
 }
