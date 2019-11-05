@@ -2,6 +2,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -28,6 +29,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             _unAuthenticatedServer = CreateServer(false);
             _authenticatedServer = CreateServer(true);
+        }
+
+        protected async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)
+        {
+            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(responseString);
         }
 
         protected StringContent BuildStringContent(object unserializedObject)

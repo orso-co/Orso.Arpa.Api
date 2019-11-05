@@ -47,13 +47,6 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_User_Does_Not_Exist()
-        {
-            _userAccessor.GetCurrentUserAsync().Returns(default(User));
-            _validator.ShouldHaveValidationErrorFor(command => command.CurrentPassword, UserSeedData.ValidPassword);
-        }
-
-        [Test]
         public void Should_Have_Validation_Error_If_Wrong_Current_Password_Is_Supplied()
         {
             _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Egon);

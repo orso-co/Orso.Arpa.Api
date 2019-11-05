@@ -14,7 +14,7 @@ using Orso.Arpa.Tests.Shared.SeedData;
 namespace Orso.Arpa.Application.Tests.UsersTests.CommandHandlerTests
 {
     [TestFixture]
-    public class DeleteTests
+    public class DeleteHandlerTests
     {
         private UserManager<User> _userManager;
         private Delete.Handler _handler;

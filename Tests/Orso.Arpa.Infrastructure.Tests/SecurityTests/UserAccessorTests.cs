@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Application.Errors;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Infrastructure.Security;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -47,16 +49,16 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         }
 
         [Test]
-        public void Should_Get_Null_As_Username()
+        public void Should_Throw_Rest_Exception_If_No_Username_Claim_Can_Be_Found()
         {
             // Arrange
             _httpContextAccessor.HttpContext.User.Returns(default(ClaimsPrincipal));
 
             // Act
-            var username = _userAccessor.GetCurrentUsername();
+            Func<string> fct = () => _userAccessor.GetCurrentUsername();
 
             // Assert
-            username.Should().BeNull();
+            fct.Should().Throw<RestException>();
         }
 
         [Test]

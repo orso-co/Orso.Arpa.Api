@@ -4,10 +4,10 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Auth;
+using Orso.Arpa.Application.Auth.Dtos;
 using Orso.Arpa.Tests.Shared.SeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -32,8 +32,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
-            TokenDto result = JsonConvert.DeserializeObject<TokenDto>(responseString);
+            TokenDto result = await DeserializeResponseMessageAsync<TokenDto>(responseMessage);
 
             result.Token.Should().NotBeNullOrEmpty();
 
@@ -98,8 +97,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
-            TokenDto result = JsonConvert.DeserializeObject<TokenDto>(responseString);
+            TokenDto result = await DeserializeResponseMessageAsync<TokenDto>(responseMessage);
 
             result.Token.Should().NotBeNullOrEmpty();
 

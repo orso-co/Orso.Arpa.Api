@@ -1,4 +1,5 @@
 using System.Text;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Users.Dtos;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Infrastructure.Security;
 using Orso.Arpa.Persistence;
@@ -41,6 +43,7 @@ namespace Orso.Arpa.Api
             ConfigureCors(services);
 
             services.AddMediatR(typeof(Login.Handler).Assembly);
+            services.AddAutoMapper(typeof(UserProfileDtoMappingProfile).Assembly);
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)

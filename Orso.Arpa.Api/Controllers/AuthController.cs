@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Auth;
+using Orso.Arpa.Application.Auth.Dtos;
 
 namespace Orso.Arpa.Api.Controllers
 {
