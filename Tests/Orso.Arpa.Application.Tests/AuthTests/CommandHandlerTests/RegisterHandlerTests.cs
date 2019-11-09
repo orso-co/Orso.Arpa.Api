@@ -36,7 +36,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.CommandHandlerTests
             {
                 Email = "ludmilla@test.com",
                 Password = UserSeedData.ValidPassword,
-                Username = "ludmilla"
+                UserName = "ludmilla"
             };
             _jwtGenerator.CreateTokenAsync(Arg.Any<User>()).Returns(expectedToken);
 

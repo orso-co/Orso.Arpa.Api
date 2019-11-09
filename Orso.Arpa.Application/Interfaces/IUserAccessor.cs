@@ -6,7 +6,7 @@ namespace Orso.Arpa.Application.Interfaces
 {
     public interface IUserAccessor
     {
-        string GetCurrentUsername();
+        string GetCurrentUserName();
         Task<User> GetCurrentUserAsync();
         IEnumerable<string> GetCurrentUserRoles();
     }

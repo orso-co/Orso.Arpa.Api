@@ -31,31 +31,31 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         }
 
         [Test]
-        public void Should_Get_Current_Username()
+        public void Should_Get_Current_UserName()
         {
             // Arrange
-            var expectedUsername = "dumdidum";
+            var expectedUserName = "dumdidum";
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, expectedUsername)
+                new Claim(ClaimTypes.NameIdentifier, expectedUserName)
             };
             _httpContextAccessor.HttpContext.User.Claims.Returns(claims);
 
             // Act
-            var username = _userAccessor.GetCurrentUsername();
+            var username = _userAccessor.GetCurrentUserName();
 
             // Assert
-            username.Should().Be(expectedUsername);
+            username.Should().Be(expectedUserName);
         }
 
         [Test]
-        public void Should_Throw_Rest_Exception_If_No_Username_Claim_Can_Be_Found()
+        public void Should_Throw_Rest_Exception_If_No_UserName_Claim_Can_Be_Found()
         {
             // Arrange
             _httpContextAccessor.HttpContext.User.Returns(default(ClaimsPrincipal));
 
             // Act
-            Func<string> fct = () => _userAccessor.GetCurrentUsername();
+            Func<string> fct = () => _userAccessor.GetCurrentUserName();
 
             // Assert
             fct.Should().Throw<RestException>();

@@ -24,7 +24,7 @@ namespace Orso.Arpa.Infrastructure.Security
             _userManager = userManager;
         }
 
-        public string GetCurrentUsername()
+        public string GetCurrentUserName()
         {
             var username = _httpContextAccessor.HttpContext.User?.Claims?
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Infrastructure.Security
 
         public async Task<User> GetCurrentUserAsync()
         {
-            var username = GetCurrentUsername();
+            var username = GetCurrentUserName();
             User user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
