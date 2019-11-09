@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Users.Dtos;
 using Orso.Arpa.Domain;
 
@@ -26,7 +25,7 @@ namespace Orso.Arpa.Application.Users
 
             public async Task<IEnumerable<UserDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<User> users = await _userManager.Users.ToListAsync();
+                var users = _userManager.Users.ToList();
 
                 var dtos = new List<UserDto>();
                 foreach (User user in users)

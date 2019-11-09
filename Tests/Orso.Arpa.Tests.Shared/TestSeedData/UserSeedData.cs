@@ -28,8 +28,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new User
                 {
                     Id = Guid.Parse("6F836C0E-E27D-4363-A67A-9DA92037A589"),
-                    UserName = "egon",
-                    Email = "egon@test.com"
+                    UserName = "orsianer",
+                    Email = "orsianer@test.com"
                 };
             }
         }
@@ -41,8 +41,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new User
                 {
                     Id = Guid.Parse("DD0AA267-120E-4BD6-B6EB-02814C227E15"),
-                    UserName = "erna",
-                    Email = "erna@test.com"
+                    UserName = "orsonaut",
+                    Email = "orsonaut@test.com"
                 };
             }
         }
@@ -54,8 +54,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new User
                 {
                     Id = Guid.Parse("29CFA973-20D6-4603-91BA-6F4C1F79A6FA"),
-                    UserName = "fritz",
-                    Email = "fritz@test.com"
+                    UserName = "orsoadmin",
+                    Email = "orsoadmin@test.com"
                 };
             }
         }
@@ -67,8 +67,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new User
                 {
                     Id = Guid.Parse("9E96F67D-6972-4889-BB64-6BCEED23D095"),
-                    UserName = "kunibald",
-                    Email = "kunibald@test.com"
+                    UserName = "withoutrole",
+                    Email = "withoutrole@test.com"
                 };
             }
         }
@@ -80,8 +80,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var user = new User
                 {
                     Id = Guid.Parse("ddfa6a35-ba75-46a3-9f32-6cab236ef0a3"),
-                    UserName = "mechthilde",
-                    Email = "mechthilde@test.com",
+                    UserName = "deleted",
+                    Email = "deleted@test.com",
                 };
                 user.Delete();
                 return user;
