@@ -1,14 +1,15 @@
 using System;
+using Orso.Arpa.Domain.SelectValueCategories;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class SelectValueCategory : BaseEntity
     {
-        public SelectValueCategory(Guid id, string table, string property, string name) : base(id)
+        public SelectValueCategory(Guid id, Create.Command command) : base(id)
         {
-            Table = table;
-            Property = property;
-            Name = name;
+            Table = command.Table;
+            Property = command.Property;
+            Name = command.Name;
         }
 
         public string Table { get; private set; }
