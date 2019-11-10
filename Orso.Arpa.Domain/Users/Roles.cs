@@ -28,7 +28,6 @@ namespace Orso.Arpa.Domain.Users
                 _userManager = userManager;
             }
 
-            // ToDo: Test
             public async Task<IEnumerable<string>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _userManager.GetRolesAsync(request.User);
