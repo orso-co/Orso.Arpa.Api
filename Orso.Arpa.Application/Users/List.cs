@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Application.Users.Dtos;
@@ -16,11 +17,14 @@ namespace Orso.Arpa.Application.Users
         public class Handler : IRequestHandler<Query, IEnumerable<UserDto>>
         {
             private readonly UserManager<User> _userManager;
+            private readonly IMapper _mapper;
 
             public Handler(
-                UserManager<User> userManager)
+                UserManager<User> userManager,
+                IMapper mapper)
             {
                 _userManager = userManager;
+                _mapper = mapper;
             }
 
             public async Task<IEnumerable<UserDto>> Handle(Query request, CancellationToken cancellationToken)
@@ -31,11 +35,9 @@ namespace Orso.Arpa.Application.Users
                 foreach (User user in users)
                 {
                     IList<string> roles = await _userManager.GetRolesAsync(user);
-                    dtos.Add(new UserDto
-                    {
-                        UserName = user.UserName,
-                        RoleName = roles.FirstOrDefault(),
-                    });
+                    UserDto dto = _mapper.Map<UserDto>(user);
+                    dto.RoleName = roles.FirstOrDefault();
+                    dtos.Add(dto);
                 }
 
                 return dtos;

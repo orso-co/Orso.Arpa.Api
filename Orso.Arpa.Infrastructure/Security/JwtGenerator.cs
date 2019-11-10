@@ -29,7 +29,8 @@ namespace Orso.Arpa.Infrastructure.Security
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
+                new Claim(ClaimTypes.Name, user.DisplayName)
             };
 
             IList<string> roles = await _userManager.GetRolesAsync(user);

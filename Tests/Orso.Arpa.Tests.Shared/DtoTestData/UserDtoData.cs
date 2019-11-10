@@ -26,7 +26,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "orsianer",
-                    RoleName = "Orsianer"
+                    RoleName = "Orsianer",
+                    DisplayName = "Orsi Aner"
                 };
             }
         }
@@ -38,7 +39,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "orsonaut",
-                    RoleName = "Orsonaut"
+                    RoleName = "Orsonaut",
+                    DisplayName = "Orso Naut"
                 };
             }
         }
@@ -50,7 +52,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "orsoadmin",
-                    RoleName = "Orsoadmin"
+                    RoleName = "Orsoadmin",
+                    DisplayName = "Orso Admin"
                 };
             }
         }
@@ -62,7 +65,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "withoutrole",
-                    RoleName = null
+                    RoleName = null,
+                    DisplayName = "Without Role"
                 };
             }
         }

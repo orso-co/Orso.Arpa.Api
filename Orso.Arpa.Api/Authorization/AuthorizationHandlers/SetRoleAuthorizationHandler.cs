@@ -42,7 +42,7 @@ namespace Orso.Arpa.Api.Authorization.AuthorizationHandlers
 
             filterContext.HttpContext.Request.Body.Position = 0;
 
-            IEnumerable<string> currentUserRoles = _userAccessor.GetCurrentUserRoles();
+            IEnumerable<string> currentUserRoles = _userAccessor.UserRoles;
 
             if (currentUserRoles.Contains(RoleNames.Orsoadmin))
             {

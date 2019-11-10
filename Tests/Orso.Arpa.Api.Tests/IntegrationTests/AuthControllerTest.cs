@@ -90,7 +90,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Email = "ludmilla@test.com",
                 UserName = "ludmilla",
-                Password = UserSeedData.ValidPassword
+                Password = UserSeedData.ValidPassword,
+                GivenName = "Ludmilla",
+                Surname = "Schneider"
             };
 
             // Act

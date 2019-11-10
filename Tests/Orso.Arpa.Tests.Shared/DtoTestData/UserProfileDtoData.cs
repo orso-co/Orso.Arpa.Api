@@ -15,7 +15,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
-                    UserName = user.UserName
+                    UserName = user.UserName,
+                    DisplayName = user.DisplayName
                 };
             }
 

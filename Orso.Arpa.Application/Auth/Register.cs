@@ -18,6 +18,8 @@ namespace Orso.Arpa.Application.Auth
             public string UserName { get; set; }
             public string Password { get; set; }
             public string Email { get; set; }
+            public string GivenName { get; set; }
+            public string Surname { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -36,7 +38,10 @@ namespace Orso.Arpa.Application.Auth
                     .EmailAddress()
                     .MustAsync(async (email, cancellation) => (await userManager.FindByEmailAsync(email)) == null)
                     .WithMessage("Email aleady exists");
-
+                RuleFor(c => c.GivenName)
+                    .NotEmpty();
+                RuleFor(c => c.Surname)
+                    .NotEmpty();
             }
         }
 
@@ -58,7 +63,8 @@ namespace Orso.Arpa.Application.Auth
                 var user = new User
                 {
                     Email = request.Email,
-                    UserName = request.UserName
+                    UserName = request.UserName,
+                    DisplayName = $"{request.GivenName} {request.Surname}"
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user, request.Password);
