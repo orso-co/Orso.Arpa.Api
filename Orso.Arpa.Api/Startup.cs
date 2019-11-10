@@ -21,6 +21,7 @@ using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Users.Dtos;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Infrastructure.DataAccess;
 using Orso.Arpa.Infrastructure.Security;
 using Orso.Arpa.Persistence;
 using Swashbuckle.AspNetCore.Swagger;
@@ -76,6 +77,8 @@ namespace Orso.Arpa.Api
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IDataSeeder, DataSeeder>();
             services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
