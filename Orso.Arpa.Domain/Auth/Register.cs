@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -38,7 +39,8 @@ namespace Orso.Arpa.Domain.Auth
                 {
                     Email = request.Email,
                     UserName = request.UserName,
-                    DisplayName = $"{request.GivenName} {request.Surname}"
+                    DisplayName = $"{request.GivenName} {request.Surname}",
+                    Person = new Person(Guid.NewGuid(), request)
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user, request.Password);

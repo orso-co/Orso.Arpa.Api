@@ -1,14 +1,11 @@
 using System;
-using Orso.Arpa.Domain.SelectValues;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class SelectValue : BaseEntity
     {
-        public SelectValue(Guid id, Create.Command command) : base(id)
+        public SelectValue(Guid id) : base(id)
         {
-            Name = command.Name;
-            Description = command.Description;
         }
 
         public string Name { get; private set; }
