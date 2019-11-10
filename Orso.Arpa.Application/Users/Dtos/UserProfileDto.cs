@@ -1,5 +1,5 @@
 using AutoMapper;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.Users.Dtos
 {

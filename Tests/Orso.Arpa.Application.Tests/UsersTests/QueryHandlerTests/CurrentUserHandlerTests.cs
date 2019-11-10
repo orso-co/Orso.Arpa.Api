@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Users;
 using Orso.Arpa.Application.Users.Dtos;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -31,10 +32,10 @@ namespace Orso.Arpa.Application.Tests.UsersTests.QueryHandlerTests
         public async Task Should_Get_Current_User_Profile()
         {
             // Arrange
-            Domain.User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Orsianer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
             UserProfileDto expectedDto = UserProfileDtoData.Orsianer;
-            _mapper.Map<UserProfileDto>(Arg.Any<Domain.User>()).Returns(expectedDto);
+            _mapper.Map<UserProfileDto>(Arg.Any<User>()).Returns(expectedDto);
 
             // Act
             UserProfileDto result = await _handler.Handle(new CurrentUser.Query(), new CancellationToken());

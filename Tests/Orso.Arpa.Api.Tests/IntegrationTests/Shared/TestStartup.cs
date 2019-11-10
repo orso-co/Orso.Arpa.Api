@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared

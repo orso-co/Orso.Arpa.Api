@@ -1,4 +1,5 @@
 using Orso.Arpa.Application.Users.Dtos;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -9,7 +10,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                Domain.User user = UserSeedData.Orsianer;
+                User user = UserSeedData.Orsianer;
                 return new UserProfileDto
                 {
                     Email = user.Email,

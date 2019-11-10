@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

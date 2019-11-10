@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Application.Errors;
 using Orso.Arpa.Application.Users;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

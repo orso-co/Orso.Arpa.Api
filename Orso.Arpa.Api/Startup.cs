@@ -20,7 +20,7 @@ using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Users.Dtos;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Infrastructure.Security;
 using Orso.Arpa.Persistence;
 using Swashbuckle.AspNetCore.Swagger;

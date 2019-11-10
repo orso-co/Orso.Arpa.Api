@@ -10,6 +10,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Auth.Dtos;
 using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -20,7 +21,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Login()
         {
             // Arrange
-            Domain.User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Orsianer;
             var loginQuery = new Login.Query
             {
                 Email = user.Email,
@@ -65,7 +66,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Login_Invalid_Password()
         {
             // Arrange
-            Domain.User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Orsianer;
             var loginQuery = new Login.Query
             {
                 Email = user.Email,
@@ -191,7 +192,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Change_Password_Of_Unauthenticated_User()
         {
             // Arrange
-            Domain.User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Orsianer;
             var command = new ChangePassword.Command
             {
                 CurrentPassword = UserSeedData.ValidPassword,

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.Interfaces
 {

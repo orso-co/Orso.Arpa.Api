@@ -12,6 +12,7 @@ using Orso.Arpa.Api.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Application.Auth;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Api.Authorization.AuthorizationHandlers
 {

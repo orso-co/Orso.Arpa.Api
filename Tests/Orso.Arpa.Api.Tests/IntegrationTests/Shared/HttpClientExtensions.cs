@@ -1,6 +1,6 @@
 using System.Net.Http;
 using Newtonsoft.Json;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {

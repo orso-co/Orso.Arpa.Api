@@ -7,7 +7,7 @@ using Orso.Arpa.Application.Auth.Dtos;
 using Orso.Arpa.Application.Errors;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Validators;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.Auth
 {

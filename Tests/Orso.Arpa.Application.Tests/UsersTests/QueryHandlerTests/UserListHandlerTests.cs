@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Application.Users.Dtos;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.Identity;
 
