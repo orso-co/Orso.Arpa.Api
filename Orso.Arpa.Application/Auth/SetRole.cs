@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.Auth
     {
         public class Command : IRequest
         {
-            public string Username { get; set; }
+            public string UserName { get; set; }
             public string RoleName { get; set; }
         }
 
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.Auth
                 RoleManager<Role> roleManager)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
-                RuleFor(c => c.Username)
+                RuleFor(c => c.UserName)
                     .NotEmpty()
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
                     .OnFailure(_ => throw new RestException("User not found", HttpStatusCode.NotFound, new { user = "Not found" }));
@@ -46,7 +46,7 @@ namespace Orso.Arpa.Application.Auth
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                User user = await _userManager.FindByNameAsync(request.Username);
+                User user = await _userManager.FindByNameAsync(request.UserName);
 
                 foreach (var role in RoleNames.Roles)
                 {

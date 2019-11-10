@@ -27,6 +27,8 @@ namespace Orso.Arpa.Tests.Shared.Identity
               Substitute.For<ILogger<UserManager<User>>>())
         { }
 
+        public override IQueryable<User> Users => UserSeedData.Users.Where(u => !u.Deleted).AsQueryable();
+
         public override Task<User> FindByEmailAsync(string email)
         {
             return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
@@ -59,7 +61,9 @@ namespace Orso.Arpa.Tests.Shared.Identity
 
         public override Task<IList<string>> GetRolesAsync(User user)
         {
-            return Task.FromResult(RoleSeedData.Roles.Select(r => r.Name).ToList() as IList<string>);
+            var roleNames = RoleSeedData.Roles.Select(r => r.Name).ToList();
+            roleNames.RemoveAll(rn => !rn.Equals(user.UserName, StringComparison.InvariantCultureIgnoreCase));
+            return Task.FromResult(roleNames as IList<string>);
         }
 
         public override Task<IdentityResult> AddToRoleAsync(User user, string role)

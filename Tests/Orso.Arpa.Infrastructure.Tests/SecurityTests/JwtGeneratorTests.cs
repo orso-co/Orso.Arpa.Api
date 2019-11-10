@@ -43,7 +43,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             // Assert
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
-            decryptedToken.Claims.Where(c => c.Type == "role").Select(c => c.Value).Should().BeEquivalentTo(RoleSeedData.Roles.Select(r => r.Name));
+            decryptedToken.Claims.Where(c => c.Type == "role").Select(c => c.Value).Should().BeEquivalentTo(RoleSeedData.Orsianer.Name);
         }
     }
 }

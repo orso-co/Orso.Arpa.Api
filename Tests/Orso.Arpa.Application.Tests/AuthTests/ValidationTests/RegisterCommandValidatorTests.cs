@@ -54,21 +54,21 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Username_Is_Supplied([Values(null, "")] string username)
+        public void Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Username, username);
+            _validator.ShouldHaveValidationErrorFor(command => command.UserName, username);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Username_Does_Exist()
+        public void Should_Have_Validation_Error_If_UserName_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Username, UserSeedData.Orsianer.UserName);
+            _validator.ShouldHaveValidationErrorFor(command => command.UserName, UserSeedData.Orsianer.UserName);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Username_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Username, "ludmilla");
+            _validator.ShouldNotHaveValidationErrorFor(command => command.UserName, "ludmilla");
         }
     }
 }

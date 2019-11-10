@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.Auth
     {
         public class Command : IRequest<TokenDto>
         {
-            public string Username { get; set; }
+            public string UserName { get; set; }
             public string Password { get; set; }
             public string Email { get; set; }
         }
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.Auth
             public CommandValidator(UserManager<User> userManager)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
-                RuleFor(c => c.Username)
+                RuleFor(c => c.UserName)
                     .NotEmpty()
                     .MustAsync(async (username, cancellation) => (await userManager.FindByNameAsync(username)) == null)
                     .WithMessage("Username aleady exists");
@@ -58,7 +58,7 @@ namespace Orso.Arpa.Application.Auth
                 var user = new User
                 {
                     Email = request.Email,
-                    UserName = request.Username
+                    UserName = request.UserName
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user, request.Password);

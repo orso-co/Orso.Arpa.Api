@@ -49,7 +49,7 @@ namespace Orso.Arpa.Api.Authorization.AuthorizationHandlers
                 return;
             }
 
-            User userToEdit = await _userManager.FindByNameAsync(command.Username);
+            User userToEdit = await _userManager.FindByNameAsync(command.UserName);
             IList<string> rolesOfUserToEdit = await _userManager.GetRolesAsync(userToEdit);
 
             if (rolesOfUserToEdit.Contains(RoleNames.Orsoadmin) || command.RoleName.Equals(RoleNames.Orsoadmin, StringComparison.InvariantCultureIgnoreCase))

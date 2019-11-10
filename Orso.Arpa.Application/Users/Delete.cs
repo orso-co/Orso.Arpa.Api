@@ -14,9 +14,9 @@ namespace Orso.Arpa.Application.Users
         {
             public Command(string username)
             {
-                Username = username;
+                UserName = username;
             }
-            public string Username { get; }
+            public string UserName { get; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.Users
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                User user = await _userManager.FindByNameAsync(request.Username);
+                User user = await _userManager.FindByNameAsync(request.UserName);
 
                 if (user == null)
                 {

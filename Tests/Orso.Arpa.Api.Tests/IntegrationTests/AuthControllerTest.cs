@@ -88,7 +88,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var registerCommand = new Register.Command
             {
                 Email = "ludmilla@test.com",
-                Username = "ludmilla",
+                UserName = "ludmilla",
                 Password = UserSeedData.ValidPassword
             };
 
@@ -104,7 +104,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Token.Should().NotBeNullOrEmpty();
 
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(result.Token);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(registerCommand.Username);
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(registerCommand.UserName);
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var registerCommand = new Register.Command
             {
                 Email = UserSeedData.Orsianer.Email,
-                Username = "ludmilla",
+                UserName = "ludmilla",
                 Password = UserSeedData.ValidPassword
             };
 
@@ -128,13 +128,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test]
-        public async Task Should_Not_Register_Existing_Username()
+        public async Task Should_Not_Register_Existing_UserName()
         {
             // Arrange
             var registerCommand = new Register.Command
             {
                 Email = "ludmilla@test.com",
-                Username = UserSeedData.Orsianer.UserName,
+                UserName = UserSeedData.Orsianer.UserName,
                 Password = UserSeedData.ValidPassword
             };
 
@@ -235,7 +235,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var setRolesCommand = new SetRole.Command
             {
                 RoleName = newRole,
-                Username = user.UserName
+                UserName = user.UserName
             };
 
             // Act

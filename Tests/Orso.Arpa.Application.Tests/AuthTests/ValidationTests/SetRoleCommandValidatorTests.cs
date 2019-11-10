@@ -30,9 +30,9 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Username_Is_Supplied([Values(null, "")] string username)
+        public void Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Username, username);
+            _validator.ShouldHaveValidationErrorFor(command => command.UserName, username);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         public void Should_Throw_Rest_Exception_If_Role_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new SetRole.Command { Username = UserSeedData.Orsianer.UserName, RoleName = "DoesNotExist" });
+                .ValidateAsync(new SetRole.Command { UserName = UserSeedData.Orsianer.UserName, RoleName = "DoesNotExist" });
 
             act.Should().Throw<RestException>();
         }
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
         public void Should_Throw_Rest_Exception_If_User_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new SetRole.Command { Username = "DoesNotExist", RoleName = RoleNames.Orsianer });
+                .ValidateAsync(new SetRole.Command { UserName = "DoesNotExist", RoleName = RoleNames.Orsianer });
             act.Should().Throw<RestException>();
         }
     }

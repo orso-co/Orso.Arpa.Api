@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     [TestFixture]
     public class UsersControllerTests : IntegrationTestBase
     {
-        [Test]
+        [Test, Order(10002)]
         public async Task Should_Delete_User()
         {
             // Arrange
@@ -31,7 +32,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Test]
+        [Test, Order(10001)]
         public async Task Should_Not_Delete_Deleted_User()
         {
             // Arrange
@@ -48,7 +49,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [Test]
+        [Test, Order(2)]
         public async Task Should_Get_Current_User_Profile()
         {
             // Arrange
@@ -67,12 +68,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test]
+        [Test, Order(10000)]
         public async Task Should_Not_Delete_User_If_Current_User_Is_Not_Orsoadmin()
         {
             // Arrange
             Domain.User user = UserSeedData.Orsoadmin;
-            var command = new Delete.Command(user.UserName);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -82,6 +82,25 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [Test, Order(1)]
+        public async Task Should_Get_All_Users()
+        {
+            // Arrange
+            IList<UserDto> expectedDtos = UserDtoData.Users;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_orsonaut)
+                .GetAsync(ApiEndpoints.UsersController.Get());
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<UserDto> result = await DeserializeResponseMessageAsync<IEnumerable<UserDto>>(responseMessage);
+
+            result.Should().BeEquivalentTo(expectedDtos);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,13 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<UserProfileDto>> GetProfileOfCurrentUser()
         {
             return await Mediator.Send(new CurrentUser.Query());
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleNames.OrsonautOrsoadmin)]
+        public async Task<IEnumerable<UserDto>> Get()
+        {
+            return await Mediator.Send(new List.Query());
         }
     }
 }

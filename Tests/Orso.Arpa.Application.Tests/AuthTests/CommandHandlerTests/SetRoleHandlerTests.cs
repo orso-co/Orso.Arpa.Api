@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.Tests.AuthTests.CommandHandlerTests
             User user = UserSeedData.Orsianer;
             var command = new SetRole.Command
             {
-                Username = user.UserName,
+                UserName = user.UserName,
                 RoleName = RoleNames.Orsonaut
             };
 
