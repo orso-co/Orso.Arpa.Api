@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -8,7 +9,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Application.Tests.UsersTests.QueryHandlerTests
+namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
 {
     public class UserListHandlerTests
     {
@@ -16,24 +17,24 @@ namespace Orso.Arpa.Application.Tests.UsersTests.QueryHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _handler = new Domain.Users.List.Handler(_userManager);
+            _handler = new Users.List.Handler(_userManager);
         }
 
         private UserManager<User> _userManager;
-        private Domain.Users.List.Handler _handler;
+        private Users.List.Handler _handler;
 
         [Test]
         public async Task Should_Get_User_List()
         {
             // Arrange
-            var listQuery = new Domain.Users.List.Query();
-            IList<User> expectedUsers = UserSeedData.Users;
+            var listQuery = new Users.List.Query();
+            IEnumerable<User> expectedUsers = UserSeedData.Users.Where(u => !u.Deleted);
 
             // Act
             IEnumerable<User> users = await _handler.Handle(listQuery, new CancellationToken());
 
             // Assert
-            users.Should().BeEquivalentTo(expectedUsers);
+            users.Should().BeEquivalentTo(expectedUsers, opt => opt.Excluding(user => user.ConcurrencyStamp));
         }
     }
 }

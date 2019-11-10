@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Application.Validation;
 using Orso.Arpa.Domain.Auth;
@@ -28,7 +29,6 @@ using Orso.Arpa.Infrastructure.DataAccess;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Swashbuckle.AspNetCore.Swagger;
-using static Orso.Arpa.Application.MappingProfiles.LoginDto;
 
 namespace Orso.Arpa.Api
 {

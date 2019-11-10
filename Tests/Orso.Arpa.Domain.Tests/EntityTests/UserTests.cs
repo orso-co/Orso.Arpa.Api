@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Domain.Tests
+namespace Orso.Arpa.Domain.Tests.EntityTests
 {
     [TestFixture]
     public class UserTests

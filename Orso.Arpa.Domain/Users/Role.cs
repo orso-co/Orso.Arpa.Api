@@ -11,6 +11,10 @@ namespace Orso.Arpa.Domain.Users
     {
         public class Query : IRequest<IEnumerable<string>>
         {
+            public Query(User user)
+            {
+                User = user;
+            }
             public User User { get; set; }
         }
 

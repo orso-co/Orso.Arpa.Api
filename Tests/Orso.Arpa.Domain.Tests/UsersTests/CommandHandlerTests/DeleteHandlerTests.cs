@@ -11,7 +11,7 @@ using Orso.Arpa.Domain.Users;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Application.Tests.UsersTests.CommandHandlerTests
+namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
 {
     [TestFixture]
     public class DeleteHandlerTests

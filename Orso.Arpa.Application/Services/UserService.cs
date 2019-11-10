@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.Services
             var dtos = new List<UserDto>();
             foreach (User user in users)
             {
-                IEnumerable<string> roles = await _mediator.Send(new Roles.Query());
+                IEnumerable<string> roles = await _mediator.Send(new Roles.Query(user));
                 UserDto dto = _mapper.Map<UserDto>(user);
                 dto.RoleName = roles.FirstOrDefault();
                 dtos.Add(dto);

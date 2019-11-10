@@ -12,7 +12,7 @@ using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
+namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class LoginDtoValidatorTests

@@ -8,7 +8,7 @@ using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Application.Tests.AuthTests.ValidationTests
+namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class ChangePasswordDtoValidatorTests

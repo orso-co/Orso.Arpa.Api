@@ -10,7 +10,7 @@ using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Application.Tests.AuthTests.CommandHandlerTests
+namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 {
     public class RegisterHandlerTests
     {

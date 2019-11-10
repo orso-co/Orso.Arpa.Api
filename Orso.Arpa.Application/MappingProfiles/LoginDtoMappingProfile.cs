@@ -1,16 +1,14 @@
 using AutoMapper;
+using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Domain.Auth;
 
 namespace Orso.Arpa.Application.MappingProfiles
 {
-    public partial class LoginDto
+    public class LoginDtoMappingProfile : Profile
     {
-        public class LoginDtoMappingProfile : Profile
+        public LoginDtoMappingProfile()
         {
-            public LoginDtoMappingProfile()
-            {
-                CreateMap<LoginDto, Login.Query>();
-            }
+            CreateMap<LoginDto, Login.Query>();
         }
     }
 }
