@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
+    <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
   </ItemGroup>
 

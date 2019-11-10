@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence;
+using Orso.Arpa.Persistence.DataAccess;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 

@@ -8,8 +8,8 @@ using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Seed;
-using Orso.Arpa.Infrastructure.Security;
+using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

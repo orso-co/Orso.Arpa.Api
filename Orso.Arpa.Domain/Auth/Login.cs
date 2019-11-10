@@ -1,0 +1,48 @@
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Interfaces;
+
+namespace Orso.Arpa.Domain.Auth
+{
+    public static class Login
+    {
+        public class Query : IRequest<string>
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+        }
+
+        public class Handler : IRequestHandler<Query, string>
+        {
+            private readonly SignInManager<User> _signInManager;
+            private readonly IJwtGenerator _jwtGenerator;
+
+            public Handler(
+                SignInManager<User> signInManager,
+                IJwtGenerator jwtGenerator)
+            {
+                _signInManager = signInManager;
+                _jwtGenerator = jwtGenerator;
+            }
+
+            public async Task<string> Handle(Query request, CancellationToken cancellationToken)
+            {
+                User user = await _signInManager.UserManager.FindByEmailAsync(request.Email);
+
+                SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+                if (result.Succeeded)
+                {
+                    return await _jwtGenerator.CreateTokenAsync(user);
+                }
+
+                throw new RestException("Authorization failed", HttpStatusCode.Unauthorized);
+            }
+        }
+    }
+}

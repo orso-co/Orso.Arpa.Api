@@ -2,8 +2,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {

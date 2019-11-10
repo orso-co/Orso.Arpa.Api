@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Auth;
-using Orso.Arpa.Application.Auth.Dtos;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests

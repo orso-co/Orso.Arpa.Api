@@ -4,10 +4,9 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Auth;
-using Orso.Arpa.Application.Auth.Dtos;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -37,10 +36,10 @@ namespace Orso.Arpa.Application.Tests.AuthTests.QueryHandlerTests
             _jwtGenerator.CreateTokenAsync(Arg.Any<User>()).Returns(expectedToken);
 
             // Act
-            TokenDto dto = await _handler.Handle(query, new CancellationToken());
+            string token = await _handler.Handle(query, new CancellationToken());
 
             // Assert
-            dto.Token.Should().BeEquivalentTo(expectedToken);
+            token.Should().BeEquivalentTo(expectedToken);
         }
     }
 }

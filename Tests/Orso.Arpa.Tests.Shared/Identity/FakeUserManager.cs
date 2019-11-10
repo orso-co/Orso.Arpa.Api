@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using Orso.Arpa.Domain;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Seed;
+using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Domain.Roles.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.Identity

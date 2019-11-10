@@ -4,9 +4,9 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
-using Orso.Arpa.Application.Auth;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

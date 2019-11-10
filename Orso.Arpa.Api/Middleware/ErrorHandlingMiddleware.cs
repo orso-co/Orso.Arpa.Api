@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Orso.Arpa.Application.Errors;
+using Orso.Arpa.Domain.Errors;
 
 namespace Orso.Arpa.Api.Middleware
 {
