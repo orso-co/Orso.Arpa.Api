@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? EmolumentPatternId { get; private set; }
         public virtual SelectValueMap EmolumentPattern { get; private set; }
         public Guid? VenueId { get; private set; }
-        public Venue Venue { get; private set; }
+        public virtual Venue Venue { get; private set; }
 
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public virtual ICollection<RegisterAppointment> RegisterAppointments { get; private set; } = new HashSet<RegisterAppointment>();
