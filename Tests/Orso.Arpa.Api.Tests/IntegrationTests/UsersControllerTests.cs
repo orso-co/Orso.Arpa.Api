@@ -7,7 +7,6 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Users;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -21,7 +20,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = UserSeedData.Orsoadmin;
-            var command = new Delete.Command(user.UserName);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -38,7 +36,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = UserSeedData.DeletedUser;
-            var command = new Delete.Command(user.UserName);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

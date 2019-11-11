@@ -4,8 +4,10 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class SelectValue : BaseEntity
     {
-        public SelectValue(Guid id) : base(id)
+        public SelectValue(Guid id, string name, string description) : base(id)
         {
+            Name = name;
+            Description = description;
         }
 
         public string Name { get; private set; }
