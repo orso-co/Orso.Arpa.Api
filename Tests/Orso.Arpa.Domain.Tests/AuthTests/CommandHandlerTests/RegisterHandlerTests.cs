@@ -4,7 +4,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -19,19 +18,19 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             _userManager = new FakeUserManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
-            _handler = new Register.Handler(_userManager, _jwtGenerator);
+            _handler = new Auth.Register.Handler(_userManager, _jwtGenerator);
         }
 
         private UserManager<User> _userManager;
         private IJwtGenerator _jwtGenerator;
-        private Register.Handler _handler;
+        private Auth.Register.Handler _handler;
 
         [Test]
         public async Task Should_Register_User()
         {
             // Arrange
             string expectedToken = "TestToken";
-            var command = new Register.Command
+            var command = new Auth.Register.Command
             {
                 Email = "ludmilla@test.com",
                 Password = UserSeedData.ValidPassword,

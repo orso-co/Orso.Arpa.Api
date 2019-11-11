@@ -9,7 +9,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -23,7 +22,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = UserSeedData.Orsianer;
-            var loginQuery = new Login.Query
+            var loginDto = new LoginDto
             {
                 Email = user.Email,
                 Password = UserSeedData.ValidPassword
@@ -32,7 +31,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginQuery));
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -49,7 +48,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Login_Unregistered_User()
         {
             // Arrange
-            var loginQuery = new Login.Query
+            var loginDto = new LoginDto
             {
                 Email = "unregistered@test.com",
                 Password = UserSeedData.ValidPassword
@@ -58,7 +57,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginQuery));
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -69,7 +68,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = UserSeedData.Orsianer;
-            var loginQuery = new Login.Query
+            var loginDto = new LoginDto
             {
                 Email = user.Email,
                 Password = "invalidPassword"
@@ -78,7 +77,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginQuery));
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -88,7 +87,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Register()
         {
             // Arrange
-            var registerCommand = new Register.Command
+            var registerDto = new RegisterDto
             {
                 Email = "ludmilla@test.com",
                 UserName = "ludmilla",
@@ -100,7 +99,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerCommand));
+                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -109,7 +108,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Token.Should().NotBeNullOrEmpty();
 
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(result.Token);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(registerCommand.UserName);
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(registerDto.UserName);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value.Should().Be("Ludmilla Schneider");
         }
 
@@ -117,7 +116,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Register_Existing_Email()
         {
             // Arrange
-            var registerCommand = new Register.Command
+            var registerDto = new RegisterDto
             {
                 Email = UserSeedData.Orsianer.Email,
                 UserName = "ludmilla",
@@ -127,7 +126,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerCommand));
+                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -137,7 +136,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Register_Existing_UserName()
         {
             // Arrange
-            var registerCommand = new Register.Command
+            var registerDto = new RegisterDto
             {
                 Email = "ludmilla@test.com",
                 UserName = UserSeedData.Orsianer.UserName,
@@ -147,7 +146,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerCommand));
+                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -157,7 +156,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Change_Password()
         {
             // Arrange
-            var command = new ChangePassword.Command
+            var dto = new ChangePasswordDto
             {
                 CurrentPassword = UserSeedData.ValidPassword,
                 NewPassword = "NewPa$$w0rd"
@@ -167,7 +166,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_orsianer)
-                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(command));
+                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(dto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -177,7 +176,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Change_Wrong_Password()
         {
             // Arrange
-            var command = new ChangePassword.Command
+            var dto = new ChangePasswordDto
             {
                 CurrentPassword = "WrongPassword",
                 NewPassword = "NewPa$$w0rd"
@@ -187,7 +186,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_orsianer)
-                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(command));
+                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(dto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -197,8 +196,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Change_Password_Of_Unauthenticated_User()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
-            var command = new ChangePassword.Command
+            var dto = new ChangePasswordDto
             {
                 CurrentPassword = UserSeedData.ValidPassword,
                 NewPassword = "NewPa$$w0rd"
@@ -207,7 +205,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(command));
+                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(dto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -238,7 +236,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = userToEdit;
-            var setRolesCommand = new SetRole.Command
+            var setRoleDto = new SetRoleDto
             {
                 RoleName = newRole,
                 UserName = user.UserName
@@ -248,7 +246,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(currentUser)
-                .PutAsync(ApiEndpoints.AuthController.SetRole(), BuildStringContent(setRolesCommand));
+                .PutAsync(ApiEndpoints.AuthController.SetRole(), BuildStringContent(setRoleDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(expectedStatusCode);

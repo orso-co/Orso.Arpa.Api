@@ -131,7 +131,7 @@ namespace Orso.Arpa.Api
             services.AddDbContext<ArpaContext>(opt =>
             {
                 opt.UseLazyLoadingProxies();
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
         }
 
