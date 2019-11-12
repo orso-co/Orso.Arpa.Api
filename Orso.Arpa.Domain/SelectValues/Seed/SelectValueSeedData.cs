@@ -25,7 +25,7 @@ namespace Orso.Arpa.Domain.SelectValues.Seed
                     Confirmed,
                     Crossover,
                     DontKnowYet,
-                    EntryAfterScan,
+                    AwaitingScan,
                     Gloeckner2018,
                     Inapplicable,
                     Mandatory,
@@ -54,7 +54,9 @@ namespace Orso.Arpa.Domain.SelectValues.Seed
                     VoiceFormation,
                     WatchShow,
                     Workshop,
-                    Yes
+                    Yes,
+                    Private,
+                    Work
                 };
             }
         }
@@ -106,11 +108,11 @@ namespace Orso.Arpa.Domain.SelectValues.Seed
         /// <summary>
         /// Eintrag nach Scan
         /// </summary>
-        public static SelectValue EntryAfterScan
+        public static SelectValue AwaitingScan
         {
             get
             {
-                return new SelectValue(Guid.Parse("5d31f1f7-73fd-42a4-a429-33fab925b15d"), "Entry after Scan", string.Empty);
+                return new SelectValue(Guid.Parse("5d31f1f7-73fd-42a4-a429-33fab925b15d"), "Awaiting Scan", string.Empty);
             }
         }
 
@@ -526,6 +528,28 @@ namespace Orso.Arpa.Domain.SelectValues.Seed
             get
             {
                 return new SelectValue(Guid.Parse("717a27d5-2ef3-4266-92a8-84b3600115eb"), "Orchestra Rehearsal Hourly Rate 9/11", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Privat
+        /// </summary>
+        public static SelectValue Private
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("608b5583-a8dc-48d7-8afa-ef87ca0327f0"), "Private", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Arbeit
+        /// </summary>
+        public static SelectValue Work
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), "Work", string.Empty);
             }
         }
     }

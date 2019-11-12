@@ -2,10 +2,12 @@ using System;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class SelectValueMap : BaseEntity
+    public class SelectValueMapping : BaseEntity
     {
-        public SelectValueMap(Guid id) : base(id)
+        public SelectValueMapping(Guid id, Guid selectValueCategoryId, Guid selectValueId) : base(id)
         {
+            SelectValueCategoryId = selectValueCategoryId;
+            SelectValueId = selectValueId;
         }
 
         public Guid SelectValueId { get; private set; }

@@ -14,6 +14,17 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         }
 
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<Register> Registers { get; set; }
+        public DbSet<RehearsalRoom> RehearsalRooms { get; set; }
+        public DbSet<SelectValueCategory> SelectValueCategories { get; set; }
+        public DbSet<SelectValue> SelectValues { get; set; }
+        public DbSet<Venue> Venues { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             SetDeletedQueryFilter(builder);

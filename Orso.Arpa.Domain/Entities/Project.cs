@@ -16,7 +16,7 @@ namespace Orso.Arpa.Domain.Entities
         public virtual Project Parent { get; private set; }
         public virtual ICollection<Project> Children { get; private set; } = new HashSet<Project>();
         public Guid? GenreId { get; private set; }
-        public virtual SelectValueMap Genre { get; private set; }
+        public virtual SelectValueMapping Genre { get; private set; }
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
     }
 }
