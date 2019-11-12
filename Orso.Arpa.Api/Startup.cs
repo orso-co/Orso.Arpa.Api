@@ -62,7 +62,18 @@ namespace Orso.Arpa.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Orso.Arpa.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new Info
+                {
+                    Title = "Orso.Arpa.Api",
+                    Version = "v1",
+                    License = new License { Name = "MIT", Url = "https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE" },
+                    Contact = new Contact
+                    {
+                        Name = "ORSO – Orchestra & Choral Society Freiburg | Berlin e. V.",
+                        Url = "https://www.orso.co/",
+                        Email = "mail@orso.co"
+                    }
+                });
             });
 
             ConfigureAuthentication(services);
@@ -162,6 +173,7 @@ namespace Orso.Arpa.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
+                c.RoutePrefix = string.Empty;
             });
         }
 
