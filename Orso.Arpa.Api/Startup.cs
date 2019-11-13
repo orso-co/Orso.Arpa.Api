@@ -34,9 +34,12 @@ namespace Orso.Arpa.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             Configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IConfiguration Configuration
@@ -143,6 +146,11 @@ namespace Orso.Arpa.Api
             {
                 opt.UseLazyLoadingProxies();
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                if (_hostingEnvironment.IsDevelopment())
+                {
+                    opt.EnableSensitiveDataLogging();
+                    opt.EnableDetailedErrors();
+                }
             });
         }
 

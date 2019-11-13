@@ -80,7 +80,7 @@ namespace Orso.Arpa.Domain.Registers.Seed
         {
             get
             {
-                return new Register(Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"), "Miscellaneous", null);
+                return new Register(Guid.Parse("a19fa9af-dcba-48e3-bc21-be2130fa528c"), "Miscellaneous", null);
             }
         }
 

@@ -15,6 +15,6 @@ namespace Orso.Arpa.Domain.Entities
         public string Table { get; private set; }
         public string Property { get; private set; }
         public string Name { get; private set; }
-        public ICollection<SelectValueMapping> SelectValueMappings { get; set; } = new HashSet<SelectValueMapping>();
+        public virtual ICollection<SelectValueMapping> SelectValueMappings { get; set; } = new HashSet<SelectValueMapping>();
     }
 }

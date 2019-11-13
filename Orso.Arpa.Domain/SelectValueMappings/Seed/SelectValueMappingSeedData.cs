@@ -8,6 +8,23 @@ namespace Orso.Arpa.Domain.SelectValueMappings.Seed
 {
     public static class SelectValueMappingSeedData
     {
+        public static IList<SelectValueMapping> SelectValueMappings
+        {
+            get
+            {
+                var list = new List<SelectValueMapping>();
+                list.AddRange(AddressTypeMappings);
+                list.AddRange(AppointmentCategoryMappings);
+                list.AddRange(AppointmentEmolumentMappings);
+                list.AddRange(AppointmentEmolumentPatternMappings);
+                list.AddRange(AppointmentParticipationExpectationMappings);
+                list.AddRange(AppointmentParticipationPredictionMappings);
+                list.AddRange(AppointmentParticipationResultMappings);
+                list.AddRange(AppointmentStatusMappings);
+                list.AddRange(ProjectGenreMappings);
+                return list;
+            }
+        }
 
         public static IList<SelectValueMapping> AddressTypeMappings
         {

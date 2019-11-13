@@ -10,7 +10,7 @@ namespace Orso.Arpa.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Register> builder)
         {
             builder
-                .HasData(RegisterSeedData.Registers);
+               .HasData(RegisterSeedData.Registers);
         }
     }
 }
