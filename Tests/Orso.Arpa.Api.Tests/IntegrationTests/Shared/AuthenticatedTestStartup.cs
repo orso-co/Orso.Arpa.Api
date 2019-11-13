@@ -7,7 +7,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
     public class AuthenticatedTestStartup : TestStartup
     {
-        public AuthenticatedTestStartup(IConfiguration configuration) : base(configuration)
+        public AuthenticatedTestStartup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+            : base(configuration, hostingEnvironment)
         {
         }
         public override void Configure(IApplicationBuilder app, IHostingEnvironment env)
