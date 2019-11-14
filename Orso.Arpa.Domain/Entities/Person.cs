@@ -13,13 +13,12 @@ namespace Orso.Arpa.Domain.Entities
 
         public Person(Guid id) : base(id)
         {
-
         }
 
         public string GivenName { get; private set; }
         public string Surname { get; private set; }
         public virtual User user { get; private set; }
-        public virtual ICollection<Address> Addresses { get; private set; } = new HashSet<Address>();
+        public virtual ICollection<PersonAddress> Addresses { get; private set; } = new HashSet<PersonAddress>();
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();
         public virtual ICollection<MusicianProfile> MusicianProfiles { get; private set; } = new HashSet<MusicianProfile>();
     }
