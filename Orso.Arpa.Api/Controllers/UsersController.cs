@@ -22,7 +22,7 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> Delete(string userName)
         {
             await _userService.DeleteAsync(userName);
-            return Ok();
+            return NoContent();
         }
 
         [HttpGet("me/profile")]

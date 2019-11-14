@@ -28,7 +28,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.UsersController.Delete(user.UserName));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(10001)]
