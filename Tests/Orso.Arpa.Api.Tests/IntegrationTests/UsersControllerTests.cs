@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Users;
-using Orso.Arpa.Application.Users.Dtos;
+using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -19,8 +19,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Delete_User()
         {
             // Arrange
-            Domain.User user = UserSeedData.Orsoadmin;
-            var command = new Delete.Command(user.UserName);
+            User user = UserSeedData.Orsoadmin;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -36,8 +35,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Delete_Deleted_User()
         {
             // Arrange
-            Domain.User user = UserSeedData.DeletedUser;
-            var command = new Delete.Command(user.UserName);
+            User user = UserSeedData.DeletedUser;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -72,7 +70,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Delete_User_If_Current_User_Is_Not_Orsoadmin()
         {
             // Arrange
-            Domain.User user = UserSeedData.Orsoadmin;
+            User user = UserSeedData.Orsoadmin;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

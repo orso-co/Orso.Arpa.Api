@@ -1,40 +1,48 @@
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.Authorization;
-using Orso.Arpa.Application.Auth;
-using Orso.Arpa.Application.Auth.Dtos;
+using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
     public class AuthController : BaseController
     {
+        private readonly IAuthService _authService;
+
+        public AuthController(IAuthService authService)
+        {
+            _authService = authService;
+        }
+
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenDto>> Login(Login.Query query)
+        public async Task<ActionResult<TokenDto>> Login([FromBody]LoginDto loginDto)
         {
-            return await Mediator.Send(query);
+            return Ok(await _authService.LoginAsync(loginDto));
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenDto>> Register(Register.Command command)
+        public async Task<ActionResult<TokenDto>> Register([FromBody]RegisterDto registerDto)
         {
-            return await Mediator.Send(command);
+            return Ok(await _authService.RegisterAsync(registerDto));
         }
 
         [HttpPut("password")]
-        public async Task<ActionResult<Unit>> ChangePassword(ChangePassword.Command command)
+        public async Task<ActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
         {
-            return await Mediator.Send(command);
+            await _authService.ChangePasswordAsync(changePasswordDto);
+            return Ok();
         }
 
         [HttpPut("role")]
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
-        public async Task<ActionResult<Unit>> SetRole(SetRole.Command command)
+        public async Task<ActionResult> SetRole([FromBody]SetRoleDto setRoleDto)
         {
-            return await Mediator.Send(command);
+            await _authService.SetRoleAsync(setRoleDto);
+            return Ok();
         }
     }
 }

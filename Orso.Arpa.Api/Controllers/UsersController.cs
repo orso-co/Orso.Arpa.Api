@@ -1,34 +1,41 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.Users;
-using Orso.Arpa.Application.Users.Dtos;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Api.Controllers
 {
     public class UsersController : BaseController
     {
+        private readonly IUserService _userService;
+
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         [HttpDelete("{username}")]
         [Authorize(Roles = RoleNames.Orsoadmin)]
-        public async Task<ActionResult<Unit>> Delete(string username)
+        public async Task<ActionResult> Delete(string userName)
         {
-            return await Mediator.Send(new Delete.Command(username));
+            await _userService.DeleteAsync(userName);
+            return Ok();
         }
 
         [HttpGet("me/profile")]
         public async Task<ActionResult<UserProfileDto>> GetProfileOfCurrentUser()
         {
-            return await Mediator.Send(new CurrentUser.Query());
+            return await _userService.GetProfileOfCurrentUserAsync();
         }
 
         [HttpGet]
         [Authorize(Roles = RoleNames.OrsonautOrsoadmin)]
         public async Task<IEnumerable<UserDto>> Get()
         {
-            return await Mediator.Send(new List.Query());
+            return await _userService.GetAsync();
         }
     }
 }

@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Tests.Shared.Identity
 {

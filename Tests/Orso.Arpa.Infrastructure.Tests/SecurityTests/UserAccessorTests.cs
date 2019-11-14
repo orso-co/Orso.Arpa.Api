@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Errors;
-using Orso.Arpa.Domain;
-using Orso.Arpa.Infrastructure.Security;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -42,10 +42,28 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             _httpContextAccessor.HttpContext.User.Claims.Returns(claims);
 
             // Act
-            var username = _userAccessor.GetCurrentUserName();
+            var username = _userAccessor.UserName;
 
             // Assert
             username.Should().Be(expectedUserName);
+        }
+
+        [Test]
+        public void Should_Get_Current_DisplyName()
+        {
+            // Arrange
+            var expectedDisplayName = "dumdidum";
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, expectedDisplayName)
+            };
+            _httpContextAccessor.HttpContext.User.Claims.Returns(claims);
+
+            // Act
+            var displayName = _userAccessor.DisplayName;
+
+            // Assert
+            displayName.Should().Be(expectedDisplayName);
         }
 
         [Test]
@@ -55,7 +73,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             _httpContextAccessor.HttpContext.User.Returns(default(ClaimsPrincipal));
 
             // Act
-            Func<string> fct = () => _userAccessor.GetCurrentUserName();
+            Func<string> fct = () => _userAccessor.UserName;
 
             // Assert
             fct.Should().Throw<RestException>();

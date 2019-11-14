@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared

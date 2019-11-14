@@ -1,18 +1,21 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Orso.Arpa.Domain;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence;
+using Orso.Arpa.Persistence.DataAccess;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
 {
     public class TestStartup : Startup
     {
-        public TestStartup(IConfiguration configuration) : base(configuration)
+        public TestStartup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+            : base(configuration, hostingEnvironment)
         {
         }
         protected override void ConfigureDatabase(IServiceCollection services)

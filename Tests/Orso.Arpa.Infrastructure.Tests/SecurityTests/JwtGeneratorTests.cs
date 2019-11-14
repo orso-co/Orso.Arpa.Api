@@ -1,14 +1,15 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain;
-using Orso.Arpa.Domain.Seed;
-using Orso.Arpa.Infrastructure.Security;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -43,6 +44,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             // Assert
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value.Should().Be(user.DisplayName);
             decryptedToken.Claims.Where(c => c.Type == "role").Select(c => c.Value).Should().BeEquivalentTo(RoleSeedData.Orsianer.Name);
         }
     }

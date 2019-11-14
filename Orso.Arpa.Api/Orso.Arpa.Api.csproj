@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <StartupObject>Orso.Arpa.Api.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
+    <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
   </ItemGroup>
 
