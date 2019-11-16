@@ -5,13 +5,13 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Person : BaseEntity
     {
-        public Person(Guid id, Auth.Register.Command command) : base(id)
+        internal Person(Guid? id, Auth.Register.Command command) : base(id)
         {
             GivenName = command.GivenName;
             Surname = command.Surname;
         }
 
-        public Person(Guid id) : base(id)
+        private Person()
         {
         }
 

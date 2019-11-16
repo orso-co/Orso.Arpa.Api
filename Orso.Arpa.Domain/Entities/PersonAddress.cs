@@ -4,7 +4,11 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class PersonAddress : Address
     {
-        public PersonAddress(Guid id) : base(id)
+        internal PersonAddress(Guid? id) : base(id)
+        {
+        }
+
+        private PersonAddress()
         {
         }
 

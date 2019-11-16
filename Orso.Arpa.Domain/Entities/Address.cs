@@ -4,7 +4,11 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Address : BaseEntity
     {
-        public Address(Guid id) : base(id)
+        internal Address(Guid? id) : base(id)
+        {
+        }
+
+        private protected Address()
         {
         }
 

@@ -4,7 +4,11 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class AppointmentParticipation : BaseEntity
     {
-        protected AppointmentParticipation(Guid id) : base(id)
+        internal AppointmentParticipation(Guid? id) : base(id)
+        {
+        }
+
+        private AppointmentParticipation()
         {
         }
 

@@ -4,7 +4,11 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Room : BaseEntity
     {
-        public Room(Guid id) : base(id)
+        internal Room(Guid? id) : base(id)
+        {
+        }
+
+        private Room()
         {
         }
 

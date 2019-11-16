@@ -4,16 +4,20 @@ namespace Orso.Arpa.Domain.Entities
 {
     public abstract class BaseEntity
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; private set; } = Guid.NewGuid();
         public string CreatedBy { get; private set; }
         public DateTimeOffset CreatedAt { get; private set; }
         public string ModifiedBy { get; private set; }
         public DateTimeOffset? ModifiedAt { get; private set; }
         public bool Deleted { get; private set; }
 
-        protected BaseEntity(Guid id)
+        protected BaseEntity(Guid? id)
         {
-            Id = id;
+            Id = id ?? Id;
+        }
+
+        protected BaseEntity()
+        {
         }
 
         public virtual void Create(string createdBy)

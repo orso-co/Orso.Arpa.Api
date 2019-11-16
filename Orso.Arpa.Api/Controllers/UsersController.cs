@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleNames.OrsonautOrsoadmin)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         public async Task<IEnumerable<UserDto>> Get()
         {
             return await _userService.GetAsync();

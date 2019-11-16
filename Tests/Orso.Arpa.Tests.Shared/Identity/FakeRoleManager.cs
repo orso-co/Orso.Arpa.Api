@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Domain.Roles.Seed;
 
 namespace Orso.Arpa.Tests.Shared.Identity
 {
@@ -22,6 +25,12 @@ namespace Orso.Arpa.Tests.Shared.Identity
         public override Task<bool> RoleExistsAsync(string roleName)
         {
             return Task.FromResult(RoleNames.Roles.Contains(roleName));
+        }
+
+        public override Task<Role> FindByNameAsync(string roleName)
+        {
+            return Task.FromResult(RoleSeedData.Roles.FirstOrDefault(r =>
+                r.Name.Equals(roleName, StringComparison.InvariantCultureIgnoreCase)));
         }
     }
 }

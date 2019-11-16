@@ -4,9 +4,14 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class MusicianProfile : BaseEntity
     {
-        public MusicianProfile(Guid id) : base(id)
+        internal MusicianProfile(Guid? id) : base(id)
         {
         }
+
+        private MusicianProfile()
+        {
+        }
+
         public bool IsProfessional { get; private set; }
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }

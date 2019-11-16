@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using AutoMapper;
 using FluentValidation.AspNetCore;
@@ -29,6 +30,7 @@ using Orso.Arpa.Infrastructure.DataAccess;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Swashbuckle.AspNetCore.Swagger;
+using static Orso.Arpa.Domain.Regions.Create;
 
 namespace Orso.Arpa.Api
 {
@@ -56,13 +58,59 @@ namespace Orso.Arpa.Api
             ConfigureCors(services);
 
             services.AddMediatR(typeof(Login.Handler).Assembly);
-            services.AddAutoMapper(typeof(LoginDtoMappingProfile).Assembly);
+            services.AddAutoMapper(typeof(LoginDtoMappingProfile).Assembly, typeof(MappingProfile).Assembly);
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddFluentValidation(config =>
                     config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>());
 
+            ConfigureSwagger(services);
+
+            ConfigureAuthentication(services);
+
+            ConfigureAuthorization(services);
+        }
+
+        private static void ConfigureAuthorization(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
+                    policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
+                options.AddPolicy(AuthorizationPolicies.AtLeastOrsianerPolicy, policy =>
+                   policy.RequireAssertion(context =>
+                   {
+                       System.Security.Claims.Claim roleLevelClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleLevel");
+                       if (roleLevelClaim == null)
+                       {
+                           return false;
+                       }
+                       if (!short.TryParse(roleLevelClaim.Value, out var level))
+                       {
+                           return false;
+                       }
+                       return level > 0;
+                   }));
+                options.AddPolicy(AuthorizationPolicies.AtLeastOrsonautPolicy, policy =>
+                   policy.RequireAssertion(context =>
+                   {
+                       System.Security.Claims.Claim roleLevelClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleLevel");
+                       if (roleLevelClaim == null)
+                       {
+                           return false;
+                       }
+                       if (!short.TryParse(roleLevelClaim.Value, out var level))
+                       {
+                           return false;
+                       }
+                       return level > 1;
+                   }));
+            });
+        }
+
+        private static void ConfigureSwagger(IServiceCollection services)
+        {
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
@@ -78,14 +126,6 @@ namespace Orso.Arpa.Api
                     }
                 });
             });
-
-            ConfigureAuthentication(services);
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
-                    policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
-            });
         }
 
         private static void RegisterServices(IServiceCollection services)
@@ -98,6 +138,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRegionService, RegionService>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)

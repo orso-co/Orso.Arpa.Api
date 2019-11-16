@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Api.ModelBinders;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -19,19 +19,21 @@ namespace Orso.Arpa.Api.Controllers
             _regionService = regionService;
         }
 
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet("{id}")]
         public async Task<ActionResult<RegionDto>> GetById(Guid id)
         {
             return await _regionService.GetByIdAsync(id);
         }
 
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegionDto>>> Get()
         {
             return await _regionService.GetAsync();
         }
 
-        [Authorize(Roles = RoleNames.OrsonautOrsoadmin)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPost]
         public async Task<ActionResult<RegionDto>> Post([FromBody]RegionCreateDto createDto)
         {
@@ -40,7 +42,7 @@ namespace Orso.Arpa.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
         }
 
-        [Authorize(Roles = RoleNames.OrsonautOrsoadmin)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(
             [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<RegionModifyDto>))]RegionModifyDto modifyDto)
@@ -50,7 +52,7 @@ namespace Orso.Arpa.Api.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = RoleNames.OrsonautOrsoadmin)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {

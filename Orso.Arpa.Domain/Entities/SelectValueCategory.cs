@@ -5,11 +5,15 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class SelectValueCategory : BaseEntity
     {
-        public SelectValueCategory(Guid id, string table, string property, string name) : base(id)
+        internal SelectValueCategory(Guid? id, string table, string property, string name) : base(id)
         {
             Table = table;
             Property = property;
             Name = name;
+        }
+
+        private SelectValueCategory()
+        {
         }
 
         public string Table { get; private set; }

@@ -26,7 +26,8 @@ namespace Orso.Arpa.Domain.Roles.Seed
                 return new Role
                 {
                     Id = Guid.Parse("3828A012-6FC7-4554-85CA-40DE365AC337"),
-                    Name = RoleNames.Orsianer
+                    Name = RoleNames.Orsianer,
+                    Level = 1
                 };
             }
         }
@@ -38,7 +39,8 @@ namespace Orso.Arpa.Domain.Roles.Seed
                 return new Role
                 {
                     Id = Guid.Parse("79A1A749-779F-4B27-81E8-30646C928D86"),
-                    Name = RoleNames.Orsonaut
+                    Name = RoleNames.Orsonaut,
+                    Level = 2
                 };
             }
         }
@@ -50,7 +52,8 @@ namespace Orso.Arpa.Domain.Roles.Seed
                 return new Role
                 {
                     Id = Guid.Parse("B1FA51C8-86A6-4DAD-8BCA-775823C72BA4"),
-                    Name = RoleNames.Orsoadmin
+                    Name = RoleNames.Orsoadmin,
+                    Level = 3
                 };
             }
         }

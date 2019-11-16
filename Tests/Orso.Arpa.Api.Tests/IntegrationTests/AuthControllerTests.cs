@@ -15,7 +15,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
-    public class AuthControllerTest : IntegrationTestBase
+    public class AuthControllerTests : IntegrationTestBase
     {
         [Test]
         public async Task Should_Login()
