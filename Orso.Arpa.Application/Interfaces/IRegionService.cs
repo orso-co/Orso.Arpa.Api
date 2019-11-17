@@ -11,7 +11,7 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task<RegionDto> GetByIdAsync(Guid id);
 
-        Task<List<RegionDto>> GetAsync();
+        Task<IEnumerable<RegionDto>> GetAsync();
 
         Task ModifyAsync(RegionModifyDto modifyDto);
 

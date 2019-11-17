@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.ModelBinders;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Infrastructure.Authorization;
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegionDto>>> Get()
         {
-            return await _regionService.GetAsync();
+            return Ok(await _regionService.GetAsync());
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
@@ -44,9 +43,11 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(
-            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<RegionModifyDto>))]RegionModifyDto modifyDto)
+        public async Task<IActionResult> Put(Guid id,
+            [FromBody]RegionModifyDto modifyDto)
         {
+            // ToDo: Fix Modelbinder
+            modifyDto.Id = id;
             await _regionService.ModifyAsync(modifyDto);
 
             return NoContent();

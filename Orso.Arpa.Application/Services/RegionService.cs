@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -33,19 +34,22 @@ namespace Orso.Arpa.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<RegionDto>> GetAsync()
+        public async Task<IEnumerable<RegionDto>> GetAsync()
         {
-            throw new NotImplementedException();
+            IImmutableList<Region> regions = await _mediator.Send(new List.Query());
+            return _mapper.Map<IEnumerable<RegionDto>>(regions);
         }
 
-        public Task<RegionDto> GetByIdAsync(Guid id)
+        public async Task<RegionDto> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            Region region = await _mediator.Send(new Details.Query { Id = id });
+            return _mapper.Map<RegionDto>(region);
         }
 
-        public Task ModifyAsync(RegionModifyDto modifyDto)
+        public async Task ModifyAsync(RegionModifyDto modifyDto)
         {
-            throw new NotImplementedException();
+            Modify.Command command = _mapper.Map<Modify.Command>(modifyDto);
+            await _mediator.Send(command);
         }
     }
 }

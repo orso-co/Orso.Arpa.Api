@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
@@ -22,6 +23,16 @@ namespace Orso.Arpa.Persistence.DataAccess
             await _arpaContext.Set<TEntity>().AddAsync(entity);
 
             return entity;
+        }
+
+        public IQueryable<TEntity> GetAll<TEntity>() where TEntity : BaseEntity
+        {
+            return _arpaContext.Set<TEntity>();
+        }
+
+        public async Task<TEntity> GetByIdAsync<TEntity>(Guid id) where TEntity : BaseEntity
+        {
+            return await _arpaContext.Set<TEntity>().FindAsync(id);
         }
 
         public void Dispose()

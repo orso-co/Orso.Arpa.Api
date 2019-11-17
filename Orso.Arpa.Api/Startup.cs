@@ -135,6 +135,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IDataSeeder, DataSeeder>();
             services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
             services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IReadOnlyRepository, Repository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();

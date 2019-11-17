@@ -21,7 +21,8 @@ namespace Orso.Arpa.Api.ModelBinders
                 return Task.CompletedTask;
             }
 
-            var serializedDto = bindingContext.ValueProvider.GetValue(string.Empty).FirstValue;
+            var modelName = bindingContext.ModelName;
+            var serializedDto = bindingContext.ValueProvider.GetValue(modelName).FirstValue;
             TDto dto = JsonConvert.DeserializeObject<TDto>(serializedDto);
 
             dto.Id = id;
