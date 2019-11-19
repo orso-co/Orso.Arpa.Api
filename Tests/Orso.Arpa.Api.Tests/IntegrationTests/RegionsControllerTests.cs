@@ -28,7 +28,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new RegionDto
             {
                 Name = createDto.Name,
-                CreatedBy = _orsoadmin.DisplayName,
+                CreatedBy = _orsonaut.DisplayName,
                 CreatedAt = DateTimeOffset.UtcNow,
                 ModifiedAt = null,
                 ModifiedBy = null,
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsoadmin)
+                .AuthenticateWith(_orsonaut)
                 .PostAsync(ApiEndpoints.RegionsController.Post(), BuildStringContent(createDto));
 
             // Assert
@@ -56,7 +56,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             Region regionToModify = RegionSeedData.Berlin;
             var modifyDto = new RegionModifyDto
             {
-                Name = "Hawaii"
+                Name = "Honolulu"
             };
 
             var expectedDto = new RegionDto
@@ -66,13 +66,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = regionToModify.CreatedBy,
                 CreatedAt = regionToModify.CreatedAt,
                 ModifiedAt = DateTimeOffset.UtcNow,
-                ModifiedBy = _orsoadmin.DisplayName,
+                ModifiedBy = _orsonaut.DisplayName,
             };
 
             // Act
             HttpClient client = _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsoadmin);
+                .AuthenticateWith(_orsonaut);
 
             HttpResponseMessage responseMessage = await client
                 .PutAsync(ApiEndpoints.RegionsController.Put(regionToModify.Id), BuildStringContent(modifyDto));
@@ -90,7 +90,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.ModifiedAt.Should().BeCloseTo(expectedDto.ModifiedAt.Value, precision: 10000);
         }
 
-        [Test]
+        [Test, Order(1)]
         public async Task Should_Get_All()
         {
             // Act
@@ -103,6 +103,40 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<RegionDto> result = await DeserializeResponseMessageAsync<IEnumerable<RegionDto>>(responseMessage);
             result.Should().BeEquivalentTo(RegionDtoData.Regions);
+        }
+
+        [Test, Order(2)]
+        public async Task Should_Get_ById()
+        {
+            // Arrange
+            RegionDto expectedDto = RegionDtoData.Freiburg;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_orsianer)
+                .GetAsync(ApiEndpoints.RegionsController.Get(expectedDto.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test]
+        public async Task Should_Delete()
+        {
+            // Arrange
+            Region regionToDelete = RegionSeedData.Stuttgart;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_orsonaut)
+                .DeleteAsync(ApiEndpoints.RegionsController.Delete(regionToDelete.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

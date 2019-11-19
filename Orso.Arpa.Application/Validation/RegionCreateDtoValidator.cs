@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.Validation
                 .NotEmpty()
                 .MustAsync(async (name, cancellation) => !await repository.GetAll<Region>()
                     .ExistsAsync(r => r.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase), cancellation))
-                .WithMessage("Region aleady exists");
+                .WithMessage("A region with the requested name does already exist");
         }
     }
 }

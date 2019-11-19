@@ -9,7 +9,10 @@ namespace Orso.Arpa.Persistence.Extensions
 {
     public static class IQueryableExtensions
     {
-        public static async Task<bool> ExistsAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<bool> ExistsAsync<TSource>(
+            this IQueryable<TSource> source,
+            Expression<Func<TSource, bool>> predicate,
+            CancellationToken cancellationToken = default)
         {
             return (await source.SingleOrDefaultAsync(predicate, cancellationToken)) != null;
         }

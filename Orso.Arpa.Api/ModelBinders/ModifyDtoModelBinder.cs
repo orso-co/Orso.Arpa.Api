@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
@@ -8,7 +9,7 @@ namespace Orso.Arpa.Api.ModelBinders
 {
     public class ModifyDtoModelBinder<TDto> : IModelBinder where TDto : IModifyDto
     {
-        public Task BindModelAsync(ModelBindingContext bindingContext)
+        public async Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if (bindingContext == null)
             {
@@ -18,18 +19,27 @@ namespace Orso.Arpa.Api.ModelBinders
             if (!Guid.TryParse(bindingContext.ValueProvider.GetValue("id").FirstValue, out Guid id))
             {
                 bindingContext.Result = ModelBindingResult.Failed();
-                return Task.CompletedTask;
+                return;
             }
 
-            var modelName = bindingContext.ModelName;
-            var serializedDto = bindingContext.ValueProvider.GetValue(modelName).FirstValue;
-            TDto dto = JsonConvert.DeserializeObject<TDto>(serializedDto);
+            using (var streamReader = new StreamReader(bindingContext.HttpContext.Request.Body))
+            {
+                var serializedDto = await streamReader.ReadToEndAsync();
 
-            dto.Id = id;
+                if (string.IsNullOrWhiteSpace(serializedDto))
+                {
+                    bindingContext.Result = ModelBindingResult.Failed();
+                    return;
+                }
 
-            bindingContext.Result = ModelBindingResult.Success(dto);
+                TDto dto = JsonConvert.DeserializeObject<TDto>(serializedDto);
 
-            return Task.CompletedTask;
+                dto.Id = id;
+
+                bindingContext.Result = ModelBindingResult.Success(dto);
+
+                return;
+            }
         }
     }
 }

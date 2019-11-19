@@ -1,10 +1,8 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Regions
@@ -28,12 +26,7 @@ namespace Orso.Arpa.Domain.Regions
 
             public async Task<Region> Handle(Query request, CancellationToken cancellationToken)
             {
-                Region region = await _repository.GetByIdAsync<Region>(request.Id);
-                if (region == null)
-                {
-                    throw new RestException("Region not found", HttpStatusCode.NotFound, new { Region = "Not found" });
-                }
-                return region;
+                return await _repository.GetByIdAsync<Region>(request.Id);
             }
         }
     }

@@ -29,9 +29,9 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<RegionDto>(createdRegion);
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _mediator.Send(new Delete.Command() { Id = id });
         }
 
         public async Task<IEnumerable<RegionDto>> GetAsync()
