@@ -4,11 +4,15 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class RehearsalRoom : BaseEntity
     {
-        public RehearsalRoom(Guid id) : base(id)
+        internal RehearsalRoom(Guid? id) : base(id)
         {
         }
 
-        public Guid VenueId { get; private set; }
-        public virtual Venue Venue { get; private set; }
+        private RehearsalRoom()
+        {
+        }
+
+        public Guid RoomId { get; private set; }
+        public virtual Room Room { get; private set; }
     }
 }

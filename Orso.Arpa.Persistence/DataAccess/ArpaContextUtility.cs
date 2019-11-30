@@ -1,5 +1,7 @@
 using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
@@ -8,18 +10,38 @@ namespace Orso.Arpa.Persistence.DataAccess
 {
     public static class ArpaContextUtility
     {
-        public const string IsDeletedProperty = nameof(BaseEntity.Deleted);
+        private static IList<Type> _entityTypeCache;
 
-        public static readonly MethodInfo PropertyMethod = typeof(EF)
-            .GetMethod(nameof(EF.Property), BindingFlags.Static | BindingFlags.Public)
-            .MakeGenericMethod(typeof(bool));
-
-        public static LambdaExpression GetIsDeletedRestriction(Type type)
+        public static IList<Type> GetEntityTypes()
         {
-            ParameterExpression parm = Expression.Parameter(type, "it");
-            MethodCallExpression prop = Expression.Call(PropertyMethod, parm, Expression.Constant(IsDeletedProperty));
-            BinaryExpression condition = Expression.MakeBinary(ExpressionType.Equal, prop, Expression.Constant(false));
-            return Expression.Lambda(condition, parm);
+            if (_entityTypeCache != null)
+
+            {
+                return _entityTypeCache.ToList();
+            }
+
+            Assembly assembly = typeof(BaseEntity).Assembly;
+
+            _entityTypeCache = (from t in assembly.DefinedTypes
+
+                                where t.BaseType == typeof(BaseEntity)
+
+                                select t.AsType()).ToList();
+
+            return _entityTypeCache;
+        }
+
+        public static readonly MethodInfo SetGlobalQueryMethod
+            = typeof(ArpaContextUtility).GetMethods(BindingFlags.Public | BindingFlags.Static)
+                .Single(t => t.IsGenericMethod && t.Name == "SetGlobalQuery");
+
+        public static void SetGlobalQuery<T>(ModelBuilder builder) where T : BaseEntity
+        {
+            builder.Entity<T>().HasKey(e => e.Id);
+
+            Debug.WriteLine("Adding global query for: " + typeof(T));
+
+            builder.Entity<T>().HasQueryFilter(e => !e.Deleted);
         }
     }
 }

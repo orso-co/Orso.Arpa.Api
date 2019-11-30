@@ -121,29 +121,28 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Property<bool>("Deleted");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<DateTimeOffset?>("ModifiedAt");
 
                     b.Property<string>("ModifiedBy");
-
-                    b.Property<Guid?>("PersonId");
 
                     b.Property<Guid?>("RegionId");
 
                     b.Property<string>("State");
 
-                    b.Property<Guid?>("TypeId");
+                    b.Property<string>("UrbanDistrict");
 
                     b.Property<string>("Zip");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
-
                     b.HasIndex("RegionId");
 
-                    b.HasIndex("TypeId");
-
                     b.ToTable("Addresses");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Address");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Appointment", b =>
@@ -179,8 +178,6 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Property<Guid?>("StatusId");
 
-                    b.Property<Guid?>("VenueId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -190,8 +187,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasIndex("EmolumentPatternId");
 
                     b.HasIndex("StatusId");
-
-                    b.HasIndex("VenueId");
 
                     b.ToTable("Appointments");
                 });
@@ -233,7 +228,45 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.HasIndex("ResultId");
 
-                    b.ToTable("AppointmentParticipation");
+                    b.ToTable("AppointmentParticipations");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.AppointmentRoom", b =>
+                {
+                    b.Property<Guid>("AppointmentId");
+
+                    b.Property<Guid>("RoomId");
+
+                    b.HasKey("AppointmentId", "RoomId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("AppointmentRooms");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.ConcertRoom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTimeOffset?>("ModifiedAt");
+
+                    b.Property<string>("ModifiedBy");
+
+                    b.Property<Guid>("RoomId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId")
+                        .IsUnique();
+
+                    b.ToTable("ConcertRooms");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
@@ -263,7 +296,7 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.HasIndex("RegisterId");
 
-                    b.ToTable("MusicianProfile");
+                    b.ToTable("MusicianProfiles");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Person", b =>
@@ -334,7 +367,35 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("ProjectAppointment");
+                    b.ToTable("ProjectAppointments");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.ProjectParticipation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTimeOffset?>("ModifiedAt");
+
+                    b.Property<string>("ModifiedBy");
+
+                    b.Property<Guid>("MusicianProfileId");
+
+                    b.Property<Guid>("ProjectId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MusicianProfileId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectParticipations");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Region", b =>
@@ -616,7 +677,7 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("RegisterAppointment");
+                    b.ToTable("RegisterAppointments");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.RehearsalRoom", b =>
@@ -634,11 +695,12 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Property<string>("ModifiedBy");
 
-                    b.Property<Guid>("VenueId");
+                    b.Property<Guid>("RoomId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VenueId");
+                    b.HasIndex("RoomId")
+                        .IsUnique();
 
                     b.ToTable("RehearsalRooms");
                 });
@@ -665,6 +727,36 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Room", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Building");
+
+                    b.Property<DateTimeOffset>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("Floor");
+
+                    b.Property<DateTimeOffset?>("ModifiedAt");
+
+                    b.Property<string>("ModifiedBy");
+
+                    b.Property<string>("Name");
+
+                    b.Property<Guid>("VenueId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VenueId");
+
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.SelectValue", b =>
@@ -1086,7 +1178,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Name = "Address Type",
                             Property = "Type",
-                            Table = "Address"
+                            Table = "PersonAddress"
                         },
                         new
                         {
@@ -1187,7 +1279,7 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.HasIndex("SelectValueId");
 
-                    b.ToTable("SelectValueMapping");
+                    b.ToTable("SelectValueMappings");
 
                     b.HasData(
                         new
@@ -1688,6 +1780,21 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.ToTable("Venues");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PersonAddress", b =>
+                {
+                    b.HasBaseType("Orso.Arpa.Domain.Entities.Address");
+
+                    b.Property<Guid?>("PersonId");
+
+                    b.Property<Guid?>("TypeId");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("TypeId");
+
+                    b.HasDiscriminator().HasValue("PersonAddress");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Role")
@@ -1735,17 +1842,9 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
-                        .WithMany("Addresses")
-                        .HasForeignKey("PersonId");
-
                     b.HasOne("Orso.Arpa.Domain.Entities.Region", "Region")
                         .WithMany()
                         .HasForeignKey("RegionId");
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Appointment", b =>
@@ -1765,10 +1864,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId");
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
-                        .WithMany()
-                        .HasForeignKey("VenueId");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.AppointmentParticipation", b =>
@@ -1794,6 +1889,27 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Result")
                         .WithMany()
                         .HasForeignKey("ResultId");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.AppointmentRoom", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
+                        .WithMany("AppointmentRooms")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.ConcertRoom", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
+                        .WithOne("ConcertRoom")
+                        .HasForeignKey("Orso.Arpa.Domain.Entities.ConcertRoom", "RoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
@@ -1833,6 +1949,19 @@ namespace Orso.Arpa.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.ProjectParticipation", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany()
+                        .HasForeignKey("MusicianProfileId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Register", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Register", "Parent")
@@ -1855,8 +1984,16 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.RehearsalRoom", b =>
                 {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
+                        .WithOne("RehearsalRoom")
+                        .HasForeignKey("Orso.Arpa.Domain.Entities.RehearsalRoom", "RoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Room", b =>
+                {
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
-                        .WithMany("RehearsalRooms")
+                        .WithMany("Rooms")
                         .HasForeignKey("VenueId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1888,6 +2025,17 @@ namespace Orso.Arpa.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PersonAddress", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
+                        .WithMany("Addresses")
+                        .HasForeignKey("PersonId");
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId");
                 });
 #pragma warning restore 612, 618
         }

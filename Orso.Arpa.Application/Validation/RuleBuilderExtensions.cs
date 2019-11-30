@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Orso.Arpa.Application.Validation
 {
-    public static class ValidatorExtensions
+    public static class RuleBuilderExtensions
     {
         public static IRuleBuilder<T, string> Password<T>(this IRuleBuilder<T, string> ruleBuilder)
         {

@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Persistence.DataAccess
@@ -24,6 +27,18 @@ namespace Orso.Arpa.Persistence.DataAccess
             return entity;
         }
 
+        public IQueryable<TEntity> GetAll<TEntity>() where TEntity : BaseEntity
+        {
+            return _arpaContext.Set<TEntity>();
+        }
+
+        public async Task<TEntity> GetByIdAsync<TEntity>(Guid id) where TEntity : BaseEntity
+        {
+            TEntity entity = await _arpaContext.Set<TEntity>().FindAsync(id);
+            NullCheck(entity);
+            return entity;
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -40,8 +55,21 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public async Task DeleteAsync<TEntity>(Guid id) where TEntity : BaseEntity
         {
-            TEntity entity = await _arpaContext.Set<TEntity>().FindAsync(id);
+            TEntity entity = await GetByIdAsync<TEntity>(id);
+
             entity.Delete(_userAccessor.DisplayName);
+        }
+
+        private static void NullCheck<TEntity>(TEntity entity) where TEntity : BaseEntity
+        {
+            if (entity == null)
+            {
+                var entityName = typeof(TEntity).Name;
+                throw new RestException($"{entityName} not found", HttpStatusCode.NotFound, new
+                {
+                    Entity = "Not found"
+                });
+            }
         }
 
         public void Update<TEntity>(TEntity entity) where TEntity : BaseEntity

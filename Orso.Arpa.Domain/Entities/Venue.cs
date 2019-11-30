@@ -5,7 +5,11 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Venue : BaseEntity
     {
-        public Venue(Guid id) : base(id)
+        internal Venue(Guid? id) : base(id)
+        {
+        }
+
+        private Venue()
         {
         }
 
@@ -13,7 +17,6 @@ namespace Orso.Arpa.Domain.Entities
         public string Description { get; private set; }
         public Guid AddressId { get; private set; }
         public virtual Address Address { get; private set; }
-        public virtual ICollection<RehearsalRoom> RehearsalRooms { get; private set; } = new HashSet<RehearsalRoom>();
-
+        public virtual ICollection<Room> Rooms { get; private set; } = new HashSet<Room>();
     }
 }

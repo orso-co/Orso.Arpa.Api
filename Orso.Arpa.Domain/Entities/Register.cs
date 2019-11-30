@@ -5,10 +5,14 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Register : BaseEntity
     {
-        public Register(Guid id, string name, Guid? parentId) : base(id)
+        internal Register(Guid? id, string name, Guid? parentId) : base(id)
         {
             Name = name;
             ParentId = parentId;
+        }
+
+        private Register()
+        {
         }
 
         public string Name { get; private set; }

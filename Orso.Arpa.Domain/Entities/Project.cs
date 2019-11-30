@@ -5,7 +5,11 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Project : BaseEntity
     {
-        public Project(Guid id) : base(id)
+        internal Project(Guid? id) : base(id)
+        {
+        }
+
+        private Project()
         {
         }
 

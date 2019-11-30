@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,16 @@ namespace Orso.Arpa.Infrastructure.Authentication
     {
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
 
-        public JwtGenerator(IConfiguration configuration, UserManager<User> userManager)
+        public JwtGenerator(
+            IConfiguration configuration,
+            UserManager<User> userManager,
+            RoleManager<Role> roleManager)
         {
             _configuration = configuration;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<string> CreateTokenAsync(User user)
@@ -33,11 +39,19 @@ namespace Orso.Arpa.Infrastructure.Authentication
                 new Claim(ClaimTypes.Name, user.DisplayName)
             };
 
-            IList<string> roles = await _userManager.GetRolesAsync(user);
             var claimsIdentity = new ClaimsIdentity(claims, "Token");
-            foreach (var role in roles)
+            var roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
+
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, roleName));
+
+            if (!string.IsNullOrEmpty(roleName))
             {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
+                Role role = await _roleManager.FindByNameAsync(roleName);
+                claimsIdentity.AddClaim(new Claim("RoleLevel", role.Level.ToString(), "short"));
+            }
+            else
+            {
+                claimsIdentity.AddClaim(new Claim("RoleLevel", "0", "short"));
             }
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

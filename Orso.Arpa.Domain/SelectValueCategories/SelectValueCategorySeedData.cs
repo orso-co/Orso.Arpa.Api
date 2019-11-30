@@ -31,8 +31,8 @@ namespace Orso.Arpa.Domain.SelectValueCategories
             {
                 return new SelectValueCategory(
                     Guid.Parse("d438c160-0588-41fa-93c3-cd33c0f97063"),
-                    nameof(Address),
-                    nameof(Address.Type),
+                    nameof(PersonAddress),
+                    nameof(PersonAddress.Type),
                     "Address Type");
             }
         }

@@ -23,13 +23,14 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         {
             _configuration = Substitute.For<IConfiguration>();
             _userManager = new FakeUserManager();
-            _jwtGenerator = new JwtGenerator(_configuration, _userManager);
-
+            _roleManager = new FakeRoleManager();
+            _jwtGenerator = new JwtGenerator(_configuration, _userManager, _roleManager);
         }
 
         private JwtGenerator _jwtGenerator;
         private IConfiguration _configuration;
         private UserManager<User> _userManager;
+        private RoleManager<Role> _roleManager;
 
         [Test]
         public async Task Should_Generate_Jwt_Token()
@@ -45,7 +46,8 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value.Should().Be(user.DisplayName);
-            decryptedToken.Claims.Where(c => c.Type == "role").Select(c => c.Value).Should().BeEquivalentTo(RoleSeedData.Orsianer.Name);
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value.Should().BeEquivalentTo(RoleSeedData.Orsianer.Name);
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == "RoleLevel")?.Value.Should().BeEquivalentTo(RoleSeedData.Orsianer.Level.ToString());
         }
     }
 }

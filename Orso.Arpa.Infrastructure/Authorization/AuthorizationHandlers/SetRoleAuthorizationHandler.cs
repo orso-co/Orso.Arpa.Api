@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
-using Orso.Arpa.Domain.Auth;
+using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
@@ -33,33 +32,34 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
 
         {
             var filterContext = context.Resource as AuthorizationFilterContext;
-            SetRole.Command command = null;
+            SetRoleDto dto = null;
             using (var stream = new StreamReader(filterContext.HttpContext.Request.Body, Encoding.UTF8, true, 1024, true))
             {
                 string body = stream.ReadToEnd();
-                command = JsonConvert.DeserializeObject<SetRole.Command>(body);
+                dto = JsonConvert.DeserializeObject<SetRoleDto>(body);
             }
 
             filterContext.HttpContext.Request.Body.Position = 0;
 
-            IEnumerable<string> currentUserRoles = _userAccessor.UserRoles;
+            string currentUserRole = _userAccessor.UserRole;
 
-            if (currentUserRoles.Contains(RoleNames.Orsoadmin))
+            if (currentUserRole.Equals(RoleNames.Orsoadmin, StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Succeed(requirement);
                 return;
             }
 
-            User userToEdit = await _userManager.FindByNameAsync(command.UserName);
+            User userToEdit = await _userManager.FindByNameAsync(dto.UserName);
             IList<string> rolesOfUserToEdit = await _userManager.GetRolesAsync(userToEdit);
 
-            if (rolesOfUserToEdit.Contains(RoleNames.Orsoadmin) || command.RoleName.Equals(RoleNames.Orsoadmin, StringComparison.InvariantCultureIgnoreCase))
+            if (rolesOfUserToEdit.Contains(RoleNames.Orsoadmin)
+                || dto.RoleName.Equals(RoleNames.Orsoadmin, StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Fail();
                 return;
             }
 
-            if (currentUserRoles.Contains(RoleNames.Orsonaut))
+            if (currentUserRole.Equals(RoleNames.Orsonaut, StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Succeed(requirement);
             }
@@ -67,7 +67,6 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
             {
                 context.Fail();
             }
-
         }
     }
 }

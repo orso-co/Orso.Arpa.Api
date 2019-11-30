@@ -4,7 +4,7 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Domain.Interfaces
 {
-    public interface IRepository : IDisposable
+    public interface IRepository : IReadOnlyRepository
     {
         Task<TEntity> AddAsync<TEntity>(TEntity entity) where TEntity : BaseEntity;
 
