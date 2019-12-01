@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
@@ -32,7 +33,10 @@ namespace Orso.Arpa.Domain.Auth
 
             public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
-                User user = await _signInManager.UserManager.FindByEmailAsync(request.Email);
+                UserManager<User> userManager = _signInManager.UserManager;
+                User user = await userManager.Users
+                    .Include(u => u.Person)
+                    .SingleOrDefaultAsync(u => u.NormalizedEmail == userManager.NormalizeKey(request.Email));
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 

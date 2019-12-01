@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MockQueryable.NSubstitute;
 using NSubstitute;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.Identity
@@ -28,16 +30,28 @@ namespace Orso.Arpa.Tests.Shared.Identity
               Substitute.For<ILogger<UserManager<User>>>())
         { }
 
-        public override IQueryable<User> Users => UserSeedData.Users.Where(u => !u.Deleted).AsQueryable();
+        public override IQueryable<User> Users
+        {
+            get
+            {
+                IEnumerable<User> users = FakeData.FakeUsers.Users.Where(u => !u.Deleted);
+                return users.AsQueryable().BuildMock();
+            }
+        }
+
+        public override string NormalizeKey(string key)
+        {
+            return key.ToUpperInvariant();
+        }
 
         public override Task<User> FindByEmailAsync(string email)
         {
-            return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
+            return Task.FromResult(FakeUsers.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
         }
 
         public override Task<User> FindByNameAsync(string userName)
         {
-            return Task.FromResult(UserSeedData.Users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
+            return Task.FromResult(FakeUsers.Users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
         }
 
         public override Task<IdentityResult> CreateAsync(User user, string password)
@@ -79,15 +93,15 @@ namespace Orso.Arpa.Tests.Shared.Identity
 
         public override Task<bool> IsInRoleAsync(User user, string role)
         {
-            if (user.Id == UserSeedData.Orsoadmin.Id && role == RoleNames.Orsoadmin)
+            if (user.Id == FakeUsers.Orsoadmin.Id && role == RoleNames.Orsoadmin)
             {
                 return Task.FromResult(true);
             }
-            if (user.Id == UserSeedData.Orsianer.Id && role == RoleNames.Orsianer)
+            if (user.Id == FakeUsers.Orsianer.Id && role == RoleNames.Orsianer)
             {
                 return Task.FromResult(true);
             }
-            if (user.Id == UserSeedData.Orsonaut.Id && role == RoleNames.Orsonaut)
+            if (user.Id == FakeUsers.Orsonaut.Id && role == RoleNames.Orsonaut)
             {
                 return Task.FromResult(true);
             }

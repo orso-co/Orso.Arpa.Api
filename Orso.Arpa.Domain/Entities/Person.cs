@@ -1,22 +1,28 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Person : BaseEntity
     {
-        internal Person(Guid? id, Auth.Register.Command command) : base(id)
+        public Person(Guid? id, Auth.Register.Command command) : base(id)
         {
             GivenName = command.GivenName;
             Surname = command.Surname;
         }
 
-        private Person()
+        [JsonConstructor]
+        protected Person()
         {
         }
 
+        [JsonProperty]
         public string GivenName { get; private set; }
+
+        [JsonProperty]
         public string Surname { get; private set; }
+
         public virtual User user { get; private set; }
         public virtual ICollection<PersonAddress> Addresses { get; private set; } = new HashSet<PersonAddress>();
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();

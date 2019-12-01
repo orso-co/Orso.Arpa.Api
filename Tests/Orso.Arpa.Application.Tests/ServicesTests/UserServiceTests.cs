@@ -12,7 +12,7 @@ using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Users = Orso.Arpa.Domain.Users;
 
 namespace Orso.Arpa.Application.Tests.ServicesTests
@@ -36,33 +36,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Users.List.Query>()).Returns(UserSeedData.Users.Where(u => !u.Deleted));
+            _mediator.Send(Arg.Any<Users.List.Query>()).Returns(FakeUsers.Users.Where(u => !u.Deleted));
             _mediator.Send(Arg.Any<Users.Roles.Query>()).Returns(
                 new List<string> { RoleNames.Orsianer },
                 new List<string> { RoleNames.Orsonaut },
                 new List<string> { RoleNames.Orsoadmin },
                 new List<string>());
-            var mappedOrsianer = new UserDto
-            {
-                DisplayName = UserSeedData.Orsianer.DisplayName,
-                UserName = UserSeedData.Orsianer.UserName
-            };
-            var mappedOrsonaut = new UserDto
-            {
-                DisplayName = UserSeedData.Orsonaut.DisplayName,
-                UserName = UserSeedData.Orsonaut.UserName
-            };
-            var mappedOrsoadmin = new UserDto
-            {
-                DisplayName = UserSeedData.Orsoadmin.DisplayName,
-                UserName = UserSeedData.Orsoadmin.UserName
-            };
-            var mappedWithoutRole = new UserDto
-            {
-                DisplayName = UserSeedData.UserWithoutRole.DisplayName,
-                UserName = UserSeedData.UserWithoutRole.UserName
-            };
-            _mapper.Map<UserDto>(Arg.Any<User>()).Returns(mappedOrsianer, mappedOrsonaut, mappedOrsoadmin, mappedWithoutRole);
+            _mapper.Map<UserDto>(Arg.Any<User>()).Returns(UserDtoData.Orsianer, UserDtoData.Orsonaut, UserDtoData.Orsoadmin, UserDtoData.UserWithoutRole);
 
             // Act
             IEnumerable<UserDto> dtos = await _userService.GetAsync();
@@ -75,8 +55,8 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Profile_Of_Current_User_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Users.CurrentUser.Query>()).Returns(UserSeedData.Orsianer);
-            UserProfileDto expectedDto = UserProfileDtoData.Orsianer;
+            _mediator.Send(Arg.Any<Users.CurrentUser.Query>()).Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
+            UserProfileDto expectedDto = FakerFabric.UesrProfileDtoFaker.Generate();
             _mapper.Map<UserProfileDto>(Arg.Any<User>()).Returns(expectedDto);
 
             // Act

@@ -35,12 +35,14 @@ namespace Orso.Arpa.Domain.Auth
 
             public async Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
+                var person = new Person(Guid.NewGuid(), request);
+                person.Create(request.UserName);
+
                 var user = new User
                 {
                     Email = request.Email,
                     UserName = request.UserName,
-                    DisplayName = $"{request.GivenName} {request.Surname}",
-                    Person = new Person(Guid.NewGuid(), request)
+                    Person = person
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user, request.Password);

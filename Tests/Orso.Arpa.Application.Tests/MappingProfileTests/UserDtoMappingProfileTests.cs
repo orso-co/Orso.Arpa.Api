@@ -5,7 +5,7 @@ using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -29,7 +29,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
+            User user = FakeUsers.Orsianer;
             UserDto expectedDto = UserDtoData.Orsianer;
 
             // Act

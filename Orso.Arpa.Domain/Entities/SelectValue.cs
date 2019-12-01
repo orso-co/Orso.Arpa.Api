@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.Entities
             Description = description;
         }
 
-        private SelectValue()
+        protected SelectValue()
         {
         }
 

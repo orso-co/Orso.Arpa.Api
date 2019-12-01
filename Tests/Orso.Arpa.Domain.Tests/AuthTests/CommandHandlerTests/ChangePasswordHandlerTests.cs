@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public async Task Should_Change_Password()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
+            User user = Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer;
             var command = new ChangePassword.Command
             {
                 CurrentPassword = UserSeedData.ValidPassword,

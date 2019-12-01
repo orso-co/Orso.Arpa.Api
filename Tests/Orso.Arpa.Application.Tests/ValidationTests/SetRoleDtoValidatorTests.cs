@@ -18,7 +18,6 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [TestFixture]
     public class SetRoleDtoValidatorTests
     {
-
         private SetRoleDtoValidator _validator;
         private UserManager<User> _userManager;
         private RoleManager<Role> _roleManager;

@@ -11,7 +11,6 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [TestFixture]
     public class RegisterDtoValidatorTests
     {
-
         private RegisterDtoValidator _validator;
         private UserManager<User> _userManager;
 

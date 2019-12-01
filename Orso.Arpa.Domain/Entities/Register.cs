@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.Entities
             ParentId = parentId;
         }
 
-        private Register()
+        protected Register()
         {
         }
 

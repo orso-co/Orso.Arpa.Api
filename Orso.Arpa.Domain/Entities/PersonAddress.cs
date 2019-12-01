@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        private PersonAddress()
+        protected PersonAddress()
         {
         }
 

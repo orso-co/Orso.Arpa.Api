@@ -13,7 +13,6 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [TestFixture]
     public class ChangePasswordDtoValidatorTests
     {
-
         private ChangePasswordDtoValidator _validator;
         private UserManager<User> _userManager;
         private IUserAccessor _userAccessor;
@@ -42,21 +41,21 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Current_Password_Is_Supplied([Values(null, "")]string currentPassword)
         {
-            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
+            _userAccessor.GetCurrentUserAsync().Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
             _validator.ShouldHaveValidationErrorFor(command => command.CurrentPassword, currentPassword);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Wrong_Current_Password_Is_Supplied()
         {
-            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
+            _userAccessor.GetCurrentUserAsync().Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
             _validator.ShouldHaveValidationErrorFor(command => command.CurrentPassword, "WrongPassword");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Correct_Current_Password_Is_Supplied()
         {
-            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
+            _userAccessor.GetCurrentUserAsync().Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
             _validator.ShouldNotHaveValidationErrorFor(command => command.CurrentPassword, UserSeedData.ValidPassword);
         }
     }

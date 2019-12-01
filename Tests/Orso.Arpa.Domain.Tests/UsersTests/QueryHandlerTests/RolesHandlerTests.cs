@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
 {
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public async Task Should_Get_Roles()
         {
             // Arrange
-            var rolesQuery = new Users.Roles.Query(UserSeedData.Orsianer);
+            var rolesQuery = new Users.Roles.Query(FakeUsers.Orsianer);
             IEnumerable<string> expectedRoles = new List<string> { RoleNames.Orsianer };
 
             // Act

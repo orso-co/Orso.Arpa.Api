@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Users;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
 {
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public async Task Should_Get_Current_User_Profile()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
+            User user = FakeUsers.Orsianer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
 
             // Act

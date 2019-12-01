@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Domain.Users
@@ -24,7 +25,7 @@ namespace Orso.Arpa.Domain.Users
 
             public Task<IEnumerable<User>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(_userManager.Users.ToList() as IEnumerable<User>);
+                return Task.FromResult(_userManager.Users.Include(u => u.Person).ToList() as IEnumerable<User>);
             }
         }
     }

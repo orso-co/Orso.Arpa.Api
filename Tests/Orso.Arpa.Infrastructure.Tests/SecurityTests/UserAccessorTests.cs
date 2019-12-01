@@ -10,8 +10,8 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Infrastructure.Authentication;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
 {
@@ -83,7 +83,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         public async Task Should_Get_Current_User()
         {
             // Arrange
-            User expectedUser = UserSeedData.Orsianer;
+            User expectedUser = FakeUsers.Orsianer;
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, expectedUser.UserName)

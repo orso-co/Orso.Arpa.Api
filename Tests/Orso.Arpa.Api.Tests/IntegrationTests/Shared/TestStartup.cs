@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 
@@ -18,6 +19,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             : base(configuration, hostingEnvironment)
         {
         }
+
         protected override void ConfigureDatabase(IServiceCollection services)
         {
             services.AddDbContext<ArpaContext>(options =>
@@ -33,11 +35,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 {
                     ArpaContext context = services.GetRequiredService<ArpaContext>();
                     UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
+                    IRepository repository = services.GetRequiredService<IRepository>();
                     context.Database.EnsureDeleted();
                     context.Database.EnsureCreated();
                     IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                     dataSeeder.SeedDataAsync().Wait();
-                    TestSeed.SeedDataAsync(userManager).Wait();
+                    TestSeed.SeedDataAsync(userManager, repository).Wait();
                 }
                 catch (System.Exception ex)
                 {
