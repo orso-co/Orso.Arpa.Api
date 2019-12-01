@@ -9,5 +9,6 @@ namespace Orso.Arpa.Application.Interfaces
         Task<IEnumerable<UserDto>> GetAsync();
         Task DeleteAsync(string userName);
         Task<UserProfileDto> GetProfileOfCurrentUserAsync();
+        Task ModifyProfileOfCurrentUserAsync(UserProfileModifyDto userProfileModifyDto);
     }
 }

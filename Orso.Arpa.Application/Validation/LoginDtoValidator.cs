@@ -12,10 +12,9 @@ namespace Orso.Arpa.Application.Validation
         public LoginDtoValidator(UserManager<User> userManager)
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-            RuleFor(q => q.Email)
+            RuleFor(q => q.UserName)
                 .NotEmpty()
-                .EmailAddress()
-                .MustAsync(async (email, cancellation) => await userManager.FindByEmailAsync(email) != null)
+                .MustAsync(async (userName, cancellation) => await userManager.FindByNameAsync(userName) != null)
                 .OnFailure(_ => throw new RestException("Authorization failed", HttpStatusCode.Unauthorized));
             RuleFor(q => q.Password)
                 .NotEmpty();

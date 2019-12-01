@@ -20,5 +20,12 @@ namespace Orso.Arpa.Api.Controllers
         {
             return await _userService.GetProfileOfCurrentUserAsync();
         }
+
+        [HttpPut("profile")]
+        public async Task<ActionResult> PutProfile([FromBody]UserProfileModifyDto userProfileModifyDto)
+        {
+            await _userService.ModifyProfileOfCurrentUserAsync(userProfileModifyDto);
+            return NoContent();
+        }
     }
 }

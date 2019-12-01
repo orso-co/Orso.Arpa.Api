@@ -55,7 +55,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Profile_Of_Current_User_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Users.CurrentUser.Query>()).Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
+            _mediator.Send(Arg.Any<Domain.Me.Details.Query>()).Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
             UserProfileDto expectedDto = FakerFabric.UesrProfileDtoFaker.Generate();
             _mapper.Map<UserProfileDto>(Arg.Any<User>()).Returns(expectedDto);
 

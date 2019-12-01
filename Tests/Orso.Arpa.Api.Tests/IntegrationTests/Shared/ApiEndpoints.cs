@@ -30,7 +30,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class MeController
         {
-            private static string Me => $"{Base}/me";
+            private static string Me => $"{Base}/users/me";
 
             public static string GetProfile() => $"{Me}/profile";
         }

@@ -4,9 +4,9 @@ using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
-namespace Orso.Arpa.Domain.Users
+namespace Orso.Arpa.Domain.Me
 {
-    public static class CurrentUser
+    public static class Details
     {
         public class Query : IRequest<User> { }
 

@@ -14,7 +14,7 @@ namespace Orso.Arpa.Domain.Auth
     {
         public class Query : IRequest<string>
         {
-            public string Email { get; set; }
+            public string UserName { get; set; }
             public string Password { get; set; }
         }
 
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Auth
                 UserManager<User> userManager = _signInManager.UserManager;
                 User user = await userManager.Users
                     .Include(u => u.Person)
-                    .SingleOrDefaultAsync(u => u.NormalizedEmail == userManager.NormalizeKey(request.Email));
+                    .SingleOrDefaultAsync(u => u.NormalizedUserName == userManager.NormalizeKey(request.UserName));
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 

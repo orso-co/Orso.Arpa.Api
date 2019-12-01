@@ -25,7 +25,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.Orsianer;
             var loginDto = new LoginDto
             {
-                Email = user.Email,
+                UserName = user.UserName,
                 Password = UserSeedData.ValidPassword
             };
 
@@ -51,7 +51,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var loginDto = new LoginDto
             {
-                Email = "unregistered@test.com",
+                UserName = "unregistered",
                 Password = UserSeedData.ValidPassword
             };
 
@@ -71,7 +71,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.Orsianer;
             var loginDto = new LoginDto
             {
-                Email = user.Email,
+                UserName = user.UserName,
                 Password = "invalidPassword"
             };
 

@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.QueryHandlerTests
             // Arrange
             string expectedToken = "TestToken";
             User user = FakeUsers.Orsianer;
-            var query = new Login.Query { Email = user.Email, Password = UserSeedData.ValidPassword };
+            var query = new Login.Query { UserName = user.UserName, Password = UserSeedData.ValidPassword };
             _jwtGenerator.CreateTokenAsync(Arg.Any<User>()).Returns(expectedToken);
 
             // Act
