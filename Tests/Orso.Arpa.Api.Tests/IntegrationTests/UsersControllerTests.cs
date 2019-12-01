@@ -47,25 +47,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [Test, Order(2)]
-        public async Task Should_Get_Current_User_Profile()
-        {
-            // Arrange
-            UserProfileDto expectedDto = UserProfileDtoData.Orsianer;
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_orsianer)
-                .GetAsync(ApiEndpoints.MeController.GetProfile());
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            UserProfileDto result = await DeserializeResponseMessageAsync<UserProfileDto>(responseMessage);
-
-            result.Should().BeEquivalentTo(expectedDto);
-        }
-
         [Test, Order(10000)]
         public async Task Should_Not_Delete_User_If_Current_User_Is_Not_Orsoadmin()
         {

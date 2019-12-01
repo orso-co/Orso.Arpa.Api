@@ -33,6 +33,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             private static string Me => $"{Base}/users/me";
 
             public static string GetProfile() => $"{Me}/profile";
+
+            public static string PutProfile() => $"{Me}/profile";
         }
 
         public static class RegionsController
