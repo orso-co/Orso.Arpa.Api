@@ -57,7 +57,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_orsianer)
-                .GetAsync(ApiEndpoints.UsersController.GetProfileOfCurrentUser());
+                .GetAsync(ApiEndpoints.MeController.GetProfile());
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);

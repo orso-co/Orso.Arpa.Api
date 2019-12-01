@@ -26,8 +26,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Get() => Users;
 
             public static string Delete(string username) => $"{Users}/{username}";
+        }
 
-            public static string GetProfileOfCurrentUser() => $"{Users}/me/profile";
+        public static class MeController
+        {
+            private static string Me => $"{Base}/me";
+
+            public static string GetProfile() => $"{Me}/profile";
         }
 
         public static class RegionsController
