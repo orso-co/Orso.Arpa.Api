@@ -75,5 +75,19 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Assert
             func.Should().NotThrow();
         }
+
+        [Test]
+        public void ModifyAsync_StateUnderTest_ExpectedBehavior()
+        {
+            // Arrange
+            UserProfileModifyDto modifyDto = null;
+
+            // Act
+            Func<Task> func = async () => await _userService.ModifyProfileOfCurrentUserAsync(
+               modifyDto);
+
+            // Assert
+            func.Should().NotThrow();
+        }
     }
 }
