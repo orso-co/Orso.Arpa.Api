@@ -1,10 +1,8 @@
 namespace Orso.Arpa.Application.Dtos
 {
-    public class UserDto
+    public class RoleDto
     {
-        public string UserName { get; set; }
         public string RoleName { get; set; }
         public int RoleLevel { get; set; }
-        public string DisplayName { get; set; }
     }
 }
