@@ -44,8 +44,14 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<UserProfileDto> GetProfileOfCurrentUserAsync()
         {
-            User user = await _mediator.Send(new CurrentUser.Query());
+            User user = await _mediator.Send(new Domain.Me.Details.Query());
             return _mapper.Map<UserProfileDto>(user);
+        }
+
+        public async Task ModifyProfileOfCurrentUserAsync(UserProfileModifyDto userProfileModifyDto)
+        {
+            Domain.Me.Modify.Command command = _mapper.Map<Domain.Me.Modify.Command>(userProfileModifyDto);
+            await _mediator.Send(command);
         }
     }
 }

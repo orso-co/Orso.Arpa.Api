@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
@@ -34,9 +34,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             _unAuthenticatedServer = CreateServer(false);
             _authenticatedServer = CreateServer(true);
-            _orsianer = UserSeedData.Orsianer;
-            _orsonaut = UserSeedData.Orsonaut;
-            _orsoadmin = UserSeedData.Orsoadmin;
+            _orsianer = FakeUsers.Orsianer;
+            _orsonaut = FakeUsers.Orsonaut;
+            _orsoadmin = FakeUsers.Orsoadmin;
         }
 
         protected async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)

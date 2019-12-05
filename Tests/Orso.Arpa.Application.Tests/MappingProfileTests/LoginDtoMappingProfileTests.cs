@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new LoginDto
             {
                 Password = UserSeedData.ValidPassword,
-                Email = UserSeedData.Orsianer.Email
+                UserName = UserSeedData.Orsianer.UserName
             };
 
             // Act

@@ -7,8 +7,8 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 {
@@ -28,7 +28,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public async Task Should_Set_Role()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
+            User user = FakeUsers.Orsianer;
             var command = new SetRole.Command
             {
                 UserName = user.UserName,

@@ -8,7 +8,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -19,7 +19,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Delete_User()
         {
             // Arrange
-            User user = UserSeedData.Orsoadmin;
+            User user = FakeUsers.Orsoadmin;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Delete_Deleted_User()
         {
             // Arrange
-            User user = UserSeedData.DeletedUser;
+            User user = FakeUsers.DeletedUser;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -47,30 +47,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [Test, Order(2)]
-        public async Task Should_Get_Current_User_Profile()
-        {
-            // Arrange
-            UserProfileDto expectedDto = UserProfileDtoData.Orsianer;
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_orsianer)
-                .GetAsync(ApiEndpoints.UsersController.GetProfileOfCurrentUser());
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            UserProfileDto result = await DeserializeResponseMessageAsync<UserProfileDto>(responseMessage);
-
-            result.Should().BeEquivalentTo(expectedDto);
-        }
-
         [Test, Order(10000)]
         public async Task Should_Not_Delete_User_If_Current_User_Is_Not_Orsoadmin()
         {
             // Arrange
-            User user = UserSeedData.Orsoadmin;
+            User user = FakeUsers.Orsoadmin;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

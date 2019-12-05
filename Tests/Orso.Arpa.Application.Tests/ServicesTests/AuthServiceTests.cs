@@ -34,10 +34,10 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var loginDto = new LoginDto
             {
-                Email = UserSeedData.Orsianer.Email,
+                UserName = UserSeedData.Orsianer.UserName,
                 Password = UserSeedData.ValidPassword
             };
-            _mapper.Map<Login.Query>(loginDto).Returns(new Login.Query { Password = loginDto.Password, Email = loginDto.Email });
+            _mapper.Map<Login.Query>(loginDto).Returns(new Login.Query { Password = loginDto.Password, UserName = loginDto.UserName });
             var token = "Token";
             _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });

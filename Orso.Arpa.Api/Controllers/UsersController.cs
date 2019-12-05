@@ -26,12 +26,6 @@ namespace Orso.Arpa.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet("me/profile")]
-        public async Task<ActionResult<UserProfileDto>> GetProfileOfCurrentUser()
-        {
-            return await _userService.GetProfileOfCurrentUserAsync();
-        }
-
         [HttpGet]
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         public async Task<IEnumerable<UserDto>> Get()

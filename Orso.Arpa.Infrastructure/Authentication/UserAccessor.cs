@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
@@ -42,20 +43,18 @@ namespace Orso.Arpa.Infrastructure.Authentication
         {
             get
             {
-                var displayName = _httpContextAccessor?.HttpContext?.User?.Claims?
+                return _httpContextAccessor?.HttpContext?.User?.Claims?
                    .FirstOrDefault(c => c.Type == ClaimTypes.Name)?
-                   .Value;
-                if (displayName == null)
-                {
-                    throw new RestException("Authentication failed", HttpStatusCode.Unauthorized);
-                }
-                return displayName;
+                   .Value ?? "anonymous";
             }
         }
 
         public async Task<User> GetCurrentUserAsync()
         {
-            User user = await _userManager.FindByNameAsync(UserName);
+            User user = await _userManager.Users
+                .Include(x => x.Person)
+                .SingleAsync(x => x.NormalizedUserName == _userManager.NormalizeKey(UserName));
+
             if (user == null)
             {
                 throw new RestException("Authentication failed", HttpStatusCode.Unauthorized);

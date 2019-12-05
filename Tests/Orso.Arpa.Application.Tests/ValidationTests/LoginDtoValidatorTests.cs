@@ -17,7 +17,6 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [TestFixture]
     public class LoginDtoValidatorTests
     {
-
         private LoginDtoValidator _validator;
         private UserManager<User> _userManager;
 
@@ -29,24 +28,24 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_Email_Is_Supplied([Values(null, "", "test@")] string email)
+        public void Should_Have_Validation_Error_If_Invalid_UserName_Is_Supplied([Values(null, "")] string userName)
         {
-            _validator.ShouldHaveValidationErrorFor(query => query.Email, email);
+            _validator.ShouldHaveValidationErrorFor(query => query.UserName, userName);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Email_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new LoginDto { Email = "test@test.de", Password = UserSeedData.ValidPassword });
+                .ValidateAsync(new LoginDto { UserName = "test", Password = UserSeedData.ValidPassword });
 
             act.Should().Throw<RestException>();
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(query => query.Email, UserSeedData.Orsianer.Email);
+            _validator.ShouldNotHaveValidationErrorFor(query => query.UserName, UserSeedData.Orsianer.UserName);
         }
 
         [Test]

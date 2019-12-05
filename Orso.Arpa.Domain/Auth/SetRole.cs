@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Roles;
@@ -28,7 +29,9 @@ namespace Orso.Arpa.Domain.Auth
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                User user = await _userManager.FindByNameAsync(request.UserName);
+                User user = await _userManager.Users
+                    .Include(u => u.Person)
+                    .SingleOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeKey(request.UserName));
 
                 foreach (var role in RoleNames.Roles)
                 {
@@ -69,6 +72,5 @@ namespace Orso.Arpa.Domain.Auth
                 }
             }
         }
-
     }
 }

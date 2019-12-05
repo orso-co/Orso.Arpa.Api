@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.Entities
             SelectValueId = selectValueId;
         }
 
-        private SelectValueMapping()
+        protected SelectValueMapping()
         {
         }
 

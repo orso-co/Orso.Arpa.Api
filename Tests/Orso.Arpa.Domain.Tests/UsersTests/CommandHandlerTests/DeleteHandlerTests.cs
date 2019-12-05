@@ -8,8 +8,8 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Users;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
 {
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
         public async Task Should_Delete_User()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
+            User user = FakeUsers.Orsianer;
 
             // Act
             Unit result = await _handler.Handle(new Delete.Command(user.UserName), new CancellationToken());
@@ -43,7 +43,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
         public void Should_Throw_Rest_Exception_If_User_Is_Already_Deleted()
         {
             // Arrange
-            User user = UserSeedData.DeletedUser;
+            User user = FakeUsers.DeletedUser;
 
             // Act
             Func<Task<Unit>> func = async () => await _handler.Handle(new Delete.Command(user.UserName), new CancellationToken());

@@ -418,6 +418,29 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("3e6c559e-8d50-488d-a1ea-5dbc0f44ba9b"),
+                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Deleted = false,
+                            Name = "Freiburg"
+                        },
+                        new
+                        {
+                            Id = new Guid("ac9544e3-e756-486c-a1dc-62988a882ac2"),
+                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Deleted = false,
+                            Name = "Stuttgart"
+                        },
+                        new
+                        {
+                            Id = new Guid("ca3c9cce-1aee-4c50-93e1-be963542741a"),
+                            CreatedAt = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Deleted = false,
+                            Name = "Berlin"
+                        });
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Register", b =>
@@ -712,6 +735,8 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<short>("Level");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256);
@@ -1703,8 +1728,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<bool>("Deleted");
-
-                    b.Property<string>("DisplayName");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);

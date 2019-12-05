@@ -10,8 +10,8 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles.Seed;
 using Orso.Arpa.Infrastructure.Authentication;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
 {
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         {
             // Arrange
             _configuration["TokenKey"].Returns("qwertzuiopaasdfghjklxcvbnm");
-            User user = UserSeedData.Orsianer;
+            User user = FakeUsers.Orsianer;
 
             // Act
             var token = await _jwtGenerator.CreateTokenAsync(user);

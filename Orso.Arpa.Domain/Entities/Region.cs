@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.Entities
             Name = name;
         }
 
-        private Region()
+        protected Region()
         {
         }
 

@@ -5,8 +5,8 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Users;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Domain.Me;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
 {
@@ -14,24 +14,24 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
     public class CurrentUserHandlerTests
     {
         private IUserAccessor _userAccessor;
-        private CurrentUser.Handler _handler;
+        private Details.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _userAccessor = Substitute.For<IUserAccessor>();
-            _handler = new CurrentUser.Handler(_userAccessor);
+            _handler = new Details.Handler(_userAccessor);
         }
 
         [Test]
         public async Task Should_Get_Current_User_Profile()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
+            User user = FakeUsers.Orsianer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
 
             // Act
-            User result = await _handler.Handle(new CurrentUser.Query(), new CancellationToken());
+            User result = await _handler.Handle(new Details.Query(), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(user);

@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        private Appointment()
+        protected Appointment()
         {
         }
 

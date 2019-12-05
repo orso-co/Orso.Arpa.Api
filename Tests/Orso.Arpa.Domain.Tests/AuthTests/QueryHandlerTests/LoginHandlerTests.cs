@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -31,8 +32,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.QueryHandlerTests
         {
             // Arrange
             string expectedToken = "TestToken";
-            User user = UserSeedData.Orsianer;
-            var query = new Login.Query { Email = user.Email, Password = UserSeedData.ValidPassword };
+            User user = FakeUsers.Orsianer;
+            var query = new Login.Query { UserName = user.UserName, Password = UserSeedData.ValidPassword };
             _jwtGenerator.CreateTokenAsync(Arg.Any<User>()).Returns(expectedToken);
 
             // Act
