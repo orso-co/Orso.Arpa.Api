@@ -15,10 +15,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<RoleDtoMappingProfile>();
-            });
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<RoleDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }

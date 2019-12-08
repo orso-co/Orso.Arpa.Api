@@ -34,7 +34,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         public void Should_Get_Current_UserName()
         {
             // Arrange
-            var expectedUserName = "dumdidum";
+            const string expectedUserName = "dumdidum";
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, expectedUserName)
@@ -52,7 +52,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         public void Should_Get_Current_DisplyName()
         {
             // Arrange
-            var expectedDisplayName = "dumdidum";
+            const string expectedDisplayName = "dumdidum";
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, expectedDisplayName)

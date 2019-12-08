@@ -16,6 +16,7 @@ namespace Orso.Arpa.Domain.Users
             {
                 UserName = userName;
             }
+
             public string UserName { get; }
         }
 
@@ -47,6 +48,5 @@ namespace Orso.Arpa.Domain.Users
                 throw new IdentityException("Problem deleting user", result.Errors);
             }
         }
-
     }
 }

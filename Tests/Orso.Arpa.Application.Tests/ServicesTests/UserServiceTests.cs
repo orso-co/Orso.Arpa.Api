@@ -67,7 +67,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         }
 
         [Test]
-        public void Should_Delete_Async()
+        public void Should_Delete()
         {
             // Act
             Func<Task> func = async () => await _userService.DeleteAsync("test");

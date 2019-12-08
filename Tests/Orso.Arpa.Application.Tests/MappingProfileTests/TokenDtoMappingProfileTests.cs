@@ -12,10 +12,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<TokenDtoMappingProfile>();
-            });
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<TokenDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -26,7 +23,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var token = "token";
+            const string token = "token";
 
             // Act
             TokenDto dto = _mapper.Map<TokenDto>(token);

@@ -11,6 +11,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             : base(configuration, hostingEnvironment)
         {
         }
+
         public override void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMiddleware<AuthenticatedTestRequestMiddleware>();
