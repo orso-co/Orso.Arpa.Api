@@ -10,7 +10,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Domain.Roles.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Users = Orso.Arpa.Domain.Users;
@@ -37,11 +37,11 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         {
             // Arrange
             _mediator.Send(Arg.Any<Users.List.Query>()).Returns(FakeUsers.Users.Where(u => !u.Deleted));
-            _mediator.Send(Arg.Any<Users.Roles.Query>()).Returns(
-                new List<string> { RoleNames.Orsianer },
-                new List<string> { RoleNames.Orsonaut },
-                new List<string> { RoleNames.Orsoadmin },
-                new List<string>());
+            _mediator.Send(Arg.Any<Users.Role.Query>()).Returns(
+                RoleSeedData.Orsianer,
+                RoleSeedData.Orsonaut,
+                RoleSeedData.Orsoadmin,
+                null);
             _mapper.Map<UserDto>(Arg.Any<User>()).Returns(UserDtoData.Orsianer, UserDtoData.Orsonaut, UserDtoData.Orsoadmin, UserDtoData.UserWithoutRole);
 
             // Act

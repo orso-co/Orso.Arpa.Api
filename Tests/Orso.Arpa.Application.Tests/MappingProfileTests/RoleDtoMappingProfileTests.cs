@@ -4,20 +4,20 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Roles.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class UserDtoMappingProfileTests
+    public class RoleDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<UserDtoMappingProfile>();
+                cfg.AddProfile<RoleDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);
@@ -29,16 +29,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
-            UserDto expectedDto = UserDtoData.Orsianer;
+            Role role = RoleSeedData.Orsianer;
+            RoleDto expectedDto = RoleDtoData.Orsianer;
 
             // Act
-            UserDto dto = _mapper.Map<UserDto>(user);
+            RoleDto dto = _mapper.Map<RoleDto>(role);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dest => dest.RoleName)
-                .Excluding(dest => dest.RoleLevel));
+            dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

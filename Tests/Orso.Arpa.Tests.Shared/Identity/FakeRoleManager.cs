@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using MockQueryable.NSubstitute;
 using NSubstitute;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
@@ -21,6 +22,15 @@ namespace Orso.Arpa.Tests.Shared.Identity
                      Substitute.For<IdentityErrorDescriber>(),
                      Substitute.For<ILogger<RoleManager<Role>>>())
         { }
+
+        public override IQueryable<Role> Roles
+        {
+            get
+            {
+                IEnumerable<Role> roles = RoleSeedData.Roles;
+                return roles.AsQueryable().BuildMock();
+            }
+        }
 
         public override Task<bool> RoleExistsAsync(string roleName)
         {
