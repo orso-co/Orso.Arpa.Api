@@ -198,15 +198,18 @@ namespace Orso.Arpa.Api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
+
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
             AddSwagger(app);
-
-            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
