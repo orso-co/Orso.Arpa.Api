@@ -3,10 +3,10 @@ using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
@@ -53,26 +53,37 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 MediaTypeNames.Application.Json);
         }
 
-        protected TestServer CreateServer(bool authenticated)
+        protected async Task<TestServer> CreateServer(bool authenticated)
         {
-            IWebHostBuilder webHostBuilder = WebHost.CreateDefaultBuilder();
+            IHostBuilder webHostBuilder = new HostBuilder();
 
             webHostBuilder.UseContentRoot(Directory.GetCurrentDirectory());
 
             if (authenticated)
             {
-                webHostBuilder.UseStartup<AuthenticatedTestStartup>();
+                webHostBuilder.ConfigureWebHost(webBuilder =>
+                {
+                    webBuilder
+                        .UseTestServer()
+                        .UseEnvironment("Test")
+                        .ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"))
+                        .UseStartup<AuthenticatedTestStartup>();
+                });
             }
             else
             {
-                webHostBuilder.UseStartup<TestStartup>();
+                webHostBuilder.ConfigureWebHost(webBuilder =>
+                {
+                    webBuilder
+                        .UseTestServer()
+                        .UseEnvironment("Test")
+                        .ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"))
+                        .UseStartup<TestStartup>();
+                });
             }
 
-            webHostBuilder.UseEnvironment("Test");
-
-            webHostBuilder.ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"));
-
-            return new TestServer(webHostBuilder);
+            IHost host = await webHostBuilder.StartAsync();
+            return host.GetTestServer();
         }
     }
 }
