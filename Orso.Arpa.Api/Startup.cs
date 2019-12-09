@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MappingProfiles;
@@ -29,7 +30,6 @@ using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Infrastructure.DataAccess;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
-using Swashbuckle.AspNetCore.Swagger;
 using static Orso.Arpa.Domain.Regions.Create;
 
 namespace Orso.Arpa.Api
@@ -112,15 +112,15 @@ namespace Orso.Arpa.Api
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Orso.Arpa.Api",
                     Version = "v1",
-                    License = new License { Name = "MIT", Url = "https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE" },
-                    Contact = new Contact
+                    License = new OpenApiLicense { Name = "MIT", Url = new System.Uri("https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE") },
+                    Contact = new OpenApiContact
                     {
                         Name = "ORSO – Orchestra & Choral Society Freiburg | Berlin e. V.",
-                        Url = "https://www.orso.co/",
+                        Url = new System.Uri("https://www.orso.co/"),
                         Email = "mail@orso.co"
                     }
                 });
@@ -205,8 +205,6 @@ namespace Orso.Arpa.Api
             {
                 app.UseHsts();
             }
-
-            app.UseStaticFiles();
 
             app.UseRouting();
 
