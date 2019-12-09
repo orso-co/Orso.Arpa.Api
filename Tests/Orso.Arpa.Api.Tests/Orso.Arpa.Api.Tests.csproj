@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -22,5 +22,4 @@
     <ProjectReference Include="..\..\Orso.Arpa.Api\Orso.Arpa.Api.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Tests.Shared\Orso.Arpa.Tests.Shared.csproj" />
   </ItemGroup>
-
 </Project>
