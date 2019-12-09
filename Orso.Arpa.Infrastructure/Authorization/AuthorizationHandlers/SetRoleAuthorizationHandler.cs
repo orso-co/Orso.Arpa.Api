@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Domain.Entities;
@@ -19,11 +19,16 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
     {
         private readonly UserManager<User> _userManager;
         private readonly IUserAccessor _userAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SetRoleAuthorizationHandler(IUserAccessor userAccessor, UserManager<User> userManager)
+        public SetRoleAuthorizationHandler(
+            IHttpContextAccessor httpContextAccessor,
+            IUserAccessor userAccessor,
+            UserManager<User> userManager)
         {
             _userManager = userManager;
             _userAccessor = userAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         protected override async Task HandleRequirementAsync(
@@ -31,15 +36,16 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
             SetRoleAuthorizationRequirement requirement)
 
         {
-            var filterContext = context.Resource as AuthorizationFilterContext;
             SetRoleDto dto = null;
-            using (var stream = new StreamReader(filterContext.HttpContext.Request.Body, Encoding.UTF8, true, 1024, true))
+            Stream body = _httpContextAccessor.HttpContext.Request.Body;
+
+            using (var stream = new StreamReader(body, Encoding.UTF8, true, 1024, true))
             {
-                string body = stream.ReadToEnd();
-                dto = JsonConvert.DeserializeObject<SetRoleDto>(body);
+                string bodyString = await stream.ReadToEndAsync();
+                dto = JsonConvert.DeserializeObject<SetRoleDto>(bodyString);
             }
 
-            filterContext.HttpContext.Request.Body.Position = 0;
+            body.Position = 0;
 
             string currentUserRole = _userAccessor.UserRole;
 

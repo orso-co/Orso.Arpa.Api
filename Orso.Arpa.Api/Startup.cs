@@ -61,6 +61,7 @@ namespace Orso.Arpa.Api
             services.AddAutoMapper(typeof(LoginDtoMappingProfile).Assembly, typeof(MappingProfile).Assembly);
 
             services.AddControllers()
+                .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
                     config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>());
 
