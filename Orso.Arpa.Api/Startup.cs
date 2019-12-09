@@ -3,15 +3,14 @@ using System.Text;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Orso.Arpa.Api.Middleware;
@@ -22,13 +21,6 @@ using Orso.Arpa.Application.Validation;
 using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Infrastructure.Authentication;
-using Orso.Arpa.Infrastructure.Authorization;
-using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
-using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
-using Orso.Arpa.Infrastructure.DataAccess;
-using Orso.Arpa.Persistence;
-using Orso.Arpa.Persistence.DataAccess;
 using Swashbuckle.AspNetCore.Swagger;
 using static Orso.Arpa.Domain.Regions.Create;
 
@@ -60,8 +52,7 @@ namespace Orso.Arpa.Api
             services.AddMediatR(typeof(Login.Handler).Assembly);
             services.AddAutoMapper(typeof(LoginDtoMappingProfile).Assembly, typeof(MappingProfile).Assembly);
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddControllers()
                 .AddFluentValidation(config =>
                     config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>());
 
@@ -197,7 +188,7 @@ namespace Orso.Arpa.Api
             });
         }
 
-        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
@@ -208,12 +199,19 @@ namespace Orso.Arpa.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseRouting();
+
             app.UseAuthentication();
+            app.UseAuthorization();
 
             AddSwagger(app);
 
             app.UseCors("CorsPolicy");
-            app.UseMvc();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             EnsureDatabaseMigrations(app);
         }
