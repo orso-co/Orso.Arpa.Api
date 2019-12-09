@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Auth
             {
                 User user = await _userManager.Users
                     .Include(u => u.Person)
-                    .SingleOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeKey(request.UserName));
+                    .SingleOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeName(request.UserName));
 
                 foreach (var role in RoleNames.Roles)
                 {

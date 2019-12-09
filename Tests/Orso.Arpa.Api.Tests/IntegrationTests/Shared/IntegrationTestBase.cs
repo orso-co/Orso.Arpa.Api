@@ -30,10 +30,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         }
 
         [OneTimeSetUp]
-        public virtual void Initialize()
+        public virtual async Task InitializeAsync()
         {
-            _unAuthenticatedServer = CreateServer(false);
-            _authenticatedServer = CreateServer(true);
+            _unAuthenticatedServer = await CreateServer(false);
+            _authenticatedServer = await CreateServer(true);
             _orsianer = FakeUsers.Orsianer;
             _orsonaut = FakeUsers.Orsonaut;
             _orsoadmin = FakeUsers.Orsoadmin;

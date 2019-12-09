@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
@@ -20,6 +21,8 @@ namespace Orso.Arpa.Api.Controllers
 
         [HttpDelete("{username}")]
         [Authorize(Roles = RoleNames.Orsoadmin)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult> Delete(string userName)
         {
             await _userService.DeleteAsync(userName);

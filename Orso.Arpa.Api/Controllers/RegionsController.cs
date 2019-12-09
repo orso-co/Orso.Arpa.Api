@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Api.ModelBinders;
 using Orso.Arpa.Application.Dtos;
@@ -35,6 +36,8 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<RegionDto>> Post([FromBody]RegionCreateDto createDto)
         {
             RegionDto createdDto = await _regionService.CreateAsync(createDto);
@@ -44,6 +47,8 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Put(
             [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<RegionModifyDto>))]RegionModifyDto modifyDto)
         {
@@ -54,6 +59,8 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _regionService.DeleteAsync(id);

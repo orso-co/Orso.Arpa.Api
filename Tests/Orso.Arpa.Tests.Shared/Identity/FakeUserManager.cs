@@ -39,7 +39,7 @@ namespace Orso.Arpa.Tests.Shared.Identity
             }
         }
 
-        public override string NormalizeKey(string key)
+        public override string NormalizeName(string key)
         {
             return key.ToUpperInvariant();
         }

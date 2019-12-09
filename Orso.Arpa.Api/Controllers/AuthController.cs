@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
@@ -31,6 +32,8 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         [HttpPut("password")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
         {
             await _authService.ChangePasswordAsync(changePasswordDto);
@@ -39,6 +42,8 @@ namespace Orso.Arpa.Api.Controllers
 
         [HttpPut("role")]
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult> SetRole([FromBody]SetRoleDto setRoleDto)
         {
             await _authService.SetRoleAsync(setRoleDto);

@@ -3,6 +3,7 @@ using System.Text;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +22,13 @@ using Orso.Arpa.Application.Validation;
 using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Infrastructure.Authentication;
+using Orso.Arpa.Infrastructure.Authorization;
+using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
+using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+using Orso.Arpa.Infrastructure.DataAccess;
+using Orso.Arpa.Persistence;
+using Orso.Arpa.Persistence.DataAccess;
 using Swashbuckle.AspNetCore.Swagger;
 using static Orso.Arpa.Domain.Regions.Create;
 
@@ -28,9 +36,9 @@ namespace Orso.Arpa.Api
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
