@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -16,5 +17,6 @@ namespace Orso.Arpa.Domain.Entities
 
         public string Name { get; private set; }
         public string Description { get; private set; }
+        public virtual ICollection<SelectValueMapping> SelectValueMappings { get; set; } = new HashSet<SelectValueMapping>();
     }
 }

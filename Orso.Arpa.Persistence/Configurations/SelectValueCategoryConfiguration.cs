@@ -11,6 +11,9 @@ namespace Orso.Arpa.Persistence.Configurations
         {
             builder
                 .HasData(SelectValueCategorySeedData.SelectValueCategories);
+
+            builder.HasIndex(e => e.Table);
+            builder.HasIndex(e => e.Property);
         }
     }
 }
