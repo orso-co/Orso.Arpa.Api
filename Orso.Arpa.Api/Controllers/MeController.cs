@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
@@ -22,6 +23,8 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         [HttpPut("profile")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult> PutProfile([FromBody]UserProfileModifyDto userProfileModifyDto)
         {
             await _userService.ModifyProfileOfCurrentUserAsync(userProfileModifyDto);

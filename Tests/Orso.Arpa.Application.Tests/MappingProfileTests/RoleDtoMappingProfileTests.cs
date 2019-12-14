@@ -3,18 +3,19 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
-using Orso.Arpa.Domain.Auth;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Tests.Shared.DtoTestData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class LoginDtoMappingProfileTests
+    public class RoleDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<LoginDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<RoleDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -25,17 +26,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new LoginDto
-            {
-                Password = UserSeedData.ValidPassword,
-                UserName = UserSeedData.Orsianer.UserName
-            };
+            Role role = RoleSeedData.Orsianer;
+            RoleDto expectedDto = RoleDtoData.Orsianer;
 
             // Act
-            Login.Query command = _mapper.Map<Login.Query>(dto);
+            RoleDto dto = _mapper.Map<RoleDto>(role);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

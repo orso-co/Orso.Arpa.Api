@@ -29,7 +29,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public async Task Should_Register_User()
         {
             // Arrange
-            string expectedToken = "TestToken";
+            const string expectedToken = "TestToken";
             var command = new Auth.Register.Command
             {
                 Email = "ludmilla@test.com",

@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
@@ -18,16 +17,13 @@ namespace Orso.Arpa.Domain.Regions
         public class Handler : IRequestHandler<Command>
         {
             private readonly IRepository _repository;
-            private readonly IMapper _mapper;
             private readonly IUnitOfWork _unitOfWork;
 
             public Handler(
                 IRepository repository,
-                IUnitOfWork unitOfWork,
-                IMapper mapper)
+                IUnitOfWork unitOfWork)
             {
                 _repository = repository;
-                _mapper = mapper;
                 _unitOfWork = unitOfWork;
             }
 

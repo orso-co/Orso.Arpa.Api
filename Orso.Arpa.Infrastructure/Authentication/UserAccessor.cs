@@ -53,7 +53,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
         {
             User user = await _userManager.Users
                 .Include(x => x.Person)
-                .SingleAsync(x => x.NormalizedUserName == _userManager.NormalizeKey(UserName));
+                .SingleAsync(x => x.NormalizedUserName == _userManager.NormalizeName(UserName));
 
             if (user == null)
             {

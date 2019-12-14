@@ -1,16 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="8.5.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj" />
   </ItemGroup>
-
 </Project>

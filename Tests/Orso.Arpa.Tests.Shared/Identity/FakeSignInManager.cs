@@ -17,7 +17,8 @@ namespace Orso.Arpa.Tests.Shared.Identity
                      Substitute.For<IUserClaimsPrincipalFactory<User>>(),
                      Substitute.For<IOptions<IdentityOptions>>(),
                      Substitute.For<ILogger<SignInManager<User>>>(),
-                     Substitute.For<IAuthenticationSchemeProvider>())
+                     Substitute.For<IAuthenticationSchemeProvider>(),
+                     Substitute.For<IUserConfirmation<User>>())
         { }
 
         public override Task<SignInResult> CheckPasswordSignInAsync(User user, string password, bool lockoutOnFailure)

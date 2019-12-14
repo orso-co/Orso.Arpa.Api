@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Auth
                 UserManager<User> userManager = _signInManager.UserManager;
                 User user = await userManager.Users
                     .Include(u => u.Person)
-                    .SingleOrDefaultAsync(u => u.NormalizedUserName == userManager.NormalizeKey(request.UserName));
+                    .SingleOrDefaultAsync(u => u.NormalizedUserName == userManager.NormalizeName(request.UserName));
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
