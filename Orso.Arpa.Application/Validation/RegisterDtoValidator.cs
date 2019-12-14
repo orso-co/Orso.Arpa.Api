@@ -5,7 +5,7 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.Validation
 {
-    public class RegisterDtoValidator : AbstractValidator<RegisterDto>
+    public class RegisterDtoValidator : AbstractValidator<UserRegisterDto>
     {
         public RegisterDtoValidator(UserManager<User> userManager)
         {

@@ -9,7 +9,7 @@ using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Auth
 {
-    public static class Register
+    public static class UserRegister
     {
         public class Command : IRequest<string>
         {

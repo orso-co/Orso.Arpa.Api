@@ -53,7 +53,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Register_Async()
         {
             // Arrange
-            var registerDto = new RegisterDto
+            var registerDto = new UserRegisterDto
             {
                 Email = UserSeedData.Orsianer.Email,
                 Password = UserSeedData.ValidPassword,
@@ -61,7 +61,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 Surname = "Aner",
                 UserName = UserSeedData.Orsianer.UserName
             };
-            _mapper.Map<Register.Command>(registerDto).Returns(new Register.Command
+            _mapper.Map<UserRegister.Command>(registerDto).Returns(new UserRegister.Command
             {
                 Password = registerDto.Password,
                 Email = registerDto.Email,

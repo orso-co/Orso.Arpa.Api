@@ -25,9 +25,9 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<TokenDto>(token);
         }
 
-        public async Task<TokenDto> RegisterAsync(RegisterDto registerDto)
+        public async Task<TokenDto> RegisterAsync(UserRegisterDto registerDto)
         {
-            Register.Command command = _mapper.Map<Register.Command>(registerDto);
+            UserRegister.Command command = _mapper.Map<UserRegister.Command>(registerDto);
             var token = await _mediator.Send(command);
             return _mapper.Map<TokenDto>(token);
         }

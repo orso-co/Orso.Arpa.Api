@@ -18,19 +18,19 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             _userManager = new FakeUserManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
-            _handler = new Auth.Register.Handler(_userManager, _jwtGenerator);
+            _handler = new Auth.UserRegister.Handler(_userManager, _jwtGenerator);
         }
 
         private UserManager<User> _userManager;
         private IJwtGenerator _jwtGenerator;
-        private Auth.Register.Handler _handler;
+        private Auth.UserRegister.Handler _handler;
 
         [Test]
         public async Task Should_Register_User()
         {
             // Arrange
             const string expectedToken = "TestToken";
-            var command = new Auth.Register.Command
+            var command = new Auth.UserRegister.Command
             {
                 Email = "ludmilla@test.com",
                 Password = UserSeedData.ValidPassword,

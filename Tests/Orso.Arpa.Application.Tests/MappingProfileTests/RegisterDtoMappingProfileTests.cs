@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<RegisterDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<UserRegisterDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new RegisterDto
+            var dto = new UserRegisterDto
             {
                 Password = UserSeedData.ValidPassword,
                 Email = UserSeedData.Orsianer.Email,
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            Register.Command command = _mapper.Map<Register.Command>(dto);
+            UserRegister.Command command = _mapper.Map<UserRegister.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

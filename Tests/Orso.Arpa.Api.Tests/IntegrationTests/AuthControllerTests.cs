@@ -88,7 +88,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Register()
         {
             // Arrange
-            var registerDto = new RegisterDto
+            var registerDto = new UserRegisterDto
             {
                 Email = "ludmilla@test.com",
                 UserName = "ludmilla",
@@ -117,7 +117,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Register_Existing_Email()
         {
             // Arrange
-            var registerDto = new RegisterDto
+            var registerDto = new UserRegisterDto
             {
                 Email = UserSeedData.Orsianer.Email,
                 UserName = "ludmilla",
@@ -137,7 +137,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Register_Existing_UserName()
         {
             // Arrange
-            var registerDto = new RegisterDto
+            var registerDto = new UserRegisterDto
             {
                 Email = "ludmilla@test.com",
                 UserName = UserSeedData.Orsianer.UserName,

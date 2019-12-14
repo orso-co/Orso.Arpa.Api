@@ -27,7 +27,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Person(
                     Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
-                    new Domain.Auth.Register.Command { GivenName = "Orsi", Surname = "Aner" });
+                    new Domain.Auth.UserRegister.Command { GivenName = "Orsi", Surname = "Aner" });
             }
         }
 
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Person(
                     Guid.Parse("c0c8470b-e6a0-4a0b-8a4c-24d503636248"),
-                    new Domain.Auth.Register.Command { GivenName = "Orso", Surname = "Naut" });
+                    new Domain.Auth.UserRegister.Command { GivenName = "Orso", Surname = "Naut" });
             }
         }
 
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Person(
                     Guid.Parse("8d960214-8f1b-4b69-8734-543aad67581c"),
-                    new Domain.Auth.Register.Command { GivenName = "Orso", Surname = "Admin" });
+                    new Domain.Auth.UserRegister.Command { GivenName = "Orso", Surname = "Admin" });
             }
         }
 
@@ -57,7 +57,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Person(
                     Guid.Parse("32e46032-125d-463a-87ed-67d9a34154c4"),
-                    new Domain.Auth.Register.Command { GivenName = "Without", Surname = "Role" });
+                    new Domain.Auth.UserRegister.Command { GivenName = "Without", Surname = "Role" });
             }
         }
 
@@ -67,7 +67,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Person(
                     Guid.Parse("4d98408b-620e-4ea5-9661-ab8efcad4495"),
-                    new Domain.Auth.Register.Command { GivenName = "Deleted", Surname = "User" });
+                    new Domain.Auth.UserRegister.Command { GivenName = "Deleted", Surname = "User" });
             }
         }
     }

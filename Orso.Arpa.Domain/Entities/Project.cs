@@ -23,5 +23,6 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping Genre { get; private set; }
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public bool IsCompleted { get; private set; }
+        public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
     }
 }

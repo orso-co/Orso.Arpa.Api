@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -17,5 +18,6 @@ namespace Orso.Arpa.Domain.Entities
         public virtual Person Person { get; private set; }
         public Guid RegisterId { get; private set; }
         public virtual Register Register { get; private set; }
+        public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
     }
 }

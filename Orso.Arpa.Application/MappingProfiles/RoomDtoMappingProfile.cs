@@ -4,11 +4,11 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.MappingProfiles
 {
-    public class RegisterDtoMappingProfile : Profile
+    public class RoomDtoMappingProfile : Profile
     {
-        public RegisterDtoMappingProfile()
+        public RoomDtoMappingProfile()
         {
-            CreateMap<Register, RegisterDto>();
+            CreateMap<Room, RoomDto>();
         }
     }
 }
