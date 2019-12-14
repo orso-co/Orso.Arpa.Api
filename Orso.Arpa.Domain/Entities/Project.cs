@@ -22,5 +22,6 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? GenreId { get; private set; }
         public virtual SelectValueMapping Genre { get; private set; }
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
+        public bool IsCompleted { get; private set; }
     }
 }
