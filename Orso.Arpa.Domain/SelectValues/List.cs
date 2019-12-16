@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -27,16 +28,17 @@ namespace Orso.Arpa.Domain.SelectValues
                 _repository = repository;
             }
 
-            public Task<IImmutableList<SelectValue>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IImmutableList<SelectValue>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(_repository
+                return (await _repository
                     .GetAll<SelectValueCategory>()
+                    .ToListAsync())
                     .Where(c =>
                         c.Table.Equals(request.TableName, StringComparison.InvariantCultureIgnoreCase)
                         && c.Property.Equals(request.PropertyName, StringComparison.InvariantCultureIgnoreCase))
                     .SelectMany(c => c.SelectValueMappings)
                     .Select(m => m.SelectValue)
-                    .ToImmutableList() as IImmutableList<SelectValue>);
+                    .ToImmutableList() as IImmutableList<SelectValue>;
             }
         }
     }

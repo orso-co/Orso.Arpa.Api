@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -25,16 +26,19 @@ namespace Orso.Arpa.Domain.Projects
                 _repository = repository;
             }
 
-            public Task<IImmutableList<Project>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IImmutableList<Project>> Handle(Query request, CancellationToken cancellationToken)
             {
                 IQueryable<Project> projects = _repository.GetAll<Project>();
 
-                if (!request.IncludeCompleted)
+                if (request.IncludeCompleted)
                 {
-                    projects = projects.Where(p => !p.IsCompleted);
+                    return projects.ToImmutableList();
                 }
 
-                return Task.FromResult(projects.ToImmutableList() as IImmutableList<Project>);
+                return (await projects
+                    .ToListAsync())
+                    .Where(p => !p.IsCompleted)
+                    .ToImmutableList();
             }
         }
     }

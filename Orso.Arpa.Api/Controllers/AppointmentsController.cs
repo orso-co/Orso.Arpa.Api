@@ -25,5 +25,12 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _appointmentService.GetAsync(date, range));
         }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AppointmentDto>> Get(Guid id)
+        {
+            return Ok(await _appointmentService.GetAsync(id));
+        }
     }
 }

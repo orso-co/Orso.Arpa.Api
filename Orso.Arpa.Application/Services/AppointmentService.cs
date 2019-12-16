@@ -33,5 +33,11 @@ namespace Orso.Arpa.Application.Services
             });
             return _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
         }
+
+        public async Task<AppointmentDto> GetAsync(Guid id)
+        {
+            Appointment appointment = await _mediator.Send(new Details.Query { Id = id });
+            return _mapper.Map<AppointmentDto>(appointment);
+        }
     }
 }
