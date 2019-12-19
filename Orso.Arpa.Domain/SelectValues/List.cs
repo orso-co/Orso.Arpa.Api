@@ -12,13 +12,13 @@ namespace Orso.Arpa.Domain.SelectValues
 {
     public static class List
     {
-        public class Query : IRequest<IImmutableList<SelectValue>>
+        public class Query : IRequest<IImmutableList<SelectValueMapping>>
         {
             public string TableName { get; set; }
             public string PropertyName { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IImmutableList<SelectValue>>
+        public class Handler : IRequestHandler<Query, IImmutableList<SelectValueMapping>>
         {
             private readonly IReadOnlyRepository _repository;
 
@@ -28,7 +28,7 @@ namespace Orso.Arpa.Domain.SelectValues
                 _repository = repository;
             }
 
-            public async Task<IImmutableList<SelectValue>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IImmutableList<SelectValueMapping>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return (await _repository
                     .GetAll<SelectValueCategory>()
@@ -37,8 +37,8 @@ namespace Orso.Arpa.Domain.SelectValues
                         c.Table.Equals(request.TableName, StringComparison.InvariantCultureIgnoreCase)
                         && c.Property.Equals(request.PropertyName, StringComparison.InvariantCultureIgnoreCase))
                     .SelectMany(c => c.SelectValueMappings)
-                    .Select(m => m.SelectValue)
-                    .ToImmutableList() as IImmutableList<SelectValue>;
+                    .OrderBy(s => s.SelectValue.Name)
+                    .ToImmutableList() as IImmutableList<SelectValueMapping>;
             }
         }
     }

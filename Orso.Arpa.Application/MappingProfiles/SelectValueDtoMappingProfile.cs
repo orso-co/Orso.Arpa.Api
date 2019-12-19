@@ -8,7 +8,9 @@ namespace Orso.Arpa.Application.MappingProfiles
     {
         public SelectValueDtoMappingProfile()
         {
-            CreateMap<SelectValue, SelectValueDto>();
+            CreateMap<SelectValueMapping, SelectValueDto>()
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.SelectValue.Description))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.SelectValue.Name));
         }
     }
 }

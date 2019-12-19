@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Api.ModelBinders;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Appointments;
@@ -31,6 +33,43 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<AppointmentDto>> Get(Guid id)
         {
             return Ok(await _appointmentService.GetAsync(id));
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpPost]
+        public async Task<ActionResult<AppointmentDto>> Post([FromBody]AppointmentCreateDto appointmentCreateDto)
+        {
+            return Ok(await _appointmentService.CreateAsync(appointmentCreateDto));
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpPost("{id}/rooms/{roomId}")]
+        public async Task<ActionResult> Post(Guid id, Guid roomId)
+        {
+            await _appointmentService.AddRoomAsync(id, roomId);
+            return Ok();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Put(
+            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<AppointmentModifyDto>))]AppointmentModifyDto appointmentModifyDto)
+        {
+            await _appointmentService.ModifyAsync(appointmentModifyDto);
+
+            return NoContent();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpDelete("{id}/rooms/{roomId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> RemoveRoom(Guid id, Guid roomId)
+        {
+            await _appointmentService.RemoveRoomAsync(id, roomId);
+            return NoContent();
         }
     }
 }

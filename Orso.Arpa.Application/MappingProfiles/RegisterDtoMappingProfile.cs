@@ -9,6 +9,7 @@ namespace Orso.Arpa.Application.MappingProfiles
         public RegisterDtoMappingProfile()
         {
             CreateMap<Register, RegisterDto>();
+            CreateMap<RegisterDto, Register>();
         }
     }
 }

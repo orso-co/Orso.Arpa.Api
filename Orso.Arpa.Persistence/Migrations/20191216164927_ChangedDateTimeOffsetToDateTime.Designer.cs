@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Orso.Arpa.Persistence.DataAccess;
 
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20191216164927_ChangedDateTimeOffsetToDateTime")]
+    partial class ChangedDateTimeOffsetToDateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,9 +228,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Property<Guid?>("StatusId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("VenueId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -238,8 +237,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasIndex("EmolumentPatternId");
 
                     b.HasIndex("StatusId");
-
-                    b.HasIndex("VenueId");
 
                     b.ToTable("Appointments");
                 });
@@ -2103,10 +2100,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId");
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
-                        .WithMany()
-                        .HasForeignKey("VenueId");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.AppointmentParticipation", b =>

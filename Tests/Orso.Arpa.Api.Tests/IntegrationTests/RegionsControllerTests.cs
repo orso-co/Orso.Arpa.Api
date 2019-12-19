@@ -29,7 +29,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Name = createDto.Name,
                 CreatedBy = _orsonaut.DisplayName,
-                CreatedAt = DateTimeOffset.UtcNow,
+                CreatedAt = DateTime.UtcNow,
                 ModifiedAt = null,
                 ModifiedBy = null,
             };
@@ -65,7 +65,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Name = modifyDto.Name,
                 CreatedBy = regionToModify.CreatedBy,
                 CreatedAt = regionToModify.CreatedAt,
-                ModifiedAt = DateTimeOffset.UtcNow,
+                ModifiedAt = DateTime.UtcNow,
                 ModifiedBy = _orsonaut.DisplayName,
             };
 

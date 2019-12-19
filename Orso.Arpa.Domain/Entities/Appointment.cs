@@ -15,8 +15,8 @@ namespace Orso.Arpa.Domain.Entities
 
         public Guid? CategoryId { get; private set; }
         public virtual SelectValueMapping Category { get; private set; }
-        public DateTimeOffset StartTime { get; private set; }
-        public DateTimeOffset EndTime { get; private set; }
+        public DateTime StartTime { get; private set; }
+        public DateTime EndTime { get; private set; }
         public string Name { get; private set; }
         public string PublicDetails { get; private set; }
         public string InternalDetails { get; private set; }
@@ -26,6 +26,8 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping Emolument { get; private set; }
         public Guid? EmolumentPatternId { get; private set; }
         public virtual SelectValueMapping EmolumentPattern { get; private set; }
+        public Guid? VenueId { get; private set; }
+        public virtual Venue Venue { get; private set; }
         public virtual ICollection<AppointmentRoom> AppointmentRooms { get; private set; } = new HashSet<AppointmentRoom>();
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public virtual ICollection<RegisterAppointment> RegisterAppointments { get; private set; } = new HashSet<RegisterAppointment>();

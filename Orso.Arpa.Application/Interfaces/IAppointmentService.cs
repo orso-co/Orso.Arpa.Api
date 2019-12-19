@@ -11,5 +11,13 @@ namespace Orso.Arpa.Application.Interfaces
         Task<IEnumerable<AppointmentDto>> GetAsync(DateTime? date, DateRange range);
 
         Task<AppointmentDto> GetAsync(Guid id);
+
+        Task<AppointmentDto> CreateAsync(AppointmentCreateDto appointmentCreateDto);
+
+        Task ModifyAsync(AppointmentModifyDto appointmentModifyDto);
+
+        Task RemoveRoomAsync(Guid id, Guid roomId);
+
+        Task AddRoomAsync(Guid id, Guid roomId);
     }
 }

@@ -22,6 +22,19 @@ namespace Orso.Arpa.Application.Services
             _mediator = mediator;
         }
 
+        public async Task AddRoomAsync(Guid id, Guid roomId)
+        {
+            var command = new AddRoom.Command(id, roomId);
+            await _mediator.Send(command);
+        }
+
+        public async Task<AppointmentDto> CreateAsync(AppointmentCreateDto appointmentCreateDto)
+        {
+            Create.Command command = _mapper.Map<Create.Command>(appointmentCreateDto);
+            Appointment createdAppointment = await _mediator.Send(command);
+            return _mapper.Map<AppointmentDto>(createdAppointment);
+        }
+
         public async Task<IEnumerable<AppointmentDto>> GetAsync(DateTime? date, DateRange range)
         {
             date ??= DateTime.Today;
@@ -38,6 +51,18 @@ namespace Orso.Arpa.Application.Services
         {
             Appointment appointment = await _mediator.Send(new Details.Query { Id = id });
             return _mapper.Map<AppointmentDto>(appointment);
+        }
+
+        public async Task ModifyAsync(AppointmentModifyDto appointmentModifyDto)
+        {
+            Modify.Command command = _mapper.Map<Modify.Command>(appointmentModifyDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task RemoveRoomAsync(Guid id, Guid roomId)
+        {
+            var command = new RemoveRoom.Command(id, roomId);
+            await _mediator.Send(command);
         }
     }
 }

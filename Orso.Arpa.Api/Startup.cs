@@ -145,6 +145,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IRegisterService, RegisterService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IVenueService, VenueService>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)

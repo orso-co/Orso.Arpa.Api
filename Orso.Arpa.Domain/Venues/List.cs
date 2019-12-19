@@ -6,15 +6,15 @@ using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
-namespace Orso.Arpa.Domain.Registers
+namespace Orso.Arpa.Domain.Venues
 {
     public static class List
     {
-        public class Query : IRequest<IImmutableList<Register>>
+        public class Query : IRequest<IImmutableList<Venue>>
         {
         }
 
-        public class Handler : IRequestHandler<Query, IImmutableList<Register>>
+        public class Handler : IRequestHandler<Query, IImmutableList<Venue>>
         {
             private readonly IReadOnlyRepository _repository;
 
@@ -24,12 +24,12 @@ namespace Orso.Arpa.Domain.Registers
                 _repository = repository;
             }
 
-            public Task<IImmutableList<Register>> Handle(Query request, CancellationToken cancellationToken)
+            public Task<IImmutableList<Venue>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return Task.FromResult(_repository
-                    .GetAll<Register>()
-                    .OrderBy(r => r.Name)
-                    .ToImmutableList() as IImmutableList<Register>);
+                    .GetAll<Venue>()
+                    .OrderBy(v => v.Address.City)
+                    .ToImmutableList() as IImmutableList<Venue>);
             }
         }
     }

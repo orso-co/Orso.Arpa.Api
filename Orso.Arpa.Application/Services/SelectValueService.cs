@@ -23,7 +23,8 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<SelectValueDto>> GetAsync(string tableName, string propertyName)
         {
-            IImmutableList<SelectValue> selectValues = await _mediator.Send(new List.Query { TableName = tableName, PropertyName = propertyName });
+            IImmutableList<SelectValueMapping> selectValues = await _mediator
+                .Send(new List.Query { TableName = tableName, PropertyName = propertyName });
             return _mapper.Map<IEnumerable<SelectValueDto>>(selectValues);
         }
     }
