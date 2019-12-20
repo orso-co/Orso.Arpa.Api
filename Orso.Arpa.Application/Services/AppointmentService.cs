@@ -22,6 +22,18 @@ namespace Orso.Arpa.Application.Services
             _mediator = mediator;
         }
 
+        public async Task AddProjectAsync(Guid id, Guid projectId)
+        {
+            var command = new AddProject.Command(id, projectId);
+            await _mediator.Send(command);
+        }
+
+        public async Task AddRegisterAsync(Guid id, Guid registerId)
+        {
+            var command = new AddRegister.Command(id, registerId);
+            await _mediator.Send(command);
+        }
+
         public async Task AddRoomAsync(Guid id, Guid roomId)
         {
             var command = new AddRoom.Command(id, roomId);
@@ -56,6 +68,18 @@ namespace Orso.Arpa.Application.Services
         public async Task ModifyAsync(AppointmentModifyDto appointmentModifyDto)
         {
             Modify.Command command = _mapper.Map<Modify.Command>(appointmentModifyDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task RemoveProjectAsync(Guid id, Guid projectId)
+        {
+            var command = new RemoveProject.Command(id, projectId);
+            await _mediator.Send(command);
+        }
+
+        public async Task RemoveRegisterAsync(Guid id, Guid registerId)
+        {
+            var command = new RemoveRegister.Command(id, registerId);
             await _mediator.Send(command);
         }
 

@@ -44,9 +44,25 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPost("{id}/rooms/{roomId}")]
-        public async Task<ActionResult> Post(Guid id, Guid roomId)
+        public async Task<ActionResult> AddRoom(Guid id, Guid roomId)
         {
             await _appointmentService.AddRoomAsync(id, roomId);
+            return Ok();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpPost("{id}/projects/{projectId}")]
+        public async Task<ActionResult> AddProject(Guid id, Guid projectId)
+        {
+            await _appointmentService.AddProjectAsync(id, projectId);
+            return Ok();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpPost("{id}/registers/{registerId}")]
+        public async Task<ActionResult> AddRegister(Guid id, Guid registerId)
+        {
+            await _appointmentService.AddRegisterAsync(id, registerId);
             return Ok();
         }
 
@@ -69,6 +85,26 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> RemoveRoom(Guid id, Guid roomId)
         {
             await _appointmentService.RemoveRoomAsync(id, roomId);
+            return NoContent();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpDelete("{id}/registers/{registerId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> RemoveRegister(Guid id, Guid registerId)
+        {
+            await _appointmentService.RemoveRegisterAsync(id, registerId);
+            return NoContent();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpDelete("{id}/projects/{projectId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> RemoveProject(Guid id, Guid projectId)
+        {
+            await _appointmentService.RemoveProjectAsync(id, projectId);
             return NoContent();
         }
     }
