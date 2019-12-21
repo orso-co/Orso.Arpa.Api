@@ -19,7 +19,6 @@ namespace Orso.Arpa.Domain.Appointments
             public string Name { get; set; }
             public string PublicDetails { get; set; }
             public string InternalDetails { get; set; }
-            public Guid? VenueId { get; set; }
             public Guid? StatusId { get; set; }
             public Guid? EmolumentId { get; set; }
             public Guid? EmolumentPatternId { get; set; }
@@ -39,7 +38,6 @@ namespace Orso.Arpa.Domain.Appointments
                     .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => src.StatusId))
                     .ForMember(dest => dest.EmolumentId, opt => opt.MapFrom(src => src.EmolumentId))
                     .ForMember(dest => dest.EmolumentPatternId, opt => opt.MapFrom(src => src.EmolumentPatternId))
-                    .ForMember(dest => dest.VenueId, opt => opt.MapFrom(src => src.VenueId))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }

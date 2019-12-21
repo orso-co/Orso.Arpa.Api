@@ -21,7 +21,6 @@ namespace Orso.Arpa.Domain.Appointments
             public Guid? StatusId { get; set; }
             public Guid? EmolumentId { get; set; }
             public Guid? EmolumentPatternId { get; set; }
-            public Guid? VenueId { get; set; }
         }
 
         public class MappingProfile : Profile

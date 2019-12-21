@@ -19,9 +19,17 @@ namespace Orso.Arpa.Application.Interfaces
         Task RemoveRoomAsync(Guid id, Guid roomId);
 
         Task AddRoomAsync(Guid id, Guid roomId);
+
         Task AddProjectAsync(Guid id, Guid projectId);
+
         Task AddRegisterAsync(Guid id, Guid registerId);
+
         Task RemoveRegisterAsync(Guid id, Guid registerId);
+
         Task RemoveProjectAsync(Guid id, Guid projectId);
+
+        Task SetVenueAsync(Guid id, Guid? venueId);
+
+        Task SetDatesAsync(SetDatesDto setDatesDto);
     }
 }

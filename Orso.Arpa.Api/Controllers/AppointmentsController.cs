@@ -67,6 +67,14 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpPut("{id}/venue/set/{venueId}")]
+        public async Task<ActionResult> SetVenue(Guid id, Guid? venueId)
+        {
+            await _appointmentService.SetVenueAsync(id, venueId);
+            return Ok();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
@@ -106,6 +114,15 @@ namespace Orso.Arpa.Api.Controllers
         {
             await _appointmentService.RemoveProjectAsync(id, projectId);
             return NoContent();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpPut("{id}/dates/set")]
+        public async Task<ActionResult> SetDates(
+            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<SetDatesDto>))]SetDatesDto setDatesDto)
+        {
+            await _appointmentService.SetDatesAsync(setDatesDto);
+            return Ok();
         }
     }
 }

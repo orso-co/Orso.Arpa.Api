@@ -88,5 +88,17 @@ namespace Orso.Arpa.Application.Services
             var command = new RemoveRoom.Command(id, roomId);
             await _mediator.Send(command);
         }
+
+        public async Task SetDatesAsync(SetDatesDto setDatesDto)
+        {
+            SetDates.Command command = _mapper.Map<SetDates.Command>(setDatesDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task SetVenueAsync(Guid id, Guid? venueId)
+        {
+            var command = new SetVenue.Command(id, venueId);
+            await _mediator.Send(command);
+        }
     }
 }
