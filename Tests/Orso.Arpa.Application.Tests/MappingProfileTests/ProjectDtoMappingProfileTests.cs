@@ -4,20 +4,20 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Registers.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class RegisterDtoMappingProfileTests
+    public class ProjectDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<RegisterDtoMappingProfile>();
+                cfg.AddProfile<ProjectDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 
@@ -30,11 +30,11 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Register register = RegisterSeedData.Alto;
-            RegisterDto expectedDto = RegisterDtoData.Alto;
+            Project project = ProjectSeedData.RockingXMas;
+            ProjectDto expectedDto = ProjectDtoData.RockingXMas;
 
             // Act
-            RegisterDto dto = _mapper.Map<RegisterDto>(register);
+            ProjectDto dto = _mapper.Map<ProjectDto>(project);
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));

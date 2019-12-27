@@ -10,7 +10,8 @@ namespace Orso.Arpa.Application.MappingProfiles
         {
             CreateMap<SelectValueMapping, SelectValueDto>()
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.SelectValue.Description))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.SelectValue.Name));
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.SelectValue.Name))
+                .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
 }

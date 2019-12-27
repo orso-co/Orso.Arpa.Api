@@ -8,7 +8,8 @@ namespace Orso.Arpa.Application.MappingProfiles
     {
         public ProjectDtoMappingProfile()
         {
-            CreateMap<Project, ProjectDto>();
+            CreateMap<Project, ProjectDto>()
+                .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
 }

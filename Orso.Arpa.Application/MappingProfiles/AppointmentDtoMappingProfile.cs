@@ -16,9 +16,8 @@ namespace Orso.Arpa.Application.MappingProfiles
                 .ForMember(dest => dest.Registers, opt => opt.MapFrom(src => src.RegisterAppointments.Select(ra => ra.Register)))
                 .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.AppointmentRooms.Select(ra => ra.Room)))
                 .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime.ToIsoString()))
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToIsoString()))
-                .ForMember(dest => dest.ModifiedAt, opt => opt.MapFrom(src => src.ModifiedAt.HasValue ? src.ModifiedAt.Value.ToIsoString() : null))
-                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime.ToIsoString()));
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime.ToIsoString()))
+                .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
 }

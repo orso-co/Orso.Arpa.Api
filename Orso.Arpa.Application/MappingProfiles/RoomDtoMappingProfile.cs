@@ -8,7 +8,8 @@ namespace Orso.Arpa.Application.MappingProfiles
     {
         public RoomDtoMappingProfile()
         {
-            CreateMap<Room, RoomDto>();
+            CreateMap<Room, RoomDto>()
+                .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
 }

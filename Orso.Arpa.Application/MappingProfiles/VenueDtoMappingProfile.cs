@@ -8,7 +8,8 @@ namespace Orso.Arpa.Application.MappingProfiles
     {
         public VenueDtoMappingProfile()
         {
-            CreateMap<Venue, VenueDto>();
+            CreateMap<Venue, VenueDto>()
+                .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
 }

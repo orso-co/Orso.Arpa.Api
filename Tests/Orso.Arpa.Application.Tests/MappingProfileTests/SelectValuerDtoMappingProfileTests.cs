@@ -1,23 +1,26 @@
+using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Registers.Seed;
+using Orso.Arpa.Domain.SelectValueMappings.Seed;
+using Orso.Arpa.Domain.SelectValues.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class RegisterDtoMappingProfileTests
+    public class SelectValueDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<RegisterDtoMappingProfile>();
+                cfg.AddProfile<SelectValueDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 
@@ -30,11 +33,12 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Register register = RegisterSeedData.Alto;
-            RegisterDto expectedDto = RegisterDtoData.Alto;
+            SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectGenreMappings.First();
+            selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.ClassicalMusic);
+            SelectValueDto expectedDto = SelectValueDtoData.ClassicalMusic;
 
             // Act
-            RegisterDto dto = _mapper.Map<RegisterDto>(register);
+            SelectValueDto dto = _mapper.Map<SelectValueDto>(selectValueMapping);
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));

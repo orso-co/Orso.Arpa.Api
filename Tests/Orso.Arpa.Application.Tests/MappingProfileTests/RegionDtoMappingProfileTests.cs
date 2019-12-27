@@ -15,7 +15,11 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<RegionDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<RegionDtoMappingProfile>();
+                cfg.AddProfile<BaseEntityDtoMappingProfile>();
+            });
 
             _mapper = new Mapper(config);
         }

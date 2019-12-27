@@ -12,6 +12,7 @@ namespace Orso.Arpa.Domain.Entities
             Name = command.Name;
             Description = command.Description;
             Address = new Address(id, command);
+            AddressId = Address.Id;
         }
 
         [JsonConstructor]

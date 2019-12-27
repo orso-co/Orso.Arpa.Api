@@ -3,21 +3,20 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Registers.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class RegisterDtoMappingProfileTests
+    public class AppointmentDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<RegisterDtoMappingProfile>();
+                cfg.AddProfile<AppointmentDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 
@@ -30,11 +29,11 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Register register = RegisterSeedData.Alto;
-            RegisterDto expectedDto = RegisterDtoData.Alto;
+            Domain.Entities.Appointment appointment = AppointmentSeedData.RockingXMasRehearsal;
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
 
             // Act
-            RegisterDto dto = _mapper.Map<RegisterDto>(register);
+            AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));
