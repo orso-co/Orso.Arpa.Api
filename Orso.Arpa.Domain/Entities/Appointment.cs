@@ -1,14 +1,26 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Orso.Arpa.Domain.Appointments;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Appointment : BaseEntity
     {
-        internal Appointment(Guid? id) : base(id)
+        public Appointment(Guid? id, Create.Command command) : base(id)
         {
+            CategoryId = command.CategoryId;
+            StartTime = command.StartTime;
+            EndTime = command.EndTime;
+            Name = command.Name;
+            PublicDetails = command.PublicDetails;
+            InternalDetails = command.InternalDetails;
+            StatusId = command.StatusId;
+            EmolumentId = command.EmolumentId;
+            EmolumentPatternId = command.EmolumentPatternId;
         }
 
+        [JsonConstructor]
         protected Appointment()
         {
         }

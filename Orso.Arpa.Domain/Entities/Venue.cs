@@ -1,14 +1,20 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Orso.Arpa.Domain.Venues;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Venue : BaseEntity
     {
-        internal Venue(Guid? id) : base(id)
+        public Venue(Guid? id, Create.Command command) : base(id)
         {
+            Name = command.Name;
+            Description = command.Description;
+            Address = new Address(id, command);
         }
 
+        [JsonConstructor]
         protected Venue()
         {
         }

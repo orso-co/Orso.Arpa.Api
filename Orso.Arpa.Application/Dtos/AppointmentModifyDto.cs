@@ -6,6 +6,7 @@ namespace Orso.Arpa.Application.Dtos
     public class AppointmentModifyDto : IModifyDto
     {
         public Guid Id { get; set; }
+
         public Guid? CategoryId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

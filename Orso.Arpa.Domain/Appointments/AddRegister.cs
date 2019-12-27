@@ -1,12 +1,9 @@
 using System;
-using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Appointments
@@ -54,18 +51,6 @@ namespace Orso.Arpa.Domain.Appointments
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
-
-                if (existingAppointment == null)
-                {
-                    throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" });
-                }
-
-                RegisterAppointment existingRegister = existingAppointment.RegisterAppointments.FirstOrDefault(r => r.RegisterId == request.RegisterId);
-
-                if (existingRegister != null)
-                {
-                    throw new RestException("The register is already linked to the appointment", HttpStatusCode.BadRequest, new { Register = "Already linked" });
-                }
 
                 existingAppointment.RegisterAppointments.Add(_mapper.Map<RegisterAppointment>(request));
 

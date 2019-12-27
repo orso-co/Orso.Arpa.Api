@@ -1,11 +1,9 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Appointments
@@ -53,20 +51,6 @@ namespace Orso.Arpa.Domain.Appointments
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
-
-                if (existingAppointment == null)
-                {
-                    throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" });
-                }
-
-                if (request.VenueId.HasValue)
-                {
-                    Venue venue = await _repository.GetByIdAsync<Venue>(request.VenueId.Value);
-                    if (venue == null)
-                    {
-                        throw new RestException("Venue not found", HttpStatusCode.NotFound, new { Venue = "Not found" });
-                    }
-                }
 
                 _mapper.Map<Command, Appointment>(request, existingAppointment);
 

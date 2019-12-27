@@ -36,11 +36,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                     ArpaContext context = services.GetRequiredService<ArpaContext>();
                     UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
                     IRepository repository = services.GetRequiredService<IRepository>();
+                    IUnitOfWork unitOfWork = services.GetRequiredService<IUnitOfWork>();
                     context.Database.EnsureDeleted();
                     context.Database.EnsureCreated();
                     IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                     dataSeeder.SeedDataAsync().Wait();
-                    TestSeed.SeedDataAsync(userManager, repository).Wait();
+                    TestSeed.SeedDataAsync(userManager, repository, unitOfWork).Wait();
                 }
                 catch (System.Exception ex)
                 {

@@ -22,21 +22,21 @@ namespace Orso.Arpa.Application.Services
             _mediator = mediator;
         }
 
-        public async Task AddProjectAsync(Guid id, Guid projectId)
+        public async Task AddProjectAsync(AddProjectDto addProjectDto)
         {
-            var command = new AddProject.Command(id, projectId);
+            AddProject.Command command = _mapper.Map<AddProject.Command>(addProjectDto);
             await _mediator.Send(command);
         }
 
-        public async Task AddRegisterAsync(Guid id, Guid registerId)
+        public async Task AddRegisterAsync(AddRegisterDto addRegisterDto)
         {
-            var command = new AddRegister.Command(id, registerId);
+            AddRegister.Command command = _mapper.Map<AddRegister.Command>(addRegisterDto);
             await _mediator.Send(command);
         }
 
-        public async Task AddRoomAsync(Guid id, Guid roomId)
+        public async Task AddRoomAsync(AddRoomDto addRoomDto)
         {
-            var command = new AddRoom.Command(id, roomId);
+            AddRoom.Command command = _mapper.Map<AddRoom.Command>(addRoomDto);
             await _mediator.Send(command);
         }
 
@@ -71,21 +71,21 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task RemoveProjectAsync(Guid id, Guid projectId)
+        public async Task RemoveProjectAsync(RemoveProjectDto removeProjectDto)
         {
-            var command = new RemoveProject.Command(id, projectId);
+            RemoveProject.Command command = _mapper.Map<RemoveProject.Command>(removeProjectDto);
             await _mediator.Send(command);
         }
 
-        public async Task RemoveRegisterAsync(Guid id, Guid registerId)
+        public async Task RemoveRegisterAsync(RemoveRegisterDto removeRegisterDto)
         {
-            var command = new RemoveRegister.Command(id, registerId);
+            RemoveRegister.Command command = _mapper.Map<RemoveRegister.Command>(removeRegisterDto);
             await _mediator.Send(command);
         }
 
-        public async Task RemoveRoomAsync(Guid id, Guid roomId)
+        public async Task RemoveRoomAsync(RemoveRoomDto removeRoomDto)
         {
-            var command = new RemoveRoom.Command(id, roomId);
+            RemoveRoom.Command command = _mapper.Map<RemoveRoom.Command>(removeRoomDto);
             await _mediator.Send(command);
         }
 
@@ -95,9 +95,9 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task SetVenueAsync(Guid id, Guid? venueId)
+        public async Task SetVenueAsync(SetVenueDto setVenueDto)
         {
-            var command = new SetVenue.Command(id, venueId);
+            SetVenue.Command command = _mapper.Map<SetVenue.Command>(setVenueDto);
             await _mediator.Send(command);
         }
     }

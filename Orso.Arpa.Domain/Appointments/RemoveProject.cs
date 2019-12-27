@@ -1,11 +1,9 @@
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Appointments
@@ -41,17 +39,9 @@ namespace Orso.Arpa.Domain.Appointments
             {
                 Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
 
-                if (existingAppointment == null)
-                {
-                    throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" });
-                }
-
                 ProjectAppointment projectAppointment = existingAppointment.ProjectAppointments.FirstOrDefault(r => r.ProjectId == request.ProjectId);
 
-                if (projectAppointment != null)
-                {
-                    existingAppointment.ProjectAppointments.Remove(projectAppointment);
-                }
+                existingAppointment.ProjectAppointments.Remove(projectAppointment);
 
                 _repository.Update(existingAppointment);
 

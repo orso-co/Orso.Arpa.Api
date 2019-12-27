@@ -9,6 +9,6 @@ namespace Orso.Arpa.Application.Dtos
         public string Description { get; set; }
         public Guid AddressId { get; set; }
         public AddressDto Address { get; set; }
-        public IEnumerable<RoomDto> Rooms { get; set; } = new List<RoomDto>();
+        public IList<RoomDto> Rooms { get; set; } = new List<RoomDto>();
     }
 }

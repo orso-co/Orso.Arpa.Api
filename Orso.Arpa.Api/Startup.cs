@@ -192,7 +192,6 @@ namespace Orso.Arpa.Api
         {
             services.AddDbContext<ArpaContext>(opt =>
             {
-                opt.UseLazyLoadingProxies();
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 if (_hostingEnvironment.IsDevelopment())
                 {

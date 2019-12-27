@@ -55,11 +55,6 @@ namespace Orso.Arpa.Domain.Appointments
                     return Unit.Value;
                 }
 
-                if (existingAppointment == null)
-                {
-                    throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" });
-                }
-
                 _mapper.Map<Command, Appointment>(request, existingAppointment);
 
                 if (existingAppointment.EndTime < existingAppointment.StartTime)

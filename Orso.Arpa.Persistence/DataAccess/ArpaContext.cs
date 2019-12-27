@@ -34,6 +34,12 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Room> Rooms { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             foreach (Type type in ArpaContextUtility.GetEntityTypes())

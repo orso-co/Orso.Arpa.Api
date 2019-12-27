@@ -1,4 +1,6 @@
 using System;
+using Orso.Arpa.Application.Dtos.Extensions;
+using Orso.Arpa.Domain.Appointments;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
@@ -35,6 +37,34 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Get() => Roles;
         }
 
+        public static class VenuesController
+        {
+            private static string Venues => $"{Base}/venues";
+
+            public static string Get() => Venues;
+
+            public static string GetRooms(Guid id) => $"{Venues}/{id}/rooms";
+        }
+
+        public static class SelectValuesController
+        {
+            public static string Get(string tableName, string propertyName) => $"{Base}/tables/{tableName}/properties/{propertyName}";
+        }
+
+        public static class RegistersController
+        {
+            private static string Registers => $"{Base}/registers";
+
+            public static string Get() => Registers;
+        }
+
+        public static class ProjectsController
+        {
+            private static string Projects => $"{Base}/projects";
+
+            public static string Get(bool includeCompleted = false) => $"{Projects}?includeCompleted={includeCompleted}";
+        }
+
         public static class MeController
         {
             private static string Me => $"{Base}/users/me";
@@ -57,6 +87,29 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Get(Guid id) => $"{Regions}/{id}";
 
             public static string Delete(Guid id) => $"{Regions}/{id}";
+        }
+
+        public static class AppointmentsController
+        {
+            private static string Appointments => $"{Base}/appointments";
+
+            public static string Get(DateTime? date, DateRange range) => $"{Appointments}?date={date.Value.ToIsoString()}&range={range}";
+
+            public static string Post() => Appointments;
+
+            public static string Put(Guid id) => $"{Appointments}/{id}";
+
+            public static string Get(Guid id) => $"{Appointments}/{id}";
+
+            public static string AddRoom(Guid id, Guid roomId) => $"{Appointments}/{id}/rooms/{roomId}";
+
+            public static string AddRegister(Guid id, Guid registerId) => $"{Appointments}/{id}/registers/{registerId}";
+
+            public static string AddProject(Guid id, Guid projectId) => $"{Appointments}/{id}/projects/{projectId}";
+
+            public static string SetVenue(Guid id, Guid? venueId) => $"{Appointments}/{id}/venue/set/{venueId}";
+
+            public static string SetDates(Guid id) => $"{Appointments}/{id}/dates/set";
         }
     }
 }

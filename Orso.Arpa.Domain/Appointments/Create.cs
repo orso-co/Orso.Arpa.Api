@@ -23,14 +23,6 @@ namespace Orso.Arpa.Domain.Appointments
             public Guid? EmolumentPatternId { get; set; }
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Appointment>();
-            }
-        }
-
         public class Handler : IRequestHandler<Command, Appointment>
         {
             private readonly IRepository _repository;
@@ -49,9 +41,9 @@ namespace Orso.Arpa.Domain.Appointments
 
             public async Task<Appointment> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment region = _mapper.Map<Appointment>(request);
+                var newAppointment = new Appointment(Guid.NewGuid(), request);
 
-                Appointment createdAppointment = await _repository.AddAsync(region);
+                Appointment createdAppointment = await _repository.AddAsync(newAppointment);
 
                 if (await _unitOfWork.CommitAsync())
                 {
