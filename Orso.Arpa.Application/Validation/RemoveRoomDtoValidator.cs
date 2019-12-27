@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.Validation
                 .NotEmpty()
                 .MustAsync(async (dto, roomId, cancellation) => (await readOnlyRepository
                     .GetByIdAsync<Appointment>(dto.Id)).AppointmentRooms
-                        .FirstOrDefault(ar => ar.RoomId == roomId) != null)
+                        .Any(ar => ar.RoomId == roomId))
                 .WithMessage("The room is already linked to the appointment");
         }
     }

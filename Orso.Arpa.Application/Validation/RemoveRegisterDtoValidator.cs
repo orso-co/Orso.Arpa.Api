@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.Validation
                 .NotEmpty()
                 .MustAsync(async (dto, RegisterId, cancellation) => (await readOnlyRepository
                     .GetByIdAsync<Appointment>(dto.Id)).RegisterAppointments
-                        .FirstOrDefault(ar => ar.RegisterId == RegisterId) != null)
+                        .Any(ar => ar.RegisterId == RegisterId))
                 .WithMessage("The register is not linked to the appointment");
         }
     }

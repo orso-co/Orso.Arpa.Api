@@ -31,38 +31,24 @@ namespace Orso.Arpa.Domain.Appointments
 
         public static DateTime GetStartTime(DateTime date, DateRange range)
         {
-            switch (range)
+            return range switch
             {
-                case DateRange.Month:
-                    return FirstDayOfMonth(date);
-
-                case DateRange.Week:
-                    return FirstDayOfWeek(date);
-
-                case DateRange.Day:
-                    return date.Date;
-
-                default:
-                    throw new RestException("Requested DateRange is not supported", HttpStatusCode.BadRequest);
-            }
+                DateRange.Month => FirstDayOfMonth(date),
+                DateRange.Week => FirstDayOfWeek(date),
+                DateRange.Day => date.Date,
+                _ => throw new RestException("Requested DateRange is not supported", HttpStatusCode.BadRequest),
+            };
         }
 
         public static DateTime GetEndTime(DateTime date, DateRange range)
         {
-            switch (range)
+            return range switch
             {
-                case DateRange.Month:
-                    return LastDayOfMonth(date);
-
-                case DateRange.Week:
-                    return LastDayOfWeek(date);
-
-                case DateRange.Day:
-                    return new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
-
-                default:
-                    throw new RestException("Requested DateRange is not supported", HttpStatusCode.BadRequest);
-            }
+                DateRange.Month => LastDayOfMonth(date),
+                DateRange.Week => LastDayOfWeek(date),
+                DateRange.Day => new DateTime(date.Year, date.Month, date.Day, 23, 59, 59),
+                _ => throw new RestException("Requested DateRange is not supported", HttpStatusCode.BadRequest),
+            };
         }
     }
 }

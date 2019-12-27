@@ -1,4 +1,3 @@
-using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
@@ -33,7 +32,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectGenreMappings.First();
+            SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectGenreMappings[0];
             selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.ClassicalMusic);
             SelectValueDto expectedDto = SelectValueDtoData.ClassicalMusic;
 

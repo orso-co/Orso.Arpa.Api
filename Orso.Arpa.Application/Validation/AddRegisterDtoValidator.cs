@@ -23,9 +23,9 @@ namespace Orso.Arpa.Application.Validation
                 .NotEmpty()
                 .MustAsync(async (registerId, cancellation) => await readOnlyRepository.GetByIdAsync<Register>(registerId) != null)
                 .OnFailure(dto => throw new RestException("Register not found", HttpStatusCode.NotFound, new { Register = "Not found" }))
-                .MustAsync(async (dto, RegisterId, cancellation) => (await readOnlyRepository
+                .MustAsync(async (dto, RegisterId, cancellation) => !(await readOnlyRepository
                     .GetByIdAsync<Appointment>(dto.Id)).RegisterAppointments
-                        .FirstOrDefault(ar => ar.RegisterId == RegisterId) == null)
+                        .Any(ar => ar.RegisterId == RegisterId))
                 .WithMessage("The register is already linked to the appointment");
         }
     }

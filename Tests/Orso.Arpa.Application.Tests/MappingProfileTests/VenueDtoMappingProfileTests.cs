@@ -1,4 +1,3 @@
-using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
@@ -47,7 +46,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .Excluding(dto => dto.Rooms));
             dto.AddressId.Should().Be(expectedDto.Id);
             dto.Rooms.Count.Should().Be(1);
-            dto.Rooms.First().Should().BeEquivalentTo(expectedDto.Rooms.First(), opt => opt
+            dto.Rooms[0].Should().BeEquivalentTo(expectedDto.Rooms[0], opt => opt
                 .Excluding(dto => dto.CreatedBy));
         }
     }

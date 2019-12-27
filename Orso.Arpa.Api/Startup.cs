@@ -222,10 +222,7 @@ namespace Orso.Arpa.Api
 
             AddSwagger(app);
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             EnsureDatabaseMigrations(app);
         }
@@ -242,22 +239,20 @@ namespace Orso.Arpa.Api
 
         protected virtual void EnsureDatabaseMigrations(IApplicationBuilder app)
         {
-            using (IServiceScope scope = app.ApplicationServices.CreateScope())
+            using IServiceScope scope = app.ApplicationServices.CreateScope();
+            System.IServiceProvider services = scope.ServiceProvider;
+            try
             {
-                System.IServiceProvider services = scope.ServiceProvider;
-                try
-                {
-                    ArpaContext context = services.GetRequiredService<ArpaContext>();
-                    context.Database.Migrate();
-                    IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
-                    dataSeeder.SeedDataAsync().Wait();
-                }
-                catch (System.Exception ex)
-                {
-                    ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                    logger.LogError(ex, "An error occured during database migration");
-                    throw;
-                }
+                ArpaContext context = services.GetRequiredService<ArpaContext>();
+                context.Database.Migrate();
+                IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
+                dataSeeder.SeedDataAsync().Wait();
+            }
+            catch (System.Exception ex)
+            {
+                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                logger.LogError(ex, "An error occured during database migration");
+                throw;
             }
         }
     }

@@ -23,9 +23,9 @@ namespace Orso.Arpa.Application.Validation
                 .NotEmpty()
                 .MustAsync(async (roomId, cancellation) => await readOnlyRepository.GetByIdAsync<Room>(roomId) != null)
                 .OnFailure(dto => throw new RestException("Room not found", HttpStatusCode.NotFound, new { Room = "Not found" }))
-                .MustAsync(async (dto, roomId, cancellation) => (await readOnlyRepository
+                .MustAsync(async (dto, roomId, cancellation) => !(await readOnlyRepository
                     .GetByIdAsync<Appointment>(dto.Id)).AppointmentRooms
-                        .FirstOrDefault(ar => ar.RoomId == roomId) == null)
+                        .Any(ar => ar.RoomId == roomId))
                 .WithMessage("The room is already linked to the appointment");
         }
     }

@@ -256,8 +256,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     ProjectSeedData.RockingXMas.Id));
 
             // Assert
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
-
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }

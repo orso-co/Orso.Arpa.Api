@@ -1,4 +1,3 @@
-using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
@@ -32,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Room Room = RoomSeedData.AulaWeiherhofSchule;
-            RoomDto expectedDto = VenueDtoData.WeiherhofSchule.Rooms.First();
+            RoomDto expectedDto = VenueDtoData.WeiherhofSchule.Rooms[0];
 
             // Act
             RoomDto dto = _mapper.Map<RoomDto>(Room);
