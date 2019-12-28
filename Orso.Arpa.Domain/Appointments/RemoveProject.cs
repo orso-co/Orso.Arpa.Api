@@ -39,7 +39,8 @@ namespace Orso.Arpa.Domain.Appointments
             {
                 Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
 
-                ProjectAppointment projectAppointment = existingAppointment.ProjectAppointments.FirstOrDefault(r => r.ProjectId == request.ProjectId);
+                ProjectAppointment projectAppointment = existingAppointment.ProjectAppointments
+                    .FirstOrDefault(r => r.ProjectId == request.ProjectId);
 
                 existingAppointment.ProjectAppointments.Remove(projectAppointment);
 

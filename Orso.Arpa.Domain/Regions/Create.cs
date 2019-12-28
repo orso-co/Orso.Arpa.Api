@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Regions
 
             public async Task<Region> Handle(Command request, CancellationToken cancellationToken)
             {
-                Region region = _mapper.Map<Region>(request);
+                var region = new Region(Guid.NewGuid(), request);
 
                 Region createdRegion = await _repository.AddAsync(region);
 
