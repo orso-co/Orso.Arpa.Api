@@ -60,8 +60,8 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             // Arrange
             AppointmentService service = CreateService();
             var addRegisterDto = new AddRegisterDto();
-            var command = new AddRegister.Command(Guid.NewGuid(), Guid.NewGuid());
-            _subMapper.Map<AddRegister.Command>(addRegisterDto)
+            var command = new AddSection.Command(Guid.NewGuid(), Guid.NewGuid());
+            _subMapper.Map<AddSection.Command>(addRegisterDto)
                 .Returns(command);
 
             // Act
@@ -187,8 +187,8 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             // Arrange
             AppointmentService service = CreateService();
             RemoveRegisterDto removeRegisterDto = null;
-            var command = new RemoveRegister.Command(Guid.Empty, Guid.Empty);
-            _subMapper.Map<RemoveRegister.Command>(removeRegisterDto)
+            var command = new RemoveSection.Command(Guid.Empty, Guid.Empty);
+            _subMapper.Map<RemoveSection.Command>(removeRegisterDto)
                 .Returns(command);
 
             // Act

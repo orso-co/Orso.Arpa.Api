@@ -8,10 +8,10 @@ namespace Orso.Arpa.Application.MappingProfiles
     {
         public RegisterDtoMappingProfile()
         {
-            CreateMap<Register, RegisterDto>()
+            CreateMap<Section, RegisterDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>();
 
-            CreateMap<RegisterDto, Register>();
+            CreateMap<RegisterDto, Section>();
         }
     }
 }

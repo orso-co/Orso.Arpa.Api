@@ -25,8 +25,8 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<ProjectAppointment> ProjectAppointments { get; set; }
         public DbSet<ProjectParticipation> ProjectParticipations { get; set; }
         public DbSet<Region> Regions { get; set; }
-        public DbSet<Register> Registers { get; set; }
-        public DbSet<RegisterAppointment> RegisterAppointments { get; set; }
+        public DbSet<Section> Registers { get; set; }
+        public DbSet<SectionAppointment> RegisterAppointments { get; set; }
         public DbSet<RehearsalRoom> RehearsalRooms { get; set; }
         public DbSet<SelectValueCategory> SelectValueCategories { get; set; }
         public DbSet<SelectValue> SelectValues { get; set; }

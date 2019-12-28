@@ -8,9 +8,9 @@ namespace Orso.Arpa.Application.MappingProfiles
     {
         public AddRegisterDtoMappingProfile()
         {
-            CreateMap<AddRegisterDto, AddRegister.Command>()
+            CreateMap<AddRegisterDto, AddSection.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.RegisterId, opt => opt.MapFrom(src => src.RegisterId));
+                .ForMember(dest => dest.SectionId, opt => opt.MapFrom(src => src.RegisterId));
         }
     }
 }

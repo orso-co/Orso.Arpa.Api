@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Registers.Seed;
+using Orso.Arpa.Domain.Sections.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Register register = RegisterSeedData.Alto;
+            Section register = SectionSeedData.Alto;
             RegisterDto expectedDto = RegisterDtoData.Alto;
 
             // Act

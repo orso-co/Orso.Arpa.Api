@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Registers.Seed;
+using Orso.Arpa.Domain.Sections.Seed;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
-    public class RegisterConfiguration : IEntityTypeConfiguration<Register>
+    public class RegisterConfiguration : IEntityTypeConfiguration<Section>
     {
-        public void Configure(EntityTypeBuilder<Register> builder)
+        public void Configure(EntityTypeBuilder<Section> builder)
         {
             builder
-               .HasData(RegisterSeedData.Registers);
+               .HasData(SectionSeedData.Sections);
         }
     }
 }

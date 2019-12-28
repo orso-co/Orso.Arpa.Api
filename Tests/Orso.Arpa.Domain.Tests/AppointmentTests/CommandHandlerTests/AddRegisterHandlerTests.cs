@@ -19,7 +19,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
         private IRepository _repository;
         private IUnitOfWork _unitOfWork;
         private IMapper _mapper;
-        private AddRegister.Handler _handler;
+        private AddSection.Handler _handler;
 
         [SetUp]
         public void Setup()
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             _repository = Substitute.For<IRepository>();
             _unitOfWork = Substitute.For<IUnitOfWork>();
             _mapper = Substitute.For<IMapper>();
-            _handler = new AddRegister.Handler(_repository, _unitOfWork, _mapper);
+            _handler = new AddSection.Handler(_repository, _unitOfWork, _mapper);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
                 .Returns(true);
 
             // Act
-            Unit result = await _handler.Handle(new AddRegister.Command(Guid.NewGuid(), Guid.NewGuid()), new CancellationToken());
+            Unit result = await _handler.Handle(new AddSection.Command(Guid.NewGuid(), Guid.NewGuid()), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(Unit.Value);

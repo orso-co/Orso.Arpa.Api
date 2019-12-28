@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task AddRegisterAsync(AddRegisterDto addRegisterDto)
         {
-            AddRegister.Command command = _mapper.Map<AddRegister.Command>(addRegisterDto);
+            AddSection.Command command = _mapper.Map<AddSection.Command>(addRegisterDto);
             await _mediator.Send(command);
         }
 
@@ -79,7 +79,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task RemoveRegisterAsync(RemoveRegisterDto removeRegisterDto)
         {
-            RemoveRegister.Command command = _mapper.Map<RemoveRegister.Command>(removeRegisterDto);
+            RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(removeRegisterDto);
             await _mediator.Send(command);
         }
 

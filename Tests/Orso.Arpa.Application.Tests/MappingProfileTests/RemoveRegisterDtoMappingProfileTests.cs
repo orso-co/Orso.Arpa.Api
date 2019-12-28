@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            RemoveRegister.Command command = _mapper.Map<RemoveRegister.Command>(dto);
+            RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             RegisterService service = CreateService();
             IList<RegisterDto> expectedDtos = RegisterDtoData.Registers;
-            _subMapper.Map<IEnumerable<RegisterDto>>(Arg.Any<IEnumerable<Register>>())
+            _subMapper.Map<IEnumerable<RegisterDto>>(Arg.Any<IEnumerable<Section>>())
                 .Returns(expectedDtos);
 
             // Act

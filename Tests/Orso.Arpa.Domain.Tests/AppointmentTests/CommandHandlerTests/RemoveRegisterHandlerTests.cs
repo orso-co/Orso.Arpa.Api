@@ -8,7 +8,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Appointments;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Registers.Seed;
+using Orso.Arpa.Domain.Sections.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
                 .Returns(true);
 
             // Act
-            Unit result = await _handler.Handle(new RemoveRegister.Command(Guid.NewGuid(), RegisterSeedData.Alto.Id), new CancellationToken());
+            Unit result = await _handler.Handle(new RemoveRegister.Command(Guid.NewGuid(), SectionSeedData.Alto.Id), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(Unit.Value);

@@ -10,7 +10,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Dtos.Extensions;
 using Orso.Arpa.Domain.Appointments;
-using Orso.Arpa.Domain.Registers.Seed;
+using Orso.Arpa.Domain.Sections.Seed;
 using Orso.Arpa.Domain.SelectValueMappings.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -128,7 +128,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_orsonaut)
                 .PostAsync(ApiEndpoints.AppointmentsController.AddRegister(
                     AppointmentSeedData.RockingXMasConcert.Id,
-                    RegisterSeedData.Alto.Id), null);
+                    SectionSeedData.Alto.Id), null);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -238,7 +238,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_orsonaut)
                 .DeleteAsync(ApiEndpoints.AppointmentsController.AddRegister(
                     AppointmentSeedData.AfterShowParty.Id,
-                    RegisterSeedData.Alto.Id));
+                    SectionSeedData.Alto.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

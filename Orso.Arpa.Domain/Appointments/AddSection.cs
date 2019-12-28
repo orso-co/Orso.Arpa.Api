@@ -8,27 +8,27 @@ using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Appointments
 {
-    public static class AddRegister
+    public static class AddSection
     {
         public class Command : IRequest
         {
-            public Command(Guid id, Guid registerId)
+            public Command(Guid id, Guid sectionId)
             {
                 Id = id;
-                RegisterId = registerId;
+                SectionId = sectionId;
             }
 
             public Guid Id { get; private set; }
-            public Guid RegisterId { get; private set; }
+            public Guid SectionId { get; private set; }
         }
 
         public class MappingProfile : Profile
         {
             public MappingProfile()
             {
-                CreateMap<Command, RegisterAppointment>()
+                CreateMap<Command, SectionAppointment>()
                     .ForMember(dest => dest.AppointmentId, opt => opt.MapFrom(src => src.Id))
-                    .ForMember(dest => dest.RegisterId, opt => opt.MapFrom(src => src.RegisterId));
+                    .ForMember(dest => dest.SectionId, opt => opt.MapFrom(src => src.SectionId));
             }
         }
 
@@ -52,7 +52,7 @@ namespace Orso.Arpa.Domain.Appointments
             {
                 Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
 
-                existingAppointment.RegisterAppointments.Add(_mapper.Map<RegisterAppointment>(request));
+                existingAppointment.SectionAppointments.Add(_mapper.Map<SectionAppointment>(request));
 
                 _repository.Update(existingAppointment);
 

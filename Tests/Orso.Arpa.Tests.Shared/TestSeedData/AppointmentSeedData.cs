@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Appointments;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Registers.Seed;
+using Orso.Arpa.Domain.Sections.Seed;
 using Orso.Arpa.Domain.SelectValueMappings.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
@@ -91,7 +91,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 );
                 appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.RockingXMas.Id, appointmentId));
                 appointment.AppointmentRooms.Add(new AppointmentRoom(appointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
-                appointment.RegisterAppointments.Add(new RegisterAppointment(RegisterSeedData.Alto.Id, appointmentId));
+                appointment.SectionAppointments.Add(new SectionAppointment(SectionSeedData.Alto.Id, appointmentId));
                 return appointment;
             }
         }

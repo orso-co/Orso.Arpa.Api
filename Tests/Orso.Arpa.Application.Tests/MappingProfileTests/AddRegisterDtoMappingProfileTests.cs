@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            AddRegister.Command command = _mapper.Map<AddRegister.Command>(dto);
+            AddSection.Command command = _mapper.Map<AddSection.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

@@ -6,7 +6,7 @@ using MediatR;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Registers;
+using Orso.Arpa.Domain.Sections;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<RegisterDto>> GetAsync()
         {
-            IImmutableList<Register> registers = await _mediator.Send(new List.Query());
+            IImmutableList<Section> registers = await _mediator.Send(new List.Query());
             return _mapper.Map<IEnumerable<RegisterDto>>(registers);
         }
     }

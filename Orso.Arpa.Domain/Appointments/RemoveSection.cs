@@ -8,18 +8,18 @@ using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Appointments
 {
-    public static class RemoveRegister
+    public static class RemoveSection
     {
         public class Command : IRequest
         {
-            public Command(Guid id, Guid registerId)
+            public Command(Guid id, Guid sectionId)
             {
                 Id = id;
-                RegisterId = registerId;
+                SectionId = sectionId;
             }
 
             public Guid Id { get; private set; }
-            public Guid RegisterId { get; private set; }
+            public Guid SectionId { get; private set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -39,9 +39,9 @@ namespace Orso.Arpa.Domain.Appointments
             {
                 Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
 
-                RegisterAppointment registerToRemove = existingAppointment.RegisterAppointments.FirstOrDefault(r => r.RegisterId == request.RegisterId);
+                SectionAppointment sectionToRemove = existingAppointment.SectionAppointments.FirstOrDefault(r => r.SectionId == request.SectionId);
 
-                existingAppointment.RegisterAppointments.Remove(registerToRemove);
+                existingAppointment.SectionAppointments.Remove(sectionToRemove);
 
                 _repository.Update(existingAppointment);
 
