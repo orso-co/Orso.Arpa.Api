@@ -67,7 +67,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_RegisterId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_RoomId_Is_Supplied()
         {
             Appointment appointment = AppointmentSeedData.RockingXMasRehearsal;
             Room room = RoomSeedData.AulaWeiherhofSchule;

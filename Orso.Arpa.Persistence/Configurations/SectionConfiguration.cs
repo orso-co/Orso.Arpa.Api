@@ -5,7 +5,7 @@ using Orso.Arpa.Domain.Sections.Seed;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
-    public class RegisterConfiguration : IEntityTypeConfiguration<Section>
+    public class SectionConfiguration : IEntityTypeConfiguration<Section>
     {
         public void Configure(EntityTypeBuilder<Section> builder)
         {

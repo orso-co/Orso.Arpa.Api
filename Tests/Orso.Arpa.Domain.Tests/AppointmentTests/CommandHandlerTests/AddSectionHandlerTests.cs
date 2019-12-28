@@ -14,7 +14,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
 {
     [TestFixture]
-    public class AddRegisterHandlerTests
+    public class AddSectionHandlerTests
     {
         private IRepository _repository;
         private IUnitOfWork _unitOfWork;
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
         }
 
         [Test]
-        public async Task Should_Add_Register()
+        public async Task Should_Add_Section()
         {
             // Arrange
             _repository.GetByIdAsync<Appointment>(Arg.Any<Guid>())

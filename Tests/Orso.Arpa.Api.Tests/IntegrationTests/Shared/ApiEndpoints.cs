@@ -51,11 +51,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Get(string tableName, string propertyName) => $"{Base}/tables/{tableName}/properties/{propertyName}";
         }
 
-        public static class RegistersController
+        public static class SectionsController
         {
-            private static string Registers => $"{Base}/registers";
+            private static string Sections => $"{Base}/sections";
 
-            public static string Get() => Registers;
+            public static string Get() => Sections;
         }
 
         public static class ProjectsController
@@ -103,7 +103,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string AddRoom(Guid id, Guid roomId) => $"{Appointments}/{id}/rooms/{roomId}";
 
-            public static string AddRegister(Guid id, Guid registerId) => $"{Appointments}/{id}/registers/{registerId}";
+            public static string AddSection(Guid id, Guid sectionId) => $"{Appointments}/{id}/sections/{sectionId}";
 
             public static string AddProject(Guid id, Guid projectId) => $"{Appointments}/{id}/projects/{projectId}";
 

@@ -14,7 +14,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
 {
     [TestFixture]
-    public class RemoveRegisterHandlerTests
+    public class RemoveSectionHandlerTests
     {
         private IRepository _repository;
         private IUnitOfWork _unitOfWork;

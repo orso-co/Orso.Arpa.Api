@@ -4,7 +4,7 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
-    public class RegisterAppointmentConfiguration : IEntityTypeConfiguration<SectionAppointment>
+    public class SectionAppointmentConfiguration : IEntityTypeConfiguration<SectionAppointment>
     {
         public void Configure(EntityTypeBuilder<SectionAppointment> builder)
         {

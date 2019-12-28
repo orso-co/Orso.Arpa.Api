@@ -11,7 +11,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 {
-    public class RegisterHandlerTests
+    public class UserRegisterHandlerTests
     {
         [SetUp]
         public void Setup()

@@ -120,13 +120,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(1002)]
-        public async Task Should_Add_Register()
+        public async Task Should_Add_Section()
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_orsonaut)
-                .PostAsync(ApiEndpoints.AppointmentsController.AddRegister(
+                .PostAsync(ApiEndpoints.AppointmentsController.AddSection(
                     AppointmentSeedData.RockingXMasConcert.Id,
                     SectionSeedData.Alto.Id), null);
 
@@ -230,13 +230,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(10002)]
-        public async Task Should_Remove_Register()
+        public async Task Should_Remove_Section()
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_orsonaut)
-                .DeleteAsync(ApiEndpoints.AppointmentsController.AddRegister(
+                .DeleteAsync(ApiEndpoints.AppointmentsController.AddSection(
                     AppointmentSeedData.AfterShowParty.Id,
                     SectionSeedData.Alto.Id));
 

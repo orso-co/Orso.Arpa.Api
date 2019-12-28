@@ -13,7 +13,7 @@ using Orso.Arpa.Tests.Shared.DtoTestData;
 namespace Orso.Arpa.Application.Tests.ServicesTests
 {
     [TestFixture]
-    public class RegisterServiceTests
+    public class SectionServiceTests
     {
         private IMediator _subMediator;
         private IMapper _subMapper;
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         {
             // Arrange
             SectionService service = CreateService();
-            IList<SectionDto> expectedDtos = RegisterDtoData.Registers;
+            IList<SectionDto> expectedDtos = SectionDtoData.Sections;
             _subMapper.Map<IEnumerable<SectionDto>>(Arg.Any<IEnumerable<Section>>())
                 .Returns(expectedDtos);
 

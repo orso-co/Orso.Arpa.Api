@@ -55,18 +55,18 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         }
 
         [Test]
-        public async Task AddRegisterAsync_StateUnderTest_ExpectedBehavior()
+        public async Task AddSectionAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
             AppointmentService service = CreateService();
-            var addRegisterDto = new AddSectionDto();
+            var addSectionDto = new AddSectionDto();
             var command = new AddSection.Command(Guid.NewGuid(), Guid.NewGuid());
-            _subMapper.Map<AddSection.Command>(addRegisterDto)
+            _subMapper.Map<AddSection.Command>(addSectionDto)
                 .Returns(command);
 
             // Act
             await service.AddSectionAsync(
-                addRegisterDto);
+                addSectionDto);
 
             // Assert
             await _subMediator.Received().Send(command);
@@ -182,18 +182,18 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         }
 
         [Test]
-        public async Task RemoveRegisterAsync_StateUnderTest_ExpectedBehavior()
+        public async Task RemoveSectionAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
             AppointmentService service = CreateService();
-            RemoveSectionDto removeRegisterDto = null;
+            RemoveSectionDto removeSectionDto = null;
             var command = new RemoveSection.Command(Guid.Empty, Guid.Empty);
-            _subMapper.Map<RemoveSection.Command>(removeRegisterDto)
+            _subMapper.Map<RemoveSection.Command>(removeSectionDto)
                 .Returns(command);
 
             // Act
             await service.RemoveSectionAsync(
-                removeRegisterDto);
+                removeSectionDto);
 
             // Assert
             await _subMediator.Received().Send(command);

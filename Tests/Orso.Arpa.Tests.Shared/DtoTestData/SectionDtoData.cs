@@ -4,9 +4,9 @@ using Orso.Arpa.Application.Dtos;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
-    public static class RegisterDtoData
+    public static class SectionDtoData
     {
-        public static IList<SectionDto> Registers
+        public static IList<SectionDto> Sections
         {
             get
             {

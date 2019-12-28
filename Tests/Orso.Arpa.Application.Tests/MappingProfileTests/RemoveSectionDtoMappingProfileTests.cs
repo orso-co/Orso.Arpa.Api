@@ -9,12 +9,12 @@ using Orso.Arpa.Domain.Appointments;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class AddRegisterDtoMappingProfileTests
+    public class RemoveSectionDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<AddSectionDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<RemoveSectionDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -25,14 +25,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new AddSectionDto
+            var dto = new RemoveSectionDto
             {
                 Id = Guid.NewGuid(),
                 SectionId = Guid.NewGuid()
             };
 
             // Act
-            AddSection.Command command = _mapper.Map<AddSection.Command>(dto);
+            RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);
