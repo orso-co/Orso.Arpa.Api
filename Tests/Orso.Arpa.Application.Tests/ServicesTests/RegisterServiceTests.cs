@@ -25,9 +25,9 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             _subMapper = Substitute.For<IMapper>();
         }
 
-        private RegisterService CreateService()
+        private SectionService CreateService()
         {
-            return new RegisterService(
+            return new SectionService(
                 _subMediator,
                 _subMapper);
         }
@@ -36,13 +36,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task GetAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            RegisterService service = CreateService();
-            IList<RegisterDto> expectedDtos = RegisterDtoData.Registers;
-            _subMapper.Map<IEnumerable<RegisterDto>>(Arg.Any<IEnumerable<Section>>())
+            SectionService service = CreateService();
+            IList<SectionDto> expectedDtos = RegisterDtoData.Registers;
+            _subMapper.Map<IEnumerable<SectionDto>>(Arg.Any<IEnumerable<Section>>())
                 .Returns(expectedDtos);
 
             // Act
-            IEnumerable<RegisterDto> result = await service.GetAsync();
+            IEnumerable<SectionDto> result = await service.GetAsync();
 
             // Assert
             result.Should().BeEquivalentTo(expectedDtos);

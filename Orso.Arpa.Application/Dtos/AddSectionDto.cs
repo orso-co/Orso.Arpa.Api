@@ -2,10 +2,10 @@ using System;
 
 namespace Orso.Arpa.Application.Dtos
 {
-    public class RemoveRegisterDto
+    public class AddSectionDto
     {
         public Guid Id { get; set; }
 
-        public Guid RegisterId { get; set; }
+        public Guid SectionId { get; set; }
     }
 }

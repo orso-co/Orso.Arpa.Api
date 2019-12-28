@@ -10,21 +10,21 @@ using Orso.Arpa.Domain.Sections;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class RegisterService : IRegisterService
+    public class SectionService : ISectionService
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public RegisterService(IMediator mediator, IMapper mapper)
+        public SectionService(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<RegisterDto>> GetAsync()
+        public async Task<IEnumerable<SectionDto>> GetAsync()
         {
-            IImmutableList<Section> registers = await _mediator.Send(new List.Query());
-            return _mapper.Map<IEnumerable<RegisterDto>>(registers);
+            IImmutableList<Section> sections = await _mediator.Send(new List.Query());
+            return _mapper.Map<IEnumerable<SectionDto>>(sections);
         }
     }
 }

@@ -4,8 +4,8 @@ using Orso.Arpa.Application.Dtos;
 
 namespace Orso.Arpa.Application.Interfaces
 {
-    public interface IRegisterService
+    public interface ISectionService
     {
-        Task<IEnumerable<RegisterDto>> GetAsync();
+        Task<IEnumerable<SectionDto>> GetAsync();
     }
 }

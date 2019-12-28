@@ -22,9 +22,9 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task AddProjectAsync(AddProjectDto addProjectDto);
 
-        Task AddRegisterAsync(AddRegisterDto addRegisterDto);
+        Task AddSectionAsync(AddSectionDto addSectionDto);
 
-        Task RemoveRegisterAsync(RemoveRegisterDto removeRegisterDto);
+        Task RemoveSectionAsync(RemoveSectionDto removeSectionDto);
 
         Task RemoveProjectAsync(RemoveProjectDto removeProjectDto);
 

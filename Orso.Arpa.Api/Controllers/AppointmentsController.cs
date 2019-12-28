@@ -63,9 +63,9 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPost("{id}/registers/{registerId}")]
-        public async Task<ActionResult> AddRegister([FromRoute]AddRegisterDto addRegisterDto)
+        public async Task<ActionResult> AddRegister([FromRoute]AddSectionDto addRegisterDto)
         {
-            await _appointmentService.AddRegisterAsync(addRegisterDto);
+            await _appointmentService.AddSectionAsync(addRegisterDto);
             return Ok();
         }
 
@@ -102,9 +102,9 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{id}/registers/{registerId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> RemoveRegister([FromRoute]RemoveRegisterDto removeRegisterDto)
+        public async Task<ActionResult> RemoveRegister([FromRoute]RemoveSectionDto removeRegisterDto)
         {
-            await _appointmentService.RemoveRegisterAsync(removeRegisterDto);
+            await _appointmentService.RemoveSectionAsync(removeRegisterDto);
             return NoContent();
         }
 

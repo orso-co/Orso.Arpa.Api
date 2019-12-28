@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<AddRegisterDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<AddSectionDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -25,10 +25,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new AddRegisterDto
+            var dto = new AddSectionDto
             {
                 Id = Guid.NewGuid(),
-                RegisterId = Guid.NewGuid()
+                SectionId = Guid.NewGuid()
             };
 
             // Act

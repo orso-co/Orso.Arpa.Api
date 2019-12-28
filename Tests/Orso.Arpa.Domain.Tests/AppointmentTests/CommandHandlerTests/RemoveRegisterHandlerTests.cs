@@ -18,14 +18,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     {
         private IRepository _repository;
         private IUnitOfWork _unitOfWork;
-        private RemoveRegister.Handler _handler;
+        private RemoveSection.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _repository = Substitute.For<IRepository>();
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _handler = new RemoveRegister.Handler(_repository, _unitOfWork);
+            _handler = new RemoveSection.Handler(_repository, _unitOfWork);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
                 .Returns(true);
 
             // Act
-            Unit result = await _handler.Handle(new RemoveRegister.Command(Guid.NewGuid(), SectionSeedData.Alto.Id), new CancellationToken());
+            Unit result = await _handler.Handle(new RemoveSection.Command(Guid.NewGuid(), SectionSeedData.Alto.Id), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(Unit.Value);

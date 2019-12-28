@@ -143,7 +143,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ISelectValueService, SelectValueService>();
             services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IRegisterService, RegisterService>();
+            services.AddScoped<ISectionService, SectionService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IVenueService, VenueService>();
         }

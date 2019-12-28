@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<RegisterDtoMappingProfile>();
+                cfg.AddProfile<SectionDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 
@@ -31,10 +31,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Section register = SectionSeedData.Alto;
-            RegisterDto expectedDto = RegisterDtoData.Alto;
+            SectionDto expectedDto = RegisterDtoData.Alto;
 
             // Act
-            RegisterDto dto = _mapper.Map<RegisterDto>(register);
+            SectionDto dto = _mapper.Map<SectionDto>(register);
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));

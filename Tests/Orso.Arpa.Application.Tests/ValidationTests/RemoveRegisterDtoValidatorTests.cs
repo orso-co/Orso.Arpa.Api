@@ -17,13 +17,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     public class RemoveRegisterDtoValidatorTests
     {
         private IReadOnlyRepository _subReadOnlyRepository;
-        private RemoveRegisterDtoValidator _validator;
+        private RemoveSectionDtoValidator _validator;
 
         [SetUp]
         public void SetUp()
         {
             _subReadOnlyRepository = Substitute.For<IReadOnlyRepository>();
-            _validator = new RemoveRegisterDtoValidator(
+            _validator = new RemoveSectionDtoValidator(
                 _subReadOnlyRepository);
         }
 
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(default(Appointment));
 
-            Func<ValidationResult> func = () => _validator.Validate(new Dtos.RemoveRegisterDto { Id = Guid.NewGuid(), RegisterId = Guid.NewGuid() });
+            Func<ValidationResult> func = () => _validator.Validate(new Dtos.RemoveSectionDto { Id = Guid.NewGuid(), SectionId = Guid.NewGuid() });
 
             func.Should().Throw<RestException>();
         }
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_RegisterId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.RegisterId, Guid.Empty);
+            _validator.ShouldHaveValidationErrorFor(command => command.SectionId, Guid.Empty);
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
             _subReadOnlyRepository.GetByIdAsync<Project>(Arg.Any<Guid>()).Returns(project);
 
-            _validator.ShouldHaveValidationErrorFor(command => command.RegisterId, project.Id);
+            _validator.ShouldHaveValidationErrorFor(command => command.SectionId, project.Id);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(appointment);
             _subReadOnlyRepository.GetByIdAsync<Section>(Arg.Any<Guid>()).Returns(register);
 
-            _validator.ShouldNotHaveValidationErrorFor(command => command.RegisterId, register.Id);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.SectionId, register.Id);
         }
     }
 }

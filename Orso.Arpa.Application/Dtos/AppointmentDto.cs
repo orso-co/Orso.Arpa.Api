@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.Dtos
         public Guid? VenueId { get; set; }
         public IEnumerable<RoomDto> Rooms { get; set; } = new List<RoomDto>();
         public IEnumerable<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
-        public IEnumerable<RegisterDto> Registers { get; set; } = new List<RegisterDto>();
+        public IEnumerable<SectionDto> Sections { get; set; } = new List<SectionDto>();
         public IEnumerable<AppointmentParticipationDto> Participations { get; set; } = new List<AppointmentParticipationDto>();
     }
 }

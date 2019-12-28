@@ -4,14 +4,14 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.MappingProfiles
 {
-    public class RegisterDtoMappingProfile : Profile
+    public class SectionDtoMappingProfile : Profile
     {
-        public RegisterDtoMappingProfile()
+        public SectionDtoMappingProfile()
         {
-            CreateMap<Section, RegisterDto>()
+            CreateMap<Section, SectionDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>();
 
-            CreateMap<RegisterDto, Section>();
+            CreateMap<SectionDto, Section>();
         }
     }
 }

@@ -10,16 +10,16 @@ namespace Orso.Arpa.Api.Controllers
 {
     public class RegistersController : BaseController
     {
-        private readonly IRegisterService _registerService;
+        private readonly ISectionService _registerService;
 
-        public RegistersController(IRegisterService registerService)
+        public RegistersController(ISectionService registerService)
         {
             _registerService = registerService;
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RegisterDto>>> Get()
+        public async Task<ActionResult<IEnumerable<SectionDto>>> Get()
         {
             return Ok(await _registerService.GetAsync());
         }

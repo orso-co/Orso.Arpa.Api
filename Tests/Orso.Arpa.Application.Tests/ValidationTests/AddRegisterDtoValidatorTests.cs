@@ -17,13 +17,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     public class AddRegisterDtoValidatorTests
     {
         private IReadOnlyRepository _subReadOnlyRepository;
-        private AddRegisterDtoValidator _validator;
+        private AddSectionDtoValidator _validator;
 
         [SetUp]
         public void SetUp()
         {
             _subReadOnlyRepository = Substitute.For<IReadOnlyRepository>();
-            _validator = new AddRegisterDtoValidator(
+            _validator = new AddSectionDtoValidator(
                 _subReadOnlyRepository);
         }
 
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(default(Appointment));
 
-            Func<ValidationResult> func = () => _validator.Validate(new Dtos.AddRegisterDto { Id = Guid.NewGuid(), RegisterId = Guid.NewGuid() });
+            Func<ValidationResult> func = () => _validator.Validate(new Dtos.AddSectionDto { Id = Guid.NewGuid(), SectionId = Guid.NewGuid() });
 
             func.Should().Throw<RestException>();
         }
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_RegisterId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.RegisterId, Guid.Empty);
+            _validator.ShouldHaveValidationErrorFor(command => command.SectionId, Guid.Empty);
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _subReadOnlyRepository.GetByIdAsync<Section>(Arg.Any<Guid>()).Returns(default(Section));
             _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
 
-            Func<ValidationResult> func = () => _validator.Validate(new Dtos.AddRegisterDto { Id = Guid.NewGuid(), RegisterId = Guid.NewGuid() });
+            Func<ValidationResult> func = () => _validator.Validate(new Dtos.AddSectionDto { Id = Guid.NewGuid(), SectionId = Guid.NewGuid() });
 
             func.Should().Throw<RestException>();
         }
@@ -75,7 +75,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
             _subReadOnlyRepository.GetByIdAsync<Section>(Arg.Any<Guid>()).Returns(register);
 
-            _validator.ShouldNotHaveValidationErrorFor(command => command.RegisterId, register.Id);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.SectionId, register.Id);
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(appointment);
             _subReadOnlyRepository.GetByIdAsync<Section>(Arg.Any<Guid>()).Returns(register);
 
-            _validator.ShouldHaveValidationErrorFor(command => command.RegisterId, register.Id);
+            _validator.ShouldHaveValidationErrorFor(command => command.SectionId, register.Id);
         }
     }
 }
