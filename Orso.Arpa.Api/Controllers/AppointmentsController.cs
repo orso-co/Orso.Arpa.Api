@@ -62,10 +62,10 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
-        [HttpPost("{id}/registers/{registerId}")]
-        public async Task<ActionResult> AddRegister([FromRoute]AddSectionDto addRegisterDto)
+        [HttpPost("{id}/sections/{sectionId}")]
+        public async Task<ActionResult> AddSection([FromRoute]AddSectionDto addSectionDto)
         {
-            await _appointmentService.AddSectionAsync(addRegisterDto);
+            await _appointmentService.AddSectionAsync(addSectionDto);
             return Ok();
         }
 
@@ -99,12 +99,12 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
-        [HttpDelete("{id}/registers/{registerId}")]
+        [HttpDelete("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> RemoveRegister([FromRoute]RemoveSectionDto removeRegisterDto)
+        public async Task<ActionResult> RemoveSection([FromRoute]RemoveSectionDto removeSectionDto)
         {
-            await _appointmentService.RemoveSectionAsync(removeRegisterDto);
+            await _appointmentService.RemoveSectionAsync(removeSectionDto);
             return NoContent();
         }
 

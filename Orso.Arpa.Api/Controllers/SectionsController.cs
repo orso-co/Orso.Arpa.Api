@@ -8,20 +8,20 @@ using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
-    public class RegistersController : BaseController
+    public class SectionsController : BaseController
     {
-        private readonly ISectionService _registerService;
+        private readonly ISectionService _sectionService;
 
-        public RegistersController(ISectionService registerService)
+        public SectionsController(ISectionService sectionService)
         {
-            _registerService = registerService;
+            _sectionService = sectionService;
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SectionDto>>> Get()
         {
-            return Ok(await _registerService.GetAsync());
+            return Ok(await _sectionService.GetAsync());
         }
     }
 }
