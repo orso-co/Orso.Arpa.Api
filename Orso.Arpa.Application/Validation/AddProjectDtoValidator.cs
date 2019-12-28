@@ -23,9 +23,9 @@ namespace Orso.Arpa.Application.Validation
                 .NotEmpty()
                 .MustAsync(async (projectId, cancellation) => await readOnlyRepository.GetByIdAsync<Project>(projectId) != null)
                 .OnFailure(dto => throw new RestException("Project not found", HttpStatusCode.NotFound, new { Project = "Not found" }))
-                .MustAsync(async (dto, ProjectId, cancellation) => (await readOnlyRepository
+                .MustAsync(async (dto, ProjectId, cancellation) => !(await readOnlyRepository
                     .GetByIdAsync<Appointment>(dto.Id)).ProjectAppointments
-                        .FirstOrDefault(ar => ar.ProjectId == ProjectId) == null)
+                        .Any(ar => ar.ProjectId == ProjectId))
                 .WithMessage("The project is already linked to the appointment");
         }
     }

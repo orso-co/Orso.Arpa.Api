@@ -11,7 +11,7 @@ using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 
-namespace Orso.Arpa.Application.Tests.Services
+namespace Orso.Arpa.Application.Tests.ServicesTests
 {
     [TestFixture]
     public class VenueServiceTests

@@ -5,9 +5,9 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.Validation
 {
-    public class RegisterDtoValidator : AbstractValidator<UserRegisterDto>
+    public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
     {
-        public RegisterDtoValidator(UserManager<User> userManager)
+        public UserRegisterDtoValidator(UserManager<User> userManager)
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(c => c.UserName)

@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.Validation
                 .NotEmpty()
                 .MustAsync(async (dto, ProjectId, cancellation) => (await readOnlyRepository
                     .GetByIdAsync<Appointment>(dto.Id)).ProjectAppointments
-                        .FirstOrDefault(ar => ar.ProjectId == ProjectId) != null)
+                        .Any(ar => ar.ProjectId == ProjectId))
                 .WithMessage("The project is not linked to the appointment");
         }
     }

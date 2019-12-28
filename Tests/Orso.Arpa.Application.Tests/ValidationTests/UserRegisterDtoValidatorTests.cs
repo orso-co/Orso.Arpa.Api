@@ -9,16 +9,16 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
-    public class RegisterDtoValidatorTests
+    public class UserRegisterDtoValidatorTests
     {
-        private RegisterDtoValidator _validator;
+        private UserRegisterDtoValidator _validator;
         private UserManager<User> _userManager;
 
         [SetUp]
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _validator = new RegisterDtoValidator(_userManager);
+            _validator = new UserRegisterDtoValidator(_userManager);
         }
 
         [Test]
