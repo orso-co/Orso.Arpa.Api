@@ -100,5 +100,10 @@ namespace Orso.Arpa.Application.Services
             SetVenue.Command command = _mapper.Map<SetVenue.Command>(setVenueDto);
             await _mediator.Send(command);
         }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            await _mediator.Send(new Delete.Command() { Id = id });
+        }
     }
 }

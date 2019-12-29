@@ -252,5 +252,19 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             // Assert
             await _subMediator.Received().Send(command);
         }
+
+        [Test]
+        public async Task DeleteAsync_StateUnderTest_ExpectedBehavior()
+        {
+            // Arrange
+            AppointmentService service = CreateService();
+            var id = default(Guid);
+
+            // Act
+            await service.DeleteAsync(id);
+
+            // Assert
+            await _subMediator.Received().Send(Arg.Any<Delete.Command>());
+        }
     }
 }

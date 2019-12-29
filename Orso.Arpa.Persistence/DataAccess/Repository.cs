@@ -56,7 +56,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public async Task DeleteAsync<TEntity>(Guid id) where TEntity : BaseEntity
         {
             TEntity entity = await GetByIdAsync<TEntity>(id);
-
+            NullCheck(entity);
             entity.Delete(_userAccessor.DisplayName);
         }
 
