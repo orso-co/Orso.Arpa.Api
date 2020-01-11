@@ -20,7 +20,5 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping Result { get; private set; }
         public Guid? PredictionId { get; private set; }
         public virtual SelectValueMapping Prediction { get; private set; }
-        public Guid? ExpectationId { get; private set; }
-        public virtual SelectValueMapping Expectation { get; private set; }
     }
 }

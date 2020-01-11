@@ -36,6 +36,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .RuleFor(dto => dto.EmolumentId, f => Guid.NewGuid())
                 .RuleFor(dto => dto.EmolumentPatternId, f => Guid.NewGuid())
                 .RuleFor(dto => dto.StatusId, f => Guid.NewGuid())
+                .RuleFor(dto => dto.ExpectationId, f => Guid.NewGuid())
                 .Generate();
 
             // Act

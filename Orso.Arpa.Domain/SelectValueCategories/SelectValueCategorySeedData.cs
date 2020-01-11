@@ -16,7 +16,7 @@ namespace Orso.Arpa.Domain.SelectValueCategories
                     AppointmentCategory,
                     AppointmentEmolument,
                     AppointmentEmolumentPattern,
-                    AppointmentParticipationExpectation,
+                    AppointmentExpectation,
                     AppointmentParticipationPrediction,
                     AppointmentParticipationResult,
                     AppointmentStatus,
@@ -61,14 +61,14 @@ namespace Orso.Arpa.Domain.SelectValueCategories
             }
         }
 
-        public static SelectValueCategory AppointmentParticipationExpectation
+        public static SelectValueCategory AppointmentExpectation
         {
             get
             {
                 return new SelectValueCategory(
                     Guid.Parse("0fdb6218-54fa-4e94-a880-2a65fc1cf9d7"),
-                    nameof(AppointmentParticipation),
-                    nameof(AppointmentParticipation.Expectation),
+                    nameof(Appointment),
+                    nameof(Appointment.Expectation),
                     "Expectation KBB");
             }
         }
