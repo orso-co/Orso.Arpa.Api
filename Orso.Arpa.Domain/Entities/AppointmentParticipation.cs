@@ -1,11 +1,16 @@
 using System;
+using Orso.Arpa.Domain.AppointmentParticipations;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class AppointmentParticipation : BaseEntity
     {
-        internal AppointmentParticipation(Guid? id) : base(id)
+        public AppointmentParticipation(Guid? id, Create.Command command) : base(id)
         {
+            PersonId = command.PersonId;
+            AppointmentId = command.AppointmentId;
+            PredictionId = command.PredictionId;
+            ResultId = command.ResultId;
         }
 
         protected AppointmentParticipation()

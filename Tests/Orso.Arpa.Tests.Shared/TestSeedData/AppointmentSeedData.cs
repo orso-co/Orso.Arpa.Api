@@ -26,9 +26,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new Appointment
+                var id = Guid.Parse("41579f23-d545-4b10-96ab-842f9893a2d3");
+                var appointment = new Appointment
                 (
-                    Guid.Parse("41579f23-d545-4b10-96ab-842f9893a2d3"),
+                    id,
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
@@ -42,6 +43,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Name = "Rocking X-mas Dress Rehearsal"
                     }
                 );
+                appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.RockingXMas.Id, id));
+                return appointment;
             }
         }
 
@@ -49,9 +52,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new Appointment
+                var id = Guid.Parse("bcf930c0-18d5-48b4-ab10-d477a8cb822f");
+                var appointment = new Appointment
                 (
-                    Guid.Parse("bcf930c0-18d5-48b4-ab10-d477a8cb822f"),
+                    id,
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[1].Id,
@@ -65,6 +69,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Name = "Rocking X-mas Concert"
                     }
                 );
+                return appointment;
             }
         }
 

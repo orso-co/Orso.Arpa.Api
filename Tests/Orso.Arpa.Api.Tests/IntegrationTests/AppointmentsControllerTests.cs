@@ -29,14 +29,22 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .AuthenticateWith(_orsianer)
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(new DateTime(2019, 12, 21), DateRange.Day));
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
             result.Count().Should().Be(1);
             AppointmentDto returnedAppointment = result.First();
-            returnedAppointment.Should().BeEquivalentTo(AppointmentDtoData.RockingXMasRehearsal, opt => opt.Excluding(dto => dto.CreatedAt));
+            returnedAppointment.Should().BeEquivalentTo(expectedDto, opt => opt
+                .Excluding(dto => dto.CreatedAt)
+                .Excluding(dto => dto.Participations)
+                .Excluding(dto => dto.Projects));
             returnedAppointment.CreatedAt.Should().NotBeNullOrEmpty();
+            for (int i = 0; i < expectedDto.Projects.Count; i++)
+            {
+                returnedAppointment.Projects[i].Should().BeEquivalentTo(expectedDto.Projects[i], opt => opt.Excluding(p => p.CreatedAt));
+            }
         }
 
         [Test, Order(2)]
@@ -53,7 +61,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedAppointment, opt => opt.Excluding(dto => dto.CreatedAt));
+            result.Should().BeEquivalentTo(expectedAppointment, opt => opt
+                .Excluding(dto => dto.CreatedAt)
+                .Excluding(dto => dto.Projects)
+                .Excluding(dto => dto.Participations));
+            for (int i = 0; i < expectedAppointment.Projects.Count; i++)
+            {
+                result.Projects[i].Should().BeEquivalentTo(expectedAppointment.Projects[i], opt => opt.Excluding(p => p.CreatedAt));
+            }
+            for (int i = 0; i < expectedAppointment.Participations.Count; i++)
+            {
+                result.Participations[i].Should().BeEquivalentTo(expectedAppointment.Participations[i], opt => opt
+                    .Excluding(p => p.Person.CreatedAt)
+                    .Excluding(p => p.Participation.CreatedAt));
+            }
         }
 
         [Test, Order(1000)]

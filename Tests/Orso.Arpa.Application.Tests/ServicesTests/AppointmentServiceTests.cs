@@ -136,6 +136,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
             _subMapper.Map<AppointmentDto>(Arg.Any<Appointment>())
                 .Returns(expectedDto);
+            _subMediator.Send(Arg.Any<Details.Query>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
 
             // Act
             AppointmentDto result = await service.GetAsync(

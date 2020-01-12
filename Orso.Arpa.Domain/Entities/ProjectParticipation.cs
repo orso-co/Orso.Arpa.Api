@@ -1,11 +1,14 @@
 using System;
+using Orso.Arpa.Domain.ProjectParticipations;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class ProjectParticipation : BaseEntity
     {
-        internal ProjectParticipation(Guid? id) : base(id)
+        public ProjectParticipation(Guid? id, Create.Command command) : base(id)
         {
+            ProjectId = command.ProjectId;
+            MusicianProfileId = command.MusicianProfileId;
         }
 
         protected ProjectParticipation()

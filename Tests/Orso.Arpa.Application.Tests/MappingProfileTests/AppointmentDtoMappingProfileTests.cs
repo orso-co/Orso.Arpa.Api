@@ -1,9 +1,12 @@
+using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -18,6 +21,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             {
                 cfg.AddProfile<AppointmentDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
+                cfg.AddProfile<ProjectDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);
@@ -29,14 +33,24 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Domain.Entities.Appointment appointment = AppointmentSeedData.RockingXMasRehearsal;
+            Appointment appointment = AppointmentSeedData.RockingXMasRehearsal;
+            appointment.ProjectAppointments.First().SetProperty(nameof(ProjectAppointment.Project), ProjectSeedData.RockingXMas);
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
 
             // Act
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));
+            dto.Should().BeEquivalentTo(expectedDto, opt => opt
+                .Excluding(dto => dto.CreatedBy)
+                .Excluding(dto => dto.Participations)
+                .Excluding(dto => dto.Projects));
+            for (int i = 0; i < expectedDto.Projects.Count; i++)
+            {
+                dto.Projects[i].Should().BeEquivalentTo(expectedDto.Projects[i], opt => opt
+                    .Excluding(p => p.CreatedAt)
+                    .Excluding(p => p.CreatedBy));
+            }
         }
     }
 }
