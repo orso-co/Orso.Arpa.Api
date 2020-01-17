@@ -10,6 +10,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Dtos.Extensions;
 using Orso.Arpa.Domain.Appointments;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Sections.Seed;
 using Orso.Arpa.Domain.SelectValueMappings.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -254,6 +255,22 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.AppointmentsController.AddProject(
                     AppointmentSeedData.AfterShowParty.Id,
                     ProjectSeedData.RockingXMas.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test, Order(10004)]
+        public async Task Should_Delete()
+        {
+            // Arrange
+            Appointment appointmentToDelete = AppointmentSeedData.RockingXMasConcert;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_orsonaut)
+                .DeleteAsync(ApiEndpoints.AppointmentsController.Delete(appointmentToDelete.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

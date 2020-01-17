@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Entities
             ModifiedAt = DateTime.UtcNow;
         }
 
-        public void Delete(string modifiedBy)
+        public virtual void Delete(string modifiedBy)
         {
             Deleted = true;
             Modify(modifiedBy);

@@ -110,6 +110,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string SetVenue(Guid id, Guid? venueId) => $"{Appointments}/{id}/venue/set/{venueId}";
 
             public static string SetDates(Guid id) => $"{Appointments}/{id}/dates/set";
+
+            public static string Delete(Guid id) => $"{Appointments}/{id}";
         }
     }
 }

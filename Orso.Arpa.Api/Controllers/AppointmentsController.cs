@@ -119,6 +119,17 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            await _appointmentService.DeleteAsync(id);
+
+            return NoContent();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPut("{id}/dates/set")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
