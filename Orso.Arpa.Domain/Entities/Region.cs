@@ -1,12 +1,13 @@
 using System;
+using Orso.Arpa.Domain.Regions;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Region : BaseEntity
     {
-        internal Region(Guid? id, string name) : base(id)
+        internal Region(Guid? id, Create.Command command) : base(id)
         {
-            Name = name;
+            Name = command.Name;
         }
 
         protected Region()

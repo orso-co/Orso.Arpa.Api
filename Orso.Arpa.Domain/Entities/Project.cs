@@ -1,14 +1,22 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Orso.Arpa.Domain.Projects;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Project : BaseEntity
     {
-        internal Project(Guid? id) : base(id)
+        public Project(Guid? id, Create.Command command) : base(id)
         {
+            Number = command.Number;
+            Title = command.Title;
+            Description = command.Description;
+            ParentId = command.ParentId;
+            GenreId = command.GenreId;
         }
 
+        [JsonConstructor]
         protected Project()
         {
         }
@@ -22,5 +30,7 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? GenreId { get; private set; }
         public virtual SelectValueMapping Genre { get; private set; }
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
+        public bool IsCompleted { get; private set; }
+        public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
     }
 }

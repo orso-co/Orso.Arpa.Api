@@ -26,7 +26,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenDto>> Register([FromBody]RegisterDto registerDto)
+        public async Task<ActionResult<TokenDto>> Register([FromBody]UserRegisterDto registerDto)
         {
             return await _authService.RegisterAsync(registerDto);
         }

@@ -26,8 +26,12 @@ namespace Orso.Arpa.Domain.Regions.Seed
                 return new Region
                 (
                     Guid.Parse("3e6c559e-8d50-488d-a1ea-5dbc0f44ba9b"),
-                    "Freiburg"
+                    new Create.Command
+                    {
+                        Name = "Freiburg"
+                    }
                 );
+                ;
             }
         }
 
@@ -38,7 +42,10 @@ namespace Orso.Arpa.Domain.Regions.Seed
                 return new Region
                 (
                     Guid.Parse("ac9544e3-e756-486c-a1dc-62988a882ac2"),
-                    "Stuttgart"
+                    new Create.Command
+                    {
+                        Name = "Stuttgart"
+                    }
                 );
             }
         }
@@ -50,7 +57,10 @@ namespace Orso.Arpa.Domain.Regions.Seed
                 return new Region
                 (
                     Guid.Parse("ca3c9cce-1aee-4c50-93e1-be963542741a"),
-                    "Berlin"
+                    new Create.Command
+                    {
+                        Name = "Berlin"
+                    }
                 );
             }
         }

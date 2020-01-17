@@ -22,24 +22,22 @@ namespace Orso.Arpa.Api.ModelBinders
                 return;
             }
 
-            using (var streamReader = new StreamReader(bindingContext.HttpContext.Request.Body))
+            using var streamReader = new StreamReader(bindingContext.HttpContext.Request.Body);
+            var serializedDto = await streamReader.ReadToEndAsync();
+
+            if (string.IsNullOrWhiteSpace(serializedDto))
             {
-                var serializedDto = await streamReader.ReadToEndAsync();
-
-                if (string.IsNullOrWhiteSpace(serializedDto))
-                {
-                    bindingContext.Result = ModelBindingResult.Failed();
-                    return;
-                }
-
-                TDto dto = JsonConvert.DeserializeObject<TDto>(serializedDto);
-
-                dto.Id = id;
-
-                bindingContext.Result = ModelBindingResult.Success(dto);
-
+                bindingContext.Result = ModelBindingResult.Failed();
                 return;
             }
+
+            TDto dto = JsonConvert.DeserializeObject<TDto>(serializedDto);
+
+            dto.Id = id;
+
+            bindingContext.Result = ModelBindingResult.Success(dto);
+
+            return;
         }
     }
 }

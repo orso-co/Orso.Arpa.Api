@@ -1,13 +1,20 @@
 using System;
+using Newtonsoft.Json;
+using Orso.Arpa.Domain.Rooms;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Room : BaseEntity
     {
-        internal Room(Guid? id) : base(id)
+        public Room(Guid? id, Create.Command command) : base(id)
         {
+            VenueId = command.VenueId;
+            Building = command.Building;
+            Floor = command.Floor;
+            Name = command.Name;
         }
 
+        [JsonConstructor]
         protected Room()
         {
         }

@@ -7,6 +7,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Dtos.Extensions;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Regions.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -29,7 +30,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Name = createDto.Name,
                 CreatedBy = _orsonaut.DisplayName,
-                CreatedAt = DateTimeOffset.UtcNow,
+                CreatedAt = DateTime.UtcNow.ToIsoString(),
                 ModifiedAt = null,
                 ModifiedBy = null,
             };
@@ -46,7 +47,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
             result.Id.Should().NotBeEmpty();
-            result.CreatedAt.Should().BeCloseTo(expectedDto.CreatedAt, precision: 10000);
+            result.CreatedAt.Should().NotBeNullOrEmpty();
         }
 
         [Test]
@@ -64,8 +65,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Id = regionToModify.Id,
                 Name = modifyDto.Name,
                 CreatedBy = regionToModify.CreatedBy,
-                CreatedAt = regionToModify.CreatedAt,
-                ModifiedAt = DateTimeOffset.UtcNow,
+                CreatedAt = regionToModify.CreatedAt.ToIsoString(),
+                ModifiedAt = DateTime.UtcNow.ToIsoString(),
                 ModifiedBy = _orsonaut.DisplayName,
             };
 
@@ -87,7 +88,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(getMessage);
 
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.ModifiedAt));
-            result.ModifiedAt.Should().BeCloseTo(expectedDto.ModifiedAt.Value, precision: 10000);
+            result.ModifiedAt.Should().NotBeNullOrEmpty();
         }
 
         [Test, Order(1)]

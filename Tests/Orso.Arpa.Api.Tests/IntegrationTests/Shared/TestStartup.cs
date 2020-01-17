@@ -28,26 +28,25 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         protected override void EnsureDatabaseMigrations(IApplicationBuilder app)
         {
-            using (IServiceScope scope = app.ApplicationServices.CreateScope())
+            using IServiceScope scope = app.ApplicationServices.CreateScope();
+            System.IServiceProvider services = scope.ServiceProvider;
+            try
             {
-                System.IServiceProvider services = scope.ServiceProvider;
-                try
-                {
-                    ArpaContext context = services.GetRequiredService<ArpaContext>();
-                    UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
-                    IRepository repository = services.GetRequiredService<IRepository>();
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
-                    IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
-                    dataSeeder.SeedDataAsync().Wait();
-                    TestSeed.SeedDataAsync(userManager, repository).Wait();
-                }
-                catch (System.Exception ex)
-                {
-                    ILogger<TestStartup> logger = services.GetRequiredService<ILogger<TestStartup>>();
-                    logger.LogError(ex, "An error occured during test database migration");
-                    throw;
-                }
+                ArpaContext context = services.GetRequiredService<ArpaContext>();
+                UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
+                IRepository repository = services.GetRequiredService<IRepository>();
+                IUnitOfWork unitOfWork = services.GetRequiredService<IUnitOfWork>();
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+                IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
+                dataSeeder.SeedDataAsync().Wait();
+                TestSeed.SeedDataAsync(userManager, repository, unitOfWork).Wait();
+            }
+            catch (System.Exception ex)
+            {
+                ILogger<TestStartup> logger = services.GetRequiredService<ILogger<TestStartup>>();
+                logger.LogError(ex, "An error occured during test database migration");
+                throw;
             }
         }
     }

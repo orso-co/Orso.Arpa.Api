@@ -6,7 +6,7 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Person : BaseEntity
     {
-        public Person(Guid? id, Auth.Register.Command command) : base(id)
+        public Person(Guid? id, Auth.UserRegister.Command command) : base(id)
         {
             GivenName = command.GivenName;
             Surname = command.Surname;
