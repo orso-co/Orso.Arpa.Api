@@ -22,7 +22,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Login()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Orsoadmin;
             var loginDto = new LoginDto
             {
                 UserName = user.UserName,

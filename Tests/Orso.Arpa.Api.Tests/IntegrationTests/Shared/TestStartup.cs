@@ -15,7 +15,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
     public class TestStartup : Startup
     {
-        public TestStartup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public TestStartup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
             : base(configuration, hostingEnvironment)
         {
         }

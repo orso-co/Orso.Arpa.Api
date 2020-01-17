@@ -7,12 +7,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
     public class AuthenticatedTestStartup : TestStartup
     {
-        public AuthenticatedTestStartup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public AuthenticatedTestStartup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
             : base(configuration, hostingEnvironment)
         {
         }
 
-        public override void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<AuthenticatedTestRequestMiddleware>();
             base.Configure(app, env);

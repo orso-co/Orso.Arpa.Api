@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MappingProfiles;
@@ -29,16 +30,15 @@ using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Infrastructure.DataAccess;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
-using Swashbuckle.AspNetCore.Swagger;
 using static Orso.Arpa.Domain.Regions.Create;
 
 namespace Orso.Arpa.Api
 {
     public class Startup
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
@@ -60,8 +60,8 @@ namespace Orso.Arpa.Api
             services.AddMediatR(typeof(Login.Handler).Assembly);
             services.AddAutoMapper(typeof(LoginDtoMappingProfile).Assembly, typeof(MappingProfile).Assembly);
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddControllers()
+                .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
                     config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>());
 
@@ -113,15 +113,15 @@ namespace Orso.Arpa.Api
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Orso.Arpa.Api",
                     Version = "v1",
-                    License = new License { Name = "MIT", Url = "https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE" },
-                    Contact = new Contact
+                    License = new OpenApiLicense { Name = "MIT", Url = new System.Uri("https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE") },
+                    Contact = new OpenApiContact
                     {
                         Name = "ORSO – Orchestra & Choral Society Freiburg | Berlin e. V.",
-                        Url = "https://www.orso.co/",
+                        Url = new System.Uri("https://www.orso.co/"),
                         Email = "mail@orso.co"
                     }
                 });
@@ -197,7 +197,7 @@ namespace Orso.Arpa.Api
             });
         }
 
-        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
@@ -207,13 +207,21 @@ namespace Orso.Arpa.Api
                 app.UseHsts();
             }
 
+            app.UseRouting();
+
+            app.UseCors("CorsPolicy");
+
             app.UseHttpsRedirection();
+
             app.UseAuthentication();
+            app.UseAuthorization();
 
             AddSwagger(app);
 
-            app.UseCors("CorsPolicy");
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             EnsureDatabaseMigrations(app);
         }
