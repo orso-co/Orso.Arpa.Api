@@ -1,11 +1,16 @@
 using System;
+using Orso.Arpa.Domain.AppointmentParticipations;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class AppointmentParticipation : BaseEntity
     {
-        internal AppointmentParticipation(Guid? id) : base(id)
+        public AppointmentParticipation(Guid? id, Create.Command command) : base(id)
         {
+            PersonId = command.PersonId;
+            AppointmentId = command.AppointmentId;
+            PredictionId = command.PredictionId;
+            ResultId = command.ResultId;
         }
 
         protected AppointmentParticipation()
@@ -20,7 +25,5 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping Result { get; private set; }
         public Guid? PredictionId { get; private set; }
         public virtual SelectValueMapping Prediction { get; private set; }
-        public Guid? ExpectationId { get; private set; }
-        public virtual SelectValueMapping Expectation { get; private set; }
     }
 }

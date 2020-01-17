@@ -21,6 +21,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await SeedVenuesAsync(repository);
             await SeedRoomsAsync(repository);
             await SeedProjectsAsync(repository);
+            await SeedMusicianProfilesAsync(repository);
+            await SeedProjectParticipationsAsync(repository);
+            await SeedAppointmentParticipationsAsync(repository);
 
             if (!await unitOfWork.CommitAsync())
             {
@@ -65,6 +68,30 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             foreach (Project project in ProjectSeedData.Projects)
             {
                 await repository.AddAsync(project);
+            }
+        }
+
+        private static async Task SeedMusicianProfilesAsync(IRepository repository)
+        {
+            foreach (MusicianProfile profile in MusicianProfileSeedData.MusicianProfiles)
+            {
+                await repository.AddAsync(profile);
+            }
+        }
+
+        private static async Task SeedProjectParticipationsAsync(IRepository repository)
+        {
+            foreach (ProjectParticipation participation in ProjectParticipationSeedData.ProjectParticipations)
+            {
+                await repository.AddAsync(participation);
+            }
+        }
+
+        private static async Task SeedAppointmentParticipationsAsync(IRepository repository)
+        {
+            foreach (AppointmentParticipation participation in AppointmentParticipationSeedData.AppointmentParticipations)
+            {
+                await repository.AddAsync(participation);
             }
         }
 

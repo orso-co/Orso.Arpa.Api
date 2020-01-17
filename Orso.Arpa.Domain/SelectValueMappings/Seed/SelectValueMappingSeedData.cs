@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.SelectValueMappings.Seed
                 list.AddRange(AppointmentCategoryMappings);
                 list.AddRange(AppointmentEmolumentMappings);
                 list.AddRange(AppointmentEmolumentPatternMappings);
-                list.AddRange(AppointmentParticipationExpectationMappings);
+                list.AddRange(AppointmentExpectationMappings);
                 list.AddRange(AppointmentParticipationPredictionMappings);
                 list.AddRange(AppointmentParticipationResultMappings);
                 list.AddRange(AppointmentStatusMappings);
@@ -96,16 +96,16 @@ namespace Orso.Arpa.Domain.SelectValueMappings.Seed
             }
         }
 
-        public static IList<SelectValueMapping> AppointmentParticipationExpectationMappings
+        public static IList<SelectValueMapping> AppointmentExpectationMappings
         {
             get
             {
                 return new List<SelectValueMapping>
                 {
-                    new SelectValueMapping(Guid.Parse("867622fa-7aa5-43f3-b3ef-5290d1f61734"), SelectValueCategorySeedData.AppointmentParticipationExpectation.Id, SelectValueSeedData.Pending.Id),
-                    new SelectValueMapping(Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"), SelectValueCategorySeedData.AppointmentParticipationExpectation.Id, SelectValueSeedData.Confirmed.Id),
-                    new SelectValueMapping(Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"), SelectValueCategorySeedData.AppointmentParticipationExpectation.Id, SelectValueSeedData.Mandatory.Id),
-                    new SelectValueMapping(Guid.Parse("d64abb04-dc1c-4e17-bed5-a62196a59c49"), SelectValueCategorySeedData.AppointmentParticipationExpectation.Id, SelectValueSeedData.Optional.Id),
+                    new SelectValueMapping(Guid.Parse("867622fa-7aa5-43f3-b3ef-5290d1f61734"), SelectValueCategorySeedData.AppointmentExpectation.Id, SelectValueSeedData.Pending.Id),
+                    new SelectValueMapping(Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"), SelectValueCategorySeedData.AppointmentExpectation.Id, SelectValueSeedData.Confirmed.Id),
+                    new SelectValueMapping(Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"), SelectValueCategorySeedData.AppointmentExpectation.Id, SelectValueSeedData.Mandatory.Id),
+                    new SelectValueMapping(Guid.Parse("d64abb04-dc1c-4e17-bed5-a62196a59c49"), SelectValueCategorySeedData.AppointmentExpectation.Id, SelectValueSeedData.Optional.Id),
                 };
             }
         }

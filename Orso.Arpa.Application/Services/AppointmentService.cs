@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -59,10 +60,30 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
         }
 
+        private void AddParticipations(AppointmentDto dto, Appointment appointment)
+        {
+            IEnumerable<ProjectParticipation> participations = appointment.ProjectAppointments
+                .Select(pa => pa.Project)
+                .SelectMany(p => p.ProjectParticipations);
+
+            IEnumerable<PersonGrouping> persons = from p in participations
+                                                  group p by p.MusicianProfile.Person into g
+                                                  select new PersonGrouping
+                                                  {
+                                                      Person = g.Key,
+                                                      Profiles = g.ToList().Select(g => g.MusicianProfile),
+                                                      Participation = appointment.AppointmentParticipations.FirstOrDefault(ap => ap.PersonId == g.Key.Id)
+                                                  };
+
+            dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(persons);
+        }
+
         public async Task<AppointmentDto> GetAsync(Guid id)
         {
             Appointment appointment = await _mediator.Send(new Details.Query { Id = id });
-            return _mapper.Map<AppointmentDto>(appointment);
+            AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
+            AddParticipations(dto, appointment);
+            return dto;
         }
 
         public async Task ModifyAsync(AppointmentModifyDto appointmentModifyDto)
@@ -105,5 +126,12 @@ namespace Orso.Arpa.Application.Services
         {
             await _mediator.Send(new Delete.Command() { Id = id });
         }
+    }
+
+    internal class PersonGrouping
+    {
+        public Person Person { get; set; }
+        public IEnumerable<MusicianProfile> Profiles { get; set; }
+        public AppointmentParticipation Participation { get; set; }
     }
 }

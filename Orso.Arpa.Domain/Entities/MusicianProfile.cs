@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
+using Orso.Arpa.Domain.MusicianProfiles;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class MusicianProfile : BaseEntity
     {
-        internal MusicianProfile(Guid? id) : base(id)
+        public MusicianProfile(Guid? id, Create.Command command) : base(id)
         {
+            IsProfessional = command.IsProfessional;
+            PersonId = command.PersonId;
+            SectionId = command.SectionId;
         }
 
         protected MusicianProfile()

@@ -22,6 +22,7 @@ namespace Orso.Arpa.Domain.Appointments
             public Guid? StatusId { get; set; }
             public Guid? EmolumentId { get; set; }
             public Guid? EmolumentPatternId { get; set; }
+            public Guid? ExpectationId { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -38,6 +39,7 @@ namespace Orso.Arpa.Domain.Appointments
                     .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => src.StatusId))
                     .ForMember(dest => dest.EmolumentId, opt => opt.MapFrom(src => src.EmolumentId))
                     .ForMember(dest => dest.EmolumentPatternId, opt => opt.MapFrom(src => src.EmolumentPatternId))
+                    .ForMember(dest => dest.ExpectationId, opt => opt.MapFrom(src => src.ExpectationId))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }

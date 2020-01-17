@@ -23,7 +23,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected override void ConfigureDatabase(IServiceCollection services)
         {
             services.AddDbContext<ArpaContext>(options =>
-                options.UseInMemoryDatabase("DefaultConnection"));
+            {
+                options.UseInMemoryDatabase("DefaultConnection");
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+            });
         }
 
         protected override void EnsureDatabaseMigrations(IApplicationBuilder app)

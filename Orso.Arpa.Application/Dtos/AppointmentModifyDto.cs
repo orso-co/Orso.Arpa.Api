@@ -16,5 +16,6 @@ namespace Orso.Arpa.Application.Dtos
         public Guid? StatusId { get; set; }
         public Guid? EmolumentId { get; set; }
         public Guid? EmolumentPatternId { get; set; }
+        public Guid? ExpectationId { get; set; }
     }
 }

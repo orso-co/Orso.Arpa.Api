@@ -21,7 +21,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new AppointmentDto
+                var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("41579f23-d545-4b10-96ab-842f9893a2d3"),
                     CategoryId = Guid.Parse("c1b6d08b-f31e-4f38-a8c0-761e42fbd2b7"),
@@ -34,6 +34,60 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Rocking X-mas Dress Rehearsal",
                     StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
                     CreatedBy = "anonymous"
+                };
+                dto.Participations.Add(OrsianerParticipation);
+                dto.Participations.Add(OrsonautParticipation);
+                dto.Participations.Add(OrsoadminParticipation);
+                dto.Projects.Add(ProjectDtoData.RockingXMas);
+                return dto;
+            }
+        }
+
+        private static AppointmentParticipationListItemDto OrsianerParticipation
+        {
+            get
+            {
+                return new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Orsianer,
+                    Participation = AppointmentParticipationDtoData.OrsianerParticipation,
+                    MusicianProfiles = new List<MusicianProfileDto>
+                    {
+                        MusicianProfileDtoData.OrsianerProfile
+                    }
+                };
+            }
+        }
+
+        private static AppointmentParticipationListItemDto OrsonautParticipation
+        {
+            get
+            {
+                return new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Orsonaut,
+                    Participation = AppointmentParticipationDtoData.OrsonautParticipation,
+                    MusicianProfiles = new List<MusicianProfileDto>
+                    {
+                        MusicianProfileDtoData.OrsonautProfile1,
+                        MusicianProfileDtoData.OrsonautProfile2
+                    }
+                };
+            }
+        }
+
+        private static AppointmentParticipationListItemDto OrsoadminParticipation
+        {
+            get
+            {
+                return new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Orsoadmin,
+                    Participation = null,
+                    MusicianProfiles = new List<MusicianProfileDto>
+                    {
+                        MusicianProfileDtoData.OrsoadminProfile1
+                    }
                 };
             }
         }

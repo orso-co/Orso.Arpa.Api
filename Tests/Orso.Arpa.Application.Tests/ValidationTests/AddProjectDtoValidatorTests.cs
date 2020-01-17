@@ -71,7 +71,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         public void Should_Not_Have_Validation_Error_If_Valid_ProjectId_Is_Supplied()
         {
             Project project = ProjectSeedData.RockingXMas;
-            _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
+            _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(AppointmentSeedData.RockingXMasConcert);
             _subReadOnlyRepository.GetByIdAsync<Project>(Arg.Any<Guid>()).Returns(project);
 
             _validator.ShouldNotHaveValidationErrorFor(command => command.ProjectId, project.Id);

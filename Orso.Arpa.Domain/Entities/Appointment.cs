@@ -18,6 +18,7 @@ namespace Orso.Arpa.Domain.Entities
             StatusId = command.StatusId;
             EmolumentId = command.EmolumentId;
             EmolumentPatternId = command.EmolumentPatternId;
+            ExpectationId = command.ExpectationId;
         }
 
         [JsonConstructor]
@@ -40,6 +41,8 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping EmolumentPattern { get; private set; }
         public Guid? VenueId { get; private set; }
         public virtual Venue Venue { get; private set; }
+        public Guid? ExpectationId { get; private set; }
+        public virtual SelectValueMapping Expectation { get; private set; }
         public virtual ICollection<AppointmentRoom> AppointmentRooms { get; private set; } = new HashSet<AppointmentRoom>();
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public virtual ICollection<SectionAppointment> SectionAppointments { get; private set; } = new HashSet<SectionAppointment>();
