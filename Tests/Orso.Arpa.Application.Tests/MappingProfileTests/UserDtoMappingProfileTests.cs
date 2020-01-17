@@ -15,10 +15,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<UserDtoMappingProfile>();
-            });
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<UserDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -36,7 +33,9 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             UserDto dto = _mapper.Map<UserDto>(user);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dest => dest.RoleName));
+            dto.Should().BeEquivalentTo(expectedDto, opt => opt
+                .Excluding(dest => dest.RoleName)
+                .Excluding(dest => dest.RoleLevel));
         }
     }
 }

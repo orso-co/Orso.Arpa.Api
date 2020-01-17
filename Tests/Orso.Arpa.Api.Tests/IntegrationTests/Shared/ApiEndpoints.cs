@@ -28,6 +28,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Delete(string username) => $"{Users}/{username}";
         }
 
+        public static class RolesController
+        {
+            private static string Roles => $"{Base}/roles";
+
+            public static string Get() => Roles;
+        }
+
         public static class MeController
         {
             private static string Me => $"{Base}/users/me";

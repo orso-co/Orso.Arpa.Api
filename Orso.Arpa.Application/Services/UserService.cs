@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -28,9 +27,15 @@ namespace Orso.Arpa.Application.Services
             var dtos = new List<UserDto>();
             foreach (User user in users)
             {
-                IEnumerable<string> roles = await _mediator.Send(new Roles.Query(user));
+                Domain.Entities.Role role = await _mediator.Send(new Domain.Users.Role.Query(user));
                 UserDto dto = _mapper.Map<UserDto>(user);
-                dto.RoleName = roles.FirstOrDefault();
+
+                if (role != null)
+                {
+                    dto.RoleName = role.Name;
+                    dto.RoleLevel = role.Level;
+                }
+
                 dtos.Add(dto);
             }
 

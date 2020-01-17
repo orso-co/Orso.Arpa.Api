@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 Password = UserSeedData.ValidPassword
             };
             _mapper.Map<Login.Query>(loginDto).Returns(new Login.Query { Password = loginDto.Password, UserName = loginDto.UserName });
-            var token = "Token";
+            const string token = "Token";
             _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
@@ -69,7 +69,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 Surname = registerDto.Surname,
                 UserName = registerDto.UserName
             });
-            var token = "Token";
+            const string token = "Token";
             _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
@@ -81,7 +81,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         }
 
         [Test]
-        public void Should_Change_Password_Async()
+        public void Should_Change_Password()
         {
             // Arrange
             var changePasswordDto = new ChangePasswordDto
@@ -103,7 +103,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         }
 
         [Test]
-        public void Should_Set_Role_Async()
+        public void Should_Set_Role()
         {
             // Arrange
             var setRoleDto = new SetRoleDto
