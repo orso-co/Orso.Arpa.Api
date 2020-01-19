@@ -1,7 +1,7 @@
 language: csharp
 mono: none
 dotnet: 3.1.100
-solution: solution-name.sln
+solution: Orso.Arpa.Api.sln
 script:
 - dotnet build
 - dotnet test
