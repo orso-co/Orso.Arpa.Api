@@ -112,6 +112,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string SetDates(Guid id) => $"{Appointments}/{id}/dates/set";
 
             public static string Delete(Guid id) => $"{Appointments}/{id}";
+
+            public static string SetParticipationResult(Guid id, Guid personId, Guid resultId) =>
+                $"{Appointments}/{id}/participations/{personId}/result/{resultId}";
         }
     }
 }

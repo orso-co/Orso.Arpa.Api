@@ -9,6 +9,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Services;
+using Orso.Arpa.Domain.AppointmentParticipations;
 using Orso.Arpa.Domain.Appointments;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -249,6 +250,24 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             // Act
             await service.SetVenueAsync(
                 setVenueDto);
+
+            // Assert
+            await _subMediator.Received().Send(command);
+        }
+
+        [Test]
+        public async Task SetParticipationResultAsync_StateUnderTest_ExpectedBehavior()
+        {
+            // Arrange
+            AppointmentService service = CreateService();
+            SetParticipationResultDto dto = null;
+            var command = new SetResult.Command();
+            _subMapper.Map<SetResult.Command>(dto)
+                .Returns(command);
+
+            // Act
+            await service.SetParticipationResultAsync(
+                dto);
 
             // Assert
             await _subMediator.Received().Send(command);
