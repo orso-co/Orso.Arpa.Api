@@ -171,6 +171,32 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
+        private static IEnumerable<TestCaseData> PersonTestData
+        {
+            get
+            {
+                yield return new TestCaseData(PersonSeedData.Orsianer);
+                yield return new TestCaseData(PersonSeedData.Orsoadmin);
+            }
+        }
+
+        [Test, Order(1004)]
+        [TestCaseSource(nameof(PersonTestData))]
+        public async Task Should_Set_Participation_Result(Person person)
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_orsonaut)
+                .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationResult(
+                    AppointmentSeedData.RockingXMasRehearsal.Id,
+                    person.Id,
+                    SelectValueMappingSeedData.AppointmentParticipationResultMappings[0].Id), null);
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
         [Test, Order(100)]
         public async Task Should_Set_Venue()
         {

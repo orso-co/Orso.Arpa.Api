@@ -125,7 +125,6 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> Delete(Guid id)
         {
             await _appointmentService.DeleteAsync(id);
-
             return NoContent();
         }
 
@@ -137,6 +136,16 @@ namespace Orso.Arpa.Api.Controllers
             [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<SetDatesDto>))]SetDatesDto setDatesDto)
         {
             await _appointmentService.SetDatesAsync(setDatesDto);
+            return NoContent();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [HttpPut("{id}/participations/{personId}/result/{resultId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> SetParticipationResult([FromRoute]SetParticipationResultDto setParticipationResult)
+        {
+            await _appointmentService.SetParticipationResultAsync(setParticipationResult);
             return NoContent();
         }
     }
