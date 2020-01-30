@@ -20,4 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Tests.Shared\Orso.Arpa.Tests.Shared.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ProjectsTests\ValidatorTests\" />
+    <Folder Include="RolesTests\ValidatorTests\" />
+    <Folder Include="SelectValuesTests\ValidatorTests\" />
+    <Folder Include="UsersTests\ValidatorTests\" />
+    <Folder Include="VenuesTests\ValidatorTests\" />
+  </ItemGroup>
 </Project>

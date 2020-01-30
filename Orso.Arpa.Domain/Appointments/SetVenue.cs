@@ -21,6 +21,10 @@ namespace Orso.Arpa.Domain.Appointments
                 VenueId = venueId;
             }
 
+            public Command()
+            {
+            }
+
             public Guid Id { get; private set; }
             public Guid? VenueId { get; private set; }
         }

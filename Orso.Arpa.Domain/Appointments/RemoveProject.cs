@@ -21,6 +21,10 @@ namespace Orso.Arpa.Domain.Appointments
                 ProjectId = projectId;
             }
 
+            public Command()
+            {
+            }
+
             public Guid Id { get; private set; }
             public Guid ProjectId { get; private set; }
         }

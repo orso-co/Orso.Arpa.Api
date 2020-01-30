@@ -22,6 +22,10 @@ namespace Orso.Arpa.Domain.Appointments
                 SectionId = sectionId;
             }
 
+            public Command()
+            {
+            }
+
             public Guid Id { get; private set; }
             public Guid SectionId { get; private set; }
         }
