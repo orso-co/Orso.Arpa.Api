@@ -1,5 +1,5 @@
 using System;
-using Orso.Arpa.Domain.Regions;
+using Orso.Arpa.Domain.Logic.Regions;
 
 namespace Orso.Arpa.Domain.Entities
 {

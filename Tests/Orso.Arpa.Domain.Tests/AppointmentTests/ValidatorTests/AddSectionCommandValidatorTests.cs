@@ -9,7 +9,7 @@ using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Sections.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Appointments.AddSection;
+using static Orso.Arpa.Domain.Logic.Appointments.AddSection;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {

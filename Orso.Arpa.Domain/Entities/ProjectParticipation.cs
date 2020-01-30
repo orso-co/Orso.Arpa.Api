@@ -1,5 +1,5 @@
 using System;
-using Orso.Arpa.Domain.ProjectParticipations;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Domain.Entities
 {

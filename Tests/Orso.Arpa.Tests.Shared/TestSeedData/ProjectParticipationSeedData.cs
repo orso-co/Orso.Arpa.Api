@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.ProjectParticipations;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {

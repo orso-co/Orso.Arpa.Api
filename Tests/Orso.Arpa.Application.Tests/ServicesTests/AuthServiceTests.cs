@@ -7,7 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Services;
-using Orso.Arpa.Domain.Auth;
+using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

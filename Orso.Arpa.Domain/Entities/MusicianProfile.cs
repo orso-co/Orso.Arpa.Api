@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.MusicianProfiles;
+using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Domain.Entities
 {

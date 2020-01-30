@@ -6,7 +6,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Auth.ChangePassword;
+using static Orso.Arpa.Domain.Logic.Auth.ChangePassword;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
 {

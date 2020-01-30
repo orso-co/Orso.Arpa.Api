@@ -1,6 +1,6 @@
 using AutoMapper;
 using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Domain.Regions;
+using Orso.Arpa.Domain.Logic.Regions;
 
 namespace Orso.Arpa.Application.MappingProfiles
 {

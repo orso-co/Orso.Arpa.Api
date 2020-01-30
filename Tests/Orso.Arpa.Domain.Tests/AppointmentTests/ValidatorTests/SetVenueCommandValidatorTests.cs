@@ -8,7 +8,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Appointments.SetVenue;
+using static Orso.Arpa.Domain.Logic.Appointments.SetVenue;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {

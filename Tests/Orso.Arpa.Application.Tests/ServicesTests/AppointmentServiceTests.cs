@@ -9,9 +9,9 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Services;
-using Orso.Arpa.Domain.AppointmentParticipations;
-using Orso.Arpa.Domain.Appointments;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -113,7 +113,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            _subMediator.Send(Arg.Any<Domain.Appointments.List.Query>())
+            _subMediator.Send(Arg.Any<Domain.Logic.Appointments.List.Query>())
                 .Returns(AppointmentSeedData.Appointments.ToImmutableList());
             IList<AppointmentDto> expectedDtos = AppointmentDtoData.Appointments;
             _subMapper.Map<IEnumerable<AppointmentDto>>(Arg.Any<IEnumerable<Appointment>>())

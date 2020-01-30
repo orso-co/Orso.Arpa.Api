@@ -33,7 +33,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Roles.List.Query>()).Returns(RoleSeedData.Roles);
+            _mediator.Send(Arg.Any<Domain.Logic.Roles.List.Query>()).Returns(RoleSeedData.Roles);
 
             _mapper.Map<RoleDto>(Arg.Any<Role>())
                 .Returns(RoleDtoData.Orsianer, RoleDtoData.Orsonaut, RoleDtoData.Orsoadmin);

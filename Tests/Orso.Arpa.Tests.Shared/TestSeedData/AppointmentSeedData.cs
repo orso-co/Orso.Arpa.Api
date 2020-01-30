@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Appointments;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Domain.Sections.Seed;
 using Orso.Arpa.Domain.SelectValueMappings.Seed;
 

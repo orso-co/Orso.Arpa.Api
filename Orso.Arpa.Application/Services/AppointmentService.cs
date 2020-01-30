@@ -7,9 +7,9 @@ using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.AppointmentParticipations;
-using Orso.Arpa.Domain.Appointments;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -44,7 +44,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<AppointmentDto> CreateAsync(AppointmentCreateDto appointmentCreateDto)
         {
-            Domain.Appointments.Create.Command command = _mapper.Map<Domain.Appointments.Create.Command>(appointmentCreateDto);
+            Domain.Logic.Appointments.Create.Command command = _mapper.Map<Domain.Logic.Appointments.Create.Command>(appointmentCreateDto);
             Appointment createdAppointment = await _mediator.Send(command);
             return _mapper.Map<AppointmentDto>(createdAppointment);
         }

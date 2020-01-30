@@ -9,7 +9,7 @@ using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.SelectValueMappings.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.AppointmentParticipations.SetResult;
+using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetResult;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
 {

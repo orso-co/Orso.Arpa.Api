@@ -9,7 +9,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Auth.Login;
+using static Orso.Arpa.Domain.Logic.Auth.Login;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
 {

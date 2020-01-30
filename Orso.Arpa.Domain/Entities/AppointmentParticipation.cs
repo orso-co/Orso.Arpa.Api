@@ -1,5 +1,5 @@
 using System;
-using Orso.Arpa.Domain.AppointmentParticipations;
+using Orso.Arpa.Domain.Logic.AppointmentParticipations;
 
 namespace Orso.Arpa.Domain.Entities
 {

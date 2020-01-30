@@ -16,13 +16,13 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
     public class ListHandlerTests
     {
         private IReadOnlyRepository _repository;
-        private Venues.List.Handler _handler;
+        private Logic.Venues.List.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _repository = Substitute.For<IReadOnlyRepository>();
-            _handler = new Venues.List.Handler(_repository);
+            _handler = new Logic.Venues.List.Handler(_repository);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
 
             // Act
             IImmutableList<Venue> result = await _handler.Handle(
-                new Venues.List.Query(),
+                new Logic.Venues.List.Query(),
                 new CancellationToken());
 
             // Assert

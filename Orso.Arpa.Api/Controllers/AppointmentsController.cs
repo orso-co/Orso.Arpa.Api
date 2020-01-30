@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Api.ModelBinders;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Appointments;
+using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers

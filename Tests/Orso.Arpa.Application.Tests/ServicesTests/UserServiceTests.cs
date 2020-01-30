@@ -10,6 +10,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Roles.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -36,8 +37,8 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Users.List.Query>()).Returns(FakeUsers.Users.Where(u => !u.Deleted));
-            _mediator.Send(Arg.Any<Users.Role.Query>()).Returns(
+            _mediator.Send(Arg.Any<Domain.Logic.Users.List.Query>()).Returns(FakeUsers.Users.Where(u => !u.Deleted));
+            _mediator.Send(Arg.Any<Domain.Logic.Users.Role.Query>()).Returns(
                 RoleSeedData.Orsianer,
                 RoleSeedData.Orsonaut,
                 RoleSeedData.Orsoadmin,
@@ -55,7 +56,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Profile_Of_Current_User_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Domain.Me.Details.Query>()).Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
+            _mediator.Send(Arg.Any<Details.Query>()).Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
             UserProfileDto expectedDto = FakerFabric.UesrProfileDtoFaker.Generate();
             _mapper.Map<UserProfileDto>(Arg.Any<User>()).Returns(expectedDto);
 

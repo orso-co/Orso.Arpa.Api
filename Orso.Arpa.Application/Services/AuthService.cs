@@ -3,7 +3,7 @@ using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Auth;
+using Orso.Arpa.Domain.Logic.Auth;
 
 namespace Orso.Arpa.Application.Services
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Orso.Arpa.Domain.Appointments;
+using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Domain.Entities
 {

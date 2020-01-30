@@ -20,9 +20,9 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Application.Validation;
-using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.PipelineBehaviors;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
@@ -31,7 +31,7 @@ using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Infrastructure.DataAccess;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
-using static Orso.Arpa.Domain.Regions.Create;
+using static Orso.Arpa.Domain.Logic.Regions.Create;
 
 namespace Orso.Arpa.Api
 {

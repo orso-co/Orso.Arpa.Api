@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Orso.Arpa.Domain.Venues;
+using Orso.Arpa.Domain.Logic.Venues;
 
 namespace Orso.Arpa.Domain.Entities
 {

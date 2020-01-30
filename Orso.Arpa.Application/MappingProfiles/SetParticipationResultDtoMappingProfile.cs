@@ -1,6 +1,6 @@
 using AutoMapper;
 using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Domain.AppointmentParticipations;
+using Orso.Arpa.Domain.Logic.AppointmentParticipations;
 
 namespace Orso.Arpa.Application.MappingProfiles
 {

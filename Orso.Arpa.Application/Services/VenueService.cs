@@ -7,7 +7,7 @@ using MediatR;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Venues;
+using Orso.Arpa.Domain.Logic.Venues;
 
 namespace Orso.Arpa.Application.Services
 {

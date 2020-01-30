@@ -3,7 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
-using Orso.Arpa.Domain.Auth;
+using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

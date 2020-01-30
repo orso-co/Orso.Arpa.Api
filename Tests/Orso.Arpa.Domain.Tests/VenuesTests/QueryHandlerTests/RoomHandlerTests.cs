@@ -7,6 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Venues;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
@@ -15,13 +16,13 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
     public class RoomHandlerTests
     {
         private IReadOnlyRepository _repository;
-        private Venues.Rooms.Handler _handler;
+        private Rooms.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _repository = Substitute.For<IReadOnlyRepository>();
-            _handler = new Venues.Rooms.Handler(_repository);
+            _handler = new Rooms.Handler(_repository);
         }
 
         [Test]
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
 
             // Act
             IImmutableList<Room> result = await _handler.Handle(
-                new Venues.Rooms.Query(Guid.NewGuid()),
+                new Rooms.Query(Guid.NewGuid()),
                 new CancellationToken());
 
             // Assert

@@ -4,7 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
-using Orso.Arpa.Domain.Regions;
+using Orso.Arpa.Domain.Logic.Regions;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
