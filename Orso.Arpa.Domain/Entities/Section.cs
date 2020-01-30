@@ -5,7 +5,7 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Section : BaseEntity
     {
-        internal Section(Guid? id, string name, Guid? parentId) : base(id)
+        public Section(Guid? id, string name, Guid? parentId) : base(id)
         {
             Name = name;
             ParentId = parentId;

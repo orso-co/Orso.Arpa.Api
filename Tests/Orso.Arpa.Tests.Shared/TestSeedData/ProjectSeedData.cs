@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Projects;
-using Orso.Arpa.Domain.SelectValueMappings.Seed;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {

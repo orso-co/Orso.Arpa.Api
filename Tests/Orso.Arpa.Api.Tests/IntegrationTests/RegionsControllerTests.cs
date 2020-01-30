@@ -9,7 +9,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Dtos.Extensions;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Regions.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests

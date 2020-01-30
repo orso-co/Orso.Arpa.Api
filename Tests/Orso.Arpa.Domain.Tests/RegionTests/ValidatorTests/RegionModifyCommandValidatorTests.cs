@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Regions.Seed;
+using Orso.Arpa.Persistence.Seed;
 using static Orso.Arpa.Domain.Logic.Regions.Modify;
 
 namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests

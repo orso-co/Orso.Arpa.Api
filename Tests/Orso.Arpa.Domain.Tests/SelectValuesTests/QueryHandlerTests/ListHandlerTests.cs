@@ -10,8 +10,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.SelectValueCategories;
-using Orso.Arpa.Domain.SelectValueMappings.Seed;
-using Orso.Arpa.Domain.SelectValues.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests

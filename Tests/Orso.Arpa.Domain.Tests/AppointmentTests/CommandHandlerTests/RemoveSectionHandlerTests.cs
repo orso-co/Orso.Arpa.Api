@@ -8,7 +8,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Appointments;
-using Orso.Arpa.Domain.Sections.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests

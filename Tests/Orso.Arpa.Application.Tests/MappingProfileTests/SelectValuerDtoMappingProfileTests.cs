@@ -4,8 +4,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.SelectValueMappings.Seed;
-using Orso.Arpa.Domain.SelectValues.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.Extensions;
 

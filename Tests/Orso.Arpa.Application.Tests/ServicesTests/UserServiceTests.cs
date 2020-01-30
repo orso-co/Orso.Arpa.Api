@@ -11,10 +11,9 @@ using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Me;
-using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
-using Users = Orso.Arpa.Domain.Users;
 
 namespace Orso.Arpa.Application.Tests.ServicesTests
 {

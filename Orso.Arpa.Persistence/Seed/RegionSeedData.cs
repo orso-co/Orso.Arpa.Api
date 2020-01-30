@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Regions;
 
-namespace Orso.Arpa.Domain.Regions.Seed
+namespace Orso.Arpa.Persistence.Seed
 {
     public static class RegionSeedData
     {

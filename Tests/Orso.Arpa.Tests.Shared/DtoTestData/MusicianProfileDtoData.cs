@@ -1,5 +1,5 @@
 using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Domain.Sections.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

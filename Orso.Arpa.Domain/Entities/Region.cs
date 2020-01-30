@@ -5,7 +5,7 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Region : BaseEntity
     {
-        internal Region(Guid? id, Create.Command command) : base(id)
+        public Region(Guid? id, Create.Command command) : base(id)
         {
             Name = command.Name;
         }

@@ -5,7 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Identity;
 
 namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests

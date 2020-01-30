@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.SelectValueCategories;
-using Orso.Arpa.Domain.SelectValues.Seed;
 
-namespace Orso.Arpa.Domain.SelectValueMappings.Seed
+namespace Orso.Arpa.Persistence.Seed
 {
     public static class SelectValueMappingSeedData
     {

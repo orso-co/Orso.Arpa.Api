@@ -8,7 +8,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Roles = Orso.Arpa.Domain.Roles;
 

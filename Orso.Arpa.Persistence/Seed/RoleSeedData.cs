@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Roles;
 
-namespace Orso.Arpa.Domain.Roles.Seed
+namespace Orso.Arpa.Persistence.Seed
 {
     public static class RoleSeedData
     {

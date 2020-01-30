@@ -4,8 +4,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Users;
-using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -30,10 +29,10 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         {
             // Arrange
             var rolesQuery = new Logic.Users.Role.Query(FakeUsers.Orsianer);
-            Role expectedRole = RoleSeedData.Orsianer;
+            Entities.Role expectedRole = RoleSeedData.Orsianer;
 
             // Act
-            Role role = await _handler.Handle(rolesQuery, new CancellationToken());
+            Entities.Role role = await _handler.Handle(rolesQuery, new CancellationToken());
 
             // Assert
             role.Should().BeEquivalentTo(expectedRole, opt => opt.Excluding(r => r.ConcurrencyStamp));

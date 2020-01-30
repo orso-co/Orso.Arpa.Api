@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Sections.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.AddSection;
 

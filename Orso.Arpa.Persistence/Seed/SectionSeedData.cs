@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 
-namespace Orso.Arpa.Domain.Sections.Seed
+namespace Orso.Arpa.Persistence.Seed
 {
     public static class SectionSeedData
     {
