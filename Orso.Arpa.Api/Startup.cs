@@ -23,6 +23,7 @@ using Orso.Arpa.Application.Validation;
 using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.PipelineBehaviors;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
@@ -146,6 +147,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<ISectionService, SectionService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IVenueService, VenueService>();
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
