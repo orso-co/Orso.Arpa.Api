@@ -64,7 +64,10 @@ namespace Orso.Arpa.Api
             services.AddControllers()
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
-                    config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>());
+                {
+                    config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
+                    config.RegisterValidatorsFromAssemblyContaining<Validator>();
+                });
 
             ConfigureSwagger(services);
 

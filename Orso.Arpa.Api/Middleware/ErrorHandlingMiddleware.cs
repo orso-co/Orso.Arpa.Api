@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -52,11 +53,19 @@ namespace Orso.Arpa.Api.Middleware
                     errorMessage = new ErrorMessage { Message = re.Message, Errors = re.Errors };
                     context.Response.StatusCode = (int)re.Code;
                     break;
+
                 case IdentityException ie:
                     _logger.LogError(ex, "IDENTITY ERROR");
                     errorMessage = new ErrorMessage { Message = ie.Message, Errors = ie.IdentityErrors };
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
+
+                case ValidationException ve:
+                    _logger.LogError(ex, "DOMAIN VALIDATION ERROR");
+                    errorMessage = new ErrorMessage { Message = ve.Message, Errors = ve.Errors };
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
+
                 case Exception e:
                     _logger.LogError(ex, "SERVER ERROR");
                     errorMessage = new ErrorMessage { Message = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message };
