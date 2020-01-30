@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Orso.Arpa.Persistence.Extensions
+namespace Orso.Arpa.Domain.Extensions
 {
     public static class IQueryableExtensions
     {
@@ -14,7 +14,7 @@ namespace Orso.Arpa.Persistence.Extensions
             Expression<Func<TSource, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            return (await source.SingleOrDefaultAsync(predicate, cancellationToken)) != null;
+            return await source.SingleOrDefaultAsync(predicate, cancellationToken) != null;
         }
     }
 }

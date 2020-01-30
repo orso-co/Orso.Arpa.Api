@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
@@ -30,6 +31,17 @@ namespace Orso.Arpa.Domain.Appointments
             }
         }
 
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IReadOnlyRepository readOnlyRepository)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(d => d.Id)
+                    .MustAsync(async (id, cancellation) => await readOnlyRepository.GetByIdAsync<Appointment>(id) != null)
+                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Id = "Not found" }));
+            }
+        }
+
         public class Handler : IRequestHandler<Command>
         {
             private readonly IRepository _repository;
@@ -49,11 +61,6 @@ namespace Orso.Arpa.Domain.Appointments
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
-
-                if (request.StartTime == null && request.EndTime == null)
-                {
-                    return Unit.Value;
-                }
 
                 _mapper.Map<Command, Appointment>(request, existingAppointment);
 

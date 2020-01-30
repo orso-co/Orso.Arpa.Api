@@ -1,6 +1,7 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,17 @@ namespace Orso.Arpa.Domain.Auth
         {
             public string UserName { get; set; }
             public string Password { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Query>
+        {
+            public Validator(UserManager<User> userManager)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(q => q.UserName)
+                    .MustAsync(async (userName, cancellation) => await userManager.FindByNameAsync(userName) != null)
+                    .OnFailure(_ => throw new RestException("Authorization failed", HttpStatusCode.Unauthorized));
+            }
         }
 
         public class Handler : IRequestHandler<Query, string>

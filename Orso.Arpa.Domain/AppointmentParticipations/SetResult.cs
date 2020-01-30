@@ -1,10 +1,13 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.AppointmentParticipations
@@ -31,6 +34,26 @@ namespace Orso.Arpa.Domain.AppointmentParticipations
                     .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
                     .ForMember(dest => dest.PredictionId, opt => opt.MapFrom(src => default(Guid?)))
                     .ForMember(dest => dest.ResultId, opt => opt.MapFrom(src => src.ResultId));
+            }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IReadOnlyRepository readOnlyRepository)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(d => d.Id)
+                    .MustAsync(async (id, cancellation) => await readOnlyRepository
+                        .GetByIdAsync<Appointment>(id) != null)
+                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" }));
+                RuleFor(d => d.PersonId)
+                    .MustAsync(async (personId, cancellation) => (await readOnlyRepository
+                        .GetByIdAsync<Person>(personId)) != null)
+                    .OnFailure(dto => throw new RestException("Person not found", HttpStatusCode.NotFound, new { Person = "Not found" }));
+                RuleFor(d => d.ResultId)
+                    .MustAsync(async (resultId, cancellation) => await readOnlyRepository
+                        .GetByIdAsync<SelectValueMapping>(resultId) != null)
+                    .OnFailure(dto => throw new RestException("Result not found", HttpStatusCode.NotFound, new { Result = "Not found" }));
             }
         }
 

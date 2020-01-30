@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Appointments
@@ -20,6 +23,22 @@ namespace Orso.Arpa.Domain.Appointments
 
             public Guid Id { get; private set; }
             public Guid ProjectId { get; private set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IReadOnlyRepository readOnlyRepository)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(d => d.Id)
+                    .MustAsync(async (id, cancellation) => await readOnlyRepository.GetByIdAsync<Appointment>(id) != null)
+                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" }));
+                RuleFor(d => d.ProjectId)
+                    .MustAsync(async (dto, ProjectId, cancellation) => (await readOnlyRepository
+                        .GetByIdAsync<Appointment>(dto.Id)).ProjectAppointments
+                            .Any(ar => ar.ProjectId == ProjectId))
+                    .WithMessage("The project is not linked to the appointment");
+            }
         }
 
         public class Handler : IRequestHandler<Command>

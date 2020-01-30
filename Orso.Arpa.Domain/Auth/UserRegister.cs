@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
@@ -18,6 +19,20 @@ namespace Orso.Arpa.Domain.Auth
             public string Email { get; set; }
             public string GivenName { get; set; }
             public string Surname { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(UserManager<User> userManager)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(c => c.UserName)
+                    .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) == null)
+                    .WithMessage("Username aleady exists");
+                RuleFor(c => c.Email)
+                    .MustAsync(async (email, cancellation) => await userManager.FindByEmailAsync(email) == null)
+                    .WithMessage("Email aleady exists");
+            }
         }
 
         public class Handler : IRequestHandler<Command, string>

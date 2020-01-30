@@ -2,8 +2,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Regions
@@ -20,6 +22,18 @@ namespace Orso.Arpa.Domain.Regions
             public MappingProfile()
             {
                 CreateMap<Command, Region>();
+            }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IReadOnlyRepository repository)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(c => c.Name)
+                    .MustAsync(async (name, cancellation) => !await repository.GetAll<Region>()
+                        .ExistsAsync(r => r.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase), cancellation))
+                    .WithMessage("A region with the requested name does already exist");
             }
         }
 

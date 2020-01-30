@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,22 @@ namespace Orso.Arpa.Domain.Auth
         {
             public string UserName { get; set; }
             public string RoleName { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(
+                UserManager<User> userManager,
+                RoleManager<Role> roleManager)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(c => c.UserName)
+                    .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
+                    .OnFailure(_ => throw new RestException("User not found", HttpStatusCode.NotFound, new { user = "Not found" }));
+                RuleFor(c => c.RoleName)
+                    .MustAsync(async (roleName, cancellation) => string.IsNullOrEmpty(roleName) || await roleManager.RoleExistsAsync(roleName))
+                    .OnFailure(_ => throw new RestException("Role not found", HttpStatusCode.NotFound, new { role = "Not found" }));
+            }
         }
 
         public class Handler : IRequestHandler<Command>

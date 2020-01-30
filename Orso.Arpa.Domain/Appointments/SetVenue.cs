@@ -1,9 +1,12 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Appointments
@@ -29,6 +32,20 @@ namespace Orso.Arpa.Domain.Appointments
                 CreateMap<Command, Appointment>()
                     .ForMember(dest => dest.VenueId, opt => opt.MapFrom(src => src.VenueId))
                     .ForAllOtherMembers(opt => opt.Ignore());
+            }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IReadOnlyRepository readOnlyRepository)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(d => d.Id)
+                    .MustAsync(async (id, cancellation) => await readOnlyRepository.GetByIdAsync<Appointment>(id) != null)
+                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" }));
+                RuleFor(d => d.VenueId)
+                    .MustAsync(async (venueId, cancellation) => venueId == null || await readOnlyRepository.GetByIdAsync<Venue>(venueId.Value) != null)
+                    .OnFailure(dto => throw new RestException("Venue not found", HttpStatusCode.NotFound, new { Venue = "Not found" }));
             }
         }
 

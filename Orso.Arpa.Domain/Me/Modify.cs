@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
@@ -29,6 +30,21 @@ namespace Orso.Arpa.Domain.Me
                     .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                     .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                     .ForAllOtherMembers(opt => opt.Ignore());
+            }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(UserManager<User> userManager, IUserAccessor userAccessor)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(c => c.Email)
+                    .MustAsync(async (dto, email, cancellation) =>
+                    {
+                        User user = await userManager.FindByEmailAsync(email);
+                        return user == null || userAccessor.UserName == user.UserName;
+                    })
+                    .WithMessage("Email aleady exists");
             }
         }
 

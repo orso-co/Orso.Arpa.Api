@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
@@ -14,6 +15,23 @@ namespace Orso.Arpa.Domain.Auth
         {
             public string CurrentPassword { get; set; }
             public string NewPassword { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(
+                UserManager<User> userManager,
+                IUserAccessor userAccessor)
+            {
+                CascadeMode = CascadeMode.StopOnFirstFailure;
+                RuleFor(c => c.CurrentPassword)
+                    .MustAsync(async (oldPassword, cancellation) =>
+                    {
+                        User user = await userAccessor.GetCurrentUserAsync();
+                        return await userManager.CheckPasswordAsync(user, oldPassword);
+                    })
+                    .WithMessage("User does not exist or wrong password supplied");
+            }
         }
 
         public class Handler : IRequestHandler<Command>
