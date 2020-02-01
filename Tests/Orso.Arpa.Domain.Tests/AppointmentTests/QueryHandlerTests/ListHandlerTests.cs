@@ -16,13 +16,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.QueryHandlerTests
     public class ListHandlerTests
     {
         private IReadOnlyRepository _repository;
-        private Appointments.List.Handler _handler;
+        private Logic.Appointments.List.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _repository = Substitute.For<IReadOnlyRepository>();
-            _handler = new Appointments.List.Handler(_repository);
+            _handler = new Logic.Appointments.List.Handler(_repository);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.QueryHandlerTests
 
             // Act
             IImmutableList<Appointment> result = await _handler.Handle(
-                new Appointments.List.Query
+                new Logic.Appointments.List.Query
                 {
                     StartTime = DateTime.MinValue,
                     EndTime = DateTime.MaxValue

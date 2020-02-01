@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Rooms;
+using Orso.Arpa.Domain.Logic.Rooms;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {

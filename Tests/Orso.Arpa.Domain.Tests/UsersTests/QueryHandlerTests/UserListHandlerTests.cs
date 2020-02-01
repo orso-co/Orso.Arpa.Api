@@ -17,17 +17,17 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _handler = new Users.List.Handler(_userManager);
+            _handler = new Logic.Users.List.Handler(_userManager);
         }
 
         private UserManager<User> _userManager;
-        private Users.List.Handler _handler;
+        private Logic.Users.List.Handler _handler;
 
         [Test]
         public async Task Should_Get_User_List()
         {
             // Arrange
-            var listQuery = new Users.List.Query();
+            var listQuery = new Logic.Users.List.Query();
             IEnumerable<User> expectedUsers = FakeUsers.Users.Where(u => !u.Deleted);
 
             // Act

@@ -17,12 +17,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Application.Services;
-using Orso.Arpa.Application.Validation;
-using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.PipelineBehaviors;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
@@ -30,7 +29,7 @@ using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Infrastructure.DataAccess;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
-using static Orso.Arpa.Domain.Regions.Create;
+using static Orso.Arpa.Domain.Logic.Regions.Create;
 
 namespace Orso.Arpa.Api
 {
@@ -58,12 +57,15 @@ namespace Orso.Arpa.Api
             ConfigureCors(services);
 
             services.AddMediatR(typeof(Login.Handler).Assembly);
-            services.AddAutoMapper(typeof(LoginDtoMappingProfile).Assembly, typeof(MappingProfile).Assembly);
+            services.AddAutoMapper(typeof(Application.Logic.Auth.Login.MappingProfile).Assembly, typeof(MappingProfile).Assembly);
 
             services.AddControllers()
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
-                    config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>());
+                {
+                    config.RegisterValidatorsFromAssemblyContaining<Application.Logic.Auth.Login.Validator>();
+                    config.RegisterValidatorsFromAssemblyContaining<Validator>();
+                });
 
             ConfigureSwagger(services);
 
@@ -146,6 +148,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<ISectionService, SectionService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IVenueService, VenueService>();
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
         }
 
         private void ConfigureAuthentication(IServiceCollection services)

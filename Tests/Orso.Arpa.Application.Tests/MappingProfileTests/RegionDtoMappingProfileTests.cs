@@ -1,10 +1,10 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Regions;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Regions.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<RegionDtoMappingProfile>();
+                cfg.AddProfile<MappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 

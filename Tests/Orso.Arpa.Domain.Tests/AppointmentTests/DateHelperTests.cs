@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Appointments;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests
 {

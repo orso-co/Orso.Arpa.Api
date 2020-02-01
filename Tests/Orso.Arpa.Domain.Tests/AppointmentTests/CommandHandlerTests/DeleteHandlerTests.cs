@@ -4,8 +4,8 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Appointments;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
 {

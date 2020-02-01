@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Domain.Appointments;
+using Orso.Arpa.Application.Logic.AppointmentParticipations;
+using Orso.Arpa.Application.Logic.Appointments;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Application.Interfaces
 {
@@ -12,26 +13,28 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task<AppointmentDto> GetAsync(Guid id);
 
-        Task<AppointmentDto> CreateAsync(AppointmentCreateDto appointmentCreateDto);
+        Task<AppointmentDto> CreateAsync(Create.Dto appointmentCreateDto);
 
-        Task ModifyAsync(AppointmentModifyDto appointmentModifyDto);
+        Task ModifyAsync(Modify.Dto appointmentModifyDto);
 
-        Task RemoveRoomAsync(RemoveRoomDto removeRoomDto);
+        Task RemoveRoomAsync(RemoveRoom.Dto removeRoomDto);
 
-        Task AddRoomAsync(AddRoomDto addRoomDto);
+        Task AddRoomAsync(AddRoom.Dto addRoomDto);
 
-        Task AddProjectAsync(AddProjectDto addProjectDto);
+        Task AddProjectAsync(AddProject.Dto addProjectDto);
 
-        Task AddSectionAsync(AddSectionDto addSectionDto);
+        Task AddSectionAsync(AddSection.Dto addSectionDto);
 
-        Task RemoveSectionAsync(RemoveSectionDto removeSectionDto);
+        Task RemoveSectionAsync(RemoveSection.Dto removeSectionDto);
 
-        Task RemoveProjectAsync(RemoveProjectDto removeProjectDto);
+        Task RemoveProjectAsync(RemoveProject.Dto removeProjectDto);
 
-        Task SetVenueAsync(SetVenueDto setVenueDto);
+        Task SetVenueAsync(SetVenue.Dto setVenueDto);
 
-        Task SetDatesAsync(SetDatesDto setDatesDto);
+        Task SetDatesAsync(SetDates.Dto setDatesDto);
+
         Task DeleteAsync(Guid id);
-        Task SetParticipationResultAsync(SetParticipationResultDto setParticipationResult);
+
+        Task SetParticipationResultAsync(SetResult.Dto setParticipationResult);
     }
 }

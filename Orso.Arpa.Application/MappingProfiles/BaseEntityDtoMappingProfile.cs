@@ -1,6 +1,6 @@
 using AutoMapper;
 using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Application.Dtos.Extensions;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.MappingProfiles

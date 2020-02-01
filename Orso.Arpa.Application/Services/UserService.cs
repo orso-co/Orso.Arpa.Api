@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Application.Logic.Users;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Users;
+using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Domain.Logic.Users;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -27,7 +29,7 @@ namespace Orso.Arpa.Application.Services
             var dtos = new List<UserDto>();
             foreach (User user in users)
             {
-                Domain.Entities.Role role = await _mediator.Send(new Domain.Users.Role.Query(user));
+                Domain.Entities.Role role = await _mediator.Send(new Domain.Logic.Users.Role.Query(user));
                 UserDto dto = _mapper.Map<UserDto>(user);
 
                 if (role != null)
@@ -49,13 +51,13 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<UserProfileDto> GetProfileOfCurrentUserAsync()
         {
-            User user = await _mediator.Send(new Domain.Me.Details.Query());
+            User user = await _mediator.Send(new Details.Query());
             return _mapper.Map<UserProfileDto>(user);
         }
 
-        public async Task ModifyProfileOfCurrentUserAsync(UserProfileModifyDto userProfileModifyDto)
+        public async Task ModifyProfileOfCurrentUserAsync(Logic.Me.Modify.Dto userProfileModifyDto)
         {
-            Domain.Me.Modify.Command command = _mapper.Map<Domain.Me.Modify.Command>(userProfileModifyDto);
+            Domain.Logic.Me.Modify.Command command = _mapper.Map<Domain.Logic.Me.Modify.Command>(userProfileModifyDto);
             await _mediator.Send(command);
         }
     }

@@ -4,10 +4,10 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Logic.Rooms;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Venues;
+using Orso.Arpa.Domain.Logic.Venues;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -22,10 +22,10 @@ namespace Orso.Arpa.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<VenueDto>> GetAsync()
+        public async Task<IEnumerable<Logic.Venues.VenueDto>> GetAsync()
         {
-            IImmutableList<Venue> venues = await _mediator.Send(new List.Query());
-            return _mapper.Map<IEnumerable<VenueDto>>(venues);
+            IImmutableList<Domain.Entities.Venue> venues = await _mediator.Send(new List.Query());
+            return _mapper.Map<IEnumerable<Logic.Venues.VenueDto>>(venues);
         }
 
         public async Task<IEnumerable<RoomDto>> GetRoomsAsync(Guid id)

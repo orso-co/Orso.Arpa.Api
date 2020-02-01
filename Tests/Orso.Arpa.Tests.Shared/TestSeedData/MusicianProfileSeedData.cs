@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.MusicianProfiles;
-using Orso.Arpa.Domain.Sections.Seed;
+using Orso.Arpa.Domain.Logic.MusicianProfiles;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {

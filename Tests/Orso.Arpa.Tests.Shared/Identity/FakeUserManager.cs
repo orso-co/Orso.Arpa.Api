@@ -9,7 +9,7 @@ using MockQueryable.NSubstitute;
 using NSubstitute;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
-using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

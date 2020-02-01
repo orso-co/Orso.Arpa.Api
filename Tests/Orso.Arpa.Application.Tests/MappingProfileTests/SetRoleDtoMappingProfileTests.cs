@@ -1,11 +1,10 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Application.MappingProfiles;
-using Orso.Arpa.Domain.Auth;
+using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using static Orso.Arpa.Application.Logic.Auth.SetRole;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -15,7 +14,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<SetRoleDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -26,7 +25,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new SetRoleDto
+            var dto = new Dto
             {
                 UserName = UserSeedData.Orsianer.UserName,
                 RoleName = RoleNames.Orsonaut

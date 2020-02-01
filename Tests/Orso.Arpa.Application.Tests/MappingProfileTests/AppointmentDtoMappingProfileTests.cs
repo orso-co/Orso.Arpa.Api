@@ -2,7 +2,8 @@ using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Appointments;
+using Orso.Arpa.Application.Logic.Projects;
 using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -21,7 +22,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             {
                 cfg.AddProfile<AppointmentDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
-                cfg.AddProfile<ProjectDtoMappingProfile>();
+                cfg.AddProfile<MappingProfile>();
             });
 
             _mapper = new Mapper(config);

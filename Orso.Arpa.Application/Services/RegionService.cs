@@ -4,10 +4,10 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Logic.Regions;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Regions;
+using Orso.Arpa.Domain.Logic.Regions;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -22,9 +22,9 @@ namespace Orso.Arpa.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<RegionDto> CreateAsync(RegionCreateDto createDto)
+        public async Task<RegionDto> CreateAsync(Logic.Regions.Create.Dto createDto)
         {
-            Create.Command command = _mapper.Map<Create.Command>(createDto);
+            Domain.Logic.Regions.Create.Command command = _mapper.Map<Domain.Logic.Regions.Create.Command>(createDto);
             Region createdRegion = await _mediator.Send(command);
             return _mapper.Map<RegionDto>(createdRegion);
         }
@@ -46,9 +46,9 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<RegionDto>(region);
         }
 
-        public async Task ModifyAsync(RegionModifyDto modifyDto)
+        public async Task ModifyAsync(Logic.Regions.Modify.Dto modifyDto)
         {
-            Modify.Command command = _mapper.Map<Modify.Command>(modifyDto);
+            Domain.Logic.Regions.Modify.Command command = _mapper.Map<Domain.Logic.Regions.Modify.Command>(modifyDto);
             await _mediator.Send(command);
         }
     }

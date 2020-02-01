@@ -3,10 +3,10 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Logic.Sections;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Sections;
+using Orso.Arpa.Domain.Logic.Sections;
 
 namespace Orso.Arpa.Application.Services
 {

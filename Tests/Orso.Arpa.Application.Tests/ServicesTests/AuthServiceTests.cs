@@ -5,9 +5,8 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Auth;
 using Orso.Arpa.Application.Services;
-using Orso.Arpa.Domain.Auth;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -32,14 +31,18 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Login_Async()
         {
             // Arrange
-            var loginDto = new LoginDto
+            var loginDto = new Logic.Auth.Login.Dto
             {
                 UserName = UserSeedData.Orsianer.UserName,
                 Password = UserSeedData.ValidPassword
             };
-            _mapper.Map<Login.Query>(loginDto).Returns(new Login.Query { Password = loginDto.Password, UserName = loginDto.UserName });
+            _mapper.Map<Domain.Logic.Auth.Login.Query>(loginDto).Returns(new Domain.Logic.Auth.Login.Query
+            {
+                Password = loginDto.Password,
+                UserName = loginDto.UserName
+            });
             const string token = "Token";
-            _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
+            _mediator.Send(Arg.Any<Domain.Logic.Auth.Login.Query>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
@@ -53,7 +56,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Register_Async()
         {
             // Arrange
-            var registerDto = new UserRegisterDto
+            var registerDto = new Logic.Auth.UserRegister.Dto
             {
                 Email = UserSeedData.Orsianer.Email,
                 Password = UserSeedData.ValidPassword,
@@ -61,7 +64,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 Surname = "Aner",
                 UserName = UserSeedData.Orsianer.UserName
             };
-            _mapper.Map<UserRegister.Command>(registerDto).Returns(new UserRegister.Command
+            _mapper.Map<Domain.Logic.Auth.UserRegister.Command>(registerDto).Returns(new Domain.Logic.Auth.UserRegister.Command
             {
                 Password = registerDto.Password,
                 Email = registerDto.Email,
@@ -70,7 +73,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 UserName = registerDto.UserName
             });
             const string token = "Token";
-            _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
+            _mediator.Send(Arg.Any<Domain.Logic.Auth.Login.Query>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
@@ -84,16 +87,17 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public void Should_Change_Password()
         {
             // Arrange
-            var changePasswordDto = new ChangePasswordDto
+            var changePasswordDto = new Logic.Auth.ChangePassword.Dto
             {
                 CurrentPassword = UserSeedData.ValidPassword,
                 NewPassword = UserSeedData.ValidPassword + "changed"
             };
-            _mapper.Map<ChangePassword.Command>(changePasswordDto).Returns(new ChangePassword.Command
-            {
-                CurrentPassword = changePasswordDto.CurrentPassword,
-                NewPassword = changePasswordDto.NewPassword
-            });
+            _mapper.Map<Domain.Logic.Auth.ChangePassword.Command>(changePasswordDto)
+                .Returns(new Domain.Logic.Auth.ChangePassword.Command
+                {
+                    CurrentPassword = changePasswordDto.CurrentPassword,
+                    NewPassword = changePasswordDto.NewPassword
+                });
 
             // Act
             Func<Task> func = async () => await _authService.ChangePasswordAsync(changePasswordDto);
@@ -106,16 +110,17 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public void Should_Set_Role()
         {
             // Arrange
-            var setRoleDto = new SetRoleDto
+            var setRoleDto = new Logic.Auth.SetRole.Dto
             {
                 UserName = UserSeedData.Orsianer.UserName,
                 RoleName = RoleNames.Orsonaut
             };
-            _mapper.Map<SetRole.Command>(setRoleDto).Returns(new SetRole.Command
-            {
-                UserName = setRoleDto.UserName,
-                RoleName = setRoleDto.RoleName
-            });
+            _mapper.Map<Domain.Logic.Auth.SetRole.Command>(setRoleDto)
+                .Returns(new Domain.Logic.Auth.SetRole.Command
+                {
+                    UserName = setRoleDto.UserName,
+                    RoleName = setRoleDto.RoleName
+                });
 
             // Act
             Func<Task> func = async () => await _authService.SetRoleAsync(setRoleDto);

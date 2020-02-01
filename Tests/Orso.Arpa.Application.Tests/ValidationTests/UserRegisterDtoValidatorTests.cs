@@ -1,36 +1,25 @@
 using FluentValidation.TestHelper;
-using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
-using Orso.Arpa.Application.Validation;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using static Orso.Arpa.Application.Logic.Auth.UserRegister;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class UserRegisterDtoValidatorTests
     {
-        private UserRegisterDtoValidator _validator;
-        private UserManager<User> _userManager;
+        private Validator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _userManager = new FakeUserManager();
-            _validator = new UserRegisterDtoValidator(_userManager);
+            _validator = new Validator();
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_Email_Is_Supplied([Values(null, "", "test@")] string email)
         {
             _validator.ShouldHaveValidationErrorFor(command => command.Email, email);
-        }
-
-        [Test]
-        public void Should_Have_Validation_Error_If_Email_Does_Exist()
-        {
-            _validator.ShouldHaveValidationErrorFor(command => command.Email, UserSeedData.Orsianer.Email);
         }
 
         [Test]
@@ -56,12 +45,6 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         public void Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
         {
             _validator.ShouldHaveValidationErrorFor(command => command.UserName, username);
-        }
-
-        [Test]
-        public void Should_Have_Validation_Error_If_UserName_Does_Exist()
-        {
-            _validator.ShouldHaveValidationErrorFor(command => command.UserName, UserSeedData.Orsianer.UserName);
         }
 
         [Test]

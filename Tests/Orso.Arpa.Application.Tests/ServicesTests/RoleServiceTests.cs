@@ -5,10 +5,10 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Roles;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Roles.Seed;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Roles = Orso.Arpa.Domain.Roles;
 
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Roles.List.Query>()).Returns(RoleSeedData.Roles);
+            _mediator.Send(Arg.Any<Domain.Logic.Roles.List.Query>()).Returns(RoleSeedData.Roles);
 
             _mapper.Map<RoleDto>(Arg.Any<Role>())
                 .Returns(RoleDtoData.Orsianer, RoleDtoData.Orsonaut, RoleDtoData.Orsoadmin);

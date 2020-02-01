@@ -9,9 +9,8 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.SelectValueCategories;
-using Orso.Arpa.Domain.SelectValueMappings.Seed;
-using Orso.Arpa.Domain.SelectValues.Seed;
+using Orso.Arpa.Domain.Logic.SelectValueCategories;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
@@ -20,13 +19,13 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
     public class ListHandlerTests
     {
         private IReadOnlyRepository _repository;
-        private SelectValues.List.Handler _handler;
+        private Logic.SelectValues.List.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _repository = Substitute.For<IReadOnlyRepository>();
-            _handler = new SelectValues.List.Handler(_repository);
+            _handler = new Logic.SelectValues.List.Handler(_repository);
         }
 
         [Test]
@@ -53,7 +52,7 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
 
             // Act
             IImmutableList<SelectValueMapping> result = await _handler.Handle(
-                new SelectValues.List.Query
+                new Logic.SelectValues.List.Query
                 {
                     TableName = nameof(PersonAddress),
                     PropertyName = nameof(PersonAddress.Type)

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Orso.Arpa.Domain.Projects;
+using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Domain.Entities
 {

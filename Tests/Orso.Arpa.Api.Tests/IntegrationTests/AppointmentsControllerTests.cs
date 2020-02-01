@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Application.Dtos.Extensions;
-using Orso.Arpa.Domain.Appointments;
+using Orso.Arpa.Application.Extensions;
+using Orso.Arpa.Application.Logic.Appointments;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Sections.Seed;
-using Orso.Arpa.Domain.SelectValueMappings.Seed;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -81,7 +80,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Create()
         {
             // Arrange
-            var createDto = new AppointmentCreateDto
+            var createDto = new Create.Dto
             {
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
@@ -216,9 +215,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Modify()
         {
             // Arrange
-            Domain.Entities.Appointment appointmentToModify = AppointmentSeedData.RockingXMasConcert;
+            Appointment appointmentToModify = AppointmentSeedData.RockingXMasConcert;
 
-            var modifyDto = new AppointmentModifyDto
+            var modifyDto = new Modify.Dto
             {
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
@@ -245,8 +244,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Set_Dates()
         {
             // Arrange
-            Domain.Entities.Appointment appointmentToModify = AppointmentSeedData.RockingXMasRehearsal;
-            var setDatesDto = new SetDatesDto
+            Appointment appointmentToModify = AppointmentSeedData.RockingXMasRehearsal;
+            var setDatesDto = new SetDates.Dto
             {
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddHours(5)

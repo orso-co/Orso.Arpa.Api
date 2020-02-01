@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Me;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User userToModify = FakeUsers.Orsianer;
-            var modifyDto = new UserProfileModifyDto
+            var modifyDto = new Modify.Dto
             {
                 Email = "changed" + userToModify.Email,
                 GivenName = "changed" + userToModify.Person.GivenName,
