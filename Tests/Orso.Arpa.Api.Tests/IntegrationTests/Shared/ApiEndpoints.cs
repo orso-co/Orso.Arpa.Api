@@ -1,6 +1,6 @@
 using System;
-using Orso.Arpa.Application.Dtos.Extensions;
-using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Application.Extensions;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {

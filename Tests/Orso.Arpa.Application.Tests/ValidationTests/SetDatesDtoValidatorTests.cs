@@ -1,19 +1,19 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.Validation;
+using static Orso.Arpa.Application.Logic.Appointments.SetDates;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class SetDatesDtoValidatorTests
     {
-        private SetDatesDtoValidator _validator;
+        private Validator _validator;
 
         [SetUp]
         public void SetUp()
         {
-            _validator = new SetDatesDtoValidator();
+            _validator = new Validator();
         }
 
         [Test]

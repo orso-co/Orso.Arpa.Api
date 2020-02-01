@@ -1,4 +1,4 @@
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Persons;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

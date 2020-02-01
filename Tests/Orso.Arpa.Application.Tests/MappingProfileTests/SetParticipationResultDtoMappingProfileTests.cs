@@ -2,9 +2,8 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using static Orso.Arpa.Application.Logic.AppointmentParticipations.SetResult;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -14,7 +13,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<SetParticipationResultDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -25,7 +24,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new SetParticipationResultDto
+            var dto = new Dto
             {
                 Id = Guid.NewGuid(),
                 PersonId = Guid.NewGuid(),

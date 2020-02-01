@@ -1,19 +1,19 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.Validation;
+using static Orso.Arpa.Application.Logic.Regions.Modify;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class RegionModifyDtoValidatorTests
     {
-        private RegionModifyDtoValidator _validator;
+        private Validator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new RegionModifyDtoValidator();
+            _validator = new Validator();
         }
 
         [Test]

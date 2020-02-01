@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Application.Logic.Users;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Logic.Users;
@@ -54,9 +55,9 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<UserProfileDto>(user);
         }
 
-        public async Task ModifyProfileOfCurrentUserAsync(UserProfileModifyDto userProfileModifyDto)
+        public async Task ModifyProfileOfCurrentUserAsync(Logic.Me.Modify.Dto userProfileModifyDto)
         {
-            Modify.Command command = _mapper.Map<Modify.Command>(userProfileModifyDto);
+            Domain.Logic.Me.Modify.Command command = _mapper.Map<Domain.Logic.Me.Modify.Command>(userProfileModifyDto);
             await _mediator.Send(command);
         }
     }

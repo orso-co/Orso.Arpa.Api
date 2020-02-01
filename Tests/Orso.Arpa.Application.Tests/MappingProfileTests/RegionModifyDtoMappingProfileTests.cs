@@ -2,9 +2,8 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Domain.Logic.Regions;
+using static Orso.Arpa.Application.Logic.Regions.Modify;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -14,7 +13,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<RegionModifyDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -25,7 +24,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var regionDto = new RegionModifyDto { Id = Guid.NewGuid(), Name = "Name" };
+            var regionDto = new Dto { Id = Guid.NewGuid(), Name = "Name" };
             var expectedCommand = new Modify.Command { Id = regionDto.Id, Name = regionDto.Name };
 
             // Act

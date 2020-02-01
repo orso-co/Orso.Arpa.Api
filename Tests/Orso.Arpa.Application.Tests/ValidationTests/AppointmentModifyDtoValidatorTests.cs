@@ -1,20 +1,19 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
-using Orso.Arpa.Application.Validation;
+using static Orso.Arpa.Application.Logic.Appointments.Modify;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class AppointmentModifyDtoValidatorTests
     {
-        private AppointmentModifyDtoValidator _validator;
+        private Validator _validator;
 
         [SetUp]
         public void SetUp()
         {
-            _validator = new AppointmentModifyDtoValidator();
+            _validator = new Validator();
         }
 
         [Test]
@@ -92,7 +91,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_EndTime_Is_Not_Greater_Than_StartTime()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
+            _validator.ShouldHaveValidationErrorFor(command => command.EndTime, new Dto
             {
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddHours(-3)
@@ -102,7 +101,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_EndTime_Is_Greater_Than_StartTime()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
+            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new Dto
             {
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddHours(3)
@@ -112,7 +111,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_EndTime_Is_Equal_To_StartTime()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
+            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new Dto
             {
                 StartTime = new DateTime(2019, 12, 28),
                 EndTime = new DateTime(2019, 12, 28)

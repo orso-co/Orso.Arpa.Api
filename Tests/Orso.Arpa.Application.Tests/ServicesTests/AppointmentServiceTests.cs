@@ -7,13 +7,15 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Appointments;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.AppointmentParticipations;
 using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using static Orso.Arpa.Application.Logic.Appointments.AddSection;
 
 namespace Orso.Arpa.Application.Tests.ServiceTests
 {
@@ -42,9 +44,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            var addProjectDto = new AddProjectDto();
-            var command = new AddProject.Command(Guid.NewGuid(), Guid.NewGuid());
-            _subMapper.Map<AddProject.Command>(addProjectDto)
+            var addProjectDto = new Logic.Appointments.AddProject.Dto();
+            var command = new Domain.Logic.Appointments.AddProject.Command(Guid.NewGuid(), Guid.NewGuid());
+            _subMapper.Map<Domain.Logic.Appointments.AddProject.Command>(addProjectDto)
                 .Returns(command);
 
             // Act
@@ -60,9 +62,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            var addSectionDto = new AddSectionDto();
-            var command = new AddSection.Command(Guid.NewGuid(), Guid.NewGuid());
-            _subMapper.Map<AddSection.Command>(addSectionDto)
+            var addSectionDto = new Dto();
+            var command = new Domain.Logic.Appointments.AddSection.Command(Guid.NewGuid(), Guid.NewGuid());
+            _subMapper.Map<Domain.Logic.Appointments.AddSection.Command>(addSectionDto)
                 .Returns(command);
 
             // Act
@@ -78,9 +80,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            var addRoomDto = new AddRoomDto();
-            var command = new AddRoom.Command(Guid.NewGuid(), Guid.NewGuid());
-            _subMapper.Map<AddRoom.Command>(addRoomDto)
+            var addRoomDto = new Logic.Appointments.AddRoom.Dto();
+            var command = new Domain.Logic.Appointments.AddRoom.Command(Guid.NewGuid(), Guid.NewGuid());
+            _subMapper.Map<Domain.Logic.Appointments.AddRoom.Command>(addRoomDto)
                 .Returns(command);
 
             // Act
@@ -96,7 +98,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            AppointmentCreateDto createDto = null;
+            Logic.Appointments.Create.Dto createDto = null;
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
             _subMapper.Map<AppointmentDto>(Arg.Any<Appointment>()).Returns(expectedDto);
 
@@ -152,9 +154,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            AppointmentModifyDto appointmentModifyDto = null;
-            var command = new Modify.Command();
-            _subMapper.Map<Modify.Command>(appointmentModifyDto)
+            Logic.Appointments.Modify.Dto appointmentModifyDto = null;
+            var command = new Domain.Logic.Appointments.Modify.Command();
+            _subMapper.Map<Domain.Logic.Appointments.Modify.Command>(appointmentModifyDto)
                 .Returns(command);
 
             // Act
@@ -170,9 +172,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            RemoveProjectDto removeProjectDto = null;
-            var command = new RemoveProject.Command(Guid.Empty, Guid.Empty);
-            _subMapper.Map<RemoveProject.Command>(removeProjectDto)
+            Logic.Appointments.RemoveProject.Dto removeProjectDto = null;
+            var command = new Domain.Logic.Appointments.RemoveProject.Command(Guid.Empty, Guid.Empty);
+            _subMapper.Map<Domain.Logic.Appointments.RemoveProject.Command>(removeProjectDto)
                 .Returns(command);
 
             // Act
@@ -188,9 +190,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            RemoveSectionDto removeSectionDto = null;
-            var command = new RemoveSection.Command(Guid.Empty, Guid.Empty);
-            _subMapper.Map<RemoveSection.Command>(removeSectionDto)
+            Logic.Appointments.RemoveSection.Dto removeSectionDto = null;
+            var command = new Domain.Logic.Appointments.RemoveSection.Command(Guid.Empty, Guid.Empty);
+            _subMapper.Map<Domain.Logic.Appointments.RemoveSection.Command>(removeSectionDto)
                 .Returns(command);
 
             // Act
@@ -206,9 +208,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            RemoveRoomDto removeRoomDto = null;
-            var command = new RemoveRoom.Command(Guid.Empty, Guid.Empty);
-            _subMapper.Map<RemoveRoom.Command>(removeRoomDto)
+            Logic.Appointments.RemoveRoom.Dto removeRoomDto = null;
+            var command = new Domain.Logic.Appointments.RemoveRoom.Command(Guid.Empty, Guid.Empty);
+            _subMapper.Map<Domain.Logic.Appointments.RemoveRoom.Command>(removeRoomDto)
                 .Returns(command);
 
             // Act
@@ -224,9 +226,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            SetDatesDto setDatesDto = null;
-            var command = new SetDates.Command();
-            _subMapper.Map<SetDates.Command>(setDatesDto)
+            Logic.Appointments.SetDates.Dto setDatesDto = null;
+            var command = new Domain.Logic.Appointments.SetDates.Command();
+            _subMapper.Map<Domain.Logic.Appointments.SetDates.Command>(setDatesDto)
                 .Returns(command);
 
             // Act
@@ -242,9 +244,9 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            SetVenueDto setVenueDto = null;
-            var command = new SetVenue.Command(Guid.Empty, Guid.Empty);
-            _subMapper.Map<SetVenue.Command>(setVenueDto)
+            Logic.Appointments.SetVenue.Dto setVenueDto = null;
+            var command = new Domain.Logic.Appointments.SetVenue.Command(Guid.Empty, Guid.Empty);
+            _subMapper.Map<Domain.Logic.Appointments.SetVenue.Command>(setVenueDto)
                 .Returns(command);
 
             // Act
@@ -260,7 +262,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            SetParticipationResultDto dto = null;
+            Logic.AppointmentParticipations.SetResult.Dto dto = null;
             var command = new SetResult.Command();
             _subMapper.Map<SetResult.Command>(dto)
                 .Returns(command);

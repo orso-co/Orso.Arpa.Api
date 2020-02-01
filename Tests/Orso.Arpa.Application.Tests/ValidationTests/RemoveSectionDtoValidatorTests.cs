@@ -1,19 +1,19 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.Validation;
+using static Orso.Arpa.Application.Logic.Appointments.RemoveSection;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class RemoveSectionDtoValidatorTests
     {
-        private RemoveSectionDtoValidator _validator;
+        private Validator _validator;
 
         [SetUp]
         public void SetUp()
         {
-            _validator = new RemoveSectionDtoValidator();
+            _validator = new Validator();
         }
 
         [Test]

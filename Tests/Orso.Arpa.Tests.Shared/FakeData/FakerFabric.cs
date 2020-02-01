@@ -1,5 +1,5 @@
 using Bogus;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Me;
 
 namespace Orso.Arpa.Tests.Shared.FakeData
 {

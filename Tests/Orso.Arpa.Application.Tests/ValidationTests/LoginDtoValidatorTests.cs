@@ -1,19 +1,19 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.Validation;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using static Orso.Arpa.Application.Logic.Auth.Login;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class LoginDtoValidatorTests
     {
-        private LoginDtoValidator _validator;
+        private Validator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new LoginDtoValidator();
+            _validator = new Validator();
         }
 
         [Test]

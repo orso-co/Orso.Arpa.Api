@@ -1,5 +1,5 @@
 using AutoMapper;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Me;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.MappingProfiles

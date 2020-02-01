@@ -7,7 +7,7 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Regions;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -39,7 +39,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         {
             // Arrange
             RegionService service = CreateService();
-            RegionCreateDto createDto = null;
+            Logic.Regions.Create.Dto createDto = null;
             RegionDto expectedDto = RegionDtoData.Freiburg;
             _subMapper.Map<RegionDto>(Arg.Any<Region>()).Returns(expectedDto);
 
@@ -103,7 +103,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         {
             // Arrange
             RegionService service = CreateService();
-            RegionModifyDto modifyDto = null;
+            Logic.Regions.Modify.Dto modifyDto = null;
 
             // Act
             Func<Task> func = async () => await service.ModifyAsync(

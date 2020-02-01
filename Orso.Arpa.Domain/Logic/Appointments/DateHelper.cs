@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Errors;
 
 namespace Orso.Arpa.Domain.Logic.Appointments

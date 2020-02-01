@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Api.ModelBinders;
-using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Logic.Regions;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<RegionDto>> Post([FromBody]RegionCreateDto createDto)
+        public async Task<ActionResult<RegionDto>> Post([FromBody]Create.Dto createDto)
         {
             RegionDto createdDto = await _regionService.CreateAsync(createDto);
 
@@ -50,7 +50,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Put(
-            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<RegionModifyDto>))]RegionModifyDto modifyDto)
+            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<Modify.Dto>))]Modify.Dto modifyDto)
         {
             await _regionService.ModifyAsync(modifyDto);
 

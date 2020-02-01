@@ -1,18 +1,18 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.Validation;
+using static Orso.Arpa.Application.Logic.Me.Modify;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class UserProfileModifyDtoValidatorTests
     {
-        private UserProfileModifyDtoValidator _validator;
+        private Validator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new UserProfileModifyDtoValidator();
+            _validator = new Validator();
         }
 
         [Test]

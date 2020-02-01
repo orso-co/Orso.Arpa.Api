@@ -1,19 +1,19 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.Validation;
+using static Orso.Arpa.Application.Logic.Appointments.RemoveRoom;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class RemoveRoomDtoValidatorTests
     {
-        private RemoveRoomDtoValidator _validator;
+        private Validator _validator;
 
         [SetUp]
         public void SetUp()
         {
-            _validator = new RemoveRoomDtoValidator();
+            _validator = new Validator();
         }
 
         [Test]

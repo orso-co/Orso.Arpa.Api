@@ -1,19 +1,19 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.Validation;
+using static Orso.Arpa.Application.Logic.AppointmentParticipations.SetResult;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class SetParticipationResultDtoValidatorTests
     {
-        private SetParticipationResultDtoValidator _validator;
+        private Validator _validator;
 
         [SetUp]
         public void SetUp()
         {
-            _validator = new SetParticipationResultDtoValidator();
+            _validator = new Validator();
         }
 
         [Test]

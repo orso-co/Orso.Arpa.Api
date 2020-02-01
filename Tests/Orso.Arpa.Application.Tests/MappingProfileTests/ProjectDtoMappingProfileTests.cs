@@ -1,9 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Projects;
 using Orso.Arpa.Application.MappingProfiles;
-using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -17,7 +16,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<ProjectDtoMappingProfile>();
+                cfg.AddProfile<MappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Project project = ProjectSeedData.RockingXMas;
+            Domain.Entities.Project project = ProjectSeedData.RockingXMas;
             ProjectDto expectedDto = ProjectDtoData.RockingXMas;
 
             // Act

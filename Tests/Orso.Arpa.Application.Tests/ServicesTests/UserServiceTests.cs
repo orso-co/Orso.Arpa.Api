@@ -7,7 +7,8 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Dtos;
+using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Application.Logic.Users;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Me;
@@ -80,7 +81,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public void ModifyAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            UserProfileModifyDto modifyDto = null;
+            Logic.Me.Modify.Dto modifyDto = null;
 
             // Act
             Func<Task> func = async () => await _userService.ModifyProfileOfCurrentUserAsync(

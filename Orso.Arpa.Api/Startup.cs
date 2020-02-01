@@ -17,9 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MappingProfiles;
 using Orso.Arpa.Application.Services;
-using Orso.Arpa.Application.Validation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
@@ -59,13 +57,13 @@ namespace Orso.Arpa.Api
             ConfigureCors(services);
 
             services.AddMediatR(typeof(Login.Handler).Assembly);
-            services.AddAutoMapper(typeof(LoginDtoMappingProfile).Assembly, typeof(MappingProfile).Assembly);
+            services.AddAutoMapper(typeof(Application.Logic.Auth.Login.MappingProfile).Assembly, typeof(MappingProfile).Assembly);
 
             services.AddControllers()
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
                 {
-                    config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
+                    config.RegisterValidatorsFromAssemblyContaining<Application.Logic.Auth.Login.Validator>();
                     config.RegisterValidatorsFromAssemblyContaining<Validator>();
                 });
 

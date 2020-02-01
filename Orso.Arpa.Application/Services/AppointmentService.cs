@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Dtos;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Logic.AppointmentParticipations;
+using Orso.Arpa.Application.Logic.Appointments;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Appointments;
+using static Orso.Arpa.Application.Logic.Appointments.AddProject;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -24,25 +26,25 @@ namespace Orso.Arpa.Application.Services
             _mediator = mediator;
         }
 
-        public async Task AddProjectAsync(AddProjectDto addProjectDto)
+        public async Task AddProjectAsync(Dto addProjectDto)
         {
-            AddProject.Command command = _mapper.Map<AddProject.Command>(addProjectDto);
+            Domain.Logic.Appointments.AddProject.Command command = _mapper.Map<Domain.Logic.Appointments.AddProject.Command>(addProjectDto);
             await _mediator.Send(command);
         }
 
-        public async Task AddSectionAsync(AddSectionDto addSectionDto)
+        public async Task AddSectionAsync(Logic.Appointments.AddSection.Dto addSectionDto)
         {
-            AddSection.Command command = _mapper.Map<AddSection.Command>(addSectionDto);
+            Domain.Logic.Appointments.AddSection.Command command = _mapper.Map<Domain.Logic.Appointments.AddSection.Command>(addSectionDto);
             await _mediator.Send(command);
         }
 
-        public async Task AddRoomAsync(AddRoomDto addRoomDto)
+        public async Task AddRoomAsync(Logic.Appointments.AddRoom.Dto addRoomDto)
         {
-            AddRoom.Command command = _mapper.Map<AddRoom.Command>(addRoomDto);
+            Domain.Logic.Appointments.AddRoom.Command command = _mapper.Map<Domain.Logic.Appointments.AddRoom.Command>(addRoomDto);
             await _mediator.Send(command);
         }
 
-        public async Task<AppointmentDto> CreateAsync(AppointmentCreateDto appointmentCreateDto)
+        public async Task<AppointmentDto> CreateAsync(Logic.Appointments.Create.Dto appointmentCreateDto)
         {
             Domain.Logic.Appointments.Create.Command command = _mapper.Map<Domain.Logic.Appointments.Create.Command>(appointmentCreateDto);
             Appointment createdAppointment = await _mediator.Send(command);
@@ -87,39 +89,39 @@ namespace Orso.Arpa.Application.Services
             return dto;
         }
 
-        public async Task ModifyAsync(AppointmentModifyDto appointmentModifyDto)
+        public async Task ModifyAsync(Logic.Appointments.Modify.Dto appointmentModifyDto)
         {
-            Modify.Command command = _mapper.Map<Modify.Command>(appointmentModifyDto);
+            Domain.Logic.Appointments.Modify.Command command = _mapper.Map<Domain.Logic.Appointments.Modify.Command>(appointmentModifyDto);
             await _mediator.Send(command);
         }
 
-        public async Task RemoveProjectAsync(RemoveProjectDto removeProjectDto)
+        public async Task RemoveProjectAsync(Logic.Appointments.RemoveProject.Dto removeProjectDto)
         {
-            RemoveProject.Command command = _mapper.Map<RemoveProject.Command>(removeProjectDto);
+            Domain.Logic.Appointments.RemoveProject.Command command = _mapper.Map<Domain.Logic.Appointments.RemoveProject.Command>(removeProjectDto);
             await _mediator.Send(command);
         }
 
-        public async Task RemoveSectionAsync(RemoveSectionDto removeSectionDto)
+        public async Task RemoveSectionAsync(Logic.Appointments.RemoveSection.Dto removeSectionDto)
         {
-            RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(removeSectionDto);
+            Domain.Logic.Appointments.RemoveSection.Command command = _mapper.Map<Domain.Logic.Appointments.RemoveSection.Command>(removeSectionDto);
             await _mediator.Send(command);
         }
 
-        public async Task RemoveRoomAsync(RemoveRoomDto removeRoomDto)
+        public async Task RemoveRoomAsync(Logic.Appointments.RemoveRoom.Dto removeRoomDto)
         {
-            RemoveRoom.Command command = _mapper.Map<RemoveRoom.Command>(removeRoomDto);
+            Domain.Logic.Appointments.RemoveRoom.Command command = _mapper.Map<Domain.Logic.Appointments.RemoveRoom.Command>(removeRoomDto);
             await _mediator.Send(command);
         }
 
-        public async Task SetDatesAsync(SetDatesDto setDatesDto)
+        public async Task SetDatesAsync(Logic.Appointments.SetDates.Dto setDatesDto)
         {
-            SetDates.Command command = _mapper.Map<SetDates.Command>(setDatesDto);
+            Domain.Logic.Appointments.SetDates.Command command = _mapper.Map<Domain.Logic.Appointments.SetDates.Command>(setDatesDto);
             await _mediator.Send(command);
         }
 
-        public async Task SetVenueAsync(SetVenueDto setVenueDto)
+        public async Task SetVenueAsync(Logic.Appointments.SetVenue.Dto setVenueDto)
         {
-            SetVenue.Command command = _mapper.Map<SetVenue.Command>(setVenueDto);
+            Domain.Logic.Appointments.SetVenue.Command command = _mapper.Map<Domain.Logic.Appointments.SetVenue.Command>(setVenueDto);
             await _mediator.Send(command);
         }
 
@@ -128,9 +130,9 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(new Delete.Command() { Id = id });
         }
 
-        public async Task SetParticipationResultAsync(SetParticipationResultDto setParticipationResult)
+        public async Task SetParticipationResultAsync(Logic.AppointmentParticipations.SetResult.Dto setParticipationResult)
         {
-            SetResult.Command command = _mapper.Map<SetResult.Command>(setParticipationResult);
+            Domain.Logic.AppointmentParticipations.SetResult.Command command = _mapper.Map<Domain.Logic.AppointmentParticipations.SetResult.Command>(setParticipationResult);
             await _mediator.Send(command);
         }
     }
