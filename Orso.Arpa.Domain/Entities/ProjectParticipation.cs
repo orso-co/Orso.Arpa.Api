@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.Entities
             MusicianProfileId = command.MusicianProfileId;
         }
 
-        protected ProjectParticipation()
+        public ProjectParticipation()
         {
         }
 
