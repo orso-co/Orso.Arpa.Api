@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,14 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<UserProfileDto>> GetMyProfile()
         {
             return await _userService.GetProfileOfCurrentUserAsync();
+        }
+
+        [HttpGet("appointments")]
+        public async Task<ActionResult<IEnumerable<UserAppointmentDto>>> GetMyAppointments(
+            [FromQuery]int? limit,
+            [FromQuery]int? offset)
+        {
+            return Ok(await _userService.GetAppointmentsOfCurrentUserAsync(limit, offset));
         }
 
         [HttpPut("profile")]

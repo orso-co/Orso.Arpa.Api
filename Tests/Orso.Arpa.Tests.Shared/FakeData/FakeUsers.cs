@@ -31,7 +31,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     UserName = "orsianer",
                     Email = "orsianer@test.com",
                     PersonId = PersonSeedData.Orsianer.Id,
-                    Person = PersonSeedData.Orsianer,
+                    Person = FakePersons.Orsianer,
                     NormalizedEmail = "ORSIANER@TEST.COM",
                     NormalizedUserName = "ORSIANER"
                 };

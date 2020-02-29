@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -39,10 +40,12 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         EndTime = new DateTime(2019, 12, 21, 18, 30, 00),
                         PublicDetails = "Let's rock",
                         InternalDetails = "I need more coffee",
-                        Name = "Rocking X-mas Dress Rehearsal"
+                        Name = "Rocking X-mas Dress Rehearsal",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[2].Id
                     }
                 );
                 appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.RockingXMas.Id, id));
+                appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
                 return appointment;
             }
         }
@@ -65,9 +68,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         EndTime = new DateTime(2019, 12, 22, 23, 30, 00),
                         PublicDetails = "Sold out :-)",
                         InternalDetails = "Where is my jacket?",
-                        Name = "Rocking X-mas Concert"
+                        Name = "Rocking X-mas Concert",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
                     }
                 );
+                appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
                 return appointment;
             }
         }
@@ -90,12 +95,14 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         EndTime = new DateTime(2019, 12, 24, 06, 00, 00),
                         PublicDetails = "Let the party started",
                         InternalDetails = "Shake it, baby",
-                        Name = "Rocking X-mas After Show Party"
+                        Name = "Rocking X-mas After Show Party",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[0].Id
                     }
                 );
                 appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.RockingXMas.Id, appointmentId));
                 appointment.AppointmentRooms.Add(new AppointmentRoom(appointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
                 appointment.SectionAppointments.Add(new SectionAppointment(SectionSeedData.Alto.Id, appointmentId));
+                appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
                 return appointment;
             }
         }

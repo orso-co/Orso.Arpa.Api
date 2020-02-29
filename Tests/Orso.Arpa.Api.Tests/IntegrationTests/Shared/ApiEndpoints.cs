@@ -71,6 +71,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string GetProfile() => $"{Me}/profile";
 
+            public static string GetAppointments(int? limit, int? offset) => $"{Me}/appointments?limit={limit}&offset={offset}";
+
             public static string PutProfile() => $"{Me}/profile";
         }
 

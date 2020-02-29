@@ -115,6 +115,7 @@ namespace Orso.Arpa.Api
         {
             services.AddSwaggerGen(c =>
             {
+                c.CustomSchemaIds(i => i.FullName);
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Orso.Arpa.Api",

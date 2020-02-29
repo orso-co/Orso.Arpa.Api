@@ -14,5 +14,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task<UserProfileDto> GetProfileOfCurrentUserAsync();
 
         Task ModifyProfileOfCurrentUserAsync(Modify.Dto userProfileModifyDto);
+
+        Task<IEnumerable<UserAppointmentDto>> GetAppointmentsOfCurrentUserAsync(int? limit, int? offset);
     }
 }

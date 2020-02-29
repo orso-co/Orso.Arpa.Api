@@ -35,7 +35,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     PublicDetails = "Let's rock",
                     Name = "Rocking X-mas Dress Rehearsal",
                     StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
-                    CreatedBy = "anonymous"
+                    CreatedBy = "anonymous",
+                    ExpectationId = Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"),
+                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1")
                 };
                 dto.Participations.Add(OrsianerParticipation);
                 dto.Participations.Add(OrsonautParticipation);

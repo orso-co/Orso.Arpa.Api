@@ -60,5 +60,11 @@ namespace Orso.Arpa.Application.Services
             Domain.Logic.Me.Modify.Command command = _mapper.Map<Domain.Logic.Me.Modify.Command>(userProfileModifyDto);
             await _mediator.Send(command);
         }
+
+        public async Task<IEnumerable<UserAppointmentDto>> GetAppointmentsOfCurrentUserAsync(int? limit, int? offset)
+        {
+            IEnumerable<Appointment> appointments = await _mediator.Send(new Appointments.Query(limit, offset));
+            return _mapper.Map<IEnumerable<UserAppointmentDto>>(appointments);
+        }
     }
 }

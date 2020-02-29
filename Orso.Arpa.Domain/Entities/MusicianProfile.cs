@@ -13,7 +13,7 @@ namespace Orso.Arpa.Domain.Entities
             SectionId = command.SectionId;
         }
 
-        protected MusicianProfile()
+        public MusicianProfile()
         {
         }
 
