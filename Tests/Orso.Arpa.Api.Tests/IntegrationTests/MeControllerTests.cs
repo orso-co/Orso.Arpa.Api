@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -30,6 +32,36 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             UserProfileDto result = await DeserializeResponseMessageAsync<UserProfileDto>(responseMessage);
 
             result.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test, Order(2)]
+        public async Task Should_Get_My_Appointments()
+        {
+            // Arrange
+            UserAppointmentDto expectedUserAppointment = UserAppointmentDtoTestData.OrsianerUserAppointment;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_orsianer)
+                .GetAsync(ApiEndpoints.MeController.GetAppointments(1, 1));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<UserAppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<UserAppointmentDto>>(responseMessage);
+
+            result.Should().BeEquivalentTo(UserAppointmentDtoTestData.OrsianerUserAppointments, opt => opt
+                .Excluding(dto => dto.CreatedAt)
+                .Excluding(dto => dto.Projects)
+                .Excluding(dto => dto.Venue));
+            UserAppointmentDto userAppointment = result.First();
+            userAppointment.Venue.Should().BeEquivalentTo(expectedUserAppointment.Venue, opt => opt
+                .Excluding(dto => dto.CreatedAt)
+                .Excluding(dto => dto.Rooms));
+            userAppointment.Venue.Rooms.Should().BeEquivalentTo(expectedUserAppointment.Venue.Rooms, opt => opt
+                .Excluding(dto => dto.CreatedAt));
+            userAppointment.Projects.Should().BeEquivalentTo(expectedUserAppointment.Projects, opt => opt
+                .Excluding(dto => dto.CreatedAt));
         }
 
         [Test, Order(1000)]

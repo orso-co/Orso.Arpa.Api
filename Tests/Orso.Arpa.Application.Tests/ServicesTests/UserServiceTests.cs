@@ -15,6 +15,7 @@ using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.ServicesTests
 {
@@ -89,6 +90,21 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
 
             // Assert
             func.Should().NotThrow();
+        }
+
+        [Test]
+        public async Task Should_Get_Appointments_Of_Current_User_Async()
+        {
+            // Arrange
+            _mediator.Send(Arg.Any<Appointments.Query>()).Returns(new List<Appointment> { AppointmentSeedData.RockingXMasRehearsal });
+            IEnumerable<UserAppointmentDto> expectedDtos = UserAppointmentDtoTestData.OrsianerUserAppointments;
+            _mapper.Map<IEnumerable<UserAppointmentDto>>(Arg.Any<IEnumerable<Appointment>>()).Returns(expectedDtos);
+
+            // Act
+            IEnumerable<UserAppointmentDto> userAppointmentDtos = await _userService.GetAppointmentsOfCurrentUserAsync(null, null);
+
+            // Assert
+            userAppointmentDtos.Should().BeEquivalentTo(expectedDtos);
         }
     }
 }
