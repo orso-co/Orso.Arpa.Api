@@ -1,9 +1,10 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -23,8 +24,9 @@ namespace Orso.Arpa.Api.Controllers
             return await _userService.GetProfileOfCurrentUserAsync();
         }
 
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet("appointments")]
-        public async Task<ActionResult<IEnumerable<UserAppointmentDto>>> GetMyAppointments(
+        public async Task<ActionResult<UserAppointmentListDto>> GetMyAppointments(
             [FromQuery]int? limit,
             [FromQuery]int? offset)
         {
@@ -37,6 +39,16 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> PutProfile([FromBody]Modify.Dto userProfileModifyDto)
         {
             await _userService.ModifyProfileOfCurrentUserAsync(userProfileModifyDto);
+            return NoContent();
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
+        [HttpPut("appointments/{id}/participation/prediction/{predictionId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> SetParticipationPrediction([FromRoute]SetPrediction.Dto setParticipationPrediction)
+        {
+            await _userService.SetAppointmentParticipationPredictionAsync(setParticipationPrediction);
             return NoContent();
         }
     }

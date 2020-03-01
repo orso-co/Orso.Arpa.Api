@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -20,6 +21,8 @@ namespace Orso.Arpa.Application.Logic.Me
         public IList<RoomDto> Rooms { get; set; } = new List<RoomDto>();
         public string PublicDetails { get; set; }
         public string Expectation { get; set; }
+        public string Result { get; set; }
+        public Guid? PredictionId { get; set; }
     }
 
     public class UserAppointmentDtoMappingProfile : Profile
@@ -36,6 +39,11 @@ namespace Orso.Arpa.Application.Logic.Me
                 .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.AppointmentRooms.Select(pa => pa.Room)))
                 .ForMember(dest => dest.PublicDetails, opt => opt.MapFrom(src => src.PublicDetails))
                 .ForMember(dest => dest.Expectation, opt => opt.MapFrom(src => src.Expectation.SelectValue.Name));
+
+            CreateMap<AppointmentParticipation, UserAppointmentDto>()
+                .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Result != null ? src.Result.SelectValue.Name : null))
+                .ForMember(dest => dest.PredictionId, opt => opt.MapFrom(src => src.PredictionId))
+                .ForAllOtherMembers(dest => dest.Ignore());
         }
     }
 }

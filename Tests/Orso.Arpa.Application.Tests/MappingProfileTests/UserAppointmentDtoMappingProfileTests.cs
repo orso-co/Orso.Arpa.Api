@@ -41,7 +41,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             UserAppointmentDto dto = _mapper.Map<UserAppointmentDto>(appointment);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto);
+            dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.PredictionId));
         }
     }
 }

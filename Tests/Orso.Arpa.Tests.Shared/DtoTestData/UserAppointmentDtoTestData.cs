@@ -30,7 +30,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Rocking X-mas Dress Rehearsal",
                     PublicDetails = "Let's rock",
                     StartTime = "2019-12-21T10:00:00Z",
-                    Venue = VenueDtoData.WeiherhofSchule
+                    Venue = VenueDtoData.WeiherhofSchule,
+                    PredictionId = Guid.Parse("319d508e-a6e2-437e-b48b-6be51e3459bd")
                 };
                 dto.Projects.Add(ProjectDtoData.RockingXMas);
 
