@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,13 +17,13 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
     public class AppointmentsHandlerTests
     {
         private IUserAccessor _userAccessor;
-        private Appointments.Handler _handler;
+        private AppointmentList.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _userAccessor = Substitute.For<IUserAccessor>();
-            _handler = new Appointments.Handler(_userAccessor);
+            _handler = new AppointmentList.Handler(_userAccessor);
         }
 
         [Test]
@@ -34,10 +35,11 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
             var expectedAppointments = new List<Appointment> { AppointmentSeedData.RockingXMasRehearsal };
 
             // Act
-            IEnumerable<Appointment> result = await _handler.Handle(new Appointments.Query(null, null), new CancellationToken());
+            Tuple<IEnumerable<Appointment>, int> result = await _handler.Handle(new AppointmentList.Query(null, null), new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(expectedAppointments);
+            result.Item1.Should().BeEquivalentTo(expectedAppointments);
+            result.Item2.Should().Be(1);
         }
     }
 }

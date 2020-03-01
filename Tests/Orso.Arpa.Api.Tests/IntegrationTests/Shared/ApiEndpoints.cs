@@ -74,6 +74,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string GetAppointments(int? limit, int? offset) => $"{Me}/appointments?limit={limit}&offset={offset}";
 
             public static string PutProfile() => $"{Me}/profile";
+
+            public static string SetAppointmentParticipationPrediction(Guid appointmentId, Guid predictionId)
+                => $"{Me}/appointments/{appointmentId}/participation/prediction/{predictionId}";
         }
 
         public static class RegionsController

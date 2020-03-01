@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -8,9 +9,9 @@ using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Me
 {
-    public static class Appointments
+    public static class AppointmentList
     {
-        public class Query : IRequest<IEnumerable<Appointment>>
+        public class Query : IRequest<Tuple<IEnumerable<Appointment>, int>>
         {
             public Query(int? limit, int? offset)
             {
@@ -22,7 +23,7 @@ namespace Orso.Arpa.Domain.Logic.Me
             public int? Offset { get; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Appointment>>
+        public class Handler : IRequestHandler<Query, Tuple<IEnumerable<Appointment>, int>>
         {
             private readonly IUserAccessor _userAccessor;
 
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                 _userAccessor = userAccessor;
             }
 
-            public async Task<IEnumerable<Appointment>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Tuple<IEnumerable<Appointment>, int>> Handle(Query request, CancellationToken cancellationToken)
             {
                 User user = await _userAccessor.GetCurrentUserAsync();
                 IOrderedEnumerable<Appointment> appointments = user.Person.MusicianProfiles
@@ -42,9 +43,11 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .Select(pa => pa.Appointment)
                     .OrderByDescending(p => p.StartTime);
 
-                return appointments
+                var count = appointments.Count();
+
+                return new Tuple<IEnumerable<Appointment>, int>(appointments
                     .Skip(request.Offset ?? 0)
-                    .Take(request.Limit ?? appointments.Count());
+                    .Take(request.Limit ?? count), count);
             }
         }
     }

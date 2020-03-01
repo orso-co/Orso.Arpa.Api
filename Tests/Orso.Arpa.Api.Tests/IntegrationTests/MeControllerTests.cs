@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,8 +7,10 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Logic.Me;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -48,13 +49,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            IEnumerable<UserAppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<UserAppointmentDto>>(responseMessage);
+            UserAppointmentListDto result = await DeserializeResponseMessageAsync<UserAppointmentListDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(UserAppointmentDtoTestData.OrsianerUserAppointments, opt => opt
+            result.UserAppointments.Should().BeEquivalentTo(UserAppointmentDtoTestData.OrsianerUserAppointments, opt => opt
                 .Excluding(dto => dto.CreatedAt)
                 .Excluding(dto => dto.Projects)
                 .Excluding(dto => dto.Venue));
-            UserAppointmentDto userAppointment = result.First();
+            result.TotalRecordsCount.Should().Be(2);
+            UserAppointmentDto userAppointment = result.UserAppointments.First();
             userAppointment.Venue.Should().BeEquivalentTo(expectedUserAppointment.Venue, opt => opt
                 .Excluding(dto => dto.CreatedAt)
                 .Excluding(dto => dto.Rooms));
@@ -104,6 +106,21 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             UserProfileDto result = await DeserializeResponseMessageAsync<UserProfileDto>(getMessage);
 
             result.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test, Order(1001)]
+        public async Task Should_Set_Appointment_Participation_Prediction()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_orsonaut)
+                .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
+                    AppointmentSeedData.RockingXMasRehearsal.Id,
+                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id), null);
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

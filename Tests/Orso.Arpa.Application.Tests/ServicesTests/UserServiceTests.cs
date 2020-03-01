@@ -11,11 +11,13 @@ using Orso.Arpa.Application.Logic.Me;
 using Orso.Arpa.Application.Logic.Users;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using Me = Orso.Arpa.Domain.Logic.Me;
 
 namespace Orso.Arpa.Application.Tests.ServicesTests
 {
@@ -25,13 +27,15 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         private UserService _userService;
         private IMapper _mapper;
         private IMediator _mediator;
+        private IUserAccessor _userAccessor;
 
         [SetUp]
         public void Setup()
         {
             _mapper = Substitute.For<IMapper>();
             _mediator = Substitute.For<IMediator>();
-            _userService = new UserService(_mediator, _mapper);
+            _userAccessor = Substitute.For<IUserAccessor>();
+            _userService = new UserService(_mediator, _mapper, _userAccessor);
         }
 
         [Test]
@@ -57,7 +61,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Profile_Of_Current_User_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Details.Query>()).Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer);
+            _mediator.Send(Arg.Any<Me.Details.Query>()).Returns(FakeUsers.Orsianer);
             UserProfileDto expectedDto = FakerFabric.UesrProfileDtoFaker.Generate();
             _mapper.Map<UserProfileDto>(Arg.Any<User>()).Returns(expectedDto);
 
@@ -82,7 +86,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public void ModifyAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            Logic.Me.Modify.Dto modifyDto = null;
+            Modify.Dto modifyDto = null;
 
             // Act
             Func<Task> func = async () => await _userService.ModifyProfileOfCurrentUserAsync(
@@ -96,15 +100,32 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Appointments_Of_Current_User_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Appointments.Query>()).Returns(new List<Appointment> { AppointmentSeedData.RockingXMasRehearsal });
-            IEnumerable<UserAppointmentDto> expectedDtos = UserAppointmentDtoTestData.OrsianerUserAppointments;
-            _mapper.Map<IEnumerable<UserAppointmentDto>>(Arg.Any<IEnumerable<Appointment>>()).Returns(expectedDtos);
+            _mediator.Send(Arg.Any<Me.AppointmentList.Query>())
+                .Returns(new Tuple<IEnumerable<Appointment>, int>(new List<Appointment> { AppointmentSeedData.RockingXMasRehearsal }, 1));
+            var expectedDto = new UserAppointmentListDto { UserAppointments = UserAppointmentDtoTestData.OrsianerUserAppointments, TotalRecordsCount = 1 };
+            _mapper.Map<UserAppointmentListDto>(Arg.Any<Tuple<IEnumerable<Appointment>, int>>()).Returns(expectedDto);
+            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
 
             // Act
-            IEnumerable<UserAppointmentDto> userAppointmentDtos = await _userService.GetAppointmentsOfCurrentUserAsync(null, null);
+            UserAppointmentListDto userAppointmentListDto = await _userService.GetAppointmentsOfCurrentUserAsync(null, null);
 
             // Assert
-            userAppointmentDtos.Should().BeEquivalentTo(expectedDtos);
+            userAppointmentListDto.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test]
+        public async Task Should_Set_Appointment_Participation_Prediction_Async()
+        {
+            // Arrange
+            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
+            _mapper.Map<AppointmentParticipations.SetPrediction.Command>(Arg.Any<SetPrediction.Dto>())
+                .Returns(new AppointmentParticipations.SetPrediction.Command());
+
+            // Act
+            await _userService.SetAppointmentParticipationPredictionAsync(new SetPrediction.Dto());
+
+            // Assert
+            await _mediator.Received(1).Send(Arg.Any<AppointmentParticipations.SetPrediction.Command>());
         }
     }
 }
