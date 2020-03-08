@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
@@ -64,21 +62,6 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
 
             // Assert
             func.Should().NotThrow();
-        }
-
-        [Test]
-        public async Task GetAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            RegionService service = CreateService();
-            IList<RegionDto> expectedDtos = RegionDtoData.Regions;
-            _subMapper.Map<IEnumerable<RegionDto>>(Arg.Any<IImmutableList<Region>>()).Returns(expectedDtos);
-
-            // Act
-            IEnumerable<RegionDto> result = await service.GetAsync();
-
-            // Assert
-            result.Should().BeEquivalentTo(expectedDtos);
         }
 
         [Test]

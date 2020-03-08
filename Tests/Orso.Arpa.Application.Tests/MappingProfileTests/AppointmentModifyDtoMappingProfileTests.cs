@@ -3,7 +3,6 @@ using AutoMapper;
 using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Logic.Appointments;
 using static Orso.Arpa.Application.Logic.Appointments.Modify;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -39,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .Generate();
 
             // Act
-            Modify.Command command = _mapper.Map<Modify.Command>(dto);
+            Domain.Logic.Appointments.Modify.Command command = _mapper.Map<Domain.Logic.Appointments.Modify.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

@@ -1,9 +1,8 @@
 using System;
-using System.Linq;
+using System.Linq.Expressions;
 using FluentAssertions;
 using FluentValidation.Results;
 using FluentValidation.TestHelper;
-using MockQueryable.NSubstitute;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
@@ -30,9 +29,8 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            IQueryable<Region> regionsMock = RegionSeedData.Regions.AsQueryable().BuildMock();
-            _repository.GetAll<Region>().Returns(regionsMock);
-            _repository.GetByIdAsync<Region>(Arg.Any<Guid>()).Returns(default(Region));
+            _repository.Exists<Region>(Arg.Any<Guid>()).Returns(false);
+            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(false);
 
             Func<ValidationResult> func = () => _validator.Validate(new Command { Id = Guid.NewGuid(), Name = "Name" });
 
@@ -42,27 +40,24 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Name_Does_Already_Exist()
         {
-            IQueryable<Region> regionsMock = RegionSeedData.Regions.AsQueryable().BuildMock();
-            _repository.GetAll<Region>().Returns(regionsMock);
-            _repository.GetByIdAsync<Region>(Arg.Any<Guid>()).Returns(RegionSeedData.Berlin);
+            _repository.Exists<Region>(Arg.Any<Guid>()).Returns(true);
+            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.Name, RegionSeedData.Stuttgart.Name);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
         {
-            IQueryable<Region> regionsMock = RegionSeedData.Regions.AsQueryable().BuildMock();
-            _repository.GetAll<Region>().Returns(regionsMock);
-            _repository.GetByIdAsync<Region>(Arg.Any<Guid>()).Returns(RegionSeedData.Berlin);
+            _repository.Exists<Region>(Arg.Any<Guid>()).Returns(true);
+            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(false);
             _validator.ShouldNotHaveValidationErrorFor(command => command.Name, "Honolulu");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
-            _repository.GetByIdAsync<Region>(Arg.Any<Guid>()).Returns(RegionSeedData.Berlin);
-            IQueryable<Region> regionsMock = RegionSeedData.Regions.AsQueryable().BuildMock();
-            _repository.GetAll<Region>().Returns(regionsMock);
+            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(false);
+            _repository.Exists<Region>(Arg.Any<Guid>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.Id, Guid.NewGuid());
         }
     }

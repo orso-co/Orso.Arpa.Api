@@ -7,7 +7,6 @@ using MediatR;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Application.Logic.Rooms;
-using Orso.Arpa.Application.Logic.Venues;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -32,22 +31,6 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             return new VenueService(
                 _subMediator,
                 _subMapper);
-        }
-
-        [Test]
-        public async Task GetAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            VenueService service = CreateService();
-            IList<VenueDto> expectedDtos = VenueDtoData.Venues;
-            _subMapper.Map<IEnumerable<VenueDto>>(Arg.Any<IEnumerable<Venue>>())
-                .Returns(expectedDtos);
-
-            // Act
-            IEnumerable<VenueDto> result = await service.GetAsync();
-
-            // Assert
-            result.Should().BeEquivalentTo(expectedDtos);
         }
 
         [Test]

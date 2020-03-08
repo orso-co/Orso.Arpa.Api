@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Logic.Sections;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Sections;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -23,8 +23,9 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<SectionDto>> GetAsync()
         {
-            IImmutableList<Section> sections = await _mediator.Send(new List.Query());
-            return _mapper.Map<IEnumerable<SectionDto>>(sections);
+            IQueryable<Section> sections = await _mediator
+                .Send(new Domain.GenericHandlers.List.Query<Section>(orderBy: s => s.OrderBy(s => s.Name)));
+            return sections.ProjectTo<SectionDto>(_mapper.ConfigurationProvider);
         }
     }
 }

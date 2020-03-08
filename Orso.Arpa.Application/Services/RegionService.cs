@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Logic.Regions;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Regions;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -31,18 +31,18 @@ namespace Orso.Arpa.Application.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            await _mediator.Send(new Delete.Command() { Id = id });
+            await _mediator.Send(new Domain.GenericHandlers.Delete.Command<Region>() { Id = id });
         }
 
         public async Task<IEnumerable<RegionDto>> GetAsync()
         {
-            IImmutableList<Region> regions = await _mediator.Send(new List.Query());
-            return _mapper.Map<IEnumerable<RegionDto>>(regions);
+            IQueryable<Region> regions = await _mediator.Send(new Domain.GenericHandlers.List.Query<Region>());
+            return regions.ProjectTo<RegionDto>(_mapper.ConfigurationProvider);
         }
 
         public async Task<RegionDto> GetByIdAsync(Guid id)
         {
-            Region region = await _mediator.Send(new Details.Query { Id = id });
+            Region region = await _mediator.Send(new Domain.GenericHandlers.Details.Query<Region>(id));
             return _mapper.Map<RegionDto>(region);
         }
 

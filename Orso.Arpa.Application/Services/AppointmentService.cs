@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Logic.AppointmentParticipations;
 using Orso.Arpa.Application.Logic.Appointments;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Logic.Appointments;
 using static Orso.Arpa.Application.Logic.Appointments.AddProject;
 
@@ -55,12 +56,13 @@ namespace Orso.Arpa.Application.Services
         {
             date ??= DateTime.Today;
 
-            IImmutableList<Appointment> appointments = await _mediator.Send(new List.Query
-            {
-                StartTime = DateHelper.GetStartTime(date.Value, range),
-                EndTime = DateHelper.GetEndTime(date.Value, range)
-            });
-            return _mapper.Map<IEnumerable<AppointmentDto>>(appointments);
+            IQueryable<Appointment> appointments = await _mediator.Send(new List.Query<Appointment>(a =>
+               a.StartTime >= DateHelper.GetStartTime(date.Value, range)
+               && a.StartTime <= DateHelper.GetEndTime(date.Value, range)));
+
+            return appointments
+                .ProjectTo<AppointmentDto>(_mapper.ConfigurationProvider)
+                .AsEnumerable();
         }
 
         private void AddParticipations(AppointmentDto dto, Appointment appointment)
@@ -83,7 +85,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<AppointmentDto> GetAsync(Guid id)
         {
-            Appointment appointment = await _mediator.Send(new Details.Query { Id = id });
+            Appointment appointment = await _mediator.Send(new Details.Query<Appointment>(id));
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
             AddParticipations(dto, appointment);
             return dto;
@@ -127,7 +129,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            await _mediator.Send(new Delete.Command() { Id = id });
+            await _mediator.Send(new Delete.Command<Appointment>() { Id = id });
         }
 
         public async Task SetParticipationResultAsync(Logic.AppointmentParticipations.SetResult.Dto setParticipationResult)

@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Services;
@@ -57,7 +58,10 @@ namespace Orso.Arpa.Api
             ConfigureCors(services);
 
             services.AddMediatR(typeof(Login.Handler).Assembly);
-            services.AddAutoMapper(typeof(Application.Logic.Auth.Login.MappingProfile).Assembly, typeof(MappingProfile).Assembly);
+            services.AddGenericMediatorHandlers();
+            services.AddAutoMapper(
+                typeof(Application.Logic.Auth.Login.MappingProfile).Assembly,
+                typeof(Domain.Logic.Appointments.Modify.MappingProfile).Assembly);
 
             services.AddControllers()
                 .AddApplicationPart(typeof(Startup).Assembly)

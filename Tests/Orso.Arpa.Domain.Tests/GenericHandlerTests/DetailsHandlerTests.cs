@@ -5,23 +5,23 @@ using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Domain.Tests.AppointmentTests.QueryHandlerTests
+namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
 {
     [TestFixture]
     public class DetailsHandlerTests
     {
         private IReadOnlyRepository _repository;
-        private Details.Handler _handler;
+        private Details.Handler<Appointment> _handler;
 
         [SetUp]
         public void Setup()
         {
             _repository = Substitute.For<IReadOnlyRepository>();
-            _handler = new Details.Handler(_repository);
+            _handler = new Details.Handler<Appointment>(_repository);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.QueryHandlerTests
                 .Returns(appointment);
 
             // Act
-            Appointment result = await _handler.Handle(new Details.Query(), new CancellationToken());
+            Appointment result = await _handler.Handle(new Details.Query<Appointment>(Guid.NewGuid()), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(appointment);

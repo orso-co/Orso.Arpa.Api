@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Logic\Sections\" />
     <Folder Include="Logic\SelectValueMappings\" />
   </ItemGroup>
 </Project>

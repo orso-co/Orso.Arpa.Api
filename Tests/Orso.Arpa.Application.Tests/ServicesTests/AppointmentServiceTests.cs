@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
@@ -10,7 +8,6 @@ using NUnit.Framework;
 using Orso.Arpa.Application.Logic.Appointments;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Application.Logic.Appointments.AddSection;
@@ -111,26 +108,6 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         }
 
         [Test]
-        public async Task GetAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            AppointmentService service = CreateService();
-            _subMediator.Send(Arg.Any<Appointments.List.Query>())
-                .Returns(AppointmentSeedData.Appointments.ToImmutableList());
-            IList<AppointmentDto> expectedDtos = AppointmentDtoData.Appointments;
-            _subMapper.Map<IEnumerable<AppointmentDto>>(Arg.Any<IEnumerable<Appointment>>())
-                .Returns(expectedDtos);
-
-            // Act
-            IEnumerable<AppointmentDto> result = await service.GetAsync(
-                new DateTime(2019, 12, 22),
-                DateRange.Month);
-
-            // Assert
-            result.Should().BeEquivalentTo(expectedDtos);
-        }
-
-        [Test]
         public async Task GetAsync_By_Id_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
@@ -139,7 +116,8 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
             _subMapper.Map<AppointmentDto>(Arg.Any<Appointment>())
                 .Returns(expectedDto);
-            _subMediator.Send(Arg.Any<Appointments.Details.Query>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
+            _subMediator.Send(Arg.Any<Domain.GenericHandlers.Details.Query<Appointment>>())
+                .Returns(AppointmentSeedData.RockingXMasRehearsal);
 
             // Act
             AppointmentDto result = await service.GetAsync(
@@ -286,7 +264,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             await service.DeleteAsync(id);
 
             // Assert
-            await _subMediator.Received().Send(Arg.Any<Appointments.Delete.Command>());
+            await _subMediator.Received().Send(Arg.Any<Domain.GenericHandlers.Delete.Command<Appointment>>());
         }
     }
 }

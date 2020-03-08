@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -21,8 +24,11 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<Logic.Projects.ProjectDto>> GetAsync(bool includeCompleted)
         {
-            IImmutableList<Domain.Entities.Project> projects = await _mediator.Send(new List.Query { IncludeCompleted = includeCompleted });
-            return _mapper.Map<IEnumerable<Logic.Projects.ProjectDto>>(projects);
+            Expression<Func<Project, bool>> predicate = includeCompleted ? default(Expression<Func<Project, bool>>) : p => !p.IsCompleted;
+            IQueryable<Project> projects = await _mediator.Send(
+                new Domain.GenericHandlers.List.Query<Project>(predicate));
+
+            return projects.ProjectTo<Logic.Projects.ProjectDto>(_mapper.ConfigurationProvider);
         }
     }
 }

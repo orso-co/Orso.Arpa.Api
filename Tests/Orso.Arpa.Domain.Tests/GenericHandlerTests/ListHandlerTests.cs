@@ -10,19 +10,19 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Domain.Tests.AppointmentTests.QueryHandlerTests
+namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
 {
     [TestFixture]
     public class ListHandlerTests
     {
         private IReadOnlyRepository _repository;
-        private Logic.Appointments.List.Handler _handler;
+        private GenericHandlers.List.Handler<Appointment> _handler;
 
         [SetUp]
         public void Setup()
         {
             _repository = Substitute.For<IReadOnlyRepository>();
-            _handler = new Logic.Appointments.List.Handler(_repository);
+            _handler = new GenericHandlers.List.Handler<Appointment>(_repository);
         }
 
         [Test]
@@ -35,12 +35,8 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.QueryHandlerTests
                 .Returns(AppointmentSeedData.Appointments.AsQueryable());
 
             // Act
-            IImmutableList<Appointment> result = await _handler.Handle(
-                new Logic.Appointments.List.Query
-                {
-                    StartTime = DateTime.MinValue,
-                    EndTime = DateTime.MaxValue
-                },
+            IQueryable<Appointment> result = await _handler.Handle(
+                new GenericHandlers.List.Query<Appointment>(a => a.StartTime >= DateTime.MinValue && a.StartTime <= DateTime.MaxValue),
                 new CancellationToken());
 
             // Assert

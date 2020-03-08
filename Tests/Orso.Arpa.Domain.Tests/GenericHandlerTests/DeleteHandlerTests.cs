@@ -4,24 +4,25 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Appointments;
 
-namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
+namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
 {
     [TestFixture]
     public class DeleteHandlerTests
     {
         private IRepository _repository;
         private IUnitOfWork _unitOfWork;
-        private Delete.Handler _handler;
+        private Delete.Handler<Appointment> _handler;
 
         [SetUp]
         public void Setup()
         {
             _repository = Substitute.For<IRepository>();
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _handler = new Delete.Handler(_repository, _unitOfWork);
+            _handler = new Delete.Handler<Appointment>(_repository, _unitOfWork);
         }
 
         [Test]
@@ -31,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             _unitOfWork.CommitAsync().Returns(true);
 
             // Act
-            Unit result = await _handler.Handle(new Delete.Command(), new CancellationToken());
+            Unit result = await _handler.Handle(new Delete.Command<Appointment>(), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(Unit.Value);

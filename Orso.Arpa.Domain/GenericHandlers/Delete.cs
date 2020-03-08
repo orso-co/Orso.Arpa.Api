@@ -5,16 +5,16 @@ using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
-namespace Orso.Arpa.Domain.Logic.Regions
+namespace Orso.Arpa.Domain.GenericHandlers
 {
     public static class Delete
     {
-        public class Command : IRequest
+        public class Command<TEntity> : IRequest where TEntity : BaseEntity
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler<TEntity> : IRequestHandler<Command<TEntity>> where TEntity : BaseEntity
         {
             private readonly IRepository _repository;
             private readonly IUnitOfWork _unitOfWork;
@@ -27,16 +27,16 @@ namespace Orso.Arpa.Domain.Logic.Regions
                 _unitOfWork = unitOfWork;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command<TEntity> request, CancellationToken cancellationToken)
             {
-                await _repository.DeleteAsync<Region>(request.Id);
+                await _repository.DeleteAsync<TEntity>(request.Id);
 
                 if (await _unitOfWork.CommitAsync())
                 {
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem deleting region");
+                throw new Exception($"Problem deleting {typeof(TEntity).Name}");
             }
         }
     }
