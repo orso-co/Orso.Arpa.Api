@@ -1,4 +1,4 @@
-using Orso.Arpa.Application.Logic.MusicianProfiles;
+using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

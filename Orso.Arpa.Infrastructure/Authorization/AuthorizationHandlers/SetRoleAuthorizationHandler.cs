@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
+using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
-using static Orso.Arpa.Application.Logic.Auth.SetRole;
 
 namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
 {
@@ -36,13 +36,13 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
             SetRoleAuthorizationRequirement requirement)
 
         {
-            Dto dto = null;
+            SetRoleDto dto = null;
             Stream body = _httpContextAccessor.HttpContext.Request.Body;
 
             using (var stream = new StreamReader(body, Encoding.UTF8, true, 1024, true))
             {
                 string bodyString = await stream.ReadToEndAsync();
-                dto = JsonConvert.DeserializeObject<Dto>(bodyString);
+                dto = JsonConvert.DeserializeObject<SetRoleDto>(bodyString);
             }
 
             body.Position = 0;

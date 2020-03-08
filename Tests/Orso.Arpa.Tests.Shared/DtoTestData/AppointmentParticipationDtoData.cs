@@ -1,4 +1,4 @@
-using Orso.Arpa.Application.Logic.AppointmentParticipations;
+using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

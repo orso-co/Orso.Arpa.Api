@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Api.ModelBinders;
+using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.AppointmentParticipations;
-using Orso.Arpa.Application.Logic.Appointments;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
-using static Orso.Arpa.Application.Logic.Appointments.AddProject;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -34,14 +33,14 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AppointmentDto>> GetById(Guid id)
         {
-            return Ok(await _appointmentService.GetAsync(id));
+            return Ok(await _appointmentService.GetByIdAsync(id));
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<AppointmentDto>> Post([FromBody]Create.Dto appointmentCreateDto)
+        public async Task<ActionResult<AppointmentDto>> Post([FromBody]AppointmentCreateDto appointmentCreateDto)
         {
             AppointmentDto createdAppointment = await _appointmentService.CreateAsync(appointmentCreateDto);
             return CreatedAtAction(nameof(GetById), new { id = createdAppointment.Id }, createdAppointment);
@@ -49,7 +48,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPost("{id}/rooms/{roomId}")]
-        public async Task<ActionResult> AddRoom([FromRoute]AddRoom.Dto addRoomDto)
+        public async Task<ActionResult> AddRoom([FromRoute]AppointmentAddRoomDto addRoomDto)
         {
             await _appointmentService.AddRoomAsync(addRoomDto);
             return Ok();
@@ -57,7 +56,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPost("{id}/projects/{projectId}")]
-        public async Task<ActionResult> AddProject([FromRoute]Dto addProjectDto)
+        public async Task<ActionResult> AddProject([FromRoute]AppointmentAddProjectDto addProjectDto)
         {
             await _appointmentService.AddProjectAsync(addProjectDto);
             return Ok();
@@ -65,7 +64,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPost("{id}/sections/{sectionId}")]
-        public async Task<ActionResult> AddSection([FromRoute]AddSection.Dto addSectionDto)
+        public async Task<ActionResult> AddSection([FromRoute]AppointmentAddSectionDto addSectionDto)
         {
             await _appointmentService.AddSectionAsync(addSectionDto);
             return Ok();
@@ -73,7 +72,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
         [HttpPut("{id}/venue/set/{venueId}")]
-        public async Task<ActionResult> SetVenue([FromRoute]SetVenue.Dto setVenueDto)
+        public async Task<ActionResult> SetVenue([FromRoute]AppointmentSetVenueDto setVenueDto)
         {
             await _appointmentService.SetVenueAsync(setVenueDto);
             return Ok();
@@ -83,7 +82,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Put([FromBody][ModelBinder(typeof(ModifyDtoModelBinder<Modify.Dto>))]Modify.Dto appointmentModifyDto)
+        public async Task<ActionResult> Put(
+            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<AppointmentModifyDto>))]AppointmentModifyDto appointmentModifyDto)
         {
             await _appointmentService.ModifyAsync(appointmentModifyDto);
 
@@ -94,7 +94,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{id}/rooms/{roomId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> RemoveRoom([FromRoute]RemoveRoom.Dto removeRoomDto)
+        public async Task<ActionResult> RemoveRoom([FromRoute]AppointmentRemoveRoomDto removeRoomDto)
         {
             await _appointmentService.RemoveRoomAsync(removeRoomDto);
             return NoContent();
@@ -104,7 +104,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> RemoveSection([FromRoute]RemoveSection.Dto removeSectionDto)
+        public async Task<ActionResult> RemoveSection([FromRoute]AppointmentRemoveSectionDto removeSectionDto)
         {
             await _appointmentService.RemoveSectionAsync(removeSectionDto);
             return NoContent();
@@ -114,7 +114,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> RemoveProject([FromRoute]RemoveProject.Dto removeProjectDto)
+        public async Task<ActionResult> RemoveProject([FromRoute]AppointmentRemoveProjectDto removeProjectDto)
         {
             await _appointmentService.RemoveProjectAsync(removeProjectDto);
             return NoContent();
@@ -135,7 +135,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> SetDates(
-            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<SetDates.Dto>))]SetDates.Dto setDatesDto)
+            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<AppointmentSetDatesDto>))]AppointmentSetDatesDto setDatesDto)
         {
             await _appointmentService.SetDatesAsync(setDatesDto);
             return NoContent();
@@ -145,7 +145,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}/participations/{personId}/result/{resultId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> SetParticipationResult([FromRoute]SetResult.Dto setParticipationResult)
+        public async Task<ActionResult> SetParticipationResult([FromRoute]AppointmentParticipationSetResultDto setParticipationResult)
         {
             await _appointmentService.SetParticipationResultAsync(setParticipationResult);
             return NoContent();

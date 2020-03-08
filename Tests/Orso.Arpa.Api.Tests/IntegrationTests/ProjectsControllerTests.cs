@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Logic.Projects;
+using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.Logic.Sections;
+using Orso.Arpa.Application.SectionApplication;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {

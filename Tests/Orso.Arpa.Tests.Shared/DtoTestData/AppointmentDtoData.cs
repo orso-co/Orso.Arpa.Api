@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.Logic.AppointmentParticipations;
-using Orso.Arpa.Application.Logic.Appointments;
-using Orso.Arpa.Application.Logic.MusicianProfiles;
+using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.AppointmentParticipationApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {

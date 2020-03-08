@@ -2,30 +2,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.Sections;
+using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.Sections;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class SectionService : ISectionService
+    public class SectionService : BaseService<SectionDto, Section, SectionCreateDto, Create.Command, SectionModifyDto, Modify.Command>, ISectionService
     {
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-
-        public SectionService(IMediator mediator, IMapper mapper)
+        public SectionService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
-            _mediator = mediator;
-            _mapper = mapper;
         }
 
         public async Task<IEnumerable<SectionDto>> GetAsync()
         {
-            IQueryable<Section> sections = await _mediator
-                .Send(new Domain.GenericHandlers.List.Query<Section>(orderBy: s => s.OrderBy(s => s.Name)));
-            return sections.ProjectTo<SectionDto>(_mapper.ConfigurationProvider);
+            return await base.GetAsync(orderBy: s => s.OrderBy(s => s.Name));
         }
     }
 }

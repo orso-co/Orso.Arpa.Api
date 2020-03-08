@@ -4,21 +4,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.SelectValues;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.SelectValues;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class SelectValueService : ISelectValueService
+    public class SelectValueService : BaseService<SelectValueDto, SelectValue, SelectValueCreateDto, Create.Command, SelectValueModifyDto, Modify.Command>, ISelectValueService
     {
-        private readonly IMapper _mapper;
-        private readonly IMediator _mediator;
-
-        public SelectValueService(IMediator mediator, IMapper mapper)
+        public SelectValueService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
-            _mapper = mapper;
-            _mediator = mediator;
         }
 
         public async Task<IEnumerable<SelectValueDto>> GetAsync(string tableName, string propertyName)

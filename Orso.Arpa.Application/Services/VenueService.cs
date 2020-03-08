@@ -4,32 +4,30 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.Rooms;
-using Orso.Arpa.Application.Logic.Venues;
+using Orso.Arpa.Application.RoomApplication;
+using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Venues;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class VenueService : IVenueService
+    public class VenueService : BaseService<
+        VenueDto,
+        Venue,
+        VenueCreateDto,
+        Create.Command,
+        VenueModifyDto,
+        Modify.Command>, IVenueService
     {
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-
-        public VenueService(IMediator mediator, IMapper mapper)
+        public VenueService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
-            _mediator = mediator;
-            _mapper = mapper;
         }
 
         public async Task<IEnumerable<VenueDto>> GetAsync()
         {
-            IQueryable<Venue> venues = await _mediator
-                .Send(new Domain.GenericHandlers.List.Query<Venue>(orderBy: v => v.OrderBy(v => v.Address.City)));
-            return venues.ProjectTo<VenueDto>(_mapper.ConfigurationProvider);
+            return await base.GetAsync(orderBy: v => v.OrderBy(v => v.Address.City));
         }
 
         public async Task<IEnumerable<RoomDto>> GetRoomsAsync(Guid id)

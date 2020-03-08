@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.Logic.SelectValues;
+using Orso.Arpa.Application.SelectValueApplication;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {

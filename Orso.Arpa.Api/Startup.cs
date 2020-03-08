@@ -17,10 +17,12 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
+using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.PipelineBehaviors;
 using Orso.Arpa.Infrastructure.Authentication;
@@ -60,14 +62,14 @@ namespace Orso.Arpa.Api
             services.AddMediatR(typeof(Login.Handler).Assembly);
             services.AddGenericMediatorHandlers();
             services.AddAutoMapper(
-                typeof(Application.Logic.Auth.Login.MappingProfile).Assembly,
-                typeof(Domain.Logic.Appointments.Modify.MappingProfile).Assembly);
+                typeof(LoginDtoMappingProfile).Assembly,
+                typeof(Modify.MappingProfile).Assembly);
 
             services.AddControllers()
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
                 {
-                    config.RegisterValidatorsFromAssemblyContaining<Application.Logic.Auth.Login.Validator>();
+                    config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
                     config.RegisterValidatorsFromAssemblyContaining<Validator>();
                 });
 
@@ -119,7 +121,6 @@ namespace Orso.Arpa.Api
         {
             services.AddSwaggerGen(c =>
             {
-                c.CustomSchemaIds(i => i.FullName);
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Orso.Arpa.Api",

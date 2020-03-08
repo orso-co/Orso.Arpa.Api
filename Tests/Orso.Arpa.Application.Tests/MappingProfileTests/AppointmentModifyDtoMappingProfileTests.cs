@@ -3,7 +3,7 @@ using AutoMapper;
 using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
-using static Orso.Arpa.Application.Logic.Appointments.Modify;
+using Orso.Arpa.Application.AppointmentApplication;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -13,7 +13,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<AppointmentModifyDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -24,7 +24,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Dto dto = new Faker<Dto>()
+            AppointmentModifyDto dto = new Faker<AppointmentModifyDto>()
                 .RuleFor(dto => dto.InternalDetails, (f, u) => f.Lorem.Paragraph())
                 .RuleFor(dto => dto.PublicDetails, (f, u) => f.Lorem.Paragraph())
                 .RuleFor(dto => dto.Name, (f, u) => f.Name.FirstName())

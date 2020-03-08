@@ -3,66 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
+using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.AppointmentParticipations;
-using Orso.Arpa.Application.Logic.Appointments;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Logic.Appointments;
-using static Orso.Arpa.Application.Logic.Appointments.AddProject;
+using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class AppointmentService : IAppointmentService
+    public class AppointmentService : BaseService<
+        AppointmentDto,
+        Appointment,
+        AppointmentCreateDto,
+        Create.Command,
+        AppointmentModifyDto,
+        Modify.Command>, IAppointmentService
     {
-        private readonly IMapper _mapper;
-        private readonly IMediator _mediator;
-
-        public AppointmentService(IMediator mediator, IMapper mapper)
+        public AppointmentService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
-            _mapper = mapper;
-            _mediator = mediator;
         }
 
-        public async Task AddProjectAsync(Dto addProjectDto)
+        public async Task AddProjectAsync(AppointmentAddProjectDto addProjectDto)
         {
-            Domain.Logic.Appointments.AddProject.Command command = _mapper.Map<Domain.Logic.Appointments.AddProject.Command>(addProjectDto);
+            AddProject.Command command = _mapper.Map<AddProject.Command>(addProjectDto);
             await _mediator.Send(command);
         }
 
-        public async Task AddSectionAsync(Logic.Appointments.AddSection.Dto addSectionDto)
+        public async Task AddSectionAsync(AppointmentAddSectionDto addSectionDto)
         {
-            Domain.Logic.Appointments.AddSection.Command command = _mapper.Map<Domain.Logic.Appointments.AddSection.Command>(addSectionDto);
+            AddSection.Command command = _mapper.Map<AddSection.Command>(addSectionDto);
             await _mediator.Send(command);
         }
 
-        public async Task AddRoomAsync(Logic.Appointments.AddRoom.Dto addRoomDto)
+        public async Task AddRoomAsync(AppointmentAddRoomDto addRoomDto)
         {
-            Domain.Logic.Appointments.AddRoom.Command command = _mapper.Map<Domain.Logic.Appointments.AddRoom.Command>(addRoomDto);
+            AddRoom.Command command = _mapper.Map<AddRoom.Command>(addRoomDto);
             await _mediator.Send(command);
-        }
-
-        public async Task<AppointmentDto> CreateAsync(Logic.Appointments.Create.Dto appointmentCreateDto)
-        {
-            Domain.Logic.Appointments.Create.Command command = _mapper.Map<Domain.Logic.Appointments.Create.Command>(appointmentCreateDto);
-            Appointment createdAppointment = await _mediator.Send(command);
-            return _mapper.Map<AppointmentDto>(createdAppointment);
         }
 
         public async Task<IEnumerable<AppointmentDto>> GetAsync(DateTime? date, DateRange range)
         {
             date ??= DateTime.Today;
 
-            IQueryable<Appointment> appointments = await _mediator.Send(new List.Query<Appointment>(a =>
+            return await base.GetAsync(predicate: a =>
                a.StartTime >= DateHelper.GetStartTime(date.Value, range)
-               && a.StartTime <= DateHelper.GetEndTime(date.Value, range)));
-
-            return appointments
-                .ProjectTo<AppointmentDto>(_mapper.ConfigurationProvider)
-                .AsEnumerable();
+               && a.StartTime <= DateHelper.GetEndTime(date.Value, range));
         }
 
         private void AddParticipations(AppointmentDto dto, Appointment appointment)
@@ -83,58 +71,39 @@ namespace Orso.Arpa.Application.Services
             dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(persons);
         }
 
-        public async Task<AppointmentDto> GetAsync(Guid id)
+        public async Task RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto)
         {
-            Appointment appointment = await _mediator.Send(new Details.Query<Appointment>(id));
-            AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
-            AddParticipations(dto, appointment);
-            return dto;
-        }
-
-        public async Task ModifyAsync(Logic.Appointments.Modify.Dto appointmentModifyDto)
-        {
-            Domain.Logic.Appointments.Modify.Command command = _mapper.Map<Domain.Logic.Appointments.Modify.Command>(appointmentModifyDto);
+            RemoveProject.Command command = _mapper.Map<RemoveProject.Command>(removeProjectDto);
             await _mediator.Send(command);
         }
 
-        public async Task RemoveProjectAsync(Logic.Appointments.RemoveProject.Dto removeProjectDto)
+        public async Task RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto)
         {
-            Domain.Logic.Appointments.RemoveProject.Command command = _mapper.Map<Domain.Logic.Appointments.RemoveProject.Command>(removeProjectDto);
+            RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(removeSectionDto);
             await _mediator.Send(command);
         }
 
-        public async Task RemoveSectionAsync(Logic.Appointments.RemoveSection.Dto removeSectionDto)
+        public async Task RemoveRoomAsync(AppointmentRemoveRoomDto removeRoomDto)
         {
-            Domain.Logic.Appointments.RemoveSection.Command command = _mapper.Map<Domain.Logic.Appointments.RemoveSection.Command>(removeSectionDto);
+            RemoveRoom.Command command = _mapper.Map<RemoveRoom.Command>(removeRoomDto);
             await _mediator.Send(command);
         }
 
-        public async Task RemoveRoomAsync(Logic.Appointments.RemoveRoom.Dto removeRoomDto)
+        public async Task SetDatesAsync(AppointmentSetDatesDto setDatesDto)
         {
-            Domain.Logic.Appointments.RemoveRoom.Command command = _mapper.Map<Domain.Logic.Appointments.RemoveRoom.Command>(removeRoomDto);
+            SetDates.Command command = _mapper.Map<SetDates.Command>(setDatesDto);
             await _mediator.Send(command);
         }
 
-        public async Task SetDatesAsync(Logic.Appointments.SetDates.Dto setDatesDto)
+        public async Task SetVenueAsync(AppointmentSetVenueDto setVenueDto)
         {
-            Domain.Logic.Appointments.SetDates.Command command = _mapper.Map<Domain.Logic.Appointments.SetDates.Command>(setDatesDto);
+            SetVenue.Command command = _mapper.Map<SetVenue.Command>(setVenueDto);
             await _mediator.Send(command);
         }
 
-        public async Task SetVenueAsync(Logic.Appointments.SetVenue.Dto setVenueDto)
+        public async Task SetParticipationResultAsync(AppointmentParticipationSetResultDto setParticipationResult)
         {
-            Domain.Logic.Appointments.SetVenue.Command command = _mapper.Map<Domain.Logic.Appointments.SetVenue.Command>(setVenueDto);
-            await _mediator.Send(command);
-        }
-
-        public async Task DeleteAsync(Guid id)
-        {
-            await _mediator.Send(new Delete.Command<Appointment>() { Id = id });
-        }
-
-        public async Task SetParticipationResultAsync(Logic.AppointmentParticipations.SetResult.Dto setParticipationResult)
-        {
-            Domain.Logic.AppointmentParticipations.SetResult.Command command = _mapper.Map<Domain.Logic.AppointmentParticipations.SetResult.Command>(setParticipationResult);
+            AppointmentParticipations.SetResult.Command command = _mapper.Map<AppointmentParticipations.SetResult.Command>(setParticipationResult);
             await _mediator.Send(command);
         }
     }
