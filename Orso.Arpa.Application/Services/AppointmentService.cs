@@ -11,6 +11,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Appointments;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using Generic = Orso.Arpa.Domain.GenericHandlers;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -51,6 +52,14 @@ namespace Orso.Arpa.Application.Services
             return await base.GetAsync(predicate: a =>
                a.StartTime >= DateHelper.GetStartTime(date.Value, range)
                && a.StartTime <= DateHelper.GetEndTime(date.Value, range));
+        }
+
+        public override async Task<AppointmentDto> GetByIdAsync(Guid id)
+        {
+            Appointment appointment = await _mediator.Send(new Generic.Details.Query<Appointment>(id));
+            AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
+            AddParticipations(dto, appointment);
+            return dto;
         }
 
         private void AddParticipations(AppointmentDto dto, Appointment appointment)
