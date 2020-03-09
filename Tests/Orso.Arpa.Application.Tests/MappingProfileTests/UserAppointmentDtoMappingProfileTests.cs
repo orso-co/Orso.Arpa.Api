@@ -1,8 +1,11 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.Me;
-using Orso.Arpa.Application.MappingProfiles;
+using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.RoomApplication;
+using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -17,12 +20,12 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<UserAppointmentDtoMappingProfile>();
+                cfg.AddProfile<MyAppointmentDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
-                cfg.AddProfile<Logic.Venues.MappingProfile>();
-                cfg.AddProfile<Logic.Addresses.MappingProfile>();
-                cfg.AddProfile<Logic.Rooms.MappingProfile>();
-                cfg.AddProfile<Logic.Projects.MappingProfile>();
+                cfg.AddProfile<VenueDtoMappingProfile>();
+                cfg.AddProfile<AddressApplication.AddressDtoMappingProfile>();
+                cfg.AddProfile<RoomDtoMappingProfile>();
+                cfg.AddProfile<ProjectDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);
@@ -35,10 +38,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMas;
-            UserAppointmentDto expectedDto = UserAppointmentDtoTestData.OrsianerUserAppointment;
+            MyAppointmentDto expectedDto = UserAppointmentDtoTestData.OrsianerUserAppointment;
 
             // Act
-            UserAppointmentDto dto = _mapper.Map<UserAppointmentDto>(appointment);
+            MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.PredictionId));

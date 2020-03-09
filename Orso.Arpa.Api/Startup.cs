@@ -1,4 +1,6 @@
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using AutoMapper;
 using FluentValidation.AspNetCore;
@@ -15,11 +17,15 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
+using Orso.Arpa.Api.ModelBinding;
+using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.PipelineBehaviors;
 using Orso.Arpa.Infrastructure.Authentication;
@@ -57,13 +63,19 @@ namespace Orso.Arpa.Api
             ConfigureCors(services);
 
             services.AddMediatR(typeof(Login.Handler).Assembly);
-            services.AddAutoMapper(typeof(Application.Logic.Auth.Login.MappingProfile).Assembly, typeof(MappingProfile).Assembly);
+            services.AddGenericMediatorHandlers();
+            services.AddAutoMapper(
+                typeof(LoginDtoMappingProfile).Assembly,
+                typeof(Modify.MappingProfile).Assembly);
 
-            services.AddControllers()
+            services.AddControllers(options =>
+            {
+                options.ModelBinderProviders.InsertBodyAndRouteBinding();
+            })
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
                 {
-                    config.RegisterValidatorsFromAssemblyContaining<Application.Logic.Auth.Login.Validator>();
+                    config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
                     config.RegisterValidatorsFromAssemblyContaining<Validator>();
                 });
 
@@ -113,10 +125,9 @@ namespace Orso.Arpa.Api
 
         private static void ConfigureSwagger(IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.CustomSchemaIds(i => i.FullName);
-                c.SwaggerDoc("v1", new OpenApiInfo
+                options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Orso.Arpa.Api",
                     Version = "v1",
@@ -128,6 +139,15 @@ namespace Orso.Arpa.Api
                         Email = "mail@orso.co"
                     }
                 });
+
+                options.OperationFilter<SwaggerAddFromRoutePropertiesOperationFilter>();
+
+                var location = Assembly.GetEntryAssembly().Location;
+                string xmlComments = Path.Combine(Path.GetDirectoryName(location), Path.GetFileNameWithoutExtension(location) + ".xml");
+                if (File.Exists(xmlComments))
+                {
+                    options.IncludeXmlComments(xmlComments);
+                }
             });
         }
 

@@ -1,7 +1,7 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.Auth;
+using Orso.Arpa.Application.AuthApplication;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -11,7 +11,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<TokenDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }

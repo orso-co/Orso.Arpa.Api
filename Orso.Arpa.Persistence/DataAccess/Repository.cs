@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using Orso.Arpa.Domain.Entities;
@@ -76,6 +77,16 @@ namespace Orso.Arpa.Persistence.DataAccess
         {
             entity.Modify(_userAccessor.DisplayName);
             _arpaContext.Set<TEntity>().Update(entity);
+        }
+
+        public bool Exists<TEntity>(Guid id) where TEntity : BaseEntity
+        {
+            return Exists<TEntity>(e => e.Id == id);
+        }
+
+        public bool Exists<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : BaseEntity
+        {
+            return _arpaContext.Set<TEntity>().Any(predicate);
         }
     }
 }

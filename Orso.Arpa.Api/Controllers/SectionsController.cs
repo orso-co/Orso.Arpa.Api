@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.Sections;
+using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers

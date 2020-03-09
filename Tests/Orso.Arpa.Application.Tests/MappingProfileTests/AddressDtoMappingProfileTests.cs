@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.Addresses;
-using Orso.Arpa.Application.MappingProfiles;
+using Orso.Arpa.Application.AddressApplication;
+using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<Logic.Addresses.MappingProfile>();
+                cfg.AddProfile<AddressDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 

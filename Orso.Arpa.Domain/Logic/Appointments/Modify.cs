@@ -1,19 +1,17 @@
 using System;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
-using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
+using static Orso.Arpa.Domain.GenericHandlers.Modify;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
 {
     public static class Modify
     {
-        public class Command : IRequest
+        public class Command : IModifyCommand<Appointment>
         {
             public Guid Id { get; set; }
             public Guid? CategoryId { get; set; }
@@ -55,39 +53,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 RuleFor(d => d.Id)
                     .MustAsync(async (id, cancellation) => await readOnlyRepository.GetByIdAsync<Appointment>(id) != null)
                     .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Id = "Not found" }));
-            }
-        }
-
-        public class Handler : IRequestHandler<Command>
-        {
-            private readonly IRepository _repository;
-            private readonly IMapper _mapper;
-            private readonly IUnitOfWork _unitOfWork;
-
-            public Handler(
-                IRepository repository,
-                IUnitOfWork unitOfWork,
-                IMapper mapper)
-            {
-                _repository = repository;
-                _mapper = mapper;
-                _unitOfWork = unitOfWork;
-            }
-
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
-            {
-                Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
-
-                Appointment appointment = _mapper.Map(request, existingAppointment);
-
-                _repository.Update(appointment);
-
-                if (await _unitOfWork.CommitAsync())
-                {
-                    return Unit.Value;
-                }
-
-                throw new Exception("Problem updating appointment");
             }
         }
     }

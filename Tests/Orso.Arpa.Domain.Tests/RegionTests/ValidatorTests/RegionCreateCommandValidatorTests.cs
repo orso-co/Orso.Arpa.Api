@@ -1,6 +1,6 @@
-using System.Linq;
+using System;
+using System.Linq.Expressions;
 using FluentValidation.TestHelper;
-using MockQueryable.NSubstitute;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
@@ -26,8 +26,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Name_Does_Already_Exist()
         {
-            IQueryable<Region> regionsMock = RegionSeedData.Regions.AsQueryable().BuildMock();
-            _repository.GetAll<Region>().Returns(regionsMock);
+            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(true);
 
             _validator.ShouldHaveValidationErrorFor(command => command.Name, RegionSeedData.Stuttgart.Name);
         }
@@ -35,8 +34,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
         {
-            IQueryable<Region> regionsMock = RegionSeedData.Regions.AsQueryable().BuildMock();
-            _repository.GetAll<Region>().Returns(regionsMock);
+            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(false);
 
             _validator.ShouldNotHaveValidationErrorFor(command => command.Name, "Honolulu");
         }

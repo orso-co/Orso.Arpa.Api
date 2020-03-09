@@ -1,19 +1,20 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
+using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Application.Logic.Auth.UserRegister;
+using static Orso.Arpa.Application.AuthApplication.UserRegisterDto;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class UserRegisterDtoValidatorTests
     {
-        private Validator _validator;
+        private UserRegisterDtoValidator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new Validator();
+            _validator = new UserRegisterDtoValidator();
         }
 
         [Test]

@@ -1,18 +1,18 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using static Orso.Arpa.Application.Logic.Regions.Create;
+using Orso.Arpa.Application.RegionApplication;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class RegionCreateDtoValidatorTests
     {
-        private Validator _validator;
+        private RegionCreateDtoValidator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new Validator();
+            _validator = new RegionCreateDtoValidator();
         }
 
         [Test]

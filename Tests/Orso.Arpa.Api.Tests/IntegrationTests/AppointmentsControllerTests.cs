@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.Logic.Appointments;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
@@ -80,7 +80,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Create()
         {
             // Arrange
-            var createDto = new Create.Dto
+            var createDto = new AppointmentCreateDto
             {
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
@@ -217,7 +217,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             Appointment appointmentToModify = AppointmentSeedData.RockingXMasConcert;
 
-            var modifyDto = new Modify.Dto
+            var modifyDto = new AppointmentModifyDto
             {
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
@@ -245,7 +245,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Appointment appointmentToModify = AppointmentSeedData.RockingXMasRehearsal;
-            var setDatesDto = new SetDates.Dto
+            var setDatesDto = new AppointmentSetDatesDto
             {
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddHours(5)

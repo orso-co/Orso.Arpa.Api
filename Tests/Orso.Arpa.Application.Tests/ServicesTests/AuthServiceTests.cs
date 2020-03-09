@@ -5,8 +5,9 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.Auth;
+using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Services;
+using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -31,18 +32,18 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Login_Async()
         {
             // Arrange
-            var loginDto = new Logic.Auth.Login.Dto
+            var loginDto = new LoginDto
             {
                 UserName = UserSeedData.Orsianer.UserName,
                 Password = UserSeedData.ValidPassword
             };
-            _mapper.Map<Domain.Logic.Auth.Login.Query>(loginDto).Returns(new Domain.Logic.Auth.Login.Query
+            _mapper.Map<Login.Query>(loginDto).Returns(new Login.Query
             {
                 Password = loginDto.Password,
                 UserName = loginDto.UserName
             });
             const string token = "Token";
-            _mediator.Send(Arg.Any<Domain.Logic.Auth.Login.Query>()).Returns(token);
+            _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
@@ -56,7 +57,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Register_Async()
         {
             // Arrange
-            var registerDto = new Logic.Auth.UserRegister.Dto
+            var registerDto = new UserRegisterDto
             {
                 Email = UserSeedData.Orsianer.Email,
                 Password = UserSeedData.ValidPassword,
@@ -64,7 +65,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 Surname = "Aner",
                 UserName = UserSeedData.Orsianer.UserName
             };
-            _mapper.Map<Domain.Logic.Auth.UserRegister.Command>(registerDto).Returns(new Domain.Logic.Auth.UserRegister.Command
+            _mapper.Map<UserRegister.Command>(registerDto).Returns(new UserRegister.Command
             {
                 Password = registerDto.Password,
                 Email = registerDto.Email,
@@ -73,7 +74,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 UserName = registerDto.UserName
             });
             const string token = "Token";
-            _mediator.Send(Arg.Any<Domain.Logic.Auth.Login.Query>()).Returns(token);
+            _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
@@ -87,13 +88,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public void Should_Change_Password()
         {
             // Arrange
-            var changePasswordDto = new Logic.Auth.ChangePassword.Dto
+            var changePasswordDto = new ChangePasswordDto
             {
                 CurrentPassword = UserSeedData.ValidPassword,
                 NewPassword = UserSeedData.ValidPassword + "changed"
             };
-            _mapper.Map<Domain.Logic.Auth.ChangePassword.Command>(changePasswordDto)
-                .Returns(new Domain.Logic.Auth.ChangePassword.Command
+            _mapper.Map<ChangePassword.Command>(changePasswordDto)
+                .Returns(new ChangePassword.Command
                 {
                     CurrentPassword = changePasswordDto.CurrentPassword,
                     NewPassword = changePasswordDto.NewPassword
@@ -110,13 +111,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public void Should_Set_Role()
         {
             // Arrange
-            var setRoleDto = new Logic.Auth.SetRole.Dto
+            var setRoleDto = new SetRoleDto
             {
                 UserName = UserSeedData.Orsianer.UserName,
                 RoleName = RoleNames.Orsonaut
             };
-            _mapper.Map<Domain.Logic.Auth.SetRole.Command>(setRoleDto)
-                .Returns(new Domain.Logic.Auth.SetRole.Command
+            _mapper.Map<SetRole.Command>(setRoleDto)
+                .Returns(new SetRole.Command
                 {
                     UserName = setRoleDto.UserName,
                     RoleName = setRoleDto.RoleName

@@ -5,7 +5,7 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.Roles;
+using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;

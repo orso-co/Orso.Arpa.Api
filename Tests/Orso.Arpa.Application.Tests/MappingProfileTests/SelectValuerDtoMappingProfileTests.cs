@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.SelectValues;
-using Orso.Arpa.Application.MappingProfiles;
+using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -18,7 +18,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<MappingProfile>();
+                cfg.AddProfile<SelectValueDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 

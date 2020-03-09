@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AppointmentTests\QueryHandlerTests\" />
+    <Folder Include="ProjectsTests\QueryHandlerTests\" />
     <Folder Include="ProjectsTests\ValidatorTests\" />
     <Folder Include="RolesTests\ValidatorTests\" />
     <Folder Include="SelectValuesTests\ValidatorTests\" />

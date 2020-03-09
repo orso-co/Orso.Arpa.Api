@@ -1,7 +1,7 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<MyProfileDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -26,10 +26,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             User user = FakeUsers.Orsianer;
-            UserProfileDto expectedDto = UserProfileDtoData.Orsianer;
+            MyProfileDto expectedDto = UserProfileDtoData.Orsianer;
 
             // Act
-            UserProfileDto dto = _mapper.Map<UserProfileDto>(user);
+            MyProfileDto dto = _mapper.Map<MyProfileDto>(user);
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto);
