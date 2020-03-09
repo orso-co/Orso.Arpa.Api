@@ -1,4 +1,6 @@
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using AutoMapper;
 using FluentValidation.AspNetCore;
@@ -17,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
+using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Services;
@@ -65,7 +68,10 @@ namespace Orso.Arpa.Api
                 typeof(LoginDtoMappingProfile).Assembly,
                 typeof(Modify.MappingProfile).Assembly);
 
-            services.AddControllers()
+            services.AddControllers(options =>
+            {
+                options.ModelBinderProviders.InsertBodyAndRouteBinding();
+            })
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
                 {
@@ -119,9 +125,9 @@ namespace Orso.Arpa.Api
 
         private static void ConfigureSwagger(IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Orso.Arpa.Api",
                     Version = "v1",
@@ -133,6 +139,15 @@ namespace Orso.Arpa.Api
                         Email = "mail@orso.co"
                     }
                 });
+
+                options.OperationFilter<SwaggerAddFromRoutePropertiesOperationFilter>();
+
+                var location = Assembly.GetEntryAssembly().Location;
+                string xmlComments = Path.Combine(Path.GetDirectoryName(location), Path.GetFileNameWithoutExtension(location) + ".xml");
+                if (File.Exists(xmlComments))
+                {
+                    options.IncludeXmlComments(xmlComments);
+                }
             });
         }
 

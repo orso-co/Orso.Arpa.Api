@@ -20,7 +20,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SelectValueDto>>> Get(string tableName, string propertyName)
+        public async Task<ActionResult<IEnumerable<SelectValueDto>>> Get([FromRoute]string tableName, [FromRoute]string propertyName)
         {
             return Ok(await _selectValueService.GetAsync(tableName, propertyName));
         }

@@ -23,7 +23,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Roles = RoleNames.Orsoadmin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(string userName)
+        public async Task<ActionResult> Delete([FromRoute]string userName)
         {
             await _userService.DeleteAsync(userName);
             return NoContent();

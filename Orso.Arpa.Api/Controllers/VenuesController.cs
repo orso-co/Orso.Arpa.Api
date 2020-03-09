@@ -28,7 +28,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet("{id}/rooms")]
-        public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms(Guid id)
+        public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms([FromRoute]Guid id)
         {
             return Ok(await _venueService.GetRoomsAsync(id));
         }

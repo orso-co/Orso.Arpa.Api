@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.ModelBinders;
+using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppointmentDto>> GetById(Guid id)
+        public async Task<ActionResult<AppointmentDto>> GetById([FromRoute]Guid id)
         {
             return Ok(await _appointmentService.GetByIdAsync(id));
         }
@@ -82,8 +82,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Put(
-            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<AppointmentModifyDto>))]AppointmentModifyDto appointmentModifyDto)
+        [SwaggerFromRouteProperty(nameof(AppointmentModifyDto.Id))]
+        public async Task<ActionResult> Put([FromBodyAndRoute]AppointmentModifyDto appointmentModifyDto)
         {
             await _appointmentService.ModifyAsync(appointmentModifyDto);
 
@@ -124,7 +124,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete([FromRoute]Guid id)
         {
             await _appointmentService.DeleteAsync(id);
             return NoContent();
@@ -134,8 +134,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}/dates/set")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> SetDates(
-            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<AppointmentSetDatesDto>))]AppointmentSetDatesDto setDatesDto)
+        [SwaggerFromRouteProperty(nameof(AppointmentSetDatesDto.Id))]
+        public async Task<ActionResult> SetDates([FromBodyAndRoute]AppointmentSetDatesDto setDatesDto)
         {
             await _appointmentService.SetDatesAsync(setDatesDto);
             return NoContent();
