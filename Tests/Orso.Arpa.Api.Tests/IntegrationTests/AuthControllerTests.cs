@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Logic.Auth;
+using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -23,7 +23,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = UserSeedData.Orsoadmin;
-            var loginDto = new Login.Dto
+            var loginDto = new LoginDto
             {
                 UserName = user.UserName,
                 Password = UserSeedData.ValidPassword
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Login_Unregistered_User()
         {
             // Arrange
-            var loginDto = new Login.Dto
+            var loginDto = new LoginDto
             {
                 UserName = "unregistered",
                 Password = UserSeedData.ValidPassword
@@ -69,7 +69,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = UserSeedData.Orsianer;
-            var loginDto = new Login.Dto
+            var loginDto = new LoginDto
             {
                 UserName = user.UserName,
                 Password = "invalidPassword"
@@ -88,7 +88,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Register()
         {
             // Arrange
-            var registerDto = new UserRegister.Dto
+            var registerDto = new UserRegisterDto
             {
                 Email = "ludmilla@test.com",
                 UserName = "ludmilla",
@@ -117,7 +117,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Register_Existing_Email()
         {
             // Arrange
-            var registerDto = new UserRegister.Dto
+            var registerDto = new UserRegisterDto
             {
                 Email = UserSeedData.Orsianer.Email,
                 UserName = "ludmilla",
@@ -137,7 +137,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Register_Existing_UserName()
         {
             // Arrange
-            var registerDto = new UserRegister.Dto
+            var registerDto = new UserRegisterDto
             {
                 Email = "ludmilla@test.com",
                 UserName = UserSeedData.Orsianer.UserName,
@@ -157,7 +157,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Change_Password()
         {
             // Arrange
-            var dto = new ChangePassword.Dto
+            var dto = new ChangePasswordDto
             {
                 CurrentPassword = UserSeedData.ValidPassword,
                 NewPassword = "NewPa$$w0rd"
@@ -177,7 +177,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Change_Wrong_Password()
         {
             // Arrange
-            var dto = new ChangePassword.Dto
+            var dto = new ChangePasswordDto
             {
                 CurrentPassword = "WrongPassword",
                 NewPassword = "NewPa$$w0rd"
@@ -197,7 +197,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Change_Password_Of_Unauthenticated_User()
         {
             // Arrange
-            var dto = new ChangePassword.Dto
+            var dto = new ChangePasswordDto
             {
                 CurrentPassword = UserSeedData.ValidPassword,
                 NewPassword = "NewPa$$w0rd"
@@ -237,7 +237,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = userToEdit;
-            var setRoleDto = new SetRole.Dto
+            var setRoleDto = new SetRoleDto
             {
                 RoleName = newRole,
                 UserName = user.UserName

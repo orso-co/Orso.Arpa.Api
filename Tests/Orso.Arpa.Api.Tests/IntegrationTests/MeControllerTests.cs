@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_Profile()
         {
             // Arrange
-            UserProfileDto expectedDto = UserProfileDtoData.Orsianer;
+            MyProfileDto expectedDto = UserProfileDtoData.Orsianer;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            UserProfileDto result = await DeserializeResponseMessageAsync<UserProfileDto>(responseMessage);
+            MyProfileDto result = await DeserializeResponseMessageAsync<MyProfileDto>(responseMessage);
 
             result.Should().BeEquivalentTo(expectedDto);
         }
@@ -39,7 +39,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_Appointments()
         {
             // Arrange
-            UserAppointmentDto expectedUserAppointment = UserAppointmentDtoTestData.OrsianerUserAppointment;
+            MyAppointmentDto expectedUserAppointment = UserAppointmentDtoTestData.OrsianerUserAppointment;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -49,14 +49,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            UserAppointmentListDto result = await DeserializeResponseMessageAsync<UserAppointmentListDto>(responseMessage);
+            MyAppointmentListDto result = await DeserializeResponseMessageAsync<MyAppointmentListDto>(responseMessage);
 
             result.UserAppointments.Should().BeEquivalentTo(UserAppointmentDtoTestData.OrsianerUserAppointments, opt => opt
                 .Excluding(dto => dto.CreatedAt)
                 .Excluding(dto => dto.Projects)
                 .Excluding(dto => dto.Venue));
             result.TotalRecordsCount.Should().Be(2);
-            UserAppointmentDto userAppointment = result.UserAppointments.First();
+            MyAppointmentDto userAppointment = result.UserAppointments.First();
             userAppointment.Venue.Should().BeEquivalentTo(expectedUserAppointment.Venue, opt => opt
                 .Excluding(dto => dto.CreatedAt)
                 .Excluding(dto => dto.Rooms));
@@ -71,7 +71,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User userToModify = FakeUsers.Orsianer;
-            var modifyDto = new Modify.Dto
+            var modifyDto = new MyProfileModifyDto
             {
                 Email = "changed" + userToModify.Email,
                 GivenName = "changed" + userToModify.Person.GivenName,
@@ -79,7 +79,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PhoneNumber = "changed" + userToModify.PhoneNumber
             };
 
-            var expectedDto = new UserProfileDto
+            var expectedDto = new MyProfileDto
             {
                 Email = modifyDto.Email,
                 GivenName = modifyDto.GivenName,
@@ -103,7 +103,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MeController.GetProfile());
 
             getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            UserProfileDto result = await DeserializeResponseMessageAsync<UserProfileDto>(getMessage);
+            MyProfileDto result = await DeserializeResponseMessageAsync<MyProfileDto>(getMessage);
 
             result.Should().BeEquivalentTo(expectedDto);
         }

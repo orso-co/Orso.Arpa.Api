@@ -1,19 +1,19 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
+using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Application.Logic.Auth.ChangePassword;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class ChangePasswordDtoValidatorTests
     {
-        private Validator _validator;
+        private ChangePasswordDtoValidator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new Validator();
+            _validator = new ChangePasswordDtoValidator();
         }
 
         [Test]

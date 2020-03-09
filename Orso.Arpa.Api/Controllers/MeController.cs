@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -19,14 +19,14 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         [HttpGet("profile")]
-        public async Task<ActionResult<UserProfileDto>> GetMyProfile()
+        public async Task<ActionResult<MyProfileDto>> GetMyProfile()
         {
             return await _userService.GetProfileOfCurrentUserAsync();
         }
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet("appointments")]
-        public async Task<ActionResult<UserAppointmentListDto>> GetMyAppointments(
+        public async Task<ActionResult<MyAppointmentListDto>> GetMyAppointments(
             [FromQuery]int? limit,
             [FromQuery]int? offset)
         {
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("profile")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> PutProfile([FromBody]Modify.Dto userProfileModifyDto)
+        public async Task<ActionResult> PutProfile([FromBody]MyProfileModifyDto userProfileModifyDto)
         {
             await _userService.ModifyProfileOfCurrentUserAsync(userProfileModifyDto);
             return NoContent();
@@ -46,7 +46,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("appointments/{id}/participation/prediction/{predictionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> SetParticipationPrediction([FromRoute]SetPrediction.Dto setParticipationPrediction)
+        public async Task<ActionResult> SetParticipationPrediction([FromRoute]SetMyProjectAppointmentPredictionDto setParticipationPrediction)
         {
             await _userService.SetAppointmentParticipationPredictionAsync(setParticipationPrediction);
             return NoContent();

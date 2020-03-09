@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.Rooms;
-using Orso.Arpa.Application.Logic.Venues;
+using Orso.Arpa.Application.RoomApplication;
+using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -28,7 +28,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet("{id}/rooms")]
-        public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms(Guid id)
+        public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms([FromRoute]Guid id)
         {
             return Ok(await _venueService.GetRoomsAsync(id));
         }

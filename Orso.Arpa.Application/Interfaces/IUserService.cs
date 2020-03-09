@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.Logic.Me;
-using Orso.Arpa.Application.Logic.Users;
+using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Application.UserApplication;
 
 namespace Orso.Arpa.Application.Interfaces
 {
@@ -11,12 +11,12 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task DeleteAsync(string userName);
 
-        Task<UserProfileDto> GetProfileOfCurrentUserAsync();
+        Task<MyProfileDto> GetProfileOfCurrentUserAsync();
 
-        Task ModifyProfileOfCurrentUserAsync(Modify.Dto userProfileModifyDto);
+        Task ModifyProfileOfCurrentUserAsync(MyProfileModifyDto userProfileModifyDto);
 
-        Task<UserAppointmentListDto> GetAppointmentsOfCurrentUserAsync(int? limit, int? offset);
+        Task<MyAppointmentListDto> GetAppointmentsOfCurrentUserAsync(int? limit, int? offset);
 
-        Task SetAppointmentParticipationPredictionAsync(SetPrediction.Dto setParticipationPredictionDto);
+        Task SetAppointmentParticipationPredictionAsync(SetMyProjectAppointmentPredictionDto setParticipationPredictionDto);
     }
 }

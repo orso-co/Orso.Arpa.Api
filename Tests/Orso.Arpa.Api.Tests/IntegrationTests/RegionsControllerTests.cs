@@ -7,7 +7,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.Logic.Regions;
+using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -21,7 +21,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Create()
         {
             // Arrange
-            var createDto = new Create.Dto
+            var createDto = new RegionCreateDto
             {
                 Name = "Hawaii"
             };
@@ -55,7 +55,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Region regionToModify = RegionSeedData.Berlin;
-            var modifyDto = new Modify.Dto
+            var modifyDto = new RegionModifyDto
             {
                 Name = "Honolulu"
             };

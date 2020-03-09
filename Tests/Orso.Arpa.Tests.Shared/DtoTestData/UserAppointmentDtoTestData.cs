@@ -1,27 +1,27 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Application.MeApplication;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class UserAppointmentDtoTestData
     {
-        public static IList<UserAppointmentDto> OrsianerUserAppointments
+        public static IList<MyAppointmentDto> OrsianerUserAppointments
         {
             get
             {
-                return new List<UserAppointmentDto>
+                return new List<MyAppointmentDto>
                 {
                     OrsianerUserAppointment
                 };
             }
         }
 
-        public static UserAppointmentDto OrsianerUserAppointment
+        public static MyAppointmentDto OrsianerUserAppointment
         {
             get
             {
-                var dto = new UserAppointmentDto
+                var dto = new MyAppointmentDto
                 {
                     CreatedBy = "anonymous",
                     EndTime = "2019-12-21T18:30:00Z",

@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.Regions;
+using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -39,7 +37,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         {
             // Arrange
             RegionService service = CreateService();
-            Logic.Regions.Create.Dto createDto = null;
+            RegionCreateDto createDto = null;
             RegionDto expectedDto = RegionDtoData.Freiburg;
             _subMapper.Map<RegionDto>(Arg.Any<Region>()).Returns(expectedDto);
 
@@ -67,21 +65,6 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         }
 
         [Test]
-        public async Task GetAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            RegionService service = CreateService();
-            IList<RegionDto> expectedDtos = RegionDtoData.Regions;
-            _subMapper.Map<IEnumerable<RegionDto>>(Arg.Any<IImmutableList<Region>>()).Returns(expectedDtos);
-
-            // Act
-            IEnumerable<RegionDto> result = await service.GetAsync();
-
-            // Assert
-            result.Should().BeEquivalentTo(expectedDtos);
-        }
-
-        [Test]
         public async Task GetByIdAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
@@ -103,7 +86,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         {
             // Arrange
             RegionService service = CreateService();
-            Logic.Regions.Modify.Dto modifyDto = null;
+            RegionModifyDto modifyDto = null;
 
             // Act
             Func<Task> func = async () => await service.ModifyAsync(

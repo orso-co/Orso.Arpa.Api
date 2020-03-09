@@ -1,12 +1,12 @@
 using System;
-using MediatR;
 using Orso.Arpa.Domain.Entities;
+using static Orso.Arpa.Domain.GenericHandlers.Create;
 
 namespace Orso.Arpa.Domain.Logic.Venues
 {
     public static class Create
     {
-        public class Command : IRequest<Venue>
+        public class Command : ICreateCommand<Venue>
         {
             public string Name { get; set; }
             public string Description { get; set; }

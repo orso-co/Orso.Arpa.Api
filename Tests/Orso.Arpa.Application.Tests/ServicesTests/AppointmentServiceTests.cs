@@ -1,19 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.Logic.Appointments;
+using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Application.Logic.Appointments.AddSection;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
 using Appointments = Orso.Arpa.Domain.Logic.Appointments;
 
@@ -44,7 +41,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            var addProjectDto = new AddProject.Dto();
+            var addProjectDto = new AppointmentAddProjectDto();
             var command = new Appointments.AddProject.Command(Guid.NewGuid(), Guid.NewGuid());
             _subMapper.Map<Appointments.AddProject.Command>(addProjectDto)
                 .Returns(command);
@@ -62,7 +59,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            var addSectionDto = new Dto();
+            var addSectionDto = new AppointmentAddSectionDto();
             var command = new Appointments.AddSection.Command(Guid.NewGuid(), Guid.NewGuid());
             _subMapper.Map<Appointments.AddSection.Command>(addSectionDto)
                 .Returns(command);
@@ -80,7 +77,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            var addRoomDto = new AddRoom.Dto();
+            var addRoomDto = new AppointmentAddRoomDto();
             var command = new Appointments.AddRoom.Command(Guid.NewGuid(), Guid.NewGuid());
             _subMapper.Map<Appointments.AddRoom.Command>(addRoomDto)
                 .Returns(command);
@@ -98,7 +95,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            Create.Dto createDto = null;
+            AppointmentCreateDto createDto = null;
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
             _subMapper.Map<AppointmentDto>(Arg.Any<Appointment>()).Returns(expectedDto);
 
@@ -111,26 +108,6 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         }
 
         [Test]
-        public async Task GetAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            AppointmentService service = CreateService();
-            _subMediator.Send(Arg.Any<Appointments.List.Query>())
-                .Returns(AppointmentSeedData.Appointments.ToImmutableList());
-            IList<AppointmentDto> expectedDtos = AppointmentDtoData.Appointments;
-            _subMapper.Map<IEnumerable<AppointmentDto>>(Arg.Any<IEnumerable<Appointment>>())
-                .Returns(expectedDtos);
-
-            // Act
-            IEnumerable<AppointmentDto> result = await service.GetAsync(
-                new DateTime(2019, 12, 22),
-                DateRange.Month);
-
-            // Assert
-            result.Should().BeEquivalentTo(expectedDtos);
-        }
-
-        [Test]
         public async Task GetAsync_By_Id_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
@@ -139,11 +116,11 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
             _subMapper.Map<AppointmentDto>(Arg.Any<Appointment>())
                 .Returns(expectedDto);
-            _subMediator.Send(Arg.Any<Appointments.Details.Query>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
+            _subMediator.Send(Arg.Any<Domain.GenericHandlers.Details.Query<Appointment>>())
+                .Returns(AppointmentSeedData.RockingXMasRehearsal);
 
             // Act
-            AppointmentDto result = await service.GetAsync(
-                id);
+            AppointmentDto result = await service.GetByIdAsync(id);
 
             // Assert
             result.Should().BeEquivalentTo(expectedDto);
@@ -154,7 +131,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            Modify.Dto appointmentModifyDto = null;
+            AppointmentModifyDto appointmentModifyDto = null;
             var command = new Appointments.Modify.Command();
             _subMapper.Map<Appointments.Modify.Command>(appointmentModifyDto)
                 .Returns(command);
@@ -172,7 +149,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            RemoveProject.Dto removeProjectDto = null;
+            AppointmentRemoveProjectDto removeProjectDto = null;
             var command = new Appointments.RemoveProject.Command(Guid.Empty, Guid.Empty);
             _subMapper.Map<Appointments.RemoveProject.Command>(removeProjectDto)
                 .Returns(command);
@@ -190,7 +167,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            RemoveSection.Dto removeSectionDto = null;
+            AppointmentRemoveSectionDto removeSectionDto = null;
             var command = new Appointments.RemoveSection.Command(Guid.Empty, Guid.Empty);
             _subMapper.Map<Appointments.RemoveSection.Command>(removeSectionDto)
                 .Returns(command);
@@ -208,7 +185,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            RemoveRoom.Dto removeRoomDto = null;
+            AppointmentRemoveRoomDto removeRoomDto = null;
             var command = new Appointments.RemoveRoom.Command(Guid.Empty, Guid.Empty);
             _subMapper.Map<Appointments.RemoveRoom.Command>(removeRoomDto)
                 .Returns(command);
@@ -226,7 +203,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            SetDates.Dto setDatesDto = null;
+            AppointmentSetDatesDto setDatesDto = null;
             var command = new Appointments.SetDates.Command();
             _subMapper.Map<Appointments.SetDates.Command>(setDatesDto)
                 .Returns(command);
@@ -244,7 +221,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            SetVenue.Dto setVenueDto = null;
+            AppointmentSetVenueDto setVenueDto = null;
             var command = new Appointments.SetVenue.Command(Guid.Empty, Guid.Empty);
             _subMapper.Map<Appointments.SetVenue.Command>(setVenueDto)
                 .Returns(command);
@@ -262,7 +239,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
         {
             // Arrange
             AppointmentService service = CreateService();
-            Logic.AppointmentParticipations.SetResult.Dto dto = null;
+            AppointmentParticipationSetResultDto dto = null;
             var command = new AppointmentParticipations.SetResult.Command();
             _subMapper.Map<AppointmentParticipations.SetResult.Command>(dto)
                 .Returns(command);
@@ -286,7 +263,7 @@ namespace Orso.Arpa.Application.Tests.ServiceTests
             await service.DeleteAsync(id);
 
             // Assert
-            await _subMediator.Received().Send(Arg.Any<Appointments.Delete.Command>());
+            await _subMediator.Received().Send(Arg.Any<Domain.GenericHandlers.Delete.Command<Appointment>>());
         }
     }
 }

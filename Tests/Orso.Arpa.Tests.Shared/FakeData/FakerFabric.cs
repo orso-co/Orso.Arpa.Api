@@ -1,15 +1,15 @@
 using Bogus;
-using Orso.Arpa.Application.Logic.Me;
+using Orso.Arpa.Application.MeApplication;
 
 namespace Orso.Arpa.Tests.Shared.FakeData
 {
     public static class FakerFabric
     {
-        public static Faker<UserProfileDto> UesrProfileDtoFaker
+        public static Faker<MyProfileDto> UesrProfileDtoFaker
         {
             get
             {
-                return new Faker<UserProfileDto>()
+                return new Faker<MyProfileDto>()
                     .RuleFor(u => u.GivenName, (f, u) => f.Name.FirstName())
                     .RuleFor(u => u.Surname, (f, u) => f.Name.LastName())
                     .RuleFor(u => u.UserName, (f, u) => f.Internet.UserName(u.GivenName, u.Surname))

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.ModelBinders;
+using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Logic.Regions;
+using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -22,7 +22,7 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<RegionDto>> GetById(Guid id)
+        public async Task<ActionResult<RegionDto>> GetById([FromRoute]Guid id)
         {
             return await _regionService.GetByIdAsync(id);
         }
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<RegionDto>> Post([FromBody]Create.Dto createDto)
+        public async Task<ActionResult<RegionDto>> Post([FromBody]RegionCreateDto createDto)
         {
             RegionDto createdDto = await _regionService.CreateAsync(createDto);
 
@@ -49,8 +49,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Put(
-            [FromBody][ModelBinder(typeof(ModifyDtoModelBinder<Modify.Dto>))]Modify.Dto modifyDto)
+        [SwaggerFromRouteProperty(nameof(RegionModifyDto.Id))]
+        public async Task<IActionResult> Put([FromBodyAndRoute]RegionModifyDto modifyDto)
         {
             await _regionService.ModifyAsync(modifyDto);
 
@@ -61,7 +61,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete([FromRoute]Guid id)
         {
             await _regionService.DeleteAsync(id);
 

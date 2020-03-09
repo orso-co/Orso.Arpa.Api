@@ -1,18 +1,19 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using static Orso.Arpa.Application.Logic.Auth.SetRole;
+using Orso.Arpa.Application.AuthApplication;
+using static Orso.Arpa.Application.AuthApplication.SetRoleDto;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class SetRoleDtoValidatorTests
     {
-        private Validator _validator;
+        private SetRoleDtoValidator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new Validator();
+            _validator = new SetRoleDtoValidator();
         }
 
         [Test]

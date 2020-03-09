@@ -1,19 +1,19 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using static Orso.Arpa.Application.Logic.Appointments.Modify;
+using Orso.Arpa.Application.AppointmentApplication;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class AppointmentModifyDtoValidatorTests
     {
-        private Validator _validator;
+        private AppointmentModifyDtoValidator _validator;
 
         [SetUp]
         public void SetUp()
         {
-            _validator = new Validator();
+            _validator = new AppointmentModifyDtoValidator();
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_EndTime_Is_Not_Greater_Than_StartTime()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.EndTime, new Dto
+            _validator.ShouldHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
             {
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddHours(-3)
@@ -101,7 +101,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_EndTime_Is_Greater_Than_StartTime()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new Dto
+            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
             {
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddHours(3)
@@ -111,7 +111,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_EndTime_Is_Equal_To_StartTime()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new Dto
+            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
             {
                 StartTime = new DateTime(2019, 12, 28),
                 EndTime = new DateTime(2019, 12, 28)
