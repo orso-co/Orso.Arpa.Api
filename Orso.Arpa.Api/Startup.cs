@@ -67,6 +67,7 @@ namespace Orso.Arpa.Api
             services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
                 typeof(Modify.MappingProfile).Assembly);
+            services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
             services.AddControllers(options =>
             {
@@ -225,8 +226,6 @@ namespace Orso.Arpa.Api
                     opt.EnableDetailedErrors();
                 }
             });
-
-            services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)

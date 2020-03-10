@@ -59,8 +59,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             MyAppointmentDto userAppointment = result.UserAppointments.First();
             userAppointment.Venue.Should().BeEquivalentTo(expectedUserAppointment.Venue, opt => opt
                 .Excluding(dto => dto.CreatedAt)
-                .Excluding(dto => dto.Rooms));
+                .Excluding(dto => dto.Rooms)
+                .Excluding(dto => dto.Address));
             userAppointment.Venue.Rooms.Should().BeEquivalentTo(expectedUserAppointment.Venue.Rooms, opt => opt
+                .Excluding(dto => dto.CreatedAt));
+            userAppointment.Venue.Address.Should().BeEquivalentTo(expectedUserAppointment.Venue.Address, opt => opt
                 .Excluding(dto => dto.CreatedAt));
             userAppointment.Projects.Should().BeEquivalentTo(expectedUserAppointment.Projects, opt => opt
                 .Excluding(dto => dto.CreatedAt));

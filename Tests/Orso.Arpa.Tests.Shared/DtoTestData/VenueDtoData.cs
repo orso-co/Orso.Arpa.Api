@@ -41,6 +41,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                         UrbanDistrict = "Herdern",
                         State = "Baden-Württemberg",
                         RegionId = RegionSeedData.Freiburg.Id,
+                        CreatedBy = "anonymous"
                     }
                 };
                 dto.Rooms.Add(new RoomDto
