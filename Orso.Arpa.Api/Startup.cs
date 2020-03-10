@@ -225,6 +225,8 @@ namespace Orso.Arpa.Api
                     opt.EnableDetailedErrors();
                 }
             });
+
+            services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -241,6 +243,7 @@ namespace Orso.Arpa.Api
 
             app.UseCors("CorsPolicy");
 
+            app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
