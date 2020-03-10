@@ -1,16 +1,25 @@
 using System;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Configurations;
 
 namespace Orso.Arpa.Persistence.DataAccess
 {
     public class ArpaContext : IdentityDbContext<User, Role, Guid>
     {
-        public ArpaContext(DbContextOptions options) : base(options)
+        private readonly IUserAccessor _userAccessor;
+
+        public ArpaContext(
+            DbContextOptions options,
+            IUserAccessor userAccessor) : base(options)
         {
+            _userAccessor = userAccessor;
         }
 
         public DbSet<Address> Addresses { get; set; }
@@ -51,6 +60,25 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.Create(_userAccessor.DisplayName);
+                        break;
+
+                    case EntityState.Modified:
+                        entry.Entity.Modify(_userAccessor.DisplayName);
+                        break;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

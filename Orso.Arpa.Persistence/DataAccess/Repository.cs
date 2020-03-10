@@ -22,7 +22,6 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public async Task<TEntity> AddAsync<TEntity>(TEntity entity) where TEntity : BaseEntity
         {
-            entity.Create(_userAccessor.DisplayName);
             await _arpaContext.Set<TEntity>().AddAsync(entity);
 
             return entity;
@@ -75,7 +74,6 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public void Update<TEntity>(TEntity entity) where TEntity : BaseEntity
         {
-            entity.Modify(_userAccessor.DisplayName);
             _arpaContext.Set<TEntity>().Update(entity);
         }
 
