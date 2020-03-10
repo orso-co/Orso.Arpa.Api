@@ -13,13 +13,13 @@ namespace Orso.Arpa.Persistence.DataAccess
 {
     public class ArpaContext : IdentityDbContext<User, Role, Guid>
     {
-        private readonly IUserAccessor _userAccessor;
+        private readonly ITokenAccessor _tokenAccessor;
 
         public ArpaContext(
             DbContextOptions options,
-            IUserAccessor userAccessor) : base(options)
+            ITokenAccessor tokenAccessor) : base(options)
         {
-            _userAccessor = userAccessor;
+            _tokenAccessor = tokenAccessor;
         }
 
         public DbSet<Address> Addresses { get; set; }
@@ -69,11 +69,11 @@ namespace Orso.Arpa.Persistence.DataAccess
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Create(_userAccessor.DisplayName);
+                        entry.Entity.Create(_tokenAccessor.DisplayName);
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.Modify(_userAccessor.DisplayName);
+                        entry.Entity.Modify(_tokenAccessor.DisplayName);
                         break;
                 }
             }

@@ -1,6 +1,4 @@
-using System.Linq;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,42 +9,15 @@ using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.Authentication
 {
-    public class UserAccessor : IUserAccessor
+    public class UserAccessor : TokenAccessor, IUserAccessor
     {
         private readonly UserManager<User> _userManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserAccessor(
             IHttpContextAccessor httpContextAccessor,
-            UserManager<User> userManager)
+            UserManager<User> userManager) : base(httpContextAccessor)
         {
             _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
-        }
-
-        public string UserName
-        {
-            get
-            {
-                var username = _httpContextAccessor?.HttpContext?.User?.Claims?
-                    .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
-                    .Value;
-                if (username == null)
-                {
-                    throw new RestException("Authentication failed", HttpStatusCode.Unauthorized);
-                }
-                return username;
-            }
-        }
-
-        public string DisplayName
-        {
-            get
-            {
-                return _httpContextAccessor?.HttpContext?.User?.Claims?
-                   .FirstOrDefault(c => c.Type == ClaimTypes.Name)?
-                   .Value ?? "anonymous";
-            }
         }
 
         public async Task<User> GetCurrentUserAsync()
@@ -57,19 +28,9 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
             if (user == null)
             {
-                throw new RestException("Authentication failed", HttpStatusCode.Unauthorized);
+                throw new RestException("User is not authenticated", HttpStatusCode.Unauthorized);
             }
             return user;
-        }
-
-        public string UserRole
-        {
-            get
-            {
-                return _httpContextAccessor?.HttpContext?.User?.Claims?
-                    .FirstOrDefault(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)?
-                    .Value;
-            }
         }
     }
 }

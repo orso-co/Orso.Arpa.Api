@@ -155,6 +155,7 @@ namespace Orso.Arpa.Api
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<ITokenAccessor, TokenAccessor>();
             services.AddScoped<IDataSeeder, DataSeeder>();
             services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
             services.AddScoped<IRepository, Repository>();
@@ -170,6 +171,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IVenueService, VenueService>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
