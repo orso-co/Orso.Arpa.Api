@@ -19,10 +19,10 @@ namespace Orso.Arpa.Domain.PipelineBehaviors
 
         public Task Process(TRequest request, CancellationToken cancellationToken)
         {
-            var requestName = typeof(TRequest).Name;
+            var requestName = typeof(TRequest).FullName;
             string displayName = _userAccessor.DisplayName;
 
-            _logger.LogInformation("Orso.Arpa.Domain Request: {Name} {@DisplayName} {@Request}",
+            _logger.LogInformation("Orso.Arpa.Domain Request sent: {Name}|User: {@DisplayName}|Request-Object: {@Request}",
                 requestName, displayName, request);
 
             return Task.CompletedTask;

@@ -27,8 +27,9 @@ namespace Orso.Arpa.Api.Controllers
             return await _regionService.GetByIdAsync(id);
         }
 
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
+        //   [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<RegionDto>>> Get()
         {
             return Ok(await _regionService.GetAsync());

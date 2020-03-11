@@ -37,10 +37,10 @@ namespace Orso.Arpa.Domain.PipelineBehaviors
 
             if (elapsedMilliseconds > 500)
             {
-                var requestName = typeof(TRequest).Name;
+                var requestName = typeof(TRequest).FullName;
                 var displayName = _userAccessor.DisplayName;
 
-                _logger.LogWarning("Orso.Arpa.Domain Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@DisplayName} {@Request}",
+                _logger.LogWarning("Orso.Arpa.Domain Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds)|User: {DisplayName}|Request-Object: {@Request}",
                     requestName, elapsedMilliseconds, displayName, request);
             }
 
