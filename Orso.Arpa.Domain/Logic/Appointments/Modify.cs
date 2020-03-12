@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
@@ -47,11 +48,12 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IReadOnlyRepository readOnlyRepository)
+            public Validator(IArpaContext arpaContext)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
                 RuleFor(d => d.Id)
-                    .MustAsync(async (id, cancellation) => await readOnlyRepository.GetByIdAsync<Appointment>(id) != null)
+                    .MustAsync(async (id, cancellation) => await arpaContext.Appointments
+                        .AnyAsync(a => a.Id == id, cancellation))
                     .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Id = "Not found" }));
             }
         }

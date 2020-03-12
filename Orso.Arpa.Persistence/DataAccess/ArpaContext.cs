@@ -11,7 +11,7 @@ using Orso.Arpa.Persistence.Configurations;
 
 namespace Orso.Arpa.Persistence.DataAccess
 {
-    public class ArpaContext : IdentityDbContext<User, Role, Guid>
+    public class ArpaContext : IdentityDbContext<User, Role, Guid>, IArpaContext
     {
         private readonly ITokenAccessor _tokenAccessor;
 
@@ -74,6 +74,11 @@ namespace Orso.Arpa.Persistence.DataAccess
 
                     case EntityState.Modified:
                         entry.Entity.Modify(_tokenAccessor.DisplayName);
+                        break;
+
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Modified;
+                        entry.Entity.Delete(_tokenAccessor.DisplayName);
                         break;
                 }
             }

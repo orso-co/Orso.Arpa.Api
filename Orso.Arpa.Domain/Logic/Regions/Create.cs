@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
@@ -14,11 +15,13 @@ namespace Orso.Arpa.Domain.Logic.Regions
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IReadOnlyRepository repository)
+            public Validator(IArpaContext arpaContext)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
+
                 RuleFor(c => c.Name)
-                    .Must(name => !repository.Exists<Region>(r => r.Name == name))
+                    .MustAsync(async (name, cancellation) => !(await arpaContext.Regions
+                        .AnyAsync(r => r.Name == name, cancellation)))
                     .WithMessage("A region with the requested name does already exist");
             }
         }

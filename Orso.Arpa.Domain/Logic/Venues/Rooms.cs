@@ -22,18 +22,17 @@ namespace Orso.Arpa.Domain.Logic.Venues
 
         public class Handler : IRequestHandler<Query, IImmutableList<Room>>
         {
-            private readonly IReadOnlyRepository _repository;
+            private readonly IArpaContext _arpaContext;
 
-            public Handler(
-                IReadOnlyRepository repository)
+            public Handler(IArpaContext arpaContext)
             {
-                _repository = repository;
+                _arpaContext = arpaContext;
             }
 
             public async Task<IImmutableList<Room>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return (await _repository
-                    .GetByIdAsync<Venue>(request.Id))
+                return (await _arpaContext
+                    .Venues.FindAsync(request.Id))
                     .Rooms
                     .ToImmutableList();
             }

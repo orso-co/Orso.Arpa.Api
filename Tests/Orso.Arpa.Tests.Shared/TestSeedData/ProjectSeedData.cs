@@ -14,7 +14,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new List<Project>
                 {
-                    RockingXMas
+                    RockingXMas,
+                    HoorayForHollywood
                 };
             }
         }
@@ -31,6 +32,23 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Description = "Rocking around the christmas tree",
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                         Number = 1005,
+                        ParentId = null
+                    });
+            }
+        }
+
+        public static Project HoorayForHollywood
+        {
+            get
+            {
+                return new Project(
+                    Guid.Parse("8f8c500f-71f5-49be-92c8-150ac9e88219"),
+                    new Create.Command
+                    {
+                        Title = "Hooray for Hollywood Freiburg",
+                        Description = "Winter is Coming",
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
+                        Number = 1006,
                         ParentId = null
                     });
             }

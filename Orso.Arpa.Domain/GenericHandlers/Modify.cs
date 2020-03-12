@@ -1,9 +1,11 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.GenericHandlers
@@ -17,29 +19,31 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
         public class Handler<TEntity> : IRequestHandler<IModifyCommand<TEntity>> where TEntity : BaseEntity
         {
-            private readonly IRepository _repository;
+            private readonly IArpaContext _context;
             private readonly IMapper _mapper;
-            private readonly IUnitOfWork _unitOfWork;
 
             public Handler(
-                IRepository repository,
-                IUnitOfWork unitOfWork,
+                IArpaContext context,
                 IMapper mapper)
             {
-                _repository = repository;
+                _context = context;
                 _mapper = mapper;
-                _unitOfWork = unitOfWork;
             }
 
             public async Task<Unit> Handle(IModifyCommand<TEntity> request, CancellationToken cancellationToken)
             {
-                TEntity existingEntity = await _repository.GetByIdAsync<TEntity>(request.Id);
+                TEntity existingEntity = await _context.FindAsync<TEntity>(new object[] { request.Id }, cancellationToken);
+
+                if (existingEntity == null)
+                {
+                    throw new RestException($"{typeof(TEntity).Name} not found", HttpStatusCode.NotFound, new { Entity = "Not found" });
+                }
 
                 TEntity modifiedEntity = _mapper.Map(request, existingEntity);
 
-                _repository.Update(modifiedEntity);
+                _context.Set<TEntity>().Update(modifiedEntity);
 
-                if (await _unitOfWork.CommitAsync())
+                if (await _context.SaveChangesAsync(cancellationToken) > 0)
                 {
                     return Unit.Value;
                 }

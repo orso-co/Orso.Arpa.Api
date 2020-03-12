@@ -32,7 +32,6 @@ using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
-using Orso.Arpa.Infrastructure.DataAccess;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
@@ -159,9 +158,6 @@ namespace Orso.Arpa.Api
             services.AddScoped<ITokenAccessor, TokenAccessor>();
             services.AddScoped<IDataSeeder, DataSeeder>();
             services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
-            services.AddScoped<IRepository, Repository>();
-            services.AddScoped<IReadOnlyRepository, Repository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRegionService, RegionService>();
@@ -173,6 +169,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IVenueService, VenueService>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
+            services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
         }
 
         private void ConfigureAuthentication(IServiceCollection services)

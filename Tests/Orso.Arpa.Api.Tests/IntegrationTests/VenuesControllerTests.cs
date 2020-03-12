@@ -31,7 +31,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .Excluding(dto => dto.CreatedAt)
                 .Excluding(dto => dto.Address.CreatedAt)
                 .Excluding(dto => dto.Rooms));
-            result.First().Rooms.Count().Should().Be(1);
+            result.First().Rooms.Count().Should().Be(2);
             result.First().Rooms.Should().BeEquivalentTo(VenueDtoData.WeiherhofSchule.Rooms, opt => opt.Excluding(r => r.CreatedAt));
         }
 

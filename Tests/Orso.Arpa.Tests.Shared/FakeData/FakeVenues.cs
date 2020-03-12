@@ -12,7 +12,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 Venue venue = VenueSeedData.WeiherhofSchule;
                 venue.Rooms.Add(FakeRooms.AulaWeiherhofSchule);
+                venue.Rooms.Add(FakeRooms.MusikraumWeiherhofSchule);
                 venue.SetProperty(nameof(Venue.CreatedBy), "anonymous");
+                venue.Address.SetProperty(nameof(Address.CreatedBy), "anonymous");
                 return venue;
             }
         }

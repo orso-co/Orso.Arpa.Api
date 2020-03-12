@@ -14,14 +14,14 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
     [TestFixture]
     public class DetailsHandlerTests
     {
-        private IReadOnlyRepository _repository;
+        private IArpaContext _arpaContext;
         private Details.Handler<Appointment> _handler;
 
         [SetUp]
         public void Setup()
         {
-            _repository = Substitute.For<IReadOnlyRepository>();
-            _handler = new Details.Handler<Appointment>(_repository);
+            _arpaContext = Substitute.For<IArpaContext>();
+            _handler = new Details.Handler<Appointment>(_arpaContext);
         }
 
         [Test]
@@ -29,11 +29,12 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         {
             // Arrange
             Appointment appointment = AppointmentSeedData.RockingXMasConcert;
-            _repository.GetByIdAsync<Appointment>(Arg.Any<Guid>())
+            _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
                 .Returns(appointment);
 
             // Act
-            Appointment result = await _handler.Handle(new Details.Query<Appointment>(Guid.NewGuid()), new CancellationToken());
+            Appointment result = await _handler
+                .Handle(new Details.Query<Appointment>(Guid.NewGuid()), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(appointment);

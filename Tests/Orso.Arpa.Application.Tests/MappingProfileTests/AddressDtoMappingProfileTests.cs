@@ -5,7 +5,7 @@ using Orso.Arpa.Application.AddressApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Address address = VenueSeedData.WeiherhofSchule.Address;
+            Address address = FakeVenues.WeiherhofSchule.Address;
             AddressDto expectedDto = VenueDtoData.WeiherhofSchule.Address;
 
             // Act

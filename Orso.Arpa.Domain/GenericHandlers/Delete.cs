@@ -1,8 +1,10 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.GenericHandlers
@@ -16,22 +18,29 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
         public class Handler<TEntity> : IRequestHandler<Command<TEntity>> where TEntity : BaseEntity
         {
-            private readonly IRepository _repository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IArpaContext _arpaContext;
 
-            public Handler(
-                IRepository repository,
-                IUnitOfWork unitOfWork)
+            public Handler(IArpaContext arpaContext)
             {
-                _repository = repository;
-                _unitOfWork = unitOfWork;
+                _arpaContext = arpaContext;
             }
 
             public async Task<Unit> Handle(Command<TEntity> request, CancellationToken cancellationToken)
             {
-                await _repository.DeleteAsync<TEntity>(request.Id);
+                TEntity entityToDelete = await _arpaContext.FindAsync<TEntity>(new object[] { request.Id }, cancellationToken);
 
-                if (await _unitOfWork.CommitAsync())
+                if (entityToDelete == null)
+                {
+                    var entityName = typeof(TEntity).Name;
+                    throw new RestException($"{entityName} not found", HttpStatusCode.NotFound, new
+                    {
+                        Entity = "Not found"
+                    });
+                }
+
+                _arpaContext.Remove(entityToDelete);
+
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     return Unit.Value;
                 }
