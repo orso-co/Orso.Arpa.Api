@@ -13,6 +13,8 @@
 Old Syntax:
 ```
 dotnet ef migrations add "<NameOfMigration>" -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
+
+dotnet ef database update -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
 ```
 
 New Syntax:

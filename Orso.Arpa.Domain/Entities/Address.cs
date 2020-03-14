@@ -36,5 +36,7 @@ namespace Orso.Arpa.Domain.Entities
         public string State { get; private set; }
         public Guid? RegionId { get; private set; }
         public virtual Region Region { get; private set; }
+
+        public virtual Venue Venue { get; private set; }
     }
 }

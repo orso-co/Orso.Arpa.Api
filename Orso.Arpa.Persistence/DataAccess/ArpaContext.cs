@@ -26,7 +26,6 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
-        public DbSet<ConcertRoom> ConcertRooms { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonAddress> PersonAddresses { get; set; }
@@ -36,7 +35,6 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Region> Regions { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<SectionAppointment> SectionAppointments { get; set; }
-        public DbSet<RehearsalRoom> RehearsalRooms { get; set; }
         public DbSet<SelectValueCategory> SelectValueCategories { get; set; }
         public DbSet<SelectValue> SelectValues { get; set; }
         public DbSet<SelectValueMapping> SelectValueMappings { get; set; }

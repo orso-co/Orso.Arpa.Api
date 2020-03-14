@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Orso.Arpa.Domain.Logic.Rooms;
 
@@ -19,12 +20,13 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        public virtual RehearsalRoom RehearsalRoom { get; private set; }
-        public virtual ConcertRoom ConcertRoom { get; private set; }
         public Guid VenueId { get; private set; }
         public virtual Venue Venue { get; private set; }
         public string Building { get; private set; }
         public string Floor { get; private set; }
         public string Name { get; private set; }
+
+        public virtual ICollection<AppointmentRoom> AppointmentRooms { get; private set; }
+            = new HashSet<AppointmentRoom>();
     }
 }

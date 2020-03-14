@@ -12,7 +12,6 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<Appointment> Appointments { get; set; }
         DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         DbSet<AppointmentRoom> AppointmentRooms { get; set; }
-        DbSet<ConcertRoom> ConcertRooms { get; set; }
         DbSet<MusicianProfile> MusicianProfiles { get; set; }
         DbSet<Person> Persons { get; set; }
         DbSet<PersonAddress> PersonAddresses { get; set; }
@@ -22,7 +21,6 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<Region> Regions { get; set; }
         DbSet<Section> Sections { get; set; }
         DbSet<SectionAppointment> SectionAppointments { get; set; }
-        DbSet<RehearsalRoom> RehearsalRooms { get; set; }
         DbSet<SelectValueCategory> SelectValueCategories { get; set; }
         DbSet<SelectValue> SelectValues { get; set; }
         DbSet<SelectValueMapping> SelectValueMappings { get; set; }

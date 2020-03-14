@@ -1,23 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
-    public class SectionConfiguration : IEntityTypeConfiguration<Section>
+    public class ProjectConfiguration : IEntityTypeConfiguration<Project>
     {
-        public void Configure(EntityTypeBuilder<Section> builder)
+        public void Configure(EntityTypeBuilder<Project> builder)
         {
-            builder
-               .HasData(SectionSeedData.Sections);
-
             // ToDo: delete cascade in code
             builder
                 .HasOne(e => e.Parent)
                 .WithMany(p => p.Children)
                 .HasForeignKey(e => e.ParentId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne(e => e.Genre)
+                .WithMany(g => g.ProjectsAsGenre)
+                .HasForeignKey(e => e.GenreId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
