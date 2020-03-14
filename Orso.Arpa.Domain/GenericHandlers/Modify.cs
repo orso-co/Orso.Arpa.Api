@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -36,7 +35,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 if (existingEntity == null)
                 {
-                    throw new RestException($"{typeof(TEntity).Name} not found", HttpStatusCode.NotFound, new { Entity = "Not found" });
+                    throw new NotFoundException(typeof(TEntity).Name, nameof(request.Id), request);
                 }
 
                 TEntity modifiedEntity = _mapper.Map(request, existingEntity);

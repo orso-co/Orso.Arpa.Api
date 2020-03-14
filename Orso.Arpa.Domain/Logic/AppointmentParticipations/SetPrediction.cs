@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
@@ -43,14 +42,11 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
                 RuleFor(d => d.Id)
-                    .Must(id => arpaContext.Appointments.Any(a => a.Id == id))
-                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" }));
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
                 RuleFor(d => d.PersonId)
-                    .Must(personId => arpaContext.Persons.Any(p => p.Id == personId))
-                    .OnFailure(dto => throw new RestException("Person not found", HttpStatusCode.NotFound, new { Person = "Not found" }));
+                    .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
                 RuleFor(d => d.PredictionId)
-                    .Must(predictionId => arpaContext.SelectValueMappings.Any(m => m.Id == predictionId))
-                    .OnFailure(dto => throw new RestException("Result not found", HttpStatusCode.NotFound, new { Result = "Not found" }));
+                    .EntityExists<Command, SelectValueMapping>(arpaContext, nameof(Command.PredictionId));
             }
         }
 

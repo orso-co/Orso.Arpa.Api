@@ -36,9 +36,10 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _mockAppointments = MockDbSets.Appointments;
             _mockSectionAppointments = MockDbSets.SectionAppointments;
             _mockSections = MockDbSets.Sections;
-            _arpaContext.Appointments.Returns(_mockAppointments);
+            _arpaContext.Set<Appointment>().Returns(_mockAppointments);
             _arpaContext.SectionAppointments.Returns(_mockSectionAppointments);
-            _arpaContext.Sections.Returns(_mockSections);
+            _arpaContext.Set<SectionAppointment>().Returns(_mockSectionAppointments);
+            _arpaContext.Set<Section>().Returns(_mockSections);
         }
 
         [Test]
@@ -46,7 +47,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Func<ValidationResult> func = () => _validator.Validate(new Command(Guid.NewGuid(), _validSectionId));
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Func<ValidationResult> func = () => _validator.Validate(new Command(_validAppointmentId, Guid.NewGuid()));
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]

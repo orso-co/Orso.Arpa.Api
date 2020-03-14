@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,7 +6,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -47,14 +46,10 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 CascadeMode = CascadeMode.StopOnFirstFailure;
 
                 RuleFor(d => d.Id)
-                    .MustAsync(async (id, cancellation) => await arpaContext.Appointments
-                        .AnyAsync(a => a.Id == id, cancellation))
-                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" }));
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
 
                 RuleFor(d => d.ProjectId)
-                    .MustAsync(async (projectId, cancellation) => await arpaContext.Projects
-                        .AnyAsync(a => a.Id == projectId, cancellation))
-                    .OnFailure(dto => throw new RestException("Project not found", HttpStatusCode.NotFound, new { Project = "Not found" }))
+                    .EntityExists<Command, Project>(arpaContext, nameof(Command.ProjectId))
 
                     .MustAsync(async (dto, projectId, cancellation) => !(await arpaContext.ProjectAppointments
                         .AnyAsync(pa => pa.ProjectId == projectId && pa.AppointmentId == dto.Id, cancellation)))

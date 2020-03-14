@@ -5,6 +5,7 @@ using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
@@ -28,12 +29,12 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
         {
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext);
-            DbSet<Entities.Appointment> mockAppointments = MockDbSets.Appointments;
-            _arpaContext.Appointments.Returns(mockAppointments);
-            DbSet<Entities.Person> mockPersons = MockDbSets.Persons;
-            _arpaContext.Persons.Returns(mockPersons);
-            DbSet<Entities.SelectValueMapping> mockMappings = MockDbSets.SelectValueMappints;
-            _arpaContext.SelectValueMappings.Returns(mockMappings);
+            DbSet<Appointment> mockAppointments = MockDbSets.Appointments;
+            _arpaContext.Set<Appointment>().Returns(mockAppointments);
+            DbSet<Person> mockPersons = MockDbSets.Persons;
+            _arpaContext.Set<Person>().Returns(mockPersons);
+            DbSet<SelectValueMapping> mockMappings = MockDbSets.SelectValueMappints;
+            _arpaContext.Set<SelectValueMapping>().Returns(mockMappings);
             _validResultId = SelectValueMappingSeedData.AppointmentParticipationResultMappings[0].Id;
             _validPersonId = PersonSeedData.Orsianer.Id;
             _validAppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id;
@@ -49,7 +50,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
                 ResultId = _validResultId
             });
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]
@@ -73,7 +74,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
                 ResultId = _validResultId
             });
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]
@@ -86,7 +87,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
                 ResultId = Guid.NewGuid()
             });
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
     }
 }

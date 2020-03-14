@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext);
             _mockAppointmentDbSet = MockDbSets.Appointments;
-            _arpaContext.Appointments.Returns(_mockAppointmentDbSet);
+            _arpaContext.Set<Appointment>().Returns(_mockAppointmentDbSet);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Func<ValidationResult> func = () => _validator.Validate(new Command { Id = Guid.NewGuid() });
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]

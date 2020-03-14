@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
             Func<Task<ValidationResult>> act = async () => await _validator
                 .ValidateAsync(new Command { UserName = UserSeedData.Orsianer.UserName, RoleName = "DoesNotExist" });
 
-            act.Should().Throw<RestException>();
+            act.Should().Throw<NotFoundException>();
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         {
             Func<Task<ValidationResult>> act = async () => await _validator
                 .ValidateAsync(new Command { UserName = "DoesNotExist", RoleName = RoleNames.Orsianer });
-            act.Should().Throw<RestException>();
+            act.Should().Throw<NotFoundException>();
         }
     }
 }

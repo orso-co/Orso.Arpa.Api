@@ -1,13 +1,11 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -47,14 +45,10 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 CascadeMode = CascadeMode.StopOnFirstFailure;
 
                 RuleFor(d => d.Id)
-                    .MustAsync(async (id, cancellation) => await arpaContext.Appointments
-                        .AnyAsync(a => a.Id == id, cancellation))
-                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" }));
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
 
                 RuleFor(d => d.VenueId)
-                    .MustAsync(async (venueId, cancellation) => venueId == null || await arpaContext.Venues
-                        .AnyAsync(a => a.Id == venueId, cancellation))
-                    .OnFailure(dto => throw new RestException("Venue not found", HttpStatusCode.NotFound, new { Venue = "Not found" }));
+                    .EntityExists<Command, Venue>(arpaContext, nameof(Command.VenueId));
             }
         }
 

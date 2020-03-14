@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using FluentAssertions;
 using FluentValidation.Results;
 using FluentValidation.TestHelper;
@@ -18,15 +19,21 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class SetDatesCommandValidatorTests
     {
         private IArpaContext _arpaContext;
+        private IMapper _mapper;
         private Validator _validator;
         private DbSet<Appointment> _mockAppointmentDbSet;
+        private Appointment _existingAppointment;
 
         [SetUp]
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Validator(_arpaContext);
+            _mapper = Substitute.For<IMapper>();
+            _validator = new Validator(_arpaContext, _mapper);
             _mockAppointmentDbSet = MockDbSets.Appointments;
+            _existingAppointment = AppointmentSeedData.RockingXMasRehearsal;
+            _mockAppointmentDbSet.FindAsync(Arg.Any<Guid>()).Returns(_existingAppointment);
+            _arpaContext.Set<Appointment>().Returns(_mockAppointmentDbSet);
             _arpaContext.Appointments.Returns(_mockAppointmentDbSet);
         }
 
@@ -35,13 +42,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Func<ValidationResult> func = () => _validator.Validate(new Command { Id = Guid.NewGuid() });
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command { Id = AppointmentSeedData.RockingXMasRehearsal.Id });
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command { Id = _existingAppointment.Id });
         }
     }
 }

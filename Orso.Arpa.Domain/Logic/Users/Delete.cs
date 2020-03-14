@@ -1,4 +1,3 @@
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -35,7 +34,7 @@ namespace Orso.Arpa.Domain.Logic.Users
 
                 if (user == null)
                 {
-                    throw new RestException("User not found", HttpStatusCode.NotFound, new { user = "Not found" });
+                    throw new NotFoundException(nameof(User), nameof(Command.UserName), request);
                 }
 
                 user.Delete();

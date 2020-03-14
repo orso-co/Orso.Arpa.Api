@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -37,7 +36,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 if (entity == null)
                 {
-                    throw new RestException($"{entity.GetType().Name} not found", HttpStatusCode.NotFound, new { Entity = "Not found" });
+                    throw new NotFoundException(typeof(TEntity).Name, nameof(request.Id), request);
                 }
 
                 return entity;

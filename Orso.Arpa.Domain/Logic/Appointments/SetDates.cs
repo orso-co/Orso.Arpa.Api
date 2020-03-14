@@ -1,13 +1,11 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -34,13 +32,19 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext)
+            public Validator(IArpaContext arpaContext, IMapper mapper)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
                 RuleFor(d => d.Id)
-                    .MustAsync(async (id, cancellation) => await arpaContext.Appointments
-                        .AnyAsync(a => a.Id == id, cancellation))
-                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Id = "Not found" }));
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
+                RuleFor(d => d.EndTime)
+                    .MustAsync(async (request, endTime, cancellation) =>
+                    {
+                        Appointment existingAppointment = await arpaContext.Appointments.FindAsync(request.Id);
+                        mapper.Map(request, existingAppointment);
+                        return existingAppointment.EndTime >= existingAppointment.StartTime;
+                    })
+                    .WithMessage("EndTime must be greater than StartTime");
             }
         }
 
@@ -62,14 +66,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(request.Id);
 
                 _mapper.Map(request, existingAppointment);
-
-                if (existingAppointment.EndTime < existingAppointment.StartTime)
-                {
-                    throw new RestException(
-                        "EndTime must be greater than StartTime",
-                        HttpStatusCode.BadRequest,
-                        new { EndTime = "is before StartTime" });
-                }
 
                 _arpaContext.Appointments.Update(existingAppointment);
 

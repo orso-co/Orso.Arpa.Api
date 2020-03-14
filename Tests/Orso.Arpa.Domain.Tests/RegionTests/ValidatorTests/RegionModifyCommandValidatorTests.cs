@@ -5,6 +5,7 @@ using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
@@ -24,7 +25,8 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         {
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext);
-            DbSet<Entities.Region> mockRegions = MockDbSets.Regions;
+            DbSet<Region> mockRegions = MockDbSets.Regions;
+            _arpaContext.Set<Region>().Returns(mockRegions);
             _arpaContext.Regions.Returns(mockRegions);
         }
 
@@ -33,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         {
             Func<ValidationResult> func = () => _validator.Validate(new Command { Id = Guid.NewGuid(), Name = "Name" });
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]

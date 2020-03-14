@@ -1,4 +1,4 @@
-using System.Net;
+using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 CascadeMode = CascadeMode.StopOnFirstFailure;
                 RuleFor(q => q.UserName)
                     .MustAsync(async (userName, cancellation) => await userManager.FindByNameAsync(userName) != null)
-                    .OnFailure(_ => throw new RestException("Authorization failed", HttpStatusCode.Unauthorized));
+                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Query.UserName), null)); // don't send request with exception as it contains the password
             }
         }
 
@@ -57,7 +57,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     return await _jwtGenerator.CreateTokenAsync(user);
                 }
 
-                throw new RestException("Authorization failed", HttpStatusCode.Unauthorized);
+                throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password");
             }
         }
     }

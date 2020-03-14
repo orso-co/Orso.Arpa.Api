@@ -33,9 +33,10 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _mockAppointments = MockDbSets.Appointments;
             _mockAppointmentRooms = MockDbSets.AppointmentRooms;
             _mockRooms = MockDbSets.Rooms;
-            _arpaContext.Appointments.Returns(_mockAppointments);
+            _arpaContext.Set<Appointment>().Returns(_mockAppointments);
+            _arpaContext.Set<AppointmentRoom>().Returns(_mockAppointmentRooms);
             _arpaContext.AppointmentRooms.Returns(_mockAppointmentRooms);
-            _arpaContext.Rooms.Returns(_mockRooms);
+            _arpaContext.Set<Room>().Returns(_mockRooms);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validRoomId = RoomSeedData.MusikraumWeiherhofSchule.Id;
         }
@@ -45,7 +46,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Func<ValidationResult> func = () => _validator.Validate(new Command(Guid.NewGuid(), _validRoomId));
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]
@@ -59,7 +60,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Func<ValidationResult> func = () => _validator.Validate(new Command(_validAppointmentId, Guid.NewGuid()));
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]

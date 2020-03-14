@@ -1,8 +1,7 @@
 using System.Linq;
-using System.Net;
+using System.Security.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.Authentication
@@ -26,7 +25,8 @@ namespace Orso.Arpa.Infrastructure.Authentication
                     .Value;
                 if (username == null)
                 {
-                    throw new RestException("Authentication failed", HttpStatusCode.Unauthorized);
+                    throw new AuthenticationException("No user name found in the JWT token");
+                    ;
                 }
                 return username;
             }

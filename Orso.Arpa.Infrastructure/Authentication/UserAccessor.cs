@@ -1,10 +1,9 @@
-using System.Net;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.Authentication
@@ -28,7 +27,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
             if (user == null)
             {
-                throw new RestException("User is not authenticated", HttpStatusCode.Unauthorized);
+                throw new AuthenticationException("No user found for the user name provided by the jwt token");
             }
             return user;
         }

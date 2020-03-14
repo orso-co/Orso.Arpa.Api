@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -31,11 +30,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 if (entityToDelete == null)
                 {
-                    var entityName = typeof(TEntity).Name;
-                    throw new RestException($"{entityName} not found", HttpStatusCode.NotFound, new
-                    {
-                        Entity = "Not found"
-                    });
+                    throw new NotFoundException(typeof(TEntity).Name, nameof(request.Id), request);
                 }
 
                 _arpaContext.Remove(entityToDelete);
