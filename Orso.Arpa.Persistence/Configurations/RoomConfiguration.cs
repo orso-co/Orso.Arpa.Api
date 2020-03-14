@@ -13,6 +13,18 @@ namespace Orso.Arpa.Persistence.Configurations
                 .WithMany(v => v.Rooms)
                 .HasForeignKey(e => e.VenueId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .Property(e => e.Name)
+                .HasMaxLength(50);
+
+            builder
+                .Property(e => e.Building)
+                .HasMaxLength(50);
+
+            builder
+                .Property(e => e.Floor)
+                .HasMaxLength(50);
         }
     }
 }

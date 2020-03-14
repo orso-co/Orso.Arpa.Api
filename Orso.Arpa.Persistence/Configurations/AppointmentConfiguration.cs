@@ -47,6 +47,18 @@ namespace Orso.Arpa.Persistence.Configurations
                 .WithMany(c => c.Appointments)
                 .HasForeignKey(e => e.VenueId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .Property(e => e.Name)
+                .HasMaxLength(50);
+
+            builder
+                .Property(e => e.PublicDetails)
+                .HasMaxLength(1000);
+
+            builder
+                .Property(e => e.InternalDetails)
+                .HasMaxLength(1000);
         }
     }
 }

@@ -20,6 +20,14 @@ namespace Orso.Arpa.Persistence.Configurations
                 .WithMany(g => g.ProjectsAsGenre)
                 .HasForeignKey(e => e.GenreId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .Property(e => e.Title)
+                .HasMaxLength(50);
+
+            builder
+                .Property(e => e.Description)
+                .HasMaxLength(1000);
         }
     }
 }

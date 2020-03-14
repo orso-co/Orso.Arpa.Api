@@ -16,6 +16,9 @@ namespace Orso.Arpa.Persistence.Configurations
                 .WithOne(p => p.User)
                 .HasForeignKey<User>(e => e.PersonId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .Ignore(e => e.DisplayName);
         }
     }
 }

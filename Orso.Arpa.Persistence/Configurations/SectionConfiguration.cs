@@ -18,6 +18,10 @@ namespace Orso.Arpa.Persistence.Configurations
                 .WithMany(p => p.Children)
                 .HasForeignKey(e => e.ParentId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Property(e => e.Name)
+                .HasMaxLength(50);
         }
     }
 }

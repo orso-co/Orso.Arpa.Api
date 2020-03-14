@@ -13,6 +13,14 @@ namespace Orso.Arpa.Persistence.Configurations
                 .WithOne(a => a.Venue)
                 .HasForeignKey<Venue>(e => e.AddressId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .Property(e => e.Name)
+                .HasMaxLength(50);
+
+            builder
+                .Property(e => e.Description)
+                .HasMaxLength(255);
         }
     }
 }

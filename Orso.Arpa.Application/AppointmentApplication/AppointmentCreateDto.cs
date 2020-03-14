@@ -45,7 +45,12 @@ namespace Orso.Arpa.Application.AppointmentApplication
                 .Must((dto, endTime) => endTime >= dto.StartTime)
                 .WithMessage("EndTime must be greater than StartTime");
             RuleFor(d => d.Name)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(50);
+            RuleFor(d => d.InternalDetails)
+                .MaximumLength(1000);
+            RuleFor(d => d.PublicDetails)
+                .MaximumLength(1000);
             RuleFor(d => d.EmolumentId)
                 .NotEmpty();
         }

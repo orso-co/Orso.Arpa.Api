@@ -28,7 +28,8 @@ namespace Orso.Arpa.Application.RegionApplication
             RuleFor(c => c.Id)
                 .NotEmpty();
             RuleFor(c => c.Name)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(50);
         }
     }
 }

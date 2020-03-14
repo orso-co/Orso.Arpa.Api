@@ -29,9 +29,11 @@ namespace Orso.Arpa.Application.MeApplication
                 .NotEmpty()
                 .EmailAddress();
             RuleFor(c => c.GivenName)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(50);
             RuleFor(c => c.Surname)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(50);
         }
     }
 }
