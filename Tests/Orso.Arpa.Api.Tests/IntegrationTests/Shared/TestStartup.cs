@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +23,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         protected override void ConfigureDatabase(IServiceCollection services)
         {
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            DbContextOptions<ArpaContext> options = new DbContextOptionsBuilder<ArpaContext>()
+                    .UseSqlite(connection)
+                    .Options;
+
             services.AddDbContext<ArpaContext>(options =>
             {
-                options.UseInMemoryDatabase("DefaultConnection");
+                options.UseSqlite(connection);
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
             });
