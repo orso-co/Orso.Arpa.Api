@@ -41,6 +41,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                         UrbanDistrict = "Herdern",
                         State = "Baden-Württemberg",
                         RegionId = RegionSeedData.Freiburg.Id,
+                        CreatedBy = "anonymous"
                     }
                 };
                 dto.Rooms.Add(new RoomDto
@@ -51,6 +52,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Aula",
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
                     CreatedBy = "anonymous"
+                });
+                dto.Rooms.Add(new RoomDto
+                {
+                    Id = Guid.Parse("1516e919-4088-4d95-aeb7-ff47a0c36215"),
+                    Building = "Hauptgebäude",
+                    CreatedBy = "anonymous",
+                    Floor = "OG",
+                    Name = "Musikraum",
+                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1")
                 });
                 return dto;
             }

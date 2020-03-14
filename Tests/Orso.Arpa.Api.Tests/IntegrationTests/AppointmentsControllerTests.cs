@@ -310,7 +310,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Delete()
         {
             // Arrange
-            Appointment appointmentToDelete = AppointmentSeedData.RockingXMasConcert;
+            Appointment appointmentToDelete = AppointmentSeedData.AfterShowParty;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

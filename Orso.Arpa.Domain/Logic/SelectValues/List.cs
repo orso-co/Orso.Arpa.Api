@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -20,25 +18,23 @@ namespace Orso.Arpa.Domain.Logic.SelectValues
 
         public class Handler : IRequestHandler<Query, IImmutableList<SelectValueMapping>>
         {
-            private readonly IReadOnlyRepository _repository;
+            private readonly IArpaContext _arpaContext;
 
-            public Handler(
-                IReadOnlyRepository repository)
+            public Handler(IArpaContext arpaContext)
             {
-                _repository = repository;
+                _arpaContext = arpaContext;
             }
 
-            public async Task<IImmutableList<SelectValueMapping>> Handle(Query request, CancellationToken cancellationToken)
+            public Task<IImmutableList<SelectValueMapping>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return (await _repository
-                    .GetAll<SelectValueCategory>()
-                    .ToListAsync())
+                return Task.FromResult(_arpaContext
+                    .SelectValueCategories
                     .Where(c =>
-                        c.Table.Equals(request.TableName, StringComparison.InvariantCultureIgnoreCase)
-                        && c.Property.Equals(request.PropertyName, StringComparison.InvariantCultureIgnoreCase))
+                        c.Table.ToLower() == request.TableName.ToLower()
+                        && c.Property.ToLower() == request.PropertyName.ToLower())
                     .SelectMany(c => c.SelectValueMappings)
                     .OrderBy(s => s.SelectValue.Name)
-                    .ToImmutableList() as IImmutableList<SelectValueMapping>;
+                    .ToImmutableList() as IImmutableList<SelectValueMapping>);
             }
         }
     }

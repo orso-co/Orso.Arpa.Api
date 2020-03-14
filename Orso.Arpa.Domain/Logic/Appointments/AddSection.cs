@@ -1,13 +1,12 @@
 using System;
-using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -42,47 +41,44 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IReadOnlyRepository readOnlyRepository)
+            public Validator(IArpaContext arpaContext)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
+
                 RuleFor(d => d.Id)
-                    .MustAsync(async (id, cancellation) => await readOnlyRepository.GetByIdAsync<Appointment>(id) != null)
-                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" }));
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
+
                 RuleFor(d => d.SectionId)
-                    .MustAsync(async (sectionId, cancellation) => await readOnlyRepository.GetByIdAsync<Section>(sectionId) != null)
-                    .OnFailure(dto => throw new RestException("Section not found", HttpStatusCode.NotFound, new { Section = "Not found" }))
-                    .MustAsync(async (dto, sectionId, cancellation) => !(await readOnlyRepository
-                        .GetByIdAsync<Appointment>(dto.Id)).SectionAppointments
-                            .Any(ar => ar.SectionId == sectionId))
+                    .EntityExists<Command, Section>(arpaContext, nameof(Command.SectionId))
+
+                    .MustAsync(async (dto, sectionId, cancellation) => !(await arpaContext.SectionAppointments
+                        .AnyAsync(sa => sa.SectionId == sectionId && sa.AppointmentId == dto.Id, cancellation)))
                     .WithMessage("The section is already linked to the appointment");
             }
         }
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly IRepository _repository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
 
             public Handler(
-                IRepository repository,
-                IUnitOfWork unitOfWork,
+                IArpaContext arpaContext,
                 IMapper mapper)
             {
-                _repository = repository;
-                _unitOfWork = unitOfWork;
+                _arpaContext = arpaContext;
                 _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
+                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(request.Id);
 
                 existingAppointment.SectionAppointments.Add(_mapper.Map<SectionAppointment>(request));
 
-                _repository.Update(existingAppointment);
+                _arpaContext.Appointments.Update(existingAppointment);
 
-                if (await _unitOfWork.CommitAsync())
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     return Unit.Value;
                 }

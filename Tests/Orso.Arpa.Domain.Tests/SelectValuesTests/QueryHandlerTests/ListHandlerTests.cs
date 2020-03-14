@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using MockQueryable.NSubstitute;
 using NSubstitute;
 using NUnit.Framework;
@@ -18,14 +19,14 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
     [TestFixture]
     public class ListHandlerTests
     {
-        private IReadOnlyRepository _repository;
+        private IArpaContext _arpaContext;
         private Logic.SelectValues.List.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
-            _repository = Substitute.For<IReadOnlyRepository>();
-            _handler = new Logic.SelectValues.List.Handler(_repository);
+            _arpaContext = Substitute.For<IArpaContext>();
+            _handler = new Logic.SelectValues.List.Handler(_arpaContext);
         }
 
         [Test]
@@ -46,9 +47,8 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
             ICollection<SelectValueMapping> expectedMappings = categories
                 .FirstOrDefault(c => c.Table == nameof(PersonAddress) && c.Property == nameof(PersonAddress.Type))?
                 .SelectValueMappings;
-            IQueryable<SelectValueCategory> categoriesToReturn = categories.AsQueryable().BuildMock();
-            _repository.GetAll<SelectValueCategory>()
-                .Returns(categoriesToReturn);
+            DbSet<SelectValueCategory> categoriesToReturn = categories.AsQueryable().BuildMockDbSet();
+            _arpaContext.SelectValueCategories.Returns(categoriesToReturn);
 
             // Act
             IImmutableList<SelectValueMapping> result = await _handler.Handle(

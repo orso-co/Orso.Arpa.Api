@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +23,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         protected override void ConfigureDatabase(IServiceCollection services)
         {
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            DbContextOptions<ArpaContext> options = new DbContextOptionsBuilder<ArpaContext>()
+                    .UseSqlite(connection)
+                    .Options;
+
             services.AddDbContext<ArpaContext>(options =>
             {
-                options.UseInMemoryDatabase("DefaultConnection");
+                options.UseSqlite(connection);
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
             });
@@ -38,13 +46,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             {
                 ArpaContext context = services.GetRequiredService<ArpaContext>();
                 UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
-                IRepository repository = services.GetRequiredService<IRepository>();
-                IUnitOfWork unitOfWork = services.GetRequiredService<IUnitOfWork>();
+                IArpaContext arpaContext = services.GetRequiredService<IArpaContext>();
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
-                TestSeed.SeedDataAsync(userManager, repository, unitOfWork).Wait();
+                TestSeed.SeedDataAsync(userManager, arpaContext).Wait();
             }
             catch (System.Exception ex)
             {

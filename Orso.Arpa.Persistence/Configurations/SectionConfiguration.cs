@@ -11,6 +11,17 @@ namespace Orso.Arpa.Persistence.Configurations
         {
             builder
                .HasData(SectionSeedData.Sections);
+
+            // ToDo: delete cascade in code
+            builder
+                .HasOne(e => e.Parent)
+                .WithMany(p => p.Children)
+                .HasForeignKey(e => e.ParentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Property(e => e.Name)
+                .HasMaxLength(50);
         }
     }
 }

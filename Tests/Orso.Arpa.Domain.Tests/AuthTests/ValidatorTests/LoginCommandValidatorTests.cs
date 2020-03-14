@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
             Func<Task<ValidationResult>> act = async () => await _validator
                 .ValidateAsync(new Query { UserName = "test", Password = UserSeedData.ValidPassword });
 
-            act.Should().Throw<RestException>();
+            act.Should().Throw<NotFoundException>();
         }
 
         [Test]

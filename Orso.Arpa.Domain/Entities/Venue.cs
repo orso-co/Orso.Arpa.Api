@@ -22,8 +22,9 @@ namespace Orso.Arpa.Domain.Entities
 
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public Guid AddressId { get; private set; }
+        public Guid? AddressId { get; private set; }
         public virtual Address Address { get; private set; }
         public virtual ICollection<Room> Rooms { get; private set; } = new HashSet<Room>();
+        public virtual ICollection<Appointment> Appointments { get; private set; } = new HashSet<Appointment>();
     }
 }

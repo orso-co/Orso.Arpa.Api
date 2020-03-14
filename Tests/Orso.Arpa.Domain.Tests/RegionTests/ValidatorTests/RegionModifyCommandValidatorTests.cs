@@ -1,14 +1,15 @@
 using System;
-using System.Linq.Expressions;
 using FluentAssertions;
 using FluentValidation.Results;
 using FluentValidation.TestHelper;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.FakeData;
 using static Orso.Arpa.Domain.Logic.Regions.Modify;
 
 namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
@@ -17,48 +18,38 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
     public class RegionModifyCommandValidatorTests
     {
         private Validator _validator;
-        private IReadOnlyRepository _repository;
+        private IArpaContext _arpaContext;
 
         [SetUp]
         public void Setup()
         {
-            _repository = Substitute.For<IReadOnlyRepository>();
-            _validator = new Validator(_repository);
+            _arpaContext = Substitute.For<IArpaContext>();
+            _validator = new Validator(_arpaContext);
+            DbSet<Region> mockRegions = MockDbSets.Regions;
+            _arpaContext.Set<Region>().Returns(mockRegions);
+            _arpaContext.Regions.Returns(mockRegions);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            _repository.Exists<Region>(Arg.Any<Guid>()).Returns(false);
-            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(false);
-
             Func<ValidationResult> func = () => _validator.Validate(new Command { Id = Guid.NewGuid(), Name = "Name" });
 
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Name_Does_Already_Exist()
         {
-            _repository.Exists<Region>(Arg.Any<Guid>()).Returns(true);
-            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(command => command.Name, RegionSeedData.Stuttgart.Name);
+            _validator.ShouldHaveValidationErrorFor(command => command.Name,
+                new Command { Id = RegionSeedData.Freiburg.Id, Name = RegionSeedData.Stuttgart.Name });
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_Id_And_Name_Are_Supplied()
         {
-            _repository.Exists<Region>(Arg.Any<Guid>()).Returns(true);
-            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(false);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Name, "Honolulu");
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
-        {
-            _repository.Exists<Region>(Arg.Any<Expression<Func<Region, bool>>>()).Returns(false);
-            _repository.Exists<Region>(Arg.Any<Guid>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Name,
+                new Command { Id = RegionSeedData.Freiburg.Id, Name = "Honolulu" });
         }
     }
 }

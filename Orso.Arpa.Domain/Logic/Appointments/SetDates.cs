@@ -1,12 +1,11 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -33,45 +32,44 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IReadOnlyRepository readOnlyRepository)
+            public Validator(IArpaContext arpaContext, IMapper mapper)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
                 RuleFor(d => d.Id)
-                    .MustAsync(async (id, cancellation) => await readOnlyRepository.GetByIdAsync<Appointment>(id) != null)
-                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Id = "Not found" }));
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
+                RuleFor(d => d.EndTime)
+                    .MustAsync(async (request, endTime, cancellation) =>
+                    {
+                        Appointment existingAppointment = await arpaContext.Appointments.FindAsync(request.Id);
+                        mapper.Map(request, existingAppointment);
+                        return existingAppointment.EndTime >= existingAppointment.StartTime;
+                    })
+                    .WithMessage("EndTime must be greater than StartTime");
             }
         }
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly IRepository _repository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
 
             public Handler(
-                IRepository repository,
-                IUnitOfWork unitOfWork,
+                IArpaContext arpaContext,
                 IMapper mapper)
             {
-                _repository = repository;
-                _unitOfWork = unitOfWork;
+                _arpaContext = arpaContext;
                 _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
+                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(request.Id);
 
                 _mapper.Map(request, existingAppointment);
 
-                if (existingAppointment.EndTime < existingAppointment.StartTime)
-                {
-                    throw new RestException("EndTime must be greater than StartTime", HttpStatusCode.BadRequest, new { EndTime = "is before StartTime" });
-                }
+                _arpaContext.Appointments.Update(existingAppointment);
 
-                _repository.Update(existingAppointment);
-
-                if (await _unitOfWork.CommitAsync())
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     return Unit.Value;
                 }

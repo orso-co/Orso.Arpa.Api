@@ -12,87 +12,62 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     {
         internal static async Task SeedDataAsync(
             UserManager<User> userManager,
-            IRepository repository,
-            IUnitOfWork unitOfWork)
+            IArpaContext arpaContext)
         {
-            await SeedPersonsAsync(repository);
+            await SeedPersonsAsync(arpaContext);
             await SeedUsersAsync(userManager);
-            await SeedAppointmentsAsync(repository);
-            await SeedVenuesAsync(repository);
-            await SeedRoomsAsync(repository);
-            await SeedProjectsAsync(repository);
-            await SeedMusicianProfilesAsync(repository);
-            await SeedProjectParticipationsAsync(repository);
-            await SeedAppointmentParticipationsAsync(repository);
+            await SeedAppointmentsAsync(arpaContext);
+            await SeedVenuesAsync(arpaContext);
+            await SeedRoomsAsync(arpaContext);
+            await SeedProjectsAsync(arpaContext);
+            await SeedMusicianProfilesAsync(arpaContext);
+            await SeedProjectParticipationsAsync(arpaContext);
+            await SeedAppointmentParticipationsAsync(arpaContext);
 
-            if (!await unitOfWork.CommitAsync())
+            if (!(await arpaContext.SaveChangesAsync(default) > 0))
             {
                 throw new System.Exception("Problem seeding test data");
             }
         }
 
-        private static async Task SeedPersonsAsync(IRepository repository)
+        private static async Task SeedPersonsAsync(IArpaContext arpaContext)
         {
-            foreach (Person person in PersonSeedData.Persons)
-            {
-                await repository.AddAsync(person);
-            }
+            await arpaContext.Persons.AddRangeAsync(PersonSeedData.Persons);
         }
 
-        private static async Task SeedAppointmentsAsync(IRepository repository)
+        private static async Task SeedAppointmentsAsync(IArpaContext arpaContext)
         {
-            foreach (Appointment appointment in AppointmentSeedData.Appointments)
-            {
-                await repository.AddAsync(appointment);
-            }
+            await arpaContext.Appointments.AddRangeAsync(AppointmentSeedData.Appointments);
         }
 
-        private static async Task SeedVenuesAsync(IRepository repository)
+        private static async Task SeedVenuesAsync(IArpaContext arpaContext)
         {
-            foreach (Venue venue in VenueSeedData.Venues)
-            {
-                await repository.AddAsync(venue);
-            }
+            await arpaContext.Venues.AddRangeAsync(VenueSeedData.Venues);
         }
 
-        private static async Task SeedRoomsAsync(IRepository repository)
+        private static async Task SeedRoomsAsync(IArpaContext arpaContext)
         {
-            foreach (Room room in RoomSeedData.Rooms)
-            {
-                await repository.AddAsync(room);
-            }
+            await arpaContext.Rooms.AddRangeAsync(RoomSeedData.Rooms);
         }
 
-        private static async Task SeedProjectsAsync(IRepository repository)
+        private static async Task SeedProjectsAsync(IArpaContext arpaContext)
         {
-            foreach (Project project in ProjectSeedData.Projects)
-            {
-                await repository.AddAsync(project);
-            }
+            await arpaContext.Projects.AddRangeAsync(ProjectSeedData.Projects);
         }
 
-        private static async Task SeedMusicianProfilesAsync(IRepository repository)
+        private static async Task SeedMusicianProfilesAsync(IArpaContext arpaContext)
         {
-            foreach (MusicianProfile profile in MusicianProfileSeedData.MusicianProfiles)
-            {
-                await repository.AddAsync(profile);
-            }
+            await arpaContext.MusicianProfiles.AddRangeAsync(MusicianProfileSeedData.MusicianProfiles);
         }
 
-        private static async Task SeedProjectParticipationsAsync(IRepository repository)
+        private static async Task SeedProjectParticipationsAsync(IArpaContext arpaContext)
         {
-            foreach (ProjectParticipation participation in ProjectParticipationSeedData.ProjectParticipations)
-            {
-                await repository.AddAsync(participation);
-            }
+            await arpaContext.ProjectParticipations.AddRangeAsync(ProjectParticipationSeedData.ProjectParticipations);
         }
 
-        private static async Task SeedAppointmentParticipationsAsync(IRepository repository)
+        private static async Task SeedAppointmentParticipationsAsync(IArpaContext arpaContext)
         {
-            foreach (AppointmentParticipation participation in AppointmentParticipationSeedData.AppointmentParticipations)
-            {
-                await repository.AddAsync(participation);
-            }
+            await arpaContext.AppointmentParticipations.AddRangeAsync(AppointmentParticipationSeedData.AppointmentParticipations);
         }
 
         private static async Task SeedUsersAsync(UserManager<User> userManager)

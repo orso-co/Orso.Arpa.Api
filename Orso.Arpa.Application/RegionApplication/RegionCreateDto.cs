@@ -23,7 +23,8 @@ namespace Orso.Arpa.Application.RegionApplication
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(c => c.Name)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(50);
         }
     }
 }

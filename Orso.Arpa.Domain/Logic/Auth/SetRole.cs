@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -29,10 +28,10 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 CascadeMode = CascadeMode.StopOnFirstFailure;
                 RuleFor(c => c.UserName)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
-                    .OnFailure(_ => throw new RestException("User not found", HttpStatusCode.NotFound, new { user = "Not found" }));
+                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Command.UserName), request));
                 RuleFor(c => c.RoleName)
                     .MustAsync(async (roleName, cancellation) => string.IsNullOrEmpty(roleName) || await roleManager.RoleExistsAsync(roleName))
-                    .OnFailure(_ => throw new RestException("Role not found", HttpStatusCode.NotFound, new { role = "Not found" }));
+                    .OnFailure(request => throw new NotFoundException(nameof(Role), nameof(Command.RoleName), request));
             }
         }
 

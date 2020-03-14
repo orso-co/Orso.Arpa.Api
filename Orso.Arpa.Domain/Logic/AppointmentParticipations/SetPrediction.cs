@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
@@ -39,58 +38,50 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IReadOnlyRepository readOnlyRepository)
+            public Validator(IArpaContext arpaContext)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
                 RuleFor(d => d.Id)
-                    .MustAsync(async (id, cancellation) => await readOnlyRepository
-                        .GetByIdAsync<Appointment>(id) != null)
-                    .OnFailure(dto => throw new RestException("Appointment not found", HttpStatusCode.NotFound, new { Appointment = "Not found" }));
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
                 RuleFor(d => d.PersonId)
-                    .MustAsync(async (personId, cancellation) => await readOnlyRepository
-                        .GetByIdAsync<Person>(personId) != null)
-                    .OnFailure(dto => throw new RestException("Person not found", HttpStatusCode.NotFound, new { Person = "Not found" }));
+                    .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
                 RuleFor(d => d.PredictionId)
-                    .MustAsync(async (predictionId, cancellation) => await readOnlyRepository
-                        .GetByIdAsync<SelectValueMapping>(predictionId) != null)
-                    .OnFailure(dto => throw new RestException("Result not found", HttpStatusCode.NotFound, new { Result = "Not found" }));
+                    .EntityExists<Command, SelectValueMapping>(arpaContext, nameof(Command.PredictionId));
             }
         }
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly IRepository _repository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
 
             public Handler(
-                IRepository repository,
-                IUnitOfWork unitOfWork,
+                IArpaContext arpaContext,
                 IMapper mapper)
             {
-                _repository = repository;
-                _unitOfWork = unitOfWork;
+                _arpaContext = arpaContext;
                 _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _repository.GetByIdAsync<Appointment>(request.Id);
+                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(request.Id);
+
                 AppointmentParticipation participation = existingAppointment.AppointmentParticipations
                     .FirstOrDefault(pa => pa.PersonId == request.PersonId);
 
                 if (participation == null)
                 {
                     participation = new AppointmentParticipation(Guid.NewGuid(), _mapper.Map<Command, Create.Command>(request));
-                    await _repository.AddAsync(participation);
+                    await _arpaContext.AppointmentParticipations.AddAsync(participation);
                 }
                 else
                 {
                     _mapper.Map(request, participation);
-                    _repository.Update(participation);
+                    _arpaContext.AppointmentParticipations.Update(participation);
                 }
 
-                if (await _unitOfWork.CommitAsync())
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     return Unit.Value;
                 }

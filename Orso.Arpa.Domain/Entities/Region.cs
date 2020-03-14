@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Orso.Arpa.Domain.Logic.Regions;
 
 namespace Orso.Arpa.Domain.Entities
@@ -15,5 +16,8 @@ namespace Orso.Arpa.Domain.Entities
         }
 
         public string Name { get; private set; }
+
+        public virtual ICollection<Address> Addresses { get; private set; }
+            = new HashSet<Address>();
     }
 }

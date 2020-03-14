@@ -11,6 +11,14 @@ namespace Orso.Arpa.Persistence.Configurations
         {
             builder
                 .HasData(SelectValueSeedData.SelectValues);
+
+            builder
+                .Property(s => s.Name)
+                .HasMaxLength(50);
+
+            builder
+                .Property(s => s.Description)
+                .HasMaxLength(255);
         }
     }
 }

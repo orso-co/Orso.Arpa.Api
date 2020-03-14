@@ -2,11 +2,13 @@ using System;
 using FluentAssertions;
 using FluentValidation.Results;
 using FluentValidation.TestHelper;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.AddProject;
 
@@ -15,66 +17,62 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     [TestFixture]
     public class AddProjectCommandValidatorTests
     {
-        private IReadOnlyRepository _subReadOnlyRepository;
+        private IArpaContext _arpaContext;
         private Validator _validator;
+        private Guid _validAppointmentId;
+        private Guid _validProjectId;
+        private DbSet<Project> _mockProjects;
+        private DbSet<Appointment> _mockAppointments;
+        private DbSet<ProjectAppointment> _mockProjectAppointments;
 
         [SetUp]
         public void SetUp()
         {
-            _subReadOnlyRepository = Substitute.For<IReadOnlyRepository>();
-            _validator = new Validator(
-                _subReadOnlyRepository);
+            _arpaContext = Substitute.For<IArpaContext>();
+            _validator = new Validator(_arpaContext);
+
+            _mockProjects = MockDbSets.Projects;
+            _arpaContext.Set<Project>().Returns(_mockProjects);
+
+            _mockAppointments = MockDbSets.Appointments;
+            _arpaContext.Set<Appointment>().Returns(_mockAppointments);
+
+            _mockProjectAppointments = MockDbSets.ProjectAppointments;
+            _arpaContext.Set<ProjectAppointment>().Returns(_mockProjectAppointments);
+            _arpaContext.ProjectAppointments.Returns(_mockProjectAppointments);
+
+            _validAppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id;
+            _validProjectId = ProjectSeedData.HoorayForHollywood.Id;
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(default(Appointment));
+            Func<ValidationResult> func = () => _validator.Validate(new Command(Guid.NewGuid(), _validProjectId));
 
-            Func<ValidationResult> func = () => _validator.Validate(new Command(Guid.NewGuid(), Guid.NewGuid()));
-
-            func.Should().Throw<RestException>();
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
-            _subReadOnlyRepository.GetByIdAsync<Project>(Arg.Any<Guid>()).Returns(ProjectSeedData.RockingXMas);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, _validProjectId));
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_ProjectId_Does_Not_Exist()
         {
-            _subReadOnlyRepository.GetByIdAsync<Project>(Arg.Any<Guid>()).Returns(default(Project));
-            _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(AppointmentSeedData.RockingXMasRehearsal);
+            Func<ValidationResult> func = () => _validator.Validate(new Command(_validAppointmentId, Guid.NewGuid()));
 
-            Func<ValidationResult> func = () => _validator.Validate(new Command(Guid.NewGuid(), Guid.NewGuid()));
-
-            func.Should().Throw<RestException>();
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_ProjectId_Is_Supplied()
-        {
-            Project project = ProjectSeedData.RockingXMas;
-            _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(AppointmentSeedData.RockingXMasConcert);
-            _subReadOnlyRepository.GetByIdAsync<Project>(Arg.Any<Guid>()).Returns(project);
-
-            _validator.ShouldNotHaveValidationErrorFor(command => command.ProjectId, project.Id);
+            func.Should().Throw<NotFoundException>();
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Project_Is_Already_Linked()
         {
-            Appointment appointment = AppointmentSeedData.RockingXMasRehearsal;
-            Project project = ProjectSeedData.RockingXMas;
-            appointment.ProjectAppointments.Add(new ProjectAppointment(project.Id, appointment.Id));
-            _subReadOnlyRepository.GetByIdAsync<Appointment>(Arg.Any<Guid>()).Returns(appointment);
-            _subReadOnlyRepository.GetByIdAsync<Project>(Arg.Any<Guid>()).Returns(project);
+            Guid linkedProjectId = ProjectSeedData.RockingXMas.Id;
 
-            _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, project.Id);
+            _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, new Command(_validAppointmentId, linkedProjectId));
         }
     }
 }

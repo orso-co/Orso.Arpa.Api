@@ -11,6 +11,18 @@ namespace Orso.Arpa.Persistence.Configurations
         {
             builder
                 .HasData(SelectValueMappingSeedData.SelectValueMappings);
+
+            builder
+                .HasOne(e => e.SelectValue)
+                .WithMany(s => s.SelectValueMappings)
+                .HasForeignKey(e => e.SelectValueId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(e => e.SelectValueCategory)
+                .WithMany(s => s.SelectValueMappings)
+                .HasForeignKey(e => e.SelectValueCategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.Extensions.EntityCreator;
@@ -18,15 +19,11 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
         public class Handler<TEntity> : IRequestHandler<ICreateCommand<TEntity>, TEntity> where TEntity : BaseEntity
         {
-            private readonly IRepository _repository;
-            private readonly IUnitOfWork _unitOfWork;
+            private readonly IArpaContext _arpaContext;
 
-            public Handler(
-                IRepository repository,
-                IUnitOfWork unitOfWork)
+            public Handler(IArpaContext arpaContext)
             {
-                _repository = repository;
-                _unitOfWork = unitOfWork;
+                _arpaContext = arpaContext;
             }
 
             public async Task<TEntity> Handle(ICreateCommand<TEntity> request, CancellationToken cancellationToken)
@@ -38,11 +35,11 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 TEntity newEntity = createdActivator(Guid.NewGuid(), request);
 
-                TEntity createdEntity = await _repository.AddAsync(newEntity);
+                EntityEntry<TEntity> createResult = _arpaContext.Add(newEntity);
 
-                if (await _unitOfWork.CommitAsync())
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
-                    return createdEntity;
+                    return createResult.Entity;
                 }
 
                 throw new Exception($"Problem creating {newEntity.GetType().Name}");

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -67,7 +67,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         }
 
         [Test]
-        public void Should_Throw_Rest_Exception_If_No_UserName_Claim_Can_Be_Found()
+        public void Should_Throw_Authentication_Exception_If_No_UserName_Claim_Can_Be_Found()
         {
             // Arrange
             _httpContextAccessor.HttpContext.User.Returns(default(ClaimsPrincipal));
@@ -76,7 +76,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             Func<string> fct = () => _userAccessor.UserName;
 
             // Assert
-            fct.Should().Throw<RestException>();
+            fct.Should().Throw<AuthenticationException>();
         }
 
         [Test]

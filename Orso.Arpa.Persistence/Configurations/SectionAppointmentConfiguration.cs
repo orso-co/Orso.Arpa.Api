@@ -9,6 +9,18 @@ namespace Orso.Arpa.Persistence.Configurations
         public void Configure(EntityTypeBuilder<SectionAppointment> builder)
         {
             builder.HasKey(e => new { e.SectionId, e.AppointmentId });
+
+            builder
+                .HasOne(e => e.Section)
+                .WithMany(s => s.SectionAppointments)
+                .HasForeignKey(e => e.SectionId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(e => e.Appointment)
+                .WithMany(a => a.SectionAppointments)
+                .HasForeignKey(e => e.AppointmentId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

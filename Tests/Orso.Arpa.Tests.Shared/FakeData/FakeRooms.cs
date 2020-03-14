@@ -15,5 +15,15 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 return room;
             }
         }
+
+        public static Room MusikraumWeiherhofSchule
+        {
+            get
+            {
+                Room room = RoomSeedData.MusikraumWeiherhofSchule;
+                room.SetProperty(nameof(Room.CreatedBy), "anonymous");
+                return room;
+            }
+        }
     }
 }

@@ -6,7 +6,6 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.AppointmentParticipations;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -16,28 +15,27 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTe
     [TestFixture]
     public class SetResultHandlerTests
     {
-        private IRepository _repository;
-        private IUnitOfWork _unitOfWork;
         private IMapper _mapper;
+        private IArpaContext _arpaContext;
         private SetResult.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
-            _repository = Substitute.For<IRepository>();
-            _unitOfWork = Substitute.For<IUnitOfWork>();
+            _arpaContext = Substitute.For<IArpaContext>();
             _mapper = Substitute.For<IMapper>();
-            _handler = new SetResult.Handler(_repository, _unitOfWork, _mapper);
+            _handler = new SetResult.Handler(_arpaContext, _mapper);
         }
 
         [Test]
         public async Task Should_Set_Result()
         {
             // Arrange
-            _repository.GetByIdAsync<Appointment>(Arg.Any<Guid>())
+            _arpaContext.Appointments
+                    .FindAsync(Arg.Any<Guid>())
                 .Returns(AppointmentSeedData.RockingXMasConcert);
-            _unitOfWork.CommitAsync()
-                .Returns(true);
+            _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
+                .Returns(1);
             _mapper.Map<SetResult.Command, Create.Command>(Arg.Any<SetResult.Command>())
                 .Returns(new Create.Command());
 

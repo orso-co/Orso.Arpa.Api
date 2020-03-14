@@ -1,9 +1,9 @@
 using System;
-using System.Net;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Modify;
 
@@ -29,14 +29,16 @@ namespace Orso.Arpa.Domain.Logic.Regions
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IReadOnlyRepository repository)
+            public Validator(IArpaContext arpaContext)
             {
                 CascadeMode = CascadeMode.StopOnFirstFailure;
+
                 RuleFor(c => c.Id)
-                    .Must(id => repository.Exists<Region>(id))
-                    .OnFailure(dto => throw new RestException("Region not found", HttpStatusCode.NotFound, new { Id = "Not found" }));
+                    .EntityExists<Command, Region>(arpaContext, nameof(Command.Id));
+
                 RuleFor(c => c.Name)
-                    .Must((dto, name) => !repository.Exists<Region>(r => r.Name == name && r.Id != dto.Id))
+                    .MustAsync(async (dto, name, cancellation) => !(await arpaContext.Regions
+                        .AnyAsync(r => r.Name.ToLower() == name.ToLower() && r.Id != dto.Id, cancellation)))
                     .WithMessage("A region with the requested name does already exist");
             }
         }

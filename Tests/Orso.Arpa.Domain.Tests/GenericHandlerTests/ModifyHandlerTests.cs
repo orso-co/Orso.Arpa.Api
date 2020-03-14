@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -16,18 +15,16 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
     [TestFixture]
     public class ModifyHandlerTests
     {
-        private IRepository _repository;
-        private IUnitOfWork _unitOfWork;
+        private IArpaContext _arpaContext;
         private IMapper _mapper;
         private Modify.Handler<Appointment> _handler;
 
         [SetUp]
         public void Setup()
         {
-            _repository = Substitute.For<IRepository>();
-            _unitOfWork = Substitute.For<IUnitOfWork>();
+            _arpaContext = Substitute.For<IArpaContext>();
             _mapper = Substitute.For<IMapper>();
-            _handler = new Modify.Handler<Appointment>(_repository, _unitOfWork, _mapper);
+            _handler = new Modify.Handler<Appointment>(_arpaContext, _mapper);
         }
 
         [Test]
@@ -35,10 +32,10 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         {
             // Arrange
             Appointment expectedAppointment = AppointmentSeedData.RockingXMasConcert;
-            _repository.GetByIdAsync<Appointment>(Arg.Any<Guid>())
+            _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
                 .Returns(expectedAppointment);
-            _unitOfWork.CommitAsync()
-                .Returns(true);
+            _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
+                .Returns(1);
 
             // Act
             Unit result = await _handler.Handle(new Logic.Appointments.Modify.Command(), new CancellationToken());

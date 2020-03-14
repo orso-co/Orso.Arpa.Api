@@ -1,7 +1,5 @@
 using System;
-using System.Net;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Errors;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
 {
@@ -37,7 +35,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 DateRange.Month => FirstDayOfMonth(date),
                 DateRange.Week => FirstDayOfWeek(date),
                 DateRange.Day => date.Date,
-                _ => throw new RestException("Requested DateRange is not supported", HttpStatusCode.BadRequest),
+                _ => throw new NotSupportedException("Requested DateRange is not supported"),
             };
         }
 
@@ -48,7 +46,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 DateRange.Month => LastDayOfMonth(date),
                 DateRange.Week => LastDayOfWeek(date),
                 DateRange.Day => new DateTime(date.Year, date.Month, date.Day, 23, 59, 59),
-                _ => throw new RestException("Requested DateRange is not supported", HttpStatusCode.BadRequest),
+                _ => throw new NotSupportedException("Requested DateRange is not supported"),
             };
         }
     }

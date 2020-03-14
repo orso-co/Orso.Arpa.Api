@@ -11,6 +11,10 @@ namespace Orso.Arpa.Persistence.Configurations
         {
             builder
                 .HasData(RegionSeedData.Regions);
+
+            builder
+                .Property(e => e.Name)
+                .HasMaxLength(50);
         }
     }
 }

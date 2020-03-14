@@ -127,16 +127,20 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address1")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Address2")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -161,13 +165,15 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("UrbanDistrict")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Zip")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(10);
 
                     b.HasKey("Id");
 
@@ -209,7 +215,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("InternalDetails")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -218,10 +225,12 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("PublicDetails")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
@@ -310,38 +319,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.ToTable("AppointmentRooms");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.ConcertRoom", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("RoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoomId")
-                        .IsUnique();
-
-                    b.ToTable("ConcertRooms");
-                });
-
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -397,7 +374,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("GivenName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -406,7 +384,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -429,7 +408,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
 
                     b.Property<Guid?>("GenreId")
                         .HasColumnType("uniqueidentifier");
@@ -450,7 +430,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -534,7 +515,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -562,38 +544,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Name = "Berlin"
                         });
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.RehearsalRoom", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("RoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoomId")
-                        .IsUnique();
-
-                    b.ToTable("RehearsalRooms");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Role", b =>
@@ -634,7 +584,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Building")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -646,7 +597,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Floor")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -655,7 +607,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<Guid>("VenueId")
                         .HasColumnType("uniqueidentifier");
@@ -689,7 +642,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
@@ -953,7 +907,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -962,7 +917,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -1353,13 +1309,16 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Property")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Table")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -1980,7 +1939,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AddressId")
+                    b.Property<Guid?>("AddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1993,7 +1952,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
@@ -2002,11 +1962,14 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AddressId")
+                        .IsUnique()
+                        .HasFilter("[AddressId] IS NOT NULL");
 
                     b.ToTable("Venues");
                 });
@@ -2082,35 +2045,42 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Address", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId");
+                        .WithMany("Addresses")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Appointment", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .WithMany("AppointmentsAsCategory")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Emolument")
-                        .WithMany()
-                        .HasForeignKey("EmolumentId");
+                        .WithMany("AppointmentsAsEmolument")
+                        .HasForeignKey("EmolumentId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "EmolumentPattern")
-                        .WithMany()
-                        .HasForeignKey("EmolumentPatternId");
+                        .WithMany("AppointmentsAsEmolumentPattern")
+                        .HasForeignKey("EmolumentPatternId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Expectation")
-                        .WithMany()
-                        .HasForeignKey("ExpectationId");
+                        .WithMany("AppointmentsAsExpectation")
+                        .HasForeignKey("ExpectationId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId");
+                        .WithMany("AppointmentsAsStatus")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
-                        .WithMany()
-                        .HasForeignKey("VenueId");
+                        .WithMany("Appointments")
+                        .HasForeignKey("VenueId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.AppointmentParticipation", b =>
@@ -2128,12 +2098,14 @@ namespace Orso.Arpa.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Prediction")
-                        .WithMany()
-                        .HasForeignKey("PredictionId");
+                        .WithMany("AppointmentParticipationsAsPrediction")
+                        .HasForeignKey("PredictionId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Result")
-                        .WithMany()
-                        .HasForeignKey("ResultId");
+                        .WithMany("AppointmentParticipationsAsResult")
+                        .HasForeignKey("ResultId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.AppointmentRoom", b =>
@@ -2145,17 +2117,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
-                        .WithMany()
+                        .WithMany("AppointmentRooms")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.ConcertRoom", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
-                        .WithOne("ConcertRoom")
-                        .HasForeignKey("Orso.Arpa.Domain.Entities.ConcertRoom", "RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2178,12 +2141,14 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Project", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId");
+                        .WithMany("ProjectsAsGenre")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Parent")
                         .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.ProjectAppointment", b =>
@@ -2216,15 +2181,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.RehearsalRoom", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
-                        .WithOne("RehearsalRoom")
-                        .HasForeignKey("Orso.Arpa.Domain.Entities.RehearsalRoom", "RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Room", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
@@ -2238,7 +2194,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Parent")
                         .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.SectionAppointment", b =>
@@ -2274,7 +2231,7 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.User", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
-                        .WithOne("user")
+                        .WithOne("User")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.User", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2283,21 +2240,22 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Venue", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne("Venue")
+                        .HasForeignKey("Orso.Arpa.Domain.Entities.Venue", "AddressId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.PersonAddress", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("Addresses")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId");
+                        .WithMany("PersonAddresses")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 #pragma warning restore 612, 618
         }

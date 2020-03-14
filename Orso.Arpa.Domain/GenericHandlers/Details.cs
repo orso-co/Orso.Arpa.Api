@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -23,21 +22,21 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
         public class Handler<TEntity> : IRequestHandler<Query<TEntity>, TEntity> where TEntity : BaseEntity
         {
-            private readonly IReadOnlyRepository _repository;
+            private readonly IArpaContext _context;
 
-            public Handler(
-                IReadOnlyRepository repository)
+            public Handler(IArpaContext context)
             {
-                _repository = repository;
+                _context = context;
             }
 
             public async Task<TEntity> Handle(Query<TEntity> request, CancellationToken cancellationToken)
             {
-                TEntity entity = await _repository.GetByIdAsync<TEntity>(request.Id);
+                TEntity entity = await _context
+                    .FindAsync<TEntity>(new object[] { request.Id }, cancellationToken);
 
                 if (entity == null)
                 {
-                    throw new RestException($"{entity.GetType().Name} not found", HttpStatusCode.NotFound, new { Entity = "Not found" });
+                    throw new NotFoundException(typeof(TEntity).Name, nameof(request.Id), request);
                 }
 
                 return entity;

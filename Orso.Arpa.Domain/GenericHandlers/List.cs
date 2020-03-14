@@ -33,17 +33,16 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
         public class Handler<TEntity> : IRequestHandler<Query<TEntity>, IQueryable<TEntity>> where TEntity : BaseEntity
         {
-            private readonly IReadOnlyRepository _repository;
+            private readonly IArpaContext _context;
 
-            public Handler(
-                IReadOnlyRepository repository)
+            public Handler(IArpaContext context)
             {
-                _repository = repository;
+                _context = context;
             }
 
             public Task<IQueryable<TEntity>> Handle(Query<TEntity> request, CancellationToken cancellationToken)
             {
-                IQueryable<TEntity> query = _repository.GetAll<TEntity>();
+                IQueryable<TEntity> query = _context.Set<TEntity>();
 
                 if (request.Predicate != null)
                 {

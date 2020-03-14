@@ -1,13 +1,11 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AddressApplication;
 using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.RoomApplication;
 using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -34,8 +32,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Venue venue = VenueSeedData.WeiherhofSchule;
-            venue.Rooms.Add(RoomSeedData.AulaWeiherhofSchule);
+            Venue venue = FakeVenues.WeiherhofSchule;
             VenueDto expectedDto = VenueDtoData.WeiherhofSchule;
 
             // Act
@@ -43,13 +40,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dto => dto.CreatedBy)
                 .Excluding(dto => dto.AddressId)
                 .Excluding(dto => dto.Rooms));
             dto.AddressId.Should().Be(expectedDto.Id);
-            dto.Rooms.Count.Should().Be(1);
-            dto.Rooms[0].Should().BeEquivalentTo(expectedDto.Rooms[0], opt => opt
-                .Excluding(dto => dto.CreatedBy));
+            dto.Rooms.Should().BeEquivalentTo(expectedDto.Rooms);
         }
     }
 }

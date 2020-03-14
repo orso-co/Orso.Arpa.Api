@@ -24,16 +24,16 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
 
         public class Handler : IRequestHandler<Query, AppointmentParticipation>
         {
-            private readonly IReadOnlyRepository _readOnlyRepository;
+            private readonly IArpaContext _arpaContext;
 
-            public Handler(IReadOnlyRepository readOnlyRepository)
+            public Handler(IArpaContext arpaContext)
             {
-                _readOnlyRepository = readOnlyRepository;
+                _arpaContext = arpaContext;
             }
 
             public async Task<AppointmentParticipation> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _readOnlyRepository.GetAll<AppointmentParticipation>()
+                return await _arpaContext.AppointmentParticipations
                     .SingleOrDefaultAsync(ap => ap.AppointmentId == request.AppointmentId && ap.PersonId == request.PersonId);
             }
         }

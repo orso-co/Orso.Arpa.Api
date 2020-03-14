@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Mime;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
@@ -48,26 +49,36 @@ namespace Orso.Arpa.Api.Middleware
             ErrorMessage errorMessage = null;
             switch (ex)
             {
-                case RestException re:
-                    _logger.LogError(ex, "REST ERROR");
-                    errorMessage = new ErrorMessage { Message = re.Message, Errors = re.Errors };
-                    context.Response.StatusCode = (int)re.Code;
-                    break;
-
                 case IdentityException ie:
-                    _logger.LogError(ex, "IDENTITY ERROR");
+                    _logger.LogError(ie, "IDENTITY ERROR");
                     errorMessage = new ErrorMessage { Message = ie.Message, Errors = ie.IdentityErrors };
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
 
                 case ValidationException ve:
-                    _logger.LogError(ex, "DOMAIN VALIDATION ERROR");
+                    _logger.LogError(ve, "DOMAIN VALIDATION ERROR");
                     errorMessage = new ErrorMessage { Message = ve.Message, Errors = ve.Errors };
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;
 
+                case AuthenticationException ae:
+                    _logger.LogError(ae, "AUTHENTICATION ERROR");
+                    errorMessage = new ErrorMessage { Message = ae.Message };
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
+
+                case NotFoundException nfe:
+                    _logger.LogError(nfe, "NOT FOUND ERROR");
+                    errorMessage = new ErrorMessage
+                    {
+                        Message = nfe.Message,
+                        Errors = new { Property = nfe.PropertyName, Message = $"{nfe.TypeName} not found" }
+                    };
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+
                 case Exception e:
-                    _logger.LogError(ex, "SERVER ERROR");
+                    _logger.LogError(e, "SERVER ERROR");
                     errorMessage = new ErrorMessage { Message = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message };
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
