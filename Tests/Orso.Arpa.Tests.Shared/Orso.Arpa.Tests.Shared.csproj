@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="28.4.3" />
+    <PackageReference Include="Bogus" Version="32.0.2" />
     <PackageReference Include="MockQueryable.NSubstitute" Version="3.0.1" />
     <PackageReference Include="NSubstitute" Version="4.2.2" />
   </ItemGroup>
