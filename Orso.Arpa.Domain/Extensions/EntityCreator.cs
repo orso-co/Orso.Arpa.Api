@@ -14,7 +14,6 @@ namespace Orso.Arpa.Domain.Extensions
 
         public static ObjectActivator<T> GetActivator<T>(ConstructorInfo ctor)
         {
-            Type type = ctor.DeclaringType;
             ParameterInfo[] paramsInfo = ctor.GetParameters();
 
             //create a single param of type object[]

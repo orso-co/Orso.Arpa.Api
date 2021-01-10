@@ -22,7 +22,6 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public SetRoleDtoValidator()
         {
-            CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(c => c.UserName)
                 .NotEmpty();
         }

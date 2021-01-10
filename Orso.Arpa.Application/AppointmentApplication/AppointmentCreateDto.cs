@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentCreateDtoValidator()
         {
-            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(d => d)
                 .NotNull();
             RuleFor(d => d.CategoryId)

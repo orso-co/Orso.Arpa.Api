@@ -18,7 +18,6 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public UserRegisterDtoValidator()
         {
-            CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(c => c.UserName)
                 .NotEmpty();
             RuleFor(c => c.Password)

@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Logic.Regions
         {
             public Validator(IArpaContext arpaContext)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
 
                 RuleFor(c => c.Id)
                     .EntityExists<Command, Region>(arpaContext, nameof(Command.Id));

@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentAddProjectDtoValidator()
         {
-            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(d => d)
                 .NotNull();
             RuleFor(d => d.Id)
