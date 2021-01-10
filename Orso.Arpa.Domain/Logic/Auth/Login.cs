@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             public Validator(UserManager<User> userManager)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
                 RuleFor(q => q.UserName)
                     .MustAsync(async (userName, cancellation) => await userManager.FindByNameAsync(userName) != null)
                     .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Query.UserName), null)); // don't send request with exception as it contains the password

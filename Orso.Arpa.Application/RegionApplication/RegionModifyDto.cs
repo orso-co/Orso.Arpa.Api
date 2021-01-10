@@ -24,7 +24,6 @@ namespace Orso.Arpa.Application.RegionApplication
     {
         public RegionModifyDtoValidator()
         {
-            CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(c => c.Id)
                 .NotEmpty();
             RuleFor(c => c.Name)

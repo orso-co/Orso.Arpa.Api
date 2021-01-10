@@ -25,7 +25,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             public Validator(UserManager<User> userManager)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
                 RuleFor(c => c.UserName)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) == null)
                     .WithMessage("Username aleady exists");

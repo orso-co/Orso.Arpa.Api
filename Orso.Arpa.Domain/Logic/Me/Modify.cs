@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Logic.Me
         {
             public Validator(UserManager<User> userManager, IUserAccessor userAccessor)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
                 RuleFor(c => c.Email)
                     .MustAsync(async (dto, email, cancellation) =>
                     {

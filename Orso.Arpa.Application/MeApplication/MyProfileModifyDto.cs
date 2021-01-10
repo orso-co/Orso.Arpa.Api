@@ -24,7 +24,6 @@ namespace Orso.Arpa.Application.MeApplication
     {
         public MyProfileModifyDtoValidator()
         {
-            CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(c => c.Email)
                 .NotEmpty()
                 .EmailAddress();

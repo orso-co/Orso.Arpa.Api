@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentRemoveRoomDtoValidator()
         {
-            CascadeMode = CascadeMode.StopOnFirstFailure;
+            
             RuleFor(d => d)
                 .NotNull();
             RuleFor(d => d.Id)

@@ -22,7 +22,7 @@ namespace Orso.Arpa.Domain.PipelineBehaviors
             CancellationToken cancellationToken,
             RequestHandlerDelegate<TResponse> next)
         {
-            var context = new ValidationContext(request);
+            var context = new ValidationContext<TRequest>(request);
             var failures = _validators
                 .Select(v => v.Validate(context))
                 .SelectMany(x => x.Errors)

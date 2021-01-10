@@ -23,7 +23,6 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public ChangePasswordDtoValidator()
         {
-            CascadeMode = CascadeMode.StopOnFirstFailure;
             RuleFor(c => c.NewPassword)
                 .Password();
             RuleFor(c => c.CurrentPassword)

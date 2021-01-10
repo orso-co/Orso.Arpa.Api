@@ -25,7 +25,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 UserManager<User> userManager,
                 RoleManager<Role> roleManager)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
                 RuleFor(c => c.UserName)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
                     .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Command.UserName), request));

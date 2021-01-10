@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
                 RuleFor(d => d.ProjectId)
                     .MustAsync(async (dto, projectId, cancellation) => await arpaContext.ProjectAppointments
                         .AnyAsync(pa => pa.AppointmentId == dto.Id && pa.ProjectId == projectId, cancellation))

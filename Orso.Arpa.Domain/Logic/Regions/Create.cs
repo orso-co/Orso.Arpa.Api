@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.Logic.Regions
         {
             public Validator(IArpaContext arpaContext)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
 
                 RuleFor(c => c.Name)
                     .MustAsync(async (name, cancellation) => !(await arpaContext.Regions

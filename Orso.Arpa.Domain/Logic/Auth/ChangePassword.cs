@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 UserManager<User> userManager,
                 IUserAccessor userAccessor)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
                 RuleFor(c => c.CurrentPassword)
                     .MustAsync(async (oldPassword, cancellation) =>
                     {

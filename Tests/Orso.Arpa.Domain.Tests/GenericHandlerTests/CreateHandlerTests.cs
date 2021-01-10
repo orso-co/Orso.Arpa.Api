@@ -37,9 +37,13 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
             Model model = Substitute.For<Model>();
 
             EntityEntry<Appointment> returnedEntityEntry = Substitute.For<EntityEntry<Appointment>>(
+#pragma warning disable EF1001 // Internal EF Core API usage.
                 new InternalShadowEntityEntry(
+#pragma warning restore EF1001 // Internal EF Core API usage.
                     iStateManager,
+#pragma warning disable EF1001 // Internal EF Core API usage.
                     new EntityType("Appointment", model, ConfigurationSource.Convention)));
+#pragma warning restore EF1001 // Internal EF Core API usage.
             returnedEntityEntry.Entity.Returns(expectedAppointment);
 
             _arpaContext.Add(Arg.Any<Appointment>())

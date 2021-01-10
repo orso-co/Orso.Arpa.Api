@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext, IMapper mapper)
             {
-                CascadeMode = CascadeMode.StopOnFirstFailure;
+                
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
                 RuleFor(d => d.EndTime)
