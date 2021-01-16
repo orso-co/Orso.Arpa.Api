@@ -9,7 +9,7 @@ namespace Orso.Arpa.Mail.Tests
     [TestFixture]
     public class EmailSenderTests
     {
-        private EmailConfiguration emailConfiguration;
+        private EmailConfiguration _emailConfiguration;
         private SimpleSmtpServer _server;
 
         [SetUp]
@@ -18,7 +18,7 @@ namespace Orso.Arpa.Mail.Tests
             _server = Configuration.Configure()
                 .WithPort(25)
                 .Build();
-            emailConfiguration = new EmailConfiguration()
+            _emailConfiguration = new EmailConfiguration()
             {
                 From = "sender@test.de",
                 Port = _server.Configuration.Port,
@@ -29,7 +29,7 @@ namespace Orso.Arpa.Mail.Tests
         private EmailSender CreateEmailSender()
         {
             return new EmailSender(
-                emailConfiguration);
+                _emailConfiguration);
         }
 
         [Test]

@@ -49,5 +49,11 @@ namespace Orso.Arpa.Application.Services
             ForgotPassword.Command command = _mapper.Map<ForgotPassword.Command>(forgotPassswordDto);
             await _mediator.Send(command);
         }
+
+        public async Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
+        {
+            ResetPassword.Command command = _mapper.Map<ResetPassword.Command>(resetPasswordDto);
+            await _mediator.Send(command);
+        }
     }
 }

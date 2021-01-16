@@ -14,5 +14,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task SetRoleAsync(SetRoleDto setRoleDto);
 
         Task ForgotPasswordAsync(ForgotPasswordDto forgotPassswordDto);
+
+        Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
     }
 }

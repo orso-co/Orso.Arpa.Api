@@ -41,6 +41,16 @@ namespace Orso.Arpa.Api.Controllers
             return NoContent();
         }
 
+        [HttpPost("resetpassword")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            await _authService.ResetPasswordAsync(resetPasswordDto);
+            return NoContent();
+        }
+
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
