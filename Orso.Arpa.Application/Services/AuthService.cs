@@ -44,9 +44,10 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public Task ForgotPasswordAsync(ForgotPassswordDto forgotPassswordDto)
+        public async Task ForgotPasswordAsync(ForgotPasswordDto forgotPassswordDto)
         {
-            throw new System.NotImplementedException();
+            ForgotPassword.Command command = _mapper.Map<ForgotPassword.Command>(forgotPassswordDto);
+            await _mediator.Send(command);
         }
     }
 }

@@ -19,6 +19,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Password() => $"{Auth}/password";
 
             public static string SetRole() => $"{Auth}/role";
+
+            public static string ForgotPassword() => $"{Auth}/forgotpassword";
         }
 
         public static class UsersController

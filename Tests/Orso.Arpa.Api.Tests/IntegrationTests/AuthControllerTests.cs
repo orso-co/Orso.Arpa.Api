@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
+using netDumbster.smtp;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication;
@@ -18,6 +19,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class AuthControllerTests : IntegrationTestBase
     {
+        private SimpleSmtpServer _fakeSmtpServer;
+
+        [TearDown]
+        [SetUp]
+        public void SetupAndTearDown()
+        {
+            if (_fakeSmtpServer != null)
+            {
+                _fakeSmtpServer.Stop();
+                _fakeSmtpServer.Dispose();
+            }
+        }
+
         [Test]
         public async Task Should_Login()
         {
@@ -251,6 +265,32 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(expectedStatusCode);
+        }
+
+        [Test]
+        public async Task Should_Send_Email_For_Password_Reset()
+        {
+            // Arrange
+            _fakeSmtpServer = Configuration.Configure()
+                 .WithPort(25)
+                 .Build();
+
+            User user = UserSeedData.Orsianer;
+            var forgotPasswordDto = new ForgotPasswordDto
+            {
+                UserName = user.UserName,
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.ForgotPassword(), BuildStringContent(forgotPasswordDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+
+            _fakeSmtpServer.Stop();
         }
     }
 }

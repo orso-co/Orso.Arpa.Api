@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -15,12 +16,6 @@ namespace Orso.Arpa.Mail
         public EmailSender(EmailConfiguration emailConfig)
         {
             _emailConfig = emailConfig;
-        }
-
-        public void SendEmail(EmailMessage emailMessage)
-        {
-            MimeMessage mimeMessage = CreateEmailMessage(emailMessage);
-            Send(mimeMessage);
         }
 
         public async Task SendEmailAsync(EmailMessage emailMessage)
@@ -46,42 +41,25 @@ namespace Orso.Arpa.Mail
             return mimeMessage;
         }
 
-        private void Send(MimeMessage mimeMessage)
-        {
-            using var client = new SmtpClient();
-            try
-            {
-                client.Connect(_emailConfig.SmtpServer, _emailConfig.Port, true);
-                client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
-                client.Send(mimeMessage);
-            }
-            catch
-            {
-                //log an error message or throw an exception or both.
-                throw;
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-        }
-
         private async Task SendAsync(MimeMessage mimeMessage)
         {
             using var client = new SmtpClient();
+
             try
             {
-                await client.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, true);
+                await client.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, _emailConfig.Port == 465);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
+
+                if (!string.IsNullOrWhiteSpace(_emailConfig.UserName) && !string.IsNullOrWhiteSpace(_emailConfig.Password))
+                {
+                    await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
+                }
+
                 await client.SendAsync(mimeMessage);
             }
-            catch
+            catch (Exception ex)
             {
-                //log an error message or throw an exception, or both.
-                throw;
+                throw new EmailException("Error sending an email", ex);
             }
             finally
             {

@@ -5,19 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Infrastructure.Authorization;
-using Orso.Arpa.Mail;
 
 namespace Orso.Arpa.Api.Controllers
 {
     public class AuthController : BaseController
     {
         private readonly IAuthService _authService;
-        private readonly IEmailSender _emailSender;
 
-        public AuthController(IAuthService authService, IEmailSender emailSender)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
-            _emailSender = emailSender;
         }
 
         [HttpPost("login")]
@@ -38,19 +35,10 @@ namespace Orso.Arpa.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPassswordDto forgotPassswordDto)
+        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPassswordDto)
         {
             await _authService.ForgotPasswordAsync(forgotPassswordDto);
             return NoContent();
-        }
-
-        [HttpPost("testemail")]
-        [AllowAnonymous]
-        public async Task<ActionResult<bool>> Email()
-        {
-            var message = new EmailMessage(new string[] { "mira@gutfrau.de" }, "Test mail with Attachments", "<b>This is the content from our mail with attachments.</b>", true);
-            await _emailSender.SendEmailAsync(message);
-            return true;
         }
 
         [HttpPut("password")]

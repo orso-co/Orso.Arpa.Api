@@ -44,6 +44,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
+                // ToDo: E-Mail Message und Subject definieren. Frontend-Link einfügen
+
                 var message = new EmailMessage(new string[] { user.Email }, "Reset password token", token, false);
                 await _emailSender.SendEmailAsync(message);
 

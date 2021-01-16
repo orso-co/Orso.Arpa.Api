@@ -129,5 +129,26 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Assert
             func.Should().NotThrow();
         }
+
+        [Test]
+        public void Should_Forgot_Password()
+        {
+            // Arrange
+            var forgotPasswordDto = new ForgotPasswordDto
+            {
+                UserName = "Username"
+            };
+            _mapper.Map<ForgotPassword.Command>(forgotPasswordDto)
+                .Returns(new ForgotPassword.Command
+                {
+                    UserName = "Username"
+                });
+
+            // Act
+            Func<Task> func = async () => await _authService.ForgotPasswordAsync(forgotPasswordDto);
+
+            // Assert
+            func.Should().NotThrow();
+        }
     }
 }

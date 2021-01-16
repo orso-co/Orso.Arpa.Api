@@ -107,5 +107,10 @@ namespace Orso.Arpa.Tests.Shared.Identity
             }
             return Task.FromResult(false);
         }
+
+        public override Task<string> GeneratePasswordResetTokenAsync(User user)
+        {
+            return Task.FromResult("PasswordResetToken");
+        }
     }
 }
