@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -32,6 +33,7 @@ using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+using Orso.Arpa.Mail;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
@@ -151,7 +153,7 @@ namespace Orso.Arpa.Api
             });
         }
 
-        private static void RegisterServices(IServiceCollection services)
+        private void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
@@ -170,6 +172,11 @@ namespace Orso.Arpa.Api
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
+            EmailConfiguration emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -183,6 +190,9 @@ namespace Orso.Arpa.Api
                 .AddDefaultTokenProviders()
                 .AddRoleValidator<RoleValidator<Role>>()
                 .AddRoleManager<RoleManager<Role>>();
+
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromHours(3));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

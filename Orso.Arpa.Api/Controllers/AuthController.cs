@@ -5,36 +5,48 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Infrastructure.Authorization;
+using Orso.Arpa.Mail;
 
 namespace Orso.Arpa.Api.Controllers
 {
     public class AuthController : BaseController
     {
         private readonly IAuthService _authService;
+        private readonly IEmailSender _emailSender;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IEmailSender emailSender)
         {
             _authService = authService;
+            _emailSender = emailSender;
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenDto>> Login([FromBody]LoginDto loginDto)
+        public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
         {
             return await _authService.LoginAsync(loginDto);
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenDto>> Register([FromBody]UserRegisterDto registerDto)
+        public async Task<ActionResult<TokenDto>> Register([FromBody] UserRegisterDto registerDto)
         {
             return await _authService.RegisterAsync(registerDto);
+        }
+
+        [HttpPost("email")]
+        [AllowAnonymous]
+        public async Task<ActionResult<bool>> Email()
+        {
+            var message = new EmailMessage(new string[] { "mira@gutfrau.de" }, "Test mail with Attachments", "<b>This is the content from our mail with attachments.</b>", true);
+            await _emailSender.SendEmailAsync(message);
+            return true;
         }
 
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
             await _authService.ChangePasswordAsync(changePasswordDto);
             return NoContent();
@@ -44,7 +56,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> SetRole([FromBody]SetRoleDto setRoleDto)
+        public async Task<ActionResult> SetRole([FromBody] SetRoleDto setRoleDto)
         {
             await _authService.SetRoleAsync(setRoleDto);
             return NoContent();
