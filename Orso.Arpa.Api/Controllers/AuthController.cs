@@ -34,7 +34,17 @@ namespace Orso.Arpa.Api.Controllers
             return await _authService.RegisterAsync(registerDto);
         }
 
-        [HttpPost("email")]
+        [HttpPost("forgotpassword")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPassswordDto forgotPassswordDto)
+        {
+            await _authService.ForgotPasswordAsync(forgotPassswordDto);
+            return NoContent();
+        }
+
+        [HttpPost("testemail")]
         [AllowAnonymous]
         public async Task<ActionResult<bool>> Email()
         {

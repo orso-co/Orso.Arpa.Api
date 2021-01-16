@@ -43,5 +43,10 @@ namespace Orso.Arpa.Application.Services
             SetRole.Command command = _mapper.Map<SetRole.Command>(setRoleDto);
             await _mediator.Send(command);
         }
+
+        public Task ForgotPasswordAsync(ForgotPassswordDto forgotPassswordDto)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

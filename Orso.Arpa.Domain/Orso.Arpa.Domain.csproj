@@ -19,4 +19,8 @@
   <ItemGroup>
     <Folder Include="Logic\SelectValueMappings\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Orso.Arpa.Mail\Orso.Arpa.Mail.csproj" />
+  </ItemGroup>
 </Project>
