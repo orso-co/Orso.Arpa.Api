@@ -268,7 +268,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test]
-        public async Task Should_Send_Email_For_Password_Reset()
+        public async Task Should_Reset_Password()
         {
             // Arrange
             _fakeSmtpServer = Configuration.Configure()
@@ -289,8 +289,25 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            var resetPasswordToken = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData;
 
             _fakeSmtpServer.Stop();
+
+            // Arrange
+            var resetPasswordDto = new ResetPasswordDto
+            {
+                UserName = user.UserName,
+                Password = UserSeedData.ValidPassword,
+                Token = resetPasswordToken
+            };
+
+            // Act
+            HttpResponseMessage resetResponseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.ResetPassword(), BuildStringContent(resetPasswordDto));
+
+            // Assert
+            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

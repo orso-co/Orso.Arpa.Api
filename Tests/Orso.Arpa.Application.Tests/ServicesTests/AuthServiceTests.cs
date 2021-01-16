@@ -131,7 +131,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         }
 
         [Test]
-        public void Should_Forgot_Password()
+        public void Should_Handle_Forgot_Password()
         {
             // Arrange
             var forgotPasswordDto = new ForgotPasswordDto
@@ -146,6 +146,31 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
 
             // Act
             Func<Task> func = async () => await _authService.ForgotPasswordAsync(forgotPasswordDto);
+
+            // Assert
+            func.Should().NotThrow();
+        }
+
+        [Test]
+        public void Should_Reset_Password()
+        {
+            // Arrange
+            var resetPasswordDto = new ResetPasswordDto
+            {
+                UserName = "Username",
+                Password = "Password",
+                Token = "Token"
+            };
+            _mapper.Map<ResetPassword.Command>(resetPasswordDto)
+                .Returns(new ResetPassword.Command
+                {
+                    UserName = "Username",
+                    Password = "Password",
+                    Token = "Token"
+                });
+
+            // Act
+            Func<Task> func = async () => await _authService.ResetPasswordAsync(resetPasswordDto);
 
             // Assert
             func.Should().NotThrow();

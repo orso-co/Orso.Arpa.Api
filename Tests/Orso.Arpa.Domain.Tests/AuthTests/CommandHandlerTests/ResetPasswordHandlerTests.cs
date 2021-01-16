@@ -3,37 +3,35 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Mail;
 using Orso.Arpa.Tests.Shared.Identity;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 {
-    public class ForgotPasswordHandlerTests
+    public class ResetPasswordHandlerTests
     {
         [SetUp]
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _emailSender = Substitute.For<IEmailSender>();
-            _handler = new ForgotPassword.Handler(_userManager, _emailSender);
+            _handler = new ResetPassword.Handler(_userManager);
         }
 
         private UserManager<User> _userManager;
-        private IEmailSender _emailSender;
-        private ForgotPassword.Handler _handler;
+        private ResetPassword.Handler _handler;
 
         [Test]
-        public async Task Should_Handle_Forgot_Password()
+        public async Task Should_Rest_Password()
         {
             // Arrange
-            User user = Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer;
-            var command = new ForgotPassword.Command
+            var command = new ResetPassword.Command
             {
-                UserName = user.UserName
+                Token = "Token",
+                Password = UserSeedData.ValidPassword,
+                UserName = "ludmilla"
             };
 
             // Act
