@@ -222,8 +222,11 @@ namespace Orso.Arpa.Api
                 });
         }
 
-        private static void ConfigureCors(IServiceCollection services)
+        private void ConfigureCors(IServiceCollection services)
         {
+            var allowedOrigin = Configuration
+                .GetSection("CorsConfiguration")["AllowedOrigin"];
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
@@ -231,7 +234,7 @@ namespace Orso.Arpa.Api
                     policy
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowAnyOrigin();
+                        .WithOrigins(allowedOrigin);
                 });
             });
         }
