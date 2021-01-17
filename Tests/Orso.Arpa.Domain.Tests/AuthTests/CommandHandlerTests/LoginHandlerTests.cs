@@ -1,3 +1,5 @@
+using System;
+using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -11,11 +13,11 @@ using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
-namespace Orso.Arpa.Domain.Tests.AuthTests.QueryHandlerTests
+namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 {
     public class LoginHandlerTests
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _signInManager = new FakeSignInManager();
@@ -33,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.QueryHandlerTests
             // Arrange
             const string expectedToken = "TestToken";
             User user = FakeUsers.Orsianer;
-            var query = new Login.Query { UserName = user.UserName, Password = UserSeedData.ValidPassword };
+            var query = new Login.Command { UserName = user.UserName, Password = UserSeedData.ValidPassword };
             _jwtGenerator.CreateTokenAsync(Arg.Any<User>()).Returns(expectedToken);
 
             // Act
@@ -41,6 +43,29 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.QueryHandlerTests
 
             // Assert
             token.Should().BeEquivalentTo(expectedToken);
+        }
+
+        [Test]
+        public void Should_Throw_Authentication_Exception_If_Password_Is_not_Valid_Or_User_Is_Lockedout()
+        {
+            // Arrange
+            User user = FakeUsers.Orsianer;
+            var command = new Login.Command { UserName = user.UserName, Password = "wrongpassword" };
+
+            for (int i = 0; i < 3; i++)
+            {
+                // Act
+                Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
+
+                // Assert
+                func.Should().Throw<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
+            }
+
+            // Act
+            Func<Task> func1 = async () => await _handler.Handle(command, new CancellationToken());
+
+            // Assert
+            func1.Should().Throw<AuthenticationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
         }
     }
 }

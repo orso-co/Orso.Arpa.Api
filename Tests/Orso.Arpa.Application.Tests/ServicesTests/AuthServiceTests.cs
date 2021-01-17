@@ -37,13 +37,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 UserName = UserSeedData.Orsianer.UserName,
                 Password = UserSeedData.ValidPassword
             };
-            _mapper.Map<Login.Query>(loginDto).Returns(new Login.Query
+            _mapper.Map<Login.Command>(loginDto).Returns(new Login.Command
             {
                 Password = loginDto.Password,
                 UserName = loginDto.UserName
             });
             const string token = "Token";
-            _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
+            _mediator.Send(Arg.Any<Login.Command>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
@@ -74,7 +74,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 UserName = registerDto.UserName
             });
             const string token = "Token";
-            _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
+            _mediator.Send(Arg.Any<Login.Command>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act

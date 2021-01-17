@@ -20,7 +20,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<TokenDto> LoginAsync(LoginDto loginDto)
         {
-            Login.Query query = _mapper.Map<Login.Query>(loginDto);
+            Login.Command query = _mapper.Map<Login.Command>(loginDto);
             var token = await _mediator.Send(query);
             return _mapper.Map<TokenDto>(token);
         }

@@ -12,10 +12,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     {
         internal static async Task SeedDataAsync(
             UserManager<User> userManager,
+            SignInManager<User> signInManager,
             IArpaContext arpaContext)
         {
             await SeedPersonsAsync(arpaContext);
-            await SeedUsersAsync(userManager);
+            await SeedUsersAsync(userManager, signInManager);
             await SeedAppointmentsAsync(arpaContext);
             await SeedVenuesAsync(arpaContext);
             await SeedRoomsAsync(arpaContext);
@@ -70,7 +71,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await arpaContext.AppointmentParticipations.AddRangeAsync(AppointmentParticipationSeedData.AppointmentParticipations);
         }
 
-        private static async Task SeedUsersAsync(UserManager<User> userManager)
+        private static async Task SeedUsersAsync(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             if (!userManager.Users.Any())
             {
@@ -87,6 +88,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
                 User admin = await userManager.FindByEmailAsync(UserSeedData.Orsoadmin.Email);
                 await userManager.AddToRoleAsync(admin, RoleNames.Orsoadmin);
+
+                User lockedOutUser = await userManager.FindByNameAsync(UserSeedData.LockedOutUser.UserName);
+                for (int i = 0; i < 3; i++)
+                {
+                    await signInManager.CheckPasswordSignInAsync(lockedOutUser, "wrongPassword", true);
+                }
             }
         }
     }

@@ -99,6 +99,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test]
+        public async Task Should_Not_Login_LockedOut_User()
+        {
+            // Arrange
+            User user = UserSeedData.LockedOutUser;
+            var loginDto = new LoginDto
+            {
+                UserName = user.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Test]
         public async Task Should_Register()
         {
             // Arrange

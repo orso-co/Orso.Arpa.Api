@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Email_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new Query { UserName = "test", Password = UserSeedData.ValidPassword });
+                .ValidateAsync(new Command { UserName = "test", Password = UserSeedData.ValidPassword });
 
             act.Should().Throw<NotFoundException>();
         }

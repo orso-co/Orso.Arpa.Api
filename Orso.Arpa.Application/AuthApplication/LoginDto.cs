@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public LoginDtoMappingProfile()
         {
-            CreateMap<LoginDto, Query>();
+            CreateMap<LoginDto, Command>();
         }
     }
 
