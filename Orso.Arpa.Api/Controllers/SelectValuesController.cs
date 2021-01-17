@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.SelectValueApplication;
@@ -18,9 +19,18 @@ namespace Orso.Arpa.Api.Controllers
             _selectValueService = selectValueService;
         }
 
+        /// <summary>
+        /// Queries select values by table name and property name
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="tableName"></param>
+        /// <returns>A list of select values</returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SelectValueDto>>> Get([FromRoute]string tableName, [FromRoute]string propertyName)
+        public async Task<ActionResult<IEnumerable<SelectValueDto>>> Get([FromRoute] string tableName, [FromRoute] string propertyName)
         {
             return Ok(await _selectValueService.GetAsync(tableName, propertyName));
         }

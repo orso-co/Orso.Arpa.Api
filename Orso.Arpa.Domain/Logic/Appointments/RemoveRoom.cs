@@ -32,11 +32,10 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext)
             {
-                
                 RuleFor(d => d.RoomId)
                     .MustAsync(async (dto, roomId, cancellation) => await arpaContext.AppointmentRooms
                         .AnyAsync(ar => ar.RoomId == roomId && ar.AppointmentId == dto.Id, cancellation))
-                    .WithMessage("The room is already linked to the appointment");
+                    .WithMessage("The room is not linked to the appointment");
             }
         }
 

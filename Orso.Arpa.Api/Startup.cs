@@ -36,6 +36,7 @@ using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
+using Swashbuckle.AspNetCore.Swagger;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
 
 namespace Orso.Arpa.Api
@@ -133,7 +134,11 @@ namespace Orso.Arpa.Api
                 {
                     Title = "Orso.Arpa.Api",
                     Version = "v1",
-                    License = new OpenApiLicense { Name = "MIT", Url = new System.Uri("https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE") },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT",
+                        Url = new Uri("https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE")
+                    },
                     Contact = new OpenApiContact
                     {
                         Name = "ORSO – Orchestra & Choral Society Freiburg | Berlin e. V.",
@@ -142,14 +147,40 @@ namespace Orso.Arpa.Api
                     }
                 });
 
-                options.OperationFilter<SwaggerAddFromRoutePropertiesOperationFilter>();
+                options.AddFluentValidationRules();
 
-                var location = Assembly.GetEntryAssembly().Location;
-                string xmlComments = Path.Combine(Path.GetDirectoryName(location), Path.GetFileNameWithoutExtension(location) + ".xml");
-                if (File.Exists(xmlComments))
+                options.OperationFilter<SwaggerAddFromRoutePropertiesOperationFilter>();
+                options.OperationFilter<SwaggerAuthorizeOperationFilter>();
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    options.IncludeXmlComments(xmlComments);
-                }
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme (hint: Bearer token part should be appended with ‘Bearer’)",
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
             });
         }
 

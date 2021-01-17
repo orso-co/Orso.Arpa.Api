@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
@@ -17,9 +18,17 @@ namespace Orso.Arpa.Api.Controllers
             _projectService = projectService;
         }
 
+        /// <summary>
+        /// Gets the projects including completed if requested
+        /// </summary>
+        /// <param name="includeCompleted"></param>
+        /// <returns>A list of projects</returns>
+        /// <response code="200"></response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProjectDto>>> Get([FromQuery]bool includeCompleted = false)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<ProjectDto>>> Get([FromQuery] bool includeCompleted = false)
         {
             return Ok(await _projectService.GetAsync(includeCompleted));
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation.Results;
@@ -6,7 +7,6 @@ using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Auth.Login;
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
             Func<Task<ValidationResult>> act = async () => await _validator
                 .ValidateAsync(new Command { UserName = "test", Password = UserSeedData.ValidPassword });
 
-            act.Should().Throw<NotFoundException>();
+            act.Should().Throw<AuthenticationException>();
         }
 
         [Test]
