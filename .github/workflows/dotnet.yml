@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: 3.1.x
     - name: Clean
-      run: dotnet clean ./Orso.Arpa.Api/Orso.Arpa.Api.sln --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ./Orso.Arpa.Api.sln --configuration Release && dotnet nuget locals all --clear
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
