@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.SectionApplication;
@@ -17,8 +18,15 @@ namespace Orso.Arpa.Api.Controllers
             _sectionService = sectionService;
         }
 
+        /// <summary>
+        /// Gets all sections
+        /// </summary>
+        /// <returns>A list of sections</returns>
+        /// <response code="200"></response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<SectionDto>>> Get()
         {
             return Ok(await _sectionService.GetAsync());

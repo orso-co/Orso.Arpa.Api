@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.RoomApplication;
@@ -19,6 +20,13 @@ namespace Orso.Arpa.Api.Controllers
             _venueService = venueService;
         }
 
+        /// <summary>
+        /// Gets all venues
+        /// </summary>
+        /// <returns>A list of venues</returns>
+        /// <response code="200"></response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VenueDto>>> Get()
@@ -26,9 +34,18 @@ namespace Orso.Arpa.Api.Controllers
             return Ok(await _venueService.GetAsync());
         }
 
+        /// <summary>
+        /// Gets the rooms of an existing venue
+        /// </summary>
+        /// <returns>A list of rooms</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If venue could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         [HttpGet("{id}/rooms")]
-        public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms([FromRoute]Guid id)
+        public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms([FromRoute] Guid id)
         {
             return Ok(await _venueService.GetRoomsAsync(id));
         }

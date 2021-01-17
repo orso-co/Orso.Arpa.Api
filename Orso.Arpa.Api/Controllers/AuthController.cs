@@ -17,23 +17,54 @@ namespace Orso.Arpa.Api.Controllers
             _authService = authService;
         }
 
+        /// <summary>
+        /// Authenticates a user with username and password
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns>The created jwt token</returns>
+        /// <response code="200">Returns the created jwt token</response>
+        /// <response code="400">If username or password are empty</response>
+        /// <response code="401">If username or password are wrong or user is locked</response>
         [HttpPost("login")]
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
         {
             return await _authService.LoginAsync(loginDto);
         }
 
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="registerDto"></param>
+        /// <returns>The created jwt token</returns>
+        /// <response code="200">Returns the created jwt token</response>
+        /// <response code="400">If dto is not valid</response>
         [HttpPost("register")]
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<TokenDto>> Register([FromBody] UserRegisterDto registerDto)
         {
             return await _authService.RegisterAsync(registerDto);
         }
 
+        /// <summary>
+        /// Sends an email with password reset token to user
+        /// </summary>
+        /// <param name="forgotPassswordDto"></param>
+        /// <response code="204"></response>
+        /// <response code="400">If dto is not valid</response>
+        /// <response code="424">If email could not be sent</response>
         [HttpPost("forgotpassword")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status424FailedDependency)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPassswordDto)
         {
@@ -41,9 +72,16 @@ namespace Orso.Arpa.Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Resets the user password to the new password provided
+        /// </summary>
+        /// <param name="resetPasswordDto"></param>
+        /// <response code="204"></response>
+        /// <response code="400">If dto is not valid</response>
         [HttpPost("resetpassword")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
@@ -51,8 +89,15 @@ namespace Orso.Arpa.Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Changes the password of the current user
+        /// </summary>
+        /// <param name="changePasswordDto"></param>
+        /// <response code="204"></response>
+        /// <response code="400">If dto is not valid</response>
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
@@ -60,6 +105,12 @@ namespace Orso.Arpa.Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Sets the role of a user
+        /// </summary>
+        /// <param name="setRoleDto"></param>
+        /// <response code="204"></response>
+        /// <response code="400">If dto is not valid</response>
         [HttpPut("role")]
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

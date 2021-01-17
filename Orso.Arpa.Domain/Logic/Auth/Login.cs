@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Auth
@@ -25,7 +24,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 RuleFor(q => q.UserName)
                     .MustAsync(async (userName, cancellation) => await userManager.FindByNameAsync(userName) != null)
-                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Command.UserName), null)); // don't send request with exception as it contains the password
+                    .OnFailure(request => throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password"));
             }
         }
 
