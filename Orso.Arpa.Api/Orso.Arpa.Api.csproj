@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>Orso.Arpa.Api.Program</StartupObject>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
+    <UserSecretsId>5e8d1f3f-b24d-4094-b9cb-9e85f01b30ce</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
+using netDumbster.smtp;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication;
@@ -18,6 +19,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class AuthControllerTests : IntegrationTestBase
     {
+        private SimpleSmtpServer _fakeSmtpServer;
+
+        [TearDown]
+        [SetUp]
+        public void SetupAndTearDown()
+        {
+            if (_fakeSmtpServer != null)
+            {
+                _fakeSmtpServer.Stop();
+                _fakeSmtpServer.Dispose();
+            }
+        }
+
         [Test]
         public async Task Should_Login()
         {
@@ -73,6 +87,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 UserName = user.UserName,
                 Password = "invalidPassword"
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Test]
+        public async Task Should_Not_Login_LockedOut_User()
+        {
+            // Arrange
+            User user = UserSeedData.LockedOutUser;
+            var loginDto = new LoginDto
+            {
+                UserName = user.UserName,
+                Password = UserSeedData.ValidPassword
             };
 
             // Act
@@ -251,6 +285,49 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(expectedStatusCode);
+        }
+
+        [Test]
+        public async Task Should_Reset_Password()
+        {
+            // Arrange
+            _fakeSmtpServer = Configuration.Configure()
+                 .WithPort(25)
+                 .Build();
+
+            User user = UserSeedData.Orsianer;
+            var forgotPasswordDto = new ForgotPasswordDto
+            {
+                UserName = user.UserName,
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.ForgotPassword(), BuildStringContent(forgotPasswordDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            var resetPasswordToken = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData;
+
+            _fakeSmtpServer.Stop();
+
+            // Arrange
+            var resetPasswordDto = new ResetPasswordDto
+            {
+                UserName = user.UserName,
+                Password = UserSeedData.ValidPassword,
+                Token = resetPasswordToken
+            };
+
+            // Act
+            HttpResponseMessage resetResponseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.ResetPassword(), BuildStringContent(resetPasswordDto));
+
+            // Assert
+            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

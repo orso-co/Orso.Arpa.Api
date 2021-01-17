@@ -3,17 +3,16 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class LoginDtoMappingProfileTests
+    public class ForgotPasswordDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<LoginDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<ForgotPasswordDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -24,14 +23,13 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new LoginDto
+            var dto = new ForgotPasswordDto
             {
-                Password = UserSeedData.ValidPassword,
-                UserName = UserSeedData.Orsianer.UserName
+                UserName = "Username"
             };
 
             // Act
-            Login.Command command = _mapper.Map<Login.Command>(dto);
+            ForgotPassword.Command command = _mapper.Map<ForgotPassword.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

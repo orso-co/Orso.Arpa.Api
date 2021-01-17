@@ -13,24 +13,23 @@ namespace Orso.Arpa.Domain.Logic.Auth
 {
     public static class Login
     {
-        public class Query : IRequest<string>
+        public class Command : IRequest<string>
         {
             public string UserName { get; set; }
             public string Password { get; set; }
         }
 
-        public class Validator : AbstractValidator<Query>
+        public class Validator : AbstractValidator<Command>
         {
             public Validator(UserManager<User> userManager)
             {
-                
                 RuleFor(q => q.UserName)
                     .MustAsync(async (userName, cancellation) => await userManager.FindByNameAsync(userName) != null)
-                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Query.UserName), null)); // don't send request with exception as it contains the password
+                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Command.UserName), null)); // don't send request with exception as it contains the password
             }
         }
 
-        public class Handler : IRequestHandler<Query, string>
+        public class Handler : IRequestHandler<Command, string>
         {
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
@@ -43,18 +42,23 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 _jwtGenerator = jwtGenerator;
             }
 
-            public async Task<string> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 UserManager<User> userManager = _signInManager.UserManager;
                 User user = await userManager.Users
                     .Include(u => u.Person)
                     .SingleOrDefaultAsync(u => u.NormalizedUserName == userManager.NormalizeName(request.UserName));
 
-                SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+                SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
 
                 if (result.Succeeded)
                 {
                     return await _jwtGenerator.CreateTokenAsync(user);
+                }
+
+                if (result.IsLockedOut)
+                {
+                    throw new AuthenticationException("Your account is locked out. Kindly wait for 10 minutes and try again");
                 }
 
                 throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password");

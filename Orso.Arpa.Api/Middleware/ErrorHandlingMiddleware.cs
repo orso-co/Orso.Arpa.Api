@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Mail;
 
 namespace Orso.Arpa.Api.Middleware
 {
@@ -75,6 +76,12 @@ namespace Orso.Arpa.Api.Middleware
                         Errors = new { Property = nfe.PropertyName, Message = $"{nfe.TypeName} not found" }
                     };
                     context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+
+                case EmailException ee:
+                    _logger.LogError(ee, "EMAIL ERROR");
+                    errorMessage = new ErrorMessage { Message = ee.Message, Errors = new { InnerException = ee.InnerException?.Message } };
+                    context.Response.StatusCode = (int)HttpStatusCode.FailedDependency;
                     break;
 
                 case Exception e:

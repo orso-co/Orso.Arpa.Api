@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -32,6 +33,7 @@ using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+using Orso.Arpa.Mail;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
@@ -151,7 +153,7 @@ namespace Orso.Arpa.Api
             });
         }
 
-        private static void RegisterServices(IServiceCollection services)
+        private void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
@@ -170,6 +172,11 @@ namespace Orso.Arpa.Api
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
             services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
+            EmailConfiguration emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -184,22 +191,42 @@ namespace Orso.Arpa.Api
                 .AddRoleValidator<RoleValidator<Role>>()
                 .AddRoleManager<RoleManager<Role>>();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+            services.Configure<IdentityOptions>(opts =>
+            {
+                opts.Lockout.AllowedForNewUsers = true;
+                opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                opts.Lockout.MaxFailedAccessAttempts = 3;
+            });
+
+            JwtConfiguration jwtConfig = Configuration
+                .GetSection("JwtConfiguration")
+                .Get<JwtConfiguration>();
+            services.AddSingleton(jwtConfig);
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.TokenKey));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+
                         IssuerSigningKey = key,
-                        ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidAudience = jwtConfig.Audience,
+                        ValidIssuer = jwtConfig.Issuer,
                     };
                 });
         }
 
-        private static void ConfigureCors(IServiceCollection services)
+        private void ConfigureCors(IServiceCollection services)
         {
+            var allowedOrigin = Configuration
+                .GetSection("CorsConfiguration")["AllowedOrigin"];
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
@@ -207,7 +234,7 @@ namespace Orso.Arpa.Api
                     policy
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowAnyOrigin();
+                        .WithOrigins(allowedOrigin);
                 });
             });
         }

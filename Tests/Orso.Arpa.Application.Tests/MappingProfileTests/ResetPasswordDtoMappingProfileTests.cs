@@ -8,12 +8,12 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class LoginDtoMappingProfileTests
+    public class ResetPasswordDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<LoginDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<ResetPasswordDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -24,14 +24,15 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new LoginDto
+            var dto = new ResetPasswordDto
             {
                 Password = UserSeedData.ValidPassword,
-                UserName = UserSeedData.Orsianer.UserName
+                UserName = UserSeedData.Orsianer.UserName,
+                Token = "Token"
             };
 
             // Act
-            Login.Command command = _mapper.Map<Login.Command>(dto);
+            ResetPassword.Command command = _mapper.Map<ResetPassword.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

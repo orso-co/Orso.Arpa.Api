@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
-		.travis.yml = .travis.yml
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		README.MD = README.MD
 	EndProjectSection
 EndProject
@@ -34,6 +34,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Tests.Shared", "Tests\Orso.Arpa.Tests.Shared\Orso.Arpa.Tests.Shared.csproj", "{6B016EFF-C0C3-489E-9546-3BE9A9F55773}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Application", "Orso.Arpa.Application\Orso.Arpa.Application.csproj", "{AA910E8D-B197-4238-A5EB-C16C45C7EBB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail", "Orso.Arpa.Mail\Orso.Arpa.Mail.csproj", "{53CFF9C9-9F80-41FF-B0FA-936636A09EAA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail.Tests", "Orso.Arpa.Mail.Tests\Orso.Arpa.Mail.Tests.csproj", "{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +89,14 @@ Global
 		{AA910E8D-B197-4238-A5EB-C16C45C7EBB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA910E8D-B197-4238-A5EB-C16C45C7EBB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA910E8D-B197-4238-A5EB-C16C45C7EBB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53CFF9C9-9F80-41FF-B0FA-936636A09EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53CFF9C9-9F80-41FF-B0FA-936636A09EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53CFF9C9-9F80-41FF-B0FA-936636A09EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53CFF9C9-9F80-41FF-B0FA-936636A09EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +108,7 @@ Global
 		{E3AB7C7A-6DBE-4B71-8620-30BE52CEF57B} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
 		{15C49C80-E005-4CDC-965D-7A99B31A4E83} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
 		{6B016EFF-C0C3-489E-9546-3BE9A9F55773} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
+		{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD} = {87630E76-AA8B-4C4A-A785-DBA57CC10B7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67B63CDA-710A-4F59-AD13-05CD24CBFABA}

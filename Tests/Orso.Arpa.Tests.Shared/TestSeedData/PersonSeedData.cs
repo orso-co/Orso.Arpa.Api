@@ -17,7 +17,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Orsonaut,
                     Orsoadmin,
                     UserWithoutRole,
-                    DeletedUser
+                    DeletedUser,
+                    LockedOutUser
                 };
             }
         }
@@ -69,6 +70,16 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new Person(
                     Guid.Parse("4d98408b-620e-4ea5-9661-ab8efcad4495"),
                     new UserRegister.Command { GivenName = "Deleted", Surname = "User" });
+            }
+        }
+
+        public static Person LockedOutUser
+        {
+            get
+            {
+                return new Person(
+                    Guid.Parse("860e9e57-e213-4cc1-aa7c-49918d5b75dd"),
+                    new UserRegister.Command { GivenName = "LockedOut", Surname = "User" });
             }
         }
     }

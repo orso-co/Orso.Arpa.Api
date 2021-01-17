@@ -14,7 +14,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Orsianer,
                     Orsonaut,
                     Orsoadmin,
-                    UserWithoutRole
+                    UserWithoutRole,
+                    LockedOutUser
                 };
             }
         }
@@ -70,6 +71,20 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     UserName = "withoutrole",
                     RoleName = null,
                     DisplayName = "Without Role",
+                    RoleLevel = 0
+                };
+            }
+        }
+
+        public static UserDto LockedOutUser
+        {
+            get
+            {
+                return new UserDto
+                {
+                    UserName = "lockedout",
+                    RoleName = null,
+                    DisplayName = "LockedOut User",
                     RoleLevel = 0
                 };
             }

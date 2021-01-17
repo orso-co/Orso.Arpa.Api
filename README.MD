@@ -21,3 +21,19 @@ New Syntax:
 ```
 Add-Migration -Name <NameOfMigration> -Project Orso.Arpa.Persistence -StartupProject Orso.Arpa.Api
 ```
+
+# User Secrets
+
+Use user secrets to locally override appsettings options, e. g. the smtp config.
+
+Create user secret:
+```
+dotnet user-secrets set "EmailConfiguration:SmtpServer" "smtp.myemailprovider.com"
+```
+
+Display existing user secrets:
+```
+dotnet user-secrets list
+```
+
+[Microsoft Docs](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows)

@@ -9,12 +9,12 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Auth.Login;
+using static Orso.Arpa.Domain.Logic.Auth.ForgotPassword;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
 {
     [TestFixture]
-    public class LoginCommandValidatorTests
+    public class ForgotPasswordCommandValidatorTests
     {
         private Validator _validator;
         private UserManager<User> _userManager;
@@ -27,10 +27,10 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Email_Does_Not_Exist()
+        public void Should_Have_Validation_Error_If_Username_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new Command { UserName = "test", Password = UserSeedData.ValidPassword });
+                .ValidateAsync(new Command { UserName = "test" });
 
             act.Should().Throw<NotFoundException>();
         }
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(query => query.UserName, UserSeedData.Orsianer.UserName);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.UserName, UserSeedData.Orsianer.UserName);
         }
     }
 }

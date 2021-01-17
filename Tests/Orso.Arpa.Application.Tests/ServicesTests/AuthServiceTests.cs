@@ -37,13 +37,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 UserName = UserSeedData.Orsianer.UserName,
                 Password = UserSeedData.ValidPassword
             };
-            _mapper.Map<Login.Query>(loginDto).Returns(new Login.Query
+            _mapper.Map<Login.Command>(loginDto).Returns(new Login.Command
             {
                 Password = loginDto.Password,
                 UserName = loginDto.UserName
             });
             const string token = "Token";
-            _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
+            _mediator.Send(Arg.Any<Login.Command>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
@@ -74,7 +74,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 UserName = registerDto.UserName
             });
             const string token = "Token";
-            _mediator.Send(Arg.Any<Login.Query>()).Returns(token);
+            _mediator.Send(Arg.Any<Login.Command>()).Returns(token);
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
@@ -125,6 +125,52 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
 
             // Act
             Func<Task> func = async () => await _authService.SetRoleAsync(setRoleDto);
+
+            // Assert
+            func.Should().NotThrow();
+        }
+
+        [Test]
+        public void Should_Handle_Forgot_Password()
+        {
+            // Arrange
+            var forgotPasswordDto = new ForgotPasswordDto
+            {
+                UserName = "Username"
+            };
+            _mapper.Map<ForgotPassword.Command>(forgotPasswordDto)
+                .Returns(new ForgotPassword.Command
+                {
+                    UserName = "Username"
+                });
+
+            // Act
+            Func<Task> func = async () => await _authService.ForgotPasswordAsync(forgotPasswordDto);
+
+            // Assert
+            func.Should().NotThrow();
+        }
+
+        [Test]
+        public void Should_Reset_Password()
+        {
+            // Arrange
+            var resetPasswordDto = new ResetPasswordDto
+            {
+                UserName = "Username",
+                Password = "Password",
+                Token = "Token"
+            };
+            _mapper.Map<ResetPassword.Command>(resetPasswordDto)
+                .Returns(new ResetPassword.Command
+                {
+                    UserName = "Username",
+                    Password = "Password",
+                    Token = "Token"
+                });
+
+            // Act
+            Func<Task> func = async () => await _authService.ResetPasswordAsync(resetPasswordDto);
 
             // Assert
             func.Should().NotThrow();

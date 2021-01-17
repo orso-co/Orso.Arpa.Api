@@ -19,22 +19,42 @@ namespace Orso.Arpa.Api.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenDto>> Login([FromBody]LoginDto loginDto)
+        public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
         {
             return await _authService.LoginAsync(loginDto);
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenDto>> Register([FromBody]UserRegisterDto registerDto)
+        public async Task<ActionResult<TokenDto>> Register([FromBody] UserRegisterDto registerDto)
         {
             return await _authService.RegisterAsync(registerDto);
+        }
+
+        [HttpPost("forgotpassword")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPassswordDto)
+        {
+            await _authService.ForgotPasswordAsync(forgotPassswordDto);
+            return NoContent();
+        }
+
+        [HttpPost("resetpassword")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            await _authService.ResetPasswordAsync(resetPasswordDto);
+            return NoContent();
         }
 
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> ChangePassword([FromBody]ChangePasswordDto changePasswordDto)
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
             await _authService.ChangePasswordAsync(changePasswordDto);
             return NoContent();
@@ -44,7 +64,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> SetRole([FromBody]SetRoleDto setRoleDto)
+        public async Task<ActionResult> SetRole([FromBody] SetRoleDto setRoleDto)
         {
             await _authService.SetRoleAsync(setRoleDto);
             return NoContent();
