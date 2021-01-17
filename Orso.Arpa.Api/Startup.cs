@@ -150,6 +150,7 @@ namespace Orso.Arpa.Api
                 options.AddFluentValidationRules();
 
                 options.OperationFilter<SwaggerAddFromRoutePropertiesOperationFilter>();
+                options.OperationFilter<SwaggerAuthorizeOperationFilter>();
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
