@@ -75,7 +75,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Test]
