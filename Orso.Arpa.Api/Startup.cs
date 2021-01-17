@@ -198,16 +198,26 @@ namespace Orso.Arpa.Api
                 opts.Lockout.MaxFailedAccessAttempts = 3;
             });
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+            JwtConfiguration jwtConfig = Configuration
+                .GetSection("JwtConfiguration")
+                .Get<JwtConfiguration>();
+            services.AddSingleton(jwtConfig);
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.TokenKey));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+
                         IssuerSigningKey = key,
-                        ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidAudience = jwtConfig.Audience,
+                        ValidIssuer = jwtConfig.Issuer,
                     };
                 });
         }
