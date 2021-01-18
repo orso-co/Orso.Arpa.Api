@@ -136,13 +136,13 @@ namespace Orso.Arpa.Api
                     Version = "v1",
                     License = new OpenApiLicense
                     {
-                        Name = "MIT",
-                        Url = new Uri("https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE")
+                        Name = "EUPL-1.2 License",
+                        Url = new Uri("https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE.txt")
                     },
                     Contact = new OpenApiContact
                     {
                         Name = "ORSO – Orchestra & Choral Society Freiburg | Berlin e. V.",
-                        Url = new System.Uri("https://www.orso.co/"),
+                        Url = new Uri("https://www.orso.co/"),
                         Email = "mail@orso.co"
                     }
                 });
