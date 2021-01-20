@@ -219,6 +219,7 @@ namespace Orso.Arpa.Api
                 .AddSignInManager<SignInManager<User>>()
                 .AddEntityFrameworkStores<ArpaContext>()
                 .AddDefaultTokenProviders()
+                .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation")
                 .AddRoleValidator<RoleValidator<Role>>()
                 .AddRoleManager<RoleManager<Role>>();
 
@@ -227,11 +228,20 @@ namespace Orso.Arpa.Api
                 opts.Lockout.AllowedForNewUsers = true;
                 opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                 opts.Lockout.MaxFailedAccessAttempts = 3;
+                opts.SignIn.RequireConfirmedEmail = true;
+                opts.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             });
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromHours(2));
+
+            services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromDays(3));
 
             JwtConfiguration jwtConfig = Configuration
                 .GetSection("JwtConfiguration")
                 .Get<JwtConfiguration>();
+
             services.AddSingleton(jwtConfig);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.TokenKey));

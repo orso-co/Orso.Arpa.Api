@@ -49,13 +49,15 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
                 RoleSeedData.Orsonaut,
                 RoleSeedData.Orsoadmin,
                 null,
+                null,
                 null);
             _mapper.Map<UserDto>(Arg.Any<User>()).Returns(
                 UserDtoData.Orsianer,
                 UserDtoData.Orsonaut,
                 UserDtoData.Orsoadmin,
                 UserDtoData.UserWithoutRole,
-                UserDtoData.LockedOutUser);
+                UserDtoData.LockedOutUser,
+                UserDtoData.UnconfirmedUser);
 
             // Act
             IEnumerable<UserDto> dtos = await _userService.GetAsync();

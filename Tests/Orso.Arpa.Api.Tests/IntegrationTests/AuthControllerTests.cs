@@ -119,32 +119,72 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test]
-        public async Task Should_Register()
+        public async Task Should_Not_Login_Unconfirmed_User()
         {
             // Arrange
+            User user = UserSeedData.UnconfirmedUser;
+            var loginDto = new LoginDto
+            {
+                UserName = user.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Test]
+        public async Task Should_Register_And_Confirm_Email()
+        {
+            // Arrange
+            _fakeSmtpServer = Configuration.Configure()
+                 .WithPort(25)
+                 .Build();
+
             var registerDto = new UserRegisterDto
             {
                 Email = "ludmilla@test.com",
                 UserName = "ludmilla",
                 Password = UserSeedData.ValidPassword,
                 GivenName = "Ludmilla",
-                Surname = "Schneider"
+                Surname = "Schneider",
+                ClientUri = "http://localhost:4200"
             };
+            HttpClient client = _unAuthenticatedServer
+                .CreateClient();
 
             // Act
-            HttpResponseMessage responseMessage = await _unAuthenticatedServer
-                .CreateClient()
+            HttpResponseMessage responseMessage = await client
                 .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            TokenDto result = await DeserializeResponseMessageAsync<TokenDto>(responseMessage);
 
-            result.Token.Should().NotBeNullOrEmpty();
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            _fakeSmtpServer.Stop();
 
-            JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(result.Token);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(registerDto.UserName);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value.Should().Be("Ludmilla Schneider");
+            // Arrange
+            var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&email=");
+            var confirmEmailToken = queryParameters[0];
+            var email = queryParameters[1];
+
+            var confirmEmailDto = new ConfirmEmailDto
+            {
+                Email = email,
+                Token = confirmEmailToken
+            };
+
+            // Act
+            HttpResponseMessage resetResponseMessage = await client
+                .PostAsync(ApiEndpoints.AuthController.ConfirmEmail(), BuildStringContent(confirmEmailDto));
+
+            // Assert
+            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
@@ -155,7 +195,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Email = UserSeedData.Orsianer.Email,
                 UserName = "ludmilla",
-                Password = UserSeedData.ValidPassword
+                Password = UserSeedData.ValidPassword,
+                ClientUri = "http://localhost:4200"
             };
 
             // Act
@@ -299,22 +340,23 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var forgotPasswordDto = new ForgotPasswordDto
             {
                 UserName = user.UserName,
-                ClientUri = "http://localhost:4200/auth/resetpassword?token="
+                ClientUri = "http://localhost:4200"
             };
+            HttpClient client = _unAuthenticatedServer
+                .CreateClient();
 
             // Act
-            HttpResponseMessage responseMessage = await _unAuthenticatedServer
-                .CreateClient()
+
+            HttpResponseMessage responseMessage = await client
                 .PostAsync(ApiEndpoints.AuthController.ForgotPassword(), BuildStringContent(forgotPasswordDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
-            var resetPasswordToken = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split(forgotPasswordDto.ClientUri)[1];
-
             _fakeSmtpServer.Stop();
 
             // Arrange
+            var resetPasswordToken = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1];
             var resetPasswordDto = new ResetPasswordDto
             {
                 UserName = user.UserName,
@@ -323,12 +365,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage resetResponseMessage = await _unAuthenticatedServer
-                .CreateClient()
+            HttpResponseMessage resetResponseMessage = await client
                 .PostAsync(ApiEndpoints.AuthController.ResetPassword(), BuildStringContent(resetPasswordDto));
 
             // Assert
-            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }

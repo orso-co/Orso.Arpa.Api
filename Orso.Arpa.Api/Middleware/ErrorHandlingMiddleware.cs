@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Security.Authentication;
@@ -52,8 +53,8 @@ namespace Orso.Arpa.Api.Middleware
             {
                 case IdentityException ie:
                     _logger.LogError(ie, "IDENTITY ERROR");
-                    errorMessage = new ErrorMessage { Message = ie.Message, Errors = ie.IdentityErrors };
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    errorMessage = new ErrorMessage { Message = ie.Message, Errors = ie.IdentityErrors.Select(e => e.Description) };
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;
 
                 case ValidationException ve:

@@ -7,7 +7,7 @@ namespace Orso.Arpa.Application.Interfaces
     {
         Task<TokenDto> LoginAsync(LoginDto loginDto);
 
-        Task<TokenDto> RegisterAsync(UserRegisterDto registerDto);
+        Task RegisterAsync(UserRegisterDto registerDto);
 
         Task ChangePasswordAsync(ChangePasswordDto changePasswordDto);
 
@@ -16,5 +16,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task ForgotPasswordAsync(ForgotPasswordDto forgotPassswordDto);
 
         Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
+
+        Task ConfirmEmailAsync(ConfirmEmailDto confirmEmailDto);
     }
 }

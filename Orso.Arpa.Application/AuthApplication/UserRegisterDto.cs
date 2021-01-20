@@ -12,6 +12,7 @@ namespace Orso.Arpa.Application.AuthApplication
         public string Email { get; set; }
         public string GivenName { get; set; }
         public string Surname { get; set; }
+        public string ClientUri { get; set; }
     }
 
     public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
@@ -31,6 +32,8 @@ namespace Orso.Arpa.Application.AuthApplication
             RuleFor(c => c.Surname)
                 .NotEmpty()
                 .MaximumLength(50);
+            RuleFor(c => c.ClientUri)
+                .ValidUri();
         }
     }
 

@@ -15,7 +15,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Orsonaut,
                     Orsoadmin,
                     UserWithoutRole,
-                    LockedOutUser
+                    LockedOutUser,
+                    UnconfirmedUser
                 };
             }
         }
@@ -85,6 +86,20 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     UserName = "lockedout",
                     RoleName = null,
                     DisplayName = "LockedOut User",
+                    RoleLevel = 0
+                };
+            }
+        }
+
+        public static UserDto UnconfirmedUser
+        {
+            get
+            {
+                return new UserDto
+                {
+                    UserName = "unconfirmed",
+                    RoleName = null,
+                    DisplayName = "Unconfirmed User",
                     RoleLevel = 0
                 };
             }

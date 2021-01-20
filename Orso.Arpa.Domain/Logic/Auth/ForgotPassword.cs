@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Mail;
@@ -47,7 +49,13 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 // ToDo: E-Mail Message und Subject definieren. Frontend-Link einfügen
 
-                var message = new EmailMessage(new string[] { user.Email }, "Reset password token", $"{request.ClientUri}{token}", false);
+                var param = new Dictionary<string, string>
+                        {
+                            { "token", token },
+                        };
+                var uri = QueryHelpers.AddQueryString(request.ClientUri, param);
+
+                var message = new EmailMessage(new string[] { user.Email }, "Reset password token", uri, false);
                 await _emailSender.SendEmailAsync(message);
 
                 return Unit.Value;
