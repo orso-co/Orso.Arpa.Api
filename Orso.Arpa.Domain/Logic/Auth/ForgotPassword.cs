@@ -14,6 +14,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
         public class Command : IRequest
         {
             public string UserName { get; set; }
+            public string ClientUri { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -46,7 +47,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 // ToDo: E-Mail Message und Subject definieren. Frontend-Link einfügen
 
-                var message = new EmailMessage(new string[] { user.Email }, "Reset password token", token, false);
+                var message = new EmailMessage(new string[] { user.Email }, "Reset password token", $"{request.ClientUri}{token}", false);
                 await _emailSender.SendEmailAsync(message);
 
                 return Unit.Value;

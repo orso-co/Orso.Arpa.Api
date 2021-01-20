@@ -299,6 +299,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var forgotPasswordDto = new ForgotPasswordDto
             {
                 UserName = user.UserName,
+                ClientUri = "http://localhost:4200/auth/resetpassword?token="
             };
 
             // Act
@@ -309,7 +310,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
-            var resetPasswordToken = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData;
+            var resetPasswordToken = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split(forgotPasswordDto.ClientUri)[1];
 
             _fakeSmtpServer.Stop();
 
