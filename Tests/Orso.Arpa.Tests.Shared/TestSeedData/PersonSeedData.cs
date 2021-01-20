@@ -18,7 +18,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Orsoadmin,
                     UserWithoutRole,
                     DeletedUser,
-                    LockedOutUser
+                    LockedOutUser,
+                    UnconfirmedUser
                 };
             }
         }
@@ -80,6 +81,16 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new Person(
                     Guid.Parse("860e9e57-e213-4cc1-aa7c-49918d5b75dd"),
                     new UserRegister.Command { GivenName = "LockedOut", Surname = "User" });
+            }
+        }
+
+        public static Person UnconfirmedUser
+        {
+            get
+            {
+                return new Person(
+                    Guid.Parse("0bf0bd72-abda-458b-a783-403b8ba51850"),
+                    new UserRegister.Command { GivenName = "Unconfirmed", Surname = "User" });
             }
         }
     }

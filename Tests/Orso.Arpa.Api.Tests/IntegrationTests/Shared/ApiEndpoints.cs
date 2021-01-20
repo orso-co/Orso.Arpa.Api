@@ -23,6 +23,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string ForgotPassword() => $"{Auth}/forgotpassword";
 
             public static string ResetPassword() => $"{Auth}/resetpassword";
+
+            public static string ConfirmEmail() => $"{Auth}/confirmemail";
         }
 
         public static class UsersController

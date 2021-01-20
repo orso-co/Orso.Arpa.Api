@@ -54,7 +54,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         }
 
         [Test]
-        public async Task Should_Register_Async()
+        public void Should_Register_Async()
         {
             // Arrange
             var registerDto = new UserRegisterDto
@@ -78,10 +78,10 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
-            TokenDto tokenDto = await _authService.RegisterAsync(registerDto);
+            Func<Task> func = async () => await _authService.RegisterAsync(registerDto);
 
             // Assert
-            tokenDto.Token.Should().Be(token);
+            func.Should().NotThrow();
         }
 
         [Test]
@@ -171,6 +171,29 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
 
             // Act
             Func<Task> func = async () => await _authService.ResetPasswordAsync(resetPasswordDto);
+
+            // Assert
+            func.Should().NotThrow();
+        }
+
+        [Test]
+        public void Should_Confirm_Email()
+        {
+            // Arrange
+            var confirmEmailDto = new ConfirmEmailDto
+            {
+                Email = "test@test.de",
+                Token = "Token"
+            };
+            _mapper.Map<ConfirmEmail.Command>(confirmEmailDto)
+                .Returns(new ConfirmEmail.Command
+                {
+                    Email = "test@test.de",
+                    Token = "Token"
+                });
+
+            // Act
+            Func<Task> func = async () => await _authService.ConfirmEmailAsync(confirmEmailDto);
 
             // Assert
             func.Should().NotThrow();

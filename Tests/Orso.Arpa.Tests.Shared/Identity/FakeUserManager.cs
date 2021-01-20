@@ -17,6 +17,8 @@ namespace Orso.Arpa.Tests.Shared.Identity
 {
     public class FakeUserManager : UserManager<User>
     {
+        private static readonly string _emailConfirmationToken = "ABCDEFGHIJKLMNOP+";
+
         public FakeUserManager()
             : base(
               Substitute.For<IUserStore<User>>(),
@@ -116,6 +118,25 @@ namespace Orso.Arpa.Tests.Shared.Identity
         public override Task<IdentityResult> ResetPasswordAsync(User user, string token, string newPassword)
         {
             return Task.FromResult(IdentityResult.Success);
+        }
+
+        public override Task<bool> IsEmailConfirmedAsync(User user)
+        {
+            return Task.FromResult(user.EmailConfirmed);
+        }
+
+        public override Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        {
+            return Task.FromResult(_emailConfirmationToken);
+        }
+
+        public override Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        {
+            if (user != null && token == _emailConfirmationToken)
+            {
+                return Task.FromResult(IdentityResult.Success);
+            }
+            return Task.FromResult(IdentityResult.Failed(new[] { new IdentityError() }));
         }
     }
 }

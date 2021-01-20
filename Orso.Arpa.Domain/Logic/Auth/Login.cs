@@ -48,6 +48,11 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     .Include(u => u.Person)
                     .SingleOrDefaultAsync(u => u.NormalizedUserName == userManager.NormalizeName(request.UserName));
 
+                if (!await userManager.IsEmailConfirmedAsync(user))
+                {
+                    throw new AuthenticationException("Your email address is not confirmed. Please confirm your email address first");
+                }
+
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
 
                 if (result.Succeeded)

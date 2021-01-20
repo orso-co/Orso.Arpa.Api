@@ -25,11 +25,10 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<TokenDto>(token);
         }
 
-        public async Task<TokenDto> RegisterAsync(UserRegisterDto registerDto)
+        public async Task RegisterAsync(UserRegisterDto registerDto)
         {
             UserRegister.Command command = _mapper.Map<UserRegister.Command>(registerDto);
-            var token = await _mediator.Send(command);
-            return _mapper.Map<TokenDto>(token);
+            await _mediator.Send(command);
         }
 
         public async Task ChangePasswordAsync(ChangePasswordDto changePasswordDto)
@@ -53,6 +52,12 @@ namespace Orso.Arpa.Application.Services
         public async Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
         {
             ResetPassword.Command command = _mapper.Map<ResetPassword.Command>(resetPasswordDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task ConfirmEmailAsync(ConfirmEmailDto confirmEmailDto)
+        {
+            ConfirmEmail.Command command = _mapper.Map<ConfirmEmail.Command>(confirmEmailDto);
             await _mediator.Send(command);
         }
     }

@@ -17,7 +17,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Orsoadmin,
                     DeletedUser,
                     UserWithoutRole,
-                    LockedOutUser
+                    LockedOutUser,
+                    UnconfirmedUser
                 };
             }
         }
@@ -34,7 +35,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     PersonId = PersonSeedData.Orsianer.Id,
                     Person = FakePersons.Orsianer,
                     NormalizedEmail = "ORSIANER@TEST.COM",
-                    NormalizedUserName = "ORSIANER"
+                    NormalizedUserName = "ORSIANER",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -51,7 +53,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     PersonId = PersonSeedData.Orsonaut.Id,
                     Person = PersonSeedData.Orsonaut,
                     NormalizedEmail = "ORSONAUT@TEST.COM",
-                    NormalizedUserName = "ORSONAUT"
+                    NormalizedUserName = "ORSONAUT",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -68,7 +71,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     PersonId = PersonSeedData.Orsoadmin.Id,
                     Person = PersonSeedData.Orsoadmin,
                     NormalizedEmail = "ORSOADMIN@TEST.COM",
-                    NormalizedUserName = "ORSOADMIN"
+                    NormalizedUserName = "ORSOADMIN",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -85,7 +89,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     PersonId = PersonSeedData.UserWithoutRole.Id,
                     Person = PersonSeedData.UserWithoutRole,
                     NormalizedEmail = "WOTHOUTROLE@TEST.COM",
-                    NormalizedUserName = "WITHOUTROLE"
+                    NormalizedUserName = "WITHOUTROLE",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -102,7 +107,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     PersonId = PersonSeedData.DeletedUser.Id,
                     Person = PersonSeedData.DeletedUser,
                     NormalizedEmail = "DELETED@TEST.COM",
-                    NormalizedUserName = "DELETED"
+                    NormalizedUserName = "DELETED",
+                    EmailConfirmed = true
                 };
                 user.Delete();
                 return user;
@@ -121,7 +127,26 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     PersonId = PersonSeedData.LockedOutUser.Id,
                     Person = PersonSeedData.LockedOutUser,
                     NormalizedEmail = "LOCKEDOUT@TEST.COM",
-                    NormalizedUserName = "LOCKEDOUT"
+                    NormalizedUserName = "LOCKEDOUT",
+                    EmailConfirmed = true
+                };
+            }
+        }
+
+        public static User UnconfirmedUser
+        {
+            get
+            {
+                return new User
+                {
+                    Id = Guid.Parse("a53b7c43-3168-4f9b-a643-29a12f114aa6"),
+                    UserName = "unconfirmed",
+                    Email = "unconfirmed@test.com",
+                    PersonId = PersonSeedData.UnconfirmedUser.Id,
+                    Person = PersonSeedData.UnconfirmedUser,
+                    NormalizedEmail = "UNCONFIRMED@TEST.COM",
+                    NormalizedUserName = "UNCONFIRMED",
+                    EmailConfirmed = false
                 };
             }
         }

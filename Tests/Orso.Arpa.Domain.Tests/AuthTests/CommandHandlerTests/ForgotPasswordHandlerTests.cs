@@ -33,7 +33,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             User user = Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer;
             var command = new ForgotPassword.Command
             {
-                UserName = user.UserName
+                UserName = user.UserName,
+                ClientUri = "http://localhost:4200"
             };
 
             // Act

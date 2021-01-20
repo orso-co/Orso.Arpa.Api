@@ -25,7 +25,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             var dto = new ForgotPasswordDto
             {
-                UserName = "Username"
+                UserName = "Username",
+                ClientUri = "http://localhost:4200/auth/resetpassword?token="
             };
 
             // Act
