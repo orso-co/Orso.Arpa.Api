@@ -198,5 +198,28 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Assert
             func.Should().NotThrow();
         }
+
+        [Test]
+        public void Should_Create_New_Email_Confirmation_Token()
+        {
+            // Arrange
+            var dto = new CreateEmailConfirmationTokenDto
+            {
+                Email = "test@test.de",
+                ClientUri = "http://localhost:4200"
+            };
+            _mapper.Map<CreateEmailConfirmationToken.Command>(dto)
+                .Returns(new CreateEmailConfirmationToken.Command
+                {
+                    Email = "test@test.de",
+                    ClientUri = "http://localhost:4200"
+                });
+
+            // Act
+            Func<Task> func = async () => await _authService.CreateNewEmailConfirmationTokenAsync(dto);
+
+            // Assert
+            func.Should().NotThrow();
+        }
     }
 }

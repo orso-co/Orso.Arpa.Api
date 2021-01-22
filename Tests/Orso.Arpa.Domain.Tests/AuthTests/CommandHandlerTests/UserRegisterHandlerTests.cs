@@ -3,11 +3,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Mail;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -19,12 +17,10 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _emailSender = Substitute.For<IEmailSender>();
-            _handler = new UserRegister.Handler(_userManager, _emailSender);
+            _handler = new UserRegister.Handler(_userManager);
         }
 
         private UserManager<User> _userManager;
-        private IEmailSender _emailSender;
         private UserRegister.Handler _handler;
 
         [Test]

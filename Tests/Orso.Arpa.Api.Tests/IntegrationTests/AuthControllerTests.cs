@@ -371,5 +371,53 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+        [Test]
+        public async Task Should_Create_new_Email_Confirmation_Token()
+        {
+            // Arrange
+            _fakeSmtpServer = Configuration.Configure()
+                 .WithPort(25)
+                 .Build();
+            var dto = new CreateEmailConfirmationTokenDto
+            {
+                Email = UserSeedData.UnconfirmedUser.Email,
+                ClientUri = "http://localhost:4200"
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.CreateNewEmailConfirmationToken(), BuildStringContent(dto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            _fakeSmtpServer.Stop();
+        }
+
+        [Test]
+        public async Task Should_Not_Create_new_Email_Confirmation_Token_If_Email_Is_Already_Confirmed()
+        {
+            // Arrange
+            _fakeSmtpServer = Configuration.Configure()
+                 .WithPort(25)
+                 .Build();
+            var dto = new CreateEmailConfirmationTokenDto
+            {
+                Email = UserSeedData.Orsianer.Email,
+                ClientUri = "http://localhost:4200"
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.CreateNewEmailConfirmationToken(), BuildStringContent(dto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(0);
+            _fakeSmtpServer.Stop();
+        }
     }
 }

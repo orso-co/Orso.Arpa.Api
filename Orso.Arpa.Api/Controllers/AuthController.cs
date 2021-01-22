@@ -143,5 +143,25 @@ namespace Orso.Arpa.Api.Controllers
             await _authService.ConfirmEmailAsync(confirmEmailDto);
             return Ok();
         }
+
+        /// <summary>
+        /// Creates a new email confirmation token and sends it by email
+        /// </summary>
+        /// <param name="createEmailConfirmationTokenDto"></param>
+        /// <response code="200"></response>
+        /// <response code="400">If dto is not valid</response>
+        /// <response code="404">If user could not be found</response>
+        /// <returns></returns>
+        /// <remarks>This endpoint can be called if the previous token is expired</remarks>
+        [HttpPost("emailconfirmationtoken")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> CreateNewEmailConfirmationToken([FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
+        {
+            await _authService.CreateNewEmailConfirmationTokenAsync(createEmailConfirmationTokenDto);
+            return Ok();
+        }
     }
 }
