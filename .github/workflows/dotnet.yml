@@ -1,8 +1,6 @@
-name: .NET
+name: Backend PR Check
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
