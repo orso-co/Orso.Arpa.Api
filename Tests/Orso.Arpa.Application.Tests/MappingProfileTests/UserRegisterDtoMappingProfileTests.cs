@@ -4,7 +4,6 @@ using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Application.AuthApplication.UserRegisterDto;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -22,7 +21,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         private IMapper _mapper;
 
         [Test]
-        public void Should_Map()
+        public void Should_Map_To_UserRegisterCommand()
         {
             // Arrange
             var dto = new UserRegisterDto
@@ -31,7 +30,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 Email = UserSeedData.Orsianer.Email,
                 GivenName = "Orsi",
                 Surname = "Aner",
-                UserName = UserSeedData.Orsianer.UserName
+                UserName = UserSeedData.Orsianer.UserName,
+                ClientUri = "http://localhost:4200"
             };
 
             // Act
@@ -39,6 +39,28 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
             // Assert
             command.Should().BeEquivalentTo(dto);
+        }
+
+        [Test]
+        public void Should_Map_To_CreateEmailConfirmationTokenCommand()
+        {
+            // Arrange
+            var dto = new UserRegisterDto
+            {
+                Password = UserSeedData.ValidPassword,
+                Email = UserSeedData.Orsianer.Email,
+                GivenName = "Orsi",
+                Surname = "Aner",
+                UserName = UserSeedData.Orsianer.UserName,
+                ClientUri = "http://localhost:4200"
+            };
+
+            // Act
+            CreateEmailConfirmationToken.Command command = _mapper.Map<CreateEmailConfirmationToken.Command>(dto);
+
+            // Assert
+            command.Email.Should().BeEquivalentTo(dto.Email);
+            command.ClientUri.Should().BeEquivalentTo(dto.ClientUri);
         }
     }
 }

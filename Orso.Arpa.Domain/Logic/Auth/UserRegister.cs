@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
-using Orso.Arpa.Mail;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -39,14 +36,10 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Handler : IRequestHandler<Command, Unit>
         {
-            private readonly IEmailSender _emailSender;
             private readonly UserManager<User> _userManager;
 
-            public Handler(
-                UserManager<User> userManager,
-                IEmailSender emailSender)
+            public Handler(UserManager<User> userManager)
             {
-                _emailSender = emailSender;
                 _userManager = userManager;
             }
 
@@ -63,19 +56,6 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (result.Succeeded)
                 {
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                    // ToDo: E-Mail Message und Subject definieren. Frontend-Link einfügen
-
-                    var param = new Dictionary<string, string>
-                        {
-                            { "token", token },
-                            { "email", user.Email }
-                        };
-                    var uri = QueryHelpers.AddQueryString(request.ClientUri, param);
-                    var message = new EmailMessage(new string[] { user.Email }, "Confirm email address", uri, false);
-                    await _emailSender.SendEmailAsync(message);
-
                     return Unit.Value;
                 }
 

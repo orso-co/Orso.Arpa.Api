@@ -18,5 +18,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
 
         Task ConfirmEmailAsync(ConfirmEmailDto confirmEmailDto);
+
+        Task CreateNewEmailConfirmationTokenAsync(CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto);
     }
 }

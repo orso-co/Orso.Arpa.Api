@@ -1,7 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
-using static Orso.Arpa.Domain.Logic.Auth.UserRegister;
+using Orso.Arpa.Domain.Logic.Auth;
 
 namespace Orso.Arpa.Application.AuthApplication
 {
@@ -41,7 +41,8 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public UserRegisterDtoMappingProfile()
         {
-            CreateMap<UserRegisterDto, Command>();
+            CreateMap<UserRegisterDto, UserRegister.Command>();
+            CreateMap<UserRegisterDto, CreateEmailConfirmationToken.Command>();
         }
     }
 }
