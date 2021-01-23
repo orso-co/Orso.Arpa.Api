@@ -20,5 +20,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task ConfirmEmailAsync(ConfirmEmailDto confirmEmailDto);
 
         Task CreateNewEmailConfirmationTokenAsync(CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto);
+
+        Task<TokenDto> RefreshAccessTokenAsync(string refreshToken);
     }
 }

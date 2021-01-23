@@ -20,8 +20,8 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<TokenDto> LoginAsync(LoginDto loginDto)
         {
-            Login.Command query = _mapper.Map<Login.Command>(loginDto);
-            var token = await _mediator.Send(query);
+            Login.Command command = _mapper.Map<Login.Command>(loginDto);
+            var token = await _mediator.Send(command);
             return _mapper.Map<TokenDto>(token);
         }
 
@@ -67,6 +67,13 @@ namespace Orso.Arpa.Application.Services
         {
             CreateEmailConfirmationToken.Command command = _mapper.Map<CreateEmailConfirmationToken.Command>(createEmailConfirmationTokenDto);
             await _mediator.Send(command);
+        }
+
+        public async Task<TokenDto> RefreshAccessTokenAsync(string refreshToken)
+        {
+            var command = new RefreshAccessToken.Command { RefreshToken = refreshToken };
+            var token = await _mediator.Send(command);
+            return _mapper.Map<TokenDto>(token);
         }
     }
 }

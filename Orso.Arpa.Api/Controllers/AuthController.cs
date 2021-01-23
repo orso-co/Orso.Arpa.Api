@@ -163,5 +163,16 @@ namespace Orso.Arpa.Api.Controllers
             await _authService.CreateNewEmailConfirmationTokenAsync(createEmailConfirmationTokenDto);
             return Ok();
         }
+
+        [HttpPost("refreshtoken")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<TokenDto>> RefreshAccessToken()
+        {
+            return await _authService.RefreshAccessTokenAsync(HttpContext.Request.Cookies["refreshToken"]);
+        }
     }
 }
