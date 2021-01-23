@@ -24,7 +24,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
                 TokenKey = "qwertzuiopaasdfghjklxcvbnm",
                 Audience = "audience",
                 Issuer = "issuer",
-                TokenExpirationTimeInMinutes = 60
+                AccessTokenExpiryInMinutes = 60
             };
             _userManager = new FakeUserManager();
             _roleManager = new FakeRoleManager();

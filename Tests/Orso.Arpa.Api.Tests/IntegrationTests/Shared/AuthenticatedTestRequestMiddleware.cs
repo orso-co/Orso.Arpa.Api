@@ -28,7 +28,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             User user = JsonConvert.DeserializeObject<User>(userJson);
 
-            var token = await _jwtGenerator.CreateTokenAsync(user);
+            var token = await _jwtGenerator.CreateTokensAsync(user);
 
             context.Request.Headers.Add("Authorization", "Bearer " + token);
             context.Request.Headers.Remove("user");

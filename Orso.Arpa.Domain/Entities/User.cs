@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace Orso.Arpa.Domain.Entities
@@ -9,6 +10,7 @@ namespace Orso.Arpa.Domain.Entities
         public string DisplayName => $"{Person.GivenName} {Person.Surname}";
         public virtual Person Person { get; set; }
         public Guid PersonId { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; private set; } = new HashSet<RefreshToken>();
 
         public void Delete()
         {

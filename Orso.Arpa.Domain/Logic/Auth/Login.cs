@@ -57,7 +57,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (result.Succeeded)
                 {
-                    return await _jwtGenerator.CreateTokenAsync(user);
+                    return await _jwtGenerator.CreateTokensAsync(user);
                 }
 
                 if (result.IsLockedOut)
