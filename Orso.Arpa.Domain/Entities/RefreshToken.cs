@@ -35,5 +35,9 @@ namespace Orso.Arpa.Domain.Entities
         public DateTime RevokedOn { get; private set; }
 
         public string RevokedByIp { get; private set; }
+
+        public bool IsExpired => DateTime.UtcNow >= ExpiryOn;
+
+        public bool IsActive => RevokedByIp == null && RevokedOn == DateTime.MinValue && !IsExpired;
     }
 }

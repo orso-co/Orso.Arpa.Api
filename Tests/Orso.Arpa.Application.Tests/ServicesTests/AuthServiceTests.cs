@@ -47,7 +47,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             _mapper.Map<TokenDto>(Arg.Any<string>()).Returns(new TokenDto { Token = token });
 
             // Act
-            TokenDto tokenDto = await _authService.LoginAsync(loginDto);
+            TokenDto tokenDto = await _authService.LoginAsync(loginDto, "127.0.0.1");
 
             // Assert
             tokenDto.Token.Should().Be(token);

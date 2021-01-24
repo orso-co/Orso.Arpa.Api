@@ -5,6 +5,6 @@ namespace Orso.Arpa.Domain.Interfaces
 {
     public interface IJwtGenerator
     {
-        Task<string> CreateTokensAsync(User user);
+        Task<string> CreateTokensAsync(User user, string remoteIpAddress);
     }
 }

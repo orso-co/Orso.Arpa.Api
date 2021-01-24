@@ -20,27 +20,27 @@ namespace Orso.Arpa.Infrastructure.Authentication
         private readonly JwtConfiguration _jwtConfiguration;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IArpaContext _arpaContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public JwtGenerator(
             JwtConfiguration jwtConfiguration,
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
-            IHttpContextAccessor httpContextAccessor,
-            IArpaContext arpaContext)
+            IArpaContext arpaContext,
+            IHttpContextAccessor httpContextAccessor)
         {
             _jwtConfiguration = jwtConfiguration;
             _userManager = userManager;
             _roleManager = roleManager;
-            _httpContextAccessor = httpContextAccessor;
             _arpaContext = arpaContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<string> CreateTokensAsync(User user)
+        public async Task<string> CreateTokensAsync(User user, string remoteIpAddress)
         {
             var accessToken = await CreateAccessTokenAsync(user);
-            await CreateRefreshTokenAsync(user);
+            await CreateRefreshTokenAsync(user, remoteIpAddress);
             return accessToken;
         }
 
@@ -87,11 +87,9 @@ namespace Orso.Arpa.Infrastructure.Authentication
             return tokenHandler.WriteToken(token);
         }
 
-        private async Task CreateRefreshTokenAsync(User user)
+        private async Task CreateRefreshTokenAsync(User user, string remoteIpAddress)
         {
-            var ipAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
-
-            RefreshToken refreshToken = GernerateRefreshToken(user, ipAddress);
+            RefreshToken refreshToken = GernerateRefreshToken(user, remoteIpAddress);
 
             var cookieOptions = new CookieOptions
             {

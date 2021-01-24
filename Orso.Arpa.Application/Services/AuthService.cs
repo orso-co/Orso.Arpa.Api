@@ -18,9 +18,10 @@ namespace Orso.Arpa.Application.Services
             _mediator = mediator;
         }
 
-        public async Task<TokenDto> LoginAsync(LoginDto loginDto)
+        public async Task<TokenDto> LoginAsync(LoginDto loginDto, string remoteIpAddress)
         {
             Login.Command command = _mapper.Map<Login.Command>(loginDto);
+            command.RemoteIpAddress = remoteIpAddress;
             var token = await _mediator.Send(command);
             return _mapper.Map<TokenDto>(token);
         }
@@ -71,7 +72,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<TokenDto> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
         {
-            var command = new RefreshAccessToken.Command { RefreshToken = refreshToken };
+            var command = new RefreshAccessToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
             var token = await _mediator.Send(command);
             var revokeCommand = new RevokeRefreshToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
             await _mediator.Send(revokeCommand);

@@ -35,7 +35,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
         {
-            return await _authService.LoginAsync(loginDto);
+            return await _authService.LoginAsync(loginDto, RemoteIpAddress);
         }
 
         /// <summary>

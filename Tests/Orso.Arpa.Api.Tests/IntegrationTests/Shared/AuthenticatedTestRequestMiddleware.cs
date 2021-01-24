@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -23,12 +24,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public async Task Invoke(HttpContext context)
         {
+            context.Connection.RemoteIpAddress = new IPAddress(16885952);
             var userJson =
                 context.Request.Headers["user"].FirstOrDefault() ?? string.Empty;
 
             User user = JsonConvert.DeserializeObject<User>(userJson);
 
-            var token = await _jwtGenerator.CreateTokensAsync(user);
+            var token = await _jwtGenerator.CreateTokensAsync(user, context.Connection.RemoteIpAddress.ToString());
 
             context.Request.Headers.Add("Authorization", "Bearer " + token);
             context.Request.Headers.Remove("user");

@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             const string expectedToken = "TestToken";
             User user = FakeUsers.Orsianer;
             var query = new Login.Command { UserName = user.UserName, Password = UserSeedData.ValidPassword };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>()).Returns(expectedToken);
+            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(expectedToken);
 
             // Act
             string token = await _handler.Handle(query, new CancellationToken());

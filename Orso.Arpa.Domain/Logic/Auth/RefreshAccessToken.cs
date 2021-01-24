@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Security.Authentication;
 using System.Threading;
@@ -17,6 +16,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
         public class Command : IRequest<string>
         {
             public string RefreshToken { get; set; }
+            public string RemoteIpAddress { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -24,6 +24,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
             public Validator()
             {
                 RuleFor(q => q.RefreshToken)
+                    .NotEmpty();
+                RuleFor(q => q.RemoteIpAddress)
                     .NotEmpty();
             }
         }
@@ -58,30 +60,13 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     throw new AuthenticationException("No valid refresh token available.");
                 }
 
-                return await _jwtGenerator.CreateTokensAsync(user);
+                return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress);
             }
 
             private RefreshToken GetValidRefreshToken(string token, User user)
             {
                 RefreshToken existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == token);
-                return IsRefreshTokenValid(existingToken) ? existingToken : null;
-            }
-
-            private bool IsRefreshTokenValid(RefreshToken existingToken)
-            {
-                // Is token already revoked, then return false
-                if (existingToken.RevokedByIp != null && existingToken.RevokedOn != DateTime.MinValue)
-                {
-                    return false;
-                }
-
-                // Token already expired, then return false
-                if (existingToken.ExpiryOn <= DateTime.UtcNow)
-                {
-                    return false;
-                }
-
-                return true;
+                return existingToken.IsActive ? existingToken : null;
             }
         }
     }
