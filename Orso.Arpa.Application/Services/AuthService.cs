@@ -69,11 +69,19 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task<TokenDto> RefreshAccessTokenAsync(string refreshToken)
+        public async Task<TokenDto> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
         {
             var command = new RefreshAccessToken.Command { RefreshToken = refreshToken };
             var token = await _mediator.Send(command);
+            var revokeCommand = new RevokeRefreshToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
+            await _mediator.Send(revokeCommand);
             return _mapper.Map<TokenDto>(token);
+        }
+
+        public async Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress)
+        {
+            var command = new RevokeRefreshToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
+            await _mediator.Send(command);
         }
     }
 }

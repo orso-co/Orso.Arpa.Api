@@ -3,9 +3,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -28,13 +31,17 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             };
             _userManager = new FakeUserManager();
             _roleManager = new FakeRoleManager();
-            _jwtGenerator = new JwtGenerator(_configuration, _userManager, _roleManager);
+            _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+            _arpaContext = Substitute.For<IArpaContext>();
+            _jwtGenerator = new JwtGenerator(_configuration, _userManager, _roleManager, _httpContextAccessor, _arpaContext);
         }
 
         private JwtGenerator _jwtGenerator;
         private JwtConfiguration _configuration;
         private UserManager<User> _userManager;
         private RoleManager<Role> _roleManager;
+        private IHttpContextAccessor _httpContextAccessor;
+        private IArpaContext _arpaContext;
 
         [Test]
         public async Task Should_Generate_Jwt_Token()
@@ -43,7 +50,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             User user = FakeUsers.Orsianer;
 
             // Act
-            var token = await _jwtGenerator.CreateTokenAsync(user);
+            var token = await _jwtGenerator.CreateTokensAsync(user);
 
             // Assert
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);

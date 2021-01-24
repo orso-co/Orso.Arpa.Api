@@ -21,6 +21,8 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task CreateNewEmailConfirmationTokenAsync(CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto);
 
-        Task<TokenDto> RefreshAccessTokenAsync(string refreshToken);
+        Task<TokenDto> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress);
+
+        Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress);
     }
 }

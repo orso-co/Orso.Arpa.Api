@@ -1,25 +1,39 @@
 using System;
+using Newtonsoft.Json;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class RefreshToken
     {
+        public RefreshToken(string token, DateTime expiryOn, string createdByIp, Guid userId)
+        {
+            Token = token;
+            ExpiryOn = expiryOn;
+            CreatedByIp = createdByIp;
+            UserId = userId;
+        }
+
+        [JsonConstructor]
+        protected RefreshToken()
+        {
+        }
+
         public Guid Id { get; private set; } = Guid.NewGuid();
 
-        public string Token { get; set; }
+        public string Token { get; private set; }
 
-        public Guid UserId { get; set; }
+        public Guid UserId { get; private set; }
 
-        public virtual User User { get; set; }
+        public virtual User User { get; private set; }
 
-        public DateTime ExpiryOn { get; set; }
+        public DateTime ExpiryOn { get; private set; }
 
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
-        public string CreatedByIp { get; set; }
+        public string CreatedByIp { get; private set; }
 
-        public DateTime RevokedOn { get; set; }
+        public DateTime RevokedOn { get; private set; }
 
-        public string RevokedByIp { get; set; }
+        public string RevokedByIp { get; private set; }
     }
 }

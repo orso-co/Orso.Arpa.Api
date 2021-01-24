@@ -103,7 +103,11 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
             user.RefreshTokens.Add(refreshToken);
             _arpaContext.Add(refreshToken);
-            await _arpaContext.SaveChangesAsync(new CancellationToken());
+
+            if (!(await _arpaContext.SaveChangesAsync(new CancellationToken()) > 0))
+            {
+                throw new Exception($"Problem creating {refreshToken.GetType().Name}");
+            }
         }
 
         private RefreshToken GernerateRefreshToken(User user, string ipAddress)
@@ -113,13 +117,12 @@ namespace Orso.Arpa.Infrastructure.Authentication
             rngCryptoServiceProvider.GetBytes(randomBytes);
 
             return new RefreshToken
-            {
-                Token = Convert.ToBase64String(randomBytes),
-                ExpiryOn = DateTime.UtcNow.AddDays(_jwtConfiguration.RefreshTokenExpiryInDays),
-                CreatedOn = DateTime.UtcNow,
-                CreatedByIp = ipAddress,
-                UserId = user.Id
-            };
+            (
+                Convert.ToBase64String(randomBytes),
+                DateTime.UtcNow.AddDays(_jwtConfiguration.RefreshTokenExpiryInDays),
+                ipAddress,
+                user.Id
+            );
         }
     }
 }
