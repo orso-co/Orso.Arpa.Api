@@ -262,6 +262,8 @@ namespace Orso.Arpa.Api
                         ValidateIssuer = true,
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero,
+                        RequireExpirationTime = true,
+                        RequireSignedTokens = true,
 
                         IssuerSigningKey = key,
                         ValidAudience = jwtConfig.Audience,

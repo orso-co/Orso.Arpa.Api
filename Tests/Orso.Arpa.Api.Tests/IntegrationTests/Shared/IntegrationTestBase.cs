@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -84,6 +86,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             IHost host = await webHostBuilder.StartAsync();
             return host.GetTestServer();
+        }
+
+        protected string GetCookieValueFromResponse(HttpResponseMessage response, string cookieName)
+        {
+            IEnumerable<string> cookies = response.Headers.SingleOrDefault(header => header.Key == "Set-Cookie").Value;
+            return cookies.FirstOrDefault(cookie => cookie.StartsWith(cookieName));
         }
     }
 }

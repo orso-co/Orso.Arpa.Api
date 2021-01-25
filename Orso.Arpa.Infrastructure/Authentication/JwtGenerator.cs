@@ -94,7 +94,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(_jwtConfiguration.RefreshTokenExpiryInDays)
+                Expires = refreshToken.ExpiryOn
             };
 
             _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);

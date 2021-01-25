@@ -191,22 +191,6 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="400">If request does not contain a refresh token cookie
         /// or no user could be found with supplied refresh token</response>
         /// </summary>
-        [HttpPost("revoketoken")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult> RevokeRefreshToken()
-        {
-            await _authService.RevokeRefreshTokenAsync(RefreshToken, RemoteIpAddress);
-            return Ok();
-        }
-
-        /// <summary>
-        /// Revokes current refresh token
-        /// <response code="200"></response>
-        /// <response code="400">If request does not contain a refresh token cookie
-        /// or no user could be found with supplied refresh token</response>
-        /// </summary>
         [HttpPost("logout")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
