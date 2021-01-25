@@ -443,7 +443,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var firstRefreshToken = GetCookieValueFromResponse(loginResult, "refreshToken");
             TokenDto firstAccessToken = await DeserializeResponseMessageAsync<TokenDto>(loginResult);
 
-            Thread.Sleep(500); // To ensure a significant difference between the access tokens
+            Thread.Sleep(1000); // To ensure a significant difference between the access tokens
 
             // Act
             HttpResponseMessage responseMessage = await client.SendAsync(

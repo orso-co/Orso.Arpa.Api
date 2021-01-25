@@ -221,5 +221,29 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Assert
             func.Should().NotThrow();
         }
+
+        [Test]
+        public void Should_Refresh_Token_Async()
+        {
+            // Arrange
+
+            // Act
+            Func<Task> func = async () => await _authService.RefreshAccessTokenAsync("refreshtoken", "127.0.0.1");
+
+            // Assert
+            func.Should().NotThrow();
+        }
+
+        [Test]
+        public void Should_Revoke_Token_Async()
+        {
+            // Arrange
+
+            // Act
+            Func<Task> func = async () => await _authService.RevokeRefreshTokenAsync("refreshtoken", "127.0.0.1");
+
+            // Assert
+            func.Should().NotThrow();
+        }
     }
 }
