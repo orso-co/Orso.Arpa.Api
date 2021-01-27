@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -31,28 +30,15 @@ namespace Orso.Arpa.Domain.Logic.Auth
             }
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, RefreshToken>()
-                    .ForMember(dest => dest.RevokedByIp, opt => opt.MapFrom(src => src.RemoteIpAddress))
-                    .ForMember(dest => dest.RevokedOn, opt => opt.MapFrom(src => DateTime.UtcNow))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
-        }
-
         public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly UserManager<User> _userManager;
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
-            public Handler(UserManager<User> userManager, IArpaContext arpaContext, IMapper mapper)
+            public Handler(UserManager<User> userManager, IArpaContext arpaContext)
             {
                 _userManager = userManager;
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -67,7 +53,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 RefreshToken existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == request.RefreshToken);
 
-                _mapper.Map(request, existingToken);
+                existingToken.Revoke(request);
 
                 _arpaContext.Set<RefreshToken>().Update(existingToken);
 

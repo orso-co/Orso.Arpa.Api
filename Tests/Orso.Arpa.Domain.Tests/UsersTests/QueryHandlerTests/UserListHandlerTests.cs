@@ -34,7 +34,9 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
             IEnumerable<User> users = await _handler.Handle(listQuery, new CancellationToken());
 
             // Assert
-            users.Should().BeEquivalentTo(expectedUsers, opt => opt.Excluding(user => user.ConcurrencyStamp));
+            users.Should().BeEquivalentTo(expectedUsers, opt => opt
+                .Excluding(user => user.ConcurrencyStamp)
+                .Excluding(user => user.RefreshTokens));
         }
     }
 }

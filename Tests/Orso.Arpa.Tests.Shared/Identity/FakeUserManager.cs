@@ -36,7 +36,7 @@ namespace Orso.Arpa.Tests.Shared.Identity
         {
             get
             {
-                IEnumerable<User> users = FakeData.FakeUsers.Users.Where(u => !u.Deleted);
+                IEnumerable<User> users = FakeUsers.Users.Where(u => !u.Deleted);
                 return users.AsQueryable().BuildMock();
             }
         }

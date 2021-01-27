@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Orso.Arpa.Domain.Logic.Auth;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -16,6 +17,12 @@ namespace Orso.Arpa.Domain.Entities
         [JsonConstructor]
         protected RefreshToken()
         {
+        }
+
+        public void Revoke(RevokeRefreshToken.Command command)
+        {
+            RevokedByIp = command.RemoteIpAddress;
+            RevokedOn = DateTime.UtcNow;
         }
 
         public Guid Id { get; private set; } = Guid.NewGuid();

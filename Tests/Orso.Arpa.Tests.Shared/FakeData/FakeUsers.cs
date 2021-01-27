@@ -27,7 +27,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         {
             get
             {
-                return new User
+                var user = new User
                 {
                     Id = Guid.Parse("6F836C0E-E27D-4363-A67A-9DA92037A589"),
                     UserName = "orsianer",
@@ -38,6 +38,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     NormalizedUserName = "ORSIANER",
                     EmailConfirmed = true
                 };
+                user.RefreshTokens.Add(new RefreshToken("orsianer_valid_refresh_token", DateTime.Now.AddDays(5), "127.0.0.1", user.Id));
+                return user;
             }
         }
 
@@ -45,7 +47,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         {
             get
             {
-                return new User
+                var user = new User
                 {
                     Id = Guid.Parse("DD0AA267-120E-4BD6-B6EB-02814C227E15"),
                     UserName = "orsonaut",
@@ -56,6 +58,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     NormalizedUserName = "ORSONAUT",
                     EmailConfirmed = true
                 };
+                user.RefreshTokens.Add(new RefreshToken("orsonaut_expired_refresh_token", DateTime.Now.AddDays(-5), "127.0.0.1", user.Id));
+                return user;
             }
         }
 

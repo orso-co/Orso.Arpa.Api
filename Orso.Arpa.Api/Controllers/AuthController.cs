@@ -173,12 +173,14 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="400">If request does not contain a refresh token cookie or no user could be found with supplied refresh token</response>
         /// <response code="401">If refresh token is not valid</response>
+        /// <response code="403">If the refresh token was accessed with a different IP than it was created</response>
         /// <returns>A new access token. Sets new refresh token cookie</returns>
         [HttpPost("refreshtoken")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult<TokenDto>> RefreshAccessToken()
         {
