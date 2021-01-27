@@ -94,7 +94,9 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             User user = await _userAccessor.GetCurrentUserAsync();
 
             // Assert
-            user.Should().BeEquivalentTo(expectedUser, opt => opt.Excluding(u => u.ConcurrencyStamp));
+            user.Should().BeEquivalentTo(expectedUser, opt => opt
+                .Excluding(u => u.ConcurrencyStamp)
+                .Excluding(u => u.RefreshTokens));
         }
     }
 }

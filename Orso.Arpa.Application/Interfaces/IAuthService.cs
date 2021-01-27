@@ -5,7 +5,7 @@ namespace Orso.Arpa.Application.Interfaces
 {
     public interface IAuthService
     {
-        Task<TokenDto> LoginAsync(LoginDto loginDto);
+        Task<TokenDto> LoginAsync(LoginDto loginDto, string remoteIpAddress);
 
         Task RegisterAsync(UserRegisterDto registerDto);
 
@@ -20,5 +20,9 @@ namespace Orso.Arpa.Application.Interfaces
         Task ConfirmEmailAsync(ConfirmEmailDto confirmEmailDto);
 
         Task CreateNewEmailConfirmationTokenAsync(CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto);
+
+        Task<TokenDto> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress);
+
+        Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress);
     }
 }

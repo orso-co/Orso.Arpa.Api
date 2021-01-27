@@ -27,6 +27,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string ConfirmEmail() => $"{Auth}/confirmemail";
 
             public static string CreateNewEmailConfirmationToken() => $"{Auth}/emailconfirmationtoken";
+
+            public static string RefreshToken() => $"{Auth}/refreshtoken";
+
+            public static string Logout() => $"{Auth}/logout";
         }
 
         public static class UsersController

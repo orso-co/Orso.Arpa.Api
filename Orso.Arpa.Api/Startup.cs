@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -246,19 +247,38 @@ namespace Orso.Arpa.Api
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.TokenKey));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                 .AddJwtBearer(opt =>
                 {
+                    opt.SaveToken = true;
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
                         ValidateAudience = true,
                         ValidateIssuer = true,
                         ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                        RequireExpirationTime = true,
+                        RequireSignedTokens = true,
 
                         IssuerSigningKey = key,
                         ValidAudience = jwtConfig.Audience,
                         ValidIssuer = jwtConfig.Issuer,
+                    };
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("Token-Expired", "true");
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
         }
@@ -274,6 +294,7 @@ namespace Orso.Arpa.Api
                 {
                     policy
                         .AllowAnyHeader()
+                        .WithExposedHeaders("Token-Expired")
                         .AllowAnyMethod()
                         .WithOrigins(allowedOrigin);
                 });

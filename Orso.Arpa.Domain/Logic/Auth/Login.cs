@@ -16,6 +16,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             public string UserName { get; set; }
             public string Password { get; set; }
+            public string RemoteIpAddress { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -25,6 +26,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 RuleFor(q => q.UserName)
                     .MustAsync(async (userName, cancellation) => await userManager.FindByNameAsync(userName) != null)
                     .OnFailure(request => throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password"));
+                RuleFor(q => q.RemoteIpAddress)
+                    .NotEmpty();
             }
         }
 
@@ -57,7 +60,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (result.Succeeded)
                 {
-                    return await _jwtGenerator.CreateTokenAsync(user);
+                    return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress);
                 }
 
                 if (result.IsLockedOut)

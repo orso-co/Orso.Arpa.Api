@@ -61,5 +61,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 throw;
             }
         }
+
+        public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseMiddleware<TestRequestMiddleware>();
+            base.Configure(app, env);
+        }
     }
 }

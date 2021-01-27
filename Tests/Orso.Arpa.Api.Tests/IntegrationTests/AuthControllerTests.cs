@@ -3,9 +3,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Net.Http.Headers;
 using netDumbster.smtp;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
@@ -57,6 +60,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(result.Token);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value.Should().Be(user.DisplayName);
+            var refreshToken = GetCookieValueFromResponse(responseMessage, "refreshToken");
+            refreshToken.Should().NotBeNullOrEmpty();
         }
 
         [Test]
@@ -418,6 +423,84 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(0);
             _fakeSmtpServer.Stop();
+        }
+
+        [Test]
+        public async Task Should_Refresh_Access_Token()
+        {
+            // Arrange
+            HttpClient client = _unAuthenticatedServer
+                .CreateClient();
+            User user = UserSeedData.Orsianer;
+            var loginDto = new LoginDto
+            {
+                UserName = user.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+
+            HttpResponseMessage loginResult = await client
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+            var firstRefreshToken = GetCookieValueFromResponse(loginResult, "refreshToken");
+            TokenDto firstAccessToken = await DeserializeResponseMessageAsync<TokenDto>(loginResult);
+
+            Thread.Sleep(1000); // To ensure a significant difference between the access tokens
+
+            // Act
+            HttpResponseMessage responseMessage = await client.SendAsync(
+                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            TokenDto result = await DeserializeResponseMessageAsync<TokenDto>(responseMessage);
+
+            result.Token.Should().NotBeNullOrEmpty();
+            result.Token.Should().NotBeEquivalentTo(firstAccessToken.Token);
+
+            var refreshToken = GetCookieValueFromResponse(responseMessage, "refreshToken");
+            refreshToken.Should().NotBeNullOrEmpty();
+            refreshToken.Should().NotBeEquivalentTo(firstRefreshToken);
+        }
+
+        [Test]
+        public async Task Should_Logout()
+        {
+            // Arrange
+            HttpClient client = _unAuthenticatedServer
+                .CreateClient();
+            User user = UserSeedData.Orsianer;
+            var loginDto = new LoginDto
+            {
+                UserName = user.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+
+            HttpResponseMessage loginResult = await client
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+            TokenDto tokenDto = await DeserializeResponseMessageAsync<TokenDto>(loginResult);
+
+            // Act
+            HttpRequestMessage request =
+                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.Logout(), loginResult);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokenDto.Token);
+            HttpResponseMessage responseMessage = await client.SendAsync(request);
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            HttpResponseMessage refreshMessage = await client.SendAsync(
+                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult));
+            refreshMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        }
+
+        private HttpRequestMessage CreateRequestWithCookie(HttpMethod httpMethod, string path, HttpResponseMessage response)
+        {
+            var request = new HttpRequestMessage(httpMethod, path);
+            if (response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
+            {
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToList()).First();
+                request.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
+            }
+
+            return request;
         }
     }
 }

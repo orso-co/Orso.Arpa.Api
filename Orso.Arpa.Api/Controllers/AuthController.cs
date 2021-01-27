@@ -11,6 +11,8 @@ namespace Orso.Arpa.Api.Controllers
     public class AuthController : BaseController
     {
         private readonly IAuthService _authService;
+        private string RefreshToken => HttpContext.Request.Cookies["refreshToken"];
+        private string RemoteIpAddress => HttpContext.Connection.RemoteIpAddress.ToString();
 
         public AuthController(IAuthService authService)
         {
@@ -18,13 +20,13 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Authenticates a user with username and password
+        /// Authenticates a user with username and password.
         /// </summary>
         /// <param name="loginDto"></param>
-        /// <returns>The created jwt token</returns>
-        /// <response code="200">Returns the created jwt token</response>
+        /// <returns>The created jwt access token. Sets refreshtoken Cookie</returns>
+        /// <response code="200"></response>
         /// <response code="400">If username or password are empty</response>
-        /// <response code="401">If username or password are wrong or user is locked</response>
+        /// <response code="401">If username or password are wrong or user is locked or email is not yet confirmed</response>
         [HttpPost("login")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,7 +35,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
         {
-            return await _authService.LoginAsync(loginDto);
+            return await _authService.LoginAsync(loginDto, RemoteIpAddress);
         }
 
         /// <summary>
@@ -158,9 +160,46 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> CreateNewEmailConfirmationToken([FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
+        public async Task<ActionResult> CreateNewEmailConfirmationToken(
+            [FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
         {
             await _authService.CreateNewEmailConfirmationTokenAsync(createEmailConfirmationTokenDto);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Creates a new access and refresh token based on the existing refresh token in the refreshtoken Cookie
+        /// </summary>
+        /// <response code="200"></response>
+        /// <response code="400">If request does not contain a refresh token cookie or no user could be found with supplied refresh token</response>
+        /// <response code="401">If refresh token is not valid</response>
+        /// <response code="403">If the refresh token was accessed with a different IP than it was created</response>
+        /// <returns>A new access token. Sets new refresh token cookie</returns>
+        [HttpPost("refreshtoken")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<TokenDto>> RefreshAccessToken()
+        {
+            return await _authService.RefreshAccessTokenAsync(RefreshToken, RemoteIpAddress);
+        }
+
+        /// <summary>
+        /// Revokes current refresh token
+        /// <response code="200"></response>
+        /// <response code="400">If request does not contain a refresh token cookie
+        /// or no user could be found with supplied refresh token</response>
+        /// </summary>
+        [HttpPost("logout")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Logout()
+        {
+            await _authService.RevokeRefreshTokenAsync(RefreshToken, RemoteIpAddress);
             return Ok();
         }
     }

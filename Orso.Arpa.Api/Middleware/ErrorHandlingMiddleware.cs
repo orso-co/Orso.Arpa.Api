@@ -85,6 +85,12 @@ namespace Orso.Arpa.Api.Middleware
                     context.Response.StatusCode = (int)HttpStatusCode.FailedDependency;
                     break;
 
+                case AuthorizationException aze:
+                    _logger.LogError(aze, "AUTHORIZATION ERROR");
+                    errorMessage = new ErrorMessage { Message = aze.Message };
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    break;
+
                 case Exception e:
                     _logger.LogError(e, "SERVER ERROR");
                     errorMessage = new ErrorMessage { Message = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message };
