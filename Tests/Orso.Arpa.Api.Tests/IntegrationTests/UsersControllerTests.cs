@@ -48,7 +48,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(10000)]
-        public async Task Should_Not_Delete_User_If_Current_User_Is_Not_Orsoadmin()
+        public async Task Should_Not_Delete_User_If_Current_User_Is_Not_Admin()
         {
             // Arrange
             User user = FakeUsers.Admin;
