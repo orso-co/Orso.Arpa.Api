@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
         public async Task Should_Delete_User()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
+            User user = FakeUsers.Performer;
 
             // Act
             Unit result = await _handler.Handle(new Delete.Command(user.UserName), new CancellationToken());

@@ -27,10 +27,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new UserRegisterDto
             {
                 Password = UserSeedData.ValidPassword,
-                Email = UserSeedData.Orsianer.Email,
+                Email = UserSeedData.Performer.Email,
                 GivenName = "Orsi",
                 Surname = "Aner",
-                UserName = UserSeedData.Orsianer.UserName,
+                UserName = UserSeedData.Performer.UserName,
                 ClientUri = "http://localhost:4200"
             };
 
@@ -48,10 +48,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new UserRegisterDto
             {
                 Password = UserSeedData.ValidPassword,
-                Email = UserSeedData.Orsianer.Email,
+                Email = UserSeedData.Performer.Email,
                 GivenName = "Orsi",
                 Surname = "Aner",
-                UserName = UserSeedData.Orsianer.UserName,
+                UserName = UserSeedData.Performer.UserName,
                 ClientUri = "http://localhost:4200"
             };
 

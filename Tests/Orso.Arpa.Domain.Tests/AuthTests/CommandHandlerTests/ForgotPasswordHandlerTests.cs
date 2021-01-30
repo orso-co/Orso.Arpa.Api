@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public async Task Should_Handle_Forgot_Password()
         {
             // Arrange
-            User user = Arpa.Tests.Shared.FakeData.FakeUsers.Orsianer;
+            User user = Arpa.Tests.Shared.FakeData.FakeUsers.Performer;
             var command = new ForgotPassword.Command
             {
                 UserName = user.UserName,

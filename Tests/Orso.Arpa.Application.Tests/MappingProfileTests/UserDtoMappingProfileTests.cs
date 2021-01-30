@@ -25,8 +25,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
-            UserDto expectedDto = UserDtoData.Orsianer;
+            User user = FakeUsers.Performer;
+            UserDto expectedDto = UserDtoData.Performer;
 
             // Act
             UserDto dto = _mapper.Map<UserDto>(user);

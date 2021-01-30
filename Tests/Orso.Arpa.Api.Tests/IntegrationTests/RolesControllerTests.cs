@@ -22,7 +22,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.RolesController.Get());
 
             // Assert

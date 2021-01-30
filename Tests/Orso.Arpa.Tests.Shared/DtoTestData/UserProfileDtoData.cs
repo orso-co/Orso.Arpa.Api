@@ -7,12 +7,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class UserProfileDtoData
     {
-        public static MyProfileDto Orsianer
+        public static MyProfileDto Performer
         {
             get
             {
-                User user = FakeUsers.Orsianer;
-                Person person = PersonSeedData.Orsianer;
+                User user = FakeUsers.Performer;
+                Person person = PersonSeedData.Performer;
                 return new MyProfileDto
                 {
                     Email = user.Email,

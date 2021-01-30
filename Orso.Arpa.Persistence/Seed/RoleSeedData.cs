@@ -13,14 +13,14 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 return new List<Role>
                 {
-                    Orsianer,
-                    Orsonaut,
-                    Orsoadmin
+                    Performer,
+                    Staff,
+                    Admin
                 };
             }
         }
 
-        public static Role Orsianer
+        public static Role Performer
         {
             get
             {
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        public static Role Orsonaut
+        public static Role Staff
         {
             get
             {
@@ -46,7 +46,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        public static Role Orsoadmin
+        public static Role Admin
         {
             get
             {

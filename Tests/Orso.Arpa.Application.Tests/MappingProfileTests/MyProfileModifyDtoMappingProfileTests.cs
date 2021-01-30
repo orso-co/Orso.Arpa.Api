@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             var dto = new MyProfileModifyDto
             {
-                Email = UserSeedData.Orsianer.Email,
+                Email = UserSeedData.Performer.Email,
                 GivenName = "Orsi",
                 Surname = "Aner",
                 PhoneNumber = "123456"

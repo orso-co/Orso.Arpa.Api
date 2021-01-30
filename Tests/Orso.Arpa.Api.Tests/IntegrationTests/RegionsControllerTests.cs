@@ -29,7 +29,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new RegionDto
             {
                 Name = createDto.Name,
-                CreatedBy = _orsonaut.DisplayName,
+                CreatedBy = _staff.DisplayName,
                 CreatedAt = DateTime.UtcNow.ToIsoString(),
                 ModifiedAt = null,
                 ModifiedBy = null,
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PostAsync(ApiEndpoints.RegionsController.Post(), BuildStringContent(createDto));
 
             // Assert
@@ -67,13 +67,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = regionToModify.CreatedBy,
                 CreatedAt = regionToModify.CreatedAt.ToIsoString(),
                 ModifiedAt = DateTime.UtcNow.ToIsoString(),
-                ModifiedBy = _orsonaut.DisplayName,
+                ModifiedBy = _staff.DisplayName,
             };
 
             // Act
             HttpClient client = _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut);
+                .AuthenticateWith(_staff);
 
             HttpResponseMessage responseMessage = await client
                 .PutAsync(ApiEndpoints.RegionsController.Put(regionToModify.Id), BuildStringContent(modifyDto));
@@ -97,7 +97,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.RegionsController.Get());
 
             // Assert
@@ -115,7 +115,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.RegionsController.Get(expectedDto.Id));
 
             // Assert
@@ -133,7 +133,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .DeleteAsync(ApiEndpoints.RegionsController.Delete(regionToDelete.Id));
 
             // Assert

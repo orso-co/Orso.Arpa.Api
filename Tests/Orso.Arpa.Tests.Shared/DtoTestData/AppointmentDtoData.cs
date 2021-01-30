@@ -39,58 +39,58 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     ExpectationId = Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1")
                 };
-                dto.Participations.Add(OrsianerParticipation);
-                dto.Participations.Add(OrsonautParticipation);
-                dto.Participations.Add(OrsoadminParticipation);
+                dto.Participations.Add(PerformerParticipation);
+                dto.Participations.Add(StaffParticipation);
+                dto.Participations.Add(AdminParticipation);
                 dto.Projects.Add(ProjectDtoData.RockingXMas);
                 return dto;
             }
         }
 
-        private static AppointmentParticipationListItemDto OrsianerParticipation
+        private static AppointmentParticipationListItemDto PerformerParticipation
         {
             get
             {
                 return new AppointmentParticipationListItemDto
                 {
-                    Person = PersonDtoData.Orsianer,
-                    Participation = AppointmentParticipationDtoData.OrsianerParticipation,
+                    Person = PersonDtoData.Performer,
+                    Participation = AppointmentParticipationDtoData.PerformerParticipation,
                     MusicianProfiles = new List<MusicianProfileDto>
                     {
-                        MusicianProfileDtoData.OrsianerProfile
+                        MusicianProfileDtoData.PerformerProfile
                     }
                 };
             }
         }
 
-        private static AppointmentParticipationListItemDto OrsonautParticipation
+        private static AppointmentParticipationListItemDto StaffParticipation
         {
             get
             {
                 return new AppointmentParticipationListItemDto
                 {
-                    Person = PersonDtoData.Orsonaut,
-                    Participation = AppointmentParticipationDtoData.OrsonautParticipation,
+                    Person = PersonDtoData.Staff,
+                    Participation = AppointmentParticipationDtoData.StaffParticipation,
                     MusicianProfiles = new List<MusicianProfileDto>
                     {
-                        MusicianProfileDtoData.OrsonautProfile1,
-                        MusicianProfileDtoData.OrsonautProfile2
+                        MusicianProfileDtoData.StaffProfile1,
+                        MusicianProfileDtoData.StaffProfile2
                     }
                 };
             }
         }
 
-        private static AppointmentParticipationListItemDto OrsoadminParticipation
+        private static AppointmentParticipationListItemDto AdminParticipation
         {
             get
             {
                 return new AppointmentParticipationListItemDto
                 {
-                    Person = PersonDtoData.Orsoadmin,
+                    Person = PersonDtoData.Admin,
                     Participation = null,
                     MusicianProfiles = new List<MusicianProfileDto>
                     {
-                        MusicianProfileDtoData.OrsoadminProfile1
+                        MusicianProfileDtoData.AdminProfile1
                     }
                 };
             }

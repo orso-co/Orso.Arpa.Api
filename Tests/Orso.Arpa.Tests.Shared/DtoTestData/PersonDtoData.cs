@@ -6,29 +6,29 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class PersonDtoData
     {
-        public static PersonDto Orsianer
+        public static PersonDto Performer
         {
             get
             {
-                Person person = PersonSeedData.Orsianer;
+                Person person = PersonSeedData.Performer;
                 return CreateDto(person);
             }
         }
 
-        public static PersonDto Orsonaut
+        public static PersonDto Staff
         {
             get
             {
-                Person person = PersonSeedData.Orsonaut;
+                Person person = PersonSeedData.Staff;
                 return CreateDto(person);
             }
         }
 
-        public static PersonDto Orsoadmin
+        public static PersonDto Admin
         {
             get
             {
-                Person person = PersonSeedData.Orsoadmin;
+                Person person = PersonSeedData.Admin;
                 return CreateDto(person);
             }
         }

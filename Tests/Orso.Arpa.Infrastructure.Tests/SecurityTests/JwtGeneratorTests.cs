@@ -48,7 +48,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         public async Task Should_Generate_Jwt_Token()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
+            User user = FakeUsers.Performer;
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
@@ -58,8 +58,8 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
             decryptedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value.Should().Be(user.DisplayName);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value.Should().BeEquivalentTo(RoleSeedData.Orsianer.Name);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == "RoleLevel")?.Value.Should().BeEquivalentTo(RoleSeedData.Orsianer.Level.ToString());
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value.Should().BeEquivalentTo(RoleSeedData.Performer.Name);
+            decryptedToken.Claims.FirstOrDefault(c => c.Type == "RoleLevel")?.Value.Should().BeEquivalentTo(RoleSeedData.Performer.Level.ToString());
             decryptedToken.Issuer.Should().Be(_configuration.Issuer);
             decryptedToken.Audiences.FirstOrDefault().Should().Be(_configuration.Audience);
         }

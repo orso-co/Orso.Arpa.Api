@@ -20,12 +20,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_Profile()
         {
             // Arrange
-            MyProfileDto expectedDto = UserProfileDtoData.Orsianer;
+            MyProfileDto expectedDto = UserProfileDtoData.Performer;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.MeController.GetProfile());
 
             // Assert
@@ -39,19 +39,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_Appointments()
         {
             // Arrange
-            MyAppointmentDto expectedUserAppointment = UserAppointmentDtoTestData.OrsianerUserAppointment;
+            MyAppointmentDto expectedUserAppointment = UserAppointmentDtoTestData.PerformerUserAppointment;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.MeController.GetAppointments(1, 1));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyAppointmentListDto result = await DeserializeResponseMessageAsync<MyAppointmentListDto>(responseMessage);
 
-            result.UserAppointments.Should().BeEquivalentTo(UserAppointmentDtoTestData.OrsianerUserAppointments, opt => opt
+            result.UserAppointments.Should().BeEquivalentTo(UserAppointmentDtoTestData.PerformerUserAppointments, opt => opt
                 .Excluding(dto => dto.CreatedAt)
                 .Excluding(dto => dto.Projects)
                 .Excluding(dto => dto.Venue));
@@ -73,7 +73,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Modify_Profile()
         {
             // Arrange
-            User userToModify = FakeUsers.Orsianer;
+            User userToModify = FakeUsers.Performer;
             var modifyDto = new MyProfileModifyDto
             {
                 Email = "changed" + userToModify.Email,
@@ -94,7 +94,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpClient client = _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer);
+                .AuthenticateWith(_performer);
 
             HttpResponseMessage responseMessage = await client
                 .PutAsync(ApiEndpoints.MeController.PutProfile(), BuildStringContent(modifyDto));
@@ -117,7 +117,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
                     SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id), null);

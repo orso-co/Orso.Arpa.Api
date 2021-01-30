@@ -12,7 +12,7 @@ namespace Orso.Arpa.Domain.Tests.EntityTests
         public void Should_Set_Deletion_Flag()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
+            User user = FakeUsers.Performer;
 
             // Act
             user.Delete();

@@ -6,11 +6,11 @@ namespace Orso.Arpa.Tests.Shared.FakeData
 {
     public static class FakeProjectParticipations
     {
-        public static ProjectParticipation OrsianerProjectParticipation
+        public static ProjectParticipation PerformerProjectParticipation
         {
             get
             {
-                ProjectParticipation participation = ProjectParticipationSeedData.OrsianerParticipation;
+                ProjectParticipation participation = ProjectParticipationSeedData.PerformerParticipation;
                 participation.SetProperty(nameof(ProjectParticipation.Project), FakeProjects.RockingXMas);
                 return participation;
             }

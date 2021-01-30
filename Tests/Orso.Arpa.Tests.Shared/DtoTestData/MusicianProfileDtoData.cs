@@ -6,49 +6,49 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class MusicianProfileDtoData
     {
-        public static MusicianProfileDto OrsianerProfile
+        public static MusicianProfileDto PerformerProfile
         {
             get
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.OrsianerMusicianProfile.IsProfessional,
+                    IsProfessional = MusicianProfileSeedData.PerformerMusicianProfile.IsProfessional,
                     SectionName = SectionSeedData.Alto1.Name
                 };
             }
         }
 
-        public static MusicianProfileDto OrsonautProfile1
+        public static MusicianProfileDto StaffProfile1
         {
             get
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.OrsonautMusicianProfile1.IsProfessional,
+                    IsProfessional = MusicianProfileSeedData.StaffMusicianProfile1.IsProfessional,
                     SectionName = SectionSeedData.Tenor1.Name
                 };
             }
         }
 
-        public static MusicianProfileDto OrsonautProfile2
+        public static MusicianProfileDto StaffProfile2
         {
             get
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.OrsonautMusicianProfile2.IsProfessional,
+                    IsProfessional = MusicianProfileSeedData.StaffMusicianProfile2.IsProfessional,
                     SectionName = SectionSeedData.Tenor2.Name
                 };
             }
         }
 
-        public static MusicianProfileDto OrsoadminProfile1
+        public static MusicianProfileDto AdminProfile1
         {
             get
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.OrsoadminMusicianProfile1.IsProfessional,
+                    IsProfessional = MusicianProfileSeedData.AdminMusicianProfile1.IsProfessional,
                     SectionName = SectionSeedData.Soprano1.Name
                 };
             }

@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             // Arrange
             var command = new RevokeRefreshToken.Command
             {
-                RefreshToken = "orsianer_valid_refresh_token",
+                RefreshToken = "performer_valid_refresh_token",
                 RemoteIpAddress = "127.0.0.1",
             };
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);

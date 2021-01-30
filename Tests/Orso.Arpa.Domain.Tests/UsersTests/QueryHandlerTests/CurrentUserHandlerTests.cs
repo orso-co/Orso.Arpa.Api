@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public async Task Should_Get_Current_User_Profile()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
+            User user = FakeUsers.Performer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
 
             // Act

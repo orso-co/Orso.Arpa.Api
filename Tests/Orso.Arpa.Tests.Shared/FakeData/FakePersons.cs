@@ -5,12 +5,12 @@ namespace Orso.Arpa.Tests.Shared.FakeData
 {
     public static class FakePersons
     {
-        public static Person Orsianer
+        public static Person Performer
         {
             get
             {
-                Person person = PersonSeedData.Orsianer;
-                person.MusicianProfiles.Add(FakeMusicianProfiles.OrsianerMusicianProfile);
+                Person person = PersonSeedData.Performer;
+                person.MusicianProfiles.Add(FakeMusicianProfiles.PerformerMusicianProfile);
                 return person;
             }
         }

@@ -11,9 +11,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new List<UserDto>
                 {
-                    Orsianer,
-                    Orsonaut,
-                    Orsoadmin,
+                    Performer,
+                    Staff,
+                    Admin,
                     UserWithoutRole,
                     LockedOutUser,
                     UnconfirmedUser
@@ -21,43 +21,43 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static UserDto Orsianer
+        public static UserDto Performer
         {
             get
             {
                 return new UserDto
                 {
-                    UserName = "orsianer",
-                    RoleName = "Orsianer",
-                    DisplayName = "Orsi Aner",
+                    UserName = "performer",
+                    RoleName = "Performer",
+                    DisplayName = "Per Former",
                     RoleLevel = 1
                 };
             }
         }
 
-        public static UserDto Orsonaut
+        public static UserDto Staff
         {
             get
             {
                 return new UserDto
                 {
-                    UserName = "orsonaut",
-                    RoleName = "Orsonaut",
-                    DisplayName = "Orso Naut",
+                    UserName = "staff",
+                    RoleName = "Staff",
+                    DisplayName = "Staff Member",
                     RoleLevel = 2
                 };
             }
         }
 
-        public static UserDto Orsoadmin
+        public static UserDto Admin
         {
             get
             {
                 return new UserDto
                 {
-                    UserName = "orsoadmin",
-                    RoleName = "Orsoadmin",
-                    DisplayName = "Orso Admin",
+                    UserName = "admin",
+                    RoleName = "Admin",
+                    DisplayName = "Ad Min",
                     RoleLevel = 3
                 };
             }

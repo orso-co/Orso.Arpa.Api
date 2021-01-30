@@ -50,7 +50,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             var command = new CreateEmailConfirmationToken.Command
             {
-                Email = UserSeedData.Orsianer.Email,
+                Email = UserSeedData.Performer.Email,
                 ClientUri = "http://localhost:4200"
             };
 

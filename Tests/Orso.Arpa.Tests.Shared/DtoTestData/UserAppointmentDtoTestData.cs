@@ -6,18 +6,18 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class UserAppointmentDtoTestData
     {
-        public static IList<MyAppointmentDto> OrsianerUserAppointments
+        public static IList<MyAppointmentDto> PerformerUserAppointments
         {
             get
             {
                 return new List<MyAppointmentDto>
                 {
-                    OrsianerUserAppointment
+                    PerformerUserAppointment
                 };
             }
         }
 
-        public static MyAppointmentDto OrsianerUserAppointment
+        public static MyAppointmentDto PerformerUserAppointment
         {
             get
             {

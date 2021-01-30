@@ -19,7 +19,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.SectionsController.Get());
 
             // Assert

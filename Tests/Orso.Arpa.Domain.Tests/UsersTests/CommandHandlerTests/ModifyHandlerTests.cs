@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
         public async Task Should_Modify_User()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
+            User user = FakeUsers.Performer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
             _mapper.Map(Arg.Any<Modify.Command>(), Arg.Any<User>()).Returns(user);
 

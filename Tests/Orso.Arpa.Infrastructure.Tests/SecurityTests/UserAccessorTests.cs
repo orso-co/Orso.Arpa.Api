@@ -83,7 +83,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         public async Task Should_Get_Current_User()
         {
             // Arrange
-            User expectedUser = FakeUsers.Orsianer;
+            User expectedUser = FakeUsers.Performer;
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, expectedUser.UserName)

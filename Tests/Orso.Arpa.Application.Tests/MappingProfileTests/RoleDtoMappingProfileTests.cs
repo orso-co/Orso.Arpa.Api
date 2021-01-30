@@ -25,8 +25,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Role role = RoleSeedData.Orsianer;
-            RoleDto expectedDto = RoleDtoData.Orsianer;
+            Role role = RoleSeedData.Performer;
+            RoleDto expectedDto = RoleDtoData.Performer;
 
             // Act
             RoleDto dto = _mapper.Map<RoleDto>(role);
