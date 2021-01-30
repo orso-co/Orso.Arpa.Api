@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
         public async Task Should_Get_User_Appointments()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
+            User user = FakeUsers.Performer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
             var expectedAppointments = new List<Appointment> { AppointmentSeedData.RockingXMasRehearsal };
 

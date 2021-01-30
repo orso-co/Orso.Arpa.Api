@@ -26,7 +26,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(new DateTime(2019, 12, 21), DateRange.Day));
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
 
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedAppointment.Id));
 
             // Assert
@@ -96,7 +96,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new AppointmentDto
             {
                 Name = createDto.Name,
-                CreatedBy = _orsonaut.DisplayName,
+                CreatedBy = _staff.DisplayName,
                 CreatedAt = DateTime.UtcNow.ToIsoString(),
                 ModifiedAt = null,
                 ModifiedBy = null,
@@ -113,7 +113,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PostAsync(ApiEndpoints.AppointmentsController.Post(), BuildStringContent(createDto));
 
             // Assert
@@ -131,7 +131,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PostAsync(ApiEndpoints.AppointmentsController.AddRoom(
                     AppointmentSeedData.RockingXMasConcert.Id,
                     RoomSeedData.AulaWeiherhofSchule.Id), null);
@@ -146,7 +146,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PostAsync(ApiEndpoints.AppointmentsController.AddSection(
                     AppointmentSeedData.RockingXMasConcert.Id,
                     SectionSeedData.Alto.Id), null);
@@ -161,7 +161,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PostAsync(ApiEndpoints.AppointmentsController.AddProject(
                     AppointmentSeedData.RockingXMasConcert.Id,
                     ProjectSeedData.RockingXMas.Id), null);
@@ -174,8 +174,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(PersonSeedData.Orsianer);
-                yield return new TestCaseData(PersonSeedData.Orsoadmin);
+                yield return new TestCaseData(PersonSeedData.Performer);
+                yield return new TestCaseData(PersonSeedData.Admin);
             }
         }
 
@@ -186,7 +186,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationResult(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
                     person.Id,
@@ -202,7 +202,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.AppointmentsController.SetVenue(
                     AppointmentSeedData.RockingXMasConcert.Id,
                     VenueSeedData.WeiherhofSchule.Id), null);
@@ -233,7 +233,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.AppointmentsController.Put(appointmentToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
@@ -254,7 +254,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.AppointmentsController.SetDates(appointmentToModify.Id), BuildStringContent(setDatesDto));
 
             // Assert
@@ -267,7 +267,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .DeleteAsync(ApiEndpoints.AppointmentsController.AddRoom(
                     AppointmentSeedData.AfterShowParty.Id,
                     RoomSeedData.AulaWeiherhofSchule.Id));
@@ -282,7 +282,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .DeleteAsync(ApiEndpoints.AppointmentsController.AddSection(
                     AppointmentSeedData.AfterShowParty.Id,
                     SectionSeedData.Alto.Id));
@@ -297,7 +297,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .DeleteAsync(ApiEndpoints.AppointmentsController.AddProject(
                     AppointmentSeedData.AfterShowParty.Id,
                     ProjectSeedData.RockingXMas.Id));
@@ -315,7 +315,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .DeleteAsync(ApiEndpoints.AppointmentsController.Delete(appointmentToDelete.Id));
 
             // Assert

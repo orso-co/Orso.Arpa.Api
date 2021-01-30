@@ -26,7 +26,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If user could not be found</response>
         [HttpDelete("{username}")]
-        [Authorize(Roles = RoleNames.Orsoadmin)]
+        [Authorize(Roles = RoleNames.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Delete([FromRoute] string userName)
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A list of users</returns>
         /// <response code="200"></response>
         [HttpGet]
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         public async Task<IEnumerable<UserDto>> Get()

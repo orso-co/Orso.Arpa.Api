@@ -34,7 +34,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var loginDto = new LoginDto
             {
-                UserName = UserSeedData.Orsianer.UserName,
+                UserName = UserSeedData.Performer.UserName,
                 Password = UserSeedData.ValidPassword
             };
             _mapper.Map<Login.Command>(loginDto).Returns(new Login.Command
@@ -59,11 +59,11 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var registerDto = new UserRegisterDto
             {
-                Email = UserSeedData.Orsianer.Email,
+                Email = UserSeedData.Performer.Email,
                 Password = UserSeedData.ValidPassword,
                 GivenName = "Orsi",
                 Surname = "Aner",
-                UserName = UserSeedData.Orsianer.UserName
+                UserName = UserSeedData.Performer.UserName
             };
             _mapper.Map<UserRegister.Command>(registerDto).Returns(new UserRegister.Command
             {
@@ -113,8 +113,8 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var setRoleDto = new SetRoleDto
             {
-                UserName = UserSeedData.Orsianer.UserName,
-                RoleName = RoleNames.Orsonaut
+                UserName = UserSeedData.Performer.UserName,
+                RoleName = RoleNames.Staff
             };
             _mapper.Map<SetRole.Command>(setRoleDto)
                 .Returns(new SetRole.Command

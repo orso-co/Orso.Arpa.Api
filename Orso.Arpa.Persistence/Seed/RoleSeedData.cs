@@ -13,47 +13,47 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 return new List<Role>
                 {
-                    Orsianer,
-                    Orsonaut,
-                    Orsoadmin
+                    Performer,
+                    Staff,
+                    Admin
                 };
             }
         }
 
-        public static Role Orsianer
+        public static Role Performer
         {
             get
             {
                 return new Role
                 {
                     Id = Guid.Parse("3828A012-6FC7-4554-85CA-40DE365AC337"),
-                    Name = RoleNames.Orsianer,
+                    Name = RoleNames.Performer,
                     Level = 1
                 };
             }
         }
 
-        public static Role Orsonaut
+        public static Role Staff
         {
             get
             {
                 return new Role
                 {
                     Id = Guid.Parse("79A1A749-779F-4B27-81E8-30646C928D86"),
-                    Name = RoleNames.Orsonaut,
+                    Name = RoleNames.Staff,
                     Level = 2
                 };
             }
         }
 
-        public static Role Orsoadmin
+        public static Role Admin
         {
             get
             {
                 return new Role
                 {
                     Id = Guid.Parse("B1FA51C8-86A6-4DAD-8BCA-775823C72BA4"),
-                    Name = RoleNames.Orsoadmin,
+                    Name = RoleNames.Admin,
                     Level = 3
                 };
             }

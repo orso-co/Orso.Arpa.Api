@@ -96,7 +96,7 @@ namespace Orso.Arpa.Api
             {
                 options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
                     policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
-                options.AddPolicy(AuthorizationPolicies.AtLeastOrsianerPolicy, policy =>
+                options.AddPolicy(AuthorizationPolicies.AtLeastPerformerPolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
                        System.Security.Claims.Claim roleLevelClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleLevel");
@@ -110,7 +110,7 @@ namespace Orso.Arpa.Api
                        }
                        return level > 0;
                    }));
-                options.AddPolicy(AuthorizationPolicies.AtLeastOrsonautPolicy, policy =>
+                options.AddPolicy(AuthorizationPolicies.AtLeastStaffPolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
                        System.Security.Claims.Claim roleLevelClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleLevel");
@@ -133,7 +133,7 @@ namespace Orso.Arpa.Api
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Orso.Arpa.Api",
+                    Title = "Arpa 2.0 Api",
                     Version = "v1",
                     License = new OpenApiLicense
                     {

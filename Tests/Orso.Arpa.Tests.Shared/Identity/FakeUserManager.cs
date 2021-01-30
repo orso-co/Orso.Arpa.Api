@@ -95,15 +95,15 @@ namespace Orso.Arpa.Tests.Shared.Identity
 
         public override Task<bool> IsInRoleAsync(User user, string role)
         {
-            if (user.Id == FakeUsers.Orsoadmin.Id && role == RoleNames.Orsoadmin)
+            if (user.Id == FakeUsers.Admin.Id && role == RoleNames.Admin)
             {
                 return Task.FromResult(true);
             }
-            if (user.Id == FakeUsers.Orsianer.Id && role == RoleNames.Orsianer)
+            if (user.Id == FakeUsers.Performer.Id && role == RoleNames.Performer)
             {
                 return Task.FromResult(true);
             }
-            if (user.Id == FakeUsers.Orsonaut.Id && role == RoleNames.Orsonaut)
+            if (user.Id == FakeUsers.Staff.Id && role == RoleNames.Staff)
             {
                 return Task.FromResult(true);
             }

@@ -45,16 +45,16 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             _mediator.Send(Arg.Any<Users.List.Query>()).Returns(FakeUsers.Users.Where(u => !u.Deleted));
             _mediator.Send(Arg.Any<Users.Role.Query>()).Returns(
-                RoleSeedData.Orsianer,
-                RoleSeedData.Orsonaut,
-                RoleSeedData.Orsoadmin,
+                RoleSeedData.Performer,
+                RoleSeedData.Staff,
+                RoleSeedData.Admin,
                 null,
                 null,
                 null);
             _mapper.Map<UserDto>(Arg.Any<User>()).Returns(
-                UserDtoData.Orsianer,
-                UserDtoData.Orsonaut,
-                UserDtoData.Orsoadmin,
+                UserDtoData.Performer,
+                UserDtoData.Staff,
+                UserDtoData.Admin,
                 UserDtoData.UserWithoutRole,
                 UserDtoData.LockedOutUser,
                 UserDtoData.UnconfirmedUser);
@@ -70,7 +70,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Get_Profile_Of_Current_User_Async()
         {
             // Arrange
-            _mediator.Send(Arg.Any<Me.Details.Query>()).Returns(FakeUsers.Orsianer);
+            _mediator.Send(Arg.Any<Me.Details.Query>()).Returns(FakeUsers.Performer);
             MyProfileDto expectedDto = FakerFabric.UesrProfileDtoFaker.Generate();
             _mapper.Map<MyProfileDto>(Arg.Any<User>()).Returns(expectedDto);
 
@@ -111,9 +111,9 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             _mediator.Send(Arg.Any<Me.AppointmentList.Query>())
                 .Returns(new Tuple<IEnumerable<Appointment>, int>(new List<Appointment> { AppointmentSeedData.RockingXMasRehearsal }, 1));
-            var expectedDto = new MyAppointmentListDto { UserAppointments = UserAppointmentDtoTestData.OrsianerUserAppointments, TotalRecordsCount = 1 };
+            var expectedDto = new MyAppointmentListDto { UserAppointments = UserAppointmentDtoTestData.PerformerUserAppointments, TotalRecordsCount = 1 };
             _mapper.Map<MyAppointmentListDto>(Arg.Any<Tuple<IEnumerable<Appointment>, int>>()).Returns(expectedDto);
-            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
+            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Performer);
 
             // Act
             MyAppointmentListDto userAppointmentListDto = await _userService.GetAppointmentsOfCurrentUserAsync(null, null);
@@ -126,7 +126,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         public async Task Should_Set_Appointment_Participation_Prediction_Async()
         {
             // Arrange
-            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Orsianer);
+            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Performer);
             _mapper.Map<AppointmentParticipations.SetPrediction.Command>(Arg.Any<SetMyProjectAppointmentPredictionDto>())
                 .Returns(new AppointmentParticipations.SetPrediction.Command());
 

@@ -24,7 +24,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Email_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Email, UserSeedData.Orsianer.Email);
+            _validator.ShouldHaveValidationErrorFor(command => command.Email, UserSeedData.Performer.Email);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_UserName_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.UserName, UserSeedData.Orsianer.UserName);
+            _validator.ShouldHaveValidationErrorFor(command => command.UserName, UserSeedData.Performer.UserName);
         }
 
         [Test]

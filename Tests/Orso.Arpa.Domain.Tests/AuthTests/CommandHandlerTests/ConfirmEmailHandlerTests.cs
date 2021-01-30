@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             var command = new ConfirmEmail.Command
             {
                 Token = "ABCDEFGHIJKLMNOP+",
-                Email = FakeUsers.Orsianer.Email,
+                Email = FakeUsers.Performer.Email,
             };
 
             // Act

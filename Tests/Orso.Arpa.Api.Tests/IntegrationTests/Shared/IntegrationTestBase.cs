@@ -20,9 +20,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     {
         protected TestServer _unAuthenticatedServer;
         protected TestServer _authenticatedServer;
-        protected User _orsianer;
-        protected User _orsonaut;
-        protected User _orsoadmin;
+        protected User _performer;
+        protected User _staff;
+        protected User _admin;
 
         [OneTimeTearDown]
         public virtual void Cleanup()
@@ -36,9 +36,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             _unAuthenticatedServer = await CreateServer(false);
             _authenticatedServer = await CreateServer(true);
-            _orsianer = FakeUsers.Orsianer;
-            _orsonaut = FakeUsers.Orsonaut;
-            _orsoadmin = FakeUsers.Orsoadmin;
+            _performer = FakeUsers.Performer;
+            _staff = FakeUsers.Staff;
+            _admin = FakeUsers.Admin;
         }
 
         protected async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)

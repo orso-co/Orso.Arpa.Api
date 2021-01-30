@@ -23,7 +23,7 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>A list of sections</returns>
         /// <response code="200"></response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]

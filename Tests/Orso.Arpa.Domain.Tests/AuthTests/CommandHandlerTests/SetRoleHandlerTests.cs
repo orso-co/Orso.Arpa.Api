@@ -28,11 +28,11 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public async Task Should_Set_Role()
         {
             // Arrange
-            User user = FakeUsers.Orsianer;
+            User user = FakeUsers.Performer;
             var command = new SetRole.Command
             {
                 UserName = user.UserName,
-                RoleName = RoleNames.Orsonaut
+                RoleName = RoleNames.Staff
             };
 
             // Act

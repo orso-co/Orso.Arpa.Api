@@ -12,9 +12,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             get
             {
                 return new List<User> {
-                    Orsianer,
-                    Orsonaut,
-                    Orsoadmin,
+                    Performer,
+                    Staff,
+                    Admin,
                     DeletedUser,
                     UserWithoutRole,
                     LockedOutUser,
@@ -23,59 +23,59 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             }
         }
 
-        public static User Orsianer
+        public static User Performer
         {
             get
             {
                 var user = new User
                 {
                     Id = Guid.Parse("6F836C0E-E27D-4363-A67A-9DA92037A589"),
-                    UserName = "orsianer",
-                    Email = "orsianer@test.com",
-                    PersonId = PersonSeedData.Orsianer.Id,
-                    Person = FakePersons.Orsianer,
-                    NormalizedEmail = "ORSIANER@TEST.COM",
-                    NormalizedUserName = "ORSIANER",
+                    UserName = "performer",
+                    Email = "performer@test.com",
+                    PersonId = PersonSeedData.Performer.Id,
+                    Person = FakePersons.Performer,
+                    NormalizedEmail = "PERFORMER@TEST.COM",
+                    NormalizedUserName = "PERFORMER",
                     EmailConfirmed = true
                 };
-                user.RefreshTokens.Add(new RefreshToken("orsianer_valid_refresh_token", DateTime.Now.AddDays(5), "127.0.0.1", user.Id));
+                user.RefreshTokens.Add(new RefreshToken("performer_valid_refresh_token", DateTime.Now.AddDays(5), "127.0.0.1", user.Id));
                 return user;
             }
         }
 
-        public static User Orsonaut
+        public static User Staff
         {
             get
             {
                 var user = new User
                 {
                     Id = Guid.Parse("DD0AA267-120E-4BD6-B6EB-02814C227E15"),
-                    UserName = "orsonaut",
-                    Email = "orsonaut@test.com",
-                    PersonId = PersonSeedData.Orsonaut.Id,
-                    Person = PersonSeedData.Orsonaut,
-                    NormalizedEmail = "ORSONAUT@TEST.COM",
-                    NormalizedUserName = "ORSONAUT",
+                    UserName = "staff",
+                    Email = "stagg@test.com",
+                    PersonId = PersonSeedData.Staff.Id,
+                    Person = PersonSeedData.Staff,
+                    NormalizedEmail = "STAFF@TEST.COM",
+                    NormalizedUserName = "STAFF",
                     EmailConfirmed = true
                 };
-                user.RefreshTokens.Add(new RefreshToken("orsonaut_expired_refresh_token", DateTime.Now.AddDays(-5), "127.0.0.1", user.Id));
+                user.RefreshTokens.Add(new RefreshToken("staff_expired_refresh_token", DateTime.Now.AddDays(-5), "127.0.0.1", user.Id));
                 return user;
             }
         }
 
-        public static User Orsoadmin
+        public static User Admin
         {
             get
             {
                 return new User
                 {
                     Id = Guid.Parse("29CFA973-20D6-4603-91BA-6F4C1F79A6FA"),
-                    UserName = "orsoadmin",
-                    Email = "orsoadmin@test.com",
-                    PersonId = PersonSeedData.Orsoadmin.Id,
-                    Person = PersonSeedData.Orsoadmin,
-                    NormalizedEmail = "ORSOADMIN@TEST.COM",
-                    NormalizedUserName = "ORSOADMIN",
+                    UserName = "admin",
+                    Email = "admin@test.com",
+                    PersonId = PersonSeedData.Admin.Id,
+                    Person = PersonSeedData.Admin,
+                    NormalizedEmail = "ADMIN@TEST.COM",
+                    NormalizedUserName = "ADMIN",
                     EmailConfirmed = true
                 };
             }

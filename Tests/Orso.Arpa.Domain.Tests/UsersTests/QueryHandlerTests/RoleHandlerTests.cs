@@ -28,8 +28,8 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public async Task Should_Get_Roles()
         {
             // Arrange
-            var rolesQuery = new Logic.Users.Role.Query(FakeUsers.Orsianer);
-            Entities.Role expectedRole = RoleSeedData.Orsianer;
+            var rolesQuery = new Logic.Users.Role.Query(FakeUsers.Performer);
+            Entities.Role expectedRole = RoleSeedData.Performer;
 
             // Act
             Entities.Role role = await _handler.Handle(rolesQuery, new CancellationToken());

@@ -6,20 +6,20 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class AppointmentParticipationDtoData
     {
-        public static AppointmentParticipationDto OrsianerParticipation
+        public static AppointmentParticipationDto PerformerParticipation
         {
             get
             {
-                AppointmentParticipation appointment = AppointmentParticipationSeedData.OrsianerParticipation;
+                AppointmentParticipation appointment = AppointmentParticipationSeedData.PerformerParticipation;
                 return CreateDto(appointment);
             }
         }
 
-        public static AppointmentParticipationDto OrsonautParticipation
+        public static AppointmentParticipationDto StaffParticipation
         {
             get
             {
-                AppointmentParticipation appointment = AppointmentParticipationSeedData.OrsonautParticipation;
+                AppointmentParticipation appointment = AppointmentParticipationSeedData.StaffParticipation;
                 return CreateDto(appointment);
             }
         }

@@ -39,7 +39,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Login()
         {
             // Arrange
-            User user = UserSeedData.Orsoadmin;
+            User user = UserSeedData.Admin;
             var loginDto = new LoginDto
             {
                 UserName = user.UserName,
@@ -87,7 +87,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Login_Invalid_Password()
         {
             // Arrange
-            User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Performer;
             var loginDto = new LoginDto
             {
                 UserName = user.UserName,
@@ -198,7 +198,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var registerDto = new UserRegisterDto
             {
-                Email = UserSeedData.Orsianer.Email,
+                Email = UserSeedData.Performer.Email,
                 UserName = "ludmilla",
                 Password = UserSeedData.ValidPassword,
                 ClientUri = "http://localhost:4200"
@@ -220,7 +220,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var registerDto = new UserRegisterDto
             {
                 Email = "ludmilla@test.com",
-                UserName = UserSeedData.Orsianer.UserName,
+                UserName = UserSeedData.Performer.UserName,
                 Password = UserSeedData.ValidPassword
             };
 
@@ -246,7 +246,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(dto));
 
             // Assert
@@ -266,7 +266,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsianer)
+                .AuthenticateWith(_performer)
                 .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(dto));
 
             // Assert
@@ -296,18 +296,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Orsoadmin, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Orsoadmin, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Orsoadmin, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Orsonaut, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Orsonaut, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Orsonaut, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Orsianer, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Orsianer, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Orsianer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsonaut, RoleNames.Orsianer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsianer, RoleNames.Orsianer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsoadmin, RoleNames.Orsianer, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Admin, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Admin, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Admin, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Staff, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Staff, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Staff, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent);
             }
         }
 
@@ -341,7 +341,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                  .WithPort(25)
                  .Build();
 
-            User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Performer;
             var forgotPasswordDto = new ForgotPasswordDto
             {
                 UserName = user.UserName,
@@ -410,7 +410,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                  .Build();
             var dto = new CreateEmailConfirmationTokenDto
             {
-                Email = UserSeedData.Orsianer.Email,
+                Email = UserSeedData.Performer.Email,
                 ClientUri = "http://localhost:4200"
             };
 
@@ -431,7 +431,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             HttpClient client = _unAuthenticatedServer
                 .CreateClient();
-            User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Performer;
             var loginDto = new LoginDto
             {
                 UserName = user.UserName,
@@ -467,7 +467,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             HttpClient client = _unAuthenticatedServer
                 .CreateClient();
-            User user = UserSeedData.Orsianer;
+            User user = UserSeedData.Performer;
             var loginDto = new LoginDto
             {
                 UserName = user.UserName,

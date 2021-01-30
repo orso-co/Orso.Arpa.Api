@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         public void Should_Throw_Rest_Exception_If_Role_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new Command { UserName = UserSeedData.Orsianer.UserName, RoleName = "DoesNotExist" });
+                .ValidateAsync(new Command { UserName = UserSeedData.Performer.UserName, RoleName = "DoesNotExist" });
 
             act.Should().Throw<NotFoundException>();
         }
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         public void Should_Throw_Rest_Exception_If_User_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new Command { UserName = "DoesNotExist", RoleName = RoleNames.Orsianer });
+                .ValidateAsync(new Command { UserName = "DoesNotExist", RoleName = RoleNames.Performer });
             act.Should().Throw<NotFoundException>();
         }
     }

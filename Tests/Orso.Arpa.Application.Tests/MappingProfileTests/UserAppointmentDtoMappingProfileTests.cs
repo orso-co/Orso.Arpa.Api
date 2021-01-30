@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMas;
-            MyAppointmentDto expectedDto = UserAppointmentDtoTestData.OrsianerUserAppointment;
+            MyAppointmentDto expectedDto = UserAppointmentDtoTestData.PerformerUserAppointment;
 
             // Act
             MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);

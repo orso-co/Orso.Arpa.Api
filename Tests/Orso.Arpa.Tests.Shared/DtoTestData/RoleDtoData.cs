@@ -11,44 +11,44 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new List<RoleDto>
                 {
-                    Orsianer,
-                    Orsonaut,
-                    Orsoadmin,
+                    Performer,
+                    Staff,
+                    Admin,
                 };
             }
         }
 
-        public static RoleDto Orsianer
+        public static RoleDto Performer
         {
             get
             {
                 return new RoleDto
                 {
-                    RoleName = "Orsianer",
+                    RoleName = "Performer",
                     RoleLevel = 1
                 };
             }
         }
 
-        public static RoleDto Orsonaut
+        public static RoleDto Staff
         {
             get
             {
                 return new RoleDto
                 {
-                    RoleName = "Orsonaut",
+                    RoleName = "Staff",
                     RoleLevel = 2
                 };
             }
         }
 
-        public static RoleDto Orsoadmin
+        public static RoleDto Admin
         {
             get
             {
                 return new RoleDto
                 {
-                    RoleName = "Orsoadmin",
+                    RoleName = "Admin",
                     RoleLevel = 3
                 };
             }

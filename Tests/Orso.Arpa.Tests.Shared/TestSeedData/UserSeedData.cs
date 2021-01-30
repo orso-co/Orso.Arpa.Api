@@ -11,9 +11,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             get
             {
                 return new List<User> {
-                    Orsianer,
-                    Orsonaut,
-                    Orsoadmin,
+                    Performer,
+                    Staff,
+                    Admin,
                     DeletedUser,
                     UserWithoutRole,
                     LockedOutUser,
@@ -22,46 +22,46 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static User Orsianer
+        public static User Performer
         {
             get
             {
                 return new User
                 {
                     Id = Guid.Parse("6F836C0E-E27D-4363-A67A-9DA92037A589"),
-                    UserName = "orsianer",
-                    Email = "orsianer@test.com",
-                    PersonId = PersonSeedData.Orsianer.Id,
+                    UserName = "performer",
+                    Email = "performer@test.com",
+                    PersonId = PersonSeedData.Performer.Id,
                     EmailConfirmed = true
                 };
             }
         }
 
-        public static User Orsonaut
+        public static User Staff
         {
             get
             {
                 return new User
                 {
                     Id = Guid.Parse("DD0AA267-120E-4BD6-B6EB-02814C227E15"),
-                    UserName = "orsonaut",
-                    Email = "orsonaut@test.com",
-                    PersonId = PersonSeedData.Orsonaut.Id,
+                    UserName = "staff",
+                    Email = "staff@test.com",
+                    PersonId = PersonSeedData.Staff.Id,
                     EmailConfirmed = true
                 };
             }
         }
 
-        public static User Orsoadmin
+        public static User Admin
         {
             get
             {
                 return new User
                 {
                     Id = Guid.Parse("29CFA973-20D6-4603-91BA-6F4C1F79A6FA"),
-                    UserName = "orsoadmin",
-                    Email = "orsoadmin@test.com",
-                    PersonId = PersonSeedData.Orsoadmin.Id,
+                    UserName = "admin",
+                    Email = "admin@test.com",
+                    PersonId = PersonSeedData.Admin.Id,
                     EmailConfirmed = true
                 };
             }

@@ -49,7 +49,7 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
 
             string currentUserRole = _userAccessor.UserRole;
 
-            if (currentUserRole.Equals(RoleNames.Orsoadmin, StringComparison.InvariantCultureIgnoreCase))
+            if (currentUserRole.Equals(RoleNames.Admin, StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Succeed(requirement);
                 return;
@@ -58,14 +58,14 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
             User userToEdit = await _userManager.FindByNameAsync(dto.UserName);
             IList<string> rolesOfUserToEdit = await _userManager.GetRolesAsync(userToEdit);
 
-            if (rolesOfUserToEdit.Contains(RoleNames.Orsoadmin)
-                || dto.RoleName.Equals(RoleNames.Orsoadmin, StringComparison.InvariantCultureIgnoreCase))
+            if (rolesOfUserToEdit.Contains(RoleNames.Admin)
+                || dto.RoleName.Equals(RoleNames.Admin, StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Fail();
                 return;
             }
 
-            if (currentUserRole.Equals(RoleNames.Orsonaut, StringComparison.InvariantCultureIgnoreCase))
+            if (currentUserRole.Equals(RoleNames.Staff, StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Succeed(requirement);
             }

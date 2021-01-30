@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
             DbSet<SelectValueMapping> mockMappings = MockDbSets.SelectValueMappints;
             _arpaContext.Set<SelectValueMapping>().Returns(mockMappings);
             _validResultId = SelectValueMappingSeedData.AppointmentParticipationResultMappings[0].Id;
-            _validPersonId = PersonSeedData.Orsianer.Id;
+            _validPersonId = PersonSeedData.Performer.Id;
             _validAppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id;
         }
 

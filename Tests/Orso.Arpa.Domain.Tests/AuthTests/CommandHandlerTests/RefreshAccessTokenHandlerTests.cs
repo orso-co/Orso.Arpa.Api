@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             // Arrange
             var command = new RefreshAccessToken.Command
             {
-                RefreshToken = "orsianer_valid_refresh_token",
+                RefreshToken = "performer_valid_refresh_token",
                 RemoteIpAddress = "127.0.0.1",
             };
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>()).Returns("newToken");
@@ -73,7 +73,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             // Arrange
             var command = new RefreshAccessToken.Command
             {
-                RefreshToken = "orsonaut_expired_refresh_token",
+                RefreshToken = "staff_expired_refresh_token",
                 RemoteIpAddress = "127.0.0.1",
             };
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>()).Returns("newToken");
@@ -91,7 +91,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             // Arrange
             var command = new RefreshAccessToken.Command
             {
-                RefreshToken = "orsianer_valid_refresh_token",
+                RefreshToken = "performer_valid_refresh_token",
                 RemoteIpAddress = "127.0.0.2",
             };
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>()).Returns("newToken");

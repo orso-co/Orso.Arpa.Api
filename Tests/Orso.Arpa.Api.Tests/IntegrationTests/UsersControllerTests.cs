@@ -19,12 +19,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Delete_User()
         {
             // Arrange
-            User user = FakeUsers.Orsoadmin;
+            User user = FakeUsers.Admin;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsoadmin)
+                .AuthenticateWith(_admin)
                 .DeleteAsync(ApiEndpoints.UsersController.Delete(user.UserName));
 
             // Assert
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsoadmin)
+                .AuthenticateWith(_admin)
                 .DeleteAsync(ApiEndpoints.UsersController.Delete(user.UserName));
 
             // Assert
@@ -48,15 +48,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(10000)]
-        public async Task Should_Not_Delete_User_If_Current_User_Is_Not_Orsoadmin()
+        public async Task Should_Not_Delete_User_If_Current_User_Is_Not_Admin()
         {
             // Arrange
-            User user = FakeUsers.Orsoadmin;
+            User user = FakeUsers.Admin;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .DeleteAsync(ApiEndpoints.UsersController.Delete(user.UserName));
 
             // Assert
@@ -72,7 +72,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_orsonaut)
+                .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.UsersController.Get());
 
             // Assert

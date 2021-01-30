@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new ResetPasswordDto
             {
                 Password = UserSeedData.ValidPassword,
-                UserName = UserSeedData.Orsianer.UserName,
+                UserName = UserSeedData.Performer.UserName,
                 Token = "token%2B"
             };
             var expectedCommand = new ResetPassword.Command
