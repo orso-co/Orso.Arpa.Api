@@ -133,7 +133,7 @@ namespace Orso.Arpa.Api
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Orso.Arpa.Api",
+                    Title = "Arpa 2.0 Api",
                     Version = "v1",
                     License = new OpenApiLicense
                     {
