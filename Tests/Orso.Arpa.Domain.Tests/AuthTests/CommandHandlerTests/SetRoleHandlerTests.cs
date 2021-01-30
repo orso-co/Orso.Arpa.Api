@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             var command = new SetRole.Command
             {
                 UserName = user.UserName,
-                RoleName = RoleNames.Orsonaut
+                RoleName = RoleNames.Staff
             };
 
             // Act

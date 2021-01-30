@@ -4,9 +4,9 @@ namespace Orso.Arpa.Domain.Roles
 {
     public static class RoleNames
     {
-        public const string Orsianer = "Orsianer";
-        public const string Orsonaut = "Orsonaut";
-        public const string Orsoadmin = "Orsoadmin";
+        public const string Performer = "Performer";
+        public const string Staff = "Staff";
+        public const string Admin = "Admin";
 
         public static IList<string> Roles
         {
@@ -14,9 +14,9 @@ namespace Orso.Arpa.Domain.Roles
             {
                 return new List<string>
                 {
-                    Orsianer,
-                    Orsonaut,
-                    Orsoadmin
+                    Performer,
+                    Staff,
+                    Admin
                 };
             }
         }

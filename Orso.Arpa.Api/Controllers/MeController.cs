@@ -36,7 +36,7 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>The user profile of the current user</returns>
         /// <response code="200"></response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpGet("appointments")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
@@ -70,7 +70,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid</response>
         /// <response code="404">If appointment or participation or prediction value could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpPut("appointments/{id}/participation/prediction/{predictionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

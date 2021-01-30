@@ -296,18 +296,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Orsoadmin, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Orsoadmin, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Orsoadmin, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Orsonaut, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Orsonaut, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Orsonaut, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Orsianer, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Orsianer, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Orsianer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsonaut, RoleNames.Orsianer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsianer, RoleNames.Orsianer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsoadmin, RoleNames.Orsianer, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Admin, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Admin, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Admin, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Staff, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Staff, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Staff, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsoadmin, RoleNames.Performer, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsonaut, RoleNames.Performer, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Orsianer, RoleNames.Performer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsonaut, RoleNames.Performer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsianer, RoleNames.Performer, HttpStatusCode.Forbidden);
+                yield return new TestCaseData(FakeUsers.Orsoadmin, FakeUsers.Orsoadmin, RoleNames.Performer, HttpStatusCode.NoContent);
             }
         }
 

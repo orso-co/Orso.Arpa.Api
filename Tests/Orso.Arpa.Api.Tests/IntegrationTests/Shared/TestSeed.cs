@@ -81,13 +81,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 }
 
                 User orsianer = await userManager.FindByEmailAsync(UserSeedData.Orsianer.Email);
-                await userManager.AddToRoleAsync(orsianer, RoleNames.Orsianer);
+                await userManager.AddToRoleAsync(orsianer, RoleNames.Performer);
 
                 User orsonaut = await userManager.FindByEmailAsync(UserSeedData.Orsonaut.Email);
-                await userManager.AddToRoleAsync(orsonaut, RoleNames.Orsonaut);
+                await userManager.AddToRoleAsync(orsonaut, RoleNames.Staff);
 
                 User admin = await userManager.FindByEmailAsync(UserSeedData.Orsoadmin.Email);
-                await userManager.AddToRoleAsync(admin, RoleNames.Orsoadmin);
+                await userManager.AddToRoleAsync(admin, RoleNames.Admin);
 
                 User lockedOutUser = await userManager.FindByNameAsync(UserSeedData.LockedOutUser.UserName);
                 for (int i = 0; i < 3; i++)

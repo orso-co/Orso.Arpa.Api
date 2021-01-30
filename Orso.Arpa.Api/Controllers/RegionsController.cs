@@ -30,7 +30,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsianerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpGet("{id}")]
         public async Task<ActionResult<RegionDto>> GetById([FromRoute] Guid id)
         {
@@ -58,7 +58,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>The created region</returns>
         /// <response code="201">Returns the created region</response>
         /// <response code="400">If dto is not valid</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,7 +77,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid</response>
         /// <response code="404">If region could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -97,7 +97,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="id"></param>
         /// <response code="204"></response>
         /// <response code="404">If region could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastOrsonautPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
