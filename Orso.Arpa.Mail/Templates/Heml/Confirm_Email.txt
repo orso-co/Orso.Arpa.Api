@@ -1,0 +1,85 @@
+<heml>
+  <head>
+    <subject>Handlungsbedarf: Bitte bestätige deine E-Mailadresse</subject>
+    <preview>Vielen Dank für deine Registrierung bei ARPA. Du bist nur einen Klick vom ersten Login entfernt!</preview>
+    <style>
+      body {
+        background: #121212;
+        color: rgba(255, 255, 255, 0.87);
+        font-size: 14px;
+      }
+
+      container {
+        background: #1e1e1e;
+            max-width: 700px;
+        margin: 10px auto;
+        padding: 10px 20px;
+      }
+
+      button {
+        background: #43a5f4;
+        padding: 7px 14px;
+        color: #212529;
+        margin: auto;
+      }
+
+      a {
+        color: rgba(255, 255, 255, 0.87);
+      }
+
+      column {
+        padding: 0 10px;
+      }
+
+      h6 {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <container>
+      <row>
+        <column>
+          <img src="{{ArpaLogo}}" alt="arpa image" width="200" />
+        </column>
+        <column>
+          <h1>Arpa 2.0</h1>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <h2>Willkommen {{DisplayName}} 👋</h2>
+          <p><em>(English text below)</em></p>
+          <p>Vielen Dank für deine Registrierung bei ARPA. Du bist nur einen Klick vom ersten Login entfernt:</p>
+          <button href="{{ClientUri}}">Bitte bestätige deine E-Mail-Adresse</button>
+        </column>
+      </row>
+      <row>
+        <column>
+          <p>Der volle Zugriff auf alle dich betreffenden Informationen innerhalb von ARPA ist erst möglich, wenn du von einem Mitarbeitenden freigeschaltet wurdest.</p>
+          <h3>Dein Arpa-Team</h3>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <p>Im Anhang findest du deinen persönlichen QR-Code. Den brauchst du, um u.a. deine Anwesenheit bei Proben zu dokumentieren oder um einen Tourbus zu besteigen u.v.m. Dies erleichtert uns die Logistik. Bitte führe ihn zu jedem Termin auf deinem Smartphone mit. Natürlich kannst du den Code auch ausdrucken und in deine Notenmappe oder deinen Instrumentenkoffer legen.</p>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <h5>{{ClubName}}</h5>
+          <h6 id="h61"><b>Öffnungszeiten:</b> {{OpeningHours}}</h6>
+          <h6 class="m-0"><b>Kontakt:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
+          <h6><b>Adresse:</b> {{ClubAddress}}</h6>
+          <h5></h5>
+        </column>
+      </row>
+    </container>
+  </body>
+</heml>
