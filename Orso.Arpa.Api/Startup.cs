@@ -25,6 +25,7 @@ using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Services;
+using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Appointments;
@@ -35,6 +36,7 @@ using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Mail;
+using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Swashbuckle.AspNetCore.Swagger;
@@ -209,6 +211,11 @@ namespace Orso.Arpa.Api
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
+            ClubConfiguration clubConfig = Configuration
+                .GetSection("ClubConfiguration")
+                .Get<ClubConfiguration>();
+            services.AddSingleton(clubConfig);
+            services.AddScoped<ITemplateParser, TemplateParser>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
@@ -318,6 +325,8 @@ namespace Orso.Arpa.Api
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
+
+            app.UseStaticFiles();
 
             if (!env.IsDevelopment())
             {

@@ -7,9 +7,10 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Mail;
+using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -22,11 +23,15 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             _userManager = new FakeUserManager();
             _emailSender = Substitute.For<IEmailSender>();
-            _handler = new CreateEmailConfirmationToken.Handler(_userManager, _emailSender);
+            _jwtConfiguration = new JwtConfiguration();
+            _clubConfiguration = new ClubConfiguration();
+            _handler = new CreateEmailConfirmationToken.Handler(_userManager, _clubConfiguration, _jwtConfiguration, _emailSender);
         }
 
         private UserManager<User> _userManager;
         private IEmailSender _emailSender;
+        private JwtConfiguration _jwtConfiguration;
+        private ClubConfiguration _clubConfiguration;
         private CreateEmailConfirmationToken.Handler _handler;
 
         [Test]

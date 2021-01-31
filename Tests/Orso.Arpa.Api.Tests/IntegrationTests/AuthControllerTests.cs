@@ -176,7 +176,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&email=");
             var confirmEmailToken = queryParameters[0];
-            var email = queryParameters[1];
+            var email = queryParameters[1].Split('"')[0];
 
             var confirmEmailDto = new ConfirmEmailDto
             {
@@ -361,10 +361,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _fakeSmtpServer.Stop();
 
             // Arrange
-            var resetPasswordToken = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1];
+            var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&username=");
+            var resetPasswordToken = queryParameters[0];
+            var userName = queryParameters[1].Split('"')[0];
+
             var resetPasswordDto = new ResetPasswordDto
             {
-                UserName = user.UserName,
+                UserName = userName,
                 Password = UserSeedData.ValidPassword,
                 Token = resetPasswordToken
             };

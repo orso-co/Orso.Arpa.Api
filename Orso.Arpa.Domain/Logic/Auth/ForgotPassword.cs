@@ -5,9 +5,11 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
-using Orso.Arpa.Mail;
+using Orso.Arpa.Mail.Interfaces;
+using Orso.Arpa.Mail.Templates;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -33,11 +35,19 @@ namespace Orso.Arpa.Domain.Logic.Auth
         public class Handler : IRequestHandler<Command>
         {
             private readonly UserManager<User> _userManager;
+            private readonly ClubConfiguration _clubConfiguration;
+            private readonly JwtConfiguration _jwtConfiguration;
             private readonly IEmailSender _emailSender;
 
-            public Handler(UserManager<User> userManager, IEmailSender emailSender)
+            public Handler(
+                UserManager<User> userManager,
+                ClubConfiguration clubConfiguration,
+                JwtConfiguration jwtConfiguration,
+                IEmailSender emailSender)
             {
                 _userManager = userManager;
+                _clubConfiguration = clubConfiguration;
+                _jwtConfiguration = jwtConfiguration;
                 _emailSender = emailSender;
             }
 
@@ -47,16 +57,25 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                // ToDo: E-Mail Message und Subject definieren. Frontend-Link einfügen
-
                 var param = new Dictionary<string, string>
                         {
                             { "token", token },
+                            { "username", request.UserName }
                         };
                 var uri = QueryHelpers.AddQueryString(request.ClientUri, param);
 
-                var message = new EmailMessage(new string[] { user.Email }, "Reset password token", uri, false);
-                await _emailSender.SendEmailAsync(message);
+                var template = new ResetPasswordTemplate
+                {
+                    DisplayName = user.DisplayName,
+                    ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
+                    ClientUri = uri,
+                    ClubAddress = _clubConfiguration.Address,
+                    ClubMail = _clubConfiguration.Email,
+                    ClubName = _clubConfiguration.Name,
+                    ClubPhoneNumber = _clubConfiguration.Phone
+                };
+
+                await _emailSender.SendTemplatedEmailAsync(template, user.Email);
 
                 return Unit.Value;
             }
