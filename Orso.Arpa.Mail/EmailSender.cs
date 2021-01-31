@@ -30,7 +30,13 @@ namespace Orso.Arpa.Mail
         public async Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail)
         {
             var templatedBody = _templateParser.Parse(templateData);
-            var subject = templatedBody.Split("<title>")[1].Split("</title>")[0];
+
+            var subject = _emailConfig.DefaultSubject;
+            if (templatedBody.Contains("<title>") && templatedBody.Contains("</title>"))
+            {
+                subject = templatedBody.Split("<title>")[1].Split("</title>")[0];
+            }
+
             var mailMessage = new EmailMessage(new string[] { receipientMail }, subject, templatedBody, true);
             await SendEmailAsync(mailMessage);
         }
@@ -40,7 +46,7 @@ namespace Orso.Arpa.Mail
             var mimeMessage = new MimeMessage();
             mimeMessage.From.Add(new MailboxAddress(_emailConfig.From));
             mimeMessage.To.AddRange(emailMessage.To);
-            mimeMessage.Subject = emailMessage.Subject;
+            mimeMessage.Subject = emailMessage.Subject ?? _emailConfig.DefaultSubject;
             if (emailMessage.UseHtml)
             {
                 mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = emailMessage.Content };

@@ -10,8 +10,14 @@ namespace Orso.Arpa.Mail
         public string Parse(ITemplate templateData)
         {
             var builder = new StringBuilder();
+            var templatePath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Templates\\Html\\{templateData.Name}.html";
 
-            using (StreamReader reader = File.OpenText($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Templates\\Html\\{templateData.Name}.html"))
+            if (!File.Exists(templatePath))
+            {
+                throw new FileNotFoundException($"No email template file found for path ${templatePath}");
+            }
+
+            using (StreamReader reader = File.OpenText(templatePath))
             {
                 builder.Append(reader.ReadToEnd());
             }
