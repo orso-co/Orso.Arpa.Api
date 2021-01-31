@@ -292,8 +292,10 @@ namespace Orso.Arpa.Api
 
         private void ConfigureCors(IServiceCollection services)
         {
-            var allowedOrigin = Configuration
-                .GetSection("CorsConfiguration")["AllowedOrigin"];
+            var allowedOrigins = Configuration
+                .GetSection("CorsConfiguration")
+                .GetSection("AllowedOrigins")
+                .Get<string[]>();
 
             services.AddCors(opt =>
             {
@@ -303,7 +305,7 @@ namespace Orso.Arpa.Api
                         .AllowAnyHeader()
                         .WithExposedHeaders("Token-Expired")
                         .AllowAnyMethod()
-                        .WithOrigins(allowedOrigin);
+                        .WithOrigins(allowedOrigins);
                 });
             });
         }
