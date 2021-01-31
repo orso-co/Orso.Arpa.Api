@@ -2,7 +2,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using netDumbster.smtp;
+using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Mail.Interfaces;
 
 namespace Orso.Arpa.Mail.Tests
 {
@@ -10,6 +12,7 @@ namespace Orso.Arpa.Mail.Tests
     public class EmailSenderTests
     {
         private EmailConfiguration _emailConfiguration;
+        private ITemplateParser _templateParser;
         private SimpleSmtpServer _server;
 
         [SetUp]
@@ -24,12 +27,14 @@ namespace Orso.Arpa.Mail.Tests
                 Port = _server.Configuration.Port,
                 SmtpServer = "localhost"
             };
+            _templateParser = Substitute.For<ITemplateParser>();
         }
 
         private EmailSender CreateEmailSender()
         {
             return new EmailSender(
-                _emailConfiguration);
+                _emailConfiguration,
+                _templateParser);
         }
 
         [Test]

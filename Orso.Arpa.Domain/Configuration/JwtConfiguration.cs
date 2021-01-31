@@ -1,4 +1,4 @@
-namespace Orso.Arpa.Infrastructure.Authentication
+namespace Orso.Arpa.Domain.Configuration
 {
     public class JwtConfiguration
     {

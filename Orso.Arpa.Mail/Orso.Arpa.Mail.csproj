@@ -9,6 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Templates\Images\" />
+    <None Update="Templates\Html\Confirm_Email.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\Html\Reset_Password.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

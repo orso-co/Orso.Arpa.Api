@@ -74,8 +74,8 @@
       <row>
         <column>
           <h5>{{ClubName}}</h5>
-          <h6 id="h61"><b>Öffnungszeiten:</b> {{OpeningHours}}</h6>
-          <h6 class="m-0"><b>Kontakt:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
+          <h6 id="h61"><b>Telefon:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
+          <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
           <h6><b>Adresse:</b> {{ClubAddress}}</h6>
           <h5></h5>
         </column>

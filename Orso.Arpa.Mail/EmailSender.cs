@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Orso.Arpa.Mail.Interfaces;
 
 namespace Orso.Arpa.Mail
 {
@@ -12,16 +13,26 @@ namespace Orso.Arpa.Mail
     public class EmailSender : IEmailSender
     {
         private readonly EmailConfiguration _emailConfig;
+        private readonly ITemplateParser _templateParser;
 
-        public EmailSender(EmailConfiguration emailConfig)
+        public EmailSender(EmailConfiguration emailConfig, ITemplateParser templateParser)
         {
             _emailConfig = emailConfig;
+            _templateParser = templateParser;
         }
 
         public async Task SendEmailAsync(EmailMessage emailMessage)
         {
             MimeMessage mimeMessage = CreateEmailMessage(emailMessage);
             await SendAsync(mimeMessage);
+        }
+
+        public async Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail)
+        {
+            var templatedBody = _templateParser.Parse(templateData);
+            var subject = templatedBody.Split("<title>")[1].Split("</title>")[0];
+            var mailMessage = new EmailMessage(new string[] { receipientMail }, subject, templatedBody, true);
+            await SendEmailAsync(mailMessage);
         }
 
         private MimeMessage CreateEmailMessage(EmailMessage emailMessage)
