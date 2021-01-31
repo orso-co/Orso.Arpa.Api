@@ -38,7 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Application", "Or
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail", "Orso.Arpa.Mail\Orso.Arpa.Mail.csproj", "{53CFF9C9-9F80-41FF-B0FA-936636A09EAA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail.Tests", "Orso.Arpa.Mail.Tests\Orso.Arpa.Mail.Tests.csproj", "{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail.Tests", "Tests\Orso.Arpa.Mail.Tests\Orso.Arpa.Mail.Tests.csproj", "{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
