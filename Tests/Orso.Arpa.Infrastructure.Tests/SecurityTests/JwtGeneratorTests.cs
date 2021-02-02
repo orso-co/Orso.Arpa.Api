@@ -10,6 +10,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Persistence.Seed;
@@ -40,7 +41,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
 
         private JwtGenerator _jwtGenerator;
         private JwtConfiguration _configuration;
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private RoleManager<Role> _roleManager;
         private IHttpContextAccessor _httpContextAccessor;
         private IArpaContext _arpaContext;

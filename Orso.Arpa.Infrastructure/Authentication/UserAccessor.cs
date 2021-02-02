@@ -1,20 +1,20 @@
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.Authentication
 {
     public class UserAccessor : TokenAccessor, IUserAccessor
     {
-        private readonly UserManager<User> _userManager;
+        private readonly ArpaUserManager _userManager;
 
         public UserAccessor(
             IHttpContextAccessor httpContextAccessor,
-            UserManager<User> userManager) : base(httpContextAccessor)
+            ArpaUserManager userManager) : base(httpContextAccessor)
         {
             _userManager = userManager;
         }

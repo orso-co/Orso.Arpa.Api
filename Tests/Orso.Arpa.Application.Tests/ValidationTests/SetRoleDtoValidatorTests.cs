@@ -19,7 +19,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.UserName, username);
+            _validator.ShouldHaveValidationErrorFor(command => command.Username, username);
         }
 
         [Test]

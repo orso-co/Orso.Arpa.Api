@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
     [TestFixture]
     public class ModifyHandlerTests
     {
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private IUserAccessor _userAccessor;
         private IMapper _mapper;
         private Modify.Handler _handler;

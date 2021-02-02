@@ -59,7 +59,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             CreateEmailConfirmationToken.Command command = _mapper.Map<CreateEmailConfirmationToken.Command>(dto);
 
             // Assert
-            command.Email.Should().BeEquivalentTo(dto.Email);
+            command.UsernameOrEmail.Should().BeEquivalentTo(dto.Email);
             command.ClientUri.Should().BeEquivalentTo(dto.ClientUri);
         }
     }

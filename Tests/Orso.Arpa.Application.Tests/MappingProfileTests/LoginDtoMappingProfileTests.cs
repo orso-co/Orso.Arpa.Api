@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new LoginDto
             {
                 Password = UserSeedData.ValidPassword,
-                UserName = UserSeedData.Performer.UserName
+                UsernameOrEmail = UserSeedData.Performer.UserName
             };
 
             // Act

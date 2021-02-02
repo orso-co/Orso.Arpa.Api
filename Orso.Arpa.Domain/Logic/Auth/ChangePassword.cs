@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Auth
@@ -20,10 +21,9 @@ namespace Orso.Arpa.Domain.Logic.Auth
         public class Validator : AbstractValidator<Command>
         {
             public Validator(
-                UserManager<User> userManager,
+                ArpaUserManager userManager,
                 IUserAccessor userAccessor)
             {
-                
                 RuleFor(c => c.CurrentPassword)
                     .MustAsync(async (oldPassword, cancellation) =>
                     {
@@ -36,12 +36,12 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly UserManager<User> _userManager;
+            private readonly ArpaUserManager _userManager;
             private readonly IUserAccessor _userAccessor;
 
             public Handler(
                 IUserAccessor userAccessor,
-                UserManager<User> userManager)
+                ArpaUserManager userManager)
             {
                 _userManager = userManager;
                 _userAccessor = userAccessor;

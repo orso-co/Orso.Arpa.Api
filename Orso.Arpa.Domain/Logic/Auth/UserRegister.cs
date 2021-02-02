@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Identity;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -23,7 +24,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(UserManager<User> userManager)
+            public Validator(ArpaUserManager userManager)
             {
                 RuleFor(c => c.UserName)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) == null)
@@ -36,9 +37,9 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Handler : IRequestHandler<Command, Unit>
         {
-            private readonly UserManager<User> _userManager;
+            private readonly ArpaUserManager _userManager;
 
-            public Handler(UserManager<User> userManager)
+            public Handler(ArpaUserManager userManager)
             {
                 _userManager = userManager;
             }

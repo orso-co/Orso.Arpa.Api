@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             var dto = new SetRoleDto
             {
-                UserName = UserSeedData.Performer.UserName,
+                Username = UserSeedData.Performer.UserName,
                 RoleName = RoleNames.Staff
             };
 

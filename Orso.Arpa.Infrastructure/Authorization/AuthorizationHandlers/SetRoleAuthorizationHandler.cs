@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -17,14 +17,14 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
 {
     public class SetRoleAuthorizationHandler : AuthorizationHandler<SetRoleAuthorizationRequirement>
     {
-        private readonly UserManager<User> _userManager;
+        private readonly ArpaUserManager _userManager;
         private readonly IUserAccessor _userAccessor;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public SetRoleAuthorizationHandler(
             IHttpContextAccessor httpContextAccessor,
             IUserAccessor userAccessor,
-            UserManager<User> userManager)
+            ArpaUserManager userManager)
         {
             _userManager = userManager;
             _userAccessor = userAccessor;
@@ -55,7 +55,7 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
                 return;
             }
 
-            User userToEdit = await _userManager.FindByNameAsync(dto.UserName);
+            User userToEdit = await _userManager.FindByNameAsync(dto.Username);
             IList<string> rolesOfUserToEdit = await _userManager.GetRolesAsync(userToEdit);
 
             if (rolesOfUserToEdit.Contains(RoleNames.Admin)

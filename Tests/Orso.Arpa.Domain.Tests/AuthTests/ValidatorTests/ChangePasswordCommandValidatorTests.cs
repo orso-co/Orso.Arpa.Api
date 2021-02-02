@@ -1,8 +1,7 @@
 using FluentValidation.TestHelper;
-using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -14,7 +13,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
     public class ChangePasswordCommandValidatorTests
     {
         private Validator _validator;
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private IUserAccessor _userAccessor;
 
         [SetUp]

@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -24,7 +23,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _handler = new RevokeRefreshToken.Handler(_userManager, _arpaContext);
         }
 
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private IArpaContext _arpaContext;
         private RevokeRefreshToken.Handler _handler;
 

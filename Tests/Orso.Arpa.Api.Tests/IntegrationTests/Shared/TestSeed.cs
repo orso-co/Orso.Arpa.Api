@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -11,7 +12,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     internal static class TestSeed
     {
         internal static async Task SeedDataAsync(
-            UserManager<User> userManager,
+            ArpaUserManager userManager,
             SignInManager<User> signInManager,
             IArpaContext arpaContext)
         {
@@ -71,7 +72,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await arpaContext.AppointmentParticipations.AddRangeAsync(AppointmentParticipationSeedData.AppointmentParticipations);
         }
 
-        private static async Task SeedUsersAsync(UserManager<User> userManager, SignInManager<User> signInManager)
+        private static async Task SeedUsersAsync(ArpaUserManager userManager, SignInManager<User> signInManager)
         {
             if (!userManager.Users.Any())
             {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 
 namespace Orso.Arpa.Domain.Logic.Users
 {
@@ -21,11 +22,11 @@ namespace Orso.Arpa.Domain.Logic.Users
 
         public class Handler : IRequestHandler<Query, Entities.Role>
         {
-            private readonly UserManager<User> _userManager;
+            private readonly ArpaUserManager _userManager;
             private readonly RoleManager<Entities.Role> _roleManager;
 
             public Handler(
-                UserManager<User> userManager,
+                ArpaUserManager userManager,
                 RoleManager<Entities.Role> roleManager)
             {
                 _userManager = userManager;

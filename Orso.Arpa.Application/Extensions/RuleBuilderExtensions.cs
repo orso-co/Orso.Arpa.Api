@@ -22,5 +22,14 @@ namespace Orso.Arpa.Application.Extensions
                 .NotEmpty()
                 .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _));
         }
+
+        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder)
+        {
+            return ruleBuilder
+                .MaximumLength(256)
+                .MinimumLength(5)
+                .Matches(@"^[a-zA-Z0-9]*$")
+                .WithMessage("Username may only contain alphanumeric characters");
+        }
     }
 }

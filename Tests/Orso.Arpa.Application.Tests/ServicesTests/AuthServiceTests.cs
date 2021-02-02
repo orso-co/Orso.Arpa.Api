@@ -34,13 +34,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var loginDto = new LoginDto
             {
-                UserName = UserSeedData.Performer.UserName,
+                UsernameOrEmail = UserSeedData.Performer.UserName,
                 Password = UserSeedData.ValidPassword
             };
             _mapper.Map<Login.Command>(loginDto).Returns(new Login.Command
             {
                 Password = loginDto.Password,
-                UserName = loginDto.UserName
+                UsernameOrEmail = loginDto.UsernameOrEmail
             });
             const string token = "Token";
             _mediator.Send(Arg.Any<Login.Command>()).Returns(token);
@@ -113,13 +113,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var setRoleDto = new SetRoleDto
             {
-                UserName = UserSeedData.Performer.UserName,
+                Username = UserSeedData.Performer.UserName,
                 RoleName = RoleNames.Staff
             };
             _mapper.Map<SetRole.Command>(setRoleDto)
                 .Returns(new SetRole.Command
                 {
-                    UserName = setRoleDto.UserName,
+                    Username = setRoleDto.Username,
                     RoleName = setRoleDto.RoleName
                 });
 
@@ -136,12 +136,12 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var forgotPasswordDto = new ForgotPasswordDto
             {
-                UserName = "Username"
+                UsernameOrEmail = "Username"
             };
             _mapper.Map<ForgotPassword.Command>(forgotPasswordDto)
                 .Returns(new ForgotPassword.Command
                 {
-                    UserName = "Username"
+                    UsernameOrEmail = "Username"
                 });
 
             // Act
@@ -157,14 +157,14 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var resetPasswordDto = new ResetPasswordDto
             {
-                UserName = "Username",
+                UsernameOrEmail = "Username",
                 Password = "Password",
                 Token = "Token"
             };
             _mapper.Map<ResetPassword.Command>(resetPasswordDto)
                 .Returns(new ResetPassword.Command
                 {
-                    UserName = "Username",
+                    UsernameOrEmail = "Username",
                     Password = "Password",
                     Token = "Token"
                 });
@@ -205,13 +205,13 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             // Arrange
             var dto = new CreateEmailConfirmationTokenDto
             {
-                Email = "test@test.de",
+                UsernameOrEmail = "test@test.de",
                 ClientUri = "http://localhost:4200"
             };
             _mapper.Map<CreateEmailConfirmationToken.Command>(dto)
                 .Returns(new CreateEmailConfirmationToken.Command
                 {
-                    Email = "test@test.de",
+                    UsernameOrEmail = "test@test.de",
                     ClientUri = "http://localhost:4200"
                 });
 

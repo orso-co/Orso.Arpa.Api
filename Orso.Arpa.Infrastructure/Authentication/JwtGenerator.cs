@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.Authentication
@@ -19,14 +20,14 @@ namespace Orso.Arpa.Infrastructure.Authentication
     public class JwtGenerator : IJwtGenerator
     {
         private readonly JwtConfiguration _jwtConfiguration;
-        private readonly UserManager<User> _userManager;
+        private readonly ArpaUserManager _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly IArpaContext _arpaContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public JwtGenerator(
             JwtConfiguration jwtConfiguration,
-            UserManager<User> userManager,
+            ArpaUserManager userManager,
             RoleManager<Role> roleManager,
             IArpaContext arpaContext,
             IHttpContextAccessor httpContextAccessor)

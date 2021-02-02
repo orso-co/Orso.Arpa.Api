@@ -3,10 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Users;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -16,7 +16,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
     [TestFixture]
     public class DeleteHandlerTests
     {
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private Delete.Handler _handler;
 
         [SetUp]

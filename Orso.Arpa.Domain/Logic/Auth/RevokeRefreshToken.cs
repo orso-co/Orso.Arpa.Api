@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Auth
@@ -32,10 +32,10 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Handler : IRequestHandler<Command, Unit>
         {
-            private readonly UserManager<User> _userManager;
+            private readonly ArpaUserManager _userManager;
             private readonly IArpaContext _arpaContext;
 
-            public Handler(UserManager<User> userManager, IArpaContext arpaContext)
+            public Handler(ArpaUserManager userManager, IArpaContext arpaContext)
             {
                 _userManager = userManager;
                 _arpaContext = arpaContext;

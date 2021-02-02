@@ -2,9 +2,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -20,7 +19,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _handler = new ResetPassword.Handler(_userManager);
         }
 
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private ResetPassword.Handler _handler;
 
         [Test]
@@ -31,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             {
                 Token = "Token",
                 Password = UserSeedData.ValidPassword,
-                UserName = "ludmilla"
+                UsernameOrEmail = "ludmilla"
             };
 
             // Act

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using MockQueryable.NSubstitute;
 using NSubstitute;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -15,7 +16,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.Identity
 {
-    public class FakeUserManager : UserManager<User>
+    public class FakeUserManager : ArpaUserManager
     {
         private static readonly string _emailConfirmationToken = "ABCDEFGHIJKLMNOP+";
 

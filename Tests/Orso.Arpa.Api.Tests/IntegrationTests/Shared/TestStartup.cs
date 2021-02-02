@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
@@ -45,7 +46,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             try
             {
                 ArpaContext context = services.GetRequiredService<ArpaContext>();
-                UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
+                ArpaUserManager userManager = services.GetRequiredService<ArpaUserManager>();
                 SignInManager<User> signInManager = services.GetRequiredService<SignInManager<User>>();
                 IArpaContext arpaContext = services.GetRequiredService<IArpaContext>();
                 context.Database.EnsureDeleted();
