@@ -20,11 +20,13 @@ namespace Orso.Arpa.Application.AuthApplication
         public UserRegisterDtoValidator()
         {
             RuleFor(c => c.UserName)
-                .NotEmpty();
+                .NotEmpty()
+                .Username();
             RuleFor(c => c.Password)
                 .Password();
             RuleFor(c => c.Email)
                 .NotEmpty()
+                .MaximumLength(256)
                 .EmailAddress();
             RuleFor(c => c.GivenName)
                 .NotEmpty()
@@ -42,7 +44,8 @@ namespace Orso.Arpa.Application.AuthApplication
         public UserRegisterDtoMappingProfile()
         {
             CreateMap<UserRegisterDto, UserRegister.Command>();
-            CreateMap<UserRegisterDto, CreateEmailConfirmationToken.Command>();
+            CreateMap<UserRegisterDto, CreateEmailConfirmationToken.Command>()
+                .ForMember(cmd => cmd.UsernameOrEmail, opt => opt.MapFrom(dto => dto.Email));
         }
     }
 }

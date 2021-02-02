@@ -5,10 +5,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -19,7 +19,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
     public class UserAccessorTests
     {
         private IHttpContextAccessor _httpContextAccessor;
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private UserAccessor _userAccessor;
 
         [SetUp]

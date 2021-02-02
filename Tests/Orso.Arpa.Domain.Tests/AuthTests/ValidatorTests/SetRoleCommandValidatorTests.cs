@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -17,7 +18,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
     public class SetRoleCommandValidatorTests
     {
         private Validator _validator;
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private RoleManager<Role> _roleManager;
 
         [SetUp]
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         public void Should_Throw_Rest_Exception_If_Role_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new Command { UserName = UserSeedData.Performer.UserName, RoleName = "DoesNotExist" });
+                .ValidateAsync(new Command { Username = UserSeedData.Performer.UserName, RoleName = "DoesNotExist" });
 
             act.Should().Throw<NotFoundException>();
         }
@@ -41,7 +42,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         public void Should_Throw_Rest_Exception_If_User_Does_Not_Exist()
         {
             Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new Command { UserName = "DoesNotExist", RoleName = RoleNames.Performer });
+                .ValidateAsync(new Command { Username = "DoesNotExist", RoleName = RoleNames.Performer });
             act.Should().Throw<NotFoundException>();
         }
     }

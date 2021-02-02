@@ -2,11 +2,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _handler = new ForgotPassword.Handler(_userManager, _clubConfiguration, _jwtConfiguration, _emailSender);
         }
 
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private IEmailSender _emailSender;
         private JwtConfiguration _jwtConfiguration;
         private ClubConfiguration _clubConfiguration;
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             User user = Arpa.Tests.Shared.FakeData.FakeUsers.Performer;
             var command = new ForgotPassword.Command
             {
-                UserName = user.UserName,
+                UsernameOrEmail = user.UserName,
                 ClientUri = "http://localhost:4200"
             };
 

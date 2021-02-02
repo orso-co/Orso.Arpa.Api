@@ -8,7 +8,7 @@ namespace Orso.Arpa.Application.AuthApplication
 {
     public class ResetPasswordDto
     {
-        public string UserName { get; set; }
+        public string UsernameOrEmail { get; set; }
         public string Password { get; set; }
         public string Token { get; set; }
     }
@@ -17,12 +17,19 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public ResetPasswordDtoValidator()
         {
-            RuleFor(c => c.UserName)
+            RuleFor(c => c.UsernameOrEmail)
                 .NotEmpty();
             RuleFor(c => c.Password)
                 .Password();
             RuleFor(c => c.Token)
                 .NotEmpty();
+            When(dto => dto.UsernameOrEmail != null && dto.UsernameOrEmail.Contains('@'), () =>
+            {
+                RuleFor(dto => dto.UsernameOrEmail).EmailAddress().MaximumLength(256);
+            }).Otherwise(() =>
+            {
+                RuleFor(dto => dto.UsernameOrEmail).Username();
+            });
         }
     }
 

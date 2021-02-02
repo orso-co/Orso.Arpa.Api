@@ -18,13 +18,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_Email_Is_Supplied([Values(null, "", "test@")] string email)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Email, email);
+            _validator.ShouldHaveValidationErrorFor(command => command.UsernameOrEmail, email);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Email, "ludmilla@test.com");
+            _validator.ShouldNotHaveValidationErrorFor(command => command.UsernameOrEmail, "ludmilla@test.com");
         }
 
         [Test]

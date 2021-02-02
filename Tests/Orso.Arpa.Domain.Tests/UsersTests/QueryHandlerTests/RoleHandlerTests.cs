@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
             _handler = new Logic.Users.Role.Handler(_userManager, _roleManager);
         }
 
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private RoleManager<Domain.Entities.Role> _roleManager;
         private Logic.Users.Role.Handler _handler;
 

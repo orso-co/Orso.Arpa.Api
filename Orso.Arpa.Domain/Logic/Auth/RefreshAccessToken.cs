@@ -4,10 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Auth
@@ -33,12 +33,12 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Handler : IRequestHandler<Command, string>
         {
-            private readonly UserManager<User> _userManager;
+            private readonly ArpaUserManager _userManager;
             private readonly IArpaContext _arpaContext;
             private readonly IJwtGenerator _jwtGenerator;
 
             public Handler(
-                UserManager<User> userManager,
+                ArpaUserManager userManager,
                 IJwtGenerator jwtGenerator,
                 IArpaContext arpaContext)
             {

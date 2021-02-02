@@ -19,13 +19,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_UserName_Is_Supplied([Values(null, "")] string userName)
         {
-            _validator.ShouldHaveValidationErrorFor(query => query.UserName, userName);
+            _validator.ShouldHaveValidationErrorFor(query => query.UsernameOrEmail, userName);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(query => query.UserName, UserSeedData.Performer.UserName);
+            _validator.ShouldNotHaveValidationErrorFor(query => query.UsernameOrEmail, UserSeedData.Performer.UserName);
         }
 
         [Test]

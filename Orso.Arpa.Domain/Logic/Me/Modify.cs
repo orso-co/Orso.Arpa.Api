@@ -6,6 +6,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Me
@@ -35,9 +36,8 @@ namespace Orso.Arpa.Domain.Logic.Me
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(UserManager<User> userManager, IUserAccessor userAccessor)
+            public Validator(ArpaUserManager userManager, IUserAccessor userAccessor)
             {
-                
                 RuleFor(c => c.Email)
                     .MustAsync(async (dto, email, cancellation) =>
                     {
@@ -51,11 +51,11 @@ namespace Orso.Arpa.Domain.Logic.Me
         public class Handler : IRequestHandler<Command>
         {
             private readonly IMapper _mapper;
-            private readonly UserManager<User> _userManager;
+            private readonly ArpaUserManager _userManager;
             private readonly IUserAccessor _userAccessor;
 
             public Handler(
-                UserManager<User> userManager,
+                ArpaUserManager userManager,
                 IUserAccessor userAccessor,
                 IMapper mapper)
             {

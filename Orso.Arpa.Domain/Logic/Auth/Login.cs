@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Auth
@@ -14,17 +15,17 @@ namespace Orso.Arpa.Domain.Logic.Auth
     {
         public class Command : IRequest<string>
         {
-            public string UserName { get; set; }
+            public string UsernameOrEmail { get; set; }
             public string Password { get; set; }
             public string RemoteIpAddress { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(UserManager<User> userManager)
+            public Validator(ArpaUserManager userManager)
             {
-                RuleFor(q => q.UserName)
-                    .MustAsync(async (userName, cancellation) => await userManager.FindByNameAsync(userName) != null)
+                RuleFor(q => q.UsernameOrEmail)
+                    .MustAsync(async (userName, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(userName) != null)
                     .OnFailure(request => throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password"));
                 RuleFor(q => q.RemoteIpAddress)
                     .NotEmpty();
@@ -49,7 +50,9 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 UserManager<User> userManager = _signInManager.UserManager;
                 User user = await userManager.Users
                     .Include(u => u.Person)
-                    .SingleOrDefaultAsync(u => u.NormalizedUserName == userManager.NormalizeName(request.UserName));
+                    .SingleOrDefaultAsync(u => (request.UsernameOrEmail.Contains('@'))
+                        ? u.NormalizedEmail == userManager.NormalizeEmail(request.UsernameOrEmail)
+                        : u.NormalizedUserName == userManager.NormalizeName(request.UsernameOrEmail));
 
                 if (!await userManager.IsEmailConfirmedAsync(user))
                 {

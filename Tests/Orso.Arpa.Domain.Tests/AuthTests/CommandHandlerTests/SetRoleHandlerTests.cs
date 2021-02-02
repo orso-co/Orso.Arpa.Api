@@ -2,9 +2,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -21,7 +21,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _handler = new SetRole.Handler(_userManager);
         }
 
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private SetRole.Handler _handler;
 
         [Test]
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             User user = FakeUsers.Performer;
             var command = new SetRole.Command
             {
-                UserName = user.UserName,
+                Username = user.UserName,
                 RoleName = RoleNames.Staff
             };
 

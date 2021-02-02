@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Domain.Logic.Auth
@@ -15,20 +16,19 @@ namespace Orso.Arpa.Domain.Logic.Auth
     {
         public class Command : IRequest
         {
-            public string UserName { get; set; }
+            public string Username { get; set; }
             public string RoleName { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
         {
             public Validator(
-                UserManager<User> userManager,
+                ArpaUserManager userManager,
                 RoleManager<Role> roleManager)
             {
-                
-                RuleFor(c => c.UserName)
+                RuleFor(c => c.Username)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
-                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Command.UserName), request));
+                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Command.Username), request));
                 RuleFor(c => c.RoleName)
                     .MustAsync(async (roleName, cancellation) => string.IsNullOrEmpty(roleName) || await roleManager.RoleExistsAsync(roleName))
                     .OnFailure(request => throw new NotFoundException(nameof(Role), nameof(Command.RoleName), request));
@@ -37,9 +37,9 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly UserManager<User> _userManager;
+            private readonly ArpaUserManager _userManager;
 
-            public Handler(UserManager<User> userManager)
+            public Handler(ArpaUserManager userManager)
             {
                 _userManager = userManager;
             }
@@ -48,7 +48,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 User user = await _userManager.Users
                     .Include(u => u.Person)
-                    .SingleOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeName(request.UserName));
+                    .SingleOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeName(request.Username));
 
                 foreach (var role in RoleNames.Roles)
                 {

@@ -2,9 +2,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -20,7 +19,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _handler = new ConfirmEmail.Handler(_userManager);
         }
 
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private ConfirmEmail.Handler _handler;
 
         [Test]
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             var command = new ConfirmEmail.Command
             {
                 Token = "ABCDEFGHIJKLMNOP+",
-                Email = FakeUsers.Performer.Email,
+                Email = FakeUsers.UnconfirmedUser.Email,
             };
 
             // Act

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 
 namespace Orso.Arpa.Domain.Logic.Users
 {
@@ -15,10 +15,10 @@ namespace Orso.Arpa.Domain.Logic.Users
 
         public class Handler : IRequestHandler<Query, IEnumerable<User>>
         {
-            private readonly UserManager<User> _userManager;
+            private readonly ArpaUserManager _userManager;
 
             public Handler(
-                UserManager<User> userManager)
+                ArpaUserManager userManager)
             {
                 _userManager = userManager;
             }

@@ -1,12 +1,13 @@
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using static Orso.Arpa.Domain.Logic.Auth.SetRole;
 
 namespace Orso.Arpa.Application.AuthApplication
 {
     public class SetRoleDto
     {
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string RoleName { get; set; }
     }
 
@@ -22,8 +23,9 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public SetRoleDtoValidator()
         {
-            RuleFor(c => c.UserName)
-                .NotEmpty();
+            RuleFor(c => c.Username)
+                .NotEmpty()
+                .Username();
         }
     }
 }

@@ -4,11 +4,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Configuration;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -28,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _handler = new CreateEmailConfirmationToken.Handler(_userManager, _clubConfiguration, _jwtConfiguration, _emailSender);
         }
 
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private IEmailSender _emailSender;
         private JwtConfiguration _jwtConfiguration;
         private ClubConfiguration _clubConfiguration;
@@ -39,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             var command = new CreateEmailConfirmationToken.Command
             {
-                Email = UserSeedData.UnconfirmedUser.Email,
+                UsernameOrEmail = UserSeedData.UnconfirmedUser.Email,
                 ClientUri = "http://localhost:4200"
             };
 
@@ -55,7 +54,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             var command = new CreateEmailConfirmationToken.Command
             {
-                Email = UserSeedData.Performer.Email,
+                UsernameOrEmail = UserSeedData.Performer.Email,
                 ClientUri = "http://localhost:4200"
             };
 

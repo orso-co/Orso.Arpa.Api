@@ -42,7 +42,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.Admin;
             var loginDto = new LoginDto
             {
-                UserName = user.UserName,
+                UsernameOrEmail = user.UserName,
                 Password = UserSeedData.ValidPassword
             };
 
@@ -70,7 +70,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var loginDto = new LoginDto
             {
-                UserName = "unregistered",
+                UsernameOrEmail = "unregistered",
                 Password = UserSeedData.ValidPassword
             };
 
@@ -90,7 +90,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.Performer;
             var loginDto = new LoginDto
             {
-                UserName = user.UserName,
+                UsernameOrEmail = user.UserName,
                 Password = "invalidPassword"
             };
 
@@ -110,7 +110,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.LockedOutUser;
             var loginDto = new LoginDto
             {
-                UserName = user.UserName,
+                UsernameOrEmail = user.UserName,
                 Password = UserSeedData.ValidPassword
             };
 
@@ -130,7 +130,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.UnconfirmedUser;
             var loginDto = new LoginDto
             {
-                UserName = user.UserName,
+                UsernameOrEmail = user.UserName,
                 Password = UserSeedData.ValidPassword
             };
 
@@ -320,7 +320,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var setRoleDto = new SetRoleDto
             {
                 RoleName = newRole,
-                UserName = user.UserName
+                Username = user.UserName
             };
 
             // Act
@@ -344,7 +344,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.Performer;
             var forgotPasswordDto = new ForgotPasswordDto
             {
-                UserName = user.UserName,
+                UsernameOrEmail = user.UserName,
                 ClientUri = "http://localhost:4200"
             };
             HttpClient client = _unAuthenticatedServer
@@ -361,13 +361,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _fakeSmtpServer.Stop();
 
             // Arrange
-            var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&username=");
+            var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&email=");
             var resetPasswordToken = queryParameters[0];
-            var userName = queryParameters[1].Split('"')[0];
+            var email = queryParameters[1].Split('"')[0];
 
             var resetPasswordDto = new ResetPasswordDto
             {
-                UserName = userName,
+                UsernameOrEmail = email,
                 Password = UserSeedData.ValidPassword,
                 Token = resetPasswordToken
             };
@@ -389,7 +389,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                  .Build();
             var dto = new CreateEmailConfirmationTokenDto
             {
-                Email = UserSeedData.UnconfirmedUser.Email,
+                UsernameOrEmail = UserSeedData.UnconfirmedUser.Email,
                 ClientUri = "http://localhost:4200"
             };
 
@@ -413,7 +413,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                  .Build();
             var dto = new CreateEmailConfirmationTokenDto
             {
-                Email = UserSeedData.Performer.Email,
+                UsernameOrEmail = UserSeedData.Performer.Email,
                 ClientUri = "http://localhost:4200"
             };
 
@@ -437,7 +437,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.Performer;
             var loginDto = new LoginDto
             {
-                UserName = user.UserName,
+                UsernameOrEmail = user.UserName,
                 Password = UserSeedData.ValidPassword
             };
 
@@ -473,7 +473,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = UserSeedData.Performer;
             var loginDto = new LoginDto
             {
-                UserName = user.UserName,
+                UsernameOrEmail = user.UserName,
                 Password = UserSeedData.ValidPassword
             };
 

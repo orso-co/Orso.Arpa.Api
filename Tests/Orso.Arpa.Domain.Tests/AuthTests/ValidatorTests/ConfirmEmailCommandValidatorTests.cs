@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation.Results;
 using FluentValidation.TestHelper;
-using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Auth.ConfirmEmail;
@@ -17,7 +16,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
     public class ConfirmEmailCommandValidatorTests
     {
         private Validator _validator;
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
 
         [SetUp]
         public void Setup()

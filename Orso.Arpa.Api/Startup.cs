@@ -27,6 +27,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Domain.Logic.Auth;
@@ -229,7 +230,8 @@ namespace Orso.Arpa.Api
                 .AddDefaultTokenProviders()
                 .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation")
                 .AddRoleValidator<RoleValidator<Role>>()
-                .AddRoleManager<RoleManager<Role>>();
+                .AddRoleManager<RoleManager<Role>>()
+                .AddUserManager<ArpaUserManager>();
 
             services.Configure<IdentityOptions>(opts =>
             {

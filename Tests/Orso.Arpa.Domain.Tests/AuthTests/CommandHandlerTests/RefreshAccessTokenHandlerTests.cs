@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation;
-using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext);
         }
 
-        private UserManager<User> _userManager;
+        private ArpaUserManager _userManager;
         private IJwtGenerator _jwtGenerator;
         private IArpaContext _arpaContext;
         private RefreshAccessToken.Handler _handler;
