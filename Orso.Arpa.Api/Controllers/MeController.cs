@@ -32,6 +32,19 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Sends the qr code by mail
+        /// </summary>
+        /// <response code="200"></response>
+        [HttpGet("qrcode")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> SendQrCode()
+        {
+            await _userService.SendQrCodeAsync();
+            return NoContent();
+        }
+
+        /// <summary>
         /// Gets the appointments of the current user
         /// </summary>
         /// <returns>The user profile of the current user</returns>

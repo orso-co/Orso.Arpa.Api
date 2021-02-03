@@ -8,6 +8,7 @@ using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.UserApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Logic.Users;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
@@ -95,6 +96,12 @@ namespace Orso.Arpa.Application.Services
             User currentUser = await _userAccessor.GetCurrentUserAsync();
             command.PersonId = currentUser.PersonId;
 
+            await _mediator.Send(command);
+        }
+
+        public async Task SendQrCodeAsync()
+        {
+            var command = new SendQRCode.Command { Username = _userAccessor.UserName };
             await _mediator.Send(command);
         }
     }

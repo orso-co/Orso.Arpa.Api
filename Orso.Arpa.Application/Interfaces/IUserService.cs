@@ -18,5 +18,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task<MyAppointmentListDto> GetAppointmentsOfCurrentUserAsync(int? limit, int? offset);
 
         Task SetAppointmentParticipationPredictionAsync(SetMyProjectAppointmentPredictionDto setParticipationPredictionDto);
+
+        Task SendQrCodeAsync();
     }
 }
