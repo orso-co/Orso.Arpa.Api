@@ -25,14 +25,21 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         private SimpleSmtpServer _fakeSmtpServer;
 
         [TearDown]
-        [SetUp]
-        public void SetupAndTearDown()
+        public void DisposeMailServer()
         {
             if (_fakeSmtpServer != null)
             {
                 _fakeSmtpServer.Stop();
                 _fakeSmtpServer.Dispose();
             }
+        }
+
+        [SetUp]
+        public void SetupMailServer()
+        {
+            _fakeSmtpServer = Configuration.Configure()
+                 .WithPort(25)
+                 .Build();
         }
 
         [Test]
@@ -147,10 +154,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Register_And_Confirm_Email()
         {
             // Arrange
-            _fakeSmtpServer = Configuration.Configure()
-                 .WithPort(25)
-                 .Build();
-
             var registerDto = new UserRegisterDto
             {
                 Email = "ludmilla@test.com",
@@ -171,7 +174,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
 
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
-            _fakeSmtpServer.Stop();
 
             // Arrange
             var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&email=");
@@ -296,24 +298,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Admin, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Admin, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Admin, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Staff, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Staff, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Staff, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.NoContent);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, 2);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.NoContent, 0);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Admin, HttpStatusCode.NoContent, 0);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Admin, HttpStatusCode.Forbidden, 0);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Admin, HttpStatusCode.Forbidden, 0);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Staff, HttpStatusCode.NoContent, 0);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Staff, HttpStatusCode.NoContent, 0);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Staff, HttpStatusCode.Forbidden, 0);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, 0);
             }
         }
 
         [Test]
         [TestCaseSource(nameof(SetRoleTestData))]
-        public async Task Should_Set_Role(User userToEdit, User currentUser, string newRole, HttpStatusCode expectedStatusCode)
+        public async Task Should_Set_Role(User userToEdit, User currentUser, string newRole, HttpStatusCode expectedStatusCode, int expectedMailCount)
         {
             // Arrange
             User user = userToEdit;
@@ -331,16 +333,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(expectedStatusCode);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(expectedMailCount);
         }
 
         [Test]
         public async Task Should_Reset_Password()
         {
             // Arrange
-            _fakeSmtpServer = Configuration.Configure()
-                 .WithPort(25)
-                 .Build();
-
             User user = UserSeedData.Performer;
             var forgotPasswordDto = new ForgotPasswordDto
             {
@@ -358,7 +357,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
-            _fakeSmtpServer.Stop();
 
             // Arrange
             var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&email=");
@@ -384,9 +382,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Create_new_Email_Confirmation_Token()
         {
             // Arrange
-            _fakeSmtpServer = Configuration.Configure()
-                 .WithPort(25)
-                 .Build();
             var dto = new CreateEmailConfirmationTokenDto
             {
                 UsernameOrEmail = UserSeedData.UnconfirmedUser.Email,
@@ -401,16 +396,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
-            _fakeSmtpServer.Stop();
         }
 
         [Test]
         public async Task Should_Not_Create_new_Email_Confirmation_Token_If_Email_Is_Already_Confirmed()
         {
             // Arrange
-            _fakeSmtpServer = Configuration.Configure()
-                 .WithPort(25)
-                 .Build();
             var dto = new CreateEmailConfirmationTokenDto
             {
                 UsernameOrEmail = UserSeedData.Performer.Email,
@@ -425,7 +416,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(0);
-            _fakeSmtpServer.Stop();
         }
 
         [Test]

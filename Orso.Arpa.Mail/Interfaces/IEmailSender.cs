@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Orso.Arpa.Mail.Interfaces
@@ -6,6 +7,6 @@ namespace Orso.Arpa.Mail.Interfaces
     {
         Task SendEmailAsync(EmailMessage emailMessage);
 
-        Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail);
+        Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail, IList<EmailAttachment> attachments = null);
     }
 }

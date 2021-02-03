@@ -9,7 +9,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Templates\Html\Activation_Info.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\Html\Confirm_Email.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\Html\QR_Code.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\Html\Reset_Password.html">
