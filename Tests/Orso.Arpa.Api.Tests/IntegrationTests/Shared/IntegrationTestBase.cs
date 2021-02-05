@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using netDumbster.smtp;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
@@ -23,12 +24,31 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected User _performer;
         protected User _staff;
         protected User _admin;
+        protected SimpleSmtpServer _fakeSmtpServer;
+
+        [TearDown]
+        public void DisposeMailServer()
+        {
+            if (_fakeSmtpServer != null)
+            {
+                _fakeSmtpServer.Stop();
+                _fakeSmtpServer.Dispose();
+            }
+        }
 
         [OneTimeTearDown]
         public virtual void Cleanup()
         {
             _unAuthenticatedServer.Dispose();
             _authenticatedServer.Dispose();
+        }
+
+        [SetUp]
+        public void SetupMailServer()
+        {
+            _fakeSmtpServer = Configuration.Configure()
+                 .WithPort(25)
+                 .Build();
         }
 
         [OneTimeSetUp]

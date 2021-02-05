@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
-using netDumbster.smtp;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication;
@@ -22,26 +21,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class AuthControllerTests : IntegrationTestBase
     {
-        private SimpleSmtpServer _fakeSmtpServer;
-
-        [TearDown]
-        public void DisposeMailServer()
-        {
-            if (_fakeSmtpServer != null)
-            {
-                _fakeSmtpServer.Stop();
-                _fakeSmtpServer.Dispose();
-            }
-        }
-
-        [SetUp]
-        public void SetupMailServer()
-        {
-            _fakeSmtpServer = Configuration.Configure()
-                 .WithPort(25)
-                 .Build();
-        }
-
         [Test]
         public async Task Should_Login()
         {
@@ -299,7 +278,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             get
             {
                 yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, 2);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.NoContent, 0);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.NoContent, 1);
                 yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
                 yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Admin, HttpStatusCode.NoContent, 0);
                 yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Admin, HttpStatusCode.Forbidden, 0);
@@ -309,7 +288,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Staff, HttpStatusCode.Forbidden, 0);
                 yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
                 yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, 0);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, 1);
             }
         }
 

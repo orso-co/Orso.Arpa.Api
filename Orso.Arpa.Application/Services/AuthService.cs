@@ -45,16 +45,17 @@ namespace Orso.Arpa.Application.Services
         {
             SetRole.Command command = _mapper.Map<SetRole.Command>(setRoleDto);
             var isNewUser = await _mediator.Send(command);
+
             if (isNewUser)
             {
                 SendActivationInfo.Command activationCommand = _mapper.Map<SendActivationInfo.Command>(setRoleDto);
                 await _mediator.Send(activationCommand);
+            }
 
-                if (setRoleDto.RoleName == RoleNames.Performer)
-                {
-                    SendQRCode.Command codeCommand = _mapper.Map<SendQRCode.Command>(setRoleDto);
-                    await _mediator.Send(codeCommand);
-                }
+            if (setRoleDto.RoleName == RoleNames.Performer)
+            {
+                SendQRCode.Command codeCommand = _mapper.Map<SendQRCode.Command>(setRoleDto);
+                await _mediator.Send(codeCommand);
             }
         }
 

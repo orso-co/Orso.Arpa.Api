@@ -57,7 +57,7 @@ namespace Orso.Arpa.Mail.Tests
             var expectedRecipient = "recipient@test.de";
             var expectedSubject = "Expected subject";
             var expectedBody = "Expected body";
-            var emailMessage = new EmailMessage(new string[] { expectedRecipient }, expectedSubject, expectedBody, false);
+            var emailMessage = new EmailMessage(new string[] { expectedRecipient }, expectedSubject, expectedBody, null);
 
             // Act
             await emailSender.SendEmailAsync(

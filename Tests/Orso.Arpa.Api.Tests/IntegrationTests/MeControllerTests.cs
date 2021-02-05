@@ -69,6 +69,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .Excluding(dto => dto.CreatedAt));
         }
 
+        [Test, Order(100)]
+        public async Task Should_Send_QRCode()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+        }
+
         [Test, Order(1000)]
         public async Task Should_Modify_Profile()
         {
