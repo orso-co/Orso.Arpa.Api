@@ -24,7 +24,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         private SetRole.Handler _handler;
 
         [Test]
-        public async Task Should_Set_Role()
+        public async Task Should_Set_Role_Return_False()
         {
             // Arrange
             User user = FakeUsers.Performer;
@@ -39,6 +39,24 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             // Assert
             result.Should().BeFalse();
+        }
+
+        [Test]
+        public async Task Should_Set_Role_Return_True()
+        {
+            // Arrange
+            User user = FakeUsers.UserWithoutRole;
+            var command = new SetRole.Command
+            {
+                Username = user.UserName,
+                RoleName = RoleNames.Performer
+            };
+
+            // Act
+            bool result = await _handler.Handle(command, new CancellationToken());
+
+            // Assert
+            result.Should().BeTrue();
         }
     }
 }

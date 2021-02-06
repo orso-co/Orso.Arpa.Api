@@ -41,7 +41,6 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet("qrcode")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        [Authorize]
         [Authorize(Roles = RoleNames.Performer)]
         [ProducesResponseType(StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> SendQrCode()

@@ -12,12 +12,15 @@ using Orso.Arpa.Application.Services;
 using Orso.Arpa.Application.UserApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
+
 using Me = Orso.Arpa.Domain.Logic.Me;
+
 using Users = Orso.Arpa.Domain.Logic.Users;
 
 namespace Orso.Arpa.Application.Tests.ServicesTests
@@ -135,6 +138,19 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
 
             // Assert
             await _mediator.Received(1).Send(Arg.Any<AppointmentParticipations.SetPrediction.Command>());
+        }
+
+        [Test]
+        public async Task Should_Send_QrCode_Async()
+        {
+            // Arrange
+            _userAccessor.GetCurrentUserAsync().Returns(UserSeedData.Performer);
+
+            // Act
+            await _userService.SendQrCodeAsync();
+
+            // Assert
+            await _mediator.Received(1).Send(Arg.Any<SendQRCode.Command>());
         }
     }
 }

@@ -1,6 +1,8 @@
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
@@ -69,10 +71,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .Excluding(dto => dto.CreatedAt));
         }
 
-        [Test, Order(100)]
+        [Test, Order(3)]
         public async Task Should_Send_QRCode()
         {
             // Arrange
+            var expectedFile = File.ReadAllBytes(
+                Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                "Files",
+                "ARPA_QRCode_Per_Former.png"));
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -86,9 +92,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.Content.Headers.ContentDisposition.FileName.Should().Be("ARPA_QRCode_Per_Former.png");
             byte[] responseContent = await responseMessage.Content.ReadAsByteArrayAsync();
             responseContent.Should().NotBeEmpty();
+            responseContent.Should().BeEquivalentTo(expectedFile);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
-            _fakeSmtpServer.ReceivedEmail[0].ToAddresses.Should().ContainEquivalentOf(_performer.Email);
-            _fakeSmtpServer.ReceivedEmail[0].MessageParts.Length.Should().Be(2);
+            netDumbster.smtp.SmtpMessage receivedMail = _fakeSmtpServer.ReceivedEmail[0];
+            receivedMail.ToAddresses[0].Address.Should().ContainEquivalentOf(_performer.Email);
+            receivedMail.MessageParts.Length.Should().Be(2);
+        }
+
+        [Test, Order(4)]
+        public async Task Should_Not_Send_QRCode_If_User_Is_Not_In_Role_Performer()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_admin)
+                .GetAsync(ApiEndpoints.MeController.SendQrCode());
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Test, Order(1000)]
