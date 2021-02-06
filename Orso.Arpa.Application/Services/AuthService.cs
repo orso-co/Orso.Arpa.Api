@@ -4,6 +4,8 @@ using MediatR;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -43,7 +45,19 @@ namespace Orso.Arpa.Application.Services
         public async Task SetRoleAsync(SetRoleDto setRoleDto)
         {
             SetRole.Command command = _mapper.Map<SetRole.Command>(setRoleDto);
-            await _mediator.Send(command);
+            var isNewUser = await _mediator.Send(command);
+
+            if (isNewUser)
+            {
+                SendActivationInfo.Command activationCommand = _mapper.Map<SendActivationInfo.Command>(setRoleDto);
+                await _mediator.Send(activationCommand);
+            }
+
+            if (setRoleDto.RoleName == RoleNames.Performer)
+            {
+                SendQRCode.Command codeCommand = _mapper.Map<SendQRCode.Command>(setRoleDto);
+                await _mediator.Send(codeCommand);
+            }
         }
 
         public async Task ForgotPasswordAsync(ForgotPasswordDto forgotPassswordDto)

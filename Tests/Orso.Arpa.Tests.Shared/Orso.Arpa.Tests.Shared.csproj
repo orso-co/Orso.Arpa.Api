@@ -18,4 +18,10 @@
     <ProjectReference Include="..\..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
     <ProjectReference Include="..\..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Files\ARPA_QRCode_Per_Former.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

@@ -22,5 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Mail\Orso.Arpa.Mail.csproj" />
+    <ProjectReference Include="..\Orso.Arpa.Misc\Orso.Arpa.Misc.csproj" />
   </ItemGroup>
 </Project>

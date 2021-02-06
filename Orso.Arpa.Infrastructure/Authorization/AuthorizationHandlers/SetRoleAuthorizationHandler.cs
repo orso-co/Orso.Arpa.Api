@@ -49,6 +49,12 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
 
             string currentUserRole = _userAccessor.UserRole;
 
+            if (currentUserRole == null)
+            {
+                context.Fail();
+                return;
+            }
+
             if (currentUserRole.Equals(RoleNames.Admin, StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Succeed(requirement);

@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.Extensions
         {
             return ruleBuilder
                 .MaximumLength(256)
-                .MinimumLength(5)
+                .MinimumLength(4)
                 .Matches(@"^[a-zA-Z0-9]*$")
                 .WithMessage("Username may only contain alphanumeric characters");
         }

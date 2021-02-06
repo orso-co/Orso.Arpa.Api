@@ -14,7 +14,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 {
     public static class SetRole
     {
-        public class Command : IRequest
+        public class Command : IRequest<bool>
         {
             public string Username { get; set; }
             public string RoleName { get; set; }
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, bool>
         {
             private readonly ArpaUserManager _userManager;
 
@@ -44,11 +44,13 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 _userManager = userManager;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
                 User user = await _userManager.Users
                     .Include(u => u.Person)
                     .SingleOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeName(request.Username));
+
+                var isNewUser = (await _userManager.GetRolesAsync(user)).Count == 0;
 
                 foreach (var role in RoleNames.Roles)
                 {
@@ -62,7 +64,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     }
                 }
 
-                return Unit.Value;
+                return isNewUser;
             }
 
             private async Task RemoveRoleFromUserAsync(User user, string role)

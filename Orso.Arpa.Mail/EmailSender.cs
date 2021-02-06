@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -27,7 +28,7 @@ namespace Orso.Arpa.Mail
             await SendAsync(mimeMessage);
         }
 
-        public async Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail)
+        public async Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail, IList<EmailAttachment> attachments = null)
         {
             var templatedBody = _templateParser.Parse(templateData);
 
@@ -37,7 +38,7 @@ namespace Orso.Arpa.Mail
                 subject = templatedBody.Split("<title>")[1].Split("</title>")[0];
             }
 
-            var mailMessage = new EmailMessage(new string[] { receipientMail }, subject, templatedBody, true);
+            var mailMessage = new EmailMessage(new string[] { receipientMail }, subject, templatedBody, attachments);
             await SendEmailAsync(mailMessage);
         }
 
@@ -47,14 +48,15 @@ namespace Orso.Arpa.Mail
             mimeMessage.From.Add(new MailboxAddress(_emailConfig.From));
             mimeMessage.To.AddRange(emailMessage.To);
             mimeMessage.Subject = emailMessage.Subject ?? _emailConfig.DefaultSubject;
-            if (emailMessage.UseHtml)
+
+            var bodyBuilder = new BodyBuilder { HtmlBody = emailMessage.Content };
+
+            foreach (EmailAttachment attachment in emailMessage.Attachments)
             {
-                mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) { Text = emailMessage.Content };
+                bodyBuilder.Attachments.Add(attachment.FileName, attachment.Content);
             }
-            else
-            {
-                mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = emailMessage.Content };
-            }
+
+            mimeMessage.Body = bodyBuilder.ToMessageBody();
             return mimeMessage;
         }
 

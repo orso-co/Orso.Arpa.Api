@@ -1,7 +1,7 @@
 <heml>
   <head>
-    <subject>Handlungsbedarf: Bitte bestätige deine E-Mailadresse</subject>
-    <preview>Vielen Dank für deine Registrierung bei ARPA. Du bist nur einen Klick vom ersten Login entfernt!</preview>
+    <subject>Gute Neuigkeiten: Du wurdest freigeschaltet</subject>
+    <preview>Du wurdest von uns für Arpa freigeschaltet</preview>
     <style>
       body {
         background: #121212;
@@ -50,16 +50,15 @@
     <container>
       <row>
         <column>
-          <h2>Willkommen {{DisplayName}} 👋</h2>
+          <h2>Hallo {{DisplayName}} 👋</h2>
           <p><em>(English text below)</em></p>
-          <p>Vielen Dank für deine Registrierung bei ARPA. Du bist nur einen Klick vom ersten Login entfernt:</p>
-          <button href="{{ClientUri}}">Bitte bestätige deine E-Mail-Adresse</button>
+          <p>Wir haben gute Neuigkeiten für dich: Du wurdest von uns für Arpa freigeschaltet.</p>
+          <p>Ab sofort kannst du Arpa vollumfänglich nutzen. Viel Spaß dabei!</p>
+          <h3>Dein Arpa-Team</h3>
         </column>
       </row>
       <row>
         <column>
-          <p>Der volle Zugriff auf alle dich betreffenden Informationen innerhalb von ARPA ist erst möglich, wenn du von einem Mitarbeitenden freigeschaltet wurdest.</p>
-          <h3>Dein Arpa-Team</h3>
         </column>
       </row>
     </container>

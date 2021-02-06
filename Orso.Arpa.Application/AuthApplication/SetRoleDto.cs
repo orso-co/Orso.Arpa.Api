@@ -1,7 +1,8 @@
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
-using static Orso.Arpa.Domain.Logic.Auth.SetRole;
+using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.Logic.Me;
 
 namespace Orso.Arpa.Application.AuthApplication
 {
@@ -15,7 +16,9 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public SetRoleDtoMappingProfile()
         {
-            CreateMap<SetRoleDto, Command>();
+            CreateMap<SetRoleDto, SetRole.Command>();
+            CreateMap<SetRoleDto, SendActivationInfo.Command>();
+            CreateMap<SetRoleDto, SendQRCode.Command>();
         }
     }
 
