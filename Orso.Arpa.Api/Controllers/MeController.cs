@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
+using static Orso.Arpa.Domain.Logic.Me.SendQRCode;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -32,16 +34,20 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Sends the qr code by mail
+        /// Sends the qr code by mail and returns it as png
         /// </summary>
         /// <response code="200"></response>
+        /// /// <response code="424">If email could not be sent</response>
         [HttpGet("qrcode")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
+        [Authorize]
+        [Authorize(Roles = RoleNames.Performer)]
+        [ProducesResponseType(StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> SendQrCode()
         {
-            await _userService.SendQrCodeAsync();
-            return NoContent();
+            QrCodeFile qrCode = await _userService.SendQrCodeAsync();
+            return File(qrCode.Content, qrCode.ContentType, qrCode.FileName);
         }
 
         /// <summary>

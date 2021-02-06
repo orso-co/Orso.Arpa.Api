@@ -4,6 +4,7 @@ using MediatR;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Application.Services

@@ -12,11 +12,18 @@ using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
 using Orso.Arpa.Misc;
 
-namespace Orso.Arpa.Domain.Logic.Auth
+namespace Orso.Arpa.Domain.Logic.Me
 {
     public static class SendQRCode
     {
-        public class Command : IRequest
+        public class QrCodeFile
+        {
+            public byte[] Content { get; set; }
+            public string FileName { get; set; }
+            public string ContentType => "image/png";
+        }
+
+        public class Command : IRequest<QrCodeFile>
         {
             public string Username { get; set; }
         }
@@ -32,7 +39,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, QrCodeFile>
         {
             private readonly ArpaUserManager _userManager;
             private readonly JwtConfiguration _jwtConfiguration;
@@ -50,7 +57,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 _emailSender = emailSender;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<QrCodeFile> Handle(Command request, CancellationToken cancellationToken)
             {
                 User user = await _userManager.FindByNameAsync(request.Username);
 
@@ -64,14 +71,20 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     ClubPhoneNumber = _clubConfiguration.Phone
                 };
 
+                var qrCode = new QrCodeFile()
+                {
+                    Content = ArpaQRCodeGenerator.GetQRCode(user.PersonId.ToString()),
+                    FileName = $"ARPA_QRCode_{user.DisplayName.Replace(' ', '_')}.png"
+                };
+
                 var attachments = new List<EmailAttachment>()
                 {
-                    new EmailAttachment { Content = ArpaQRCodeGenerator.GetQRCode(user.PersonId.ToString()), FileName = $"ARPA_QRCode_{user.DisplayName.Replace(' ', '_')}.png" }
+                    new EmailAttachment { Content = qrCode.Content, FileName = qrCode.FileName }
                 };
 
                 await _emailSender.SendTemplatedEmailAsync(template, user.Email, attachments);
 
-                return Unit.Value;
+                return qrCode;
             }
         }
     }

@@ -75,8 +75,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
 
             // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.MeController.SendQrCode());
 
             // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.Content.Headers.ContentType.MediaType.Should().BeEquivalentTo("image/png");
+            responseMessage.Content.Headers.ContentDisposition.FileName.Should().Be("ARPA_QRCode_Per_Former.png");
+            byte[] responseContent = await responseMessage.Content.ReadAsByteArrayAsync();
+            responseContent.Should().NotBeEmpty();
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            _fakeSmtpServer.ReceivedEmail[0].ToAddresses.Should().ContainEquivalentOf(_performer.Email);
+            _fakeSmtpServer.ReceivedEmail[0].MessageParts.Length.Should().Be(2);
         }
 
         [Test, Order(1000)]
