@@ -297,6 +297,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Set_Role(User userToEdit, User currentUser, string newRole, HttpStatusCode expectedStatusCode, int expectedMailCount)
         {
             // Arrange
+            _fakeSmtpServer.ClearReceivedEmail();
             User user = userToEdit;
             var setRoleDto = new SetRoleDto
             {

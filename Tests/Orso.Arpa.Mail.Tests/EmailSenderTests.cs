@@ -53,6 +53,7 @@ namespace Orso.Arpa.Mail.Tests
         public async Task Should_Send_Email_Async()
         {
             // Arrange
+            _server.ClearReceivedEmail();
             EmailSender emailSender = CreateEmailSender();
             var expectedRecipient = "recipient@test.de";
             var expectedSubject = "Expected subject";
@@ -75,6 +76,7 @@ namespace Orso.Arpa.Mail.Tests
         public async Task Should_Send_Templated_Email_Async()
         {
             // Arrange
+            _server.ClearReceivedEmail();
             EmailSender emailSender = CreateEmailSender();
             var confirmEmailTemplate = new ConfirmEmailTemplate();
             var expectedRecipient = "recipient@test.de";
