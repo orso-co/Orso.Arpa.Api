@@ -277,24 +277,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, 2);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.NoContent, 1);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Admin, HttpStatusCode.NoContent, 0);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Admin, HttpStatusCode.Forbidden, 0);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Admin, HttpStatusCode.Forbidden, 0);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Staff, HttpStatusCode.NoContent, 0);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Staff, HttpStatusCode.NoContent, 0);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Staff, HttpStatusCode.Forbidden, 0);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, 0);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, 1);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, true);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.NoContent, true);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Admin, HttpStatusCode.NoContent, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Admin, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Admin, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Staff, HttpStatusCode.NoContent, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Staff, HttpStatusCode.NoContent, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Staff, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, true);
             }
         }
 
         [Test]
         [TestCaseSource(nameof(SetRoleTestData))]
-        public async Task Should_Set_Role(User userToEdit, User currentUser, string newRole, HttpStatusCode expectedStatusCode, int expectedMailCount)
+        public async Task Should_Set_Role(User userToEdit, User currentUser, string newRole, HttpStatusCode expectedStatusCode, bool shouldSendMail)
         {
             // Arrange
             _fakeSmtpServer.ClearReceivedEmail();
@@ -313,7 +313,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(expectedStatusCode);
-            _fakeSmtpServer.ReceivedEmailCount.Should().Be(expectedMailCount);
+            if (shouldSendMail)
+            {
+                _fakeSmtpServer.ReceivedEmailCount.Should().BeGreaterThan(0);
+            }
+            else
+            {
+                _fakeSmtpServer.ReceivedEmailCount.Should().Be(0);
+            }
         }
 
         [Test]
