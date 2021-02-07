@@ -471,7 +471,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             refreshMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
-        private HttpRequestMessage CreateRequestWithCookie(HttpMethod httpMethod, string path, HttpResponseMessage response)
+        private static HttpRequestMessage CreateRequestWithCookie(HttpMethod httpMethod, string path, HttpResponseMessage response)
         {
             var request = new HttpRequestMessage(httpMethod, path);
             if (response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
