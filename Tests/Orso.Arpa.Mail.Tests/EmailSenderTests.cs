@@ -20,7 +20,7 @@ namespace Orso.Arpa.Mail.Tests
         public void SetUp()
         {
             _server = Configuration.Configure()
-                .WithPort(25)
+                .WithRandomPort()
                 .Build();
             _emailConfiguration = new EmailConfiguration()
             {
