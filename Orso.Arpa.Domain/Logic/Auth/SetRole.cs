@@ -48,7 +48,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 User user = await _userManager.Users
                     .Include(u => u.Person)
-                    .SingleOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeName(request.Username));
+                    .SingleOrDefaultAsync(u => u.NormalizedUserName == _userManager.NormalizeName(request.Username), cancellationToken);
 
                 var isNewUser = (await _userManager.GetRolesAsync(user)).Count == 0;
 

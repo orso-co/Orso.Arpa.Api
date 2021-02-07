@@ -43,8 +43,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext)
             {
-                
-
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
 
@@ -72,7 +70,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(request.Id);
+                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
 
                 existingAppointment.ProjectAppointments.Add(_mapper.Map<ProjectAppointment>(request));
 
