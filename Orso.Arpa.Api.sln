@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		.github\dependabot.yml = .github\dependabot.yml
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		LICENSE.txt = LICENSE.txt
 		README.MD = README.MD
@@ -40,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail", "Orso.Arpa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail.Tests", "Tests\Orso.Arpa.Mail.Tests\Orso.Arpa.Mail.Tests.csproj", "{EEBAA1B3-9E1D-4FF2-95CF-58E6F13EB7DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Misc", "Orso.Arpa.Misc\Orso.Arpa.Misc.csproj", "{CBD4D73A-437D-47B4-A1B8-71B230C460AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Misc", "Orso.Arpa.Misc\Orso.Arpa.Misc.csproj", "{CBD4D73A-437D-47B4-A1B8-71B230C460AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
