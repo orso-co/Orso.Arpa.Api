@@ -1,9 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.GenericHandlers
@@ -30,7 +31,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 if (entityToDelete == null)
                 {
-                    throw new NotFoundException(typeof(TEntity).Name, nameof(request.Id), request);
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.Id), $"The {typeof(TEntity).Name} could not be found.") });
                 }
 
                 _arpaContext.Remove(entityToDelete);

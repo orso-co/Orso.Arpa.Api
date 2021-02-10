@@ -53,11 +53,11 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     .Include(u => u.Person)
                     .SingleOrDefaultAsync(u => (request.UsernameOrEmail.Contains('@'))
                         ? u.NormalizedEmail == userManager.NormalizeEmail(request.UsernameOrEmail)
-                        : u.NormalizedUserName == userManager.NormalizeName(request.UsernameOrEmail));
+                        : u.NormalizedUserName == userManager.NormalizeName(request.UsernameOrEmail), cancellationToken);
 
                 if (!await userManager.IsEmailConfirmedAsync(user))
                 {
-                    throw new ValidationException("One or more validation errors occurred", new[] { new ValidationFailure(nameof(user.Email), "Your email address is not confirmed. Please confirm your email address first") });
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(user.Email), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);

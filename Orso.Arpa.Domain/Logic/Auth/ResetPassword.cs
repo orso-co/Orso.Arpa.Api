@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 RuleFor(c => c.UsernameOrEmail)
                     .MustAsync(async (username, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(username) != null)
-                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Command.UsernameOrEmail), request));
+                    .WithMessage("The user could not be found");
             }
         }
 

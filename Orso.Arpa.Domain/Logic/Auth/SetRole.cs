@@ -28,10 +28,10 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 RuleFor(c => c.Username)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
-                    .OnFailure(request => throw new NotFoundException(nameof(User), nameof(Command.Username), request));
+                    .WithMessage("The user could not be found");
                 RuleFor(c => c.RoleName)
                     .MustAsync(async (roleName, cancellation) => string.IsNullOrEmpty(roleName) || await roleManager.RoleExistsAsync(roleName))
-                    .OnFailure(request => throw new NotFoundException(nameof(Role), nameof(Command.RoleName), request));
+                    .WithMessage("The role could not be found");
             }
         }
 

@@ -48,9 +48,8 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext)
             {
-                
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
+                    .EntityExists<Command, Appointment>(arpaContext);
             }
         }
     }

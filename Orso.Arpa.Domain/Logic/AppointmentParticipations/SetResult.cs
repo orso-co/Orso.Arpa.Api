@@ -40,13 +40,12 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
         {
             public Validator(IArpaContext arpaContext)
             {
-                
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
+                    .EntityExists<Command, Appointment>(arpaContext);
                 RuleFor(d => d.PersonId)
-                    .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
+                    .EntityExists<Command, Person>(arpaContext);
                 RuleFor(d => d.ResultId)
-                    .EntityExists<Command, SelectValueMapping>(arpaContext, nameof(Command.ResultId));
+                    .EntityExists<Command, SelectValueMapping>(arpaContext);
             }
         }
 
@@ -66,7 +65,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _arpaContext.Appointments
-                    .FindAsync(request.Id);
+                    .FindAsync(new object[] { request.Id }, cancellationToken);
 
                 AppointmentParticipation participation = existingAppointment.AppointmentParticipations
                     .FirstOrDefault(pa => pa.PersonId == request.PersonId);
@@ -74,7 +73,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
                 if (participation == null)
                 {
                     participation = new AppointmentParticipation(Guid.NewGuid(), _mapper.Map<Command, Create.Command>(request));
-                    await _arpaContext.AppointmentParticipations.AddAsync(participation);
+                    await _arpaContext.AppointmentParticipations.AddAsync(participation, cancellationToken);
                 }
                 else
                 {

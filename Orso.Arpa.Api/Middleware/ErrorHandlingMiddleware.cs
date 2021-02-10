@@ -55,57 +55,74 @@ namespace Orso.Arpa.Api.Middleware
             switch (ex)
             {
                 case IdentityException ie:
-                    _logger.LogError(ie, "IDENTITY ERROR");
                     errorMessage = new ErrorMessage
                     {
                         status = (int)HttpStatusCode.InternalServerError,
                         title = ie.Message,
                         description = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
                     };
+                    _logger.LogError(ie, "IDENTITY ERROR", errorMessage, errorMessage);
                     break;
 
                 case ValidationException ve:
-                    _logger.LogError(ve, "DOMAIN VALIDATION ERROR");
-                    errorMessage = new ErrorMessage { title = ve.Message ?? "One or more validation errors occurred", status = (int)HttpStatusCode.BadRequest };
+                    errorMessage = new ErrorMessage
+                    {
+                        title = "One or more validation errors occurred",
+                        status = (int)HttpStatusCode.BadRequest
+                    };
                     foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
                     {
                         errorMessage.errors.Add(errorGrouping.Key, errorGrouping.Select(g => g.ErrorMessage).ToArray());
                     }
+                    _logger.LogError(ve, "DOMAIN VALIDATION ERROR", errorMessage);
                     break;
 
                 case AuthenticationException ae:
-                    _logger.LogError(ae, "AUTHENTICATION ERROR");
-                    errorMessage = new ErrorMessage { title = ae.Message, status = (int)HttpStatusCode.Unauthorized };
+                    errorMessage = new ErrorMessage
+                    {
+                        title = ae.Message,
+                        status = (int)HttpStatusCode.Unauthorized
+                    };
+                    _logger.LogError(ae, "AUTHENTICATION ERROR", errorMessage);
                     break;
 
                 case NotFoundException nfe:
-                    _logger.LogError(nfe, "NOT FOUND ERROR");
                     errorMessage = new ErrorMessage
                     {
                         title = nfe.Message,
                         status = (int)HttpStatusCode.NotFound
                     };
                     errorMessage.errors.Add(nfe.PropertyName, new string[] { $"{nfe.TypeName} not found" });
+                    _logger.LogError(nfe, "NOT FOUND ERROR", errorMessage);
                     break;
 
                 case EmailException ee:
-                    _logger.LogError(ee, "EMAIL ERROR");
                     errorMessage = new ErrorMessage
                     {
                         status = (int)HttpStatusCode.FailedDependency,
                         title = ee.Message,
                         description = ee.InnerException?.Message
                     };
+                    _logger.LogError(ee, "EMAIL ERROR", errorMessage);
                     break;
 
                 case AuthorizationException aze:
-                    _logger.LogError(aze, "AUTHORIZATION ERROR");
-                    errorMessage = new ErrorMessage { title = aze.Message, status = (int)HttpStatusCode.Forbidden };
+                    errorMessage = new ErrorMessage
+                    {
+                        title = aze.Message,
+                        status = (int)HttpStatusCode.Forbidden
+                    };
+                    _logger.LogError(aze, "AUTHORIZATION ERROR", errorMessage);
                     break;
 
                 case Exception e:
-                    _logger.LogError(e, "SERVER ERROR");
-                    errorMessage = new ErrorMessage { status = (int)HttpStatusCode.InternalServerError, title = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message };
+                    errorMessage = new ErrorMessage
+                    {
+                        status = (int)HttpStatusCode.InternalServerError,
+                        title = "An unexpected error occured",
+                        description = e.Message
+                    };
+                    _logger.LogError(e, "SERVER ERROR", errorMessage);
                     break;
             }
 

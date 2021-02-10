@@ -46,7 +46,7 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> SendQrCode()
         {
             QrCodeFile qrCode = await _userService.SendQrCodeAsync();
-            return File(qrCode.Content, qrCode.ContentType, qrCode.FileName);
+            return File(qrCode.Content, QrCodeFile.ContentType, qrCode.FileName);
         }
 
         /// <summary>

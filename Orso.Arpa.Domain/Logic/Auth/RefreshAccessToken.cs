@@ -77,7 +77,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress);
             }
 
-            private RefreshToken GetValidRefreshToken(string token, User user)
+            private static RefreshToken GetValidRefreshToken(string token, User user)
             {
                 RefreshToken existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == token);
                 return existingToken.IsActive ? existingToken : null;
