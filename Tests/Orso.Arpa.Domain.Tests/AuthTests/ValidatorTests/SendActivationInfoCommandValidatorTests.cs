@@ -1,10 +1,5 @@
-using System;
-using System.Threading.Tasks;
-using FluentAssertions;
-using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -34,10 +29,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Username_Does_Not_Exist()
         {
-            Func<Task<ValidationResult>> act = async () => await _validator
-                .ValidateAsync(new SendActivationInfo.Command { Username = "unknownuser" });
-
-            act.Should().Throw<NotFoundException>();
+            _validator.ShouldHaveValidationErrorFor(c => c.Username, "DoesNotExist");
         }
     }
 }

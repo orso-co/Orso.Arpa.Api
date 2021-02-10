@@ -44,7 +44,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.UsersController.Delete(user.UserName));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Test, Order(10000)]

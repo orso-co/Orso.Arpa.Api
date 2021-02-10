@@ -1,12 +1,9 @@
 using System;
-using FluentAssertions;
-using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -33,9 +30,8 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            Func<ValidationResult> func = () => _validator.Validate(new Command { Id = Guid.NewGuid(), Name = "Name" });
-
-            func.Should().Throw<NotFoundException>();
+            _validator.ShouldHaveValidationErrorFor(command => command.Id,
+                new Command { Id = Guid.NewGuid(), Name = "Name" });
         }
 
         [Test]

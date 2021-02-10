@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                     {
                         Appointment existingAppointment = await arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellation);
                         mapper.Map(request, existingAppointment);
-                        return existingAppointment.EndTime >= existingAppointment.StartTime;
+                        return existingAppointment?.EndTime >= existingAppointment?.StartTime;
                     })
                     .WithMessage("EndTime must be greater than StartTime");
             }
