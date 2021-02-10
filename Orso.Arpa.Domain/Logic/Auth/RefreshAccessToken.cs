@@ -3,6 +3,7 @@ using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
@@ -55,7 +56,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (user == null)
                 {
-                    throw new ValidationException("No user found for supplied refresh token");
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.RefreshToken), "No user found for supplied refresh token") });
                 }
 
                 RefreshToken existingRefreshToken = GetValidRefreshToken(request.RefreshToken, user);

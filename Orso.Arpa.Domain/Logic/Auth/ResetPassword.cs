@@ -54,7 +54,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (resetPasswordResult.Errors.FirstOrDefault()?.Description.Contains("Invalid token") == true)
                 {
-                    throw new ValidationException("Invalid token", new ValidationFailure[] { new ValidationFailure(nameof(request.Token), "The supplied token is invalid or has expired") });
+                    throw new ValidationException(new ValidationFailure[] { new ValidationFailure(nameof(request.Token), "The supplied token is invalid or has expired") });
                 }
 
                 throw new IdentityException("Problem resetting password", resetPasswordResult.Errors);

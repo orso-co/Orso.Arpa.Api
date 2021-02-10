@@ -66,7 +66,7 @@ namespace Orso.Arpa.Api.Middleware
 
                 case ValidationException ve:
                     _logger.LogError(ve, "DOMAIN VALIDATION ERROR");
-                    errorMessage = new ErrorMessage { title = ve.Message, status = (int)HttpStatusCode.BadRequest };
+                    errorMessage = new ErrorMessage { title = ve.Message ?? "One or more validation errors occurred", status = (int)HttpStatusCode.BadRequest };
                     foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
                     {
                         errorMessage.errors.Add(errorGrouping.Key, errorGrouping.Select(g => g.ErrorMessage).ToArray());
