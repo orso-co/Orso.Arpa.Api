@@ -26,7 +26,6 @@ namespace Orso.Arpa.Infrastructure.Authentication
                 if (username == null)
                 {
                     throw new AuthenticationException("No user name found in the JWT token");
-                    ;
                 }
                 return username;
             }

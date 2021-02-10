@@ -1,5 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
@@ -35,7 +37,7 @@ namespace Orso.Arpa.Domain.Logic.Users
 
                 if (user == null)
                 {
-                    throw new NotFoundException(nameof(User), nameof(Command.UserName), request);
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.UserName), $"The user could not be found.") });
                 }
 
                 user.Delete();

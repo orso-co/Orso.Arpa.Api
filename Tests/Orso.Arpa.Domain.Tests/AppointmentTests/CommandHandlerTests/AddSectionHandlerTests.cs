@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -37,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             // Arrange
             DbSet<Appointment> mockData = MockDbSets.Appointments;
             Appointment appointment = AppointmentSeedData.RockingXMasConcert;
-            mockData.FindAsync(Arg.Any<Guid>()).Returns(appointment);
+            mockData.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(appointment);
             _arpaContext.Appointments.Returns(mockData);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 

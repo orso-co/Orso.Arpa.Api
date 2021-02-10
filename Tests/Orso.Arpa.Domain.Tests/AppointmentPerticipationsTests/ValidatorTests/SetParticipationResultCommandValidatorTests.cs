@@ -1,12 +1,9 @@
 using System;
-using FluentAssertions;
-using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -43,14 +40,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            Func<ValidationResult> func = () => _validator.Validate(new Command
-            {
-                Id = Guid.NewGuid(),
-                PersonId = _validPersonId,
-                ResultId = _validResultId
-            });
-
-            func.Should().Throw<NotFoundException>();
+            _validator.ShouldHaveValidationErrorFor(c => c.Id, Guid.NewGuid());
         }
 
         [Test]
@@ -67,27 +57,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_PersonId_Does_Not_Exist()
         {
-            Func<ValidationResult> func = () => _validator.Validate(new Command
-            {
-                Id = _validAppointmentId,
-                PersonId = Guid.NewGuid(),
-                ResultId = _validResultId
-            });
-
-            func.Should().Throw<NotFoundException>();
+            _validator.ShouldHaveValidationErrorFor(c => c.PersonId, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Result_Does_Not_Exist()
         {
-            Func<ValidationResult> func = () => _validator.Validate(new Command
-            {
-                Id = _validAppointmentId,
-                PersonId = _validPersonId,
-                ResultId = Guid.NewGuid()
-            });
-
-            func.Should().Throw<NotFoundException>();
+            _validator.ShouldHaveValidationErrorFor(c => c.ResultId, Guid.NewGuid());
         }
     }
 }

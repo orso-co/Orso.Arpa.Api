@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -40,8 +41,10 @@ namespace Orso.Arpa.Api.Middleware
 
         private class ErrorMessage
         {
-            public string Message { get; set; }
-            public object Errors { get; set; }
+            public string title { get; set; }
+            public string description { get; set; }
+            public int status { get; set; }
+            public Dictionary<string, string[]> errors { get; set; } = new Dictionary<string, string[]>();
         }
 
         private async Task HandleExceptionAsync(
@@ -52,61 +55,84 @@ namespace Orso.Arpa.Api.Middleware
             switch (ex)
             {
                 case IdentityException ie:
-                    _logger.LogError(ie, "IDENTITY ERROR");
-                    errorMessage = new ErrorMessage { Message = ie.Message, Errors = ie.IdentityErrors.Select(e => e.Description) };
-                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    errorMessage = new ErrorMessage
+                    {
+                        status = (int)HttpStatusCode.InternalServerError,
+                        title = ie.Message,
+                        description = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
+                    };
+                    _logger.LogError(ie, "IDENTITY ERROR", errorMessage, errorMessage);
                     break;
 
                 case ValidationException ve:
-                    _logger.LogError(ve, "DOMAIN VALIDATION ERROR");
-                    errorMessage = new ErrorMessage { Message = ve.Message, Errors = ve.Errors };
-                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    errorMessage = new ErrorMessage
+                    {
+                        title = "One or more validation errors occurred",
+                        status = (int)HttpStatusCode.BadRequest
+                    };
+                    foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
+                    {
+                        errorMessage.errors.Add(errorGrouping.Key, errorGrouping.Select(g => g.ErrorMessage).ToArray());
+                    }
+                    _logger.LogError(ve, "DOMAIN VALIDATION ERROR", errorMessage);
                     break;
 
                 case AuthenticationException ae:
-                    _logger.LogError(ae, "AUTHENTICATION ERROR");
-                    errorMessage = new ErrorMessage { Message = ae.Message };
-                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    errorMessage = new ErrorMessage
+                    {
+                        title = ae.Message,
+                        status = (int)HttpStatusCode.Unauthorized
+                    };
+                    _logger.LogError(ae, "AUTHENTICATION ERROR", errorMessage);
                     break;
 
                 case NotFoundException nfe:
-                    _logger.LogError(nfe, "NOT FOUND ERROR");
                     errorMessage = new ErrorMessage
                     {
-                        Message = nfe.Message,
-                        Errors = new { Property = nfe.PropertyName, Message = $"{nfe.TypeName} not found" }
+                        title = nfe.Message,
+                        status = (int)HttpStatusCode.NotFound
                     };
-                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    errorMessage.errors.Add(nfe.PropertyName, new string[] { $"{nfe.TypeName} not found" });
+                    _logger.LogError(nfe, "NOT FOUND ERROR", errorMessage);
                     break;
 
                 case EmailException ee:
-                    _logger.LogError(ee, "EMAIL ERROR");
-                    errorMessage = new ErrorMessage { Message = ee.Message, Errors = new { InnerException = ee.InnerException?.Message } };
-                    context.Response.StatusCode = (int)HttpStatusCode.FailedDependency;
+                    errorMessage = new ErrorMessage
+                    {
+                        status = (int)HttpStatusCode.FailedDependency,
+                        title = ee.Message,
+                        description = ee.InnerException?.Message
+                    };
+                    _logger.LogError(ee, "EMAIL ERROR", errorMessage);
                     break;
 
                 case AuthorizationException aze:
-                    _logger.LogError(aze, "AUTHORIZATION ERROR");
-                    errorMessage = new ErrorMessage { Message = aze.Message };
-                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    errorMessage = new ErrorMessage
+                    {
+                        title = aze.Message,
+                        status = (int)HttpStatusCode.Forbidden
+                    };
+                    _logger.LogError(aze, "AUTHORIZATION ERROR", errorMessage);
                     break;
 
                 case Exception e:
-                    _logger.LogError(e, "SERVER ERROR");
-                    errorMessage = new ErrorMessage { Message = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message };
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    errorMessage = new ErrorMessage
+                    {
+                        status = (int)HttpStatusCode.InternalServerError,
+                        title = "An unexpected error occured",
+                        description = e.Message
+                    };
+                    _logger.LogError(e, "SERVER ERROR", errorMessage);
                     break;
             }
 
-            context.Response.ContentType = MediaTypeNames.Application.Json;
+            context.Response.StatusCode = errorMessage?.status ?? 500;
+
             if (errorMessage != null)
             {
-                var result = JsonConvert.SerializeObject(new
-                {
-                    errorMessage
-                });
-
-                await context.Response.WriteAsync(result);
+                context.Response.ContentType = MediaTypeNames.Application.Json;
+                var serializedErrorMessage = JsonConvert.SerializeObject(errorMessage);
+                await context.Response.WriteAsync(serializedErrorMessage);
             }
         }
     }

@@ -2,6 +2,7 @@ using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -52,11 +53,11 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     .Include(u => u.Person)
                     .SingleOrDefaultAsync(u => (request.UsernameOrEmail.Contains('@'))
                         ? u.NormalizedEmail == userManager.NormalizeEmail(request.UsernameOrEmail)
-                        : u.NormalizedUserName == userManager.NormalizeName(request.UsernameOrEmail));
+                        : u.NormalizedUserName == userManager.NormalizeName(request.UsernameOrEmail), cancellationToken);
 
                 if (!await userManager.IsEmailConfirmedAsync(user))
                 {
-                    throw new AuthenticationException("Your email address is not confirmed. Please confirm your email address first");
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(user.Email), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);

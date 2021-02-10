@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         {
             // Arrange
             Appointment expectedAppointment = AppointmentSeedData.RockingXMasConcert;
-
+#pragma warning disable EF1001 // Internal EF Core API usage.
             IStateManager iStateManager = Substitute.For<IStateManager>();
             Model model = Substitute.For<Model>();
 

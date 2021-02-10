@@ -25,8 +25,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="loginDto"></param>
         /// <returns>The created jwt access token. Sets refreshtoken Cookie</returns>
         /// <response code="200"></response>
-        /// <response code="400">If username or password are empty</response>
-        /// <response code="401">If username or password are wrong or user is locked or email is not yet confirmed</response>
+        /// <response code="400">If username or password are empty or if email address is not yet confirmed</response>
+        /// <response code="401">If username or password are incorrect or user is locked</response>
         [HttpPost("login")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -81,7 +81,7 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="resetPasswordDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If dto is not valid or token is expired or invalid</response>
         /// <response code="404">If user could not be found</response>
         [HttpPost("resetpassword")]
         [AllowAnonymous]
@@ -132,7 +132,7 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="confirmEmailDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If dto is not valid or token is expired or invalid</response>
         /// <response code="404">If user could not be found</response>
         [HttpPost("confirmemail")]
         [AllowAnonymous]

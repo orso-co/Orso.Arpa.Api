@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTe
         {
             // Arrange
             _arpaContext.Appointments
-                    .FindAsync(Arg.Any<Guid>())
+                    .FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
                 .Returns(AppointmentSeedData.RockingXMasConcert);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
                 .Returns(1);

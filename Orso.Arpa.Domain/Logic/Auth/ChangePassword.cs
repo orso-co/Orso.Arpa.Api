@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                         User user = await userAccessor.GetCurrentUserAsync();
                         return await userManager.CheckPasswordAsync(user, oldPassword);
                     })
-                    .WithMessage("User does not exist or wrong password supplied");
+                    .WithMessage("Incorrect password supplied");
             }
         }
 
