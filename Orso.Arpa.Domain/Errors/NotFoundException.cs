@@ -6,7 +6,7 @@ namespace Orso.Arpa.Domain.Errors
     public class NotFoundException : Exception
     {
         public NotFoundException(string typeName, string propertyName, IBaseRequest request)
-            : base($"Entity \"{typeName}\" was not found.")
+            : base($"Entity '{typeName}' was not found.")
         {
             TypeName = typeName;
             PropertyName = propertyName;
