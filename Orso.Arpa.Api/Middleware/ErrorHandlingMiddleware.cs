@@ -58,7 +58,7 @@ namespace Orso.Arpa.Api.Middleware
                     _logger.LogError(ie, "IDENTITY ERROR");
                     errorMessage = new ErrorMessage
                     {
-                        status = (int)HttpStatusCode.BadRequest,
+                        status = (int)HttpStatusCode.InternalServerError,
                         title = ie.Message,
                         description = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
                     };

@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
@@ -48,6 +50,11 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 if (resetPasswordResult.Succeeded)
                 {
                     return Unit.Value;
+                }
+
+                if (resetPasswordResult.Errors.FirstOrDefault()?.Description.Contains("Invalid token") == true)
+                {
+                    throw new ValidationException("Invalid token", new ValidationFailure[] { new ValidationFailure(nameof(request.Token), "The supplied token is invalid or has expired") });
                 }
 
                 throw new IdentityException("Problem resetting password", resetPasswordResult.Errors);
