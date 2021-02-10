@@ -1,7 +1,7 @@
 <heml>
   <head>
-    <subject>Gute Neuigkeiten: Du wurdest freigeschaltet</subject>
-    <preview>Du wurdest von uns für Arpa freigeschaltet</preview>
+    <subject>Gute Neuigkeiten: Du wurdest freigeschaltet | Good news: Your account is activated </subject>
+    <preview>Du wurdest von uns für Arpa freigeschaltet | Your account has been activated by our staff</preview>
     <style>
       body {
         background: #121212;
@@ -40,7 +40,7 @@
     <container>
       <row>
         <column>
-          <img src="{{ArpaLogo}}" alt="arpa image" width="200" />
+          <img src="{{ArpaLogo}}" alt="arpa image" width="100" />
         </column>
         <column>
           <h1>Arpa 2.0</h1>
@@ -51,10 +51,10 @@
       <row>
         <column>
           <h2>Hallo {{DisplayName}} 👋</h2>
-          <p><em>(English text below)</em></p>
+          <p><em>(English version below)</em></p>
           <p>Wir haben gute Neuigkeiten für dich: Du wurdest von uns für Arpa freigeschaltet.</p>
           <p>Ab sofort kannst du Arpa vollumfänglich nutzen. Viel Spaß dabei!</p>
-          <h3>Dein Arpa-Team</h3>
+          <h3>Dein Arpa-Team von {{ClubName}}</h3>
         </column>
       </row>
       <row>
@@ -69,6 +69,32 @@
           <h6 id="h61"><b>Telefon:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
           <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
           <h6><b>Adresse:</b> {{ClubAddress}}</h6>
+          <h5></h5>
+        </column>
+      </row>
+    </container>
+
+    <container>
+      <row>
+        <column>
+          <h2>Hello {{DisplayName}} 👋</h2>
+          <p>We have good news for you: Your account has been activated.</p>
+          <p>Your can use ARPA now to its full extend, depending on your role.</p>
+          <h3>Your Arpa-Team from {{ClubName}}</h3>
+        </column>
+      </row>
+      <row>
+        <column>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <h5>{{ClubName}}</h5>
+          <h6 id="h61"><b>Phone:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
+          <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
+          <h6><b>Address:</b> {{ClubAddress}}</h6>
           <h5></h5>
         </column>
       </row>
