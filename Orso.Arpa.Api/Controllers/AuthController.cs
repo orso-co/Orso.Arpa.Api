@@ -43,55 +43,55 @@ namespace Orso.Arpa.Api.Controllers
         /// Creates a new user
         /// </summary>
         /// <param name="registerDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid</response>
         /// <response code="424">If email could not be sent</response>
         [HttpPost("register")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> Register([FromBody] UserRegisterDto registerDto)
         {
             await _authService.RegisterAsync(registerDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Sends an email with password reset token to user
         /// </summary>
         /// <param name="forgotPassswordDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid</response>
         /// <response code="424">If email could not be sent</response>
         [HttpPost("forgotpassword")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status424FailedDependency)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPassswordDto)
         {
             await _authService.ForgotPasswordAsync(forgotPassswordDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Resets the user password to the new password provided
         /// </summary>
         /// <param name="resetPasswordDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid or token is expired or invalid or if user could not be found</response>
         [HttpPost("resetpassword")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
             await _authService.ResetPasswordAsync(resetPasswordDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -129,34 +129,34 @@ namespace Orso.Arpa.Api.Controllers
         /// Confirms the email address of the current user
         /// </summary>
         /// <param name="confirmEmailDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid or token is expired or invalid or if user could not be found</response>
         [HttpPost("confirmemail")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> ConfirmEmail([FromBody] ConfirmEmailDto confirmEmailDto)
         {
             await _authService.ConfirmEmailAsync(confirmEmailDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Creates a new email confirmation token and sends it by email
         /// </summary>
         /// <param name="createEmailConfirmationTokenDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if user could not be found</response>
         /// <remarks>This endpoint can be called if the previous token is expired</remarks>
         [HttpPost("emailconfirmationtoken")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateNewEmailConfirmationToken(
             [FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
         {
             await _authService.CreateNewEmailConfirmationTokenAsync(createEmailConfirmationTokenDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -181,16 +181,16 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Revokes current refresh token
         /// </summary>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If request does not contain a refresh token cookie
         /// or no user could be found with supplied refresh token</response>
         [HttpPost("logout")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Logout()
         {
             await _authService.RevokeRefreshTokenAsync(RefreshToken, RemoteIpAddress);
-            return Ok();
+            return NoContent();
         }
     }
 }

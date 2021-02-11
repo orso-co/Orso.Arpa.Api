@@ -137,7 +137,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     RoomSeedData.AulaWeiherhofSchule.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(1002)]
@@ -152,7 +152,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     SectionSeedData.Alto.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(1003)]
@@ -167,7 +167,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     ProjectSeedData.RockingXMas.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         private static IEnumerable<TestCaseData> PersonTestData
@@ -208,7 +208,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     VenueSeedData.WeiherhofSchule.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(101)]

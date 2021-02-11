@@ -75,64 +75,64 @@ namespace Orso.Arpa.Api.Controllers
         /// Adds a room to an existing appointment
         /// </summary>
         /// <param name="addRoomDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if room or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/rooms/{roomId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddRoom([FromRoute] AppointmentAddRoomDto addRoomDto)
         {
             await _appointmentService.AddRoomAsync(addRoomDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Adds a project to an existing appointment
         /// </summary>
         /// <param name="addProjectDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if project or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/projects/{projectId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto)
         {
             await _appointmentService.AddProjectAsync(addProjectDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Adds a section to an existing appointment
         /// </summary>
         /// <param name="addSectionDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if section or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/sections/{sectionId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto)
         {
             await _appointmentService.AddSectionAsync(addSectionDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Sets the venue of an existing appointment
         /// </summary>
         /// <param name="setVenueDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if venue or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}/venue/set/{venueId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> SetVenue([FromRoute] AppointmentSetVenueDto setVenueDto)
         {
             await _appointmentService.SetVenueAsync(setVenueDto);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
