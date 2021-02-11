@@ -75,13 +75,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="modifyDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If region could not be found</response>
+        /// <response code="400">If dto is not valid or if region could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [SwaggerFromRouteProperty(nameof(RegionModifyDto.Id))]
         public async Task<IActionResult> Put([FromBodyAndRoute] RegionModifyDto modifyDto)
@@ -96,11 +94,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="204"></response>
-        /// <response code="404">If region could not be found</response>
+        /// <response code="400">If region could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {

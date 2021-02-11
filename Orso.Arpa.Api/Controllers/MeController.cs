@@ -86,13 +86,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="setParticipationPrediction"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If appointment or participation or prediction value could not be found</response>
+        /// <response code="400">If dto is not valid or if appointment or participation or prediction value could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpPut("appointments/{id}/participation/prediction/{predictionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> SetParticipationPrediction([FromRoute] SetMyProjectAppointmentPredictionDto setParticipationPrediction)
         {

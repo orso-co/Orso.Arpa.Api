@@ -81,12 +81,10 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="resetPasswordDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid or token is expired or invalid</response>
-        /// <response code="404">If user could not be found</response>
+        /// <response code="400">If dto is not valid or token is expired or invalid or if user could not be found</response>
         [HttpPost("resetpassword")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
@@ -132,13 +130,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="confirmEmailDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid or token is expired or invalid</response>
-        /// <response code="404">If user could not be found</response>
+        /// <response code="400">If dto is not valid or token is expired or invalid or if user could not be found</response>
         [HttpPost("confirmemail")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> ConfirmEmail([FromBody] ConfirmEmailDto confirmEmailDto)
         {
@@ -151,15 +147,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="createEmailConfirmationTokenDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If user could not be found</response>
+        /// <response code="400">If dto is not valid or if user could not be found</response>
         /// <returns></returns>
         /// <remarks>This endpoint can be called if the previous token is expired</remarks>
         [HttpPost("emailconfirmationtoken")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> CreateNewEmailConfirmationToken(
             [FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
         {

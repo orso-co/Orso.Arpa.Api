@@ -24,10 +24,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="userName"></param>
         /// <response code="204"></response>
-        /// <response code="404">If user could not be found</response>
+        /// <response code="400">If user could not be found</response>
         [HttpDelete("{username}")]
         [Authorize(Roles = RoleNames.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Delete([FromRoute] string userName)
         {

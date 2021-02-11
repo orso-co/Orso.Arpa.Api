@@ -78,13 +78,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="addRoomDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If room or appointment could not be found</response>
+        /// <response code="400">If dto is not valid or if room or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/rooms/{roomId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> AddRoom([FromRoute] AppointmentAddRoomDto addRoomDto)
         {
@@ -97,13 +95,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="addProjectDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If project or appointment could not be found</response>
+        /// <response code="400">If dto is not valid or if project or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto)
         {
@@ -116,13 +112,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="addSectionDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If section or appointment could not be found</response>
+        /// <response code="400">If dto is not valid or if section or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto)
         {
@@ -135,13 +129,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="setVenueDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If venue or appointment could not be found</response>
+        /// <response code="400">If dto is not valid or if venue or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}/venue/set/{venueId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> SetVenue([FromRoute] AppointmentSetVenueDto setVenueDto)
         {
@@ -154,13 +146,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="appointmentModifyDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If appointment could not be found</response>
+        /// <response code="400">If dto is not valid or if appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [SwaggerFromRouteProperty(nameof(AppointmentModifyDto.Id))]
         public async Task<ActionResult> Put([FromBodyAndRoute] AppointmentModifyDto appointmentModifyDto)
@@ -226,11 +216,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="204"></response>
-        /// <response code="404">If appointment could not be found</response>
+        /// <response code="400">If appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
@@ -244,11 +234,11 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="setDatesDto"></param>
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If appointment could not be found</response>
+        /// <response code="400">If appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}/dates/set")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         [SwaggerFromRouteProperty(nameof(AppointmentSetDatesDto.Id))]
         public async Task<ActionResult> SetDates([FromBodyAndRoute] AppointmentSetDatesDto setDatesDto)
@@ -262,12 +252,11 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="setParticipationResult"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="404">If appointment or participation or result value could not be found</response>
+        /// <response code="400">If dto is not valid or if appointment or participation or result value could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}/participations/{personId}/result/{resultId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> SetParticipationResult([FromRoute] AppointmentParticipationSetResultDto setParticipationResult)
         {
