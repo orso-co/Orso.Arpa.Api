@@ -344,3 +344,6 @@ healthchecksdb
 
 #SqLite Database
 *.db
+
+#MAC system files
+.DS_Store
