@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -14,7 +13,7 @@ using Orso.Arpa.Mail;
 
 namespace Orso.Arpa.Api.Middleware
 {
-    public class ErrorHandlingMiddleware
+    public partial class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ErrorHandlingMiddleware> _logger;
@@ -37,14 +36,6 @@ namespace Orso.Arpa.Api.Middleware
             {
                 await HandleExceptionAsync(context, ex);
             }
-        }
-
-        private class ErrorMessage
-        {
-            public string title { get; set; }
-            public string description { get; set; }
-            public int status { get; set; }
-            public Dictionary<string, string[]> errors { get; set; } = new Dictionary<string, string[]>();
         }
 
         private async Task HandleExceptionAsync(

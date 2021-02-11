@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.UserApplication;
 using Orso.Arpa.Domain.Roles;
@@ -28,8 +29,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{username}")]
         [Authorize(Roles = RoleNames.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Delete([FromRoute] string userName)
         {
             await _userService.DeleteAsync(userName);
@@ -44,7 +44,6 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet]
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
         public async Task<IEnumerable<UserDto>> Get()
         {
             return await _userService.GetAsync();

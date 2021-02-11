@@ -26,7 +26,6 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet]
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
         public async Task<IEnumerable<RoleDto>> Get()
         {
             return await _roleService.GetAsync();

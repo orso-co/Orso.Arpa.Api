@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Infrastructure.Authorization;
@@ -101,8 +102,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="400">If dto is not valid</response>
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
             await _authService.ChangePasswordAsync(changePasswordDto);
@@ -118,7 +118,6 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("role")]
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesDefaultResponseType]
         public async Task<ActionResult> SetRole([FromBody] SetRoleDto setRoleDto)
         {
             await _authService.SetRoleAsync(setRoleDto);
@@ -134,8 +133,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("confirmemail")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> ConfirmEmail([FromBody] ConfirmEmailDto confirmEmailDto)
         {
             await _authService.ConfirmEmailAsync(confirmEmailDto);
@@ -148,12 +146,11 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="createEmailConfirmationTokenDto"></param>
         /// <response code="200"></response>
         /// <response code="400">If dto is not valid or if user could not be found</response>
-        /// <returns></returns>
         /// <remarks>This endpoint can be called if the previous token is expired</remarks>
         [HttpPost("emailconfirmationtoken")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateNewEmailConfirmationToken(
             [FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
         {
@@ -172,10 +169,9 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("refreshtoken")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<TokenDto>> RefreshAccessToken()
         {
             return await _authService.RefreshAccessTokenAsync(RefreshToken, RemoteIpAddress);
@@ -183,14 +179,13 @@ namespace Orso.Arpa.Api.Controllers
 
         /// <summary>
         /// Revokes current refresh token
+        /// </summary>
         /// <response code="200"></response>
         /// <response code="400">If request does not contain a refresh token cookie
         /// or no user could be found with supplied refresh token</response>
-        /// </summary>
         [HttpPost("logout")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Logout()
         {
             await _authService.RevokeRefreshTokenAsync(RefreshToken, RemoteIpAddress);

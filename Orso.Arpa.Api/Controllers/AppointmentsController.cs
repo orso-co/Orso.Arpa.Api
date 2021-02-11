@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
@@ -31,7 +32,6 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppointmentDto>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range)
         {
@@ -46,8 +46,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If no appointment could be found for the supplied id</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppointmentDto>> GetById([FromRoute] Guid id)
@@ -65,8 +64,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<AppointmentDto>> Post([FromBody] AppointmentCreateDto appointmentCreateDto)
         {
             AppointmentDto createdAppointment = await _appointmentService.CreateAsync(appointmentCreateDto);
@@ -82,8 +80,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/rooms/{roomId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddRoom([FromRoute] AppointmentAddRoomDto addRoomDto)
         {
             await _appointmentService.AddRoomAsync(addRoomDto);
@@ -99,8 +96,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto)
         {
             await _appointmentService.AddProjectAsync(addProjectDto);
@@ -116,8 +112,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto)
         {
             await _appointmentService.AddSectionAsync(addSectionDto);
@@ -133,8 +128,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}/venue/set/{venueId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> SetVenue([FromRoute] AppointmentSetVenueDto setVenueDto)
         {
             await _appointmentService.SetVenueAsync(setVenueDto);
@@ -150,8 +144,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [SwaggerFromRouteProperty(nameof(AppointmentModifyDto.Id))]
         public async Task<ActionResult> Put([FromBodyAndRoute] AppointmentModifyDto appointmentModifyDto)
         {
@@ -169,8 +162,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}/rooms/{roomId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemoveRoom([FromRoute] AppointmentRemoveRoomDto removeRoomDto)
         {
             await _appointmentService.RemoveRoomAsync(removeRoomDto);
@@ -186,8 +178,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemoveSection([FromRoute] AppointmentRemoveSectionDto removeSectionDto)
         {
             await _appointmentService.RemoveSectionAsync(removeSectionDto);
@@ -203,8 +194,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> RemoveProject([FromRoute] AppointmentRemoveProjectDto removeProjectDto)
         {
             await _appointmentService.RemoveProjectAsync(removeProjectDto);
@@ -220,8 +210,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _appointmentService.DeleteAsync(id);
@@ -238,8 +227,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}/dates/set")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [SwaggerFromRouteProperty(nameof(AppointmentSetDatesDto.Id))]
         public async Task<ActionResult> SetDates([FromBodyAndRoute] AppointmentSetDatesDto setDatesDto)
         {
@@ -256,8 +244,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}/participations/{personId}/result/{resultId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> SetParticipationResult([FromRoute] AppointmentParticipationSetResultDto setParticipationResult)
         {
             await _appointmentService.SetParticipationResultAsync(setParticipationResult);
