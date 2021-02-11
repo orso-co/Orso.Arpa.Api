@@ -40,7 +40,7 @@
     <container>
       <row>
         <column>
-          <img src="{{ArpaLogo}}" alt="arpa image" width="200" />
+          <img src="{{ArpaLogo}}" alt="arpa image" width="100" />
         </column>
         <column>
           <h1>Arpa 2.0</h1>
@@ -50,19 +50,20 @@
     <container>
       <row>
         <column>
-          <h2>Willkommen {{DisplayName}} 👋</h2>
+          <h2>Hallo {{DisplayName}}! 👋</h2>
           <p><em>(English text below)</em></p>
-          <p>Vielen Dank für deine Registrierung bei ARPA. Du bist nur einen Klick vom ersten Login entfernt:</p>
+          <p>Vielen Dank für deine Registrierung bei ARPA von {{ClubName}}. Du bist nur einen Klick vom ersten Login entfernt:</p>
           <button href="{{ClientUri}}">Bitte bestätige deine E-Mail-Adresse</button>
         </column>
       </row>
       <row>
         <column>
-          <p>Der volle Zugriff auf alle dich betreffenden Informationen innerhalb von ARPA ist erst möglich, wenn du von einem Mitarbeitenden freigeschaltet wurdest.</p>
-          <h3>Dein Arpa-Team</h3>
+          <p>Der volle Zugriff auf alle dich betreffenden Informationen innerhalb von ARPA ist erst möglich, wenn du von uns freigeschaltet wurdest. Danke für deine Geduld :-)</p>
+          <h3>Dein ARPA-Team von {{ClubName}}</h3>
         </column>
       </row>
     </container>
+
     <container>
       <row>
         <column>
@@ -70,6 +71,33 @@
           <h6 id="h61"><b>Telefon:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
           <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
           <h6><b>Adresse:</b> {{ClubAddress}}</h6>
+          <h5></h5>
+        </column>
+      </row>
+    </container>
+     <container>
+      <row>
+        <column>
+          <h2>Hello {{DisplayName}}! 👋</h2>
+          <p>Thank you for register at ARPA by {{ClubName}}. You are only one click away from your first login:</p>
+          <button href="{{ClientUri}}">Please confirm your email address</button>
+        </column>
+      </row>
+      <row>
+        <column>
+          <p>Full access to all features of ARPA are available after a staff member has unlocked your account. Please be patient, thank you.  :-)</p>
+          <h3>Your ARPA-Team of {{ClubName}}</h3>
+        </column>
+      </row>
+    </container>
+
+    <container>
+      <row>
+        <column>
+          <h5>{{ClubName}}</h5>
+          <h6 id="h61"><b>Phone:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
+          <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
+          <h6><b>Address:</b> {{ClubAddress}}</h6>
           <h5></h5>
         </column>
       </row>

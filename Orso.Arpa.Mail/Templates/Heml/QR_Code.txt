@@ -40,7 +40,7 @@
     <container>
       <row>
         <column>
-          <img src="{{ArpaLogo}}" alt="arpa image" width="200" />
+          <img src="{{ArpaLogo}}" alt="arpa image" width="100" />
         </column>
         <column>
           <h1>Arpa 2.0</h1>
@@ -50,12 +50,12 @@
     <container>
       <row>
         <column>
-          <h2>Hallo {{DisplayName}} 👋</h2>
-          <p><em>(English text below)</em></p>
-          <p>Im Anhang findest du deinen persönlichen QR-Code. Den brauchst du, um beispielsweise deine Anwesenheit bei Proben zu dokumentieren oder um einen Tourbus zu besteigen. Dies erleichtert uns die Logistik.</p>
-          <p>Bitte führe ihn zu jedem Termin auf deinem Smartphone mit.</p>
+          <h2>Hallo {{DisplayName}}! 👋</h2>
+          <p><em>(English version below)</em></p>
+          <p>Im Anhang findest du deinen persönlichen QR-Code. Den brauchst du, um beispielsweise deine Anwesenheit bei Proben zu dokumentieren oder um einen Tourbus zu besteigen und vieles mehr. Dies erleichtert uns die Logistik, etc..</p>
+          <p>Bitte führe ihn zu jeder Probe, jedem Konzert oder anderen Terminen auf deinem Smartphone mit.</p>
           <p>Natürlich kannst du den Code auch ausdrucken und in deine Notenmappe oder deinen Instrumentenkoffer legen.</p>
-          <h3>Dein Arpa-Team</h3>
+          <h3>Dein Arpa-Team von {{Clubname}}</h3>
         </column>
       </row>
     </container>
@@ -66,6 +66,28 @@
           <h6 id="h61"><b>Telefon:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
           <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
           <h6><b>Adresse:</b> {{ClubAddress}}</h6>
+          <h5></h5>
+        </column>
+      </row>
+    </container>
+     <container>
+      <row>
+        <column>
+          <h2>Hello {{DisplayName}}! 👋</h2>
+          <p>In the attachment you find your personal QR-Code. You will need it for example to check-in in the rehearsals or get on a tourbus and much more. This helps us with logistics, etc..</p>
+          <p>Please save this QR-Code on your smartphone and bring it with you on every rehearsal, concerts or other appointments.</p>
+          <p>Ofcourse you also can print it on paper and bring it along with your sheet music or within your instrument case.</p>
+          <h3>Your Arpa-Team of {{Clubname}}</h3>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <h5>{{ClubName}}</h5>
+          <h6 id="h61"><b>Phone:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
+          <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
+          <h6><b>Address:</b> {{ClubAddress}}</h6>
           <h5></h5>
         </column>
       </row>
