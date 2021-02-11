@@ -27,7 +27,6 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<ProjectDto>>> Get([FromQuery] bool includeCompleted = false)
         {
             return Ok(await _projectService.GetAsync(includeCompleted));

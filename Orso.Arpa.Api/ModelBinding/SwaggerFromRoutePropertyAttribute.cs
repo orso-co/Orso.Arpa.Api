@@ -7,7 +7,7 @@ namespace Orso.Arpa.Api.ModelBinding
     {
         public SwaggerFromRoutePropertyAttribute(string parameter)
         {
-            Parameter = parameter;
+            Parameter = parameter.ToLower();
         }
 
         public string Parameter { get; set; }

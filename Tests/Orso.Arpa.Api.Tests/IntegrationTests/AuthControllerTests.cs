@@ -150,7 +150,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
 
@@ -170,7 +170,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.ConfirmEmail(), BuildStringContent(confirmEmailDto));
 
             // Assert
-            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test]
@@ -342,7 +342,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.ForgotPassword(), BuildStringContent(forgotPasswordDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
 
             // Arrange
@@ -362,7 +362,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.ResetPassword(), BuildStringContent(resetPasswordDto));
 
             // Assert
-            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test]
@@ -381,7 +381,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.CreateNewEmailConfirmationToken(), BuildStringContent(dto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
         }
 
@@ -465,7 +465,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await client.SendAsync(request);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             HttpResponseMessage refreshMessage = await client.SendAsync(
                 CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult));
             refreshMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

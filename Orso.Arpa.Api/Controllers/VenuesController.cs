@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.RoomApplication;
 using Orso.Arpa.Application.VenueApplication;
@@ -26,7 +27,6 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A list of venues</returns>
         /// <response code="200"></response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
         [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VenueDto>>> Get()
@@ -42,8 +42,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If venue could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         [HttpGet("{id}/rooms")]
         public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms([FromRoute] Guid id)
         {

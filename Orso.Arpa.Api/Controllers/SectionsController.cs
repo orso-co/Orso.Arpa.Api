@@ -26,7 +26,6 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<SectionDto>>> Get()
         {
             return Ok(await _sectionService.GetAsync());
