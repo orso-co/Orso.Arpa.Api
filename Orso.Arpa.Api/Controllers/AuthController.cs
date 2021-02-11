@@ -118,6 +118,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("role")]
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> SetRole([FromBody] SetRoleDto setRoleDto)
         {
             await _authService.SetRoleAsync(setRoleDto);
