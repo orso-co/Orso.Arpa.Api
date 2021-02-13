@@ -27,7 +27,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A list of venues</returns>
         /// <response code="200"></response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VenueDto>>> Get()
         {
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A list of rooms</returns>
         /// <response code="200"></response>
         /// <response code="404">If venue could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         [HttpGet("{id}/rooms")]

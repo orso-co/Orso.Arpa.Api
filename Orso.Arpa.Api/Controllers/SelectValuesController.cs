@@ -27,7 +27,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A list of select values</returns>
         /// <response code="200"></response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SelectValueDto>>> Get([FromRoute] string tableName, [FromRoute] string propertyName)
         {

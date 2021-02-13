@@ -30,7 +30,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If no region could be found for the supplied id</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet("{id}")]
         public async Task<ActionResult<RegionDto>> GetById([FromRoute] Guid id)
         {

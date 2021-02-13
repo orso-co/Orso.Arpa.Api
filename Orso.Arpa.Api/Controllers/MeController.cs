@@ -53,7 +53,7 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>The user profile of the current user</returns>
         /// <response code="200"></response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet("appointments")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<MyAppointmentListDto>> GetMyAppointments(
@@ -84,7 +84,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="setParticipationPrediction"></param>
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if appointment or participation or prediction value could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpPut("appointments/{id}/participation/prediction/{predictionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]

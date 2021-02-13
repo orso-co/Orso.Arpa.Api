@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,6 +30,7 @@ using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.PipelineBehaviors;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
@@ -95,33 +98,19 @@ namespace Orso.Arpa.Api
             {
                 options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
                     policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
-                options.AddPolicy(AuthorizationPolicies.AtLeastPerformerPolicy, policy =>
+                options.AddPolicy(AuthorizationPolicies.HasRolePolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
-                       System.Security.Claims.Claim roleLevelClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleLevel");
-                       if (roleLevelClaim == null)
-                       {
-                           return false;
-                       }
-                       if (!short.TryParse(roleLevelClaim.Value, out var level))
-                       {
-                           return false;
-                       }
-                       return level > 0;
+                       IEnumerable<Claim> roleLevelClaims = context.User.Claims.Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType);
+                       return roleLevelClaims.Any();
                    }));
                 options.AddPolicy(AuthorizationPolicies.AtLeastStaffPolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
-                       System.Security.Claims.Claim roleLevelClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleLevel");
-                       if (roleLevelClaim == null)
-                       {
-                           return false;
-                       }
-                       if (!short.TryParse(roleLevelClaim.Value, out var level))
-                       {
-                           return false;
-                       }
-                       return level > 1;
+                       IEnumerable<string> roleLevelClaims = context.User.Claims
+                        .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)
+                        .Select(c => c.Value);
+                       return roleLevelClaims.Any(claim => claim.Equals(RoleNames.Staff) || claim.Equals(RoleNames.Admin));
                    }));
             });
         }
