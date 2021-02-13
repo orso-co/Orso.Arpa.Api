@@ -277,24 +277,28 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, true);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.NoContent, true);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Admin, HttpStatusCode.NoContent, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Admin, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Admin, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, RoleNames.Staff, HttpStatusCode.NoContent, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, RoleNames.Staff, HttpStatusCode.NoContent, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, RoleNames.Staff, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, RoleNames.Performer, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, RoleNames.Performer, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, RoleNames.Performer, HttpStatusCode.NoContent, true);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, new[] { RoleNames.Performer }, HttpStatusCode.NoContent, true);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Performer }, HttpStatusCode.NoContent, true);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, new[] { RoleNames.Staff, RoleNames.Admin }, HttpStatusCode.NoContent, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Admin }, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Admin }, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, new[] { RoleNames.Staff }, HttpStatusCode.NoContent, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Staff }, HttpStatusCode.NoContent, false);
+                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Staff }, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Performer }, HttpStatusCode.NoContent, true);
             }
         }
 
         [Test]
         [TestCaseSource(nameof(SetRoleTestData))]
-        public async Task Should_Set_Role(User userToEdit, User currentUser, string newRole, HttpStatusCode expectedStatusCode, bool shouldSendMail)
+        public async Task Should_Set_Role(User userToEdit,
+                                          User currentUser,
+                                          IEnumerable<string> newRole,
+                                          HttpStatusCode expectedStatusCode,
+                                          bool shouldSendMail)
         {
             // Arrange
             _fakeSmtpServer.ClearReceivedEmail();

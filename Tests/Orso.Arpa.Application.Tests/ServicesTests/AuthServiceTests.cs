@@ -114,7 +114,7 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
             var setRoleDto = new SetRoleDto
             {
                 Username = UserSeedData.Performer.UserName,
-                RoleNames = RoleNames.Staff
+                RoleNames = new[] { RoleNames.Staff }
             };
             _mapper.Map<SetRole.Command>(setRoleDto)
                 .Returns(new SetRole.Command
