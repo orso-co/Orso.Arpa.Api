@@ -301,7 +301,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = userToEdit;
             var setRoleDto = new SetRoleDto
             {
-                RoleName = newRole,
+                RoleNames = newRole,
                 Username = user.UserName
             };
 

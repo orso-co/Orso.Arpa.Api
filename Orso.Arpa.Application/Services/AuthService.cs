@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -53,7 +54,7 @@ namespace Orso.Arpa.Application.Services
                 await _mediator.Send(activationCommand);
             }
 
-            if (setRoleDto.RoleName == RoleNames.Performer)
+            if (setRoleDto.RoleNames.Contains(RoleNames.Performer))
             {
                 SendQRCode.Command codeCommand = _mapper.Map<SendQRCode.Command>(setRoleDto);
                 await _mediator.Send(codeCommand);

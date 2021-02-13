@@ -65,7 +65,7 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
             IList<string> rolesOfUserToEdit = await _userManager.GetRolesAsync(userToEdit);
 
             if (rolesOfUserToEdit.Contains(RoleNames.Admin)
-                || dto.RoleName.Equals(RoleNames.Admin, StringComparison.InvariantCultureIgnoreCase))
+                || dto.RoleNames.Equals(RoleNames.Admin, StringComparison.InvariantCultureIgnoreCase))
             {
                 context.Fail();
                 return;

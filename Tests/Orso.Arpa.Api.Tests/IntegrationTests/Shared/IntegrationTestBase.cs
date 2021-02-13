@@ -61,13 +61,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             _admin = FakeUsers.Admin;
         }
 
-        protected async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)
+        protected static async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)
         {
             var responseString = await responseMessage.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(responseString);
         }
 
-        protected StringContent BuildStringContent(object unserializedObject)
+        protected static StringContent BuildStringContent(object unserializedObject)
         {
             return new StringContent(
                 JsonConvert.SerializeObject(unserializedObject),
@@ -75,7 +75,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 MediaTypeNames.Application.Json);
         }
 
-        protected async Task<TestServer> CreateServer(bool authenticated)
+        protected static async Task<TestServer> CreateServer(bool authenticated)
         {
             IHostBuilder webHostBuilder = new HostBuilder();
 
@@ -108,7 +108,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             return host.GetTestServer();
         }
 
-        protected string GetCookieValueFromResponse(HttpResponseMessage response, string cookieName)
+        protected static string GetCookieValueFromResponse(HttpResponseMessage response, string cookieName)
         {
             IEnumerable<string> cookies = response.Headers.SingleOrDefault(header => header.Key == "Set-Cookie").Value;
             return cookies.FirstOrDefault(cookie => cookie.StartsWith(cookieName));

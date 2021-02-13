@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
@@ -9,7 +10,7 @@ namespace Orso.Arpa.Application.AuthApplication
     public class SetRoleDto
     {
         public string Username { get; set; }
-        public string RoleName { get; set; }
+        public IEnumerable<string> RoleNames { get; set; }
     }
 
     public class SetRoleDtoMappingProfile : Profile
@@ -29,6 +30,8 @@ namespace Orso.Arpa.Application.AuthApplication
             RuleFor(c => c.Username)
                 .NotEmpty()
                 .Username();
+            RuleFor(c => c.RoleNames)
+                .NotNull();
         }
     }
 }

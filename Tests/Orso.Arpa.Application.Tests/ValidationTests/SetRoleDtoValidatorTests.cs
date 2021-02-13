@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_RoleName_Is_Supplied([Values(null, "")] string roleName)
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.RoleName, roleName);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.RoleNames, roleName);
         }
     }
 }
