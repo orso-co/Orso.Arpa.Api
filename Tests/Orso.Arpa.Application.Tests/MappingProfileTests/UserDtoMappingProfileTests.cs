@@ -33,8 +33,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dest => dest.RoleName)
-                .Excluding(dest => dest.RoleLevel));
+                .Excluding(dest => dest.RoleNames));
         }
     }
 }

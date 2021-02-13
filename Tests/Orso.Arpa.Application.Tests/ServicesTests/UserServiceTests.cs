@@ -13,7 +13,7 @@ using Orso.Arpa.Application.UserApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
-using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -47,20 +47,21 @@ namespace Orso.Arpa.Application.Tests.ServicesTests
         {
             // Arrange
             _mediator.Send(Arg.Any<Users.List.Query>()).Returns(FakeUsers.Users.Where(u => !u.Deleted));
-            _mediator.Send(Arg.Any<Users.Role.Query>()).Returns(
-                RoleSeedData.Performer,
-                RoleSeedData.Staff,
-                RoleSeedData.Admin,
-                null,
-                null,
-                null);
+            _mediator.Send(Arg.Any<Users.UserRoles.Query>()).Returns(
+                new[] { RoleNames.Performer },
+                new[] { RoleNames.Staff },
+                new[] { RoleNames.Admin },
+                Array.Empty<string>(),
+                Array.Empty<string>(),
+                Array.Empty<string>());
+
             _mapper.Map<UserDto>(Arg.Any<User>()).Returns(
-                UserDtoData.Performer,
-                UserDtoData.Staff,
-                UserDtoData.Admin,
-                UserDtoData.UserWithoutRole,
-                UserDtoData.LockedOutUser,
-                UserDtoData.UnconfirmedUser);
+                 UserDtoData.Performer,
+                 UserDtoData.Staff,
+                 UserDtoData.Admin,
+                 UserDtoData.UserWithoutRole,
+                 UserDtoData.LockedOutUser,
+                 UserDtoData.UnconfirmedUser);
 
             // Act
             IEnumerable<UserDto> dtos = await _userService.GetAsync();

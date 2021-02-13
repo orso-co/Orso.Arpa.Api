@@ -37,15 +37,8 @@ namespace Orso.Arpa.Application.Services
             var dtos = new List<UserDto>();
             foreach (User user in users)
             {
-                Domain.Entities.Role role = await _mediator.Send(new Domain.Logic.Users.Role.Query(user));
                 UserDto dto = _mapper.Map<UserDto>(user);
-
-                if (role != null)
-                {
-                    dto.RoleName = role.Name;
-                    dto.RoleLevel = role.Level;
-                }
-
+                dto.RoleNames = await _mediator.Send(new UserRoles.Query(user));
                 dtos.Add(dto);
             }
 
