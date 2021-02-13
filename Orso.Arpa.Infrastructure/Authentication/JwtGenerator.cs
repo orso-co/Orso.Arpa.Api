@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
@@ -21,20 +19,17 @@ namespace Orso.Arpa.Infrastructure.Authentication
     {
         private readonly JwtConfiguration _jwtConfiguration;
         private readonly ArpaUserManager _userManager;
-        private readonly RoleManager<Role> _roleManager;
         private readonly IArpaContext _arpaContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public JwtGenerator(
             JwtConfiguration jwtConfiguration,
             ArpaUserManager userManager,
-            RoleManager<Role> roleManager,
             IArpaContext arpaContext,
             IHttpContextAccessor httpContextAccessor)
         {
             _jwtConfiguration = jwtConfiguration;
             _userManager = userManager;
-            _roleManager = roleManager;
             _arpaContext = arpaContext;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -57,18 +52,10 @@ namespace Orso.Arpa.Infrastructure.Authentication
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, "Token");
-            var roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty;
 
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, roleName));
-
-            if (!string.IsNullOrEmpty(roleName))
+            foreach (var role in await _userManager.GetRolesAsync(user))
             {
-                Role role = await _roleManager.FindByNameAsync(roleName);
-                claimsIdentity.AddClaim(new Claim("RoleLevel", role.Level.ToString(), "short"));
-            }
-            else
-            {
-                claimsIdentity.AddClaim(new Claim("RoleLevel", "0", "short"));
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
             }
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

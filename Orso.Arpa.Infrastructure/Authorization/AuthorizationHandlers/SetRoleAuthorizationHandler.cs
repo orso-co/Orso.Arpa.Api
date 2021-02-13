@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -47,15 +48,15 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
 
             body.Position = 0;
 
-            string currentUserRole = _userAccessor.UserRole;
+            IList<string> currentUserRoles = _userAccessor.UserRoles;
 
-            if (currentUserRole == null)
+            if (!currentUserRoles.Any())
             {
                 context.Fail();
                 return;
             }
 
-            if (currentUserRole.Equals(RoleNames.Admin, StringComparison.InvariantCultureIgnoreCase))
+            if (currentUserRoles.Contains(RoleNames.Admin))
             {
                 context.Succeed(requirement);
                 return;
@@ -65,13 +66,13 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
             IList<string> rolesOfUserToEdit = await _userManager.GetRolesAsync(userToEdit);
 
             if (rolesOfUserToEdit.Contains(RoleNames.Admin)
-                || dto.RoleNames.Equals(RoleNames.Admin, StringComparison.InvariantCultureIgnoreCase))
+                || dto.RoleNames.Contains(RoleNames.Admin))
             {
                 context.Fail();
                 return;
             }
 
-            if (currentUserRole.Equals(RoleNames.Staff, StringComparison.InvariantCultureIgnoreCase))
+            if (currentUserRoles.Contains(RoleNames.Staff))
             {
                 context.Succeed(requirement);
             }

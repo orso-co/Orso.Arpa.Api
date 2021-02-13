@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
@@ -253,42 +250,9 @@ namespace Orso.Arpa.Api
 
             services.AddSingleton(jwtConfig);
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.TokenKey));
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(opt =>
-                {
-                    opt.SaveToken = true;
-                    opt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        ValidateAudience = true,
-                        ValidateIssuer = true,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero,
-                        RequireExpirationTime = true,
-                        RequireSignedTokens = true,
-
-                        IssuerSigningKey = key,
-                        ValidAudience = jwtConfig.Audience,
-                        ValidIssuer = jwtConfig.Issuer,
-                    };
-                    opt.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                            {
-                                context.Response.Headers.Add("Token-Expired", "true");
-                            }
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearerConfiguration(jwtConfig);
         }
 
         private void ConfigureCors(IServiceCollection services)
@@ -304,7 +268,7 @@ namespace Orso.Arpa.Api
                 {
                     policy
                         .AllowAnyHeader()
-                        .WithExposedHeaders("Token-Expired")
+                        .WithExposedHeaders("x-token-expired")
                         .AllowAnyMethod()
                         .WithOrigins(allowedOrigins);
                 });
