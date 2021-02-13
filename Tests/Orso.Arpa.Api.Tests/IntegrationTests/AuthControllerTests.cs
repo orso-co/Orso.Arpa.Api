@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -288,6 +289,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Staff }, HttpStatusCode.Forbidden, false);
                 yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
                 yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
+                yield return new TestCaseData(FakeUsers.Performer, FakeUsers.Admin, Array.Empty<string>(), HttpStatusCode.NoContent, false);
                 yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Performer }, HttpStatusCode.NoContent, true);
             }
         }
