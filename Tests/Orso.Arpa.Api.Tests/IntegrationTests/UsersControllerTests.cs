@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -77,9 +78,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            IEnumerable<UserDto> result = await DeserializeResponseMessageAsync<IEnumerable<UserDto>>(responseMessage);
+            IList<UserDto> result = (await DeserializeResponseMessageAsync<IEnumerable<UserDto>>(responseMessage)).ToList();
 
-            result.Should().BeEquivalentTo(expectedDtos);
+            result.Should().BeEquivalentTo(expectedDtos, opt => opt.Excluding(dto => dto.CreatedAt));
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i].CreatedAt.Should().NotBeNullOrEmpty();
+            }
         }
     }
 }

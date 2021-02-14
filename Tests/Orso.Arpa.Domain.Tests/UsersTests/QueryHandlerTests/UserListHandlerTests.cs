@@ -28,15 +28,20 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         {
             // Arrange
             var listQuery = new Logic.Users.List.Query();
-            IEnumerable<User> expectedUsers = FakeUsers.Users.Where(u => !u.Deleted);
+            IList<User> expectedUsers = FakeUsers.Users.Where(u => !u.Deleted).ToList();
 
             // Act
-            IEnumerable<User> users = await _handler.Handle(listQuery, new CancellationToken());
+            IList<User> users = (await _handler.Handle(listQuery, new CancellationToken())).ToList();
 
             // Assert
             users.Should().BeEquivalentTo(expectedUsers, opt => opt
                 .Excluding(user => user.ConcurrencyStamp)
-                .Excluding(user => user.RefreshTokens));
+                .Excluding(user => user.RefreshTokens)
+                .Excluding(user => user.CreatedAt));
+            for (int i = 0; i < users.Count; i++)
+            {
+                users[i].CreatedAt.Should().BeCloseTo(expectedUsers[i].CreatedAt, 10000);
+            }
         }
     }
 }
