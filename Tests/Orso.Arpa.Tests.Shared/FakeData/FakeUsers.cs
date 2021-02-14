@@ -51,7 +51,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 {
                     Id = Guid.Parse("DD0AA267-120E-4BD6-B6EB-02814C227E15"),
                     UserName = "staff",
-                    Email = "stagg@test.com",
+                    Email = "staff@test.com",
                     PersonId = PersonSeedData.Staff.Id,
                     Person = PersonSeedData.Staff,
                     NormalizedEmail = "STAFF@TEST.COM",

@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Throw_Rest_Exception_If_Role_Does_Not_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(c => c.RoleName, "DoesNotExist");
+            _validator.ShouldHaveValidationErrorFor(c => c.RoleNames, new[] { "DoesNotExist" });
         }
 
         [Test]

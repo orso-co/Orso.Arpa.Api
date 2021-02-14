@@ -24,7 +24,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="includeCompleted"></param>
         /// <returns>A list of projects</returns>
         /// <response code="200"></response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ProjectDto>>> Get([FromQuery] bool includeCompleted = false)

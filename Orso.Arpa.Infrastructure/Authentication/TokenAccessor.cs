@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
@@ -41,13 +42,14 @@ namespace Orso.Arpa.Infrastructure.Authentication
             }
         }
 
-        public string UserRole
+        public IList<string> UserRoles
         {
             get
             {
                 return _httpContextAccessor?.HttpContext?.User?.Claims?
-                    .FirstOrDefault(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)?
-                    .Value;
+                    .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)?
+                    .Select(claim => claim.Value)
+                    .ToList();
             }
         }
     }

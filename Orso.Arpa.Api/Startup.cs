@@ -1,9 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
@@ -31,6 +30,7 @@ using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.PipelineBehaviors;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
@@ -98,33 +98,19 @@ namespace Orso.Arpa.Api
             {
                 options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
                     policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
-                options.AddPolicy(AuthorizationPolicies.AtLeastPerformerPolicy, policy =>
+                options.AddPolicy(AuthorizationPolicies.HasRolePolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
-                       System.Security.Claims.Claim roleLevelClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleLevel");
-                       if (roleLevelClaim == null)
-                       {
-                           return false;
-                       }
-                       if (!short.TryParse(roleLevelClaim.Value, out var level))
-                       {
-                           return false;
-                       }
-                       return level > 0;
+                       IEnumerable<Claim> roleLevelClaims = context.User.Claims.Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType);
+                       return roleLevelClaims.Any();
                    }));
                 options.AddPolicy(AuthorizationPolicies.AtLeastStaffPolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
-                       System.Security.Claims.Claim roleLevelClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleLevel");
-                       if (roleLevelClaim == null)
-                       {
-                           return false;
-                       }
-                       if (!short.TryParse(roleLevelClaim.Value, out var level))
-                       {
-                           return false;
-                       }
-                       return level > 1;
+                       IEnumerable<string> roleLevelClaims = context.User.Claims
+                        .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)
+                        .Select(c => c.Value);
+                       return roleLevelClaims.Any(claim => claim.Equals(RoleNames.Staff) || claim.Equals(RoleNames.Admin));
                    }));
             });
         }
@@ -181,7 +167,7 @@ namespace Orso.Arpa.Api
                                     Id = "Bearer"
                                 }
                             },
-                            new string[] {}
+                            Array.Empty<string>()
                     }
                 });
             });
@@ -253,42 +239,9 @@ namespace Orso.Arpa.Api
 
             services.AddSingleton(jwtConfig);
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.TokenKey));
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(opt =>
-                {
-                    opt.SaveToken = true;
-                    opt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        ValidateAudience = true,
-                        ValidateIssuer = true,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero,
-                        RequireExpirationTime = true,
-                        RequireSignedTokens = true,
-
-                        IssuerSigningKey = key,
-                        ValidAudience = jwtConfig.Audience,
-                        ValidIssuer = jwtConfig.Issuer,
-                    };
-                    opt.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                            {
-                                context.Response.Headers.Add("Token-Expired", "true");
-                            }
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearerConfiguration(jwtConfig);
         }
 
         private void ConfigureCors(IServiceCollection services)
@@ -304,7 +257,7 @@ namespace Orso.Arpa.Api
                 {
                     policy
                         .AllowAnyHeader()
-                        .WithExposedHeaders("Token-Expired")
+                        .WithExposedHeaders("x-token-expired")
                         .AllowAnyMethod()
                         .WithOrigins(allowedOrigins);
                 });

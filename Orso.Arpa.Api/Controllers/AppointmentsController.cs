@@ -30,7 +30,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="range"></param>
         /// <returns>A list of appointments</returns>
         /// <response code="200"></response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppointmentDto>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range)
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If no appointment could be found for the supplied id</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
-        [Authorize(Policy = AuthorizationPolicies.AtLeastPerformerPolicy)]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppointmentDto>> GetById([FromRoute] Guid id)
         {

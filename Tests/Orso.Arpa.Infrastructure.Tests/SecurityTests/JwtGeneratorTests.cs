@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Configuration;
@@ -33,16 +32,14 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
                 AccessTokenExpiryInMinutes = 60
             };
             _userManager = new FakeUserManager();
-            _roleManager = new FakeRoleManager();
             _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
             _arpaContext = Substitute.For<IArpaContext>();
-            _jwtGenerator = new JwtGenerator(_configuration, _userManager, _roleManager, _arpaContext, _httpContextAccessor);
+            _jwtGenerator = new JwtGenerator(_configuration, _userManager, _arpaContext, _httpContextAccessor);
         }
 
         private JwtGenerator _jwtGenerator;
         private JwtConfiguration _configuration;
         private ArpaUserManager _userManager;
-        private RoleManager<Role> _roleManager;
         private IHttpContextAccessor _httpContextAccessor;
         private IArpaContext _arpaContext;
 

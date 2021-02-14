@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             var command = new SetRole.Command
             {
                 Username = user.UserName,
-                RoleName = RoleNames.Staff
+                RoleNames = new[] { RoleNames.Staff, RoleNames.Performer }
             };
 
             // Act
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             var command = new SetRole.Command
             {
                 Username = user.UserName,
-                RoleName = RoleNames.Performer
+                RoleNames = new[] { RoleNames.Performer }
             };
 
             // Act

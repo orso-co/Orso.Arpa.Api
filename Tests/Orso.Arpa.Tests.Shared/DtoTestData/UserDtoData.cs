@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.UserApplication;
 
@@ -28,9 +29,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "performer",
-                    RoleName = "Performer",
+                    RoleNames = new[] { "Performer" },
                     DisplayName = "Per Former",
-                    RoleLevel = 1
+                    Email = "performer@test.com",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -42,9 +44,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "staff",
-                    RoleName = "Staff",
+                    RoleNames = new[] { "Staff" },
                     DisplayName = "Staff Member",
-                    RoleLevel = 2
+                    Email = "staff@test.com",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -56,9 +59,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "admin",
-                    RoleName = "Admin",
+                    RoleNames = new[] { "Admin" },
                     DisplayName = "Ad Min",
-                    RoleLevel = 3
+                    Email = "admin@test.com",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -70,9 +74,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "withoutrole",
-                    RoleName = null,
+                    RoleNames = Array.Empty<string>(),
                     DisplayName = "Without Role",
-                    RoleLevel = 0
+                    Email = "withoutrole@test.com",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -84,9 +89,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "lockedout",
-                    RoleName = null,
+                    RoleNames = Array.Empty<string>(),
                     DisplayName = "LockedOut User",
-                    RoleLevel = 0
+                    Email = "lockedout@test.com",
+                    EmailConfirmed = true
                 };
             }
         }
@@ -98,9 +104,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UserDto
                 {
                     UserName = "unconfirmed",
-                    RoleName = null,
+                    RoleNames = Array.Empty<string>(),
                     DisplayName = "Unconfirmed User",
-                    RoleLevel = 0
+                    Email = "unconfirmed@test.com",
+                    EmailConfirmed = false
                 };
             }
         }

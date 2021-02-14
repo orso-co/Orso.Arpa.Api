@@ -20,7 +20,7 @@ namespace Orso.Arpa.Api.ModelBinding
             }
         }
 
-        private string FormatDescription(string description)
+        private static string FormatDescription(string description)
         {
             const string dvDescription = "Don't set this parameter in the dto as it is taken from route";
 

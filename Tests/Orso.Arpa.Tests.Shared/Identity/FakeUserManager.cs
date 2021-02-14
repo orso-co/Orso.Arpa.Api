@@ -84,12 +84,12 @@ namespace Orso.Arpa.Tests.Shared.Identity
             return Task.FromResult(roleNames as IList<string>);
         }
 
-        public override Task<IdentityResult> AddToRoleAsync(User user, string role)
+        public override Task<IdentityResult> AddToRolesAsync(User user, IEnumerable<string> roles)
         {
             return Task.FromResult(IdentityResult.Success);
         }
 
-        public override Task<IdentityResult> RemoveFromRoleAsync(User user, string role)
+        public override Task<IdentityResult> RemoveFromRolesAsync(User user, IEnumerable<string> roles)
         {
             return Task.FromResult(IdentityResult.Success);
         }
