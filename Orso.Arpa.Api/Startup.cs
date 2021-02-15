@@ -292,6 +292,7 @@ namespace Orso.Arpa.Api
                     policy
                         .AllowAnyHeader()
                         .WithExposedHeaders("x-token-expired")
+                        .AllowCredentials()
                         .AllowAnyMethod()
                         .WithOrigins(allowedOrigins);
                 });
