@@ -83,7 +83,10 @@ namespace Orso.Arpa.Infrastructure.Authentication
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Expires = refreshToken.ExpiryOn
+                Expires = refreshToken.ExpiryOn,
+                IsEssential = true,
+                SameSite = SameSiteMode.Strict,
+                Secure = true
             };
 
             _httpContextAccessor.HttpContext.Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
