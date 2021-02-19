@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -28,9 +29,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new Person(
+                var person = new Person(
                     Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
                     new UserRegister.Command { GivenName = "Per", Surname = "Former" });
+                person.StakeholderGroups.Add(new PersonSection(person.Id, SectionSeedData.Choir.Id));
+                return person;
             }
         }
 
