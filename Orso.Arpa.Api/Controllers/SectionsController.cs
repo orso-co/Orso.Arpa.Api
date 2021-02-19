@@ -34,6 +34,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Gets all sections as tree hierarchy
         /// </summary>
+        /// <param name="maxLevel">Optional parameter to limit the tree depth to a specific level</param>
         /// <returns>A tree of sections</returns>
         /// <response code="200"></response>
         [AllowAnonymous]
