@@ -68,6 +68,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             private static string Sections => $"{Base}/sections";
 
             public static string Get() => Sections;
+
+            public static string GetTree(int? maxLevel) => $"{Sections}/tree?maxLevel={maxLevel}";
         }
 
         public static class ProjectsController

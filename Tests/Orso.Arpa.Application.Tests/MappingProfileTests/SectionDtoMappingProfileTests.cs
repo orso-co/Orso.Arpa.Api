@@ -37,7 +37,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             SectionDto dto = _mapper.Map<SectionDto>(section);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));
+            dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

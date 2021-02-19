@@ -34,8 +34,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
             var expectedAppointments = AppointmentSeedData.Appointments.ToImmutableList();
             Appointment appointment = AppointmentSeedData.RockingXMasConcert;
             DbSet<Appointment> mockAppointments = MockDbSets.Appointments;
-            _arpaContext.Set<Appointment>()
-                .Returns(mockAppointments);
+            _arpaContext.Set<Appointment>().Returns(mockAppointments);
 
             // Act
             IQueryable<Appointment> result = await _handler.Handle(
