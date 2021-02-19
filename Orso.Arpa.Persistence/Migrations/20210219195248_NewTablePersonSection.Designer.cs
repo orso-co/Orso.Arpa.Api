@@ -10,8 +10,8 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210213103432_AddedPropertyCreatedAtToUser")]
-    partial class AddedPropertyCreatedAtToUser
+    [Migration("20210219195248_NewTablePersonSection")]
+    partial class NewTablePersonSection
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

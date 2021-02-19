@@ -1,9 +1,11 @@
 using FluentValidation.TestHelper;
+using NSubstitute;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Auth.UserRegister;
@@ -15,6 +17,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     {
         private Validator _validator;
         private ArpaUserManager _userManager;
+        private IArpaContext _context;
 
         [SetUp]
         public void Setup()
@@ -25,7 +28,8 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
                         new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
                         new LoggerFactory()));
             _userManager = new FakeUserManager();
-            _validator = new Validator(_userManager, localizer);
+            _context = Substitute.For<IArpaContext>();
+            _validator = new Validator(_userManager, _context, localizer);
         }
 
         [Test]
