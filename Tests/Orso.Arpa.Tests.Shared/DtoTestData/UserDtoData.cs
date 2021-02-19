@@ -26,14 +26,16 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new UserDto
+                var user = new UserDto
                 {
                     UserName = "performer",
                     RoleNames = new[] { "Performer" },
                     DisplayName = "Per Former",
                     Email = "performer@test.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
                 };
+                user.StakeholderGroupIds.Add(Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"));
+                return user;
             }
         }
 

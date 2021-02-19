@@ -30,5 +30,19 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _sectionService.GetAsync());
         }
+
+        /// <summary>
+        /// Gets all sections as tree hierarchy
+        /// </summary>
+        /// <param name="maxLevel">Optional parameter to limit the tree depth to a specific level</param>
+        /// <returns>A tree of sections</returns>
+        /// <response code="200"></response>
+        [AllowAnonymous]
+        [HttpGet("tree")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<SectionTreeDto>> GetTree([FromQuery] int? maxLevel = null)
+        {
+            return Ok(await _sectionService.GetTreeAsync(maxLevel));
+        }
     }
 }

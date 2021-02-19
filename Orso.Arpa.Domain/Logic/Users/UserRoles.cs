@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.Logic.Users
 {
     public static class UserRoles
     {
-        public class Query : IRequest<IEnumerable<string>>
+        public class Query : IRequest<IList<string>>
         {
             public Query(User user)
             {
@@ -19,7 +19,7 @@ namespace Orso.Arpa.Domain.Logic.Users
             public User User { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<string>>
+        public class Handler : IRequestHandler<Query, IList<string>>
         {
             private readonly ArpaUserManager _userManager;
 
@@ -29,7 +29,7 @@ namespace Orso.Arpa.Domain.Logic.Users
                 _userManager = userManager;
             }
 
-            public async Task<IEnumerable<string>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IList<string>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _userManager.GetRolesAsync(request.User);
             }

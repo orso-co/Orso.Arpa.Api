@@ -15,6 +15,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -141,8 +142,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Password = UserSeedData.ValidPassword,
                 GivenName = "Ludmilla",
                 Surname = "Schneider",
-                ClientUri = "http://localhost:4200"
+                ClientUri = "http://localhost:4200",
             };
+            registerDto.StakeholderGroupIds.Add(SectionSeedData.Volunteers.Id);
+
             HttpClient client = _unAuthenticatedServer
                 .CreateClient();
 

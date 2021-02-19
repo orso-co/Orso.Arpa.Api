@@ -6,6 +6,8 @@ namespace Orso.Arpa.Application.Interfaces
 {
     public interface ISectionService
     {
+        Task<SectionTreeDto> GetTreeAsync(int? maxLevel);
+
         Task<IEnumerable<SectionDto>> GetAsync();
     }
 }

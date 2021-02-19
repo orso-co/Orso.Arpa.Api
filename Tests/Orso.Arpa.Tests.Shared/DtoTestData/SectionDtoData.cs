@@ -16,7 +16,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Orchestra,
                     Soloists,
                     Other,
-                    Miscellaneous,
                     FemaleVoices,
                     MaleVoices,
                     DeepFemaleVoices,
@@ -39,345 +38,234 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Strings,
                     Percussion,
                     Woodwind,
-                    Brass
+                    Brass,
+                    Performers,
+                    Volunteers,
+                    Visitors,
+                    Band,
+                    Crew,
+                    Stage,
+                    Media,
+                    Sound,
+                    Light
                 };
             }
         }
 
-        public static SectionDto Choir
+        public static SectionDto Light => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"),
-                    Name = "Choir",
-                };
-            }
-        }
+            Id = Guid.Parse("614a8fd0-acfa-4268-b716-3b35a6a17b7a"),
+            Name = "Light",
+        };
 
-        public static SectionDto Orchestra
+        public static SectionDto Sound => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("308659d6-6014-4d2c-a62a-be75bf202e62"),
-                    Name = "Orchestra",
-                };
-            }
-        }
+            Id = Guid.Parse("bc6cfeb7-569d-4c22-8e80-647aed560bf0"),
+            Name = "Sound",
+        };
 
-        public static SectionDto Soloists
+        public static SectionDto Media => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("e0fdb057-c9b7-4477-be75-cbf920a26af6"),
-                    Name = "Soloist",
-                };
-            }
-        }
+            Id = Guid.Parse("0cf93477-f42f-46c3-8e3d-45ccdc54ad8c"),
+            Name = "Media",
+        };
 
-        public static SectionDto Other
+        public static SectionDto Stage => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("c9403ca4-6b75-44c3-b567-e53bbd78fb75"),
-                    Name = "Other",
-                };
-            }
-        }
+            Id = Guid.Parse("8ed82e0e-0354-4192-8f26-5a2437e9208d"),
+            Name = "Stage",
+        };
 
-        public static SectionDto Miscellaneous
+        public static SectionDto Crew => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("a19fa9af-dcba-48e3-bc21-be2130fa528c"),
-                    Name = "Miscellaneous",
-                };
-            }
-        }
+            Id = Guid.Parse("182019da-bde2-44d7-8c77-88cfb0ce428c"),
+            Name = "Crew",
+        };
 
-        public static SectionDto FemaleVoices
+        public static SectionDto Choir => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6"),
-                    Name = "Female Voices",
-                };
-            }
-        }
+            Id = Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"),
+            Name = "Choir",
+        };
 
-        public static SectionDto MaleVoices
+        public static SectionDto Orchestra => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("4599103d-f220-4744-92d1-7c6993e9bda4"),
-                    Name = "Male Voices",
-                };
-            }
-        }
+            Id = Guid.Parse("308659d6-6014-4d2c-a62a-be75bf202e62"),
+            Name = "Orchestra",
+        };
 
-        public static SectionDto DeepFemaleVoices
+        public static SectionDto Soloists => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("48337b78-70f0-493e-911b-296632b06ef8"),
-                    Name = "Deep Female Voices",
-                };
-            }
-        }
+            Id = Guid.Parse("e0fdb057-c9b7-4477-be75-cbf920a26af6"),
+            Name = "Soloists",
+        };
 
-        public static SectionDto HighFemaleVoices
+        public static SectionDto Other => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("5d469fc5-b3e6-40b8-9fa9-542981083ce3"),
-                    Name = "High Female Voices",
-                };
-            }
-        }
+            Id = Guid.Parse("c9403ca4-6b75-44c3-b567-e53bbd78fb75"),
+            Name = "Other",
+        };
 
-        public static SectionDto DeepMaleVoices
+        public static SectionDto FemaleVoices => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("b9673cfd-7cdb-472c-86e0-1304cbb3840a"),
-                    Name = "Deep Male Voices",
-                };
-            }
-        }
+            Id = Guid.Parse("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6"),
+            Name = "Female Voices",
+        };
 
-        public static SectionDto HighMaleVoices
+        public static SectionDto MaleVoices => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("7924daef-2542-4648-a42f-4c4374ee09db"),
-                    Name = "High Male Voices",
-                };
-            }
-        }
+            Id = Guid.Parse("4599103d-f220-4744-92d1-7c6993e9bda4"),
+            Name = "Male Voices",
+        };
 
-        public static SectionDto Alto
+        public static SectionDto DeepFemaleVoices => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"),
-                    Name = "Alto",
-                };
-            }
-        }
+            Id = Guid.Parse("48337b78-70f0-493e-911b-296632b06ef8"),
+            Name = "Deep Female Voices",
+        };
 
-        public static SectionDto Soprano
+        public static SectionDto HighFemaleVoices => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("7daa1394-a70d-4a24-88a6-ccf511d75c4d"),
-                    Name = "Soprano",
-                };
-            }
-        }
+            Id = Guid.Parse("5d469fc5-b3e6-40b8-9fa9-542981083ce3"),
+            Name = "High Female Voices",
+        };
 
-        public static SectionDto Basso
+        public static SectionDto DeepMaleVoices => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"),
-                    Name = "Basso",
-                };
-            }
-        }
+            Id = Guid.Parse("b9673cfd-7cdb-472c-86e0-1304cbb3840a"),
+            Name = "Deep Male Voices",
+        };
 
-        public static SectionDto Tenor
+        public static SectionDto HighMaleVoices => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"),
-                    Name = "Tenor",
-                };
-            }
-        }
+            Id = Guid.Parse("7924daef-2542-4648-a42f-4c4374ee09db"),
+            Name = "High Male Voices",
+        };
 
-        public static SectionDto Alto1
+        public static SectionDto Alto => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("e809ee90-23f9-44de-b80e-2fddd5ee3683"),
-                    Name = "Alto 1",
-                };
-            }
-        }
+            Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"),
+            Name = "Alto",
+        };
 
-        public static SectionDto Alto2
+        public static SectionDto Soprano => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("50dfa2be-85e2-4638-aa53-22dadc97a844"),
-                    Name = "Alto 2",
-                };
-            }
-        }
+            Id = Guid.Parse("7daa1394-a70d-4a24-88a6-ccf511d75c4d"),
+            Name = "Soprano",
+        };
 
-        public static SectionDto Soprano1
+        public static SectionDto Basso => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("8470ddf0-43ab-477e-b3bc-47ede014b359"),
-                    Name = "Soprano 1",
-                };
-            }
-        }
+            Id = Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"),
+            Name = "Basso",
+        };
 
-        public static SectionDto Soprano2
+        public static SectionDto Tenor => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("22d7cf92-7b29-4cf1-a6fa-2954377589b4"),
-                    Name = "Soprano 2",
-                };
-            }
-        }
+            Id = Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"),
+            Name = "Tenor",
+        };
 
-        public static SectionDto Tenor1
+        public static SectionDto Alto1 => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("3db46ff0-9165-46cc-8f28-6a1d52dee518"),
-                    Name = "Tenor 1",
-                };
-            }
-        }
+            Id = Guid.Parse("e809ee90-23f9-44de-b80e-2fddd5ee3683"),
+            Name = "Alto 1",
+        };
 
-        public static SectionDto Tenor2
+        public static SectionDto Alto2 => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"),
-                    Name = "Tenor 2",
-                };
-            }
-        }
+            Id = Guid.Parse("50dfa2be-85e2-4638-aa53-22dadc97a844"),
+            Name = "Alto 2",
+        };
 
-        public static SectionDto Basso1
+        public static SectionDto Soprano1 => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"),
-                    Name = "Basso 1",
-                };
-            }
-        }
+            Id = Guid.Parse("8470ddf0-43ab-477e-b3bc-47ede014b359"),
+            Name = "Soprano 1",
+        };
 
-        public static SectionDto Basso2
+        public static SectionDto Soprano2 => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("61fa66ec-3103-43fe-800c-930547dff82c"),
-                    Name = "Basso 2",
-                };
-            }
-        }
+            Id = Guid.Parse("22d7cf92-7b29-4cf1-a6fa-2954377589b4"),
+            Name = "Soprano 2",
+        };
 
-        public static SectionDto WindSection
+        public static SectionDto Tenor1 => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("b289cfe7-d66e-48d8-83a9-f4b1f7710863"),
-                    Name = "Wind Section",
-                };
-            }
-        }
+            Id = Guid.Parse("3db46ff0-9165-46cc-8f28-6a1d52dee518"),
+            Name = "Tenor 1",
+        };
 
-        public static SectionDto Strings
+        public static SectionDto Tenor2 => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb"),
-                    Name = "Strings",
-                };
-            }
-        }
+            Id = Guid.Parse("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"),
+            Name = "Tenor 2",
+        };
 
-        public static SectionDto Percussion
+        public static SectionDto Basso1 => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c"),
-                    Name = "Percussion",
-                };
-            }
-        }
+            Id = Guid.Parse("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"),
+            Name = "Basso 1",
+        };
 
-        public static SectionDto Woodwind
+        public static SectionDto Basso2 => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("a6abdeec-8185-40ac-a418-2e422bb9adbd"),
-                    Name = "Woodwind",
-                };
-            }
-        }
+            Id = Guid.Parse("61fa66ec-3103-43fe-800c-930547dff82c"),
+            Name = "Basso 2",
+        };
 
-        public static SectionDto Brass
+        public static SectionDto WindSection => new SectionDto
         {
-            get
-            {
-                return new SectionDto
-                {
-                    Id = Guid.Parse("f4c70178-d069-44dc-8956-7160c5fef52e"),
-                    Name = "Brass",
-                };
-            }
-        }
+            Id = Guid.Parse("b289cfe7-d66e-48d8-83a9-f4b1f7710863"),
+            Name = "Wind Section",
+        };
+
+        public static SectionDto Strings => new SectionDto
+        {
+            Id = Guid.Parse("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb"),
+            Name = "Strings",
+        };
+
+        public static SectionDto Percussion => new SectionDto
+        {
+            Id = Guid.Parse("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c"),
+            Name = "Percussion",
+        };
+
+        public static SectionDto Woodwind => new SectionDto
+        {
+            Id = Guid.Parse("a6abdeec-8185-40ac-a418-2e422bb9adbd"),
+            Name = "Woodwind",
+        };
+
+        public static SectionDto Brass => new SectionDto
+        {
+            Id = Guid.Parse("f4c70178-d069-44dc-8956-7160c5fef52e"),
+            Name = "Brass",
+        };
+
+        public static SectionDto Performers => new SectionDto
+        {
+            Id = Guid.Parse("8bba816f-2315-43c0-b18e-99a27b1c9668"),
+            Name = "Performers",
+        };
+
+        public static SectionDto Volunteers => new SectionDto
+        {
+            Id = Guid.Parse("067647c0-3f25-449e-9212-03f39fa88f0f"),
+            Name = "Volunteers",
+        };
+
+        public static SectionDto Band => new SectionDto
+        {
+            Id = Guid.Parse("1994cb6c-877e-4d7c-aeca-26e68967c2ab"),
+            Name = "Band",
+        };
+
+        public static SectionDto Visitors => new SectionDto
+        {
+            Id = Guid.Parse("f6af00f5-e81c-4d85-aadd-1e33748e9a64"),
+            Name = "Visitors",
+        };
     }
 }
