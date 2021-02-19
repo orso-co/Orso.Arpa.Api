@@ -38,5 +38,12 @@ namespace Orso.Arpa.Application.Services
             ITree<Section> tree = await _mediator.Send(query);
             return _mapper.Map<SectionTreeDto>(tree);
         }
+
+        public async Task<SectionTreeDto> GetTreeAsync(int? maxLevel)
+        {
+            var query = new Tree.Query() { MaxLevel = maxLevel };
+            ITree<Section> tree = await _mediator.Send(query);
+            return _mapper.Map<SectionTreeDto>(tree);
+        }
     }
 }
