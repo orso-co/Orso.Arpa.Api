@@ -40,8 +40,7 @@ namespace Orso.Arpa.Domain.Logic.Users
                     throw new ValidationException(new[] { new ValidationFailure(nameof(request.UserName), $"The user could not be found.") });
                 }
 
-                user.Delete();
-                IdentityResult result = await _userManager.UpdateAsync(user);
+                IdentityResult result = await _userManager.DeleteAsync(user);
 
                 if (result.Succeeded)
                 {

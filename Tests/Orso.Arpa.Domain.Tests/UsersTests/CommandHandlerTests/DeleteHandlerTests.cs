@@ -42,11 +42,8 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
         [Test]
         public void Should_Throw_Validation_Exception_If_User_Is_Already_Deleted()
         {
-            // Arrange
-            User user = FakeUsers.DeletedUser;
-
             // Act
-            Func<Task<Unit>> func = async () => await _handler.Handle(new Delete.Command(user.UserName), new CancellationToken());
+            Func<Task<Unit>> func = async () => await _handler.Handle(new Delete.Command("deletedusername"), new CancellationToken());
 
             // Assert
             func.Should().Throw<ValidationException>();

@@ -23,16 +23,16 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Deletes existing user by username. Does not delete underlying person!
         /// </summary>
-        /// <param name="userName"></param>
+        /// <param name="username"></param>
         /// <response code="204"></response>
         /// <response code="400">If user could not be found</response>
         [HttpDelete("{username}")]
         [Authorize(Roles = RoleNames.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Delete([FromRoute] string userName)
+        public async Task<ActionResult> Delete([FromRoute] string username)
         {
-            await _userService.DeleteAsync(userName);
+            await _userService.DeleteAsync(username);
             return NoContent();
         }
 
