@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -90,6 +91,24 @@ namespace Orso.Arpa.Api
             ConfigureAuthentication(services);
 
             ConfigureAuthorization(services);
+
+            ConfigureLocalization(services);
+        }
+
+        private static void ConfigureLocalization(IServiceCollection services)
+        {
+            services.AddLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture("en");
+                options.AddSupportedUICultures("en", "de");
+                options.FallBackToParentUICultures = true;
+                options.RequestCultureProviders.Add(new CookieRequestCultureProvider {CookieName = "Culture"});
+                options.RequestCultureProviders.Remove(
+                    new AcceptLanguageHeaderRequestCultureProvider());  // avoids browser from overwriting UI language request
+            });
+
         }
 
         private static void ConfigureAuthorization(IServiceCollection services)
@@ -279,6 +298,9 @@ namespace Orso.Arpa.Api
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRequestLocalization();
+            app.UseErrorResponseLocalizationMiddleware();
+
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
