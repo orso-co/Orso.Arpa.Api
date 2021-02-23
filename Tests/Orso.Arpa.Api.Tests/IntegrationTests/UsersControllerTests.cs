@@ -35,14 +35,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(10001)]
         public async Task Should_Not_Delete_Deleted_User()
         {
-            // Arrange
-            User user = FakeUsers.DeletedUser;
-
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_admin)
-                .DeleteAsync(ApiEndpoints.UsersController.Delete(user.UserName));
+                .DeleteAsync(ApiEndpoints.UsersController.Delete("deletedusername"));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);

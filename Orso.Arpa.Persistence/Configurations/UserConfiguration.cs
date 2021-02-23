@@ -9,9 +9,6 @@ namespace Orso.Arpa.Persistence.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .HasQueryFilter(u => !u.Deleted);
-
-            builder
                 .HasOne(e => e.Person)
                 .WithOne(p => p.User)
                 .HasForeignKey<User>(e => e.PersonId)
