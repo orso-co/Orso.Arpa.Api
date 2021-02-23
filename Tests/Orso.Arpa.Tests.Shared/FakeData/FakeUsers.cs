@@ -15,7 +15,6 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Performer,
                     Staff,
                     Admin,
-                    DeletedUser,
                     UserWithoutRole,
                     LockedOutUser,
                     UnconfirmedUser
@@ -96,26 +95,6 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     NormalizedUserName = "WITHOUTROLE",
                     EmailConfirmed = true
                 };
-            }
-        }
-
-        public static User DeletedUser
-        {
-            get
-            {
-                var user = new User
-                {
-                    Id = Guid.Parse("ddfa6a35-ba75-46a3-9f32-6cab236ef0a3"),
-                    UserName = "deleted",
-                    Email = "deleted@test.com",
-                    PersonId = PersonSeedData.DeletedUser.Id,
-                    Person = PersonSeedData.DeletedUser,
-                    NormalizedEmail = "DELETED@TEST.COM",
-                    NormalizedUserName = "DELETED",
-                    EmailConfirmed = true
-                };
-                user.Delete();
-                return user;
             }
         }
 

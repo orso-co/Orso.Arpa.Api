@@ -28,7 +28,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         {
             // Arrange
             var listQuery = new Logic.Users.List.Query();
-            IList<User> expectedUsers = FakeUsers.Users.Where(u => !u.Deleted).ToList();
+            IList<User> expectedUsers = FakeUsers.Users.ToList();
 
             // Act
             IList<User> users = (await _handler.Handle(listQuery, new CancellationToken())).ToList();

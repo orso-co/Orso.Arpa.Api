@@ -25,8 +25,8 @@ namespace Orso.Arpa.Tests.Shared.Identity
               Substitute.For<IUserStore<User>>(),
               Substitute.For<IOptions<IdentityOptions>>(),
               Substitute.For<IPasswordHasher<User>>(),
-              new IUserValidator<User>[0],
-              new IPasswordValidator<User>[0],
+              Array.Empty<IUserValidator<User>>(),
+              Array.Empty<IPasswordValidator<User>>(),
               Substitute.For<ILookupNormalizer>(),
               Substitute.For<IdentityErrorDescriber>(),
               Substitute.For<IServiceProvider>(),
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Tests.Shared.Identity
         {
             get
             {
-                IEnumerable<User> users = FakeUsers.Users.Where(u => !u.Deleted);
+                IEnumerable<User> users = FakeUsers.Users;
                 return users.AsQueryable().BuildMock();
             }
         }
@@ -49,12 +49,12 @@ namespace Orso.Arpa.Tests.Shared.Identity
 
         public override Task<User> FindByEmailAsync(string email)
         {
-            return Task.FromResult(FakeUsers.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
+            return Task.FromResult(FakeUsers.Users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         public override Task<User> FindByNameAsync(string userName)
         {
-            return Task.FromResult(FakeUsers.Users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase) && !u.Deleted));
+            return Task.FromResult(FakeUsers.Users.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         public override Task<IdentityResult> CreateAsync(User user, string password)
@@ -138,6 +138,11 @@ namespace Orso.Arpa.Tests.Shared.Identity
                 return Task.FromResult(IdentityResult.Success);
             }
             return Task.FromResult(IdentityResult.Failed(new[] { new IdentityError() }));
+        }
+
+        public override Task<IdentityResult> DeleteAsync(User user)
+        {
+            return Task.FromResult(IdentityResult.Success);
         }
     }
 }
