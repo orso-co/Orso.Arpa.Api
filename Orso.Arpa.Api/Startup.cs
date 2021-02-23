@@ -387,6 +387,7 @@ namespace Orso.Arpa.Api
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
+        
         private static void AddSwagger(IApplicationBuilder app)
         {
             app.UseSwagger();
