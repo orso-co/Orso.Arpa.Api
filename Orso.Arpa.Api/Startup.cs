@@ -358,6 +358,7 @@ namespace Orso.Arpa.Api
             EnsureDatabaseMigrations(app);
         }
 
+        
         private static void AddSwagger(IApplicationBuilder app)
         {
             app.UseSwagger();
