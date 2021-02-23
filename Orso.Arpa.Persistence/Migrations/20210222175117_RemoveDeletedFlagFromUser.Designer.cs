@@ -10,8 +10,8 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210219195248_NewTablePersonSection")]
-    partial class NewTablePersonSection
+    [Migration("20210222175117_RemoveDeletedFlagFromUser")]
+    partial class RemoveDeletedFlagFromUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
