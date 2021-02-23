@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Localization;
@@ -118,6 +119,7 @@ namespace Orso.Arpa.Api
 
             ConfigureAuthorization(services);
 
+            ConfigureLocalization(services);
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
