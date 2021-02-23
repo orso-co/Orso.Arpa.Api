@@ -393,6 +393,7 @@ namespace Orso.Arpa.Api
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
+        
         private static void AddSwagger(IApplicationBuilder app)
         {
             app.UseScopedSwagger(); // Workaround https://github.com/micro-elements/MicroElements.Swashbuckle.FluentValidation#error-systeminvalidoperationexception-cannot-resolve-ivalidatort-from-root-provider-because-it-requires-scoped-service-tdependency
