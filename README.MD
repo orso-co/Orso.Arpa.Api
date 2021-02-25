@@ -1,7 +1,9 @@
-# Deployment
+# Orso Arpa 2.0 Backend
+
+## Deployment
 [![Build Status](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_apis/build/status/orso-arpa%20-%201%20-%20CI?branchName=master)](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_build/latest?definitionId=2&branchName=master)
 
-[Deployed Api](https://orso-arpa.azurewebsites.net)
+[Deployed Test Api](https://orso-arpa.azurewebsites.net)
 
 [Build and Release Pipelines](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api)
 
@@ -14,33 +16,28 @@ The initial database contains a single user with an admin role. You can login us
 * UsernameOrEmail: admin
 * Password: Pa$$w0rd
 
-# Entity Framework Migrations
+## Projects
 
-## Add New Migration
-Old Syntax:
-```
-dotnet ef migrations add "<NameOfMigration>" -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
+### Application stack top to bottom:
 
-dotnet ef database update -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
-```
+* [Orso.Arpa.Api]("./Orso.Arpa.Api/README.MD")
+* [Orso.Arpa.Application]("./Orso.Arpa.Application/README.MD")
+* [Orso.Arpa.Domain]("./Orso.Arpa.Domain/README.MD")
+* [Orso.Arpa.Persistence]("./Orso.Arpa.Persistence/README.MD")
 
-New Syntax:
-```
-Add-Migration -Name <NameOfMigration> -Project Orso.Arpa.Persistence -StartupProject Orso.Arpa.Api
-```
+### Helper projects
 
-# User Secrets
+* [Orso.Arpa.Mail]("./Orso.Arpa.Mail/README.MD")
+* [Orso.Arpa.Infrastructure]("./Orso.Arpa.Infrastructure/README.MD")
+* [Orso.Arpa.Misc]("./Orso.Arpa.Misc/README.MD")
+* [Orso.Arpa.FakeSmtp]("./Orso.Arpa.FakeSmtp/README.MD")
 
-Use user secrets to locally override appsettings options, e. g. the smtp config.
+### Test projects
 
-Create user secret:
-```
-dotnet user-secrets set "EmailConfiguration:SmtpServer" "smtp.myemailprovider.com"
-```
-
-Display existing user secrets:
-```
-dotnet user-secrets list
-```
-
-[Microsoft Docs](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows)
+* Orso.Arpa.Api.Tests
+* Orso.Arpa.Application.Tests
+* Orso.Arpa.Domain.Tests
+* Orso.Arpa.Infrastructure.Tests
+* Orso.Arpa.Mail.Tests
+* Orso.Arpa.Persistence.Tests
+* Orso.Arpa.Tests.Shared

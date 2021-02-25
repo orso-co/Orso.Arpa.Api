@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Interfaces;
 
-namespace Orso.Arpa.Domain.PipelineBehaviors
+namespace Orso.Arpa.Infrastructure.PipelineBehaviors
 {
     public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
