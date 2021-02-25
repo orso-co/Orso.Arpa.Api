@@ -57,8 +57,13 @@ namespace Orso.Arpa.Api.Middleware
                     if (serializedErrorMessage != null)
                     {
                         serializedErrorMessage.description =
-                            _localizer[serializedErrorMessage.description];
-                        serializedErrorMessage.title = _localizer[serializedErrorMessage.title];
+                            serializedErrorMessage.description != null
+                                ? _localizer[serializedErrorMessage.description]
+                                : null;
+
+                        serializedErrorMessage.title = serializedErrorMessage.title != null
+                            ? _localizer[serializedErrorMessage.title]
+                            : null;
 
                         await using var streamWrite = new StreamWriter(originalBody);
                         await streamWrite.WriteAsync(
