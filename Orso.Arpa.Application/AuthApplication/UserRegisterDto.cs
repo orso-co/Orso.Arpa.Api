@@ -1,6 +1,10 @@
+using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Extensions;
+using Orso.Arpa.Application.Resources.Cultures;
 using Orso.Arpa.Domain.Logic.Auth;
 
 namespace Orso.Arpa.Application.AuthApplication
@@ -13,17 +17,18 @@ namespace Orso.Arpa.Application.AuthApplication
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string ClientUri { get; set; }
+        public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
     }
 
     public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
     {
-        public UserRegisterDtoValidator()
+        public UserRegisterDtoValidator(IStringLocalizer<ApplicationValidators> localizer)
         {
             RuleFor(c => c.UserName)
                 .NotEmpty()
                 .Username();
             RuleFor(c => c.Password)
-                .Password();
+                .Password(localizer);
             RuleFor(c => c.Email)
                 .NotEmpty()
                 .MaximumLength(256)

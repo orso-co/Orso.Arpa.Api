@@ -1,6 +1,11 @@
+using System.Collections.Generic;
 using FluentValidation.TestHelper;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
+using Orso.Arpa.Application.Resources.Cultures;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
@@ -13,7 +18,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [SetUp]
         public void Setup()
         {
-            _validator = new ChangePasswordDtoValidator();
+            IStringLocalizer<ApplicationValidators> localizer =
+                new StringLocalizer<ApplicationValidators>(
+                    new ResourceManagerStringLocalizerFactory(
+                        new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
+                        new LoggerFactory()));
+            IEnumerable<LocalizedString> localizedStrings = localizer.GetAllStrings(true);
+            _validator = new ChangePasswordDtoValidator(localizer);
         }
 
         [Test]

@@ -12,4 +12,19 @@
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Cultures\ApplicationValidators.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplicationValidators.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Cultures\ApplicationValidators.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Validators.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
