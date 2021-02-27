@@ -34,7 +34,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         private static async Task SeedPersonsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.Persons.AddRangeAsync(PersonSeedData.Persons);
+            await arpaContext.Persons.AddRangeAsync(PersonTestSeedData.Persons);
         }
 
         private static async Task SeedAppointmentsAsync(IArpaContext arpaContext)

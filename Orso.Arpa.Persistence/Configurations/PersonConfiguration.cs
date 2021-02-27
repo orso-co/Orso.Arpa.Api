@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
@@ -15,6 +16,9 @@ namespace Orso.Arpa.Persistence.Configurations
             builder
                 .Property(e => e.Surname)
                 .HasMaxLength(50);
+
+            builder
+                .HasData(PersonSeedData.Persons);
         }
     }
 }

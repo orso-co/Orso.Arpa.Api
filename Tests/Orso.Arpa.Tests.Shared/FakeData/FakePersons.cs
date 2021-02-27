@@ -9,7 +9,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         {
             get
             {
-                Person person = PersonSeedData.Performer;
+                Person person = PersonTestSeedData.Performer;
                 person.MusicianProfiles.Add(FakeMusicianProfiles.PerformerMusicianProfile);
                 return person;
             }
