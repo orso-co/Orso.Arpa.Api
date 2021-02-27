@@ -48,7 +48,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("register")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> Register([FromBody] UserRegisterDto registerDto)
         {
