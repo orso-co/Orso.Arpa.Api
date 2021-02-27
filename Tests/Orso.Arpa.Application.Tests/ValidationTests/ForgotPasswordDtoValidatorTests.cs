@@ -33,7 +33,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(query => query.UsernameOrEmail, UserSeedData.Performer.UserName);
+            _validator.ShouldNotHaveValidationErrorFor(query => query.UsernameOrEmail, UserTestSeedData.Performer.UserName);
         }
 
         [Test]

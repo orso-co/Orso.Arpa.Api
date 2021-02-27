@@ -3,6 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -27,10 +28,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new UserRegisterDto
             {
                 Password = UserSeedData.ValidPassword,
-                Email = UserSeedData.Performer.Email,
+                Email = UserTestSeedData.Performer.Email,
                 GivenName = "Orsi",
                 Surname = "Aner",
-                UserName = UserSeedData.Performer.UserName,
+                UserName = UserTestSeedData.Performer.UserName,
                 ClientUri = "http://localhost:4200"
             };
 
@@ -48,10 +49,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new UserRegisterDto
             {
                 Password = UserSeedData.ValidPassword,
-                Email = UserSeedData.Performer.Email,
+                Email = UserTestSeedData.Performer.Email,
                 GivenName = "Orsi",
                 Surname = "Aner",
-                UserName = UserSeedData.Performer.UserName,
+                UserName = UserTestSeedData.Performer.UserName,
                 ClientUri = "http://localhost:4200"
             };
 

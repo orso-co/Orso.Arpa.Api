@@ -12,7 +12,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 User user = FakeUsers.Performer;
-                Person person = PersonSeedData.Performer;
+                Person person = PersonTestSeedData.Performer;
                 return new MyProfileDto
                 {
                     Email = user.Email,

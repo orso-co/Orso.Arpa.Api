@@ -62,7 +62,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     UserName = "admin",
                     RoleNames = new[] { "Admin" },
-                    DisplayName = "Ad Min",
+                    DisplayName = "Initial Admin",
                     Email = "admin@test.com",
                     EmailConfirmed = true
                 };

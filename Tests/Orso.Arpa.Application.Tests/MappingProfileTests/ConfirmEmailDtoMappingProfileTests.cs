@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             var dto = new ConfirmEmailDto
             {
-                Email = UserSeedData.Performer.Email,
+                Email = UserTestSeedData.Performer.Email,
                 Token = "token%2B"
             };
             var expectedCommand = new ConfirmEmail.Command

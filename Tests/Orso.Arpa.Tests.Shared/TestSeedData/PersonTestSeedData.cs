@@ -6,7 +6,7 @@ using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
-    public static class PersonSeedData
+    public static class PersonTestSeedData
     {
         public static IList<Person> Persons
         {
@@ -16,7 +16,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     Performer,
                     Staff,
-                    Admin,
                     UserWithoutRole,
                     DeletedUser,
                     LockedOutUser,
@@ -44,16 +43,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new Person(
                     Guid.Parse("c0c8470b-e6a0-4a0b-8a4c-24d503636248"),
                     new UserRegister.Command { GivenName = "Staff", Surname = "Member" });
-            }
-        }
-
-        public static Person Admin
-        {
-            get
-            {
-                return new Person(
-                    Guid.Parse("8d960214-8f1b-4b69-8734-543aad67581c"),
-                    new UserRegister.Command { GivenName = "Ad", Surname = "Min" });
             }
         }
 

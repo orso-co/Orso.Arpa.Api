@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.UsernameOrEmail, UserSeedData.Performer.Email);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.UsernameOrEmail, UserTestSeedData.Performer.Email);
         }
     }
 }

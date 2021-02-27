@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Current_Password_Is_Supplied([Values(null, "")]string currentPassword)
+        public void Should_Have_Validation_Error_If_Empty_Current_Password_Is_Supplied([Values(null, "")] string currentPassword)
         {
             _validator.ShouldHaveValidationErrorFor(command => command.CurrentPassword, currentPassword);
         }
