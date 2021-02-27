@@ -6,6 +6,7 @@ using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Auth.Login;
@@ -37,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(query => query.UsernameOrEmail, UserSeedData.Performer.UserName);
+            _validator.ShouldNotHaveValidationErrorFor(query => query.UsernameOrEmail, UserTestSeedData.Performer.UserName);
         }
     }
 }

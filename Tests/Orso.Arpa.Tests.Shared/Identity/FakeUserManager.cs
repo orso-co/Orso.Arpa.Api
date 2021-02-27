@@ -12,7 +12,6 @@ using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.Identity
 {

@@ -27,7 +27,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new AppointmentParticipation(Guid.Parse("9e230c76-759b-466f-8cff-6e77e53aa754"), new Create.Command
                 {
                     AppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id,
-                    PersonId = PersonSeedData.Performer.Id,
+                    PersonId = PersonTestSeedData.Performer.Id,
                     PredictionId = SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id,
                     ResultId = null
                 });
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new AppointmentParticipation(Guid.Parse("16f63cc0-36c2-4a3f-93d1-2c2c3aa15ab4"), new Create.Command
                 {
                     AppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id,
-                    PersonId = PersonSeedData.Staff.Id,
+                    PersonId = PersonTestSeedData.Staff.Id,
                     PredictionId = SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[1].Id,
                     ResultId = SelectValueMappingSeedData.AppointmentParticipationResultMappings[0].Id
                 });

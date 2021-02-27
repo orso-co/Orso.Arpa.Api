@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.FakeData
@@ -31,7 +32,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Id = Guid.Parse("6F836C0E-E27D-4363-A67A-9DA92037A589"),
                     UserName = "performer",
                     Email = "performer@test.com",
-                    PersonId = PersonSeedData.Performer.Id,
+                    PersonId = PersonTestSeedData.Performer.Id,
                     Person = FakePersons.Performer,
                     NormalizedEmail = "PERFORMER@TEST.COM",
                     NormalizedUserName = "PERFORMER",
@@ -51,8 +52,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Id = Guid.Parse("DD0AA267-120E-4BD6-B6EB-02814C227E15"),
                     UserName = "staff",
                     Email = "staff@test.com",
-                    PersonId = PersonSeedData.Staff.Id,
-                    Person = PersonSeedData.Staff,
+                    PersonId = PersonTestSeedData.Staff.Id,
+                    Person = PersonTestSeedData.Staff,
                     NormalizedEmail = "STAFF@TEST.COM",
                     NormalizedUserName = "STAFF",
                     EmailConfirmed = true
@@ -89,8 +90,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Id = Guid.Parse("9E96F67D-6972-4889-BB64-6BCEED23D095"),
                     UserName = "withoutrole",
                     Email = "withoutrole@test.com",
-                    PersonId = PersonSeedData.UserWithoutRole.Id,
-                    Person = PersonSeedData.UserWithoutRole,
+                    PersonId = PersonTestSeedData.UserWithoutRole.Id,
+                    Person = PersonTestSeedData.UserWithoutRole,
                     NormalizedEmail = "WOTHOUTROLE@TEST.COM",
                     NormalizedUserName = "WITHOUTROLE",
                     EmailConfirmed = true
@@ -107,8 +108,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Id = Guid.Parse("b1571de4-bdf4-4c98-8a63-4f72428e36af"),
                     UserName = "lockedout",
                     Email = "lockedout@test.com",
-                    PersonId = PersonSeedData.LockedOutUser.Id,
-                    Person = PersonSeedData.LockedOutUser,
+                    PersonId = PersonTestSeedData.LockedOutUser.Id,
+                    Person = PersonTestSeedData.LockedOutUser,
                     NormalizedEmail = "LOCKEDOUT@TEST.COM",
                     NormalizedUserName = "LOCKEDOUT",
                     EmailConfirmed = true
@@ -125,8 +126,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Id = Guid.Parse("a53b7c43-3168-4f9b-a643-29a12f114aa6"),
                     UserName = "unconfirmed",
                     Email = "unconfirmed@test.com",
-                    PersonId = PersonSeedData.UnconfirmedUser.Id,
-                    Person = PersonSeedData.UnconfirmedUser,
+                    PersonId = PersonTestSeedData.UnconfirmedUser.Id,
+                    Person = PersonTestSeedData.UnconfirmedUser,
                     NormalizedEmail = "UNCONFIRMED@TEST.COM",
                     NormalizedUserName = "UNCONFIRMED",
                     EmailConfirmed = false

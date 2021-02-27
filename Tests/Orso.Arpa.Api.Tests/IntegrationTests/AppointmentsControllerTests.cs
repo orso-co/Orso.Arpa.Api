@@ -174,7 +174,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(PersonSeedData.Performer);
+                yield return new TestCaseData(PersonTestSeedData.Performer);
                 yield return new TestCaseData(PersonSeedData.Admin);
             }
         }

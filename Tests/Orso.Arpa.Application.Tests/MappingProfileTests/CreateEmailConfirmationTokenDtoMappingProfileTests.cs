@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             var dto = new CreateEmailConfirmationTokenDto
             {
-                UsernameOrEmail = UserSeedData.Performer.Email,
+                UsernameOrEmail = UserTestSeedData.Performer.Email,
                 ClientUri = "Http://localhost:4200"
             };
 

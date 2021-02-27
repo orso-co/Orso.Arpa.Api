@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             var command = new SendActivationInfo.Command
             {
-                Username = UserSeedData.Performer.UserName
+                Username = UserTestSeedData.Performer.UserName
             };
 
             // Act

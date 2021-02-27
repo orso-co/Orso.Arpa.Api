@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Email_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Email, UserSeedData.Performer.Email);
+            _validator.ShouldHaveValidationErrorFor(command => command.Email, UserTestSeedData.Performer.Email);
         }
 
         [Test]

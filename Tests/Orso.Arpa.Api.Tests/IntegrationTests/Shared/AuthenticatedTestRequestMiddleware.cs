@@ -2,8 +2,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
@@ -13,27 +13,29 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         private readonly RequestDelegate _next;
 
         private readonly IJwtGenerator _jwtGenerator;
+        private readonly ArpaUserManager _arpaUserManager;
 
         public AuthenticatedTestRequestMiddleware(
             RequestDelegate next,
-            IJwtGenerator jwtGenerator)
+            IJwtGenerator jwtGenerator,
+            ArpaUserManager arpaUserManager)
         {
             _next = next;
             _jwtGenerator = jwtGenerator;
+            _arpaUserManager = arpaUserManager;
         }
 
         public async Task Invoke(HttpContext context)
         {
             context.Connection.RemoteIpAddress = new IPAddress(16885952);
-            var userJson =
-                context.Request.Headers["user"].FirstOrDefault() ?? string.Empty;
+            var username =
+                context.Request.Headers["username"].FirstOrDefault() ?? string.Empty;
 
-            User user = JsonConvert.DeserializeObject<User>(userJson);
-
-            var token = await _jwtGenerator.CreateTokensAsync(user, context.Connection.RemoteIpAddress.ToString());
+            User loadedUser = await _arpaUserManager.FindByNameAsync(username);
+            var token = await _jwtGenerator.CreateTokensAsync(loadedUser, context.Connection.RemoteIpAddress.ToString());
 
             context.Request.Headers.Add("Authorization", "Bearer " + token);
-            context.Request.Headers.Remove("user");
+            context.Request.Headers.Remove("username");
 
             await _next(context);
         }

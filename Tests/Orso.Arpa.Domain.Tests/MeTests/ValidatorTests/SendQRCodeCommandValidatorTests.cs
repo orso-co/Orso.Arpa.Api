@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Username_Does_Exist()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Username, UserSeedData.Performer.UserName);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Username, UserTestSeedData.Performer.UserName);
         }
 
         [Test]

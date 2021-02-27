@@ -5,8 +5,8 @@ using MediatR;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Identity;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 {

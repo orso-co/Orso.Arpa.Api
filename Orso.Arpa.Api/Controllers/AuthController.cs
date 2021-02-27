@@ -31,9 +31,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("login")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
         {
             return await _authService.LoginAsync(loginDto, RemoteIpAddress);
@@ -48,10 +47,9 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="424">If email could not be sent</response>
         [HttpPost("register")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status424FailedDependency)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> Register([FromBody] UserRegisterDto registerDto)
         {
             await _authService.RegisterAsync(registerDto);
@@ -68,9 +66,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("forgotpassword")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status424FailedDependency)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPassswordDto)
         {
             await _authService.ForgotPasswordAsync(forgotPassswordDto);
@@ -86,8 +83,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("resetpassword")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
             await _authService.ResetPasswordAsync(resetPasswordDto);
