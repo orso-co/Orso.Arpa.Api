@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
-    public static class UserSeedData
+    public static class UserTestSeedData
     {
         public static IList<User> Users
         {
@@ -14,7 +13,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new List<User> {
                     Performer,
                     Staff,
-                    Admin,
                     UserWithoutRole,
                     LockedOutUser,
                     UnconfirmedUser
@@ -47,21 +45,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     UserName = "staff",
                     Email = "staff@test.com",
                     PersonId = PersonTestSeedData.Staff.Id,
-                    EmailConfirmed = true
-                };
-            }
-        }
-
-        public static User Admin
-        {
-            get
-            {
-                return new User
-                {
-                    Id = Guid.Parse("29CFA973-20D6-4603-91BA-6F4C1F79A6FA"),
-                    UserName = "admin",
-                    Email = "admin@test.com",
-                    PersonId = PersonSeedData.Admin.Id,
                     EmailConfirmed = true
                 };
             }
@@ -108,14 +91,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Email = "unconfirmed@test.com",
                     PersonId = PersonTestSeedData.UnconfirmedUser.Id,
                 };
-            }
-        }
-
-        public static string ValidPassword
-        {
-            get
-            {
-                return "Pa$$w0rd";
             }
         }
     }

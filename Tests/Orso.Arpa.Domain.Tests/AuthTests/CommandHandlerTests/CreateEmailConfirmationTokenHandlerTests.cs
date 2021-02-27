@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             var command = new CreateEmailConfirmationToken.Command
             {
-                UsernameOrEmail = UserSeedData.UnconfirmedUser.Email,
+                UsernameOrEmail = UserTestSeedData.UnconfirmedUser.Email,
                 ClientUri = "http://localhost:4200"
             };
 
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             var command = new CreateEmailConfirmationToken.Command
             {
-                UsernameOrEmail = UserSeedData.Performer.Email,
+                UsernameOrEmail = UserTestSeedData.Performer.Email,
                 ClientUri = "http://localhost:4200"
             };
 

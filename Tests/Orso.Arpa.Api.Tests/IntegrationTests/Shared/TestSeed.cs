@@ -1,10 +1,10 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
@@ -74,27 +74,30 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         private static async Task SeedUsersAsync(ArpaUserManager userManager, SignInManager<User> signInManager)
         {
-            if (!userManager.Users.Any())
+            foreach (User user in UserTestSeedData.Users)
             {
-                foreach (User user in UserSeedData.Users)
+                if ((await userManager.FindByNameAsync(user.UserName)) is null)
                 {
                     await userManager.CreateAsync(user, UserSeedData.ValidPassword);
                 }
+            }
 
-                User performer = await userManager.FindByEmailAsync(UserSeedData.Performer.Email);
+            User performer = await userManager.FindByEmailAsync(UserTestSeedData.Performer.Email);
+            if (!(await userManager.IsInRoleAsync(performer, RoleNames.Performer)))
+            {
                 await userManager.AddToRoleAsync(performer, RoleNames.Performer);
+            }
 
-                User staff = await userManager.FindByEmailAsync(UserSeedData.Staff.Email);
+            User staff = await userManager.FindByEmailAsync(UserTestSeedData.Staff.Email);
+            if (!(await userManager.IsInRoleAsync(staff, RoleNames.Staff)))
+            {
                 await userManager.AddToRoleAsync(staff, RoleNames.Staff);
+            }
 
-                User admin = await userManager.FindByEmailAsync(UserSeedData.Admin.Email);
-                await userManager.AddToRoleAsync(admin, RoleNames.Admin);
-
-                User lockedOutUser = await userManager.FindByNameAsync(UserSeedData.LockedOutUser.UserName);
-                for (int i = 0; i < 3; i++)
-                {
-                    await signInManager.CheckPasswordSignInAsync(lockedOutUser, "wrongPassword", true);
-                }
+            User lockedOutUser = await userManager.FindByNameAsync(UserTestSeedData.LockedOutUser.UserName);
+            for (int i = 0; i < 3; i++)
+            {
+                await signInManager.CheckPasswordSignInAsync(lockedOutUser, "wrongPassword", true);
             }
         }
     }

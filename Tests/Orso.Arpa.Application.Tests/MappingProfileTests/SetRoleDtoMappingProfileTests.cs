@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             var dto = new SetRoleDto
             {
-                Username = UserSeedData.Performer.UserName,
+                Username = UserTestSeedData.Performer.UserName,
                 RoleNames = new[] { RoleNames.Performer, RoleNames.Staff }
             };
 
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             var dto = new SetRoleDto
             {
-                Username = UserSeedData.Performer.UserName,
+                Username = UserTestSeedData.Performer.UserName,
                 RoleNames = new[] { RoleNames.Staff }
             };
 
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             var dto = new SetRoleDto
             {
-                Username = UserSeedData.Performer.UserName,
+                Username = UserTestSeedData.Performer.UserName,
                 RoleNames = new[] { RoleNames.Staff }
             };
 

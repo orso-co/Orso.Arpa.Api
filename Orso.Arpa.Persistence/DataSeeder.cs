@@ -1,7 +1,8 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Persistence
@@ -9,25 +10,45 @@ namespace Orso.Arpa.Persistence
     public class DataSeeder : IDataSeeder
     {
         private readonly RoleManager<Role> _roleManager;
+        private readonly ArpaUserManager _arpaUserManager;
 
-        public DataSeeder(RoleManager<Role> roleManager)
+        public DataSeeder(RoleManager<Role> roleManager, ArpaUserManager arpaUserManager)
         {
             _roleManager = roleManager;
+            _arpaUserManager = arpaUserManager;
         }
 
         public async Task SeedDataAsync()
         {
-            await SeedRolesAsyync();
+            await SeedRolesAsync();
+            await SeedUsersAsync();
         }
 
-        private async Task SeedRolesAsyync()
+        private async Task SeedRolesAsync()
         {
-            if (!_roleManager.Roles.Any())
+            foreach (Role role in RoleSeedData.Roles)
             {
-                foreach (Role role in RoleSeedData.Roles)
+                if (!(await _roleManager.RoleExistsAsync(role.Name)))
                 {
                     await _roleManager.CreateAsync(role);
                 }
+            }
+        }
+
+        private async Task SeedUsersAsync()
+        {
+            foreach (User user in UserSeedData.Users)
+            {
+                if ((await _arpaUserManager.FindByNameAsync(user.UserName)) is null)
+                {
+                    await _arpaUserManager.CreateAsync(user, UserSeedData.ValidPassword);
+                }
+            }
+
+            User admin = await _arpaUserManager.FindByEmailAsync(UserSeedData.Admin.Email);
+            if (!(await _arpaUserManager.IsInRoleAsync(admin, RoleNames.Admin)))
+            {
+                await _arpaUserManager.AddToRoleAsync(admin, RoleNames.Admin);
             }
         }
     }

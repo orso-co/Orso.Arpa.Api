@@ -23,8 +23,8 @@ namespace Orso.Arpa.Persistence.Seed
             get
             {
                 return new Person(
-                    Guid.Parse("8d960214-8f1b-4b69-8734-543aad67581c"),
-                    new UserRegister.Command { GivenName = "Ad", Surname = "Min" });
+                    Guid.Parse("56ed7c20-ba78-4a02-936e-5e840ef0748c"),
+                    new UserRegister.Command { GivenName = "Initial", Surname = "Admin" });
             }
         }
     }
