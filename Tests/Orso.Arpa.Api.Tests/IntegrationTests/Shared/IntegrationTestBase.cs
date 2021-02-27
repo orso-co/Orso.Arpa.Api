@@ -4,13 +4,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using netDumbster.smtp;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -64,13 +65,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected static async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)
         {
             var responseString = await responseMessage.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(responseString);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            options.Converters.Add(new JsonStringEnumConverter());
+
+            return JsonSerializer.Deserialize<T>(responseString, options);
         }
 
         protected static StringContent BuildStringContent(object unserializedObject)
         {
             return new StringContent(
-                JsonConvert.SerializeObject(unserializedObject),
+                JsonSerializer.Serialize(unserializedObject),
                 Encoding.UTF8,
                 MediaTypeNames.Application.Json);
         }

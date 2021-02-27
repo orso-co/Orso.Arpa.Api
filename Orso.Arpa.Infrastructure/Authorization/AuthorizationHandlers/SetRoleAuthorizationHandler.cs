@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
@@ -43,7 +44,12 @@ namespace Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers
             using (var stream = new StreamReader(body, Encoding.UTF8, true, 1024, true))
             {
                 string bodyString = await stream.ReadToEndAsync();
-                dto = JsonConvert.DeserializeObject<SetRoleDto>(bodyString);
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                options.Converters.Add(new JsonStringEnumConverter());
+                dto = JsonSerializer.Deserialize<SetRoleDto>(bodyString, options);
             }
 
             body.Position = 0;
