@@ -15,8 +15,8 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [SetUp]
         public void Setup()
         {
-            IStringLocalizer<ApplicationResource>  localizer =
-                new StringLocalizer<ApplicationResource> (
+            IStringLocalizer<ApplicationResource> localizer =
+                new StringLocalizer<ApplicationResource>(
                     new ResourceManagerStringLocalizerFactory(
                         new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
                         new LoggerFactory()));
