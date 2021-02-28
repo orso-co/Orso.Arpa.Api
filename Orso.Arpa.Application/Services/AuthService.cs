@@ -41,6 +41,8 @@ namespace Orso.Arpa.Application.Services
         {
             ChangePassword.Command command = _mapper.Map<ChangePassword.Command>(changePasswordDto);
             await _mediator.Send(command);
+            var emailCommand = new SendPasswordChangedInfo.Command();
+            await _mediator.Send(emailCommand);
         }
 
         public async Task SetRoleAsync(SetRoleDto setRoleDto)
@@ -71,6 +73,8 @@ namespace Orso.Arpa.Application.Services
         {
             ResetPassword.Command command = _mapper.Map<ResetPassword.Command>(resetPasswordDto);
             await _mediator.Send(command);
+            SendPasswordChangedInfo.Command emailCommand = _mapper.Map<SendPasswordChangedInfo.Command>(resetPasswordDto);
+            await _mediator.Send(emailCommand);
         }
 
         public async Task ConfirmEmailAsync(ConfirmEmailDto confirmEmailDto)
@@ -89,8 +93,7 @@ namespace Orso.Arpa.Application.Services
         {
             var command = new RefreshAccessToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
             var token = await _mediator.Send(command);
-            var revokeCommand = new RevokeRefreshToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
-            await _mediator.Send(revokeCommand);
+            await RevokeRefreshTokenAsync(refreshToken, remoteIpAddress);
             return _mapper.Map<TokenDto>(token);
         }
 

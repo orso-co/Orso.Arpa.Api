@@ -2,7 +2,7 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
-using static Orso.Arpa.Domain.Logic.Auth.ResetPassword;
+using Orso.Arpa.Domain.Logic.Auth;
 
 namespace Orso.Arpa.Application.AuthApplication
 {
@@ -37,8 +37,9 @@ namespace Orso.Arpa.Application.AuthApplication
     {
         public ResetPasswordDtoMappingProfile()
         {
-            CreateMap<ResetPasswordDto, Command>()
+            CreateMap<ResetPasswordDto, ResetPassword.Command>()
                 .ForMember(cmd => cmd.Token, opt => opt.MapFrom(dto => Uri.UnescapeDataString(dto.Token)));
+            CreateMap<ResetPasswordDto, SendPasswordChangedInfo.Command>();
         }
     }
 }
