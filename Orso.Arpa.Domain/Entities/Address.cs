@@ -1,5 +1,5 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.Logic.Venues;
 
 namespace Orso.Arpa.Domain.Entities
