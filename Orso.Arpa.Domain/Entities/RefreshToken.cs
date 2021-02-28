@@ -1,5 +1,5 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.Logic.Auth;
 
 namespace Orso.Arpa.Domain.Entities
@@ -25,26 +25,37 @@ namespace Orso.Arpa.Domain.Entities
             RevokedOn = DateTime.UtcNow;
         }
 
+        [JsonInclude]
         public Guid Id { get; private set; } = Guid.NewGuid();
 
+        [JsonInclude]
         public string Token { get; private set; }
 
+        [JsonInclude]
         public Guid UserId { get; private set; }
 
+        [JsonInclude]
         public virtual User User { get; private set; }
 
+        [JsonInclude]
         public DateTime ExpiryOn { get; private set; }
 
+        [JsonInclude]
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
+        [JsonInclude]
         public string CreatedByIp { get; private set; }
 
+        [JsonInclude]
         public DateTime RevokedOn { get; private set; }
 
+        [JsonInclude]
         public string RevokedByIp { get; private set; }
 
+        [JsonInclude]
         public bool IsExpired => DateTime.UtcNow >= ExpiryOn;
 
+        [JsonInclude]
         public bool IsActive => RevokedByIp == null && RevokedOn == DateTime.MinValue && !IsExpired;
     }
 }

@@ -3,11 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Security.Authentication;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Mail;
 
@@ -122,7 +122,7 @@ namespace Orso.Arpa.Api.Middleware
             if (errorMessage != null)
             {
                 context.Response.ContentType = MediaTypeNames.Application.Json;
-                var serializedErrorMessage = JsonConvert.SerializeObject(errorMessage);
+                var serializedErrorMessage = JsonSerializer.Serialize(errorMessage);
                 await context.Response.WriteAsync(serializedErrorMessage);
             }
         }

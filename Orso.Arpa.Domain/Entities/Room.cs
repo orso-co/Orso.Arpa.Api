@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.Logic.Rooms;
 
 namespace Orso.Arpa.Domain.Entities
