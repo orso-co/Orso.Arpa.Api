@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+    mssql:
+        image: mcr.microsoft.com/mssql/server
+        volumes:
+            - mssql-volume:/var/opt/mssql
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=Local@Dev!
+            - MSSQL_PID=Express
+        ports:
+            - 1433:1433
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: base
+        # Enable volume mapping to watch for changes and rebuild inside of the container.
+        #volumes:
+           #- ./:/home/app
+        ports:
+            - 5000:5000
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=orso-arpa;MultipleActiveResultSets=true;User Id=SA;Password=Local@Dev!
+            - EmailConfiguration__SmtpServer=mail
+            - EmailConfiguration__Port=1025
+            - EmailConfiguration__From=test@localhost
+        depends_on:
+            - mssql
+            - mail
+    mail:
+        image: mailhog/mailhog
+        environment:
+            - MH_STORAGE=maildir
+            - MH_MAILDIR_PATH=/maildir
+        volumes:
+            - ./.docker/mailhog:/maildir
+        ports:
+            - 1025:1025
+            - 8025:8025
+# Docker for Mac requires a mounted volume because filesystem mounts are not supported.
+# https://github.com/microsoft/mssql-docker/issues/12
+# https://adilsoncarvalho.com/using-mssql-on-linux-using-docker-for-mac-a5d4ac81e57f
+volumes:
+    mssql-volume:
