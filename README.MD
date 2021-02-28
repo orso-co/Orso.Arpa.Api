@@ -9,12 +9,12 @@
 
 [Azure Resources](https://portal.azure.com/#@azureorso.onmicrosoft.com/resource/subscriptions/c0b08a7a-5482-41e5-a89a-8805790176c5/resourceGroups/Orso.Arpa/overview)
 
-# Running the app
+## Running the app
 
-## Start projects
+### Start projects
 For a developer setup, use Orso.Arpa.Api and Orso.Arpa.FakeSmtp as start projects.
 
-## Login
+### Login
 The initial database contains a single user with an admin role. You can login using the following credentials:
 * UsernameOrEmail: admin
 * Password: Pa$$w0rd
