@@ -11,6 +11,9 @@
 
 # Running the app
 
+## Start projects
+For a developer setup, use Orso.Arpa.Api and Orso.Arpa.FakeSmtp as start projects.
+
 ## Login
 The initial database contains a single user with an admin role. You can login using the following credentials:
 * UsernameOrEmail: admin

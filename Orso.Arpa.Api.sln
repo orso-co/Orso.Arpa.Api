@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail.Tests", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Misc", "Orso.Arpa.Misc\Orso.Arpa.Misc.csproj", "{CBD4D73A-437D-47B4-A1B8-71B230C460AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.FakeSmtp", "Orso.Arpa.FakeSmtp\Orso.Arpa.FakeSmtp.csproj", "{3C92A84B-D486-41EB-8939-A8F46B7A326B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.FakeSmtp", "Orso.Arpa.FakeSmtp\Orso.Arpa.FakeSmtp.csproj", "{3C92A84B-D486-41EB-8939-A8F46B7A326B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
