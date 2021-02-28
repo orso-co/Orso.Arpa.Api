@@ -70,11 +70,47 @@ namespace Orso.Arpa.Application.Resources.Cultures {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password must contain at least one digit.
+        /// </summary>
+        internal static string Password_must_contain_at_least_one_digit {
+            get {
+                return ResourceManager.GetString("Password must contain at least one digit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must contain at least one lowercase letter.
+        /// </summary>
+        internal static string Password_must_contain_at_least_one_lowercase_letter {
+            get {
+                return ResourceManager.GetString("Password must contain at least one lowercase letter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must contain at least one special character.
+        /// </summary>
+        internal static string Password_must_contain_at_least_one_special_character {
+            get {
+                return ResourceManager.GetString("Password must contain at least one special character", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password must contain at least one uppercase letter.
         /// </summary>
         internal static string Password_must_contain_at_least_one_uppercase_letter {
             get {
                 return ResourceManager.GetString("Password must contain at least one uppercase letter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username may only contain alphanumeric characters.
+        /// </summary>
+        internal static string Username_may_only_contain_alphanumeric_characters {
+            get {
+                return ResourceManager.GetString("Username may only contain alphanumeric characters", resourceCulture);
             }
         }
     }
