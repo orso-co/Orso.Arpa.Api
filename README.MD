@@ -20,7 +20,7 @@ Localdb is used in the development environment as the local database. Localdb do
 * Pull the latest MSSQL docker image: docker pull mcr.microsoft.com/mssql/server:2019-latest
 * Start an MSSQL container: docker run -d --name sql_server -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Pa$$w0rd' -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
 * Change the default connection string in appsettings.test.json and appsettings.development.json to "DefaultConnection": "Server=localhost,1433\\Catalog=orso-arpa;User=SA;Password=Pa$$w0rd;MultipleActiveResultSets=true"
-* Replace \\ in path names with /, for example in TemplateParser.cs:
+* Replace \\\ in path names with /, for example in TemplateParser.cs:
 var templatePath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Templates/Html/{templateData.Name}.html";
 * There may be other places in the source code where path names need to be adjusted; please add them here if you find any
 
