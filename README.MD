@@ -24,16 +24,16 @@ The initial database contains a single user with an admin role. You can login us
 ### Application stack top to bottom:
 
 * [Orso.Arpa.Api](Orso.Arpa.Api/README.MD)
-* [Orso.Arpa.Application]("./Orso.Arpa.Application/README.MD")
-* [Orso.Arpa.Domain]("./Orso.Arpa.Domain/README.MD")
-* [Orso.Arpa.Persistence]("./Orso.Arpa.Persistence/README.MD")
+* [Orso.Arpa.Application](Orso.Arpa.Application/README.MD)
+* [Orso.Arpa.Domain](Orso.Arpa.Domain/README.MD)
+* [Orso.Arpa.Persistence](Orso.Arpa.Persistence/README.MD)
 
 ### Helper projects
 
-* [Orso.Arpa.Mail]("./Orso.Arpa.Mail/README.MD")
-* [Orso.Arpa.Infrastructure]("./Orso.Arpa.Infrastructure/README.MD")
-* [Orso.Arpa.Misc]("./Orso.Arpa.Misc/README.MD")
-* [Orso.Arpa.FakeSmtp]("./Orso.Arpa.FakeSmtp/README.MD")
+* [Orso.Arpa.Mail](Orso.Arpa.Mail/README.MD)
+* [Orso.Arpa.Infrastructure](Orso.Arpa.Infrastructure/README.MD)
+* [Orso.Arpa.Misc](Orso.Arpa.Misc/README.MD)
+* [Orso.Arpa.FakeSmtp](Orso.Arpa.FakeSmtp/README.MD)
 
 ### Test projects
 
