@@ -15,7 +15,7 @@ The initial database contains a single user with an admin role. You can login us
 * Password: Pa$$w0rd
 
 ## Development Database for MacOS
-Localdb is used in the development environment as the the local database. Localdb doesn't support MacOS, so to start the app a docker container running MSSQL is required and a few changes in the source code are necessary:
+Localdb is used in the development environment as the local database. Localdb doesn't support MacOS, so to start the app a docker container running MSSQL is required and a few changes in the source code are necessary:
 * Install Docker: https://docs.docker.com/docker-for-mac/install/
 * Pull the latest MSSQL docker image: docker pull mcr.microsoft.com/mssql/server:2019-latest
 * Start an MSSQL container: docker run -d --name sql_server -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Pa$$w0rd' -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
