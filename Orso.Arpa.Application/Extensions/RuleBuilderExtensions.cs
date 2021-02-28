@@ -10,11 +10,11 @@ namespace Orso.Arpa.Application.Extensions
         {
             return ruleBuilder
                     .NotEmpty()
-                    .MinimumLength(6).WithMessage("Password must be at least 6 characters")
-                    .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter")
-                    .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter")
-                    .Matches("[0-9]").WithMessage("Password must contain at least one digit")
-                    .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character");
+                    .MinimumLength(6).WithMessage(localizer["Password must be at least 6 characters"])
+                    .Matches("[A-Z]").WithMessage(localizer["Password must contain at least one uppercase letter"])
+                    .Matches("[a-z]").WithMessage(localizer["Password must contain at least one lowercase letter"])
+                    .Matches("[0-9]").WithMessage(localizer["Password must contain at least one digit"])
+                    .Matches("[^a-zA-Z0-9]").WithMessage(localizer["Password must contain at least one special character"]);
         }
 
         public static IRuleBuilder<T, string> ValidUri<T>(this IRuleBuilder<T, string> ruleBuilder)

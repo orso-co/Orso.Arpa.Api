@@ -17,7 +17,6 @@ namespace Orso.Arpa.Application.AuthApplication
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string ClientUri { get; set; }
-        public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
     }
 
     public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
@@ -26,7 +25,7 @@ namespace Orso.Arpa.Application.AuthApplication
         {
             RuleFor(c => c.UserName)
                 .NotEmpty()
-                .Username();
+                .Username(localizer);
             RuleFor(c => c.Password)
                 .Password(localizer);
             RuleFor(c => c.Email)
