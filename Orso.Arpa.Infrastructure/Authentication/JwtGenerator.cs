@@ -85,7 +85,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
                 HttpOnly = true,
                 Expires = refreshToken.ExpiryOn,
                 IsEssential = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Secure = true
             };
 
