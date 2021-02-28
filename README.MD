@@ -58,6 +58,17 @@ Rebuilding the API on source updates.
 >    - EmailConfiguration__From=test@localhost
 
 
+#### Using Docker
+Use [docker-compose.yml](./docker-compose.yml) to spin up the api, mssql and mailhog (receives all emails).
+1. API: http://localhost:5000
+2. MSSQL: localhost:1433 (USerId: SA, Password: Local@Dev!)
+3. MailHog:  localhost:8025
+
+```shell
+docker-compose up
+```
+
+
 ### Login
 The initial database contains a single user with an admin role. You can login using the following credentials:
 * UsernameOrEmail: admin
