@@ -345,5 +345,7 @@ healthchecksdb
 #SqLite Database
 *.db
 
+.docker/
+
 #MAC system files
 .DS_Store
