@@ -48,7 +48,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         public void SetupMailServer()
         {
             _fakeSmtpServer = Configuration.Configure()
-                 .WithPort(25)
+                 .WithPort(2600)
                  .Build();
         }
 
