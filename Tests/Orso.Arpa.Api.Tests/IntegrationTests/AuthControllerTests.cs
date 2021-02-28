@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
+using netDumbster.smtp;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication;
@@ -236,6 +237,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            SmtpMessage sentEmail = _fakeSmtpServer.ReceivedEmail[0];
+            sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(_performer.Email);
         }
 
         [Test]
@@ -365,6 +369,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Password = UserSeedData.ValidPassword,
                 Token = resetPasswordToken
             };
+            _fakeSmtpServer.ClearReceivedEmail();
 
             // Act
             HttpResponseMessage resetResponseMessage = await client
@@ -372,6 +377,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            SmtpMessage sentEmail = _fakeSmtpServer.ReceivedEmail[0];
+            sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(_performer.Email);
         }
 
         [Test]

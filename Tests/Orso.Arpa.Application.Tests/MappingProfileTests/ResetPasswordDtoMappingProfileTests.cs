@@ -22,7 +22,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         private IMapper _mapper;
 
         [Test]
-        public void Should_Map()
+        public void Should_Map_ResetPasswordCommand()
         {
             // Arrange
             var dto = new ResetPasswordDto
@@ -40,6 +40,28 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
             // Act
             ResetPassword.Command command = _mapper.Map<ResetPassword.Command>(dto);
+
+            // Assert
+            command.Should().BeEquivalentTo(expectedCommand);
+        }
+
+        [Test]
+        public void Should_Map_SendChangedPasswordInfoCommand()
+        {
+            // Arrange
+            var dto = new ResetPasswordDto
+            {
+                Password = UserSeedData.ValidPassword,
+                UsernameOrEmail = UserTestSeedData.Performer.UserName,
+                Token = "token%2B"
+            };
+            var expectedCommand = new SendPasswordChangedInfo.Command
+            {
+                UsernameOrEmail = dto.UsernameOrEmail,
+            };
+
+            // Act
+            SendPasswordChangedInfo.Command command = _mapper.Map<SendPasswordChangedInfo.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(expectedCommand);
