@@ -17,4 +17,16 @@
     <data name="Password must contain at least one uppercase letter" xml:space="preserve">
         <value>Das Passwort muss mindestens einen Großbuchstaben enthalten</value>
     </data>
+    <data name="Password must contain at least one lowercase letter" xml:space="preserve">
+        <value>Das Passwort muss mindestens einen Kleinbuchstaben enthalten</value>
+    </data>
+    <data name="Password must contain at least one digit" xml:space="preserve">
+        <value>Das Passwort muss mindestens eine Ziffer enthalten</value>
+    </data>
+    <data name="Password must contain at least one special character" xml:space="preserve">
+        <value>Das Passwort muss mindestens ein Sonderzeichen enthalten</value>
+    </data>
+    <data name="Username may only contain alphanumeric characters" xml:space="preserve">
+        <value>Der Benutzername darf nur alphanumerische Zeichen enthalten</value>
+    </data>
 </root>

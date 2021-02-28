@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.AuthApplication
                 RuleFor(dto => dto.UsernameOrEmail).EmailAddress().MaximumLength(256);
             }).Otherwise(() =>
             {
-                RuleFor(dto => dto.UsernameOrEmail).Username();
+                RuleFor(dto => dto.UsernameOrEmail).Username(localizer);
             });
         }
     }

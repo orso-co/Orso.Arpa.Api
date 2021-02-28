@@ -11,11 +11,11 @@ namespace Orso.Arpa.Application.Extensions
         {
             return ruleBuilder
                     .NotEmpty()
-                    .MinimumLength(6).WithMessage("Password must be at least 6 characters")
-                    .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter")
-                    .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter")
-                    .Matches("[0-9]").WithMessage("Password must contain at least one digit")
-                    .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character");
+                    .MinimumLength(6).WithMessage(localizer["Password must be at least 6 characters"])
+                    .Matches("[A-Z]").WithMessage(localizer["Password must contain at least one uppercase letter"])
+                    .Matches("[a-z]").WithMessage(localizer["Password must contain at least one lowercase letter"])
+                    .Matches("[0-9]").WithMessage(localizer["Password must contain at least one digit"])
+                    .Matches("[^a-zA-Z0-9]").WithMessage(localizer["Password must contain at least one special character"]);
         }
 
         public static IRuleBuilder<T, string> ValidUri<T>(this IRuleBuilder<T, string> ruleBuilder)
@@ -25,13 +25,13 @@ namespace Orso.Arpa.Application.Extensions
                 .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _));
         }
 
-        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder)
+        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder, IStringLocalizer<ApplicationValidators> localizer)
         {
             return ruleBuilder
                 .MaximumLength(256)
                 .MinimumLength(4)
                 .Matches(@"^[a-zA-Z0-9]*$")
-                .WithMessage("Username may only contain alphanumeric characters");
+                .WithMessage(localizer["Username may only contain alphanumeric characters"]);
         }
     }
 }
