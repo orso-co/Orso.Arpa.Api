@@ -9,21 +9,30 @@
 
 [Azure Resources](https://portal.azure.com/#@azureorso.onmicrosoft.com/resource/subscriptions/c0b08a7a-5482-41e5-a89a-8805790176c5/resourceGroups/Orso.Arpa/overview)
 
-## Running the app
+## Running the app using Docker
+>  Make sure to have the latest docker version installed for your OS: [Docker](https://www.docker.com/get-started)
 
-### Start projects
-For a developer setup, use Orso.Arpa.Api and Orso.Arpa.FakeSmtp as start projects.
+Use [docker-compose.yml](./docker-compose.yml) to spin up the api, mssql and mailhog.
+- **API:** http://localhost:5000
+- **MSSQL:** localhost:1433 (USerId: SA, Password: Local@Dev!)
+- **MailHog:**  http://localhost:8025 (receives all emails)
 
-#### Using Docker
-Use [docker-compose.yml](./docker-compose.yml) to spin up the api, mssql and mailhog (receives all emails).
-1. API: http://localhost:5000
-2. MSSQL: localhost:1433 (USerId: SA, Password: Local@Dev!)
-3. MailHog:  localhost:8025
-
+#### Start
 ```shell
-docker-compose up
+<project-root>$ docker-compose up -d
 ```
-
+#### Stop
+```shell
+<project-root>$ docker-compose stop
+```
+#### Stop & Remove persistent volumes
+```shell
+<project-root>$ docker-compose down -v
+```
+#### Monitor Logs
+```shell
+<project-root>$ docker-compose logs -f api
+```
 
 ### Login
 The initial database contains a single user with an admin role. You can login using the following credentials:
