@@ -42,6 +42,8 @@ Rebuilding the API on source updates.
 > c:\windows\system32\drivers\etc\hosts or /etc/hosts
 > -> 127.0.0.1 mail mssql
 >
+> *It's also possible to use "localhost". Adjust the environment settings for ConnectionStrings and SmtpServer.*
+>
 > Stop the docker api service - *docker-compose stop api*
 > - Use your IDE or the dotnet cli to run it on your local machine
 > - You might need to set some environment variables or edit *appsettings.Development.json*:
