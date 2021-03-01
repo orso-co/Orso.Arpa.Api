@@ -33,6 +33,26 @@ Use [docker-compose.yml](./docker-compose.yml) to spin up the api, mssql and mai
 ```shell
 <project-root>$ docker-compose logs -f api
 ```
+#### Rebuild API
+Rebuilding the API on source updates.
+> Dotnet watch and volume src mounts are currently disabled due to performance impacts on the host system.
+>
+> **Development Notes:**
+> Create an entry for *mssql* and *mail* in your local hosts file.
+> c:\windows\system32\drivers\etc\hosts or /etc/hosts
+> -> 127.0.0.1 mail mssql
+>
+> Stop the docker api service - *docker-compose stop api*
+> - Use your IDE or the dotnet cli to run it on your local machine
+> - You might need to set some environment variables or edit *appsettings.Development.json*:
+>    - ASPNETCORE_ENVIRONMENT=Development
+>    - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=orso-arpa;MultipleActiveResultSets=true;User Id=SA;Password=Local@Dev!
+>    - EmailConfiguration__SmtpServer=mail
+>    - EmailConfiguration__Port=1025
+>    - EmailConfiguration__From=test@localhost
+```shell
+<project-root>$ docker-compose build --no-cache api
+```
 
 ### Login
 The initial database contains a single user with an admin role. You can login using the following credentials:
