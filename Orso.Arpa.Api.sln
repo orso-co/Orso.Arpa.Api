@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail.Tests", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Misc", "Orso.Arpa.Misc\Orso.Arpa.Misc.csproj", "{CBD4D73A-437D-47B4-A1B8-71B230C460AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.FakeSmtp", "Orso.Arpa.FakeSmtp\Orso.Arpa.FakeSmtp.csproj", "{3C92A84B-D486-41EB-8939-A8F46B7A326B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,10 +105,6 @@ Global
 		{CBD4D73A-437D-47B4-A1B8-71B230C460AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBD4D73A-437D-47B4-A1B8-71B230C460AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBD4D73A-437D-47B4-A1B8-71B230C460AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C92A84B-D486-41EB-8939-A8F46B7A326B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C92A84B-D486-41EB-8939-A8F46B7A326B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C92A84B-D486-41EB-8939-A8F46B7A326B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C92A84B-D486-41EB-8939-A8F46B7A326B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
