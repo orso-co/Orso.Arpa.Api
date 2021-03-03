@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 
-namespace Orso.Arpa.Domain.PipelineBehaviors
+namespace Orso.Arpa.Infrastructure.PipelineBehaviors
 {
     public class DomainValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>

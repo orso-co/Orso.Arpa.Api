@@ -10,7 +10,7 @@ namespace Orso.Arpa.Mail
         public string Parse(ITemplate templateData)
         {
             var builder = new StringBuilder();
-            var templatePath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\Templates\\Html\\{templateData.Name}.html";
+            var templatePath = $"{Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Templates", "Html", $"{templateData.Name}.html")}";
 
             if (!File.Exists(templatePath))
             {
