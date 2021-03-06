@@ -29,15 +29,16 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CategoryId = Guid.Parse("c1b6d08b-f31e-4f38-a8c0-761e42fbd2b7"),
                     EmolumentId = Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b"),
                     EmolumentPatternId = Guid.Parse("8b51c75f-d597-48ef-8451-5f5fc32d57d1"),
-                    EndTime = "2019-12-21T18:30:00Z",
-                    StartTime = "2019-12-21T10:00:00Z",
+                    EndTime = new DateTime(2019, 12, 21, 18, 30, 0),
+                    StartTime = new DateTime(2019, 12, 21, 10, 0, 0),
                     InternalDetails = "I need more coffee",
                     PublicDetails = "Let's rock",
                     Name = "Rocking X-mas Dress Rehearsal",
                     StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"),
-                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1")
+                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
+                    CreatedAt = new DateTime(2021, 1, 1)
                 };
                 dto.Participations.Add(PerformerParticipation);
                 dto.Participations.Add(StaffParticipation);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -36,9 +37,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Person = FakePersons.Performer,
                     NormalizedEmail = "PERFORMER@TEST.COM",
                     NormalizedUserName = "PERFORMER",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
                 };
-                user.RefreshTokens.Add(new RefreshToken("performer_valid_refresh_token", DateTime.Now.AddDays(5), "127.0.0.1", user.Id));
+                user.RefreshTokens.Add(new RefreshToken("performer_valid_refresh_token", DateTimeProvider.Instance.GetUtcNow().AddDays(5), "127.0.0.1", user.Id));
                 return user;
             }
         }
@@ -58,7 +59,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     NormalizedUserName = "STAFF",
                     EmailConfirmed = true
                 };
-                user.RefreshTokens.Add(new RefreshToken("staff_expired_refresh_token", DateTime.Now.AddDays(-5), "127.0.0.1", user.Id));
+                user.RefreshTokens.Add(new RefreshToken("staff_expired_refresh_token", DateTimeProvider.Instance.GetUtcNow().AddDays(-5), "127.0.0.1", user.Id));
                 return user;
             }
         }

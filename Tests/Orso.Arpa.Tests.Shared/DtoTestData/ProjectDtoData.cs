@@ -31,6 +31,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Number = 1005,
                     Title = "Rocking X-mas Freiburg",
                     Id = Guid.Parse("a19d84f1-4ac1-49c3-abfe-527092b80b6d"),
+                    CreatedAt = new DateTime(2021, 1, 1)
                 };
             }
         }
@@ -47,6 +48,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Number = 1006,
                     Title = "Hooray for Hollywood Freiburg",
                     Id = Guid.Parse("8f8c500f-71f5-49be-92c8-150ac9e88219"),
+                    CreatedAt = new DateTime(2021, 1, 1)
                 };
             }
         }

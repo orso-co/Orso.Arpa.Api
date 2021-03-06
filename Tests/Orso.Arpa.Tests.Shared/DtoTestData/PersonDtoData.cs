@@ -30,7 +30,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonSeedData.Admin;
-                return CreateDto(person, null);
+                return CreateDto(person, "anonymous");
             }
         }
 
@@ -43,7 +43,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Id = person.Id,
                 ModifiedAt = null,
                 ModifiedBy = person.ModifiedBy,
-                Surname = person.Surname
+                Surname = person.Surname,
+                CreatedAt = new System.DateTime(2021,1,1)
             };
         }
     }

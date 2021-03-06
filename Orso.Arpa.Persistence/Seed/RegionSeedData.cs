@@ -24,7 +24,7 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                return new Region
+                var region = new Region
                 (
                     Guid.Parse("3e6c559e-8d50-488d-a1ea-5dbc0f44ba9b"),
                     new Create.Command
@@ -32,7 +32,8 @@ namespace Orso.Arpa.Persistence.Seed
                         Name = "Freiburg"
                     }
                 );
-                ;
+                region.Create("anonymous", new DateTime(2021, 1, 1));
+                return region;
             }
         }
 
@@ -40,7 +41,7 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                return new Region
+                var region =  new Region
                 (
                     Guid.Parse("ac9544e3-e756-486c-a1dc-62988a882ac2"),
                     new Create.Command
@@ -48,6 +49,8 @@ namespace Orso.Arpa.Persistence.Seed
                         Name = "Stuttgart"
                     }
                 );
+                region.Create("anonymous", new DateTime(2021, 1, 1));
+                return region;
             }
         }
 
@@ -55,7 +58,7 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                return new Region
+                var region =  new Region
                 (
                     Guid.Parse("ca3c9cce-1aee-4c50-93e1-be963542741a"),
                     new Create.Command
@@ -63,6 +66,8 @@ namespace Orso.Arpa.Persistence.Seed
                         Name = "Berlin"
                     }
                 );
+                region.Create("anonymous", new DateTime(2021, 1, 1));
+                return region;
             }
         }
     }

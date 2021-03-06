@@ -5,12 +5,12 @@ using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.RoomApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class RoomDtoMappingProfileTests
+    public class RoomDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()
@@ -30,14 +30,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Room Room = RoomSeedData.AulaWeiherhofSchule;
+            Room Room = FakeRooms.AulaWeiherhofSchule;
             RoomDto expectedDto = VenueDtoData.WeiherhofSchule.Rooms[0];
 
             // Act
             RoomDto dto = _mapper.Map<RoomDto>(Room);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));
+            dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

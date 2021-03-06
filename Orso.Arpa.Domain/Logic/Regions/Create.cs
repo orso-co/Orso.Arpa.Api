@@ -1,7 +1,5 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
@@ -17,14 +15,12 @@ namespace Orso.Arpa.Domain.Logic.Regions
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
+            public Validator(IArpaContext arpaContext)
             {
-
-
                 RuleFor(c => c.Name)
                     .MustAsync(async (name, cancellation) => !(await arpaContext.Regions
                         .AnyAsync(r => r.Name == name, cancellation)))
-                    .WithMessage(localizer["A region with the requested name does already exist"]);
+                    .WithMessage("A region with the requested name does already exist");
             }
         }
     }

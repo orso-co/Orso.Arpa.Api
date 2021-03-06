@@ -4,11 +4,12 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class AppointmentSetDatesDtoMappingProfileTests
+    public class AppointmentSetDatesDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()
@@ -27,8 +28,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new AppointmentSetDatesDto
             {
                 Id = Guid.NewGuid(),
-                StartTime = DateTime.UtcNow,
-                EndTime = DateTime.UtcNow.AddHours(2)
+                StartTime = DateTimeProvider.Instance.GetUtcNow(),
+                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(2)
             };
 
             // Act

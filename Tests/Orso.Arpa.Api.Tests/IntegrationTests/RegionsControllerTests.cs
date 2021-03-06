@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -6,9 +5,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Name = createDto.Name,
                 CreatedBy = _staff.DisplayName,
-                CreatedAt = DateTime.UtcNow.ToIsoString(),
+                CreatedAt = DateTimeProvider.Instance.GetUtcNow(),
                 ModifiedAt = null,
                 ModifiedBy = null,
             };
@@ -45,9 +44,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt
+                .Excluding(dto => dto.Id)
+                .Excluding(dto => dto.CreatedAt));
             result.Id.Should().NotBeEmpty();
-            result.CreatedAt.Should().NotBeNullOrEmpty();
         }
 
         [Test]
@@ -65,8 +65,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Id = regionToModify.Id,
                 Name = modifyDto.Name,
                 CreatedBy = regionToModify.CreatedBy,
-                CreatedAt = regionToModify.CreatedAt.ToIsoString(),
-                ModifiedAt = DateTime.UtcNow.ToIsoString(),
+                CreatedAt = regionToModify.CreatedAt,
+                ModifiedAt = DateTimeProvider.Instance.GetUtcNow(),
                 ModifiedBy = _staff.DisplayName,
             };
 
@@ -75,20 +75,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .AuthenticateWith(_staff);
 
-            HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.RegionsController.Put(regionToModify.Id), BuildStringContent(modifyDto));
+                HttpResponseMessage responseMessage = await client
+                    .PutAsync(ApiEndpoints.RegionsController.Put(regionToModify.Id), BuildStringContent(modifyDto));
 
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+                // Assert
+                responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            HttpResponseMessage getMessage = await client
-                .GetAsync(ApiEndpoints.RegionsController.Get(regionToModify.Id));
+                HttpResponseMessage getMessage = await client
+                    .GetAsync(ApiEndpoints.RegionsController.Get(regionToModify.Id));
 
-            getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(getMessage);
+                getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+                RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(getMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.ModifiedAt));
-            result.ModifiedAt.Should().NotBeNullOrEmpty();
+                result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.ModifiedAt));
         }
 
         [Test, Order(1)]

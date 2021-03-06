@@ -1,5 +1,5 @@
+using System;
 using AutoMapper;
-using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.General
@@ -9,8 +9,7 @@ namespace Orso.Arpa.Application.General
         public BaseEntityDtoMappingProfile()
         {
             CreateMap<BaseEntity, BaseEntityDto>()
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToIsoString()))
-                .ForMember(dest => dest.ModifiedAt, opt => opt.MapFrom(src => src.ModifiedAt.HasValue ? src.ModifiedAt.Value.ToIsoString() : null));
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.Equals(DateTime.MinValue) ? (DateTime?)null : src.CreatedAt));
         }
     }
 }

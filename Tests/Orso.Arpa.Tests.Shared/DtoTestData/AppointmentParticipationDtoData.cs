@@ -29,6 +29,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             return new AppointmentParticipationDto
             {
                 CreatedBy = "anonymous",
+                CreatedAt = new System.DateTime(2021,1,1),
                 Id = appointment.Id,
                 ModifiedAt = null,
                 ModifiedBy = appointment.ModifiedBy,
