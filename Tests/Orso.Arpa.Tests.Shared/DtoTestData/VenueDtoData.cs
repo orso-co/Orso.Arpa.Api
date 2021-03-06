@@ -31,6 +31,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Weiherhof Schule",
                     Description = "Proberäume",
                     CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1),
                     Address = new AddressDto
                     {
                         Id = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
@@ -41,7 +42,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                         UrbanDistrict = "Herdern",
                         State = "Baden-Württemberg",
                         RegionId = RegionSeedData.Freiburg.Id,
-                        CreatedBy = "anonymous"
+                        CreatedBy = "anonymous",
+                        CreatedAt = new DateTime(2021, 1, 1)
                     }
                 };
                 dto.Rooms.Add(new RoomDto
@@ -51,7 +53,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Floor = "EG",
                     Name = "Aula",
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
-                    CreatedBy = "anonymous"
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021,1,1)
                 });
                 dto.Rooms.Add(new RoomDto
                 {
@@ -60,7 +63,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Floor = "OG",
                     Name = "Musikraum",
-                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1")
+                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
+                    CreatedAt = new DateTime(2021, 1, 1)
                 });
                 return dto;
             }

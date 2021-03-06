@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -30,6 +31,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
         public async Task Should_Get_User_Appointments()
         {
             // Arrange
+            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             User user = FakeUsers.Performer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
             var expectedAppointments = new List<Appointment> { AppointmentSeedData.RockingXMasRehearsal };
@@ -38,7 +40,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
             Tuple<IEnumerable<Appointment>, int> result = await _handler.Handle(new AppointmentList.Query(null, null), new CancellationToken());
 
             // Assert
-            result.Item1.Should().BeEquivalentTo(expectedAppointments, options => options.Excluding(i => i.CreatedAt));
+            result.Item1.Should().BeEquivalentTo(expectedAppointments);
             result.Item2.Should().Be(1);
         }
     }

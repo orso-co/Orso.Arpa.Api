@@ -25,7 +25,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<ProjectDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectDto>>(responseMessage);
-            result.Should().BeEquivalentTo(ProjectDtoData.Projects, opt => opt.Excluding(dto => dto.CreatedAt));
+            result.Should().BeEquivalentTo(ProjectDtoData.Projects);
         }
     }
 }

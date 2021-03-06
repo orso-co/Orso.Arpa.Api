@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,6 +7,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -27,6 +29,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public async Task Should_Get_User_List()
         {
             // Arrange
+            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             var listQuery = new Logic.Users.List.Query();
             IList<User> expectedUsers = FakeUsers.Users.ToList();
 
@@ -36,13 +39,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
             // Assert
             users.Should().BeEquivalentTo(expectedUsers, opt => opt
                 .Excluding(user => user.ConcurrencyStamp)
-                .Excluding(user => user.RefreshTokens)
-                .Excluding(user => user.CreatedAt)
-                .Excluding(user => user.Person));
-            for (int i = 0; i < users.Count; i++)
-            {
-                users[i].CreatedAt.Should().BeCloseTo(expectedUsers[i].CreatedAt, 10000);
-            }
+                .Excluding(user => user.RefreshTokens));
         }
     }
 }

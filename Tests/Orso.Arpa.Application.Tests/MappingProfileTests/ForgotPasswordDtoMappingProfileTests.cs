@@ -7,7 +7,7 @@ using Orso.Arpa.Domain.Logic.Auth;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class ForgotPasswordDtoMappingProfileTests
+    public class ForgotPasswordDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()

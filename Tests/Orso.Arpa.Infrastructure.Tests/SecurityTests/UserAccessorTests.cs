@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Infrastructure.Authentication;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -83,6 +85,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         public async Task Should_Get_Current_User()
         {
             // Arrange
+            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             User expectedUser = FakeUsers.Performer;
             var claims = new List<Claim>
             {
@@ -96,10 +99,9 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             // Assert
             user.Should().BeEquivalentTo(expectedUser, opt => opt
                 .Excluding(u => u.ConcurrencyStamp)
-                .Excluding(u => u.RefreshTokens)
-                .Excluding(u => u.CreatedAt)
-                .Excluding(u => u.Person));
-            user.CreatedAt.Should().BeCloseTo(expectedUser.CreatedAt, 10000);
+                .Excluding(u => u.RefreshTokens));
+            user.RefreshTokens.Count.Should().Be(expectedUser.RefreshTokens.Count);
+            user.RefreshTokens.First().Should().BeEquivalentTo(expectedUser.RefreshTokens.First(), opt => opt.Excluding(t => t.Id));
         }
     }
 }

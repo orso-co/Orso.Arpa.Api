@@ -1,14 +1,17 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Orso.Arpa.Misc
 {
+    /// <summary>
+    /// https://codopia.wordpress.com/2017/04/24/how-to-mock-up-datetime-now-in-unit-tests-using-ambient-context-pattern/
+    /// </summary>
     public class DateTimeProviderContext : IDisposable
     {
-        private static readonly ThreadLocal<Stack> ThreadScopeStack = new ThreadLocal<Stack>(() => new Stack());
+        private static readonly ThreadLocal<Stack<DateTimeProviderContext>> ThreadScopeStack
+            = new ThreadLocal<Stack<DateTimeProviderContext>>(() => new Stack<DateTimeProviderContext>());
         public DateTime ContextDateTimeUtcNow;
-        private readonly Stack _contextStack = new Stack();
 
         public DateTimeProviderContext(DateTime contextDateTimeUtcNow)
         {
@@ -23,15 +26,20 @@ namespace Orso.Arpa.Misc
                 {
                     return null;
                 }
-                return ThreadScopeStack.Value.Peek() as DateTimeProviderContext;
+                return ThreadScopeStack.Value.Peek();
             }
         }
 
         #region IDisposable Members
+
         public void Dispose()
         {
-            ThreadScopeStack.Value.Pop();
+            if(ThreadScopeStack.Value.Count > 0)
+            {
+                ThreadScopeStack.Value.Pop();
+            }
         }
+
         #endregion
     }
 }

@@ -8,7 +8,7 @@ using Orso.Arpa.Domain.Logic.Regions;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class RegionModifyDtoMappingProfileTests
+    public class RegionModifyDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()

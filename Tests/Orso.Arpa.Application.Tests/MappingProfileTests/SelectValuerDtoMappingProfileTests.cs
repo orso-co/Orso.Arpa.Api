@@ -11,7 +11,7 @@ using Orso.Arpa.Tests.Shared.Extensions;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class SelectValueDtoMappingProfileTests
+    public class SelectValueDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()
@@ -39,7 +39,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             SelectValueDto dto = _mapper.Map<SelectValueDto>(selectValueMapping);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));
+            dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

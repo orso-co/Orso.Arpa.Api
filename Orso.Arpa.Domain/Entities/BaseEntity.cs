@@ -1,4 +1,5 @@
 using System;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -6,7 +7,7 @@ namespace Orso.Arpa.Domain.Entities
     {
         public Guid Id { get; private set; }
         public string CreatedBy { get; private set; }
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; private set; }
         public string ModifiedBy { get; private set; }
         public DateTime? ModifiedAt { get; private set; }
         public bool Deleted { get; private set; }
@@ -23,13 +24,13 @@ namespace Orso.Arpa.Domain.Entities
         public virtual void Create(string createdBy, DateTime? createdAt = null)
         {
             CreatedBy = createdBy;
-            CreatedAt = createdAt ?? DateTime.UtcNow;
+            CreatedAt = createdAt ?? DateTimeProvider.Instance.GetUtcNow();
         }
 
         public virtual void Modify(string modifiedBy)
         {
             ModifiedBy = modifiedBy;
-            ModifiedAt = DateTime.UtcNow;
+            ModifiedAt = DateTimeProvider.Instance.GetUtcNow();
         }
 
         public virtual void Delete(string modifiedBy)

@@ -4,12 +4,12 @@ using NUnit.Framework;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class ProjectDtoMappingProfileTests
+    public class ProjectDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()
@@ -29,14 +29,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Domain.Entities.Project project = ProjectSeedData.RockingXMas;
+            Domain.Entities.Project project = FakeProjects.RockingXMas;
             ProjectDto expectedDto = ProjectDtoData.RockingXMas;
 
             // Act
             ProjectDto dto = _mapper.Map<ProjectDto>(project);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.CreatedBy));
+            dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

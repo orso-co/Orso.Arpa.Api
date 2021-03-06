@@ -6,7 +6,7 @@ using Orso.Arpa.Application.AuthApplication;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class TokenDtoMappingProfileTests
+    public class TokenDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()

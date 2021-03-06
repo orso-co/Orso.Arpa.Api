@@ -31,7 +31,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     PublicDetails = "Let's rock",
                     StartTime = new DateTime(2019,12,21,10,0,0),
                     Venue = VenueDtoData.WeiherhofSchule,
-                    PredictionId = Guid.Parse("319d508e-a6e2-437e-b48b-6be51e3459bd")
+                    PredictionId = Guid.Parse("319d508e-a6e2-437e-b48b-6be51e3459bd"),
+                    CreatedAt = new DateTime(2021, 1, 1)
                 };
                 dto.Projects.Add(ProjectDtoData.RockingXMas);
 

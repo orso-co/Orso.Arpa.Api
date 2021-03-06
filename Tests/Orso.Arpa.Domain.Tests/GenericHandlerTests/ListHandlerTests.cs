@@ -9,6 +9,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -31,6 +32,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         public async Task Should_Get_List()
         {
             // Arrange
+            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             var expectedAppointments = AppointmentSeedData.Appointments.ToImmutableList();
             Appointment appointment = AppointmentSeedData.RockingXMasConcert;
             DbSet<Appointment> mockAppointments = MockDbSets.Appointments;
@@ -42,7 +44,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
                 new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(expectedAppointments, options => options.Excluding(a => a.CreatedAt));
+            result.Should().BeEquivalentTo(expectedAppointments);
         }
     }
 }

@@ -13,7 +13,7 @@ using Orso.Arpa.Tests.Shared.FakeData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class UserAppointmentDtoMappingProfileTests
+    public class UserAppointmentDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()
@@ -37,15 +37,15 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Appointment appointment = FakeAppointments.RockingXMas;
-            MyAppointmentDto expectedDto = UserAppointmentDtoTestData.PerformerUserAppointment;
+                Appointment appointment = FakeAppointments.RockingXMas;
+                MyAppointmentDto expectedDto = UserAppointmentDtoTestData.PerformerUserAppointment;
 
-            // Act
-            MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);
+                // Act
+                MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);
 
-            // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dto => dto.PredictionId));
+                // Assert
+                dto.Should().BeEquivalentTo(expectedDto, opt => opt
+                    .Excluding(dto => dto.PredictionId));
         }
     }
 }
