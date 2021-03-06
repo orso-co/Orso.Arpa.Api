@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class LoginDtoValidator : AbstractValidator<LoginDto>
     {
-        public LoginDtoValidator(IStringLocalizer<ApplicationValidators> localizer)
+        public LoginDtoValidator(IStringLocalizer<ApplicationResource> localizer)
         {
             RuleFor(q => q.UsernameOrEmail)
                 .NotEmpty();
