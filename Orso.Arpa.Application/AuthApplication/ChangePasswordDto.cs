@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class ChangePasswordDtoValidator : AbstractValidator<ChangePasswordDto>
     {
-        public ChangePasswordDtoValidator(IStringLocalizer<ApplicationValidators> localizer)
+        public ChangePasswordDtoValidator(IStringLocalizer<ApplicationResource> localizer)
         {
             RuleFor(c => c.NewPassword)
                 .Password(localizer);
