@@ -12,11 +12,11 @@ namespace Orso.Arpa.Api.Middleware
     public class ErrorResponseLocalizationMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IStringLocalizer<Errors> _localizer;
+        private readonly IStringLocalizer<ApiResource> _localizer;
 
 
         public ErrorResponseLocalizationMiddleware(RequestDelegate next,
-            IStringLocalizer<Errors> localizer)
+            IStringLocalizer<ApiResource> localizer)
         {
             _next = next;
             _localizer = localizer;

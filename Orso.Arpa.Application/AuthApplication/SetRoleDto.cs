@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class SetRoleDtoValidator : AbstractValidator<SetRoleDto>
     {
-        public SetRoleDtoValidator(IStringLocalizer<ApplicationValidators> localizer)
+        public SetRoleDtoValidator(IStringLocalizer<ApplicationResource> localizer)
         {
             RuleFor(c => c.Username)
                 .NotEmpty()
