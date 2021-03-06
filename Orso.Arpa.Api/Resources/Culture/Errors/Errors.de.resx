@@ -14,4 +14,7 @@
     <data name="This request requires a valid JWT access token to be provided" xml:space="preserve">
         <value>Bitte melde dich erneut an</value>
     </data>
+    <data name="One or more validation errors occurred" xml:space="preserve">
+        <value>Ein oder mehrere Validierungsfehler sind aufgetreten</value>
+    </data>
 </root>

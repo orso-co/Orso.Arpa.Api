@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using FluentValidation.AspNetCore;
+using Localization.SqlLocalizer.DbStringLocalizer;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -23,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
@@ -126,6 +128,28 @@ namespace Orso.Arpa.Api
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
         {
+            services.AddDbContext<LocalizationModelContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                if (_hostingEnvironment.IsDevelopment())
+                {
+                    opt.EnableSensitiveDataLogging();
+                    opt.EnableDetailedErrors();
+                }
+            },
+                ServiceLifetime.Singleton,
+                ServiceLifetime.Singleton);
+
+            services.AddSqlLocalization(options =>
+            {
+                options.UseTypeFullNames = false;
+                options.UseOnlyPropertyNames = false;
+                options.ReturnOnlyKeyIfNotFound = true;
+                options.CreateNewRecordWhenLocalisedStringDoesNotExist = true;
+            });
+
+            services.AddMvc().AddMvcLocalization();
+
             if (services == null)
                 throw new ArgumentNullException(nameof (services));
             var lz = new LocalizerCache(services);
