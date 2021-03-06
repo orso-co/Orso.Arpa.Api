@@ -61,6 +61,15 @@ namespace Orso.Arpa.Application.Resources.Cultures {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EndTime must be later than StartTime.
+        /// </summary>
+        internal static string EndTime_must_be_later_than_StartTime {
+            get {
+                return ResourceManager.GetString("EndTime must be later than StartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password must be at least 6 characters.
         /// </summary>
         internal static string Password_must_be_at_least_6_characters {
