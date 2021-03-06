@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_New_Password_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.NewPassword, UserSeedData.ValidPassword);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.NewPassword);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Correct_Current_Password_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.CurrentPassword, UserSeedData.ValidPassword);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.CurrentPassword);
         }
     }
 }
