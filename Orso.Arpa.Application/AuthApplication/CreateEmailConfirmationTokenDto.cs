@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class CreateEmailConfirmationTokenDtoValidator : AbstractValidator<CreateEmailConfirmationTokenDto>
     {
-        public CreateEmailConfirmationTokenDtoValidator(IStringLocalizer<ApplicationValidators> localizer)
+        public CreateEmailConfirmationTokenDtoValidator(IStringLocalizer<ApplicationResource> localizer)
         {
             RuleFor(c => c.UsernameOrEmail)
                .NotEmpty();
