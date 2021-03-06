@@ -74,10 +74,9 @@ namespace Orso.Arpa.Api
                 typeof(Modify.MappingProfile).Assembly);
             services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
-            services.AddControllers(options =>
-            {
-                options.ModelBinderProviders.InsertBodyAndRouteBinding();
-            })
+            services.AddControllers(options => options.ModelBinderProviders.InsertBodyAndRouteBinding())
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters
+                    .Add(new DateTimeJsonConverter()))
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
                 {

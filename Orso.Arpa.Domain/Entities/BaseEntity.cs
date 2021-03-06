@@ -4,9 +4,9 @@ namespace Orso.Arpa.Domain.Entities
 {
     public abstract class BaseEntity
     {
-        public Guid Id { get; private set; } = Guid.NewGuid();
+        public Guid Id { get; private set; }
         public string CreatedBy { get; private set; }
-        public DateTime CreatedAt { get; private set; }
+        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
         public string ModifiedBy { get; private set; }
         public DateTime? ModifiedAt { get; private set; }
         public bool Deleted { get; private set; }
@@ -20,10 +20,10 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        public virtual void Create(string createdBy)
+        public virtual void Create(string createdBy, DateTime? createdAt = null)
         {
             CreatedBy = createdBy;
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = createdAt ?? DateTime.UtcNow;
         }
 
         public virtual void Modify(string modifiedBy)

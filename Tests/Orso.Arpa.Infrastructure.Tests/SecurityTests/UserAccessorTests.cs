@@ -97,7 +97,8 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             user.Should().BeEquivalentTo(expectedUser, opt => opt
                 .Excluding(u => u.ConcurrencyStamp)
                 .Excluding(u => u.RefreshTokens)
-                .Excluding(u => u.CreatedAt));
+                .Excluding(u => u.CreatedAt)
+                .Excluding(u => u.Person));
             user.CreatedAt.Should().BeCloseTo(expectedUser.CreatedAt, 10000);
         }
     }

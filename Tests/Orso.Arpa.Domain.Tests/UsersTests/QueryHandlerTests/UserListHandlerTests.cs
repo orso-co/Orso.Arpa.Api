@@ -37,7 +37,8 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
             users.Should().BeEquivalentTo(expectedUsers, opt => opt
                 .Excluding(user => user.ConcurrencyStamp)
                 .Excluding(user => user.RefreshTokens)
-                .Excluding(user => user.CreatedAt));
+                .Excluding(user => user.CreatedAt)
+                .Excluding(user => user.Person));
             for (int i = 0; i < users.Count; i++)
             {
                 users[i].CreatedAt.Should().BeCloseTo(expectedUsers[i].CreatedAt, 10000);

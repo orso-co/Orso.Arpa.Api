@@ -41,9 +41,11 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt
                 .Excluding(dto => dto.AddressId)
-                .Excluding(dto => dto.Rooms));
+                .Excluding(dto => dto.Rooms)
+                .Excluding(dto => dto.CreatedAt)
+                .Excluding(dto => dto.Address.CreatedAt));
             dto.AddressId.Should().Be(expectedDto.Id);
-            dto.Rooms.Should().BeEquivalentTo(expectedDto.Rooms);
+            dto.Rooms.Should().BeEquivalentTo(expectedDto.Rooms, options => options.Excluding(r => r.CreatedAt));
         }
     }
 }

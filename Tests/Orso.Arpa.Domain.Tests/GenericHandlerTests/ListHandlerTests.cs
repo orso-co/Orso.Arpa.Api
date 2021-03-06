@@ -42,7 +42,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
                 new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(expectedAppointments);
+            result.Should().BeEquivalentTo(expectedAppointments, options => options.Excluding(a => a.CreatedAt));
         }
     }
 }

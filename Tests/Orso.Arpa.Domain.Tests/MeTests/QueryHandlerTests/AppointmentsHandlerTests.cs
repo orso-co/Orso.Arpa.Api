@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
             Tuple<IEnumerable<Appointment>, int> result = await _handler.Handle(new AppointmentList.Query(null, null), new CancellationToken());
 
             // Assert
-            result.Item1.Should().BeEquivalentTo(expectedAppointments);
+            result.Item1.Should().BeEquivalentTo(expectedAppointments, options => options.Excluding(i => i.CreatedAt));
             result.Item2.Should().Be(1);
         }
     }

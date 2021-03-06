@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Name = createDto.Name,
                 CreatedBy = _staff.DisplayName,
-                CreatedAt = DateTime.UtcNow.ToIsoString(),
+                CreatedAt = DateTime.UtcNow,
                 ModifiedAt = null,
                 ModifiedBy = null,
             };
@@ -47,7 +46,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
             result.Id.Should().NotBeEmpty();
-            result.CreatedAt.Should().NotBeNullOrEmpty();
+            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
 
         [Test]
@@ -65,8 +64,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Id = regionToModify.Id,
                 Name = modifyDto.Name,
                 CreatedBy = regionToModify.CreatedBy,
-                CreatedAt = regionToModify.CreatedAt.ToIsoString(),
-                ModifiedAt = DateTime.UtcNow.ToIsoString(),
+                CreatedAt = regionToModify.CreatedAt,
+                ModifiedAt = DateTime.UtcNow,
                 ModifiedBy = _staff.DisplayName,
             };
 
@@ -87,8 +86,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(getMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.ModifiedAt));
-            result.ModifiedAt.Should().NotBeNullOrEmpty();
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.ModifiedAt).Excluding(r => r.CreatedAt));
+            result.ModifiedAt.Should().NotBeNull();
         }
 
         [Test, Order(1)]
@@ -103,7 +102,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<RegionDto> result = await DeserializeResponseMessageAsync<IEnumerable<RegionDto>>(responseMessage);
-            result.Should().BeEquivalentTo(RegionDtoData.Regions);
+            result.Should().BeEquivalentTo(RegionDtoData.Regions, options => options.Excluding(r => r.CreatedAt));
         }
 
         [Test, Order(2)]
@@ -121,7 +120,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            result.Should().BeEquivalentTo(expectedDto, options => options.Excluding(r => r.CreatedAt));
         }
 
         [Test]

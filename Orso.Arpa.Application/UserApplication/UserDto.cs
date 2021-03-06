@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.UserApplication
@@ -23,7 +22,7 @@ namespace Orso.Arpa.Application.UserApplication
         public UserDtoMappingProfile()
         {
             CreateMap<User, UserDto>()
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.ToIsoString()))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.StakeholderGroupIds, opt => opt.MapFrom(src => src.Person.StakeholderGroups.Select(g => g.SectionId)))
                 .ForMember(dest => dest.RoleNames, opt => opt.Ignore());
         }

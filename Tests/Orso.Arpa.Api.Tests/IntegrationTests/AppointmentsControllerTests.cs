@@ -8,7 +8,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
@@ -39,7 +38,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .Excluding(dto => dto.CreatedAt)
                 .Excluding(dto => dto.Participations)
                 .Excluding(dto => dto.Projects));
-            returnedAppointment.CreatedAt.Should().NotBeNullOrEmpty();
+            returnedAppointment.CreatedAt.Should().BeAfter(DateTime.MinValue);
             for (int i = 0; i < expectedDto.Projects.Count; i++)
             {
                 returnedAppointment.Projects[i].Should().BeEquivalentTo(expectedDto.Projects[i], opt => opt.Excluding(p => p.CreatedAt));
@@ -88,8 +87,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
                 EmolumentId = SelectValueMappingSeedData.AppointmentEmolumentMappings[0].Id,
                 EmolumentPatternId = SelectValueMappingSeedData.AppointmentEmolumentPatternMappings[0].Id,
-                EndTime = DateTime.UtcNow.AddHours(5),
-                StartTime = DateTime.UtcNow,
+                EndTime = new DateTime(2021, 3, 5, 14, 15, 20),
+                StartTime = new DateTime(2021,3,5,9,15,20),
                 StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id
             };
 
@@ -97,7 +96,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Name = createDto.Name,
                 CreatedBy = _staff.DisplayName,
-                CreatedAt = DateTime.UtcNow.ToIsoString(),
+                CreatedAt = DateTime.UtcNow,
                 ModifiedAt = null,
                 ModifiedBy = null,
                 InternalDetails = createDto.InternalDetails,
@@ -105,8 +104,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CategoryId = createDto.CategoryId,
                 EmolumentId = createDto.EmolumentId,
                 EmolumentPatternId = createDto.EmolumentPatternId,
-                EndTime = createDto.EndTime.ToIsoString(),
-                StartTime = createDto.StartTime.ToIsoString(),
+                EndTime = createDto.EndTime,
+                StartTime = createDto.StartTime,
                 StatusId = createDto.StatusId
             };
 
@@ -122,7 +121,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
             result.Id.Should().NotBeEmpty();
-            result.CreatedAt.Should().NotBeNullOrEmpty();
+            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
 
         [Test, Order(1001)]

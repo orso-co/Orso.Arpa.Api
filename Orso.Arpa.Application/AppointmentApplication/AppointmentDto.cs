@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoomApplication;
@@ -15,8 +14,8 @@ namespace Orso.Arpa.Application.AppointmentApplication
     public class AppointmentDto : BaseEntityDto
     {
         public Guid? CategoryId { get; set; }
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public string Name { get; set; }
         public string PublicDetails { get; set; }
         public string InternalDetails { get; set; }
@@ -40,8 +39,8 @@ namespace Orso.Arpa.Application.AppointmentApplication
                 .ForMember(dest => dest.Projects, opt => opt.MapFrom(src => src.ProjectAppointments.Select(pa => pa.Project)))
                 .ForMember(dest => dest.Sections, opt => opt.MapFrom(src => src.SectionAppointments.Select(ra => ra.Section)))
                 .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.AppointmentRooms.Select(ra => ra.Room)))
-                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime.ToIsoString()))
-                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime.ToIsoString()))
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
                 .ForMember(dest => dest.Participations, opt => opt.Ignore())
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
