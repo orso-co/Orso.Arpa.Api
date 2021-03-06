@@ -8,7 +8,7 @@ using Orso.Arpa.Persistence.Seed;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class ChangePasswordDtoMappingProfileTests
+    public class ChangePasswordDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()
