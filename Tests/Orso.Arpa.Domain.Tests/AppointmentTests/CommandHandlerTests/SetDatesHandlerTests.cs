@@ -10,6 +10,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -44,8 +45,8 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             Unit result = await _handler.Handle(
                 new SetDates.Command
                 {
-                    StartTime = DateTime.UtcNow,
-                    EndTime = DateTime.UtcNow.AddHours(2),
+                    StartTime = DateTimeProvider.Instance.GetUtcNow(),
+                    EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(2),
                     Id = appointment.Id
                 },
                 new CancellationToken());

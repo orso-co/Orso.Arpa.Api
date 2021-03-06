@@ -12,6 +12,7 @@ using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Infrastructure.Authentication
 {
@@ -63,7 +64,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             var tokenDesriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
-                Expires = DateTime.UtcNow.AddMinutes(_jwtConfiguration.AccessTokenExpiryInMinutes),
+                Expires = DateTimeProvider.Instance.GetUtcNow().AddMinutes(_jwtConfiguration.AccessTokenExpiryInMinutes),
                 SigningCredentials = credentials,
                 Issuer = _jwtConfiguration.Issuer,
                 Audience = _jwtConfiguration.Audience
@@ -109,7 +110,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             return new RefreshToken
             (
                 Convert.ToBase64String(randomBytes),
-                DateTime.UtcNow.AddDays(_jwtConfiguration.RefreshTokenExpiryInDays),
+                DateTimeProvider.Instance.GetUtcNow().AddDays(_jwtConfiguration.RefreshTokenExpiryInDays),
                 ipAddress,
                 user.Id
             );

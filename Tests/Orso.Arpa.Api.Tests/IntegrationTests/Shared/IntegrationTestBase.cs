@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using netDumbster.smtp;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
@@ -26,6 +28,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected User _staff;
         protected User _admin;
         protected SimpleSmtpServer _fakeSmtpServer;
+        protected DateTimeProviderContext _dateTimeProviderContext;
 
         [TearDown]
         public void DisposeMailServer()
@@ -42,6 +45,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             _unAuthenticatedServer.Dispose();
             _authenticatedServer.Dispose();
+            _dateTimeProviderContext.Dispose();
         }
 
         [SetUp]
@@ -55,6 +59,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         [OneTimeSetUp]
         public virtual async Task InitializeAsync()
         {
+            _dateTimeProviderContext = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             _unAuthenticatedServer = await CreateServer(false);
             _authenticatedServer = await CreateServer(true);
             _performer = FakeUsers.Performer;

@@ -77,11 +77,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IList<UserDto> result = (await DeserializeResponseMessageAsync<IEnumerable<UserDto>>(responseMessage)).ToList();
 
-            result.Should().BeEquivalentTo(expectedDtos, opt => opt.Excluding(dto => dto.CreatedAt));
-            for (int i = 0; i < result.Count; i++)
-            {
-                result[i].CreatedAt.Should().NotBeNullOrEmpty();
-            }
+            result.Should().BeEquivalentTo(expectedDtos);
         }
     }
 }

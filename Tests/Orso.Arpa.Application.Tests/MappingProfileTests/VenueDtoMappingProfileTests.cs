@@ -10,7 +10,7 @@ using Orso.Arpa.Tests.Shared.FakeData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class VenueDtoMappingProfileTests
+    public class VenueDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()
@@ -40,10 +40,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dto => dto.AddressId)
-                .Excluding(dto => dto.Rooms));
+                .Excluding(dto => dto.AddressId));
             dto.AddressId.Should().Be(expectedDto.Id);
-            dto.Rooms.Should().BeEquivalentTo(expectedDto.Rooms);
         }
     }
 }

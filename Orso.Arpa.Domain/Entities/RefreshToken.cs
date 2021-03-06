@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -22,7 +23,7 @@ namespace Orso.Arpa.Domain.Entities
         public void Revoke(RevokeRefreshToken.Command command)
         {
             RevokedByIp = command.RemoteIpAddress;
-            RevokedOn = DateTime.UtcNow;
+            RevokedOn = DateTimeProvider.Instance.GetUtcNow();
         }
 
         [JsonInclude]
@@ -41,7 +42,7 @@ namespace Orso.Arpa.Domain.Entities
         public DateTime ExpiryOn { get; private set; }
 
         [JsonInclude]
-        public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
+        public DateTime CreatedOn { get; private set; } = DateTimeProvider.Instance.GetUtcNow();
 
         [JsonInclude]
         public string CreatedByIp { get; private set; }
@@ -53,7 +54,7 @@ namespace Orso.Arpa.Domain.Entities
         public string RevokedByIp { get; private set; }
 
         [JsonInclude]
-        public bool IsExpired => DateTime.UtcNow >= ExpiryOn;
+        public bool IsExpired => DateTimeProvider.Instance.GetUtcNow() >= ExpiryOn;
 
         [JsonInclude]
         public bool IsActive => RevokedByIp == null && RevokedOn == DateTime.MinValue && !IsExpired;

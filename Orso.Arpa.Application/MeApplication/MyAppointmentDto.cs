@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoomApplication;
@@ -13,8 +12,8 @@ namespace Orso.Arpa.Application.MeApplication
 {
     public class MyAppointmentDto : BaseEntityDto
     {
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public string Name { get; set; }
         public IList<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
         public VenueDto Venue { get; set; }
@@ -31,8 +30,8 @@ namespace Orso.Arpa.Application.MeApplication
         {
             CreateMap<Appointment, MyAppointmentDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>()
-                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime.ToIsoString()))
-                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime.ToIsoString()))
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Projects, opt => opt.MapFrom(src => src.ProjectAppointments.Select(pa => pa.Project)))
                 .ForMember(dest => dest.Venue, opt => opt.MapFrom(src => src.Venue))

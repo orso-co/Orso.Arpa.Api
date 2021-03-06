@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,12 +26,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<VenueDto> result = await DeserializeResponseMessageAsync<IEnumerable<VenueDto>>(responseMessage);
-            result.Should().BeEquivalentTo(VenueDtoData.Venues, opt => opt
-                .Excluding(dto => dto.CreatedAt)
-                .Excluding(dto => dto.Address.CreatedAt)
-                .Excluding(dto => dto.Rooms));
-            result.First().Rooms.Count().Should().Be(2);
-            result.First().Rooms.Should().BeEquivalentTo(VenueDtoData.WeiherhofSchule.Rooms, opt => opt.Excluding(r => r.CreatedAt));
+            result.Should().BeEquivalentTo(VenueDtoData.Venues);
         }
 
         [Test, Order(1)]
@@ -47,7 +41,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<RoomDto> result = await DeserializeResponseMessageAsync<IEnumerable<RoomDto>>(responseMessage);
-            result.Should().BeEquivalentTo(VenueDtoData.WeiherhofSchule.Rooms, opt => opt.Excluding(r => r.CreatedAt));
+            result.Should().BeEquivalentTo(VenueDtoData.WeiherhofSchule.Rooms);
         }
     }
 }

@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_Appointments()
         {
             // Arrange
-            MyAppointmentDto expectedUserAppointment = UserAppointmentDtoTestData.PerformerUserAppointment;
+            IList<MyAppointmentDto> expectedUserAppointments = UserAppointmentDtoTestData.PerformerUserAppointments;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -53,22 +53,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyAppointmentListDto result = await DeserializeResponseMessageAsync<MyAppointmentListDto>(responseMessage);
 
-            result.UserAppointments.Should().BeEquivalentTo(UserAppointmentDtoTestData.PerformerUserAppointments, opt => opt
-                .Excluding(dto => dto.CreatedAt)
-                .Excluding(dto => dto.Projects)
-                .Excluding(dto => dto.Venue));
+            result.UserAppointments.Should().BeEquivalentTo(expectedUserAppointments);
             result.TotalRecordsCount.Should().Be(2);
-            MyAppointmentDto userAppointment = result.UserAppointments.First();
-            userAppointment.Venue.Should().BeEquivalentTo(expectedUserAppointment.Venue, opt => opt
-                .Excluding(dto => dto.CreatedAt)
-                .Excluding(dto => dto.Rooms)
-                .Excluding(dto => dto.Address));
-            userAppointment.Venue.Rooms.Should().BeEquivalentTo(expectedUserAppointment.Venue.Rooms, opt => opt
-                .Excluding(dto => dto.CreatedAt));
-            userAppointment.Venue.Address.Should().BeEquivalentTo(expectedUserAppointment.Venue.Address, opt => opt
-                .Excluding(dto => dto.CreatedAt));
-            userAppointment.Projects.Should().BeEquivalentTo(expectedUserAppointment.Projects, opt => opt
-                .Excluding(dto => dto.CreatedAt));
         }
 
         [Test, Order(3)]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -5,6 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -26,6 +28,7 @@ namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
         public async Task Should_Get_Role_List()
         {
             // Arrange
+            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             var listQuery = new Logic.Roles.List.Query();
             IEnumerable<Role> expectedRoles = RoleSeedData.Roles;
 

@@ -9,7 +9,7 @@ using Orso.Arpa.Tests.Shared.FakeData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class UserDtoMappingProfileTests
+    public class UserDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()
@@ -33,9 +33,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dest => dest.RoleNames)
-                .Excluding(dest => dest.CreatedAt));
-            dto.CreatedAt.Should().NotBeNullOrEmpty();
+                .Excluding(dest => dest.RoleNames));
         }
     }
 }

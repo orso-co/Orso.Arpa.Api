@@ -22,9 +22,11 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                return new Person(
+                var person = new Person(
                     Guid.Parse("56ed7c20-ba78-4a02-936e-5e840ef0748c"),
                     new UserRegister.Command { GivenName = "Initial", Surname = "Admin" });
+                person.Create("anonymous", new DateTime(2021,1,1));
+                return person;
             }
         }
     }

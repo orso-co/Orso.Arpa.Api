@@ -8,7 +8,7 @@ using Orso.Arpa.Domain.Logic.Appointments;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class AppointmentAddProjectDtoMappingProfileTests
+    public class AppointmentAddProjectDtoMappingProfileTests : DtoMappingProfileTestBase
     {
         [SetUp]
         public void Setup()

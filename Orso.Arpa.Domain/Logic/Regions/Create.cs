@@ -17,8 +17,6 @@ namespace Orso.Arpa.Domain.Logic.Regions
         {
             public Validator(IArpaContext arpaContext)
             {
-                
-
                 RuleFor(c => c.Name)
                     .MustAsync(async (name, cancellation) => !(await arpaContext.Regions
                         .AnyAsync(r => r.Name == name, cancellation)))

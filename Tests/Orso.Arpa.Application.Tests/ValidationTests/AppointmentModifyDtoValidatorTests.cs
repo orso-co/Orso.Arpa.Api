@@ -2,6 +2,7 @@ using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
@@ -73,7 +74,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_StartTime_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.StartTime, DateTime.UtcNow);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.StartTime, DateTimeProvider.Instance.GetUtcNow());
         }
 
         [Test]
@@ -85,7 +86,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_EndTime_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, DateTime.UtcNow);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, DateTimeProvider.Instance.GetUtcNow());
         }
 
         [Test]
@@ -93,8 +94,8 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _validator.ShouldHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
             {
-                StartTime = DateTime.UtcNow,
-                EndTime = DateTime.UtcNow.AddHours(-3)
+                StartTime = DateTimeProvider.Instance.GetUtcNow(),
+                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(-3)
             });
         }
 
@@ -103,8 +104,8 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
             {
-                StartTime = DateTime.UtcNow,
-                EndTime = DateTime.UtcNow.AddHours(3)
+                StartTime = DateTimeProvider.Instance.GetUtcNow(),
+                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(3)
             });
         }
 
