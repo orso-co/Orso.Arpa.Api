@@ -22,4 +22,19 @@
     <ProjectReference Include="..\Orso.Arpa.Mail\Orso.Arpa.Mail.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Misc\Orso.Arpa.Misc.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Cultures\DomainValidators.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DomainValidators.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Cultures\DomainValidators.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DaominValidators.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
