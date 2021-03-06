@@ -5,17 +5,20 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using FluentValidation.AspNetCore;
+using Localization.SqlLocalizer.DbStringLocalizer;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
@@ -62,6 +65,8 @@ namespace Orso.Arpa.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            ConfigureLocalization(services);
+
             RegisterServices(services);
             RegisterDateTimeProvider(services);
 
@@ -91,6 +96,43 @@ namespace Orso.Arpa.Api
             ConfigureAuthentication(services);
 
             ConfigureAuthorization(services);
+
+
+        }
+
+        protected virtual void ConfigureLocalization(IServiceCollection services)
+        {
+            services.AddDbContext<LocalizationModelContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                if (_hostingEnvironment.IsDevelopment())
+                {
+                    opt.EnableSensitiveDataLogging();
+                    opt.EnableDetailedErrors();
+                }
+            },
+                ServiceLifetime.Singleton,
+                ServiceLifetime.Singleton);
+
+            services.AddSqlLocalization(options =>
+            {
+                options.UseTypeFullNames = false;
+                options.UseOnlyPropertyNames = false;
+                options.ReturnOnlyKeyIfNotFound = true;
+                options.CreateNewRecordWhenLocalisedStringDoesNotExist = true;
+            });
+
+            services.AddMvc().AddMvcLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture("en");
+                options.AddSupportedUICultures("en", "de");
+                options.FallBackToParentUICultures = true;
+                options.RequestCultureProviders.Add(new CookieRequestCultureProvider {CookieName = "Culture"});
+                options.RequestCultureProviders.Remove(
+                    new AcceptLanguageHeaderRequestCultureProvider());  // avoids browser from overwriting UI language request
+            });
         }
 
         private static void ConfigureAuthorization(IServiceCollection services)
@@ -291,6 +333,10 @@ namespace Orso.Arpa.Api
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRequestLocalization();
+
+            app.UseErrorResponseLocalizationMiddleware();
+
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 

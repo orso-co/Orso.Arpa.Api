@@ -4,10 +4,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Localization;
+using Orso.Arpa.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Resources.Cultures;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
 {
@@ -33,7 +36,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IMapper mapper)
+            public Validator(IArpaContext arpaContext, IMapper mapper, IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(d => d.Id)
                     .MustAsync(async (id, cancellation) => await arpaContext.Set<Appointment>()
@@ -50,7 +53,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             }
         }
 
-        public class Handler : IRequestHandler<Command, Appointment>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
@@ -63,17 +66,17 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 _mapper = mapper;
             }
 
-            public async Task<Appointment> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
 
                 _mapper.Map(request, existingAppointment);
 
-                EntityEntry<Appointment> changedAppointment = _arpaContext.Appointments.Update(existingAppointment);
+                _arpaContext.Appointments.Update(existingAppointment);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
-                    return changedAppointment?.Entity;
+                    return Unit.Value;
                 }
 
                 throw new Exception("Problem updating appointment");

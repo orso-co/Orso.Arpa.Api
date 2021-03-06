@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -10,6 +9,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Resources.Cultures;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.AddRoom;
@@ -36,7 +36,6 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext, localizer);
             _mockAppointmentRooms = MockDbSets.AppointmentRooms;
-            _arpaContext.AppointmentRooms.Returns(_mockAppointmentRooms);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validRoomId = RoomSeedData.MusikraumWeiherhofSchule.Id;
         }
