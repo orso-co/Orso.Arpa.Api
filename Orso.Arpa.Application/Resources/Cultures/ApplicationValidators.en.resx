@@ -29,4 +29,7 @@
     <data name="Username may only contain alphanumeric characters" xml:space="preserve">
         <value>Username may only contain alphanumeric characters</value>
     </data>
+    <data name="EndTime must be later than StartTime" xml:space="preserve">
+        <value>EndTime must be later than StartTime</value>
+    </data>
 </root>
