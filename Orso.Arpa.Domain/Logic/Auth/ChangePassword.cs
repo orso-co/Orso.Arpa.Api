@@ -3,10 +3,13 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
+using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Resources.Cultures;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -22,7 +25,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             public Validator(
                 ArpaUserManager userManager,
-                IUserAccessor userAccessor)
+                IUserAccessor userAccessor,
+                IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(c => c.CurrentPassword)
                     .MustAsync(async (oldPassword, cancellation) =>
@@ -30,7 +34,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                         User user = await userAccessor.GetCurrentUserAsync();
                         return await userManager.CheckPasswordAsync(user, oldPassword);
                     })
-                    .WithMessage("Incorrect password supplied");
+                    .WithMessage(localizer["Incorrect password supplied"]);
             }
         }
 

@@ -61,6 +61,15 @@ namespace Orso.Arpa.Api.Resources.Culture.Errors {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to One or more validation errors occurred.
+        /// </summary>
+        internal static string One_or_more_validation_errors_occurred {
+            get {
+                return ResourceManager.GetString("One or more validation errors occurred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bitte melde dich erneut an.
         /// </summary>
         internal static string This_request_requires_a_valid_JWT_access_token_to_be_provided {
