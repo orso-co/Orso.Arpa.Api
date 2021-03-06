@@ -26,7 +26,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new RegionDto
                 {
                     Id = Guid.Parse("3e6c559e-8d50-488d-a1ea-5dbc0f44ba9b"),
-                    Name = "Freiburg"
+                    Name = "Freiburg",
+                    CreatedAt = new DateTime(2021, 1, 1),
+                    CreatedBy = "anonymous"
                 };
             }
         }
@@ -38,7 +40,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new RegionDto
                 {
                     Id = Guid.Parse("ca3c9cce-1aee-4c50-93e1-be963542741a"),
-                    Name = "Berlin"
+                    Name = "Berlin",
+                    CreatedAt = new DateTime(2021, 1, 1),
+                    CreatedBy = "anonymous"
                 };
             }
         }
@@ -50,7 +54,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new RegionDto
                 {
                     Id = Guid.Parse("ac9544e3-e756-486c-a1dc-62988a882ac2"),
-                    Name = "Stuttgart"
+                    Name = "Stuttgart",
+                    CreatedAt = new DateTime(2021, 1, 1),
+                    CreatedBy = "anonymous"
                 };
             }
         }
