@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class ForgotPasswordDtoValidator : AbstractValidator<ForgotPasswordDto>
     {
-        public ForgotPasswordDtoValidator(IStringLocalizer<ApplicationValidators> localizer)
+        public ForgotPasswordDtoValidator(IStringLocalizer<ApplicationResource> localizer)
         {
             RuleFor(q => q.UsernameOrEmail)
                 .NotEmpty();

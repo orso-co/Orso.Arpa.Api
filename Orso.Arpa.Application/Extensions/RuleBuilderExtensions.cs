@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.Extensions
                 .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _));
         }
 
-        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder, IStringLocalizer<ApplicationValidators> localizer)
+        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder, IStringLocalizer localizer)
         {
             return ruleBuilder
                 .MaximumLength(256)

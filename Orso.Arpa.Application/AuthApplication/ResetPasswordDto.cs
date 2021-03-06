@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class ResetPasswordDtoValidator : AbstractValidator<ResetPasswordDto>
     {
-        public ResetPasswordDtoValidator(IStringLocalizer<ApplicationValidators> localizer)
+        public ResetPasswordDtoValidator(IStringLocalizer<ApplicationResource> localizer)
         {
             RuleFor(c => c.UsernameOrEmail)
                 .NotEmpty();

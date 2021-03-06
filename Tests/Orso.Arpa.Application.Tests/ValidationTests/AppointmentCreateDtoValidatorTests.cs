@@ -1,7 +1,11 @@
 using System;
 using FluentValidation.TestHelper;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.Resources.Cultures;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
@@ -11,7 +15,12 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [SetUp]
         public void SetUp()
         {
-            _validator = new AppointmentCreateDtoValidator();
+            IStringLocalizer<ApplicationResource>  localizer =
+                new StringLocalizer<ApplicationResource> (
+                    new ResourceManagerStringLocalizerFactory(
+                        new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
+                        new LoggerFactory()));
+            _validator = new AppointmentCreateDtoValidator(localizer);
         }
 
         private AppointmentCreateDtoValidator _validator;

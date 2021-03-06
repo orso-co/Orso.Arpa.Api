@@ -5,9 +5,12 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
+using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Resources.Cultures;
 
 namespace Orso.Arpa.Domain.Logic.Me
 {
@@ -36,7 +39,8 @@ namespace Orso.Arpa.Domain.Logic.Me
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(ArpaUserManager userManager, IUserAccessor userAccessor)
+            public Validator(ArpaUserManager userManager, IUserAccessor userAccessor,
+                IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(c => c.Email)
                     .MustAsync(async (dto, email, cancellation) =>
@@ -44,7 +48,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                         User user = await userManager.FindByEmailAsync(email);
                         return user == null || userAccessor.UserName == user.UserName;
                     })
-                    .WithMessage("Email aleady exists");
+                    .WithMessage(localizer["Email already exists"]);
             }
         }
 

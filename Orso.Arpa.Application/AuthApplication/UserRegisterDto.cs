@@ -21,7 +21,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
     {
-        public UserRegisterDtoValidator(IStringLocalizer<ApplicationValidators> localizer)
+        public UserRegisterDtoValidator(IStringLocalizer<ApplicationResource> localizer)
         {
             RuleFor(c => c.UserName)
                 .NotEmpty()

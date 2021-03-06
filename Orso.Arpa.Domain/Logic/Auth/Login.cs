@@ -6,9 +6,12 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Resources.Cultures;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -23,11 +26,11 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(ArpaUserManager userManager)
+            public Validator(ArpaUserManager userManager, IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(q => q.UsernameOrEmail)
                     .MustAsync(async (userName, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(userName) != null)
-                    .OnFailure(request => throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password"));
+                    .OnFailure(request => throw new AuthenticationException(localizer["The system could not log you in. Please enter a valid user name and password"]));
                 RuleFor(q => q.RemoteIpAddress)
                     .NotEmpty();
             }
@@ -37,13 +40,16 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
+            private readonly IStringLocalizer<DomainResource>  _localizer;
 
             public Handler(
                 SignInManager<User> signInManager,
-                IJwtGenerator jwtGenerator)
+                IJwtGenerator jwtGenerator,
+                IStringLocalizer<DomainResource>  localizer)
             {
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
+                _localizer = localizer;
             }
 
             public async Task<string> Handle(Command request, CancellationToken cancellationToken)
@@ -57,7 +63,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (!await userManager.IsEmailConfirmedAsync(user))
                 {
-                    throw new ValidationException(new[] { new ValidationFailure(nameof(user.Email), "Your email address is not confirmed. Please confirm your email address first") });
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(user.Email), _localizer["Your email address is not confirmed. Please confirm your email address first"]) });
                 }
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
@@ -69,10 +75,10 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (result.IsLockedOut)
                 {
-                    throw new AuthenticationException("Your account is locked out. Kindly wait for 10 minutes and try again");
+                    throw new AuthenticationException(_localizer["Your account is locked. Kindly wait for 10 minutes and try again"]);
                 }
 
-                throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password");
+                throw new AuthenticationException(_localizer["The system could not log you in. Please enter a valid user name and password"]);
             }
         }
     }

@@ -1,9 +1,12 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.Extensions.Localization;
+using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Resources.Cultures;
 using static Orso.Arpa.Domain.GenericHandlers.Modify;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -46,10 +49,10 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext)
+            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext);
+                    .EntityExists<Command, Appointment>(arpaContext, localizer);
             }
         }
     }

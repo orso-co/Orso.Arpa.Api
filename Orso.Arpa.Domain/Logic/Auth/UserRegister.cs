@@ -4,9 +4,12 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
+using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.Resources.Cultures;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -24,14 +27,14 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(ArpaUserManager userManager)
+            public Validator(ArpaUserManager userManager, IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(c => c.UserName)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) == null)
-                    .WithMessage("Username aleady exists");
+                    .WithMessage(localizer["Username already exists"]);
                 RuleFor(c => c.Email)
                     .MustAsync(async (email, cancellation) => await userManager.FindByEmailAsync(email) == null)
-                    .WithMessage("Email aleady exists");
+                    .WithMessage(localizer["Email already exists"]);
             }
         }
 

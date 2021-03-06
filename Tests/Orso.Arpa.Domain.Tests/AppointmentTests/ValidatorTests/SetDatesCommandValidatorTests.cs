@@ -2,10 +2,15 @@ using System;
 using AutoMapper;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Resources.Cultures;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.SetDates;
@@ -24,9 +29,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [SetUp]
         public void SetUp()
         {
+            IStringLocalizer<DomainResource>  localizer =
+                new StringLocalizer<DomainResource> (
+                    new ResourceManagerStringLocalizerFactory(
+                        new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
+                        new LoggerFactory()));
             _arpaContext = Substitute.For<IArpaContext>();
             _mapper = Substitute.For<IMapper>();
-            _validator = new Validator(_arpaContext, _mapper);
+            _validator = new Validator(_arpaContext, _mapper, localizer);
             _mockAppointmentDbSet = MockDbSets.Appointments;
             _existingAppointment = AppointmentSeedData.RockingXMasRehearsal;
             _mockAppointmentDbSet.FindAsync(Arg.Any<Guid>()).Returns(_existingAppointment);

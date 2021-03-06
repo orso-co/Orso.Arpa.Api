@@ -3,9 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Localization;
+using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.Resources.Cultures;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
@@ -30,11 +33,11 @@ namespace Orso.Arpa.Domain.Logic.Me
         public class Validator : AbstractValidator<Command>
         {
             public Validator(
-                ArpaUserManager userManager)
+                ArpaUserManager userManager, IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(c => c.Username)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
-                    .WithMessage("The user could not be found");
+                    .WithMessage(localizer["The user could not be found"]);
             }
         }
 
