@@ -65,7 +65,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Id = regionToModify.Id,
                 Name = modifyDto.Name,
                 CreatedBy = regionToModify.CreatedBy,
-                CreatedAt = regionToModify.CreatedAt,
+                CreatedAt = null,
                 ModifiedAt = DateTimeProvider.Instance.GetUtcNow(),
                 ModifiedBy = _staff.DisplayName,
             };
