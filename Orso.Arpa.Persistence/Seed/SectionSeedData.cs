@@ -196,7 +196,7 @@ namespace Orso.Arpa.Persistence.Seed
                     public static Section Horn => new Section(Guid.Parse("b9532add-efec-4510-831c-902c32ef7dbb"), "Horn", HighBrass.Id);
                         public static Section WagnerTuba => new Section(Guid.Parse("c42591db-4e41-413f-8b98-6607e2f12e39"), "Wagner Tuba", Horn.Id);
                     public static Section Trumpet => new Section(Guid.Parse("205b0a0e-1a36-48e9-8b45-df37dc5effa5"), "Trumpet", HighBrass.Id);
-                        public static Section Flugelhorn => new Section(Guid.Parse("b9532add-efec-4510-831c-902c32ef7dbb"), "Flugelhorn", Trumpet.Id);
+                        public static Section Flugelhorn => new Section(Guid.Parse("69e64d64-419f-4f9c-9948-a117b02ff198"), "Flugelhorn", Trumpet.Id);
                         public static Section PiccoloTrumpet => new Section(Guid.Parse("2393549e-5b16-4414-a896-3cebb7bcc9df"), "Piccolo Trumpet", Trumpet.Id);
                 public static Section LowBrass => new Section(Guid.Parse("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041"), "Low Brass", Brass.Id);
                     public static Section Trombone => new Section(Guid.Parse("e20ce055-5715-42f4-97e6-4025559b15f7"), "Trombone", LowBrass.Id);
@@ -209,10 +209,10 @@ namespace Orso.Arpa.Persistence.Seed
             public static Section Percussion => new Section(Guid.Parse("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c"), "Percussion", Orchestra.Id);
             public static Section Timpani => new Section(Guid.Parse("ea916a8d-1bce-4e87-b5b0-ff6304bb01a5"), "Timpani", Percussion.Id);
             public static Section Mallets => new Section(Guid.Parse("d12ebc93-4b55-455c-a9db-a826fca9a1f2"), "Mallets", Percussion.Id);
-                public static Section Glockenspiel => new Section(Guid.Parse("ea916a8d-1bce-4e87-b5b0-ff6304bb01a5"), "Glockenspiel", Mallets.Id);
-                public static Section Vibraphone => new Section(Guid.Parse("ea916a8d-1bce-4e87-b5b0-ff6304bb01a5"), "Vibraphone", Mallets.Id);
-                public static Section Xylophone => new Section(Guid.Parse("ea916a8d-1bce-4e87-b5b0-ff6304bb01a5"), "Xylophone", Mallets.Id);
-                public static Section Marimbaphone => new Section(Guid.Parse("ea916a8d-1bce-4e87-b5b0-ff6304bb01a5"), "Marimbaphone", Mallets.Id);
+                public static Section Glockenspiel => new Section(Guid.Parse("dcf267e6-5b58-4534-8e4b-a8c5747b1816"), "Glockenspiel", Mallets.Id);
+                public static Section Vibraphone => new Section(Guid.Parse("852d8129-a5b7-4378-ad9c-df89dc878b4f"), "Vibraphone", Mallets.Id);
+                public static Section Xylophone => new Section(Guid.Parse("2804ed14-7b73-4e17-bd21-edd048a60cb4"), "Xylophone", Mallets.Id);
+                public static Section Marimbaphone => new Section(Guid.Parse("bb0715dc-7f9d-4ddb-b5f5-9e7806e1069f"), "Marimbaphone", Mallets.Id);
             public static Section DrumSet => new Section(Guid.Parse("d787fe9a-2283-43f6-bbc8-8a098e1f1c81"), "Drum Set (Orchestra)", Percussion.Id);
 
         // OTHERS

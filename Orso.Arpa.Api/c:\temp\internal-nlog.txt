@@ -1,0 +1,28 @@
+2021-03-12 21:15:23.0709 Info Message Template Auto Format enabled
+2021-03-12 21:15:23.0872 Info Loading assembly: NLog.Web.AspNetCore
+2021-03-12 21:15:23.1236 Info Adding target ConsoleTarget(Name=logconsole)
+2021-03-12 21:15:23.2647 Info Validating config: TargetNames=logconsole, ConfigItems=22, FilePath=/Users/wolf/Documents/ARPA2/BackEnd/Orso.Arpa.Api/Orso.Arpa.Api/bin/Debug/net5.0/NLog.config
+2021-03-12 21:15:23.2811 Info Configuration initialized.
+2021-03-12 21:15:23.2819 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.8.12686. Product version: 4.7.8+1a738710a3e2974972abafd94d9df40f6b58035f. GlobalAssemblyCache: False
+2021-03-12 21:15:25.2308 Info AppDomain Shutting down. Logger closing...
+2021-03-12 21:15:25.2361 Info Logger has been shut down.
+2021-03-12 21:16:39.4037 Info Message Template Auto Format enabled
+2021-03-12 21:16:39.4206 Info Loading assembly: NLog.Web.AspNetCore
+2021-03-12 21:16:39.4586 Info Adding target ConsoleTarget(Name=logconsole)
+2021-03-12 21:16:39.6096 Info Validating config: TargetNames=logconsole, ConfigItems=22, FilePath=/Users/wolf/Documents/ARPA2/BackEnd/Orso.Arpa.Api/Orso.Arpa.Api/bin/Debug/net5.0/NLog.config
+2021-03-12 21:16:39.6264 Info Configuration initialized.
+2021-03-12 21:16:39.6272 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.8.12686. Product version: 4.7.8+1a738710a3e2974972abafd94d9df40f6b58035f. GlobalAssemblyCache: False
+2021-03-12 21:16:41.0508 Info AppDomain Shutting down. Logger closing...
+2021-03-12 21:16:41.0571 Info Logger has been shut down.
+2021-03-12 21:18:11.1104 Info Message Template Auto Format enabled
+2021-03-12 21:18:11.1298 Info Loading assembly: NLog.Web.AspNetCore
+2021-03-12 21:18:11.1731 Info Adding target ConsoleTarget(Name=logconsole)
+2021-03-12 21:18:11.3115 Info Validating config: TargetNames=logconsole, ConfigItems=22, FilePath=/Users/wolf/Documents/ARPA2/BackEnd/Orso.Arpa.Api/Orso.Arpa.Api/bin/Debug/net5.0/NLog.config
+2021-03-12 21:18:11.3290 Info Configuration initialized.
+2021-03-12 21:18:11.3299 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.8.12686. Product version: 4.7.8+1a738710a3e2974972abafd94d9df40f6b58035f. GlobalAssemblyCache: False
+2021-03-12 21:18:14.1492 Info AppDomain Shutting down. Logger closing...
+2021-03-12 21:18:14.1554 Info Logger has been shut down.
+2021-03-12 21:40:46.1948 Info Message Template Auto Format enabled
+2021-03-12 21:40:46.2134 Info Loading assembly: NLog.Web.AspNetCore
+2021-03-12 21:40:46.2471 Info Adding target ConsoleTarget(Name=logconsole)
+2021-03-12 21:40:46.3760 Info Validating config: TargetNames=logconsole, ConfigItems=22, FilePath=/Users/wolf/Documents/ARPA2/BackEnd/Orso.Arpa.Api/Orso.Arpa.Api/bin/Debug/net5.0/nlog.config
