@@ -16,7 +16,7 @@ namespace Orso.Arpa.Persistence.Seed
                                         Alto1,
                                         Alto2,
                                 HighFemaleVoices,
-                                   Soprano,
+                                    Soprano,
                                         Soprano1,
                                         Soprano2,
                                     MezzoSoprano,
