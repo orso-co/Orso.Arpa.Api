@@ -1,3 +1,4 @@
+using System;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
@@ -12,7 +13,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.Performer;
-                return CreateDto(person, "anonymous");
+                return CreateDto(person, "anonymous", new System.DateTime(2021, 1, 1));
             }
         }
 
@@ -21,7 +22,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.Staff;
-                return CreateDto(person, "anonymous");
+                return CreateDto(person, "anonymous", new System.DateTime(2021, 1, 1));
             }
         }
 
@@ -30,11 +31,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonSeedData.Admin;
-                return CreateDto(person, "anonymous");
+                return CreateDto(person, null, null);
             }
         }
 
-        private static PersonDto CreateDto(Person person, string createdBy)
+        private static PersonDto CreateDto(Person person, string createdBy, DateTime? createdAt)
         {
             return new PersonDto
             {
@@ -44,7 +45,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 ModifiedAt = null,
                 ModifiedBy = person.ModifiedBy,
                 Surname = person.Surname,
-                CreatedAt = new System.DateTime(2021,1,1)
+                CreatedAt = createdAt
             };
         }
     }
