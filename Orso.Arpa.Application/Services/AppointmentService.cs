@@ -9,6 +9,7 @@ using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Logic.Appointments;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
 using Generic = Orso.Arpa.Domain.GenericHandlers;
@@ -19,9 +20,9 @@ namespace Orso.Arpa.Application.Services
         AppointmentDto,
         Appointment,
         AppointmentCreateDto,
-        Create.Command,
+        Domain.Logic.Appointments.Create.Command,
         AppointmentModifyDto,
-        Modify.Command>, IAppointmentService
+        Domain.Logic.Appointments.Modify.Command>, IAppointmentService
     {
         public AppointmentService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
@@ -49,9 +50,19 @@ namespace Orso.Arpa.Application.Services
         {
             date ??= DateTime.Today;
 
-            return await base.GetAsync(predicate: a =>
-               a.StartTime >= DateHelper.GetStartTime(date.Value, range)
-               && a.StartTime <= DateHelper.GetEndTime(date.Value, range));
+            IQueryable<Appointment> entities = await _mediator.Send(new List.Query<Appointment>(
+                predicate: a =>
+                    a.StartTime >= DateHelper.GetStartTime(date.Value, range)
+                    && a.StartTime <= DateHelper.GetEndTime(date.Value, range)));
+
+            var dtoList = new List<AppointmentDto>();
+            foreach (Appointment appointment in entities)
+            {
+                AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
+                AddParticipations(dto, appointment);
+                dtoList.Add(dto);
+            }
+            return dtoList;
         }
 
         public override async Task<AppointmentDto> GetByIdAsync(Guid id)

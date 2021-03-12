@@ -35,8 +35,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
                 result.Count().Should().Be(1);
                 AppointmentDto returnedAppointment = result.First();
-                returnedAppointment.Should().BeEquivalentTo(expectedDto, opt => opt
-                    .Excluding(dto => dto.Participations));
+                returnedAppointment.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(2)]

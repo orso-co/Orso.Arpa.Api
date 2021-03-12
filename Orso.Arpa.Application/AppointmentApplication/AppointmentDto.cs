@@ -35,13 +35,12 @@ namespace Orso.Arpa.Application.AppointmentApplication
         public AppointmentDtoMappingProfile()
         {
             CreateMap<Appointment, AppointmentDto>()
-                .ForMember(dest => dest.Participations, opt => opt.MapFrom(src => src.AppointmentParticipations))
+                .ForMember(dest => dest.Participations, opt => opt.Ignore())
                 .ForMember(dest => dest.Projects, opt => opt.MapFrom(src => src.ProjectAppointments.Select(pa => pa.Project)))
                 .ForMember(dest => dest.Sections, opt => opt.MapFrom(src => src.SectionAppointments.Select(ra => ra.Section)))
                 .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.AppointmentRooms.Select(ra => ra.Room)))
                 .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
                 .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
-                .ForMember(dest => dest.Participations, opt => opt.Ignore())
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
