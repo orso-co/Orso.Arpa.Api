@@ -17,7 +17,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     RockingXMasRehearsal,
                     RockingXMasConcert,
-                    AfterShowParty
+                    AfterShowParty,
+                    StaffMeeting
                 };
             }
         }
@@ -93,7 +94,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         EmolumentPatternId = SelectValueMappingSeedData.AppointmentEmolumentPatternMappings[2].Id,
                         StartTime = new DateTime(2019, 12, 24),
                         EndTime = new DateTime(2019, 12, 24, 06, 00, 00),
-                        PublicDetails = "Let the party started",
+                        PublicDetails = "Get the party started",
                         InternalDetails = "Shake it, baby",
                         Name = "Rocking X-mas After Show Party",
                         ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[0].Id
@@ -103,6 +104,34 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 appointment.AppointmentRooms.Add(new AppointmentRoom(appointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
                 appointment.SectionAppointments.Add(new SectionAppointment(SectionSeedData.Alto.Id, appointmentId));
                 appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
+                return appointment;
+            }
+        }
+
+        public static Appointment StaffMeeting
+        {
+            get
+            {
+                var id = Guid.Parse("cab05507-489c-4f18-aad5-f1c393626860");
+                var appointment = new Appointment
+                (
+                    id,
+                    new Create.Command
+                    {
+                        CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
+                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        EmolumentId = SelectValueMappingSeedData.AppointmentEmolumentMappings[1].Id,
+                        EmolumentPatternId = null,
+                        StartTime = new DateTime(2020, 12, 22, 20, 00, 00),
+                        EndTime = new DateTime(2020, 12, 22, 23, 30, 00),
+                        PublicDetails = "Meet and greet",
+                        InternalDetails = "Reminder: Don't forget to talk about the summer holidays",
+                        Name = "Team Meeting",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[2].Id
+                    }
+                );
+                appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
+                appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.HoorayForHollywood.Id, id));
                 return appointment;
             }
         }
