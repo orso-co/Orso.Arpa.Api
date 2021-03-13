@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -53,21 +52,17 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(request.Id);
+                ProjectAppointment projectAppointment = await _arpaContext.ProjectAppointments
+                    .FirstOrDefaultAsync(pa => pa.ProjectId == request.ProjectId && pa.AppointmentId == request.Id, cancellationToken);
 
-                ProjectAppointment projectAppointment = existingAppointment.ProjectAppointments
-                    .FirstOrDefault(r => r.ProjectId == request.ProjectId);
-
-                existingAppointment.ProjectAppointments.Remove(projectAppointment);
-
-                _arpaContext.Appointments.Update(existingAppointment);
+                _arpaContext.ProjectAppointments.Remove(projectAppointment);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem updating appointment");
+                throw new Exception("Problem removing project appointment");
             }
         }
     }

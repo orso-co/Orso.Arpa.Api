@@ -73,17 +73,16 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
+                Project existingProject = await _arpaContext.Projects.FindAsync(new object[] { request.ProjectId }, cancellationToken);
 
-                existingAppointment.ProjectAppointments.Add(_mapper.Map<ProjectAppointment>(request));
-
-                _arpaContext.Appointments.Update(existingAppointment);
+                _arpaContext.ProjectAppointments.Add(new ProjectAppointment(existingProject, existingAppointment));
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem updating appointment");
+                throw new Exception("Problem creating project appointment");
             }
         }
     }

@@ -4,6 +4,12 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class AppointmentRoom
     {
+        public AppointmentRoom(Appointment appointment, Room room)
+        {
+            Appointment = appointment;
+            Room = room;
+        }
+
         public AppointmentRoom(Guid appointmentId, Guid roomId)
         {
             AppointmentId = appointmentId;

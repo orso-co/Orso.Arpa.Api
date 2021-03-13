@@ -122,11 +122,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Get(Guid id) => $"{Appointments}/{id}";
 
-            public static string AddRoom(Guid id, Guid roomId) => $"{Appointments}/{id}/rooms/{roomId}";
+            public static string Room(Guid id, Guid roomId) => $"{Appointments}/{id}/rooms/{roomId}";
 
-            public static string AddSection(Guid id, Guid sectionId) => $"{Appointments}/{id}/sections/{sectionId}";
+            public static string Section(Guid id, Guid sectionId) => $"{Appointments}/{id}/sections/{sectionId}";
 
-            public static string AddProject(Guid id, Guid projectId) => $"{Appointments}/{id}/projects/{projectId}";
+            public static string Project(Guid id, Guid projectId) => $"{Appointments}/{id}/projects/{projectId}";
 
             public static string SetVenue(Guid id, Guid? venueId) => $"{Appointments}/{id}/venue/set/{venueId}";
 

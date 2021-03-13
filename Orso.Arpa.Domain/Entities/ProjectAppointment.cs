@@ -4,6 +4,12 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class ProjectAppointment
     {
+        public ProjectAppointment(Project project, Appointment appointment)
+        {
+            Project = project;
+            Appointment = appointment;
+        }
+
         public ProjectAppointment(Guid projectId, Guid appointmentId)
         {
             ProjectId = projectId;
