@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -31,16 +31,15 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
         public async Task Should_Remove_Project()
         {
             // Arrange
-            DbSet<Appointment> mockData = MockDbSets.Appointments;
-            Appointment appointment = AppointmentSeedData.AfterShowParty;
-            mockData.FindAsync(Arg.Any<Guid>()).Returns(appointment);
-            _arpaContext.Appointments.Returns(mockData);
+            DbSet<AppointmentRoom> mockData = MockDbSets.AppointmentRooms;
+            AppointmentRoom appointmentRoom = AppointmentSeedData.AfterShowParty.AppointmentRooms.First();
+            _arpaContext.AppointmentRooms.Returns(mockData);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
             Unit result = await _handler.Handle(new RemoveRoom.Command(
-                appointment.Id,
-                RoomSeedData.AulaWeiherhofSchule.Id), new CancellationToken());
+                appointmentRoom.AppointmentId,
+               appointmentRoom.RoomId), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(Unit.Value);

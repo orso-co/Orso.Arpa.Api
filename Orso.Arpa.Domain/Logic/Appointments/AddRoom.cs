@@ -71,17 +71,18 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
+                Room existingRoom = await _arpaContext.Rooms.FindAsync(new object[] { request.RoomId }, cancellationToken);
 
-                existingAppointment.AppointmentRooms.Add(_mapper.Map<AppointmentRoom>(request));
+                var appointmentRoom = new AppointmentRoom(existingAppointment, existingRoom);
 
-                _arpaContext.Appointments.Update(existingAppointment);
+                _arpaContext.AppointmentRooms.Add(appointmentRoom);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem updating appointment");
+                throw new Exception("Problem creating appointment room");
             }
         }
     }
