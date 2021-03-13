@@ -28,16 +28,18 @@ namespace Orso.Arpa.Application.Services
         {
         }
 
-        public async Task AddProjectAsync(AppointmentAddProjectDto addProjectDto)
+        public async Task<AppointmentDto> AddProjectAsync(AppointmentAddProjectDto addProjectDto)
         {
             AddProject.Command command = _mapper.Map<AddProject.Command>(addProjectDto);
             await _mediator.Send(command);
+            return await GetByIdAsync(addProjectDto.Id);
         }
 
-        public async Task AddSectionAsync(AppointmentAddSectionDto addSectionDto)
+        public async Task<AppointmentDto> AddSectionAsync(AppointmentAddSectionDto addSectionDto)
         {
             AddSection.Command command = _mapper.Map<AddSection.Command>(addSectionDto);
             await _mediator.Send(command);
+            return await GetByIdAsync(addSectionDto.Id);
         }
 
         public async Task AddRoomAsync(AppointmentAddRoomDto addRoomDto)
@@ -91,16 +93,18 @@ namespace Orso.Arpa.Application.Services
             dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(persons);
         }
 
-        public async Task RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto)
+        public async Task<AppointmentDto> RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto)
         {
             RemoveProject.Command command = _mapper.Map<RemoveProject.Command>(removeProjectDto);
             await _mediator.Send(command);
+            return await GetByIdAsync(removeProjectDto.Id);
         }
 
-        public async Task RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto)
+        public async Task<AppointmentDto> RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto)
         {
             RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(removeSectionDto);
             await _mediator.Send(command);
+            return await GetByIdAsync(removeSectionDto.Id);
         }
 
         public async Task RemoveRoomAsync(AppointmentRemoveRoomDto removeRoomDto)
