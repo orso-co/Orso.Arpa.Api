@@ -726,6 +726,14 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("4e7a61c5-d2e4-4e3b-b21d-34a90cf958b2"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Conductor",
+                            ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
+                        },
+                        new
+                        {
                             Id = new Guid("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -739,38 +747,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Name = "Female Voices",
                             ParentId = new Guid("c2cfb7a0-4981-4dda-b988-8ba74957f6a4")
-                        },
-                        new
-                        {
-                            Id = new Guid("48337b78-70f0-493e-911b-296632b06ef8"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Deep Female Voices",
-                            ParentId = new Guid("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6")
-                        },
-                        new
-                        {
-                            Id = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Alto",
-                            ParentId = new Guid("48337b78-70f0-493e-911b-296632b06ef8")
-                        },
-                        new
-                        {
-                            Id = new Guid("e809ee90-23f9-44de-b80e-2fddd5ee3683"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Alto 1",
-                            ParentId = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940")
-                        },
-                        new
-                        {
-                            Id = new Guid("50dfa2be-85e2-4638-aa53-22dadc97a844"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Alto 2",
-                            ParentId = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940")
                         },
                         new
                         {
@@ -814,11 +790,75 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("48337b78-70f0-493e-911b-296632b06ef8"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Deep Female Voices",
+                            ParentId = new Guid("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6")
+                        },
+                        new
+                        {
+                            Id = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Alto",
+                            ParentId = new Guid("48337b78-70f0-493e-911b-296632b06ef8")
+                        },
+                        new
+                        {
+                            Id = new Guid("e809ee90-23f9-44de-b80e-2fddd5ee3683"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Alto 1",
+                            ParentId = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940")
+                        },
+                        new
+                        {
+                            Id = new Guid("50dfa2be-85e2-4638-aa53-22dadc97a844"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Alto 2",
+                            ParentId = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940")
+                        },
+                        new
+                        {
                             Id = new Guid("4599103d-f220-4744-92d1-7c6993e9bda4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Male Voices",
                             ParentId = new Guid("c2cfb7a0-4981-4dda-b988-8ba74957f6a4")
+                        },
+                        new
+                        {
+                            Id = new Guid("7924daef-2542-4648-a42f-4c4374ee09db"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "High Male Voices",
+                            ParentId = new Guid("4599103d-f220-4744-92d1-7c6993e9bda4")
+                        },
+                        new
+                        {
+                            Id = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Tenor",
+                            ParentId = new Guid("7924daef-2542-4648-a42f-4c4374ee09db")
+                        },
+                        new
+                        {
+                            Id = new Guid("3db46ff0-9165-46cc-8f28-6a1d52dee518"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Tenor 1",
+                            ParentId = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da")
+                        },
+                        new
+                        {
+                            Id = new Guid("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Tenor 2",
+                            ParentId = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da")
                         },
                         new
                         {
@@ -862,38 +902,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7924daef-2542-4648-a42f-4c4374ee09db"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "High Male Voices",
-                            ParentId = new Guid("4599103d-f220-4744-92d1-7c6993e9bda4")
-                        },
-                        new
-                        {
-                            Id = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Tenor",
-                            ParentId = new Guid("7924daef-2542-4648-a42f-4c4374ee09db")
-                        },
-                        new
-                        {
-                            Id = new Guid("3db46ff0-9165-46cc-8f28-6a1d52dee518"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Tenor 1",
-                            ParentId = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da")
-                        },
-                        new
-                        {
-                            Id = new Guid("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Tenor 2",
-                            ParentId = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da")
-                        },
-                        new
-                        {
                             Id = new Guid("308659d6-6014-4d2c-a62a-be75bf202e62"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -913,7 +921,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Woodwind",
+                            Name = "Woodwinds",
                             ParentId = new Guid("b289cfe7-d66e-48d8-83a9-f4b1f7710863")
                         },
                         new
@@ -942,6 +950,22 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("d0a18a79-ad5a-450d-92cc-20a58496aaf0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Tenor Flute",
+                            ParentId = new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b")
+                        },
+                        new
+                        {
+                            Id = new Guid("fc66c8b8-d9de-4ff0-a695-37e717103686"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Bass Flute",
+                            ParentId = new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b")
+                        },
+                        new
+                        {
                             Id = new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -950,10 +974,26 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("4e71ffc3-e086-4c16-a932-3d80fd302971"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Oboe d'Amore",
+                            ParentId = new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42")
+                        },
+                        new
+                        {
                             Id = new Guid("abe0d27b-2c99-4755-891c-fb0b91f19bb6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "English Horn",
+                            ParentId = new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42")
+                        },
+                        new
+                        {
+                            Id = new Guid("2f8d732f-bf82-4a62-86a1-62bffd708189"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Bariton Oboe",
                             ParentId = new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42")
                         },
                         new
@@ -974,10 +1014,66 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("f0cb7a5b-d22b-4824-892a-fb3a71ac10f0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Clarinet I",
+                            ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
+                        },
+                        new
+                        {
+                            Id = new Guid("c90d3ea3-e68d-4797-9622-b04e9467b2c1"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Clarinet II",
+                            ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
+                        },
+                        new
+                        {
+                            Id = new Guid("8e2ee4d1-9b22-4557-95ee-8cce4089a491"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Clarinet III",
+                            ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
+                        },
+                        new
+                        {
+                            Id = new Guid("7be818c9-49a7-46e0-a775-4ed516a2364d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Clarinet IV",
+                            ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
+                        },
+                        new
+                        {
+                            Id = new Guid("be75913a-9703-4a8d-9e07-7a8d32c459f8"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Alto Clarinet",
+                            ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
+                        },
+                        new
+                        {
+                            Id = new Guid("8c0a80d1-5889-4794-89b6-b80a3828aa5b"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Basset Horn",
+                            ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
+                        },
+                        new
+                        {
                             Id = new Guid("5109e464-7b01-40bd-a5e0-398ac3d1bb83"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Bass Clarinet",
+                            ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
+                        },
+                        new
+                        {
+                            Id = new Guid("a5cc5e9d-b318-4edc-af84-ff3d701d0bcb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Double Bass Clarinet",
                             ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
                         },
                         new
@@ -998,11 +1094,75 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("7cb00d2e-5a98-4b68-b775-3b5d1f267d96"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Contraforte",
+                            ParentId = new Guid("5c14f673-13f2-488f-8c21-7286d3ee10c3")
+                        },
+                        new
+                        {
+                            Id = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Saxophone",
+                            ParentId = new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd")
+                        },
+                        new
+                        {
+                            Id = new Guid("b5d01e60-af61-4d29-bfb3-2f0dbac1e2fb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Soprano Saxophone",
+                            ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
+                        },
+                        new
+                        {
+                            Id = new Guid("4a31447d-63c2-4e28-ab39-255a956fbe18"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Alto Saxophone",
+                            ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
+                        },
+                        new
+                        {
+                            Id = new Guid("da998fcb-92b9-4828-976e-826e97e05cb3"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Tenor Saxophone",
+                            ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
+                        },
+                        new
+                        {
+                            Id = new Guid("e4622ea3-f6a0-40b2-ac80-a2c9df099aeb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Baritone Saxophone",
+                            ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
+                        },
+                        new
+                        {
+                            Id = new Guid("fb4f9841-294a-4b6c-bfec-02d3735b1ea0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Bass Saxophone",
+                            ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
+                        },
+                        new
+                        {
                             Id = new Guid("f4c70178-d069-44dc-8956-7160c5fef52e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Brass",
                             ParentId = new Guid("b289cfe7-d66e-48d8-83a9-f4b1f7710863")
+                        },
+                        new
+                        {
+                            Id = new Guid("7d0d2295-df8a-4cfa-9f43-87dbf9fc133f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "High Brass",
+                            ParentId = new Guid("f4c70178-d069-44dc-8956-7160c5fef52e")
                         },
                         new
                         {
@@ -1038,6 +1198,38 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("2393549e-5b16-4414-a896-3cebb7bcc9df"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Piccolo Trumpet",
+                            ParentId = new Guid("205b0a0e-1a36-48e9-8b45-df37dc5effa5")
+                        },
+                        new
+                        {
+                            Id = new Guid("290f84d4-bb3f-41c3-9f42-c649c8eeea26"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Soprano Cornet",
+                            ParentId = new Guid("205b0a0e-1a36-48e9-8b45-df37dc5effa5")
+                        },
+                        new
+                        {
+                            Id = new Guid("305c06e0-b99f-4f91-ae83-869d8b25c63d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Cornet",
+                            ParentId = new Guid("205b0a0e-1a36-48e9-8b45-df37dc5effa5")
+                        },
+                        new
+                        {
+                            Id = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Low Brass",
+                            ParentId = new Guid("f4c70178-d069-44dc-8956-7160c5fef52e")
+                        },
+                        new
+                        {
                             Id = new Guid("e20ce055-5715-42f4-97e6-4025559b15f7"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -1062,10 +1254,34 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("32f3fdd9-9517-4db5-856e-376e9fa52b84"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Double Bass Trombone",
+                            ParentId = new Guid("e20ce055-5715-42f4-97e6-4025559b15f7")
+                        },
+                        new
+                        {
                             Id = new Guid("554fd3db-110b-4335-bc2a-1d5070f6621a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Euphonium",
+                            ParentId = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041")
+                        },
+                        new
+                        {
+                            Id = new Guid("803219aa-1a32-4a68-95ae-348bd487135a"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Tenor Horn",
+                            ParentId = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041")
+                        },
+                        new
+                        {
+                            Id = new Guid("b525e539-7fa4-49d7-ae93-ec0748022d4d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Baritone Horn",
                             ParentId = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041")
                         },
                         new
@@ -1075,6 +1291,22 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Name = "Tuba",
                             ParentId = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041")
+                        },
+                        new
+                        {
+                            Id = new Guid("2fabd3a1-d398-4108-a74f-2665710133d1"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Eb Tuba",
+                            ParentId = new Guid("18cbded8-0d64-4e0e-bc19-d6903e0fd5a9")
+                        },
+                        new
+                        {
+                            Id = new Guid("31a2b9bf-0c2b-47ec-b8bc-34c9423b74d4"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "F Tuba",
+                            ParentId = new Guid("18cbded8-0d64-4e0e-bc19-d6903e0fd5a9")
                         },
                         new
                         {
@@ -1110,10 +1342,10 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bb0715dc-7f9d-4ddb-b5f5-9e7806e1069f"),
+                            Id = new Guid("852d8129-a5b7-4378-ad9c-df89dc878b4f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Marimbaphone",
+                            Name = "Vibraphone",
                             ParentId = new Guid("d12ebc93-4b55-455c-a9db-a826fca9a1f2")
                         },
                         new
@@ -1126,11 +1358,19 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("852d8129-a5b7-4378-ad9c-df89dc878b4f"),
+                            Id = new Guid("bb0715dc-7f9d-4ddb-b5f5-9e7806e1069f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Vibraphone",
+                            Name = "Marimbaphone",
                             ParentId = new Guid("d12ebc93-4b55-455c-a9db-a826fca9a1f2")
+                        },
+                        new
+                        {
+                            Id = new Guid("c15c3649-d7bb-4bbf-bdd3-f6146ebc825c"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Drum Set (Orchestra)",
+                            ParentId = new Guid("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c")
                         },
                         new
                         {
@@ -1139,6 +1379,14 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Name = "Others",
                             ParentId = new Guid("308659d6-6014-4d2c-a62a-be75bf202e62")
+                        },
+                        new
+                        {
+                            Id = new Guid("34cab62e-68d7-49d2-8f18-791f2bc6090f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Harp",
+                            ParentId = new Guid("49966aee-18d0-4884-ad34-038ca5390b83")
                         },
                         new
                         {
@@ -1158,18 +1406,18 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("78831a47-8469-4a0c-aa39-343f44a0bb09"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Cembalo",
-                            ParentId = new Guid("2a777891-847a-4014-b801-639c0cacf18d")
-                        },
-                        new
-                        {
                             Id = new Guid("b1639d96-347b-4ee2-bef0-ab73a0194d8e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Celesta",
+                            ParentId = new Guid("2a777891-847a-4014-b801-639c0cacf18d")
+                        },
+                        new
+                        {
+                            Id = new Guid("78831a47-8469-4a0c-aa39-343f44a0bb09"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Cembalo",
                             ParentId = new Guid("2a777891-847a-4014-b801-639c0cacf18d")
                         },
                         new
@@ -1190,6 +1438,22 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("76891771-b5f2-4666-8972-ba7f494fc9de"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Accordion",
+                            ParentId = new Guid("49966aee-18d0-4884-ad34-038ca5390b83")
+                        },
+                        new
+                        {
+                            Id = new Guid("d7ff1f62-e5c5-4662-823b-f77ff7706b4e"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Bandoneon",
+                            ParentId = new Guid("49966aee-18d0-4884-ad34-038ca5390b83")
+                        },
+                        new
+                        {
                             Id = new Guid("a22b6f19-3e9c-4389-824b-22db7b8cf8fd"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -1201,7 +1465,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("1d0ed0b3-b87b-439f-932e-616d7e03a0d6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Electric Guitar (Orchestra)",
+                            Name = "Acoustic Guitar (Orchestra)",
                             ParentId = new Guid("a22b6f19-3e9c-4389-824b-22db7b8cf8fd")
                         },
                         new
@@ -1222,34 +1486,10 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d787fe9a-2283-43f6-bbc8-8a098e1f1c81"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Drum Set (Orchestra)",
-                            ParentId = new Guid("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c")
-                        },
-                        new
-                        {
                             Id = new Guid("08bc313b-d0dd-4b78-bdbf-d976682d965e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "GlassHarp",
-                            ParentId = new Guid("49966aee-18d0-4884-ad34-038ca5390b83")
-                        },
-                        new
-                        {
-                            Id = new Guid("76891771-b5f2-4666-8972-ba7f494fc9de"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Accordion",
-                            ParentId = new Guid("49966aee-18d0-4884-ad34-038ca5390b83")
-                        },
-                        new
-                        {
-                            Id = new Guid("d7ff1f62-e5c5-4662-823b-f77ff7706b4e"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Bandoneon",
                             ParentId = new Guid("49966aee-18d0-4884-ad34-038ca5390b83")
                         },
                         new
@@ -1262,11 +1502,35 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("8903b8c5-0ef8-48fd-9c2b-71fbae827965"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Didgeridoo",
+                            ParentId = new Guid("49966aee-18d0-4884-ad34-038ca5390b83")
+                        },
+                        new
+                        {
                             Id = new Guid("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Strings",
                             ParentId = new Guid("308659d6-6014-4d2c-a62a-be75bf202e62")
+                        },
+                        new
+                        {
+                            Id = new Guid("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "High Strings",
+                            ParentId = new Guid("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb")
+                        },
+                        new
+                        {
+                            Id = new Guid("fab9a49a-9fa4-4af3-9e40-e13bdc930513"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Violins",
+                            ParentId = new Guid("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8")
                         },
                         new
                         {
@@ -1281,7 +1545,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("f3ee3c42-4e4e-411d-a839-6e0420bc35a3"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Strings",
+                            Name = "Violin II",
                             ParentId = new Guid("fab9a49a-9fa4-4af3-9e40-e13bdc930513")
                         },
                         new
@@ -1289,8 +1553,16 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("df541ea1-a5fd-4975-b6fd-7cd652a79073"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Strings",
+                            Name = "Viola",
                             ParentId = new Guid("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8")
+                        },
+                        new
+                        {
+                            Id = new Guid("fdd5d68c-2620-47a3-80e4-64fda6dc7e3f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Low Strings",
+                            ParentId = new Guid("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb")
                         },
                         new
                         {
@@ -1310,10 +1582,51 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b58d047f-ec04-41e9-a728-06a8a160f55b"),
+                            Id = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Visitors"
+                            Name = "Band",
+                            ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
+                        },
+                        new
+                        {
+                            Id = new Guid("48833c1b-cbc1-43b2-a4c5-f1fa4289f5ab"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Electric Guitar (Band)",
+                            ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
+                        },
+                        new
+                        {
+                            Id = new Guid("454c2ad6-e3c8-428a-b74e-c73873159c0e"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Electric Bass (Band)",
+                            ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
+                        },
+                        new
+                        {
+                            Id = new Guid("d787fe9a-2283-43f6-bbc8-8a098e1f1c81"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Drum Set (Band)",
+                            ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
+                        },
+                        new
+                        {
+                            Id = new Guid("7f811b88-e7db-461a-af5d-e249b1ce9e7d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Keyboards (Band)",
+                            ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
+                        },
+                        new
+                        {
+                            Id = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Soloists",
+                            ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
                         },
                         new
                         {
@@ -1321,6 +1634,20 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Members"
+                        },
+                        new
+                        {
+                            Id = new Guid("b58d047f-ec04-41e9-a728-06a8a160f55b"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Visitors"
+                        },
+                        new
+                        {
+                            Id = new Guid("75f593aa-fd20-4c05-9300-b31dbb90712e"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Volunteers"
                         },
                         new
                         {
