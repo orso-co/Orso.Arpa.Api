@@ -18,9 +18,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Other,
                     FemaleVoices,
                     MaleVoices,
-                    DeepFemaleVoices,
+                    LowFemaleVoices,
                     HighFemaleVoices,
-                    DeepMaleVoices,
+                    LowMaleVoices,
                     HighMaleVoices,
                     Alto,
                     Alto1,
@@ -118,7 +118,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Male Voices",
         };
 
-        public static SectionDto DeepFemaleVoices => new SectionDto
+        public static SectionDto LowFemaleVoices => new SectionDto
         {
             Id = Guid.Parse("48337b78-70f0-493e-911b-296632b06ef8"),
             Name = "Deep Female Voices",
@@ -130,7 +130,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "High Female Voices",
         };
 
-        public static SectionDto DeepMaleVoices => new SectionDto
+        public static SectionDto LowMaleVoices => new SectionDto
         {
             Id = Guid.Parse("b9673cfd-7cdb-472c-86e0-1304cbb3840a"),
             Name = "Deep Male Voices",

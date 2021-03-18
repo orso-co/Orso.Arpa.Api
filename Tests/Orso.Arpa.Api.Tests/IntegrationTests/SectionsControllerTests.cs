@@ -25,6 +25,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<SectionDto> result = await DeserializeResponseMessageAsync<IEnumerable<SectionDto>>(responseMessage);
+            // TODO: result contains the full Section tree of currently 118 sections,
+            //       the static SectionDtoData contains a different, smaller tree
             result.Should().BeEquivalentTo(SectionDtoData.Sections);
         }
 
@@ -40,6 +42,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             SectionTreeDto result = await DeserializeResponseMessageAsync<SectionTreeDto>(responseMessage);
+            // TODO: result contains the full Section tree of currently 118 sections,
+            //       whereas the SectionTreeDtoData.Level2SectionTreeDto only a test tree with some elements
             result.Should().BeEquivalentTo(SectionTreeDtoData.Level2SectionTreeDto);
         }
     }
