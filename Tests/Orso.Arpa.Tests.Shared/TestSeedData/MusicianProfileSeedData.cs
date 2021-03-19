@@ -97,7 +97,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     IsProfessional = true,
                     PersonId = PersonTestSeedData.UserWithoutRole.Id,
-                    SectionId = SectionSeedData.Basso1.Id
+                    SectionId = SectionSeedData.Bass1.Id
                 });
             }
         }
