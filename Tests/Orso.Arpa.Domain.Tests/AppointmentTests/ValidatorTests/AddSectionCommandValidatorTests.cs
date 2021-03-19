@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext, localizer);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
-            _validSectionId = SectionSeedData.DeepFemaleVoices.Id;
+            _validSectionId = SectionSeedData.LowFemaleVoices.Id;
             _mockAppointments = MockDbSets.Appointments;
             _mockSectionAppointments = MockDbSets.SectionAppointments;
             _mockSections = MockDbSets.Sections;
