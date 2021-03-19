@@ -10,8 +10,8 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210227075236_SeedPersons")]
-    partial class SeedPersons
+    [Migration("20210319170248_NewSectionsAddedToSectionSeedData")]
+    partial class NewSectionsAddedToSectionSeedData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
