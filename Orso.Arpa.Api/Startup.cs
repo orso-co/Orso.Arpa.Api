@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using FluentValidation.AspNetCore;
-using Localization.SqlLocalizer.DbStringLocalizer;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -17,14 +16,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.Localization;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
@@ -65,10 +65,10 @@ namespace Orso.Arpa.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureLocalization(services);
-
             RegisterServices(services);
             RegisterDateTimeProvider(services);
+
+            ConfigureLocalization(services);
 
             ConfigureDatabase(services);
 
@@ -97,37 +97,23 @@ namespace Orso.Arpa.Api
 
             ConfigureAuthorization(services);
 
-
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
         {
-            services.AddDbContext<LocalizationModelContext>(opt =>
-            {
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                if (_hostingEnvironment.IsDevelopment())
-                {
-                    opt.EnableSensitiveDataLogging();
-                    opt.EnableDetailedErrors();
-                }
-            },
-                ServiceLifetime.Singleton,
-                ServiceLifetime.Singleton);
+            if (services == null)
+                throw new ArgumentNullException(nameof (services));
+            services.AddSingleton(sp => new LocalizerCache(sp));
+            services.AddScoped<Translation.CallBack>(sp => sp.GetService<LocalizerCache>().CallBack);
+            services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
-            services.AddSqlLocalization(options =>
-            {
-                options.UseTypeFullNames = false;
-                options.UseOnlyPropertyNames = false;
-                options.ReturnOnlyKeyIfNotFound = true;
-                options.CreateNewRecordWhenLocalisedStringDoesNotExist = true;
-            });
-
-            services.AddMvc().AddMvcLocalization();
+            services.AddLocalization();
+            //services.AddMvc().AddMvcLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.SetDefaultCulture("en");
-                options.AddSupportedUICultures("en", "de");
+                options.SetDefaultCulture("en-US");
+                options.AddSupportedUICultures("en-US", "de-DE");
                 options.FallBackToParentUICultures = true;
                 options.RequestCultureProviders.Add(new CookieRequestCultureProvider {CookieName = "Culture"});
                 options.RequestCultureProviders.Remove(
@@ -359,9 +345,9 @@ namespace Orso.Arpa.Api
 
             AddSwagger(app);
 
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
-
             EnsureDatabaseMigrations(app);
+
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
         private static void AddSwagger(IApplicationBuilder app)
