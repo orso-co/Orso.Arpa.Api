@@ -66,6 +66,10 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Venue> Venues { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
 
+        public DbSet<Translation> Translations { get; set; }
+
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();

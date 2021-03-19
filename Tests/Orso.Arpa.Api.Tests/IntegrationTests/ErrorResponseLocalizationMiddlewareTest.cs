@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
+
 using FluentAssertions;
-using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
@@ -35,7 +34,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day)+"&culture=de");
+                .GetAsync(ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day)+"&culture=de-DE");
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
@@ -50,7 +49,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day)+"&culture=en");
+                .GetAsync(ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day)+"&culture=en-US");
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
@@ -105,7 +104,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
                 .SendAsync(requestMessage);
-            //.GetAsync(ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day), httpContent);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
