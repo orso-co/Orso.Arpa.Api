@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using Orso.Arpa.Domain;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.DataAccess;
 
 namespace Orso.Arpa.Application.Localization
@@ -47,8 +45,8 @@ namespace Orso.Arpa.Application.Localization
             lock (_syncLock)
             {
                 using IServiceScope scope = _serviceProvider.CreateScope();
-                ArpaContext context = scope.ServiceProvider.GetService<ArpaContext>();
-                return context?.Translations.ToList();
+                ArpaContext context = scope.ServiceProvider.GetRequiredService<ArpaContext>();
+                return context.Translations.ToList();
             }
         }
     }
