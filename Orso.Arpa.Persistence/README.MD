@@ -40,5 +40,16 @@ dotnet ef migrations remove -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
 ```
 dotnet ef database update -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
 ```
+In case you need to downgrade your database to a former migration,
 
-Hint: The database is updated automatically at app start. Only use this command if you want to update the database without starting the app.
+1. obtain then list of migration names
+    ```
+    dotnet ef migrations list -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
+    ```
+1. downgrade to a selected migration
+    ```
+    dotnet ef database update "<NameOfMigration>" -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
+    ```
+
+
+Hint: The database is updated automatically to the most recent migration at app start. Only use this command if you want to update the database without starting the app.
