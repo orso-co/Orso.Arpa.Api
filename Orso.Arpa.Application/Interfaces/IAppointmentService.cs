@@ -21,13 +21,13 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task AddRoomAsync(AppointmentAddRoomDto addRoomDto);
 
-        Task AddProjectAsync(AppointmentAddProjectDto addProjectDto);
+        Task<AppointmentDto> AddProjectAsync(AppointmentAddProjectDto addProjectDto);
 
-        Task AddSectionAsync(AppointmentAddSectionDto addSectionDto);
+        Task<AppointmentDto> AddSectionAsync(AppointmentAddSectionDto addSectionDto);
 
-        Task RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto);
+        Task<AppointmentDto> RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto);
 
-        Task RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto);
+        Task<AppointmentDto> RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto);
 
         Task SetVenueAsync(AppointmentSetVenueDto setVenueDto);
 

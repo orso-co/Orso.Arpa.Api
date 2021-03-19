@@ -9,6 +9,7 @@ using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Logic.Appointments;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
 using Generic = Orso.Arpa.Domain.GenericHandlers;
@@ -19,24 +20,26 @@ namespace Orso.Arpa.Application.Services
         AppointmentDto,
         Appointment,
         AppointmentCreateDto,
-        Create.Command,
+        Domain.Logic.Appointments.Create.Command,
         AppointmentModifyDto,
-        Modify.Command>, IAppointmentService
+        Domain.Logic.Appointments.Modify.Command>, IAppointmentService
     {
         public AppointmentService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
         }
 
-        public async Task AddProjectAsync(AppointmentAddProjectDto addProjectDto)
+        public async Task<AppointmentDto> AddProjectAsync(AppointmentAddProjectDto addProjectDto)
         {
             AddProject.Command command = _mapper.Map<AddProject.Command>(addProjectDto);
             await _mediator.Send(command);
+            return await GetByIdAsync(addProjectDto.Id);
         }
 
-        public async Task AddSectionAsync(AppointmentAddSectionDto addSectionDto)
+        public async Task<AppointmentDto> AddSectionAsync(AppointmentAddSectionDto addSectionDto)
         {
             AddSection.Command command = _mapper.Map<AddSection.Command>(addSectionDto);
             await _mediator.Send(command);
+            return await GetByIdAsync(addSectionDto.Id);
         }
 
         public async Task AddRoomAsync(AppointmentAddRoomDto addRoomDto)
@@ -49,9 +52,19 @@ namespace Orso.Arpa.Application.Services
         {
             date ??= DateTime.Today;
 
-            return await base.GetAsync(predicate: a =>
-               a.StartTime >= DateHelper.GetStartTime(date.Value, range)
-               && a.StartTime <= DateHelper.GetEndTime(date.Value, range));
+            IQueryable<Appointment> entities = await _mediator.Send(new List.Query<Appointment>(
+                predicate: a =>
+                    a.StartTime >= DateHelper.GetStartTime(date.Value, range)
+                    && a.StartTime <= DateHelper.GetEndTime(date.Value, range)));
+
+            var dtoList = new List<AppointmentDto>();
+            foreach (Appointment appointment in entities)
+            {
+                AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
+                AddParticipations(dto, appointment);
+                dtoList.Add(dto);
+            }
+            return dtoList;
         }
 
         public override async Task<AppointmentDto> GetByIdAsync(Guid id)
@@ -80,16 +93,18 @@ namespace Orso.Arpa.Application.Services
             dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(persons);
         }
 
-        public async Task RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto)
+        public async Task<AppointmentDto> RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto)
         {
             RemoveProject.Command command = _mapper.Map<RemoveProject.Command>(removeProjectDto);
             await _mediator.Send(command);
+            return await GetByIdAsync(removeProjectDto.Id);
         }
 
-        public async Task RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto)
+        public async Task<AppointmentDto> RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto)
         {
             RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(removeSectionDto);
             await _mediator.Send(command);
+            return await GetByIdAsync(removeSectionDto.Id);
         }
 
         public async Task RemoveRoomAsync(AppointmentRemoveRoomDto removeRoomDto)

@@ -8,6 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Misc;
@@ -35,8 +36,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
                 result.Count().Should().Be(1);
                 AppointmentDto returnedAppointment = result.First();
-                returnedAppointment.Should().BeEquivalentTo(expectedDto, opt => opt
-                    .Excluding(dto => dto.Participations));
+                returnedAppointment.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(2)]
@@ -106,49 +106,60 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
 
-        [Test, Order(1001)]
+        [Test, Order(104)]
         public async Task Should_Add_Room()
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.AppointmentsController.AddRoom(
-                    AppointmentSeedData.RockingXMasConcert.Id,
+                .PostAsync(ApiEndpoints.AppointmentsController.Room(
+                    AppointmentSeedData.RockingXMasRehearsal.Id,
                     RoomSeedData.AulaWeiherhofSchule.Id), null);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(1002)]
+        [Test, Order(100)]
         public async Task Should_Add_Section()
         {
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
+            expectedDto.Sections.Add(new SectionDto() { Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), Name = "Alto" });
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.AppointmentsController.AddSection(
-                    AppointmentSeedData.RockingXMasConcert.Id,
+                .PostAsync(ApiEndpoints.AppointmentsController.Section(
+                    AppointmentSeedData.RockingXMasRehearsal.Id,
                     SectionSeedData.Alto.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(1003)]
+        [Test, Order(101)]
         public async Task Should_Add_Project()
         {
+            // Arrange
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasConcert;
+            expectedDto.Projects.Add(ProjectDtoData.HoorayForHollywood);
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.AppointmentsController.AddProject(
+                .PostAsync(ApiEndpoints.AppointmentsController.Project(
                     AppointmentSeedData.RockingXMasConcert.Id,
-                    ProjectSeedData.RockingXMas.Id), null);
+                    ProjectSeedData.HoorayForHollywood.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
         }
 
         private static IEnumerable<TestCaseData> PersonTestData
@@ -160,7 +171,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             }
         }
 
-        [Test, Order(1004)]
+        [Test, Order(105)]
         [TestCaseSource(nameof(PersonTestData))]
         public async Task Should_Set_Participation_Result(Person person)
         {
@@ -177,7 +188,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(100)]
+        [Test, Order(106)]
         public async Task Should_Set_Venue()
         {
             // Act
@@ -192,7 +203,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(101)]
+        [Test, Order(107)]
         public async Task Should_Modify()
         {
             // Arrange
@@ -221,7 +232,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(102)]
+        [Test, Order(108)]
         public async Task Should_Set_Dates()
         {
             // Arrange
@@ -242,14 +253,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(10001)]
+        [Test, Order(109)]
         public async Task Should_Remove_Room()
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.AppointmentsController.AddRoom(
+                .DeleteAsync(ApiEndpoints.AppointmentsController.Room(
                     AppointmentSeedData.AfterShowParty.Id,
                     RoomSeedData.AulaWeiherhofSchule.Id));
 
@@ -257,41 +268,54 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(10002)]
+        [Test, Order(102)]
         public async Task Should_Remove_Section()
         {
+            // Arrange
+            AppointmentDto expectedDto = AppointmentDtoData.AfterShowParty;
+            expectedDto.Sections.Clear();
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.AppointmentsController.AddSection(
+                .DeleteAsync(ApiEndpoints.AppointmentsController.Section(
                     AppointmentSeedData.AfterShowParty.Id,
                     SectionSeedData.Alto.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(10003)]
+        [Test, Order(103)]
         public async Task Should_Remove_Project()
         {
+            // Arrange
+            AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
+            expectedDto.Projects.Clear();
+            expectedDto.Participations.Clear();
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.AppointmentsController.AddProject(
-                    AppointmentSeedData.AfterShowParty.Id,
-                    ProjectSeedData.RockingXMas.Id));
+                .DeleteAsync(ApiEndpoints.AppointmentsController.Project(
+                    AppointmentSeedData.StaffMeeting.Id,
+                    ProjectSeedData.HoorayForHollywood.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(10004)]
         public async Task Should_Delete()
         {
             // Arrange
-            Appointment appointmentToDelete = AppointmentSeedData.AfterShowParty;
+            Appointment appointmentToDelete = AppointmentSeedData.StaffMeeting;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

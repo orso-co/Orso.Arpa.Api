@@ -91,32 +91,30 @@ namespace Orso.Arpa.Api.Controllers
         /// Adds a project to an existing appointment
         /// </summary>
         /// <param name="addProjectDto"></param>
-        /// <response code="204"></response>
+        /// <response code="200"></response>
         /// <response code="400">If dto is not valid or if project or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/projects/{projectId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto)
+        public async Task<ActionResult<AppointmentDto>> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto)
         {
-            await _appointmentService.AddProjectAsync(addProjectDto);
-            return NoContent();
+            return await _appointmentService.AddProjectAsync(addProjectDto);
         }
 
         /// <summary>
         /// Adds a section to an existing appointment
         /// </summary>
         /// <param name="addSectionDto"></param>
-        /// <response code="204"></response>
+        /// <response code="200"></response>
         /// <response code="400">If dto is not valid or if section or appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("{id}/sections/{sectionId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto)
+        public async Task<ActionResult<AppointmentDto>> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto)
         {
-            await _appointmentService.AddSectionAsync(addSectionDto);
-            return NoContent();
+            return await _appointmentService.AddSectionAsync(addSectionDto);
         }
 
         /// <summary>
@@ -173,32 +171,30 @@ namespace Orso.Arpa.Api.Controllers
         /// Removes section from existing appointment
         /// </summary>
         /// <param name="removeSectionDto"></param>
-        /// <response code="204"></response>
+        /// <response code="200"></response>
         /// <response code="400">If dto is not valid</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}/sections/{sectionId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> RemoveSection([FromRoute] AppointmentRemoveSectionDto removeSectionDto)
+        public async Task<ActionResult<AppointmentDto>> RemoveSection([FromRoute] AppointmentRemoveSectionDto removeSectionDto)
         {
-            await _appointmentService.RemoveSectionAsync(removeSectionDto);
-            return NoContent();
+            return await _appointmentService.RemoveSectionAsync(removeSectionDto);
         }
 
         /// <summary>
         /// Removes project from existing appointment
         /// </summary>
         /// <param name="removeProjectDto"></param>
-        /// <response code="204"></response>
+        /// <response code="200"></response>
         /// <response code="400">If dto is not valid</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}/projects/{projectId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> RemoveProject([FromRoute] AppointmentRemoveProjectDto removeProjectDto)
+        public async Task<ActionResult<AppointmentDto>> RemoveProject([FromRoute] AppointmentRemoveProjectDto removeProjectDto)
         {
-            await _appointmentService.RemoveProjectAsync(removeProjectDto);
-            return NoContent();
+            return await _appointmentService.RemoveProjectAsync(removeProjectDto);
         }
 
         /// <summary>
