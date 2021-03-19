@@ -74,7 +74,7 @@ namespace Orso.Arpa.Domain.Tests.Extensions
             List<Section> parents = node.GetParents();
 
             // Assert
-            parents.Select(p => p.Name).Should().Equal("Alto", "Deep Female Voices", "Female Voices", "Choir", "Performers");
+            parents.Select(p => p.Name).Should().Equal("Alto", "Low Female Voices", "Female Voices", "Choir", "Performers");
         }
     }
 }
