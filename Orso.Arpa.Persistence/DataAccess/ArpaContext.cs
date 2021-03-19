@@ -76,6 +76,10 @@ namespace Orso.Arpa.Persistence.DataAccess
 
 
 
+        public DbSet<Translation> Translations { get; set; }
+
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();

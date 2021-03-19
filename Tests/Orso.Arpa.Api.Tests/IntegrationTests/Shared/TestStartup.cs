@@ -1,8 +1,11 @@
 using System;
 using DoomedDatabases.Postgres;
+using Localization.SqlLocalizer.DbStringLocalizer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +32,60 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
         }
 
+        protected override void ConfigureLocalization(IServiceCollection services)
+        {
+            var sqlConnectionString = "DataSource=:memory:";
+            var connection = new SqliteConnection(sqlConnectionString);
+            connection.Open();
+
+            DbContextOptions<LocalizationModelContext> options = new DbContextOptionsBuilder<LocalizationModelContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            services.AddDbContext<LocalizationModelContext>(options =>
+                {
+                    options.UseSqlite(connection);
+                    options.EnableSensitiveDataLogging();
+                    options.EnableDetailedErrors();
+                },
+                ServiceLifetime.Singleton,
+                ServiceLifetime.Singleton);
+
+            CreateLocalizationDbEntities(services);
+
+            services.AddSqlLocalization(options =>
+            {
+                options.UseTypeFullNames = false;
+                options.UseOnlyPropertyNames = false;
+                options.ReturnOnlyKeyIfNotFound = true;
+                options.CreateNewRecordWhenLocalisedStringDoesNotExist = false;
+            });
+
+            services.AddLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture("en-US");
+                options.AddSupportedUICultures("en-US", "de-DE");
+                options.FallBackToParentUICultures = true;
+                options.RequestCultureProviders.Add(new CookieRequestCultureProvider {CookieName = "Culture"});
+                options.RequestCultureProviders.Remove(
+                    new AcceptLanguageHeaderRequestCultureProvider());  // avoids browser from overwriting UI language request
+            });
+
+        }
+
+        private void CreateLocalizationDbEntities(IServiceCollection services)
+        {
+            LocalizationRecord[] records = {
+                new() {Id = 1, Key = "This request requires a valid JWT access token to be provided", LocalizationCulture = "en-US", ResourceKey = nameof(ApiResource), Text = "Please try to login again"},
+                new() {Id = 2, Key = "This request requires a valid JWT access token to be provided", LocalizationCulture = "de-DE", ResourceKey = nameof(ApiResource), Text = "Bitte melde dich erneut an"}
+            };
+            LocalizationModelContext context = services.BuildServiceProvider().GetRequiredService<LocalizationModelContext>();
+            context.Database.EnsureCreated();
+            context.LocalizationRecords.AddRange( records);
+            context.SaveChanges();
+        }
 
         protected override void ConfigureDatabase(IServiceCollection services)
         {
