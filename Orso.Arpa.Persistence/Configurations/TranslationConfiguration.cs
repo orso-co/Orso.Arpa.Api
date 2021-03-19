@@ -8,16 +8,15 @@ namespace Orso.Arpa.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Translation> builder)
         {
-            builder.HasData(TranslationSeedData.Translations);
+            builder.Property(m => m.Key).IsUnicode().IsRequired();
 
-            builder.Property(m => m.Key).IsUnicode().HasMaxLength(1000).IsRequired();
+            builder.Property(m => m.Text).IsUnicode().IsRequired();
 
-            builder.Property(m => m.Text).IsUnicode().HasMaxLength(1000).IsRequired();
+            builder.Property(m => m.LocalizationCulture).IsRequired();
 
-            builder.Property(m => m.LocalizationCulture).HasMaxLength(5).IsRequired();
+            builder.Property(m => m.ResourceKey).IsRequired();
 
-            builder.Property(m => m.ResourceKey).HasMaxLength(50).IsRequired();
-
+            builder.HasQueryFilter(m => !m.Deleted);
         }
     }
 }
