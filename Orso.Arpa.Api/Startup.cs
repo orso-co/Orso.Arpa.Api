@@ -404,6 +404,8 @@ namespace Orso.Arpa.Api
 
             AddSwagger(app);
 
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
+
             EnsureDatabaseMigrations(app);
 
             PreloadTranslationsFromDb(app);
