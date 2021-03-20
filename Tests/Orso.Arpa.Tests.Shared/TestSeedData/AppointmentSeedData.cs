@@ -18,7 +18,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     RockingXMasRehearsal,
                     RockingXMasConcert,
                     AfterShowParty,
-                    StaffMeeting
+                    StaffMeeting,
+                    PhotoSession
                 };
             }
         }
@@ -133,6 +134,31 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
                 appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.HoorayForHollywood.Id, id));
                 return appointment;
+            }
+        }
+
+        public static Appointment PhotoSession
+        {
+            get
+            {
+                var id = Guid.Parse("90be67fe-c0b9-4824-9acd-6d8730f3f39b");
+                return new Appointment
+                (
+                    id,
+                    new Create.Command
+                    {
+                        CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
+                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        EmolumentId = SelectValueMappingSeedData.AppointmentEmolumentMappings[1].Id,
+                        EmolumentPatternId = null,
+                        StartTime = new DateTime(2020, 12, 22, 15, 00, 00),
+                        EndTime = new DateTime(2020, 12, 22, 16, 00, 00),
+                        PublicDetails = "Photo session for season to come",
+                        InternalDetails = null,
+                        Name = "Photo session",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
+                    }
+                );
             }
         }
     }

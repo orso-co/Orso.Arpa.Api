@@ -8,7 +8,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
 {
     public static class FakeAppointments
     {
-        public static Appointment RockingXMas
+        public static Appointment RockingXMasRehearsal
         {
             get
             {

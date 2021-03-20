@@ -113,10 +113,13 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task SetDatesAsync(AppointmentSetDatesDto setDatesDto)
+        public async Task<AppointmentDto> SetDatesAsync(AppointmentSetDatesDto setDatesDto)
         {
             SetDates.Command command = _mapper.Map<SetDates.Command>(setDatesDto);
-            await _mediator.Send(command);
+            Appointment appointment = await _mediator.Send(command);
+            AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
+            AddParticipations(dto, appointment);
+            return dto;
         }
 
         public async Task SetVenueAsync(AppointmentSetVenueDto setVenueDto)
