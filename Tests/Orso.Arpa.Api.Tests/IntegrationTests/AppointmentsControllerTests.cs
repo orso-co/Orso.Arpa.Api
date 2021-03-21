@@ -236,12 +236,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Set_Dates()
         {
             // Arrange
-            Appointment appointmentToModify = AppointmentSeedData.RockingXMasRehearsal;
+            Appointment appointmentToModify = AppointmentSeedData.PhotoSession;
             var setDatesDto = new AppointmentSetDatesDto
             {
                 StartTime = DateTimeProvider.Instance.GetUtcNow(),
                 EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(5)
             };
+            AppointmentDto expectedDto = AppointmentDtoData.PhotoSession;
+            expectedDto.EndTime = setDatesDto.EndTime.Value;
+            expectedDto.StartTime = setDatesDto.StartTime.Value;
+            expectedDto.ModifiedBy = _staff.DisplayName;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -250,7 +254,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.AppointmentsController.SetDates(appointmentToModify.Id), BuildStringContent(setDatesDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.ModifiedAt));
+            result.ModifiedAt.Should().BeCloseTo(DateTime.UtcNow, 10000);
         }
 
         [Test, Order(109)]

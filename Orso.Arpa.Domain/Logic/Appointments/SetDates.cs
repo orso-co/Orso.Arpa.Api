@@ -4,17 +4,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
 {
     public static class SetDates
     {
-        public class Command : IRequest
+        public class Command : IRequest<Appointment>
         {
             public Guid Id { get; set; }
             public DateTime? StartTime { get; set; }
@@ -34,10 +33,12 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IMapper mapper, IStringLocalizer<DomainResource>  localizer)
+            public Validator(IArpaContext arpaContext, IMapper mapper)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext, localizer);
+                    .MustAsync(async (id, cancellation) => await arpaContext.Set<Appointment>()
+                        .AnyAsync(entity => entity.Id == id, cancellation))
+                    .WithMessage($"The {typeof(Appointment).Name} could not be found.");
                 RuleFor(d => d.EndTime)
                     .MustAsync(async (request, endTime, cancellation) =>
                     {
@@ -45,11 +46,11 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                         mapper.Map(request, existingAppointment);
                         return existingAppointment?.EndTime >= existingAppointment?.StartTime;
                     })
-                    .WithMessage(localizer["EndTime must be later than StartTime"]);
+                    .WithMessage("EndTime must be greater than StartTime");
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Appointment>
         {
             private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
@@ -62,17 +63,17 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 _mapper = mapper;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Appointment> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
 
                 _mapper.Map(request, existingAppointment);
 
-                _arpaContext.Appointments.Update(existingAppointment);
+                EntityEntry<Appointment> changedAppointment = _arpaContext.Appointments.Update(existingAppointment);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
-                    return Unit.Value;
+                    return changedAppointment?.Entity;
                 }
 
                 throw new Exception("Problem updating appointment");

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -11,6 +10,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Misc;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -35,24 +35,34 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
         public async Task Should_Set_Dates()
         {
             // Arrange
+            DateTime startTime = DateTimeProvider.Instance.GetUtcNow();
+            DateTime endTime = DateTimeProvider.Instance.GetUtcNow().AddHours(2);
+            Appointment expectedAppointment = FakeAppointments.RockingXMasRehearsal;
+            expectedAppointment.SetProperty(nameof(Appointment.EndTime), endTime);
+            expectedAppointment.SetProperty(nameof(Appointment.StartTime), startTime);
             DbSet<Appointment> mockData = MockDbSets.Appointments;
-            Appointment appointment = AppointmentSeedData.RockingXMasConcert;
-            mockData.FindAsync(Arg.Any<Guid>()).Returns(appointment);
+            Appointment appointment = AppointmentSeedData.RockingXMasRehearsal;
+            mockData.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(appointment);
+            // ToDo: Could not find a way to mock EntityEntry<Appointment> as it does not provide a suitable constructor. If you know a way how to mock it, feel free to improve this test.
+            //EntityEntry<Appointment> mockedEntityEntry = Substitute.For<EntityEntry<Appointment>>();
+            //mockedEntityEntry.Entity.Returns(expectedAppointment);
+            //mockData.Update(Arg.Any<Appointment>()).Returns(mockedEntityEntry);
             _arpaContext.Appointments.Returns(mockData);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
-            Unit result = await _handler.Handle(
+            Appointment result = await _handler.Handle(
                 new SetDates.Command
                 {
-                    StartTime = DateTimeProvider.Instance.GetUtcNow(),
-                    EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(2),
+                    StartTime = startTime,
+                    EndTime = endTime,
                     Id = appointment.Id
                 },
                 new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(Unit.Value);
+            result.Should().BeNull();
+            // result.Should().BeEquivalentTo(expectedAppointment);
         }
     }
 }
