@@ -16,7 +16,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     RockingXMasRehearsal,
                     RockingXMasConcert,
-                    StaffMeeting
+                    StaffMeeting,
+                    PhotoSession
                 };
             }
         }
@@ -183,6 +184,30 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
                 dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
                 return dto;
+            }
+        }
+
+        public static AppointmentDto PhotoSession
+        {
+            get
+            {
+                return new AppointmentDto
+                {
+                    Id = Guid.Parse("90be67fe-c0b9-4824-9acd-6d8730f3f39b"),
+                    CategoryId = Guid.Parse("e9c79ae9-5498-459d-8852-9f135da7afae"),
+                    EmolumentId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
+                    EmolumentPatternId = null,
+                    EndTime = new DateTime(2020, 12, 22, 16, 00, 00),
+                    StartTime = new DateTime(2020, 12, 22, 15, 00, 00),
+                    InternalDetails = null,
+                    PublicDetails = "Photo session for season to come",
+                    Name = "Photo session",
+                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    CreatedBy = "anonymous",
+                    ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
+                    VenueId = null,
+                    CreatedAt = new DateTime(2021, 1, 1)
+                };
             }
         }
     }

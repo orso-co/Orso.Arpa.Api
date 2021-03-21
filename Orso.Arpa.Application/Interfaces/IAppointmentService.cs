@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task SetVenueAsync(AppointmentSetVenueDto setVenueDto);
 
-        Task SetDatesAsync(AppointmentSetDatesDto setDatesDto);
+        Task<AppointmentDto> SetDatesAsync(AppointmentSetDatesDto setDatesDto);
 
         Task DeleteAsync(Guid id);
 
