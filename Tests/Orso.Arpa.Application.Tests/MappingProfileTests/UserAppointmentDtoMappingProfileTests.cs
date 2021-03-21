@@ -37,7 +37,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-                Appointment appointment = FakeAppointments.RockingXMas;
+                Appointment appointment = FakeAppointments.RockingXMasRehearsal;
                 MyAppointmentDto expectedDto = UserAppointmentDtoTestData.PerformerUserAppointment;
 
                 // Act

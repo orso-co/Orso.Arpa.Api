@@ -217,18 +217,17 @@ namespace Orso.Arpa.Api.Controllers
         /// Sets start and end time of an existing appointment
         /// </summary>
         /// <param name="setDatesDto"></param>
-        /// <response code="204"></response>
+        /// <response code="200"></response>
         /// <response code="400">If dto is not valid</response>
         /// <response code="400">If appointment could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}/dates/set")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [SwaggerFromRouteProperty(nameof(AppointmentSetDatesDto.Id))]
-        public async Task<ActionResult> SetDates([FromBodyAndRoute] AppointmentSetDatesDto setDatesDto)
+        public async Task<ActionResult<AppointmentDto>> SetDates([FromBodyAndRoute] AppointmentSetDatesDto setDatesDto)
         {
-            await _appointmentService.SetDatesAsync(setDatesDto);
-            return NoContent();
+            return await _appointmentService.SetDatesAsync(setDatesDto);
         }
 
         /// <summary>
