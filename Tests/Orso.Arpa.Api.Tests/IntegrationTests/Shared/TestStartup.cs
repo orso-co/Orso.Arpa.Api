@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Localization.SqlLocalizer.DbStringLocalizer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,8 +25,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
         }
 
+        public delegate void CallBack();
         protected override void ConfigureLocalization(IServiceCollection services)
         {
+            services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => delegate()
+            {
+                return new Task(() => { });
+            });
+
             var sqlConnectionString = "DataSource=:memory:";
             var connection = new SqliteConnection(sqlConnectionString);
             connection.Open();
