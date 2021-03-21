@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Views;
 using Orso.Arpa.Misc;
@@ -23,14 +22,18 @@ namespace Orso.Arpa.Persistence.DataAccess
     {
         private readonly ITokenAccessor _tokenAccessor;
         private readonly IDateTimeProvider _dateTimeProvider;
+        public delegate Task CallBack<T>() where T : BaseEntity;
+        private readonly CallBack<Translation> _translationCallBack;
 
         public ArpaContext(
             DbContextOptions options,
             ITokenAccessor tokenAccessor,
-            IDateTimeProvider dateTimeProvider) : base(options)
+            IDateTimeProvider dateTimeProvider,
+            CallBack<Translation> translationCallBack) : base(options)
         {
             _tokenAccessor = tokenAccessor;
             _dateTimeProvider = dateTimeProvider;
+            _translationCallBack = translationCallBack;
         }
 
         public DbSet<Address> Addresses { get; set; }
@@ -125,7 +128,13 @@ namespace Orso.Arpa.Persistence.DataAccess
             }
 
             SaveAuditTrail(currentUserDisplayName);
-            return await base.SaveChangesAsync(cancellationToken);
+
+            Task<int> task = base.SaveChangesAsync(cancellationToken);
+
+            if(!ChangeTracker.Entries<Translation>().IsNullOrEmpty())
+                _translationCallBack();
+
+            return await task;
         }
 
         private async Task DeleteWithNavigationsAsync(string currentUserDisplayName, EntityEntry entry, CancellationToken cancellationToken)
@@ -223,12 +232,6 @@ namespace Orso.Arpa.Persistence.DataAccess
             ChangeTracker.Clear();
         }
 
-        public async Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
-        {
-            return await Set<TEntity>()
-                .AsQueryable()
-                .AnyAsync(entity => entity.Id == id, cancellationToken);
-        }
 
         public async Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class
         {

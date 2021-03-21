@@ -31,6 +31,7 @@ using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Localization;
 using Orso.Arpa.Application.Services;
+using Orso.Arpa.Domain;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
@@ -122,8 +123,10 @@ namespace Orso.Arpa.Api
         {
             if (services == null)
                 throw new ArgumentNullException(nameof (services));
-            services.AddSingleton(sp => new LocalizerCache(sp));
-            services.AddScoped<Translation.CallBack>(sp => sp.GetService<LocalizerCache>().CallBack);
+            LocalizerCache lz = new LocalizerCache(services.BuildServiceProvider());
+            services.AddSingleton<LocalizerCache>(sp => lz);
+            services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => lz.CallBack);
+            //services.AddScoped<Translation.CallBack>(sp => sp.GetService<LocalizerCache>().CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
             services.AddLocalization();
