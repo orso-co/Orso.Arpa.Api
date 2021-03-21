@@ -2,9 +2,11 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Orso.Arpa.Domain;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Configurations;
@@ -14,12 +16,16 @@ namespace Orso.Arpa.Persistence.DataAccess
     public class ArpaContext : IdentityDbContext<User, Role, Guid>, IArpaContext
     {
         private readonly ITokenAccessor _tokenAccessor;
+        public delegate Task CallBack<T>() where T : BaseEntity;
+        private readonly CallBack<Translation> _translationCallBack;
 
         public ArpaContext(
             DbContextOptions options,
-            ITokenAccessor tokenAccessor) : base(options)
+            ITokenAccessor tokenAccessor,
+            CallBack<Translation> translationCallBack) : base(options)
         {
             _tokenAccessor = tokenAccessor;
+            _translationCallBack = translationCallBack;
         }
 
         public DbSet<Address> Addresses { get; set; }
@@ -66,6 +72,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+
             foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>())
             {
                 switch (entry.State)
@@ -85,7 +92,12 @@ namespace Orso.Arpa.Persistence.DataAccess
                 }
             }
 
-            return base.SaveChangesAsync(cancellationToken);
+            Task<int> task = base.SaveChangesAsync(cancellationToken);
+
+            //if(!ChangeTracker.Entries<Translation>().IsNullOrEmpty())
+                _translationCallBack();
+
+            return task;
         }
     }
 }
