@@ -118,6 +118,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
             result.Should().BeEquivalentTo(modifyDto, opt => opt.Excluding(r => r.Id));
+            result.ModifiedBy.Should().Be(_staff.DisplayName);
+            result.ModifiedAt.Should().BeBefore(DateTime.UtcNow);
+            result.ModifiedAt.Should().BeAfter(DateTime.MinValue);
         }
 
         [Test, Order(10004)]
