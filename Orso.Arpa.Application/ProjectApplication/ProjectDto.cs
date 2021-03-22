@@ -19,8 +19,6 @@ namespace Orso.Arpa.Application.ProjectApplication
         public ProjectDtoMappingProfile()
         {
             CreateMap<Project, ProjectDto>()
-                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
