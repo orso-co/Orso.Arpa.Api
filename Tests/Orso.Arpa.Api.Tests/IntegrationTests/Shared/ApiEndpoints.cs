@@ -77,6 +77,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             private static string Projects => $"{Base}/projects";
 
             public static string Get(bool includeCompleted = false) => $"{Projects}?includeCompleted={includeCompleted}";
+
+            public static string Get(Guid id) => $"{Projects}/{id}";
+
+            public static string Post() => Projects;
+
+            public static string Put(Guid id) => $"{Projects}/{id}";
+
+            public static string Delete(Guid id) => $"{Projects}/{id}";
         }
 
         public static class MeController
