@@ -47,19 +47,5 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public virtual ICollection<SectionAppointment> SectionAppointments { get; private set; } = new HashSet<SectionAppointment>();
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();
-
-        public override void Delete(string modifiedBy)
-        {
-            base.Delete(modifiedBy);
-            AppointmentRooms.Clear();
-            ProjectAppointments.Clear();
-            SectionAppointments.Clear();
-            AppointmentParticipations.Clear();
-            CategoryId = null;
-            StatusId = null;
-            EmolumentId = null;
-            VenueId = null;
-            EmolumentPatternId = null;
-        }
     }
 }
