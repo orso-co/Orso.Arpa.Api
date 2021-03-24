@@ -10,10 +10,28 @@ namespace Orso.Arpa.Persistence.Configurations
         {
             // ToDo: delete cascade in code
             builder
-                .HasOne(e => e.Parent)
-                .WithMany(p => p.Children)
-                .HasForeignKey(e => e.ParentId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .Property(e => e.Title)
+                .HasMaxLength(100);
+
+            builder
+                .Property(e => e.ShortTitle)
+                .HasMaxLength(30);
+
+            builder
+                .Property(e => e.Description)
+                .HasMaxLength(1000);
+
+            builder
+                .Property(e => e.Number)
+                .HasMaxLength(15);
+
+            builder.HasIndex(e => e.Number);
+
+            builder
+                .HasOne(e => e.Type)
+                .WithMany(g => g.ProjectsAsType)
+                .HasForeignKey(e => e.TypeId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder
                 .HasOne(e => e.Genre)
@@ -21,13 +39,19 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasForeignKey(e => e.GenreId)
                 .OnDelete(DeleteBehavior.SetNull);
 
-            builder
-                .Property(e => e.Title)
-                .HasMaxLength(50);
+            //TODO Urls
 
             builder
-                .Property(e => e.Description)
-                .HasMaxLength(1000);
+                .HasOne(e => e.State)
+                .WithMany(g => g.ProjectsAsState)
+                .HasForeignKey(e => e.StateId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .HasOne(e => e.Parent)
+                .WithMany(p => p.Children)
+                .HasForeignKey(e => e.ParentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

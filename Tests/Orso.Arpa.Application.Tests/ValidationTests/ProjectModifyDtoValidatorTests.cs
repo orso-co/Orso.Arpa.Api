@@ -86,5 +86,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _validator.ShouldHaveValidationErrorFor(command => command.Number,
                 "ABC1 -/0");    // space is the illegal character
         }
+
+        //TODO: check endDate > startDate
     }
 }

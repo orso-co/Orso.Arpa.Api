@@ -161,15 +161,15 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 return new List<SelectValueMapping>
                 {
-                    new SelectValueMapping(Guid.Parse("d733e38d-1d80-4054-b654-4ea4a128b0a8"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Concert.Id),
-                    new SelectValueMapping(Guid.Parse("e7e78e76-3850-4eb5-892f-d90be6c256a4"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ConcertTour.Id),
-                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Workshop.Id),
-                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Party.Id),
-                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Rehearsal.Id),
-                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.RehearsalWeekend.Id),
-                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.SpecialProject.Id),
-                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.CDRecording.Id),
-                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Contest.Id),
+                    new SelectValueMapping(Guid.Parse("34f05f05-ef23-4f36-94e7-73b917530c51"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Concert.Id),
+                    new SelectValueMapping(Guid.Parse("7f76d426-cab7-4f4f-aba3-bd430bcec003"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ConcertTour.Id),
+                    new SelectValueMapping(Guid.Parse("ae2f10ff-39ae-427e-a5e8-ddcd89422d44"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Workshop.Id),
+                    new SelectValueMapping(Guid.Parse("44710a6b-93c0-4aac-b552-e0423f1b106a"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Party.Id),
+                    new SelectValueMapping(Guid.Parse("3f166c3c-c85e-404b-aad3-c8996f4fb75f"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Rehearsal.Id),
+                    new SelectValueMapping(Guid.Parse("d8f337d0-84fc-4a4d-b75c-fbe2208808ea"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.RehearsalWeekend.Id),
+                    new SelectValueMapping(Guid.Parse("574e0c4b-cbb3-4750-926b-3df4c377fc5e"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.SpecialProject.Id),
+                    new SelectValueMapping(Guid.Parse("679116ec-7840-4c6d-bb45-fa2d89d6e779"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.CDRecording.Id),
+                    new SelectValueMapping(Guid.Parse("5c3f5e18-7afd-4404-98db-658e852901dc"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Contest.Id),
                 };
             }
         }
@@ -194,9 +194,9 @@ namespace Orso.Arpa.Persistence.Seed
                 {
                     new SelectValueMapping(Guid.Parse("725a4f4a-37cb-46ba-93a3-7b9cc2b015cb"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Pending.Id),
                     new SelectValueMapping(Guid.Parse("b793fa86-2025-4258-8993-8045f4c312d7"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Confirmed.Id),
-                    new SelectValueMapping(Guid.Parse("61d783c2-f028-4ad9-9267-8b1537dabfe0"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Cancelled.Id),
-                    new SelectValueMapping(Guid.Parse("61d783c2-f028-4ad9-9267-8b1537dabfe0"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Postponed.Id),
-                    new SelectValueMapping(Guid.Parse("61d783c2-f028-4ad9-9267-8b1537dabfe0"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Archived.Id),
+                    new SelectValueMapping(Guid.Parse("65975857-ab27-480d-87c3-dba74d45cb63"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Cancelled.Id),
+                    new SelectValueMapping(Guid.Parse("bc29bf0a-2ebb-4db8-8765-a5f835492552"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Postponed.Id),
+                    new SelectValueMapping(Guid.Parse("75f2d1c3-4ba2-4acc-8fd3-6b01ca66d1c9"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Archived.Id),
                 };
             }
         }
