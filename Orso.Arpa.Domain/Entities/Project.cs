@@ -13,10 +13,11 @@ namespace Orso.Arpa.Domain.Entities
             ShortTitle = command.ShortTitle;
             Description = command.Description;
             Number = command.Number;
+            TypeId = command.TypeId;
             GenreId = command.GenreId;
             StartDate = command.StartDate;
             EndDate = command.EndDate;
-            Urls = command.Urls;
+            // TODO Urls = command.Urls;
             StateId = command.StateId;
             ParentId = command.ParentId;
         }
@@ -30,11 +31,13 @@ namespace Orso.Arpa.Domain.Entities
         public string ShortTitle { get; private set; }
         public string Description { get; private set; }
         public string Number { get; private set; }
+        public Guid? TypeId { get; set; }
+        public virtual SelectValueMapping Type { get; private set; }
         public Guid? GenreId { get; private set; }
         public virtual SelectValueMapping Genre { get; private set; }
-        public DateTime StartDate { get; private set; }
-        public DateTime EndDate { get; private set; }
-        public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
+        public DateTime? StartDate { get; private set; }
+        public DateTime? EndDate { get; private set; }
+        // TODO public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
         public Guid? StateId { get; private set; }
         public virtual SelectValueMapping State { get; private set; }
         public Guid? ParentId { get; private set; }
@@ -44,6 +47,5 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
-
     }
 }

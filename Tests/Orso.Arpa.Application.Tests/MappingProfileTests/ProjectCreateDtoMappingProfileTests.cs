@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using Bogus;
 using FluentAssertions;
@@ -25,8 +26,18 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             ProjectCreateDto dto = new Faker<ProjectCreateDto>()
-                .RuleFor(dto => dto.Title, (f, u) => f.Lorem.Paragraph(50))
-                .RuleFor(dto => dto.Description, (f, u) => f.Lorem.Paragraph())
+                .RuleFor(dto => dto.Title, (f) => f.Lorem.Paragraph(50))
+                .RuleFor(dto => dto.ShortTitle, (f) => f.Lorem.Paragraph(8))
+                .RuleFor(dto => dto.Description, (f) => f.Lorem.Paragraph())
+                .RuleFor(dto => dto.Number, "0815ABC")
+                .RuleFor(dto => dto.TypeId, Guid.NewGuid())
+                .RuleFor(dto => dto.GenreId, Guid.NewGuid())
+                .RuleFor(dto => dto.StartDate, new DateTime(2022, 03, 03))
+                .RuleFor(dto => dto.EndDate, new DateTime(2022, 04, 04))
+                //TODO .RuleFor(dto => dto.Urls, (f, u) => f.Lorem.Paragraph())
+                //TODO .RuleFor(dto => dto.StateId, (f, u) => f.Lorem.Paragraph())
+                //TODO .RuleFor(dto => dto.ParentId, (f, u) => f.Lorem.Paragraph())
+                .RuleFor(dto => dto.IsCompleted, true)
                 .Generate();
 
             // Act

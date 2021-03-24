@@ -29,10 +29,17 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         Title = "Rocking X-mas Freiburg",
+                        ShortTitle = "RockXmas",
                         Description = "Rocking around the christmas tree",
+                        Number = "1005",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
-                        Number = 1005,
-                        ParentId = null
+                        StartDate = new DateTime(2020, 12, 24),
+                        EndDate = new DateTime(2020, 12, 26),
+                        //TODO Urls =
+                        StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                        ParentId = null,
+                        IsCompleted = true,
                     });
             }
         }
@@ -46,10 +53,17 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         Title = "Hooray for Hollywood Freiburg",
+                        ShortTitle = "Hollywood",
                         Description = "Winter is Coming",
-                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
-                        Number = 1006,
-                        ParentId = null
+                        Number = "1006",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[1].Id,
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[1].Id,
+                        StartDate = new DateTime(2020, 05, 05),
+                        EndDate = new DateTime(2020, 06, 06),
+                        //TODO Urls =
+                        StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
+                        ParentId = null,
+                        IsCompleted = false,
                     });
             }
         }

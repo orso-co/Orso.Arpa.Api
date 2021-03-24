@@ -153,6 +153,24 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        public static IList<SelectValueMapping> ProjectTypeMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("d733e38d-1d80-4054-b654-4ea4a128b0a8"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Concert.Id),
+                    new SelectValueMapping(Guid.Parse("e7e78e76-3850-4eb5-892f-d90be6c256a4"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ConcertTour.Id),
+                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Workshop.Id),
+                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Party.Id),
+                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Rehearsal.Id),
+                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.RehearsalWeekend.Id),
+                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.SpecialProject.Id),
+                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.CDRecording.Id),
+                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Contest.Id),
+                };
+            }
+        }
         public static IList<SelectValueMapping> ProjectGenreMappings
         {
             get
@@ -162,6 +180,21 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("d733e38d-1d80-4054-b654-4ea4a128b0a8"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ClassicalMusic.Id),
                     new SelectValueMapping(Guid.Parse("e7e78e76-3850-4eb5-892f-d90be6c256a4"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Crossover.Id),
                     new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ChamberMusic.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> ProjectStateMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("725a4f4a-37cb-46ba-93a3-7b9cc2b015cb"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Pending.Id),
+                    new SelectValueMapping(Guid.Parse("b793fa86-2025-4258-8993-8045f4c312d7"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Confirmed.Id),
+                    new SelectValueMapping(Guid.Parse("61d783c2-f028-4ad9-9267-8b1537dabfe0"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Cancelled.Id),
+                    new SelectValueMapping(Guid.Parse("61d783c2-f028-4ad9-9267-8b1537dabfe0"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Postponed.Id),
+                    new SelectValueMapping(Guid.Parse("61d783c2-f028-4ad9-9267-8b1537dabfe0"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Archived.Id),
                 };
             }
         }

@@ -23,6 +23,9 @@ namespace Orso.Arpa.Persistence.Seed
                     ClassicalMusic,
                     Concert,
                     Confirmed,
+                    Cancelled,
+                    Postponed,
+                    Archived,
                     Crossover,
                     DontKnowYet,
                     AwaitingScan,
@@ -181,6 +184,39 @@ namespace Orso.Arpa.Persistence.Seed
             get
             {
                 return new SelectValue(Guid.Parse("34a52363-4a57-4019-abcf-0c9880246891"), "Confirmed", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Abgesagt
+        /// </summary>
+        public static SelectValue Cancelled
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("33bbdccf-59a9-4b05-bdac-af50137cecb3"), "Cancelled", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Verschoben
+        /// </summary>
+        public static SelectValue Postponed
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("bd0f37e1-ec14-4d87-8380-117b4480d7a4"), "Postponed", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Archiviert
+        /// </summary>
+        public static SelectValue Archived
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("425f1526-0513-4535-bdd8-47632d82956f"), "Archived", string.Empty);
             }
         }
 
@@ -557,7 +593,6 @@ namespace Orso.Arpa.Persistence.Seed
                 return new SelectValue(Guid.Parse("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), "Work", string.Empty);
             }
         }
-
 
         /// <summary>
         /// Konzertreise (Tour)

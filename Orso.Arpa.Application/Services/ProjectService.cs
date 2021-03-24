@@ -7,13 +7,17 @@ using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.GenericHandlers;
-using Orso.Arpa.Domain.Logic.Projects;
 using Generic = Orso.Arpa.Domain.GenericHandlers;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class ProjectService : BaseService<ProjectDto, Project, ProjectCreateDto, Create.Command, ProjectModifyDto, Modify.Command>, IProjectService
+    public class ProjectService : BaseService<
+        ProjectDto,
+        Project,
+        ProjectCreateDto,
+        Domain.Logic.Projects.Create.Command,
+        ProjectModifyDto,
+        Domain.Logic.Projects.Modify.Command>, IProjectService
     {
         public ProjectService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
