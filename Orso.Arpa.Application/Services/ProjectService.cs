@@ -7,7 +7,9 @@ using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Logic.Projects;
+using Generic = Orso.Arpa.Domain.GenericHandlers;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -23,5 +25,13 @@ namespace Orso.Arpa.Application.Services
 
             return await base.GetAsync(predicate: predicate);
         }
+        public override async Task<ProjectDto> GetByIdAsync(Guid id)
+        {
+            Project Project = await _mediator.Send(new Generic.Details.Query<Project>(id));
+            ProjectDto dto = _mapper.Map<ProjectDto>(Project);
+            return dto;
+        }
+
+
     }
 }

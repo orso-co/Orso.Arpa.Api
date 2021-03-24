@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using static Orso.Arpa.Domain.Logic.Projects.Create;
@@ -7,10 +9,15 @@ namespace Orso.Arpa.Application.ProjectApplication
     public class ProjectCreateDto
     {
         public string Title { get; set; }
-
+        public string ShortTitle { get; set; }
         public string Description { get; set; }
-
-        // TODO: define further properties according to https://orso.atlassian.net/browse/ARPA-207
+        public string Number { get; set; }
+        public Guid? GenreId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
+        public Guid? StateId { get; set; }
+        public Guid? ParentId { get; set; }
     }
 
     public class ProjectCreateDtoMappingProfile : Profile

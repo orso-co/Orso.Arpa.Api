@@ -46,5 +46,8 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<Project> ProjectsAsGenre { get; private set; }
             = new HashSet<Project>();
+
+        public virtual ICollection<Project> ProjectsAsState { get; private set; }
+            = new HashSet<Project>();
     }
 }

@@ -56,7 +56,12 @@ namespace Orso.Arpa.Persistence.Seed
                     Workshop,
                     Yes,
                     Private,
-                    Work
+                    Work,
+                    CDRecording,
+                    ConcertTour,
+                    Contest,
+                    RehearsalWeekend,
+                    SpecialProject,
                 };
             }
         }
@@ -550,6 +555,62 @@ namespace Orso.Arpa.Persistence.Seed
             get
             {
                 return new SelectValue(Guid.Parse("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), "Work", string.Empty);
+            }
+        }
+
+
+        /// <summary>
+        /// Konzertreise (Tour)
+        /// </summary>
+        public static SelectValue ConcertTour
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"), "Concert tour", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Probewochenende
+        /// </summary>
+        public static SelectValue RehearsalWeekend
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("63a6b9a9-30a8-4cdb-983b-336b587069cb"), "Rehearsal weekend", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Sonderprojekt
+        /// </summary>
+        public static SelectValue SpecialProject
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("f2a6ef3d-bb32-4505-83a5-2cb9f611ce0f"), "Special project", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// CD-Aufnahme
+        /// </summary>
+        public static SelectValue CDRecording
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("52fad37d-23a7-4515-9b77-3ee3bda03b9a"), "CD recording", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Wettbewerb
+        /// </summary>
+        public static SelectValue Contest
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("95de5380-4027-4b73-b4db-3697aba5ba38"), "Contest", string.Empty);
             }
         }
     }
