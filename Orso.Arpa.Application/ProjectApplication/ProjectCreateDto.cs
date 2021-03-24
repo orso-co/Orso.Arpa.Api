@@ -35,10 +35,25 @@ namespace Orso.Arpa.Application.ProjectApplication
         {
             RuleFor(p => p.Title)
                 .NotEmpty()
-                .MaximumLength(50);
+                .MaximumLength(100);
+
+            RuleFor(p => p.ShortTitle)
+                .NotEmpty()
+                .MaximumLength(30);
 
             RuleFor(p => p.Description)
                 .MaximumLength(1000);
+
+            RuleFor(p => p.Number)
+                .NotEmpty()
+                .MaximumLength(15);
+
+            When(p => p.StartDate != null && p.EndDate != null, () =>
+            {
+                RuleFor(p => p.EndDate)
+                .Must((p, endTime) => endTime >= p.StartDate)
+                .WithMessage("EndDate must be greater than StartTime");
+            });
         }
     }
 }

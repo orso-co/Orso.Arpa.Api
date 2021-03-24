@@ -25,14 +25,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ProjectDto
                 {
-                    CreatedBy = "anonymous",
+                    Title = "Rocking X-mas Freiburg",
+                    ShortTitle = "RockXmas",
                     Description = "Rocking around the christmas tree",
+                    Number = "1005",
                     TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
                     GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
-                    Number = "1005",
-                    Title = "Rocking X-mas Freiburg",
+                    StartDate = new DateTime(2020, 12, 24),
+                    EndDate = new DateTime(2020, 12, 26),
+                    //TODO Urls =
+                    StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                    ParentId = null,
+                    IsCompleted = true,
+
+                    CreatedBy = "anonymous",
                     Id = Guid.Parse("a19d84f1-4ac1-49c3-abfe-527092b80b6d"),
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = new DateTime(2021, 1, 1),
                 };
             }
         }

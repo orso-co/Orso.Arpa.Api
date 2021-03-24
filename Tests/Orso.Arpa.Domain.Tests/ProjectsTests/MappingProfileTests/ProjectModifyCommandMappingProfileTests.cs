@@ -50,10 +50,19 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.MappingProfileTests
             var command = new Modify.Command
             {
                 Id = sourceProject.Id,
+                Title = expectedProject.Title,
+                ShortTitle = expectedProject.ShortTitle,
                 Description = expectedProject.Description,
-                Title = expectedProject.Title
+                Number = expectedProject.Number,
+                TypeId = expectedProject.TypeId,
+                GenreId = expectedProject.GenreId,
+                StartDate = expectedProject.StartDate,
+                EndDate = expectedProject.EndDate,
+                // TODO Urls = expectedProject.Urls,
+                StateId = expectedProject.StateId,
+                ParentId = expectedProject.ParentId,
             };
-            
+
             // Act
             Entities.Project project = _mapper.Map(command, sourceProject);
 

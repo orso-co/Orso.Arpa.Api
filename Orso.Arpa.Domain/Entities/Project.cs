@@ -20,6 +20,7 @@ namespace Orso.Arpa.Domain.Entities
             // TODO Urls = command.Urls;
             StateId = command.StateId;
             ParentId = command.ParentId;
+            IsCompleted = command.IsCompleted;
         }
 
         [JsonConstructor]

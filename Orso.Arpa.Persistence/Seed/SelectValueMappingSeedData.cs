@@ -21,6 +21,8 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(AppointmentParticipationResultMappings);
                 list.AddRange(AppointmentStatusMappings);
                 list.AddRange(ProjectGenreMappings);
+                list.AddRange(ProjectTypeMappings);
+                list.AddRange(ProjectStateMappings);
                 return list;
             }
         }

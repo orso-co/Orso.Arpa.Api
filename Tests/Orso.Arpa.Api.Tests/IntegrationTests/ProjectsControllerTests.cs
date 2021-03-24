@@ -50,7 +50,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedProject);
         }
 
-
         [Test, Order(1000)]
         public async Task Should_Create_With_Minimum_Fields_Defined()
         {
@@ -58,11 +57,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var createDto = new ProjectCreateDto
             {
                 Title = "New Project",
+                ShortTitle = "Shorty",
+                Number = "123XYZ,"
             };
 
             var expectedDto = new ProjectDto
             {
                 Title = createDto.Title,
+                ShortTitle = createDto.ShortTitle,
+                Number = createDto.Number,
                 IsCompleted = false,
                 CreatedBy = _staff.DisplayName,
             };
@@ -131,6 +134,76 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.CreatedAt).Excluding(r => r.Id));
             result.Id.Should().NotBeEmpty();
+            result.CreatedAt.Should().BeBefore(DateTime.UtcNow);
+            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
+        }
+
+        [Test, Order(1002)]
+        public async Task Should_Not_Create_Due_To_Non_unique_Number()
+        {
+            // Arrange
+            var createDto = new ProjectCreateDto
+            {
+                Title = "New Project",
+                ShortTitle = "Shorty",
+                Number = "123XYZ,"
+            };
+
+            var expectedDto = new ProjectDto
+            {
+                Title = createDto.Title,
+                ShortTitle = createDto.ShortTitle,
+                Number = createDto.Number,
+                IsCompleted = false,
+                CreatedBy = _staff.DisplayName,
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.CreatedAt).Excluding(r => r.Id));
+            result.Id.Should().BeEmpty();   // TODO how to detect failure of creation?
+            result.CreatedAt.Should().BeBefore(DateTime.UtcNow);
+            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
+        }
+
+        [Test, Order(1003)]
+        public async Task Should_Not_Create_Due_To_Missing_Mandatory_Field()
+        {
+            // Arrange
+            var createDto = new ProjectCreateDto
+            {
+                Title = "New Project",
+                ShortTitle = "Shorty",
+            };
+
+            var expectedDto = new ProjectDto
+            {
+                Title = createDto.Title,
+                ShortTitle = createDto.ShortTitle,
+                IsCompleted = false,
+                CreatedBy = _staff.DisplayName,
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.CreatedAt).Excluding(r => r.Id));
+            result.Id.Should().BeEmpty();   // TODO how to detect failure of creation?
             result.CreatedAt.Should().BeBefore(DateTime.UtcNow);
             result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
