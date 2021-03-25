@@ -51,14 +51,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ProjectDto
                 {
-                    CreatedBy = "anonymous",
+                    Title = "Hooray for Hollywood Freiburg",
+                    ShortTitle = "Hollywood",
                     Description = "Winter is Coming",
+                    Number = "1006",
                     TypeId = SelectValueMappingSeedData.ProjectTypeMappings[1].Id,
                     GenreId = SelectValueMappingSeedData.ProjectGenreMappings[1].Id,
-                    Number = "1006",
-                    Title = "Hooray for Hollywood Freiburg",
+                    StartDate = new DateTime(2020, 05, 05),
+                    EndDate = new DateTime(2020, 06, 06),
+                    //TODO Urls =
+                    StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
+                    ParentId = null,
+                    IsCompleted = false,
+
+                    CreatedBy = "anonymous",
                     Id = Guid.Parse("8f8c500f-71f5-49be-92c8-150ac9e88219"),
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = new DateTime(2021, 1, 1),
                 };
             }
         }

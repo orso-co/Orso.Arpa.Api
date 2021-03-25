@@ -61,6 +61,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.MappingProfileTests
                 // TODO Urls = expectedProject.Urls,
                 StateId = expectedProject.StateId,
                 ParentId = expectedProject.ParentId,
+                IsCompleted = expectedProject.IsCompleted,
             };
 
             // Act

@@ -31,13 +31,13 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Type)
                 .WithMany(g => g.ProjectsAsType)
                 .HasForeignKey(e => e.TypeId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Genre)
                 .WithMany(g => g.ProjectsAsGenre)
                 .HasForeignKey(e => e.GenreId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             //TODO Urls
 
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.State)
                 .WithMany(g => g.ProjectsAsState)
                 .HasForeignKey(e => e.StateId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Parent)

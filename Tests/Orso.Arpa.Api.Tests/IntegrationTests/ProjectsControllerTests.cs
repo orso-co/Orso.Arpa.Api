@@ -24,7 +24,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.ProjectsController.Get());
+                .GetAsync(ApiEndpoints.ProjectsController.Get(true));           // get all projects, including completed projects
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -33,6 +33,29 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(2)]
+        public async Task Should_Get_Only_Completed_Projects()
+        {
+            // Arrange
+            IList<ProjectDto> expectedProjects = new List<ProjectDto>();
+            foreach (ProjectDto p in ProjectDtoData.Projects)                   // collect all projects that are NOT completed
+            {
+                if (!p.IsCompleted)
+                    expectedProjects.Add(p);
+            }
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.ProjectsController.Get());               // get only NOT completed projects
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<ProjectDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectDto>>(responseMessage);
+            result.Should().BeEquivalentTo(expectedProjects);
+        }
+
+        [Test, Order(3)]
         public async Task Should_Get_By_Id()
         {
             using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
