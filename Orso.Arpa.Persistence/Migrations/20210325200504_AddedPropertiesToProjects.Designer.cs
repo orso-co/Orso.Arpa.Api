@@ -10,7 +10,7 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210324224000_AddedPropertiesToProjects")]
+    [Migration("20210325200504_AddedPropertiesToProjects")]
     partial class AddedPropertiesToProjects
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1733,11 +1733,11 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1e60dfdf-e7c9-4378-b1af-dcb53fe20022"),
+                            Id = new Guid("313445ca-57fa-45f0-8515-325949d60726"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Partly"
+                            Name = "Present"
                         },
                         new
                         {
@@ -1749,6 +1749,14 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("86bf6480-787a-4fe0-9d79-0f8d0d36acc4"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Inapplicable"
+                        },
+                        new
+                        {
                             Id = new Guid("66a6446a-7191-4f14-9c5d-052891b9c5a2"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -1757,59 +1765,51 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7c894293-82c2-4320-82f5-f77955feae5a"),
+                            Id = new Guid("5d31f1f7-73fd-42a4-a429-33fab925b15d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Assembly"
+                            Name = "Awaiting Scan"
                         },
                         new
                         {
-                            Id = new Guid("a85738d9-e68e-4584-bac8-ccca8d539636"),
+                            Id = new Guid("75a017d3-dca5-49ec-9bbd-3b01b159ba5b"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Audition"
+                            Name = "Yes"
                         },
                         new
                         {
-                            Id = new Guid("5e3edcf4-863b-433b-ae72-b6bb7e4dfc95"),
+                            Id = new Guid("88b763ac-8093-4c5d-a881-85be1fb8a24d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Awaiting Poll"
+                            Name = "No"
                         },
                         new
                         {
-                            Id = new Guid("43d8eafa-ef3f-4034-8c88-9a0b68c33ab1"),
+                            Id = new Guid("1e60dfdf-e7c9-4378-b1af-dcb53fe20022"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Chamber Music"
+                            Name = "Partly"
                         },
                         new
                         {
-                            Id = new Guid("8f64e072-6523-4158-b92e-5c38c8ebca59"),
+                            Id = new Guid("4ee7d317-6d71-4d6e-b45a-954c8c7dcf03"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Choreography Rehearsal"
+                            Name = "Don't know yet"
                         },
                         new
                         {
-                            Id = new Guid("87a541e7-706a-47f3-99b3-8b2d6de7a134"),
+                            Id = new Guid("362efd25-e1d2-496d-b7fa-884371a58682"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Classical Music"
-                        },
-                        new
-                        {
-                            Id = new Guid("71779748-6d3c-496a-9842-8dc508de6676"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Concert"
+                            Name = "Pending"
                         },
                         new
                         {
@@ -1845,67 +1845,11 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5b57a267-f331-41df-995a-93b60fc206ff"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Crossover"
-                        },
-                        new
-                        {
-                            Id = new Guid("4ee7d317-6d71-4d6e-b45a-954c8c7dcf03"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Don't know yet"
-                        },
-                        new
-                        {
-                            Id = new Guid("5d31f1f7-73fd-42a4-a429-33fab925b15d"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Awaiting Scan"
-                        },
-                        new
-                        {
-                            Id = new Guid("b60d04e0-9841-41c9-9d24-976c8363a33d"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Glöckner 2018"
-                        },
-                        new
-                        {
-                            Id = new Guid("86bf6480-787a-4fe0-9d79-0f8d0d36acc4"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Inapplicable"
-                        },
-                        new
-                        {
                             Id = new Guid("a4734d39-cbb9-4635-b3ae-f4e1192a6bd1"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
                             Name = "Mandatory"
-                        },
-                        new
-                        {
-                            Id = new Guid("ae6dc389-93eb-4d96-bd66-c61dd81155ea"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Meeting"
-                        },
-                        new
-                        {
-                            Id = new Guid("88b763ac-8093-4c5d-a881-85be1fb8a24d"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "No"
                         },
                         new
                         {
@@ -1917,59 +1861,75 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d91def3e-4c55-42c7-ac56-147846be6bfa"),
+                            Id = new Guid("87a541e7-706a-47f3-99b3-8b2d6de7a134"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 9€/11€ at 10h"
+                            Name = "Classical Music"
                         },
                         new
                         {
-                            Id = new Guid("a10ce98a-b903-4dca-801d-3afb07711877"),
+                            Id = new Guid("5b57a267-f331-41df-995a-93b60fc206ff"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 9 €/11€ at 12h"
+                            Name = "Crossover"
                         },
                         new
                         {
-                            Id = new Guid("ddb23793-af96-4ea6-9b27-5e2dcfc90b65"),
+                            Id = new Guid("43d8eafa-ef3f-4034-8c88-9a0b68c33ab1"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 1808"
+                            Name = "Chamber Music"
                         },
                         new
                         {
-                            Id = new Guid("717a27d5-2ef3-4266-92a8-84b3600115eb"),
+                            Id = new Guid("c76de830-3746-449a-8f1f-bd5d9233655c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Rehearsal Hourly Rate 9/11"
+                            Name = "Scheduled"
                         },
                         new
                         {
-                            Id = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"),
+                            Id = new Guid("99d192e1-332a-494e-b821-075be14211be"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Other"
+                            Name = "Refused"
                         },
                         new
                         {
-                            Id = new Guid("79de43be-57cc-484f-bff2-57f3ba78dbe9"),
+                            Id = new Guid("5e3edcf4-863b-433b-ae72-b6bb7e4dfc95"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Photo Session"
+                            Name = "Awaiting Poll"
                         },
                         new
                         {
-                            Id = new Guid("362efd25-e1d2-496d-b7fa-884371a58682"),
+                            Id = new Guid("ae6dc389-93eb-4d96-bd66-c61dd81155ea"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Pending"
+                            Name = "Meeting"
+                        },
+                        new
+                        {
+                            Id = new Guid("61dd102e-d449-40e1-8c6b-4ead99403ac1"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Stage Briefing"
+                        },
+                        new
+                        {
+                            Id = new Guid("8f64e072-6523-4158-b92e-5c38c8ebca59"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Choreography Rehearsal"
                         },
                         new
                         {
@@ -1981,19 +1941,27 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("313445ca-57fa-45f0-8515-325949d60726"),
+                            Id = new Guid("71779748-6d3c-496a-9842-8dc508de6676"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Present"
+                            Name = "Concert"
                         },
                         new
                         {
-                            Id = new Guid("99d192e1-332a-494e-b821-075be14211be"),
+                            Id = new Guid("5d50c5c3-e85a-4810-ac46-49572e1ca2f5"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Refused"
+                            Name = "Workshop"
+                        },
+                        new
+                        {
+                            Id = new Guid("79de43be-57cc-484f-bff2-57f3ba78dbe9"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Photo Session"
                         },
                         new
                         {
@@ -2013,67 +1981,11 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c76de830-3746-449a-8f1f-bd5d9233655c"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Scheduled"
-                        },
-                        new
-                        {
-                            Id = new Guid("4418bfea-0e79-4f76-9e20-527644f654e0"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Sectional Rehearsal"
-                        },
-                        new
-                        {
-                            Id = new Guid("dfe6e73e-9a15-4094-80a5-151a64f3b4db"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "See Comment"
-                        },
-                        new
-                        {
                             Id = new Guid("52d67a48-e99f-4c2f-ac9b-0302d5d3e518"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
                             Name = "Show"
-                        },
-                        new
-                        {
-                            Id = new Guid("2567e7be-5a5a-4671-b5ad-765c1e80fd41"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Special Case"
-                        },
-                        new
-                        {
-                            Id = new Guid("61dd102e-d449-40e1-8c6b-4ead99403ac1"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Stage Briefing"
-                        },
-                        new
-                        {
-                            Id = new Guid("3a6218de-6dfc-4aa9-a2a7-f1da20fd61cb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Transfer"
-                        },
-                        new
-                        {
-                            Id = new Guid("a0b98a79-7c74-4093-8f5f-79003cad219a"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Voice Formation"
                         },
                         new
                         {
@@ -2085,19 +1997,107 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5d50c5c3-e85a-4810-ac46-49572e1ca2f5"),
+                            Id = new Guid("dfe6e73e-9a15-4094-80a5-151a64f3b4db"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Workshop"
+                            Name = "See Comment"
                         },
                         new
                         {
-                            Id = new Guid("75a017d3-dca5-49ec-9bbd-3b01b159ba5b"),
+                            Id = new Guid("a0b98a79-7c74-4093-8f5f-79003cad219a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Yes"
+                            Name = "Voice Formation"
+                        },
+                        new
+                        {
+                            Id = new Guid("4418bfea-0e79-4f76-9e20-527644f654e0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Sectional Rehearsal"
+                        },
+                        new
+                        {
+                            Id = new Guid("3a6218de-6dfc-4aa9-a2a7-f1da20fd61cb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Transfer"
+                        },
+                        new
+                        {
+                            Id = new Guid("7c894293-82c2-4320-82f5-f77955feae5a"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Assembly"
+                        },
+                        new
+                        {
+                            Id = new Guid("a85738d9-e68e-4584-bac8-ccca8d539636"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Audition"
+                        },
+                        new
+                        {
+                            Id = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Other"
+                        },
+                        new
+                        {
+                            Id = new Guid("2567e7be-5a5a-4671-b5ad-765c1e80fd41"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Special Case"
+                        },
+                        new
+                        {
+                            Id = new Guid("b60d04e0-9841-41c9-9d24-976c8363a33d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Glöckner 2018"
+                        },
+                        new
+                        {
+                            Id = new Guid("ddb23793-af96-4ea6-9b27-5e2dcfc90b65"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Orchestra Concert Lump Sum 1808"
+                        },
+                        new
+                        {
+                            Id = new Guid("d91def3e-4c55-42c7-ac56-147846be6bfa"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Orchestra Concert Lump Sum 9€/11€ at 10h"
+                        },
+                        new
+                        {
+                            Id = new Guid("a10ce98a-b903-4dca-801d-3afb07711877"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Orchestra Concert Lump Sum 9 €/11€ at 12h"
+                        },
+                        new
+                        {
+                            Id = new Guid("717a27d5-2ef3-4266-92a8-84b3600115eb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Orchestra Rehearsal Hourly Rate 9/11"
                         },
                         new
                         {
@@ -2117,27 +2117,11 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("52fad37d-23a7-4515-9b77-3ee3bda03b9a"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "CD recording"
-                        },
-                        new
-                        {
                             Id = new Guid("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
                             Name = "Concert tour"
-                        },
-                        new
-                        {
-                            Id = new Guid("95de5380-4027-4b73-b4db-3697aba5ba38"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Contest"
                         },
                         new
                         {
@@ -2154,6 +2138,22 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Description = "",
                             Name = "Special project"
+                        },
+                        new
+                        {
+                            Id = new Guid("52fad37d-23a7-4515-9b77-3ee3bda03b9a"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "CD recording"
+                        },
+                        new
+                        {
+                            Id = new Guid("95de5380-4027-4b73-b4db-3697aba5ba38"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Contest"
                         });
                 });
 
@@ -2278,6 +2278,24 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Name = "Genre",
                             Property = "Genre",
+                            Table = "Project"
+                        },
+                        new
+                        {
+                            Id = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Type",
+                            Property = "Type",
+                            Table = "Project"
+                        },
+                        new
+                        {
+                            Id = new Guid("9804d695-d8c7-40bd-814f-8458b55fb583"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "State",
+                            Property = "State",
                             Table = "Project"
                         });
                 });
