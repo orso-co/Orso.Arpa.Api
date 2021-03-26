@@ -44,8 +44,14 @@ namespace Orso.Arpa.Application.ProjectApplication
             RuleFor(p => p.Description)
                 .MaximumLength(1000);
 
+            //TODO test for already existing number
+            //RuleFor(p => p.Number)
+            //.MustAsync(async (number, cancellation) => await projectManager.FindByNameAsync(number) == null)
+            //.WithMessage("Specified project number aleady exists");
+
             RuleFor(p => p.Number)
                 .NotEmpty()
+                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
                 .MaximumLength(15);
 
             When(p => p.StartDate != null && p.EndDate != null, () =>

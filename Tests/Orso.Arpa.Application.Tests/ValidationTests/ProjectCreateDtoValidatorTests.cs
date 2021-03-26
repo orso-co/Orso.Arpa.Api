@@ -1,6 +1,8 @@
+using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Tests.Shared.DtoTestData;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
@@ -45,10 +47,10 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_ShortTitle_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Too_Long_ShortTitle_Is_Supplied()
         {
             _validator.ShouldHaveValidationErrorFor(command => command.ShortTitle,
-                "1234567890123456789012345678901");
+                "1234567890123456789012345678901"); // valid length exceeded
         }
         public void Should_Have_Validation_Error_If_Empty_Number_Is_Supplied([Values(null, "")] string name)
         {
@@ -56,22 +58,43 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Number_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Too_Long_Number_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, "ValidNum1");
+            _validator.ShouldHaveValidationErrorFor(command => command.Number,
+                "1234567890123456789012345678901"); // valid length exceeded
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_Number_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_Number_Is_Supplied([Values("ABC1 -/0", "abcdefghijklmno", "pqrstuvwxyzABCD", "EFGHIJKLMNOPQRS", "TUVWXYZ01234567", "89/-?:().,+ ")] string number)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Number,
-                "1234567890123456789012345678901");
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, number);
         }
+
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_Character_In_Number_Is_Supplied()
+
+        // valid SEPA characters in DFÜ Abkommen(Deutsche Kreditwirtschaft)
+        // a - z, A - Z, 0 - 9
+        // special characters: / ? : ( ) . , ' + -
+        // space character
+        public void Should_Have_Validation_Error_If_Invalid_Character_In_Number_Is_Supplied([Values("ABC*", "ABC_", "ABCö", @"ABC\", "ABC{", "ABC[")] string number)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Number,
-                "ABC1 -/0");    // space is the illegal character
+            _validator.ShouldHaveValidationErrorFor(command => command.Number, number);
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Number_Already_Exists()
+        {
+            _validator.ShouldHaveValidationErrorFor(command => command.Number, ProjectDtoData.HoorayForHollywood.Number);
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_EndDate_Is_Before_StartDate_Is_Supplied()
+        {
+            _validator.ShouldHaveValidationErrorFor(command => command.EndDate, new ProjectCreateDto
+            {
+                StartDate = new DateTime(2020, 01, 01),
+                EndDate = new DateTime(2020, 01, 01) - new TimeSpan(5, 0, 0, 0),
+            });
         }
     }
 }

@@ -51,6 +51,7 @@ namespace Orso.Arpa.Application.ProjectApplication
 
             RuleFor(p => p.Number)
                 .NotEmpty()
+                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
                 .MaximumLength(15);
 
             When(p => p.StartDate != null && p.EndDate != null, () =>

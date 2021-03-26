@@ -9,6 +9,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Misc;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -119,12 +120,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ShortTitle = "ShortName",
                 Description = "New project description",
                 Number = "0815XY",
-                //TODO TypeId = ,
-                //TODO GenreId = ,
+                TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
+                GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                 StartDate = new DateTime(2021, 01, 01),
                 EndDate = new DateTime(2021, 01, 31),
                 //TODO Urls =,
-                //TODO StateId = ,
+                StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
                 //TODO ParentId = ,
             };
 
@@ -139,7 +140,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 StartDate = createDto.StartDate,
                 EndDate = createDto.EndDate,
                 //TODO Urls =
-                //TODO StateId =
+                StateId = createDto.StateId,
                 //TODO ParentId =
                 IsCompleted = false,
                 CreatedBy = _staff.DisplayName,
@@ -188,13 +189,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
-            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.CreatedAt).Excluding(r => r.Id));
-            result.Id.Should().BeEmpty();   // TODO how to detect failure of creation?
-            result.CreatedAt.Should().BeBefore(DateTime.UtcNow);
-            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Test, Order(1003)]
@@ -205,6 +200,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
+                // mandatory "Number" field is missing here -> this should create the failure of the api call
             };
 
             var expectedDto = new ProjectDto
@@ -222,16 +218,35 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
-            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.CreatedAt).Excluding(r => r.Id));
-            result.Id.Should().BeEmpty();   // TODO how to detect failure of creation?
-            result.CreatedAt.Should().BeBefore(DateTime.UtcNow);
-            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Test, Order(107)]
+        [Test, Order(1004)]
+        public async Task Should_Not_Create_Due_Wrong_Dates()
+        {
+            // Arrange
+            var createDto = new ProjectCreateDto
+            {
+                Title = "New Project",
+                ShortTitle = "Shorty",
+                Number = "123XYZ,",
+                StartDate = new DateTime(2020, 01, 01),
+                EndDate = new DateTime(2020, 01, 01) - new TimeSpan(5, 0, 0, 0),    // this is before the StartDate
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+
+        [Test, Order(10100)]
         public async Task Should_Modify()
         {
             // Arrange
@@ -242,13 +257,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Title = "changed " + projectToModify.Title,
                 ShortTitle = "changed " + projectToModify.ShortTitle,
                 Description = "changed " + projectToModify.Description,
-                Number = "X_" + projectToModify.Number,
-                //TODO TypeId = other ID
-                //TODO GenreId = other ID
+                Number = "X-" + projectToModify.Number,
+                TypeId = SelectValueMappingSeedData.ProjectTypeMappings[2].Id,
+                GenreId = SelectValueMappingSeedData.ProjectGenreMappings[2].Id,
                 StartDate = new DateTime(2021, 02, 02),
                 EndDate = new DateTime(2021, 02, 28),
                 //TODO Urls =
-                //TODO StateId =
+                StateId = SelectValueMappingSeedData.ProjectStateMappings[2].Id,
                 //TODO ParentId =
                 IsCompleted = true,
             };
@@ -279,7 +294,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.ModifiedAt.Should().BeAfter(DateTime.MinValue);
         }
 
-        [Test, Order(10004)]
+        [Test, Order(10500)]
         public async Task Should_Delete()
         {
             // Arrange

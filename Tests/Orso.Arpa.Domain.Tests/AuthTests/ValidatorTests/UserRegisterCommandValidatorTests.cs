@@ -46,7 +46,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_UserName_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.UserName, UserTestSeedData.Performer.UserName);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.UserName, UserTestSeedData.Performer.UserName);
         }
 
         [Test]
