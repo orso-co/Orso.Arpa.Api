@@ -38,6 +38,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
+                    _arpaContext.ClearChangeTracker();
                     return Unit.Value;
                 }
 
