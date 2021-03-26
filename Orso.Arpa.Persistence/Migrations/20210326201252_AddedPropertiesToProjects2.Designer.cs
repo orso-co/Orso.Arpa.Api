@@ -10,8 +10,8 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210325224252_AddedPropertiesToProjects")]
-    partial class AddedPropertiesToProjects
+    [Migration("20210326201252_AddedPropertiesToProjects2")]
+    partial class AddedPropertiesToProjects2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -454,6 +454,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Number")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
@@ -461,6 +462,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ShortTitle")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -471,6 +473,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

@@ -488,6 +488,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Number")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
@@ -495,6 +496,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ShortTitle")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -505,6 +507,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

@@ -11,11 +11,13 @@ namespace Orso.Arpa.Persistence.Configurations
             // ToDo: delete cascade in code
             builder
                 .Property(e => e.Title)
-                .HasMaxLength(100);
+                .HasMaxLength(100)
+                .IsRequired();
 
             builder
                 .Property(e => e.ShortTitle)
-                .HasMaxLength(30);
+                .HasMaxLength(30)
+                .IsRequired();
 
             builder
                 .Property(e => e.Description)
@@ -23,7 +25,8 @@ namespace Orso.Arpa.Persistence.Configurations
 
             builder
                 .Property(e => e.Number)
-                .HasMaxLength(15);
+                .HasMaxLength(15)
+                .IsRequired();
 
             builder.HasIndex(e => e.Number);
 

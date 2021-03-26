@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Orso.Arpa.Persistence.Migrations
 {
-    public partial class AddedPropertiesToProjects : Migration
+    public partial class AddedPropertiesToProjects2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 table: "Projects",
                 type: "nvarchar(100)",
                 maxLength: 100,
-                nullable: true,
+                nullable: false,
+                defaultValue: "",
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
                 oldMaxLength: 50,
@@ -27,7 +28,7 @@ namespace Orso.Arpa.Persistence.Migrations
                 table: "Projects",
                 type: "nvarchar(15)",
                 maxLength: 15,
-                nullable: true,
+                nullable: false,
                 oldClrType: typeof(int),
                 oldType: "int");
 
@@ -42,7 +43,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 table: "Projects",
                 type: "nvarchar(30)",
                 maxLength: 30,
-                nullable: true);
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "StartDate",
@@ -318,19 +320,16 @@ namespace Orso.Arpa.Persistence.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(100)",
-                oldMaxLength: 100,
-                oldNullable: true);
+                oldMaxLength: 100);
 
             migrationBuilder.AlterColumn<int>(
                 name: "Number",
                 table: "Projects",
                 type: "int",
                 nullable: false,
-                defaultValue: 0,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(15)",
-                oldMaxLength: 15,
-                oldNullable: true);
+                oldMaxLength: 15);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_SelectValueMappings_GenreId",
