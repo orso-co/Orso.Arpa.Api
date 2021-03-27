@@ -25,6 +25,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await SeedMusicianProfilesAsync(arpaContext);
             await SeedProjectParticipationsAsync(arpaContext);
             await SeedAppointmentParticipationsAsync(arpaContext);
+            await SeedUrlsAsync(arpaContext);
 
             if (!(await arpaContext.SaveChangesAsync(default) > 0))
             {
@@ -70,6 +71,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         private static async Task SeedAppointmentParticipationsAsync(IArpaContext arpaContext)
         {
             await arpaContext.AppointmentParticipations.AddRangeAsync(AppointmentParticipationSeedData.AppointmentParticipations);
+        }
+
+        private static async Task SeedUrlsAsync(IArpaContext arpaContext)
+        {
+            await arpaContext.Urls.AddRangeAsync(UrlSeedData.Urls);
         }
 
         private static async Task SeedUsersAsync(ArpaUserManager userManager, SignInManager<User> signInManager)

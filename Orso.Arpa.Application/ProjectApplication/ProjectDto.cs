@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         public Guid? GenreId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
+        public virtual IList<UrlDto> Urls { get; private set; } = new List<UrlDto>();
         public Guid? StateId { get; set; }
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }

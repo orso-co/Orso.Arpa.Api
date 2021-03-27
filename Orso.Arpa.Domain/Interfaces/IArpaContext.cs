@@ -26,6 +26,7 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<SelectValueMapping> SelectValueMappings { get; set; }
         DbSet<Venue> Venues { get; set; }
         DbSet<Room> Rooms { get; set; }
+        DbSet<Url> Urls { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using Orso.Arpa.Domain.Entities;
 
@@ -5,6 +6,7 @@ namespace Orso.Arpa.Application.RoleApplication
 {
     public class RoleDto
     {
+        public Guid Id { get; set; }
         public string RoleName { get; set; }
         public int RoleLevel { get; set; }
     }

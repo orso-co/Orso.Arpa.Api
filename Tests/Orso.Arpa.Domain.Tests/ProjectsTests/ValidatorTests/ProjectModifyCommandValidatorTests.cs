@@ -1,6 +1,4 @@
 using System;
-using System.Linq.Expressions;
-using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -24,29 +22,61 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Validator(_arpaContext);
             _mockProjectDbSet = MockDbSets.Projects;
+
+            _arpaContext.Projects.Returns(_mockProjectDbSet);
             _arpaContext.Set<Project>().Returns(_mockProjectDbSet);
+
+            _validator = new Validator(_arpaContext);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Duplicate_Number()
         {
-            _mockProjectDbSet.AnyAsync(Arg.Any<Expression<Func<Project, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command() { Id = Guid.Parse("e721f656-046d-4363-8371-e1c90b29a2ab"), Number = ProjectSeedData.HoorayForHollywood.Number  });
-           // _validator.ShouldHaveValidationErrorFor(c => c.Number, ProjectSeedData.HoorayForHollywood.Number);
+            _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command() {
+                Id = ProjectSeedData.RockingXMas.Id,
+                Number = ProjectSeedData.HoorayForHollywood.Number
+            });
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Unused_Number()
+        {
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
+            {
+                Id = ProjectSeedData.RockingXMas.Id,
+                Number = "New Number"
+            });
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Own_Number()
+        {
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
+            {
+                Id = ProjectSeedData.RockingXMas.Id,
+                Number = ProjectSeedData.RockingXMas.Number
+            });
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(c => c.Id, Guid.NewGuid());
+            _validator.ShouldHaveValidationErrorFor(c => c.Id, new Command()
+            {
+                Id = Guid.NewGuid(),
+                Number = "some number"
+            });
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, ProjectSeedData.RockingXMas.Id);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command()
+            {
+                Id = ProjectSeedData.RockingXMas.Id,
+                Number = "some number"
+            });
         }
     }
 }

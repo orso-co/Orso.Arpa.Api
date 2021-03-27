@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +23,6 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public Guid? GenreId { get; set; }
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
-            public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
             public Guid? StateId { get; set; }
             public Guid? ParentId { get; set; }
             public bool IsCompleted { get; set; }
@@ -43,7 +41,6 @@ namespace Orso.Arpa.Domain.Logic.Projects
                     .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.GenreId))
                     .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
                     .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
-                    // TODO .ForMember(dest => dest.Urls, opt => opt.MapFrom(src => src.Urls))
                     .ForMember(dest => dest.StateId, opt => opt.MapFrom(src => src.StateId))
                     .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentId))
                     .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.IsCompleted))
@@ -59,8 +56,8 @@ namespace Orso.Arpa.Domain.Logic.Projects
                     .EntityExists<Command, Project>(arpaContext);
 
                 RuleFor(d => d.Number)
-                    .MustAsync(async (dto, number, cancellation) =>
-                        (!await arpaContext.Projects.AnyAsync(project => dto.Id != project.Id && project.Number.ToLower() == number.ToLower(), cancellation)))
+                    .MustAsync(async (dto, number, cancellation) => !(await arpaContext.Projects
+                        .AnyAsync(project => dto.Id != project.Id && project.Number.ToLower() == number.ToLower(), cancellation)))
                     .WithMessage("The specified project number is already in use. The project number needs to be unique.");
             }
         }

@@ -17,7 +17,6 @@ namespace Orso.Arpa.Domain.Entities
             GenreId = command.GenreId;
             StartDate = command.StartDate;
             EndDate = command.EndDate;
-            Urls = command.Urls;
             StateId = command.StateId;
             ParentId = command.ParentId;
             IsCompleted = command.IsCompleted;
