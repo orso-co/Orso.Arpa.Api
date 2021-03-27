@@ -56,8 +56,10 @@ namespace Orso.Arpa.Domain.Logic.Projects
                     .EntityExists<Command, Project>(arpaContext);
 
                 RuleFor(d => d.Number)
-                    .MustAsync(async (dto, number, cancellation) => !(await arpaContext.Projects
-                        .AnyAsync(project => dto.Id != project.Id && project.Number.ToLower() == number.ToLower(), cancellation)))
+#pragma warning disable RCS1155 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
+                    .MustAsync(async (dto, number, cancellation) =>
+                        (!await arpaContext.Projects.AnyAsync(project => dto.Id != project.Id && project.Number.ToLower() == number.ToLower(), cancellation)))
+#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
                     .WithMessage("The specified project number is already in use. The project number needs to be unique.");
             }
         }

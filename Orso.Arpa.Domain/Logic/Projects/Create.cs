@@ -30,7 +30,10 @@ namespace Orso.Arpa.Domain.Logic.Projects
 
                 RuleFor(d => d.Number)
                     .MustAsync(async (number, cancellation) =>
-                        (!await arpaContext.Projects.AnyAsync(project => project.Number.ToLower() == number.ToLower(), cancellation)))
+                        (!await arpaContext.Projects.AnyAsync(project =>
+#pragma warning disable RCS1155 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
+                        project.Number.ToLower() == number.ToLower(), cancellation)))
+#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
                     .WithMessage("The specified project number is already in use. The project number needs to be unique.");
             }
         }
