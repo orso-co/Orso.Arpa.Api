@@ -168,14 +168,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(1002)]
-        public async Task Should_Not_Create_Due_To_Non_unique_Number()
+        public async Task Should_Not_Create_Due_To_Non_Unique_Number()
         {
             // Arrange
             var createDto = new ProjectCreateDto
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
-                Number = "123XYZ,"
+                Number = ProjectSeedData.HoorayForHollywood.Number,
             };
 
             var expectedDto = new ProjectDto
@@ -194,7 +194,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            // ToDo responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Test, Order(1003)]

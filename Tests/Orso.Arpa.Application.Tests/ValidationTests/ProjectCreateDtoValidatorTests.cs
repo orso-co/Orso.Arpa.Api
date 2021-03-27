@@ -81,12 +81,6 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Number_Already_Exists()
-        {
-            // ToDo _validator.ShouldHaveValidationErrorFor(command => command.Number, ProjectDtoData.HoorayForHollywood.Number);
-        }
-
-        [Test]
         public void Should_Have_Validation_Error_If_EndDate_Is_Before_StartDate_Is_Supplied()
         {
             _validator.ShouldHaveValidationErrorFor(command => command.EndDate, new ProjectCreateDto

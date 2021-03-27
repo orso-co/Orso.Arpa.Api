@@ -26,6 +26,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext);
             _mockProjectDbSet = MockDbSets.Projects;
+            _arpaContext.Set<Project>().Returns(_mockProjectDbSet);
             _arpaContext.Projects.Returns(_mockProjectDbSet);
         }
 
@@ -34,6 +35,12 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         {
             _mockProjectDbSet.AnyAsync(Arg.Any<Expression<Func<Project, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(c => c.Number, ProjectSeedData.HoorayForHollywood.Number);
+        }
+
+        public void Should_Not_Have_Validation_Error_If_Unused_Number()
+        {
+            _mockProjectDbSet.AnyAsync(Arg.Any<Expression<Func<Project, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.Number, "new0815");
         }
 
     }
