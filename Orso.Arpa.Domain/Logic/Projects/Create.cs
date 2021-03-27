@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
@@ -28,12 +29,11 @@ namespace Orso.Arpa.Domain.Logic.Projects
         {
             public Validator(IArpaContext arpaContext)
             {
-                //RuleFor(d => d.Number)
-                //    .EntityDoesNotExist<Command, Project>(arpaContext);
 
-                //    .MustAsync(async (dto, number, cancellation) => !(await arpaContext.Projects
-                //        .AnyAsync(ar => ar.number == number, cancellation)))
-                //    .WithMessage("The specified project number is already in use. The project number needs to be unique.");
+                RuleFor(d => d.Number)
+                    .MustAsync(async (number, cancellation) =>
+                        (!await arpaContext.Projects.AnyAsync(project => project.Number.ToLower() == number.ToLower(), cancellation)))
+                    .WithMessage("The specified project number is already in use. The project number needs to be unique.");
             }
         }
 

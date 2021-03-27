@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
@@ -56,6 +57,11 @@ namespace Orso.Arpa.Domain.Logic.Projects
             {
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Project>(arpaContext);
+
+                RuleFor(d => d.Number)
+                    .MustAsync(async (dto, number, cancellation) =>
+                        (!await arpaContext.Projects.AnyAsync(project => dto.Id != project.Id && project.Number.ToLower() == number.ToLower(), cancellation)))
+                    .WithMessage("The specified project number is already in use. The project number needs to be unique.");
             }
         }
     }
