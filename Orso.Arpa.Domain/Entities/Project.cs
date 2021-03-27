@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.Entities
             GenreId = command.GenreId;
             StartDate = command.StartDate;
             EndDate = command.EndDate;
-            // TODO Urls = command.Urls;
+            Urls = command.Urls;
             StateId = command.StateId;
             ParentId = command.ParentId;
             IsCompleted = command.IsCompleted;
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping Genre { get; private set; }
         public DateTime? StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
-        // TODO public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
+        public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
         public Guid? StateId { get; private set; }
         public virtual SelectValueMapping State { get; private set; }
         public Guid? ParentId { get; private set; }

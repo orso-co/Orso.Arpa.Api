@@ -113,6 +113,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1001)]
         public async Task Should_Create_With_All_Fields_Defined()
         {
+            //ICollection<Url> urls = new Collection<Url>
+            //{
+            //    new Url { Href = "https://arpa2.orso.co/", AnchorText = "ARPA 2.0 Website" },
+            //    new Url { Href = "https://www.orso.co/", AnchorText = "ORSO Website" }
+            //};
+
             // Arrange
             var createDto = new ProjectCreateDto
             {
@@ -124,9 +130,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                 StartDate = new DateTime(2021, 01, 01),
                 EndDate = new DateTime(2021, 01, 31),
-                //TODO Urls =,
+                // TODO Urls = urls,
                 StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
-                //TODO ParentId = ,
+                ParentId = ProjectSeedData.HoorayForHollywood.Id,
             };
 
             var expectedDto = new ProjectDto
@@ -139,9 +145,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GenreId = createDto.GenreId,
                 StartDate = createDto.StartDate,
                 EndDate = createDto.EndDate,
-                //TODO Urls =
+                // TODO Urls = createDto.Urls,
                 StateId = createDto.StateId,
-                //TODO ParentId =
+                ParentId = createDto.ParentId,
                 IsCompleted = false,
                 CreatedBy = _staff.DisplayName,
             };
