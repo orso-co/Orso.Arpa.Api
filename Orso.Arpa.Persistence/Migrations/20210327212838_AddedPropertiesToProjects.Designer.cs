@@ -10,8 +10,8 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210327193211_AddedUrlCollectionToProjects")]
-    partial class AddedUrlCollectionToProjects
+    [Migration("20210327212838_AddedPropertiesToProjects")]
+    partial class AddedPropertiesToProjects
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -113,12 +113,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1001)]
         public async Task Should_Create_With_All_Fields_Defined()
         {
-            //ICollection<Url> urls = new Collection<Url>
-            //{
-            //    new Url { Href = "https://arpa2.orso.co/", AnchorText = "ARPA 2.0 Website" },
-            //    new Url { Href = "https://www.orso.co/", AnchorText = "ORSO Website" }
-            //};
-
             // Arrange
             var createDto = new ProjectCreateDto
             {
@@ -130,7 +124,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                 StartDate = new DateTime(2021, 01, 01),
                 EndDate = new DateTime(2021, 01, 31),
-                // TODO Urls = urls,
+                Urls = new List<UrlDto>
+                {
+                    UrlDtoData.ArpaWebsite,
+                    UrlDtoData.OrsoWebsite,
+                },
+
                 StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
                 ParentId = ProjectSeedData.HoorayForHollywood.Id,
             };
@@ -145,7 +144,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GenreId = createDto.GenreId,
                 StartDate = createDto.StartDate,
                 EndDate = createDto.EndDate,
-                // TODO Urls = createDto.Urls,
+                Urls = createDto.Urls,
                 StateId = createDto.StateId,
                 ParentId = createDto.ParentId,
                 IsCompleted = false,
@@ -250,8 +249,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-
-
         [Test, Order(10100)]
         public async Task Should_Modify()
         {
@@ -268,7 +265,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[2].Id,
                 StartDate = new DateTime(2021, 02, 02),
                 EndDate = new DateTime(2021, 02, 28),
-                //TODO Urls =
                 StateId = SelectValueMappingSeedData.ProjectStateMappings[2].Id,
                 //TODO ParentId =
                 IsCompleted = true,

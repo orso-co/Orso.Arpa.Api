@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Entities;
 using static Orso.Arpa.Domain.Logic.Projects.Modify;
 
 namespace Orso.Arpa.Application.ProjectApplication
@@ -19,7 +17,6 @@ namespace Orso.Arpa.Application.ProjectApplication
         public Guid? GenreId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
         public Guid? StateId { get; set; }
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }

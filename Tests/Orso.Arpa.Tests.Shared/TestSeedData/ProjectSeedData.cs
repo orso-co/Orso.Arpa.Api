@@ -36,7 +36,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                         StartDate = new DateTime(2020, 12, 24),
                         EndDate = new DateTime(2020, 12, 26),
-                        //TODO Urls =
+                        //TODO Urls
+                        // AnchorText = "Our great ARPA 2.0 Website", Href = "https://arpa2.orso.co"
+                        // AnchorText = "ORSO Website", Href = "https://orso.co"
                         StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
                         ParentId = null,
                         IsCompleted = true,
