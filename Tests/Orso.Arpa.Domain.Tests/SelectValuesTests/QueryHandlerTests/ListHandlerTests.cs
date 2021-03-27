@@ -36,7 +36,8 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
             IList<SelectValueCategory> categories = SelectValueCategorySeedData.SelectValueCategories;
             foreach (SelectValueCategory category in categories)
             {
-                foreach (SelectValueMapping mapping in SelectValueMappingSeedData.SelectValueMappings.Where(svm => svm.SelectValueCategoryId == category.Id))
+                foreach (SelectValueMapping mapping in SelectValueMappingSeedData.SelectValueMappings
+                    .Where(svm => svm.SelectValueCategoryId == category.Id))
                 {
                     mapping.SetProperty(
                         nameof(SelectValueMapping.SelectValue),
@@ -48,6 +49,7 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
                 .FirstOrDefault(c => c.Table == nameof(PersonAddress) && c.Property == nameof(PersonAddress.Type))?
                 .SelectValueMappings;
             DbSet<SelectValueCategory> categoriesToReturn = categories.AsQueryable().BuildMockDbSet();
+            categoriesToReturn.AsQueryable().Returns(categories.AsQueryable());
             _arpaContext.SelectValueCategories.Returns(categoriesToReturn);
 
             // Act

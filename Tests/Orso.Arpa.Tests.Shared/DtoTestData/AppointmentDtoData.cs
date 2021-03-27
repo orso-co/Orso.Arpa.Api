@@ -100,6 +100,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
+        public static AppointmentParticipationListItemDto WithoutRoleParticipation
+        {
+            get
+            {
+                return new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.WithoutRole,
+                    Participation = null,
+                    MusicianProfiles = new List<MusicianProfileDto>
+                    {
+                        MusicianProfileDtoData.WithoutRoleProfile
+                    }
+                };
+            }
+        }
+
         public static AppointmentDto RockingXMasConcert
         {
             get
