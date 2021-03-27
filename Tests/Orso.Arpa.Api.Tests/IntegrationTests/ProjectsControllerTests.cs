@@ -82,7 +82,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
-                Number = "123XYZ,"
+                Number = "123XYZ,",
             };
 
             var expectedDto = new ProjectDto
