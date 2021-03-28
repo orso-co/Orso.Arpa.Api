@@ -1,27 +1,31 @@
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Orso.Arpa.Domain.Interfaces;
-
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Translation : BaseEntity
     {
 
+        public Translation(string key, string text, string localizationCulture, string resourceKey)
+        {
+            Key = key;
+            Text = text;
+            LocalizationCulture = localizationCulture;
+            ResourceKey = resourceKey;
+        }
+
         [JsonConstructor]
-        private Translation()
+        protected Translation()
         {
 
         }
 
-        public string Key { get; set; }
+        public string Key { get; private set; }
 
-        public string Text { get; set; }
+        public string Text { get; private set; }
 
-        public string LocalizationCulture { get; set; }
+        public string LocalizationCulture { get; private set; }
 
-        public string ResourceKey { get; set; }
-
+        public string ResourceKey { get; private set; }
     }
 
 }
