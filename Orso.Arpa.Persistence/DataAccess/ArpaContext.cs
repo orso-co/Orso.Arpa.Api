@@ -94,7 +94,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             Task<int> task = base.SaveChangesAsync(cancellationToken);
 
-            //if(!ChangeTracker.Entries<Translation>().IsNullOrEmpty())
+            if(!ChangeTracker.Entries<Translation>().IsNullOrEmpty())
                 _translationCallBack();
 
             return task;
