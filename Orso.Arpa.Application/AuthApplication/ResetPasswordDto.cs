@@ -3,7 +3,6 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.Resources.Cultures;
 using static Orso.Arpa.Domain.Logic.Auth.ResetPassword;
 
 namespace Orso.Arpa.Application.AuthApplication

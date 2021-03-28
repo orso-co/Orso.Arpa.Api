@@ -3,7 +3,6 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Resources.Cultures;
 using static Orso.Arpa.Domain.Logic.Appointments.Modify;
 
 namespace Orso.Arpa.Application.AppointmentApplication

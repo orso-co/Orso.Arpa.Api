@@ -13,7 +13,6 @@ using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Domain.Resources.Cultures;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;

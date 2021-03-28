@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Resources.Cultures;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Auth.UserRegister;
