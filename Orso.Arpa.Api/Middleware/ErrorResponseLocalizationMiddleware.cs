@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
-using Orso.Arpa.Api.Resources.Culture.Errors;
 
 namespace Orso.Arpa.Api.Middleware
 {
