@@ -29,7 +29,6 @@ namespace Orso.Arpa.Domain.Logic.Projects
         {
             public Validator(IArpaContext arpaContext)
             {
-
                 RuleFor(d => d.Number)
                     .MustAsync(async (number, cancellation) =>
                         (!await arpaContext.Projects.AnyAsync(project =>
@@ -39,6 +38,5 @@ namespace Orso.Arpa.Domain.Logic.Projects
                     .WithMessage("The specified project number is already in use. The project number needs to be unique.");
             }
         }
-
     }
 }

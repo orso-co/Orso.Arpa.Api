@@ -41,5 +41,19 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return url;
             }
         }
+        public static Url Google
+        {
+            get
+            {
+                var command = new Create.Command
+                {
+                    AnchorText = "Google",
+                    Href = "https://www.google.com"
+                };
+                var url = new Url(Guid.Parse("fa8d667d-3bb6-4482-91ed-20754be6d539"), command);
+                //TODO url.Roles.Add(RoleSeedData.Staff);
+                return url;
+            }
+        }
     }
 }

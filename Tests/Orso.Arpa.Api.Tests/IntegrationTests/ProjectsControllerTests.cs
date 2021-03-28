@@ -178,15 +178,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Number = ProjectSeedData.HoorayForHollywood.Number,
             };
 
-            var expectedDto = new ProjectDto
-            {
-                Title = createDto.Title,
-                ShortTitle = createDto.ShortTitle,
-                Number = createDto.Number,
-                IsCompleted = false,
-                CreatedBy = _staff.DisplayName,
-            };
-
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
@@ -206,14 +197,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Title = "New Project",
                 ShortTitle = "Shorty",
                 // mandatory "Number" field is missing here -> this should create the failure of the api call
-            };
-
-            var expectedDto = new ProjectDto
-            {
-                Title = createDto.Title,
-                ShortTitle = createDto.ShortTitle,
-                IsCompleted = false,
-                CreatedBy = _staff.DisplayName,
             };
 
             // Act
@@ -310,6 +293,84 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test]
+        public async Task Should_Add_Url()
+        {
+            // Arrange
+            ProjectDto project = ProjectDtoData.HoorayForHollywood;
+            UrlDto url = UrlDtoData.Google;
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+
+            // Act: add url to project
+            HttpResponseMessage responseMessage = await client
+                .PutAsync(ApiEndpoints.ProjectsController.PostUrl(project.Id), BuildStringContent(url));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            // Act: get project to validate that url has been added to list of urls
+            responseMessage = await client
+                .GetAsync(ApiEndpoints.ProjectsController.Get(project.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+
+            //TODO prüfen, dass die neue URL jetzt zum Projekt hinzugefügt wurde
+        }
+
+        [Test]
+        public async Task Should_Modify_Url()
+        {
+            // Arrange
+            Project project = ProjectSeedData.HoorayForHollywood;
+            UrlDto url = UrlDtoData.GoogleDe;
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+
+            // Act: take first url of project and replace with new contents
+            HttpResponseMessage responseMessage = await client
+                .PutAsync(ApiEndpoints.ProjectsController.PutUrl(project.Id, project.Urls[0].Id), BuildStringContent(url));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            // Act: get project to validate that url has been changed
+            responseMessage = await client
+                .GetAsync(ApiEndpoints.ProjectsController.Get(project.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+
+            //TODO prüfen, dass die neue URL geändert wurde
+        }
+
+        [Test]
+        public async Task Should_Delete_Url()
+        {
+            // Arrange
+            Project project = ProjectSeedData.HoorayForHollywood;
+            Url url = project.Urls[0];
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+
+            // Act: delete url from projects list of urls
+            HttpResponseMessage responseMessage = await client
+                .DeleteAsync(ApiEndpoints.ProjectsController.DeleteUrl(project.Id, url.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            // Act: get project to validate that url is no longer part of the list of urls
+            responseMessage = await client
+                .GetAsync(ApiEndpoints.ProjectsController.Get(project.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+
+            //TODO prüfen, dass die URL jetzt vom Projekt gelöscht wurde
         }
     }
 }

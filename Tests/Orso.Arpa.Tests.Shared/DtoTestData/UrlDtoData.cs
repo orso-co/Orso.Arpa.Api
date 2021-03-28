@@ -13,6 +13,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     ArpaWebsite,
                     OrsoWebsite,
+                    Google,
+                    GoogleDe,
                 };
             }
         }
@@ -42,6 +44,29 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
             }
         }
-
+        public static UrlDto Google
+        {
+            get
+            {
+                return new UrlDto
+                {
+                    AnchorText = "Google",
+                    Href = "https://www.google.com"
+                    //TODO Roles =
+                };
+            }
+        }
+        public static UrlDto GoogleDe
+        {
+            get
+            {
+                return new UrlDto
+                {
+                    AnchorText = "Google DE",
+                    Href = "https://www.google.de"
+                    //TODO Roles =
+                };
+            }
+        }
     }
 }

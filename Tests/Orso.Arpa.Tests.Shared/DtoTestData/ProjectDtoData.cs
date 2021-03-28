@@ -33,7 +33,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                     StartDate = new DateTime(2020, 12, 24),
                     EndDate = new DateTime(2020, 12, 26),
-                    //TODO Urls =
+                    Urls = new List<UrlDto> { UrlDtoData.ArpaWebsite, UrlDtoData.Google },
                     StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
                     ParentId = null,
                     IsCompleted = true,
@@ -59,7 +59,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     GenreId = SelectValueMappingSeedData.ProjectGenreMappings[1].Id,
                     StartDate = new DateTime(2020, 05, 05),
                     EndDate = new DateTime(2020, 06, 06),
-                    //TODO Urls =
+                    Urls = new List<UrlDto> { UrlDtoData.ArpaWebsite, UrlDtoData.OrsoWebsite },
                     StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
                     ParentId = null,
                     IsCompleted = false,

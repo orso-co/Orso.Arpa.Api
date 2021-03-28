@@ -47,7 +47,7 @@ namespace Orso.Arpa.Application.ProjectApplication
 
             RuleFor(p => p.Number)
                 .NotEmpty()
-                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
+                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")      // Regular expression validator and debugger: https://regex101.com/
                 .MaximumLength(15);
 
             When(p => p.StartDate != null && p.EndDate != null, () =>

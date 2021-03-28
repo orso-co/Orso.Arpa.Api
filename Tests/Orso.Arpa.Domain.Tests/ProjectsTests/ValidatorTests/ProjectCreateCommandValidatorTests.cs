@@ -42,6 +42,5 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _mockProjectDbSet.AnyAsync(Arg.Any<Expression<Func<Project, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(c => c.Number, "new0815");
         }
-
     }
 }

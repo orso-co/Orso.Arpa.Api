@@ -14,10 +14,14 @@ namespace Orso.Arpa.Application.Services
     public class ProjectService : BaseService<
         ProjectDto,
         Project,
+        // TODO UrlDto,
+        // TODO Domain.Logic.Urls.Create.Command,
+        // TODO Domain.Logic.Urls.Modify.Command
         ProjectCreateDto,
         Domain.Logic.Projects.Create.Command,
         ProjectModifyDto,
-        Domain.Logic.Projects.Modify.Command>, IProjectService
+        Domain.Logic.Projects.Modify.Command
+        >, IProjectService
     {
         public ProjectService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
@@ -25,7 +29,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<ProjectDto>> GetAsync(bool includeCompleted)
         {
-            Expression<Func<Project, bool>> predicate = includeCompleted ? default(Expression<Func<Project, bool>>) : p => !p.IsCompleted;
+            Expression<Func<Project, bool>> predicate = includeCompleted ? default : p => !p.IsCompleted;
 
             return await base.GetAsync(predicate: predicate);
         }
@@ -35,7 +39,25 @@ namespace Orso.Arpa.Application.Services
             ProjectDto dto = _mapper.Map<ProjectDto>(Project);
             return dto;
         }
+        public Task PostUrlAsync(Guid id, UrlDto urlDto)
+        {
+            //TODO
+            //Url.Command command = _mapper.Map<Url.Command>(UrlDto);
+            //await _mediator.Send(command);
+            throw new NotImplementedException();
+        }
 
+        public Task PutUrlAsync(Guid id, Guid urlId, UrlDto urlDto)
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteUrlAsync(Guid id, Guid urlId)
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
 
     }
 }
