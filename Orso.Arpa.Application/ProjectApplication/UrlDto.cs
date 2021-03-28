@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.ProjectApplication
@@ -11,7 +11,7 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public string Href { get; set; }
         public string AnchorText { get; set; }
-        public IList<RoleDto> Roles { get; set; } = new List<RoleDto>();
+        public IList<Guid> roleIds { get; set; } = new List<Guid>();
     }
 
     public class UrlDtoMappingProfile : Profile
@@ -34,8 +34,6 @@ namespace Orso.Arpa.Application.ProjectApplication
             RuleFor(p => p.AnchorText)
                 .NotEmpty()
                 .MaximumLength(1000);
-
-            // Todo Roles
         }
     }
 }

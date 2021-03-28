@@ -12,7 +12,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public Guid Id { get; set; }
             public string Href { get; private set; }
             public string AnchorText { get; private set; }
-            public virtual ICollection<Role> Roles { get; private set; } = new HashSet<Role>();
+            public IList<Guid> roleIds { get; private set; } = new List<Guid>();
         }
     }
 }

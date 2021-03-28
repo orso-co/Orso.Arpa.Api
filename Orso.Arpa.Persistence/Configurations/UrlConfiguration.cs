@@ -16,7 +16,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .Property(e => e.AnchorText)
                 .HasMaxLength(1000);
 
-            //Todo - what does Roles need here?
+            //Todo - what does roleIds need here?
         }
     }
 }

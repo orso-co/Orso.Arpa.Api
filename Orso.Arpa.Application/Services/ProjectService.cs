@@ -58,6 +58,5 @@ namespace Orso.Arpa.Application.Services
             //TODO
             throw new NotImplementedException();
         }
-
     }
 }

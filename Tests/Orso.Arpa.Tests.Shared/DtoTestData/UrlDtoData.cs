@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -26,8 +28,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UrlDto
                 {
                     AnchorText = "Our great ARPA 2.0 Website",
-                    Href = "https://arpa2.orso.co"
-                    //TODO Roles =
+                    Href = "https://arpa2.orso.co",
+                    roleIds = new List<Guid> { RoleSeedData.Staff.Id },
                 };
             }
         }
@@ -39,8 +41,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UrlDto
                 {
                     AnchorText = "ORSO website",
-                    Href = "https://www.orso.co"
-                    //TODO Roles =
+                    Href = "https://www.orso.co",
+                    roleIds = new List<Guid> { RoleSeedData.Staff.Id, RoleSeedData.Performer.Id },
                 };
             }
         }
@@ -51,8 +53,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new UrlDto
                 {
                     AnchorText = "Google",
-                    Href = "https://www.google.com"
-                    //TODO Roles =
+                    Href = "https://www.google.com",
+                    roleIds = new List<Guid> { RoleSeedData.Performer.Id },
                 };
             }
         }
@@ -64,7 +66,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     AnchorText = "Google DE",
                     Href = "https://www.google.de"
-                    //TODO Roles =
+                    // RolesIds remains empty here
                 };
             }
         }

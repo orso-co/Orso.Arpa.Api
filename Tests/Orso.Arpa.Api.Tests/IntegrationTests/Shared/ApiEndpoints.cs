@@ -86,7 +86,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Delete(Guid id) => $"{Projects}/{id}";
 
-            public static string PostUrl(Guid id) => $"{Projects}/{id}";
+            public static string PostUrl(Guid id) => $"{Projects}/{id}/urls";
 
             public static string PutUrl(Guid id, Guid urlId) => $"{Projects}/{id}/urls/{urlId}";
 

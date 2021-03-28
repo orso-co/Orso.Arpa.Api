@@ -124,11 +124,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                 StartDate = new DateTime(2021, 01, 01),
                 EndDate = new DateTime(2021, 01, 31),
-                Urls = new List<UrlDto>
-                {
-                    UrlDtoData.ArpaWebsite,
-                    UrlDtoData.OrsoWebsite,
-                },
+                Urls = new List<UrlDto> { UrlDtoData.ArpaWebsite, UrlDtoData.OrsoWebsite },
 
                 StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
                 ParentId = ProjectSeedData.HoorayForHollywood.Id,
@@ -294,6 +290,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
+
+        // ------------------------------------------------------------------------------------------------------
+        //  Tests for Urls
+        // ------------------------------------------------------------------------------------------------------
 
         [Test]
         public async Task Should_Add_Url()

@@ -110,7 +110,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if project could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
-        [HttpPost("{id}")]
+        [HttpPost("{id}/urls")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> PostUrl([FromRoute] Guid id, [FromBody] UrlDto urlDto)
