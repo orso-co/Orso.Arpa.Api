@@ -13,7 +13,6 @@ using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Logic.Appointments;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
-using Generic = Orso.Arpa.Domain.GenericHandlers;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -73,7 +72,7 @@ namespace Orso.Arpa.Application.Services
 
         public override async Task<AppointmentDto> GetByIdAsync(Guid id)
         {
-            Appointment appointment = await _mediator.Send(new Generic.Details.Query<Appointment>(id));
+            Appointment appointment = await _mediator.Send(new Details.Query<Appointment>(id));
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
             var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
             IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);

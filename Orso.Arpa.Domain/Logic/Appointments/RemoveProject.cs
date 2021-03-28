@@ -57,6 +57,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
+                    _arpaContext.ClearChangeTracker();
                     return Unit.Value;
                 }
 

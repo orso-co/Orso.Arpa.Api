@@ -2,9 +2,9 @@ using System;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class AppointmentRoom
+    public class AppointmentRoom : BaseEntity
     {
-        public AppointmentRoom(Appointment appointment, Room room)
+        public AppointmentRoom(Guid? id, Appointment appointment, Room room) : base(id)
         {
             Appointment = appointment;
             Room = room;

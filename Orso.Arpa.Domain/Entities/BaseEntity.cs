@@ -14,7 +14,7 @@ namespace Orso.Arpa.Domain.Entities
 
         protected BaseEntity(Guid? id)
         {
-            Id = id ?? Id;
+            Id = id ?? Guid.NewGuid();
         }
 
         protected BaseEntity()
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Entities
             ModifiedAt = DateTimeProvider.Instance.GetUtcNow();
         }
 
-        public virtual void Delete(string modifiedBy)
+        public void Delete(string modifiedBy)
         {
             Deleted = true;
             Modify(modifiedBy);

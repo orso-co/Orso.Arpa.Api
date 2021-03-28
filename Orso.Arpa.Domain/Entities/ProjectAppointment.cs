@@ -2,15 +2,15 @@ using System;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class ProjectAppointment
+    public class ProjectAppointment : BaseEntity
     {
-        public ProjectAppointment(Project project, Appointment appointment)
+        public ProjectAppointment(Guid? id, Project project, Appointment appointment) : base(id)
         {
             Project = project;
             Appointment = appointment;
         }
 
-        public ProjectAppointment(Guid projectId, Guid appointmentId)
+        public ProjectAppointment(Guid? id, Guid projectId, Guid appointmentId) : base(id)
         {
             ProjectId = projectId;
             AppointmentId = appointmentId;

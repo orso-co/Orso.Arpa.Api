@@ -14,13 +14,15 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Room)
                 .WithMany(r => r.AppointmentRooms)
                 .HasForeignKey(e => e.RoomId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
 
             builder
                 .HasOne(e => e.Appointment)
                 .WithMany(r => r.AppointmentRooms)
                 .HasForeignKey(e => e.AppointmentId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
         }
     }
 }

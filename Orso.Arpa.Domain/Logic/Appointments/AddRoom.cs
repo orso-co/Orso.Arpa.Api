@@ -73,7 +73,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
                 Room existingRoom = await _arpaContext.Rooms.FindAsync(new object[] { request.RoomId }, cancellationToken);
 
-                var appointmentRoom = new AppointmentRoom(existingAppointment, existingRoom);
+                var appointmentRoom = new AppointmentRoom(null, existingAppointment, existingRoom);
 
                 _arpaContext.AppointmentRooms.Add(appointmentRoom);
 
