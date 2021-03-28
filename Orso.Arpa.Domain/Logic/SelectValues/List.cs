@@ -29,9 +29,12 @@ namespace Orso.Arpa.Domain.Logic.SelectValues
             {
                 return Task.FromResult(_arpaContext
                     .SelectValueCategories
+                    .AsQueryable()
                     .Where(c =>
+#pragma warning disable RCS1155 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
                         c.Table.ToLower() == request.TableName.ToLower()
                         && c.Property.ToLower() == request.PropertyName.ToLower())
+#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
                     .SelectMany(c => c.SelectValueMappings)
                     .OrderBy(s => s.SelectValue.Name)
                     .ToImmutableList() as IImmutableList<SelectValueMapping>);

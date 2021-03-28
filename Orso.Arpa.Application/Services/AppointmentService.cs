@@ -9,6 +9,7 @@ using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Logic.Appointments;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
@@ -57,10 +58,13 @@ namespace Orso.Arpa.Application.Services
                     && a.StartTime <= DateHelper.GetEndTime(date.Value, range)));
 
             var dtoList = new List<AppointmentDto>();
+            var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
+            IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
+
             foreach (Appointment appointment in entities)
             {
                 AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
-                AddParticipations(dto, appointment);
+                await AddParticipationsAsync(dto, appointment, flattenedTree);
                 dtoList.Add(dto);
             }
             return dtoList;
@@ -70,26 +74,23 @@ namespace Orso.Arpa.Application.Services
         {
             Appointment appointment = await _mediator.Send(new Details.Query<Appointment>(id));
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
-            AddParticipations(dto, appointment);
+            var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
+            IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
+            await AddParticipationsAsync(dto, appointment, flattenedTree);
             return dto;
         }
 
-        private void AddParticipations(AppointmentDto dto, Appointment appointment)
+        private async Task AddParticipationsAsync(AppointmentDto dto, Appointment appointment, IEnumerable<ITree<Section>> flattenedTree)
         {
-            IEnumerable<ProjectParticipation> participations = appointment.ProjectAppointments
-                .Select(pa => pa.Project)
-                .SelectMany(p => p.ProjectParticipations);
+            var query = new Domain.Logic.MusicianProfiles.GetForAppointment.Query
+            {
+                Appointment = appointment,
+                SectionTree = flattenedTree
+            };
 
-            IEnumerable<PersonGrouping> persons = from p in participations
-                                                  group p by p.MusicianProfile.Person into g
-                                                  select new PersonGrouping
-                                                  {
-                                                      Person = g.Key,
-                                                      Profiles = g.ToList().Select(g => g.MusicianProfile),
-                                                      Participation = appointment.AppointmentParticipations.FirstOrDefault(ap => ap.PersonId == g.Key.Id)
-                                                  };
+            IEnumerable<Domain.Logic.MusicianProfiles.GetForAppointment.PersonGrouping> personGrouping = await _mediator.Send(query);
 
-            dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(persons);
+            dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(personGrouping);
         }
 
         public async Task<AppointmentDto> RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto)
@@ -117,7 +118,9 @@ namespace Orso.Arpa.Application.Services
             SetDates.Command command = _mapper.Map<SetDates.Command>(setDatesDto);
             Appointment appointment = await _mediator.Send(command);
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
-            AddParticipations(dto, appointment);
+            var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
+            IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
+            await AddParticipationsAsync(dto, appointment, flattenedTree);
             return dto;
         }
 
@@ -132,12 +135,5 @@ namespace Orso.Arpa.Application.Services
             AppointmentParticipations.SetResult.Command command = _mapper.Map<AppointmentParticipations.SetResult.Command>(setParticipationResult);
             await _mediator.Send(command);
         }
-    }
-
-    internal class PersonGrouping
-    {
-        public Person Person { get; set; }
-        public IEnumerable<MusicianProfile> Profiles { get; set; }
-        public AppointmentParticipation Participation { get; set; }
     }
 }

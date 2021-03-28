@@ -35,6 +35,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
+        public static PersonDto WithoutRole
+        {
+            get
+            {
+                Person person = PersonTestSeedData.UserWithoutRole;
+                return CreateDto(person, "anonymous", new System.DateTime(2021, 1, 1));
+            }
+        }
+
         private static PersonDto CreateDto(Person person, string createdBy, DateTime? createdAt)
         {
             return new PersonDto
