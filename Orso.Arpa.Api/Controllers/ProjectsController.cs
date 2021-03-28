@@ -145,7 +145,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If project or url within project could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}/urls/{urlId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteUrl([FromRoute] Guid id, [FromRoute] Guid urlId)
