@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
@@ -8,6 +9,8 @@ namespace Orso.Arpa.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Translation> builder)
         {
+            builder.HasData(TranslationSeedData.Translations);
+
             builder.Property(m => m.Key).IsUnicode().IsRequired();
 
             builder.Property(m => m.Text).IsUnicode().IsRequired();
