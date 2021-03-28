@@ -8,6 +8,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.AppointmentParticipationApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
@@ -125,6 +127,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_Section()
         {
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
+            expectedDto.Participations.RemoveAt(1);
+            expectedDto.Participations.RemoveAt(1);
             expectedDto.Sections.Add(new SectionDto() { Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), Name = "Alto" });
 
             // Act
@@ -246,6 +250,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.EndTime = setDatesDto.EndTime.Value;
             expectedDto.StartTime = setDatesDto.StartTime.Value;
             expectedDto.ModifiedBy = _staff.DisplayName;
+            AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
+            performerParticipation.Participation = null;
+            expectedDto.Participations.Add(performerParticipation);
+            AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;
+            staffParticipation.Participation = null;
+            expectedDto.Participations.Add(staffParticipation);
+            AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
+            adminParticipation.MusicianProfiles.Add(new MusicianProfileDto { IsProfessional = false, SectionName = "Soprano 2" });
+            expectedDto.Participations.Add(adminParticipation);
+            expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -302,7 +316,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
-            expectedDto.Participations.Clear();
+            AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
+            performerParticipation.Participation = null;
+            expectedDto.Participations.Add(performerParticipation);
+            AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;
+            staffParticipation.Participation = null;
+            expectedDto.Participations.Add(staffParticipation);
+            AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
+            expectedDto.Participations.Add(adminParticipation);
+            adminParticipation.MusicianProfiles.Add(new MusicianProfileDto { IsProfessional = false, SectionName = "Soprano 2" });
+            expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

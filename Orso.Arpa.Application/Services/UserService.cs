@@ -7,6 +7,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.UserApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Logic.Users;
@@ -64,14 +65,18 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<MyAppointmentListDto> GetAppointmentsOfCurrentUserAsync(int? limit, int? offset)
         {
-            Tuple<IEnumerable<Appointment>, int> appointmentTuple = await _mediator.Send(new AppointmentList.Query(limit, offset));
-            MyAppointmentListDto listDto = _mapper.Map<MyAppointmentListDto>(appointmentTuple);
-
+            var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
+            IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
             User currentUser = await _userAccessor.GetCurrentUserAsync();
+
+            Tuple<IEnumerable<Appointment>, int> appointmentTuple = await _mediator.Send(
+                new AppointmentList.Query(limit, offset, flattenedTree, currentUser.Person));
+            MyAppointmentListDto listDto = _mapper.Map<MyAppointmentListDto>(appointmentTuple);
 
             foreach (MyAppointmentDto dto in listDto.UserAppointments)
             {
-                AppointmentParticipation participation = await _mediator.Send(new AppointmentParticipations.Details.Query(dto.Id, currentUser.PersonId));
+                AppointmentParticipation participation = await _mediator.Send(new AppointmentParticipations.Details.Query(
+                    dto.Id, currentUser.PersonId));
                 if (participation != null)
                 {
                     _mapper.Map(participation, dto);
