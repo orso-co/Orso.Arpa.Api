@@ -7,7 +7,7 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.ProjectApplication
 {
-    public class UrlDto
+    public class UrlDto : BaseEntityDto
     {
         public string Href { get; set; }
         public string AnchorText { get; set; }
