@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Interfaces
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
-
+        void ClearChangeTracker();
         ValueTask<TEntity> FindAsync<TEntity>(object[] keyValues, CancellationToken cancellationToken) where TEntity : class;
 
         EntityEntry Remove(object entity);

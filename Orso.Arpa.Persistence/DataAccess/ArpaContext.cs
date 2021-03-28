@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Configurations;
@@ -60,28 +61,66 @@ namespace Orso.Arpa.Persistence.DataAccess
             builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+            var currentUserDisplayName = _tokenAccessor.DisplayName;
+
             foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Create(_tokenAccessor.DisplayName);
+                        entry.Entity.Create(currentUserDisplayName);
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.Modify(_tokenAccessor.DisplayName);
+                        entry.Entity.Modify(currentUserDisplayName);
                         break;
 
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.Entity.Delete(_tokenAccessor.DisplayName);
+                    case EntityState.Deleted:                    
+                        await DeleteWithNavigationsAsync(currentUserDisplayName, entry, cancellationToken);
                         break;
                 }
             }
 
-            return base.SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task DeleteWithNavigationsAsync(string currentUserDisplayName, EntityEntry entry, CancellationToken cancellationToken)
+        {
+            entry.State = EntityState.Modified;
+            (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName);
+
+            foreach (IProperty property in entry.CurrentValues.Properties)
+            {
+                if (property.IsColumnNullable() && property.IsForeignKey())
+                {
+                    entry.CurrentValues[property] = null;
+                }
+            }
+            foreach (NavigationEntry navigationEntry in entry.Navigations)
+            {
+                if (navigationEntry is CollectionEntry collectionEntry)
+                {
+                    if (!collectionEntry.IsLoaded)
+                    {
+                        await collectionEntry.LoadAsync(cancellationToken);
+                    }
+                    foreach (var dependentEntryObject in collectionEntry.CurrentValue)
+                    {
+                        EntityEntry dependentEntry = Entry(dependentEntryObject);
+                        if (dependentEntry.Entity.GetType().IsSubclassOf(typeof(BaseEntity)))
+                        {
+                            await DeleteWithNavigationsAsync(currentUserDisplayName, dependentEntry, cancellationToken);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ClearChangeTracker()
+        {
+            ChangeTracker.Clear();
         }
     }
 }
