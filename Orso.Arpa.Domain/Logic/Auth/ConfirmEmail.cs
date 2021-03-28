@@ -10,7 +10,6 @@ using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
-
 namespace Orso.Arpa.Domain.Logic.Auth
 {
     public static class ConfirmEmail
