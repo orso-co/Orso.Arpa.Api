@@ -3,7 +3,6 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.Resources.Cultures;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Logic.Me;
 

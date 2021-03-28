@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Application.Resources.Cultures;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
