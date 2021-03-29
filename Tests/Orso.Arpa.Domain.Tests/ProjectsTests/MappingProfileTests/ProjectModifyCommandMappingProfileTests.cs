@@ -58,7 +58,6 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.MappingProfileTests
                 GenreId = expectedProject.GenreId,
                 StartDate = expectedProject.StartDate,
                 EndDate = expectedProject.EndDate,
-                // TODO Urls = expectedProject.Urls,
                 StateId = expectedProject.StateId,
                 ParentId = expectedProject.ParentId,
                 IsCompleted = expectedProject.IsCompleted,
@@ -68,7 +67,8 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.MappingProfileTests
             Entities.Project project = _mapper.Map(command, sourceProject);
 
             // Assert
-            project.Should().BeEquivalentTo(expectedProject);
+            project.Should().BeEquivalentTo(expectedProject, opt => opt.Excluding(dto => dto.Urls));
+            project.Urls.Should().BeEquivalentTo(expectedProject.Urls, opt => opt.Excluding(dto => dto.UrlRoles));
         }
     }
 }

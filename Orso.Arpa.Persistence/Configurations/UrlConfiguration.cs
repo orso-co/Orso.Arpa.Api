@@ -16,7 +16,11 @@ namespace Orso.Arpa.Persistence.Configurations
                 .Property(e => e.AnchorText)
                 .HasMaxLength(1000);
 
-            //Todo - what does roleIds need here?
+            builder
+                .HasOne(e => e.Project)
+                .WithMany(p => p.Urls)
+                .HasForeignKey(e => e.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -7,6 +7,6 @@ namespace Orso.Arpa.Domain.Entities
     public class Role : IdentityRole<Guid>
     {
         public short Level { get; set; }
-        public virtual IList<Url> Urls { get; set; } = new List<Url>();
+        public virtual ICollection<UrlRole> UrlRoles { get; private set; } = new HashSet<UrlRole>();
     }
 }

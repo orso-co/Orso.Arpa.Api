@@ -113,9 +113,9 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("{id}/urls")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> PostUrl([FromRoute] Guid id, [FromBody] UrlDto urlDto)
+        public async Task<ActionResult> AddUrl([FromRoute] Guid id, [FromBody] UrlCreateDto urlDto)
         {
-            await _projectService.PostUrlAsync(id, urlDto);
+            await _projectService.AddUrlAsync(id, urlDto);
             return NoContent();
         }
 

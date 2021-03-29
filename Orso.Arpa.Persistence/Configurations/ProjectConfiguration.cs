@@ -28,7 +28,8 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasMaxLength(15)
                 .IsRequired();
 
-            builder.HasIndex(e => e.Number);
+            builder
+                .HasIndex(e => e.Number);
 
             builder
                 .HasOne(e => e.Type)
@@ -41,8 +42,6 @@ namespace Orso.Arpa.Persistence.Configurations
                 .WithMany(g => g.ProjectsAsGenre)
                 .HasForeignKey(e => e.GenreId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            //TODO Urls
 
             builder
                 .HasOne(e => e.State)

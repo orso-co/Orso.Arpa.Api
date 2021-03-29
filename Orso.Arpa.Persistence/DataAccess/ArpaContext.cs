@@ -42,6 +42,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Url> Urls { get; set; }
+        public DbSet<UrlRole> UrlRoles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

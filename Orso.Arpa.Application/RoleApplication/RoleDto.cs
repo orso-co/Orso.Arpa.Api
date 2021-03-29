@@ -8,7 +8,7 @@ namespace Orso.Arpa.Application.RoleApplication
     {
         public Guid Id { get; set; }
         public string RoleName { get; set; }
-        public int RoleLevel { get; set; }
+        public short RoleLevel { get; set; }
     }
 
     public class RoleDtoMappingProfile : Profile

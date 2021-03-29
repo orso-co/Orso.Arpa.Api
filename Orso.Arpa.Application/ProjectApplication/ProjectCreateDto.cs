@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using static Orso.Arpa.Domain.Logic.Projects.Create;
@@ -16,7 +15,6 @@ namespace Orso.Arpa.Application.ProjectApplication
         public Guid? GenreId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public virtual IList<UrlDto> Urls { get; set; } = new List<UrlDto>();
         public Guid? StateId { get; set; }
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }

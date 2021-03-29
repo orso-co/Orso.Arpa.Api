@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -45,7 +46,8 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
                 new CancellationToken());
 
             // Assert
-            result.Item1.Should().BeEquivalentTo(expectedAppointments);
+            result.Item1.Count().Should().Be(1);
+            result.Item1.First().Should().BeEquivalentTo(expectedAppointments.First(), opt=> opt.Excluding(app => app.ProjectAppointments));
             result.Item2.Should().Be(1);
         }
 

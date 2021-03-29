@@ -39,7 +39,8 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
             // Assert
             users.Should().BeEquivalentTo(expectedUsers, opt => opt
                 .Excluding(user => user.ConcurrencyStamp)
-                .Excluding(user => user.RefreshTokens));
+                .Excluding(user => user.RefreshTokens)
+                .Excluding(user => user.Person));
         }
     }
 }

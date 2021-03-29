@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.Entities
         {
             Href = command.Href;
             AnchorText = command.AnchorText;
-            roleIds = command.roleIds;
+            ProjectId = command.ProjectId;
         }
 
         internal Url(Guid? id) : base(id)
@@ -25,6 +25,8 @@ namespace Orso.Arpa.Domain.Entities
 
         public string Href { get; private set; }
         public string AnchorText { get; private set; }
-        public IList<Guid> roleIds { get; private set; } = new List<Guid>();
+        public virtual ICollection<UrlRole> UrlRoles { get; private set; } = new HashSet<UrlRole>();
+        public Guid ProjectId { get; private set; }
+        public virtual Project Project { get; private set; }
     }
 }

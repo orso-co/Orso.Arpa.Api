@@ -1,6 +1,3 @@
-using System;
-using System.Linq.Expressions;
-using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -33,14 +30,19 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Duplicate_Number()
         {
-            _mockProjectDbSet.AnyAsync(Arg.Any<Expression<Func<Project, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(c => c.Number, ProjectSeedData.HoorayForHollywood.Number);
+            _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command()
+            {
+                Number = ProjectSeedData.HoorayForHollywood.Number
+            });
         }
 
+        [Test]
         public void Should_Not_Have_Validation_Error_If_Unused_Number()
         {
-            _mockProjectDbSet.AnyAsync(Arg.Any<Expression<Func<Project, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.Number, "new0815");
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
+            {
+                Number = "New Number"
+            });
         }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Application.RoleApplication;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -27,9 +27,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UrlDto
                 {
+                    Id = Guid.Parse("a009cea6-031c-4f0c-ac05-931b2826127d"),
                     AnchorText = "Our great ARPA 2.0 Website",
                     Href = "https://arpa2.orso.co",
-                    roleIds = new List<Guid> { RoleSeedData.Staff.Id },
+                    Roles = new List<RoleDto> { RoleDtoData.Staff },
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1)
                 };
             }
         }
@@ -40,9 +43,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UrlDto
                 {
+                    Id = Guid.Parse("2d7c6ac5-5b1c-42ef-9c3d-1edd3f46b33f"),
                     AnchorText = "ORSO website",
                     Href = "https://www.orso.co",
-                    roleIds = new List<Guid> { RoleSeedData.Staff.Id, RoleSeedData.Performer.Id },
+                    Roles = new List<RoleDto> { RoleDtoData.Staff, RoleDtoData.Performer },
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1)
                 };
             }
         }
@@ -52,9 +58,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UrlDto
                 {
+                    Id = Guid.Parse("fa8d667d-3bb6-4482-91ed-20754be6d539"),
                     AnchorText = "Google",
                     Href = "https://www.google.com",
-                    roleIds = new List<Guid> { RoleSeedData.Performer.Id },
+                    Roles = new List<RoleDto> { RoleDtoData.Performer },
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1)
                 };
             }
         }
@@ -64,8 +73,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UrlDto
                 {
+                    Id = Guid.Parse("be021bf0-db90-4a05-9d7c-0e98c9a3f893"),
                     AnchorText = "Google DE",
-                    Href = "https://www.google.de"
+                    Href = "https://www.google.de",
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1)
                     // RolesIds remains empty here
                 };
             }

@@ -14,9 +14,6 @@ namespace Orso.Arpa.Application.Services
     public class ProjectService : BaseService<
         ProjectDto,
         Project,
-        // TODO UrlDto,
-        // TODO Domain.Logic.Urls.Create.Command,
-        // TODO Domain.Logic.Urls.Modify.Command
         ProjectCreateDto,
         Domain.Logic.Projects.Create.Command,
         ProjectModifyDto,
@@ -39,7 +36,7 @@ namespace Orso.Arpa.Application.Services
             ProjectDto dto = _mapper.Map<ProjectDto>(Project);
             return dto;
         }
-        public Task PostUrlAsync(Guid id, UrlDto urlDto)
+        public Task AddUrlAsync(Guid id, UrlCreateDto urlDto)
         {
             //TODO
             //Url.Command command = _mapper.Map<Url.Command>(UrlDto);
