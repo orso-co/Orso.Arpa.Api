@@ -101,6 +101,5 @@ namespace Orso.Arpa.Api.Controllers
             await _projectService.DeleteAsync(id);
             return NoContent();
         }
-
     }
 }

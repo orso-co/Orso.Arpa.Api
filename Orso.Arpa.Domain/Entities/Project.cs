@@ -9,11 +9,17 @@ namespace Orso.Arpa.Domain.Entities
     {
         public Project(Guid? id, Create.Command command) : base(id)
         {
-            Number = command.Number;
             Title = command.Title;
+            ShortTitle = command.ShortTitle;
             Description = command.Description;
-            ParentId = command.ParentId;
+            Number = command.Number;
+            TypeId = command.TypeId;
             GenreId = command.GenreId;
+            StartDate = command.StartDate;
+            EndDate = command.EndDate;
+            StateId = command.StateId;
+            ParentId = command.ParentId;
+            IsCompleted = command.IsCompleted;
         }
 
         [JsonConstructor]
@@ -21,16 +27,25 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        public int Number { get; private set; }
         public string Title { get; private set; }
+        public string ShortTitle { get; private set; }
         public string Description { get; private set; }
+        public string Number { get; private set; }
+        public Guid? TypeId { get; set; }
+        public virtual SelectValueMapping Type { get; private set; }
+        public Guid? GenreId { get; private set; }
+        public virtual SelectValueMapping Genre { get; private set; }
+        public DateTime? StartDate { get; private set; }
+        public DateTime? EndDate { get; private set; }
+        public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
+        public Guid? StateId { get; private set; }
+        public virtual SelectValueMapping State { get; private set; }
         public Guid? ParentId { get; private set; }
         public virtual Project Parent { get; private set; }
         public virtual ICollection<Project> Children { get; private set; } = new HashSet<Project>();
-        public Guid? GenreId { get; private set; }
-        public virtual SelectValueMapping Genre { get; private set; }
-        public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public bool IsCompleted { get; private set; }
+
+        public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
     }
 }

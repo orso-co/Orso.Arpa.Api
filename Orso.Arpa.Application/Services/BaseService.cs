@@ -56,8 +56,7 @@ namespace Orso.Arpa.Application.Services
         public virtual async Task<TGetDto> GetByIdAsync(Guid id)
         {
             TEntity entity = await _mediator.Send(new Details.Query<TEntity>(id));
-            TGetDto dto = _mapper.Map<TGetDto>(entity);
-            return dto;
+            return _mapper.Map<TGetDto>(entity);
         }
 
         public virtual async Task ModifyAsync(TModifyDto modifyDto)

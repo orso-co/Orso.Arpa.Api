@@ -26,7 +26,6 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentAddRoomDtoValidator()
         {
-            
             RuleFor(d => d)
                 .NotNull();
             RuleFor(d => d.Id)

@@ -15,6 +15,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 project.ProjectAppointments.Add(FakeProjectAppointments.RockingXMasRehearsal);
                 project.SetProperty(nameof(Project.CreatedBy), "anonymous");
                 project.SetProperty(nameof(Project.CreatedAt), DateTimeProvider.Instance.GetUtcNow());
+                project.Urls.Add(FakeUrls.ArpaWebsite);
+                project.Urls.Add(FakeUrls.OrsoWebsite);
+                project.Urls.Add(FakeUrls.Google);
                 return project;
             }
         }

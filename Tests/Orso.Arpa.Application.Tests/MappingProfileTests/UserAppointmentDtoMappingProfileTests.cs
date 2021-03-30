@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Application.RoomApplication;
 using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Domain.Entities;
@@ -26,6 +27,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<AddressApplication.AddressDtoMappingProfile>();
                 cfg.AddProfile<RoomDtoMappingProfile>();
                 cfg.AddProfile<ProjectDtoMappingProfile>();
+                cfg.AddProfile<UrlDtoMappingProfile>();
+                cfg.AddProfile<RoleDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);
