@@ -51,5 +51,17 @@ namespace Orso.Arpa.Application.Extensions
                 .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
                 .WithMessage("A valid SEPA string may only contain alphanumeric, space and the following speacial characters: / ? : ( ) . , ' + -");
         }
+
+        /// <summary>
+        /// valid SEPA characters in DFÜ Abkommen (Deutsche Kreditwirtschaft)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ruleBuilder"></param>
+        public static IRuleBuilder<T, string> Sepa<T>(this IRuleBuilder<T, string> ruleBuilder)
+        {
+            return ruleBuilder
+                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
+                .WithMessage("A valid SEPA string may only contain alphanumeric, space and the following speacial characters: / ? : ( ) . , ' + -");
+        }
     }
 }
