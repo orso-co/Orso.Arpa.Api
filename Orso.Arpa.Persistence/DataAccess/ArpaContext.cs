@@ -46,6 +46,8 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<SelectValueMapping> SelectValueMappings { get; set; }
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Url> Urls { get; set; }
+        public DbSet<UrlRole> UrlRoles { get; set; }
 
         public DbSet<Translation> Translations { get; set; }
 

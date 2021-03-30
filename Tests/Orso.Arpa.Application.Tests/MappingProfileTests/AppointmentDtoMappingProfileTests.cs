@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -21,6 +22,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<AppointmentDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
                 cfg.AddProfile<ProjectDtoMappingProfile>();
+                cfg.AddProfile<UrlDtoMappingProfile>();
+                cfg.AddProfile<RoleDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);

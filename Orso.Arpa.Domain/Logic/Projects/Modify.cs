@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
@@ -15,7 +16,16 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public Guid Id { get; set; }
 
             public string Title { get; set; }
+            public string ShortTitle { get; set; }
             public string Description { get; set; }
+            public string Number { get; set; }
+            public Guid? TypeId { get; set; }
+            public Guid? GenreId { get; set; }
+            public DateTime? StartDate { get; set; }
+            public DateTime? EndDate { get; set; }
+            public Guid? StateId { get; set; }
+            public Guid? ParentId { get; set; }
+            public bool IsCompleted { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -23,8 +33,17 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public MappingProfile()
             {
                 CreateMap<Command, Project>()
-                    .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                     .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                    .ForMember(dest => dest.ShortTitle, opt => opt.MapFrom(src => src.ShortTitle))
+                    .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                    .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Number))
+                    .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId))
+                    .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.GenreId))
+                    .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
+                    .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
+                    .ForMember(dest => dest.StateId, opt => opt.MapFrom(src => src.StateId))
+                    .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentId))
+                    .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.IsCompleted))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }
@@ -35,6 +54,18 @@ namespace Orso.Arpa.Domain.Logic.Projects
             {
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Project>(arpaContext);
+
+                RuleFor(d => d.Number)
+                    .MustAsync(async (dto, number, cancellation) =>
+#pragma warning disable RCS1155 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
+                        (!await arpaContext.Projects.AnyAsync(project => dto.Id != project.Id && project.Number.ToLower() == number.ToLower(), cancellation)))
+#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
+                    .WithMessage("The specified project number is already in use. The project number needs to be unique.");
+
+                RuleFor(c => c.ParentId)
+                    .MustAsync(async (parentId, cancellation) => await arpaContext.Projects.AnyAsync(p => p.Id == parentId.Value, cancellation))
+                    .When(dto => dto.ParentId.HasValue)
+                    .WithMessage("The project could not be found");
             }
         }
     }

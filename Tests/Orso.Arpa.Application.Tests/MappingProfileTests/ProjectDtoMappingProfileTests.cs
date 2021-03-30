@@ -3,6 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -18,6 +19,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             {
                 cfg.AddProfile<ProjectDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
+                cfg.AddProfile<UrlDtoMappingProfile>();
+                cfg.AddProfile<RoleDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);

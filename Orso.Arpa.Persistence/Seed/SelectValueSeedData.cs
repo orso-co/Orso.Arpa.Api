@@ -12,51 +12,59 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 return new List<SelectValue>
                 {
-                    Partly,
-                    Absent,
-                    Ambiguous,
-                    Assembly,
-                    Audition,
-                    AwaitingPoll,
-                    ChamberMusic,
-                    ChoreographyRehearsal,
-                    ClassicalMusic,
-                    Concert,
-                    Confirmed,
-                    Crossover,
-                    DontKnowYet,
-                    AwaitingScan,
-                    Gloeckner2018,
-                    Inapplicable,
-                    Mandatory,
-                    Meeting,
-                    No,
-                    Optional,
-                    OrchestraConcertLumpSum10h,
-                    OrchestraConcertLumpSum12h,
-                    OrchestraConcertLumpSum1808,
-                    OrchestraRehearsalHourlyRate,
-                    Other,
-                    Party,
-                    Pending,
-                    PhotoSession,
                     Present,
+                    Absent,
+                    Inapplicable,
+                    Ambiguous,
+                    AwaitingScan,
+                    Yes,
+                    No,
+                    Partly,
+                    DontKnowYet,
+                    Pending,
+                    Confirmed,
+                    Cancelled,
+                    Postponed,
+                    Archived,
+                    Mandatory,
+                    Optional,
+                    ClassicalMusic,
+                    Crossover,
+                    ChamberMusic,
+                    Scheduled,
                     Refused,
+                    AwaitingPoll,
+                    Meeting,
+                    StageBriefing,
+                    ChoreographyRehearsal,
+                    PhotoSession,
+                    Concert,
+                    Workshop,
+                    Party,
                     Rehearsal,
                     RehearsalWeekendChoir,
-                    Scheduled,
-                    SectionalRehearsal,
-                    SeeComment,
                     Show,
-                    SpecialCase,
-                    StageBriefing,
-                    Transfer,
-                    VoiceFormation,
                     WatchShow,
-                    Workshop,
-                    Yes,
+                    SeeComment,
+                    VoiceFormation,
+                    SectionalRehearsal,
+                    Transfer,
+                    Assembly,
+                    Audition,
+                    Other,
+                    SpecialCase,
+                    Gloeckner2018,
+                    OrchestraConcertLumpSum1808,
+                    OrchestraConcertLumpSum10h,
+                    OrchestraConcertLumpSum12h,
+                    OrchestraRehearsalHourlyRate,
                     Private,
-                    Work
+                    Work,
+                    ConcertTour,
+                    RehearsalWeekend,
+                    SpecialProject,
+                    CDRecording,
+                    Contest,
                 };
             }
         }
@@ -176,6 +184,39 @@ namespace Orso.Arpa.Persistence.Seed
             get
             {
                 return new SelectValue(Guid.Parse("34a52363-4a57-4019-abcf-0c9880246891"), "Confirmed", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Abgesagt
+        /// </summary>
+        public static SelectValue Cancelled
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("33bbdccf-59a9-4b05-bdac-af50137cecb3"), "Cancelled", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Verschoben
+        /// </summary>
+        public static SelectValue Postponed
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("bd0f37e1-ec14-4d87-8380-117b4480d7a4"), "Postponed", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Archiviert
+        /// </summary>
+        public static SelectValue Archived
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("425f1526-0513-4535-bdd8-47632d82956f"), "Archived", string.Empty);
             }
         }
 
@@ -550,6 +591,61 @@ namespace Orso.Arpa.Persistence.Seed
             get
             {
                 return new SelectValue(Guid.Parse("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), "Work", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Konzertreise (Tour)
+        /// </summary>
+        public static SelectValue ConcertTour
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"), "Concert tour", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Probewochenende
+        /// </summary>
+        public static SelectValue RehearsalWeekend
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("63a6b9a9-30a8-4cdb-983b-336b587069cb"), "Rehearsal weekend", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Sonderprojekt
+        /// </summary>
+        public static SelectValue SpecialProject
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("f2a6ef3d-bb32-4505-83a5-2cb9f611ce0f"), "Special project", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// CD-Aufnahme
+        /// </summary>
+        public static SelectValue CDRecording
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("52fad37d-23a7-4515-9b77-3ee3bda03b9a"), "CD recording", string.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Wettbewerb
+        /// </summary>
+        public static SelectValue Contest
+        {
+            get
+            {
+                return new SelectValue(Guid.Parse("95de5380-4027-4b73-b4db-3697aba5ba38"), "Contest", string.Empty);
             }
         }
     }
