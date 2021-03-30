@@ -50,15 +50,25 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.MappingProfileTests
             var command = new Modify.Command
             {
                 Id = sourceProject.Id,
+                Title = expectedProject.Title,
+                ShortTitle = expectedProject.ShortTitle,
                 Description = expectedProject.Description,
-                Title = expectedProject.Title
+                Number = expectedProject.Number,
+                TypeId = expectedProject.TypeId,
+                GenreId = expectedProject.GenreId,
+                StartDate = expectedProject.StartDate,
+                EndDate = expectedProject.EndDate,
+                StateId = expectedProject.StateId,
+                ParentId = expectedProject.ParentId,
+                IsCompleted = expectedProject.IsCompleted,
             };
-            
+
             // Act
             Entities.Project project = _mapper.Map(command, sourceProject);
 
             // Assert
-            project.Should().BeEquivalentTo(expectedProject);
+            project.Should().BeEquivalentTo(expectedProject, opt => opt.Excluding(dto => dto.Urls));
+            project.Urls.Should().BeEquivalentTo(expectedProject.Urls, opt => opt.Excluding(dto => dto.UrlRoles));
         }
     }
 }

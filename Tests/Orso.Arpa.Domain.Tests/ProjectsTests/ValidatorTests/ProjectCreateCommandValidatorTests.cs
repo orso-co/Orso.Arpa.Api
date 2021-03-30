@@ -7,12 +7,12 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Projects.Modify;
+using static Orso.Arpa.Domain.Logic.Projects.Create;
 
 namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
 {
     [TestFixture]
-    public class ProjectModifyCommandValidatorTests
+    public class ProjectCreateCommandValidatorTests
     {
         private IArpaContext _arpaContext;
         private Validator _validator;
@@ -22,60 +22,27 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _mockProjectDbSet = MockDbSets.Projects;
-
-            _arpaContext.Projects.Returns(_mockProjectDbSet);
-            _arpaContext.Set<Project>().Returns(_mockProjectDbSet);
-
             _validator = new Validator(_arpaContext);
+            _mockProjectDbSet = MockDbSets.Projects;
+            _arpaContext.Set<Project>().Returns(_mockProjectDbSet);
+            _arpaContext.Projects.Returns(_mockProjectDbSet);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Duplicate_Number()
+        public void Should_Have_Validation_Error_If_Duplicate_Number_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command() {
-                Id = ProjectSeedData.RockingXMas.Id,
+            _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command()
+            {
                 Number = ProjectSeedData.HoorayForHollywood.Number
             });
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Unused_Number()
+        public void Should_Not_Have_Validation_Error_If_Unused_Number_Is_Supplied()
         {
             _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
             {
-                Id = ProjectSeedData.RockingXMas.Id,
                 Number = "New Number"
-            });
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Own_Number()
-        {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
-            {
-                Id = ProjectSeedData.RockingXMas.Id,
-                Number = ProjectSeedData.RockingXMas.Number
-            });
-        }
-
-        [Test]
-        public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
-        {
-            _validator.ShouldHaveValidationErrorFor(c => c.Id, new Command()
-            {
-                Id = Guid.NewGuid(),
-                Number = "some number"
-            });
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
-        {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command()
-            {
-                Id = ProjectSeedData.RockingXMas.Id,
-                Number = "some number"
             });
         }
 
@@ -84,7 +51,6 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         {
             _validator.ShouldNotHaveValidationErrorFor(command => command.ParentId, new Command()
             {
-                Id = ProjectSeedData.HoorayForHollywood.Id,
                 Number = "New Number",
                 ParentId = ProjectSeedData.RockingXMas.Id
             });
@@ -95,7 +61,6 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         {
             _validator.ShouldHaveValidationErrorFor(command => command.ParentId, new Command()
             {
-                Id = ProjectSeedData.RockingXMas.Id,
                 Number = "New Number",
                 ParentId = Guid.NewGuid()
             });

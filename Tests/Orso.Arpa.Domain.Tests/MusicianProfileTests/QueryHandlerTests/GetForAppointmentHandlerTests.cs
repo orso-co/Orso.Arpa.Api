@@ -60,7 +60,10 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
 
             // Assert
             result.Count().Should().Be(1);
-            result.First().Should().BeEquivalentTo(expectedPersonGrouping);
+            GetForAppointment.PersonGrouping group = result.First();
+            group.Should().BeEquivalentTo(expectedPersonGrouping, opt => opt.Excluding(group => group.Profiles));
+            group.Profiles.Count().Should().Be(expectedPersonGrouping.Profiles.Count());
+            group.Profiles.First().Should().BeEquivalentTo(expectedPersonGrouping.Profiles.First(), opt => opt.Excluding(profile => profile.ProjectParticipations));
         }
 
         private static async IAsyncEnumerable<MusicianProfile> GetTestValues()

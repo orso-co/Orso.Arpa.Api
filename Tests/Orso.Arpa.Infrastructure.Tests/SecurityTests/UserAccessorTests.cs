@@ -99,7 +99,8 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             // Assert
             user.Should().BeEquivalentTo(expectedUser, opt => opt
                 .Excluding(u => u.ConcurrencyStamp)
-                .Excluding(u => u.RefreshTokens));
+                .Excluding(u => u.RefreshTokens)
+                .Excluding(u => u.Person));
             user.RefreshTokens.Count.Should().Be(expectedUser.RefreshTokens.Count);
             user.RefreshTokens.First().Should().BeEquivalentTo(expectedUser.RefreshTokens.First(), opt => opt.Excluding(t => t.Id));
         }

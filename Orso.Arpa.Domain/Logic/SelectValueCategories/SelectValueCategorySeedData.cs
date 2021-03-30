@@ -20,7 +20,9 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     AppointmentParticipationPrediction,
                     AppointmentParticipationResult,
                     AppointmentStatus,
-                    ProjectGenre
+                    ProjectGenre,
+                    ProjectType,
+                    ProjectState,
                 };
             }
         }
@@ -82,6 +84,30 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     nameof(Project),
                     nameof(Project.Genre),
                     "Genre");
+            }
+        }
+
+        public static SelectValueCategory ProjectState
+        {
+            get
+            {
+                return new SelectValueCategory(
+                    Guid.Parse("9804d695-d8c7-40bd-814f-8458b55fb583"),
+                    nameof(Project),
+                    nameof(Project.State),
+                    "State");
+            }
+        }
+
+        public static SelectValueCategory ProjectType
+        {
+            get
+            {
+                return new SelectValueCategory(
+                    Guid.Parse("53ed1791-36d7-4534-867c-15175e6f4584"),
+                    nameof(Project),
+                    nameof(Project.Type),
+                    "Type");
             }
         }
 
