@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using static Orso.Arpa.Domain.Logic.Projects.Create;
 
 namespace Orso.Arpa.Application.ProjectApplication
@@ -45,7 +46,7 @@ namespace Orso.Arpa.Application.ProjectApplication
 
             RuleFor(p => p.Number)
                 .NotEmpty()
-                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")      // Regular expression validator and debugger: https://regex101.com/
+                .Sepa()
                 .MaximumLength(15);
 
             When(p => p.StartDate != null && p.EndDate != null, () =>

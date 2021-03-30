@@ -1,3 +1,4 @@
+using System;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -28,7 +29,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Duplicate_Number()
+        public void Should_Have_Validation_Error_If_Duplicate_Number_Is_Supplied()
         {
             _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command()
             {
@@ -37,11 +38,31 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Unused_Number()
+        public void Should_Not_Have_Validation_Error_If_Unused_Number_Is_Supplied()
         {
             _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
             {
                 Number = "New Number"
+            });
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_ParentId_Is_Supplied()
+        {
+            _validator.ShouldNotHaveValidationErrorFor(command => command.ParentId, new Command()
+            {
+                Number = "New Number",
+                ParentId = ProjectSeedData.RockingXMas.Id
+            });
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Invalid_ParentId_Is_Supplied()
+        {
+            _validator.ShouldHaveValidationErrorFor(command => command.ParentId, new Command()
+            {
+                Number = "New Number",
+                ParentId = Guid.NewGuid()
             });
         }
     }

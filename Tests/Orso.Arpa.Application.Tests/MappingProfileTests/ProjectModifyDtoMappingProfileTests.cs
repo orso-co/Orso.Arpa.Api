@@ -36,7 +36,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .RuleFor(dto => dto.StartDate, new DateTime(2022, 03, 03))
                 .RuleFor(dto => dto.EndDate, new DateTime(2022, 04, 04))
                 .RuleFor(dto => dto.StateId, Guid.NewGuid())
-                //TODO .RuleFor(dto => dto.ParentId, (f, u) => f.Lorem.Paragraph())
+                .RuleFor(dto => dto.ParentId, Guid.NewGuid())
                 .RuleFor(dto => dto.IsCompleted, true)
                 .Generate();
 

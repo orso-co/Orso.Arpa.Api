@@ -7,7 +7,6 @@ using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
-using Generic = Orso.Arpa.Domain.GenericHandlers;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -27,33 +26,7 @@ namespace Orso.Arpa.Application.Services
         public async Task<IEnumerable<ProjectDto>> GetAsync(bool includeCompleted)
         {
             Expression<Func<Project, bool>> predicate = includeCompleted ? default : p => !p.IsCompleted;
-
             return await base.GetAsync(predicate: predicate);
-        }
-        public override async Task<ProjectDto> GetByIdAsync(Guid id)
-        {
-            Project Project = await _mediator.Send(new Generic.Details.Query<Project>(id));
-            ProjectDto dto = _mapper.Map<ProjectDto>(Project);
-            return dto;
-        }
-        public Task AddUrlAsync(Guid id, UrlCreateDto urlDto)
-        {
-            //TODO
-            //Url.Command command = _mapper.Map<Url.Command>(UrlDto);
-            //await _mediator.Send(command);
-            throw new NotImplementedException();
-        }
-
-        public Task PutUrlAsync(Guid id, Guid urlId, UrlDto urlDto)
-        {
-            //TODO
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteUrlAsync(Guid id, Guid urlId)
-        {
-            //TODO
-            throw new NotImplementedException();
         }
     }
 }

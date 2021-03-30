@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -19,13 +20,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     public class ProjectsControllerTests : IntegrationTestBase
     {
         [Test, Order(1)]
-        public async Task Should_Get_Projects()
+        public async Task Should_Get_All_Projects()
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.ProjectsController.Get(true));           // get all projects, including completed projects
+                .GetAsync(ApiEndpoints.ProjectsController.Get(true));         
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -37,20 +38,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_Only_Completed_Projects()
         {
             // Arrange
-            IList<ProjectDto> expectedProjects = new List<ProjectDto>();
-            foreach (ProjectDto p in ProjectDtoData.Projects)                   // collect all projects that are NOT completed
-            {
-                if (!p.IsCompleted)
-                {
-                    expectedProjects.Add(p);
-                }
-            }
+            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.Projects.Where(p => !p.IsCompleted);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.ProjectsController.Get());               // get only NOT completed projects
+                .GetAsync(ApiEndpoints.ProjectsController.Get());               
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -232,6 +226,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Project projectToModify = ProjectSeedData.HoorayForHollywood;
+            HttpClient client = _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff);
 
             var modifyDto = new ProjectModifyDto
             {
@@ -244,14 +241,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 StartDate = new DateTime(2021, 02, 02),
                 EndDate = new DateTime(2021, 02, 28),
                 StateId = SelectValueMappingSeedData.ProjectStateMappings[2].Id,
-                //TODO ParentId =
+                ParentId = ProjectSeedData.RockingXMas.Id,
                 IsCompleted = true,
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
+            HttpResponseMessage responseMessage = await client
                 .PutAsync(ApiEndpoints.ProjectsController.Put(projectToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
@@ -260,15 +255,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // check now, if modification really did make it into the database. Fetch the (now modified) project again via GetById
 
             // Act
-            responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
+            responseMessage = await client
                 .GetAsync(ApiEndpoints.ProjectsController.Get(projectToModify.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
             result.Should().BeEquivalentTo(modifyDto, opt => opt.Excluding(r => r.Id));
+            result.Id.Should().Be(projectToModify.Id);
             result.ModifiedBy.Should().Be(_staff.DisplayName);
             result.ModifiedAt.Should().BeBefore(DateTime.UtcNow);
             result.ModifiedAt.Should().BeAfter(DateTime.MinValue);
@@ -288,88 +282,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
-
-        // ------------------------------------------------------------------------------------------------------
-        //  Tests for Urls
-        // ------------------------------------------------------------------------------------------------------
-
-        [Test]
-        public async Task Should_Add_Url()
-        {
-            //// Arrange
-            //ProjectDto project = ProjectDtoData.HoorayForHollywood;
-            //UrlDto url = UrlDtoData.Google;
-            //HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
-
-            //// Act: add url to project
-            //HttpResponseMessage responseMessage = await client
-            //    .PostAsync(ApiEndpoints.ProjectsController.PostUrl(project.Id), BuildStringContent(url));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-            //// Act: get project to validate that url has been added to list of urls
-            //responseMessage = await client
-            //    .GetAsync(ApiEndpoints.ProjectsController.Get(project.Id));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            //ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-
-            ////TODO prüfen, dass die neue URL jetzt zum Projekt hinzugefügt wurde
-        }
-
-        [Test]
-        public async Task Should_Modify_Url()
-        {
-            //// Arrange
-            //Project project = ProjectSeedData.HoorayForHollywood;
-            //UrlDto url = UrlDtoData.GoogleDe;
-            //HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
-
-            //// Act: take first url of project and replace with new contents
-            //HttpResponseMessage responseMessage = await client
-            //    .PutAsync(ApiEndpoints.ProjectsController.PutUrl(project.Id, project.Urls[0].Id), BuildStringContent(url));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-            //// Act: get project to validate that url has been changed
-            //responseMessage = await client
-            //    .GetAsync(ApiEndpoints.ProjectsController.Get(project.Id));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            //ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-
-            ////TODO prüfen, dass die neue URL geändert wurde
-        }
-
-        [Test]
-        public async Task Should_Delete_Url()
-        {
-            //// Arrange
-            //Project project = ProjectSeedData.HoorayForHollywood;
-            //Url url = project.Urls[0];
-            //HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
-
-            //// Act: delete url from projects list of urls
-            //HttpResponseMessage responseMessage = await client
-            //    .DeleteAsync(ApiEndpoints.ProjectsController.DeleteUrl(project.Id, url.Id));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-            //// Act: get project to validate that url is no longer part of the list of urls
-            //responseMessage = await client
-            //    .GetAsync(ApiEndpoints.ProjectsController.Get(project.Id));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            //ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-
-            ////TODO prüfen, dass die URL jetzt vom Projekt gelöscht wurde
         }
     }
 }

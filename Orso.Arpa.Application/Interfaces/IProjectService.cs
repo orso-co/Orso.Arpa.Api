@@ -13,9 +13,5 @@ namespace Orso.Arpa.Application.Interfaces
         Task<ProjectDto> CreateAsync(ProjectCreateDto projectCreateDto);
         Task ModifyAsync(ProjectModifyDto projectModifyDto);
         Task DeleteAsync(Guid id);
-
-        Task AddUrlAsync(Guid id, UrlCreateDto urlDto);
-        Task PutUrlAsync(Guid id, Guid urlId, UrlDto urlDto);
-        Task DeleteUrlAsync(Guid id, Guid urlId);
     }
 }

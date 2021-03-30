@@ -101,57 +101,5 @@ namespace Orso.Arpa.Api.Controllers
             await _projectService.DeleteAsync(id);
             return NoContent();
         }
-
-        /// <summary>
-        /// Adds an Url to an existing project
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="urlDto"></param>
-        /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or if project could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
-        [HttpPost("{id}/urls")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddUrl([FromRoute] Guid id, [FromBody] UrlCreateDto urlDto)
-        {
-            await _projectService.AddUrlAsync(id, urlDto);
-            return NoContent();
-        }
-
-        /// <summary>
-        /// Updates an existing Url of an existing project
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="urlId"></param>
-        /// <param name="urlDto"></param>
-        /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or if project or url within project could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
-        [HttpPut("{id}/urls/{urlId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> PutUrl([FromRoute] Guid id, [FromRoute] Guid urlId, [FromBody] UrlDto urlDto)
-        {
-            await _projectService.PutUrlAsync(id, urlId, urlDto);
-            return NoContent();
-        }
-
-        /// <summary>
-        /// Deletes an existing url by id from an existing project
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="urlId"></param>
-        /// <response code="204"></response>
-        /// <response code="400">If project or url within project could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
-        [HttpDelete("{id}/urls/{urlId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeleteUrl([FromRoute] Guid id, [FromRoute] Guid urlId)
-        {
-            await _projectService.DeleteUrlAsync(id, urlId);
-            return NoContent();
-        }
     }
 }

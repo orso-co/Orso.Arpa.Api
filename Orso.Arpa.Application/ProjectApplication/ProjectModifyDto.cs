@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.Interfaces;
 using static Orso.Arpa.Domain.Logic.Projects.Modify;
 
@@ -50,8 +51,13 @@ namespace Orso.Arpa.Application.ProjectApplication
 
             RuleFor(p => p.Number)
                 .NotEmpty()
-                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
+                .Sepa()
                 .MaximumLength(15);
+
+            RuleFor(p => p.ParentId)
+                .Must((dto, parentId) => dto.Id != parentId.Value)
+                .When(dto => dto.ParentId.HasValue)
+                .WithMessage("The project must not be its own parent");
 
             When(p => p.StartDate != null && p.EndDate != null, () =>
             {

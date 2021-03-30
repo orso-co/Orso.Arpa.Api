@@ -78,5 +78,27 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
                 Number = "some number"
             });
         }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_ParentId_Is_Supplied()
+        {
+            _validator.ShouldNotHaveValidationErrorFor(command => command.ParentId, new Command()
+            {
+                Id = ProjectSeedData.HoorayForHollywood.Id,
+                Number = "New Number",
+                ParentId = ProjectSeedData.RockingXMas.Id
+            });
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Invalid_ParentId_Is_Supplied()
+        {
+            _validator.ShouldHaveValidationErrorFor(command => command.ParentId, new Command()
+            {
+                Id = ProjectSeedData.RockingXMas.Id,
+                Number = "New Number",
+                ParentId = Guid.NewGuid()
+            });
+        }
     }
 }

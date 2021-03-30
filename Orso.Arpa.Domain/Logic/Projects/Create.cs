@@ -34,6 +34,11 @@ namespace Orso.Arpa.Domain.Logic.Projects
                         project.Number.ToLower() == number.ToLower(), cancellation)))
 #pragma warning restore RCS1155 // Use StringComparison when comparing strings.
                     .WithMessage("The specified project number is already in use. The project number needs to be unique.");
+
+                RuleFor(c => c.ParentId)
+                    .MustAsync(async (parentId, cancellation) => await arpaContext.Projects.AnyAsync(p => p.Id == parentId.Value, cancellation))
+                    .When(dto => dto.ParentId.HasValue)
+                    .WithMessage("The project could not be found");
             }
         }
     }
