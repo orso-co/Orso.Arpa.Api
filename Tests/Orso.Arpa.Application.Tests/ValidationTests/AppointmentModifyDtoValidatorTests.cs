@@ -30,9 +30,9 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_CategoryId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Empty_CategoryId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.CategoryId, default(Guid?));
+            _validator.ShouldNotHaveValidationErrorFor(command => command.CategoryId, default(Guid?));
         }
 
         [Test]
@@ -42,9 +42,9 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_StatusId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Empty_StatusId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.StatusId, default(Guid?));
+            _validator.ShouldNotHaveValidationErrorFor(command => command.StatusId, default(Guid?));
         }
 
         [Test]
@@ -54,9 +54,9 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_EmolumentId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Empty_EmolumentId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.EmolumentId, default(Guid?));
+            _validator.ShouldNotHaveValidationErrorFor(command => command.EmolumentId, default(Guid?));
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Name_Is_Supplied([Values(null, "")]string name)
+        public void Should_Have_Validation_Error_If_Empty_Name_Is_Supplied([Values(null, "")] string name)
         {
             _validator.ShouldHaveValidationErrorFor(command => command.Name, name);
         }

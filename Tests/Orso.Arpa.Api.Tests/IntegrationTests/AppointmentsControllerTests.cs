@@ -27,18 +27,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_Appointments()
         {
             // Act
-                HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(new DateTime(2019, 12, 21), DateRange.Day));
-                AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
+            HttpResponseMessage responseMessage = await _authenticatedServer
+            .CreateClient()
+            .AuthenticateWith(_performer)
+            .GetAsync(ApiEndpoints.AppointmentsController.Get(new DateTime(2019, 12, 21), DateRange.Day));
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
 
-                // Assert
-                responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-                IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
-                result.Count().Should().Be(1);
-                AppointmentDto returnedAppointment = result.First();
-                returnedAppointment.Should().BeEquivalentTo(expectedDto);
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
+            result.Count().Should().Be(1);
+            AppointmentDto returnedAppointment = result.First();
+            returnedAppointment.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(2)]
@@ -68,12 +68,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
                 PublicDetails = "Public Details",
-                CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
-                EmolumentId = SelectValueMappingSeedData.AppointmentEmolumentMappings[0].Id,
-                EmolumentPatternId = SelectValueMappingSeedData.AppointmentEmolumentPatternMappings[0].Id,
                 EndTime = new DateTime(2021, 3, 5, 14, 15, 20),
-                StartTime = new DateTime(2021,3,5,9,15,20),
-                StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id
+                StartTime = new DateTime(2021, 3, 5, 9, 15, 20),
             };
 
             var expectedDto = new AppointmentDto
@@ -85,9 +81,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ModifiedBy = null,
                 InternalDetails = createDto.InternalDetails,
                 PublicDetails = createDto.PublicDetails,
-                CategoryId = createDto.CategoryId,
-                EmolumentId = createDto.EmolumentId,
-                EmolumentPatternId = createDto.EmolumentPatternId,
                 EndTime = createDto.EndTime,
                 StartTime = createDto.StartTime,
                 StatusId = createDto.StatusId
@@ -224,6 +217,30 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(5),
                 StartTime = DateTimeProvider.Instance.GetUtcNow(),
                 StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PutAsync(ApiEndpoints.AppointmentsController.Put(appointmentToModify.Id), BuildStringContent(modifyDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+        [Test, Order(108)]
+        public async Task Should_Modify_With_Only_Mandatory_Fields_Specified()
+        {
+            // Arrange
+            Appointment appointmentToModify = AppointmentSeedData.RockingXMasConcert;
+
+            var modifyDto = new AppointmentModifyDto
+            {
+                Name = "New Appointment",
+                InternalDetails = "Internal Details",
+                PublicDetails = "Public Details",
+                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(5),
+                StartTime = DateTimeProvider.Instance.GetUtcNow(),
             };
 
             // Act

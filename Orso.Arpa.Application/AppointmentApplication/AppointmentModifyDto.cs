@@ -34,14 +34,10 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentModifyDtoValidator()
         {
-            
+
             RuleFor(d => d)
                 .NotNull();
             RuleFor(d => d.Id)
-                .NotEmpty();
-            RuleFor(d => d.CategoryId)
-                .NotEmpty();
-            RuleFor(d => d.StatusId)
                 .NotEmpty();
             RuleFor(d => d.StartTime)
                 .NotEmpty();
@@ -56,8 +52,6 @@ namespace Orso.Arpa.Application.AppointmentApplication
                 .MaximumLength(1000);
             RuleFor(d => d.PublicDetails)
                 .MaximumLength(1000);
-            RuleFor(d => d.EmolumentId)
-                .NotEmpty();
         }
     }
 }
