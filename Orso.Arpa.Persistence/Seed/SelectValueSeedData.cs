@@ -69,7 +69,10 @@ namespace Orso.Arpa.Persistence.Seed
                     Student,
                     SemiProfessional,
                     Professional,
-                    Unknown
+                    Unknown,
+                    Without,
+                    WithStrict,
+                    WithNegotiable
                 };
             }
         }
@@ -345,5 +348,11 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue Professional => new(Guid.Parse("f52b9170-c6f6-4828-b96c-df5dfbe9bd73"), "Professional", string.Empty);
 
         public static SelectValue Unknown => new(Guid.Parse("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"), "Unknown", string.Empty);
+
+        public static SelectValue Without => new(Guid.Parse("3c014654-b4c9-4c7a-a251-ae88ad504c8a"), "Without", string.Empty);
+
+        public static SelectValue WithStrict => new(Guid.Parse("dec26aef-f0de-4c9f-a164-e23e2543c987"), "With - strict", string.Empty);
+
+        public static SelectValue WithNegotiable => new(Guid.Parse("d53b4a35-f472-42a1-ab22-c7afb1e7d77e"), "With - negotiable", string.Empty);
     }
 }
