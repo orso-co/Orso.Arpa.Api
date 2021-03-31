@@ -18,7 +18,6 @@ namespace Orso.Arpa.Persistence.Configurations
 
             builder.Property(m => m.ResourceKey).HasMaxLength(50).IsRequired();
 
-            builder.HasQueryFilter(m => !m.Deleted);
         }
     }
 }
