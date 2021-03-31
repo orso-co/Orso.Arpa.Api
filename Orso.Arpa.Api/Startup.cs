@@ -137,9 +137,7 @@ namespace Orso.Arpa.Api
                 options.SetDefaultCulture("en-US");
                 options.AddSupportedUICultures("en-US", "de-DE");
                 options.FallBackToParentUICultures = true;
-                options.RequestCultureProviders.Add(new CookieRequestCultureProvider {CookieName = "Culture"});
-                options.RequestCultureProviders.Remove(
-                    new AcceptLanguageHeaderRequestCultureProvider());  // avoids browser from overwriting UI language request
+                options.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
             });
         }
 
