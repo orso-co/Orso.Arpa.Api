@@ -363,15 +363,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Appointment appointmentToDelete = AppointmentSeedData.StaffMeeting;
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_admin);
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
+            HttpResponseMessage responseMessage = await client
                 .DeleteAsync(ApiEndpoints.AppointmentsController.Delete(appointmentToDelete.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            HttpResponseMessage getResponseMessage = await client
+                .GetAsync(ApiEndpoints.AppointmentsController.Get(appointmentToDelete.Id));
+            getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

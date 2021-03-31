@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<VenueDto>> GetAsync()
         {
-            return await base.GetAsync(orderBy: v => v.OrderBy(v => v.Address.City));
+            return await base.GetAsync(orderBy: v => v.OrderBy(v => v.Address.Zip));
         }
 
         public async Task<IEnumerable<RoomDto>> GetRoomsAsync(Guid id)

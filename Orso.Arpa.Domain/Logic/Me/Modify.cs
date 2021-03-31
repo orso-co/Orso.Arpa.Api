@@ -21,6 +21,7 @@ namespace Orso.Arpa.Domain.Logic.Me
             public string PhoneNumber { get; set; }
             public string GivenName { get; set; }
             public string Surname { get; set; }
+            public string AboutMe { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -32,6 +33,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .ForPath(dest => dest.Person.Surname, opt => opt.MapFrom(src => src.Surname))
                     .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                     .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                    .ForPath(dest => dest.Person.AboutMe, opt => opt.MapFrom(src => src.AboutMe))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }
@@ -42,7 +44,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                 IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(c => c.Email)
-                    .MustAsync(async (dto, email, cancellation) =>
+                    .MustAsync(async (email, cancellation) =>
                     {
                         User user = await userManager.FindByEmailAsync(email);
                         return user == null || userAccessor.UserName == user.UserName;

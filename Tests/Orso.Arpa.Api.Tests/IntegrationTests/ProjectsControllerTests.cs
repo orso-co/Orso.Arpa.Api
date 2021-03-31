@@ -277,7 +277,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_staff)
+                .AuthenticateWith(_admin)
                 .DeleteAsync(ApiEndpoints.ProjectsController.Delete(projectToDelete.Id));
 
             // Assert

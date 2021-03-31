@@ -8,6 +8,7 @@ using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -58,7 +59,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>The created project</returns>
         /// <response code="201">Returns the created project</response>
         /// <response code="400">If dto is not valid</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -74,7 +75,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="projectModifyDto"></param>
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if project could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -92,7 +93,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="id"></param>
         /// <response code="204"></response>
         /// <response code="400">If project could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Admin)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]

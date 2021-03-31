@@ -10,6 +10,7 @@ using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -61,7 +62,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>The created appointment</returns>
         /// <response code="201">Returns the created appointment</response>
         /// <response code="400">If dto is not valid</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -77,7 +78,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="addRoomDto"></param>
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if room or appointment could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/rooms/{roomId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -93,7 +94,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="addProjectDto"></param>
         /// <response code="200"></response>
         /// <response code="400">If dto is not valid or if project or appointment could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -108,7 +109,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="addSectionDto"></param>
         /// <response code="200"></response>
         /// <response code="400">If dto is not valid or if section or appointment could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -123,7 +124,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="setVenueDto"></param>
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if venue or appointment could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}/venue/set/{venueId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -139,7 +140,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="appointmentModifyDto"></param>
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if appointment could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -157,7 +158,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="removeRoomDto"></param>
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}/rooms/{roomId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -173,7 +174,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="removeSectionDto"></param>
         /// <response code="200"></response>
         /// <response code="400">If dto is not valid</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -188,7 +189,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="removeProjectDto"></param>
         /// <response code="200"></response>
         /// <response code="400">If dto is not valid</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -203,7 +204,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="id"></param>
         /// <response code="204"></response>
         /// <response code="400">If appointment could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Admin)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -220,7 +221,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="400">If dto is not valid</response>
         /// <response code="400">If appointment could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}/dates/set")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
@@ -236,7 +237,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="setParticipationResult"></param>
         /// <response code="204"></response>
         /// <response code="400">If dto is not valid or if appointment or participation or result value could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}/participations/{personId}/result/{resultId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
