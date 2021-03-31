@@ -22,6 +22,8 @@ namespace Orso.Arpa.Domain.Entities
         public virtual Person Person { get; private set; }
         public Guid InstrumentId { get; private set; }
         public virtual Section Instrument { get; private set; }
+        public Guid? QualificationId { get; private set; }
+        public virtual SelectValueMapping Qualification { get; private set; }
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
     }
 }

@@ -51,5 +51,8 @@ namespace Orso.Arpa.Domain.Entities
             = new HashSet<Project>();
         public virtual ICollection<Project> ProjectsAsType { get; private set; }
             = new HashSet<Project>();
+
+        public virtual ICollection<MusicianProfile> MusicianProfilesAsQualification { get; private set; }
+            = new HashSet<MusicianProfile>();
     }
 }

@@ -173,6 +173,7 @@ namespace Orso.Arpa.Persistence.Seed
                 };
             }
         }
+
         public static IList<SelectValueMapping> ProjectGenreMappings
         {
             get
@@ -197,6 +198,21 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("65975857-ab27-480d-87c3-dba74d45cb63"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Cancelled.Id),
                     new SelectValueMapping(Guid.Parse("bc29bf0a-2ebb-4db8-8765-a5f835492552"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Postponed.Id),
                     new SelectValueMapping(Guid.Parse("75f2d1c3-4ba2-4acc-8fd3-6b01ca66d1c9"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Archived.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> MusicianProfileQualificationMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("f036bca9-95d4-4526-b845-fff9208ab103"), SelectValueCategorySeedData.MusicianProfileQualification.Id, SelectValueSeedData.Amateur.Id),
+                    new SelectValueMapping(Guid.Parse("6304b935-633d-4bba-a90f-9bd864c867c6"), SelectValueCategorySeedData.MusicianProfileQualification.Id, SelectValueSeedData.Student.Id),
+                    new SelectValueMapping(Guid.Parse("20f9698c-2f3d-41fd-9f33-1feeababfb1c"), SelectValueCategorySeedData.MusicianProfileQualification.Id, SelectValueSeedData.SemiProfessional.Id),
+                    new SelectValueMapping(Guid.Parse("30f592f6-485a-468a-bfb2-4854be733e74"), SelectValueCategorySeedData.MusicianProfileQualification.Id, SelectValueSeedData.Professional.Id),
+                    new SelectValueMapping(Guid.Parse("42d76464-4b4b-4884-b8e3-1f69baaced4c"), SelectValueCategorySeedData.MusicianProfileQualification.Id, SelectValueSeedData.Unknown.Id),
                 };
             }
         }
