@@ -50,6 +50,8 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
 
+        public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; private set; } = new HashSet<MusicianProfileSection>();
+
         #endregion
 
 

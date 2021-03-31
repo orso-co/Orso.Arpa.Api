@@ -25,5 +25,7 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<MusicianProfile> MusicianProfiles { get; private set; } = new HashSet<MusicianProfile>();
 
         public virtual ICollection<PersonSection> StakeholderGroups { get; private set; } = new HashSet<PersonSection>();
+
+        public virtual ICollection<MusicianProfileSection> MusicianProfileSections { get; private set; } = new HashSet<MusicianProfileSection>();
     }
 }
