@@ -15,9 +15,9 @@ namespace Orso.Arpa.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
-                .HasOne(e => e.Section)
+                .HasOne(e => e.Instrument)
                 .WithMany(s => s.MusicianProfiles)
-                .HasForeignKey(e => e.SectionId)
+                .HasForeignKey(e => e.InstrumentId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

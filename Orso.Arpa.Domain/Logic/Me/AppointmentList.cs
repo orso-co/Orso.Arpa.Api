@@ -61,7 +61,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     return true;
                 }
                 return person.MusicianProfiles
-                    .Select(mp => sectionTree.FirstOrDefault(t => t.Data.Id == mp.SectionId))
+                    .Select(mp => sectionTree.FirstOrDefault(t => t.Data.Id == mp.InstrumentId))
                     .SelectMany(node => node.GetParents())
                     .Select(section => section.Id)
                     .Intersect(appointment.SectionAppointments.Select(sa => sa.SectionId))

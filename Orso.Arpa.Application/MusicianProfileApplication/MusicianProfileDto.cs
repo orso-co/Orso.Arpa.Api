@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         {
             CreateMap<MusicianProfile, MusicianProfileDto>()
                 .ForMember(dest => dest.IsProfessional, opt => opt.MapFrom(src => src.IsProfessional))
-                .ForMember(dest => dest.SectionName, opt => opt.MapFrom(src => src.Section.Name));
+                .ForMember(dest => dest.SectionName, opt => opt.MapFrom(src => src.Instrument.Name));
         }
     }
 }

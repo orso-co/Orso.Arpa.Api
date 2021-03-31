@@ -8,6 +8,6 @@ namespace Orso.Arpa.Application.Interfaces
     {
         Task<SectionTreeDto> GetTreeAsync(int? maxLevel);
 
-        Task<IEnumerable<SectionDto>> GetAsync();
+        Task<IEnumerable<SectionDto>> GetAsync(bool instrumentsOnly);
     }
 }

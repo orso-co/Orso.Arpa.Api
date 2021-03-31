@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.Entities
         {
             IsProfessional = command.IsProfessional;
             PersonId = command.PersonId;
-            SectionId = command.SectionId;
+            InstrumentId = command.InstrumentId;
         }
 
         public MusicianProfile()
@@ -20,8 +20,8 @@ namespace Orso.Arpa.Domain.Entities
         public bool IsProfessional { get; private set; }
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }
-        public Guid SectionId { get; private set; }
-        public virtual Section Section { get; private set; }
+        public Guid InstrumentId { get; private set; }
+        public virtual Section Instrument { get; private set; }
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
     }
 }

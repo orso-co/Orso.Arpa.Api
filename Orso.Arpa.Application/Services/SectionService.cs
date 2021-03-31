@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -17,9 +19,10 @@ namespace Orso.Arpa.Application.Services
         {
         }
 
-        public async Task<IEnumerable<SectionDto>> GetAsync()
+        public async Task<IEnumerable<SectionDto>> GetAsync(bool instrumentsOnly)
         {
-            return await base.GetAsync(orderBy: s => s.OrderBy(s => s.Name));
+            Expression<Func<Section, bool>> predicate = (section) => section.IsInstrument;
+            return await base.GetAsync(orderBy: s => s.OrderBy(s => s.Name), predicate: instrumentsOnly ? predicate : null);
         }
 
         public async Task<SectionTreeDto> GetTreeAsync(int? maxLevel)

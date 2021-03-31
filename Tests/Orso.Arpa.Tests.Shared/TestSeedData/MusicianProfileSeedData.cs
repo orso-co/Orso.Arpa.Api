@@ -32,7 +32,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     IsProfessional = false,
                     PersonId = PersonTestSeedData.Performer.Id,
-                    SectionId = SectionSeedData.Alto1.Id
+                    InstrumentId = SectionSeedData.Alto1.Id
                 });
             }
         }
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     IsProfessional = true,
                     PersonId = PersonTestSeedData.Staff.Id,
-                    SectionId = SectionSeedData.Tenor1.Id
+                    InstrumentId = SectionSeedData.Tenor1.Id
                 });
             }
         }
@@ -58,7 +58,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     IsProfessional = false,
                     PersonId = PersonTestSeedData.Staff.Id,
-                    SectionId = SectionSeedData.Tenor2.Id
+                    InstrumentId = SectionSeedData.Tenor2.Id
                 });
             }
         }
@@ -71,7 +71,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     IsProfessional = false,
                     PersonId = PersonSeedData.Admin.Id,
-                    SectionId = SectionSeedData.Soprano1.Id
+                    InstrumentId = SectionSeedData.Soprano1.Id
                 });
             }
         }
@@ -84,7 +84,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     IsProfessional = false,
                     PersonId = PersonSeedData.Admin.Id,
-                    SectionId = SectionSeedData.Soprano2.Id
+                    InstrumentId = SectionSeedData.Soprano2.Id
                 });
             }
         }
@@ -97,7 +97,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     IsProfessional = true,
                     PersonId = PersonTestSeedData.UserWithoutRole.Id,
-                    SectionId = SectionSeedData.Bass1.Id
+                    InstrumentId = SectionSeedData.Bass1.Id
                 });
             }
         }
