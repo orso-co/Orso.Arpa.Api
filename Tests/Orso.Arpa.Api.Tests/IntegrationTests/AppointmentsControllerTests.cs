@@ -363,7 +363,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Appointment appointmentToDelete = AppointmentSeedData.StaffMeeting;
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_admin);
 
             // Act
             HttpResponseMessage responseMessage = await client

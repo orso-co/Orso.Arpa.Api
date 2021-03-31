@@ -31,6 +31,15 @@ namespace Orso.Arpa.Domain.Entities
         public virtual User User { get; private set; }
 
         [JsonInclude]
+        public string AboutMe { get; private set; }
+
+        [JsonInclude]
+        public byte Reliability { get; private set; }
+
+        [JsonInclude]
+        public byte Favorization { get; private set; }
+
+        [JsonInclude]
         public virtual ICollection<PersonAddress> Addresses { get; private set; } = new HashSet<PersonAddress>();
 
         [JsonInclude]
