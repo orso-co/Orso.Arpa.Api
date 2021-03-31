@@ -72,7 +72,11 @@ namespace Orso.Arpa.Persistence.Seed
                     Unknown,
                     Without,
                     WithStrict,
-                    WithNegotiable
+                    WithNegotiable,
+                    Gladly,
+                    EmergencyOnly,
+                    NeverAgain,
+                    ForContactsOnly
                 };
             }
         }
@@ -354,5 +358,13 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue WithStrict => new(Guid.Parse("dec26aef-f0de-4c9f-a164-e23e2543c987"), "With - strict", string.Empty);
 
         public static SelectValue WithNegotiable => new(Guid.Parse("d53b4a35-f472-42a1-ab22-c7afb1e7d77e"), "With - negotiable", string.Empty);
+
+        public static SelectValue Gladly => new(Guid.Parse("1f0e9a86-4641-4d7e-8413-a1beba0e8afb"), "Gladly", string.Empty);
+
+        public static SelectValue EmergencyOnly => new(Guid.Parse("5850e103-4ac9-472e-85f2-cddc08732ccc"), "Emergency only", string.Empty);
+
+        public static SelectValue NeverAgain => new(Guid.Parse("5db547d6-c115-4409-8db7-59374ca2af83"), "Never again", string.Empty);
+
+        public static SelectValue ForContactsOnly => new(Guid.Parse("0d1073cd-f6d5-4572-87ac-98ab6f15c05a"), "For contacts only", string.Empty);
     }
 }

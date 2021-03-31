@@ -31,6 +31,16 @@ namespace Orso.Arpa.Persistence.Configurations
                 .WithMany(c => c.MusicianProfilesAsSalary)
                 .HasForeignKey(e => e.SalaryId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .HasOne(e => e.Inquery)
+                .WithMany(c => c.MusicianProfilesAsInquery)
+                .HasForeignKey(e => e.InqueryId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .Property(e => e.Background)
+                .HasMaxLength(1000);
         }
     }
 }

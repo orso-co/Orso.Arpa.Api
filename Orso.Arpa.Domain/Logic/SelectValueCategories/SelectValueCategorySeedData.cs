@@ -24,7 +24,8 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     ProjectType,
                     ProjectState,
                     MusicianProfileQualification,
-                    MusicianProfileSalary
+                    MusicianProfileSalary,
+                    MusicianProfileInquery
                 };
             }
         }
@@ -106,5 +107,11 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(MusicianProfile),
             nameof(MusicianProfile.Salary),
             "Salary");
+
+        public static SelectValueCategory MusicianProfileInquery => new(
+            Guid.Parse("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
+            nameof(MusicianProfile),
+            nameof(MusicianProfile.Inquery),
+            "Inquery");
     }
 }

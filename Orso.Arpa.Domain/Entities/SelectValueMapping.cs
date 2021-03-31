@@ -57,5 +57,8 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<MusicianProfile> MusicianProfilesAsSalary { get; private set; }
             = new HashSet<MusicianProfile>();
+
+        public virtual ICollection<MusicianProfile> MusicianProfilesAsInquery { get; private set; }
+            = new HashSet<MusicianProfile>();
     }
 }
