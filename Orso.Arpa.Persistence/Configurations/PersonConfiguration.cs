@@ -18,6 +18,10 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasMaxLength(50);
 
             builder
+                .Property(e => e.AboutMe)
+                .HasMaxLength(1000);
+
+            builder
                 .HasData(PersonSeedData.Persons);
         }
     }
