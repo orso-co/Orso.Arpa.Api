@@ -36,6 +36,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonAddress> PersonAddresses { get; set; }
         public DbSet<PersonSection> PersonSections { get; set; }
+        public DbSet<Position> Positions { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectAppointment> ProjectAppointments { get; set; }
         public DbSet<ProjectParticipation> ProjectParticipations { get; set; }

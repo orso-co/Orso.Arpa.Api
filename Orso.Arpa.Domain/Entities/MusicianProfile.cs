@@ -43,6 +43,9 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? InqueryId { get; private set; }
         public virtual SelectValueMapping Inquery { get; private set; }
 
+        public Guid? PreferredPositionId { get; private set; }
+        public virtual Position PreferredPosition { get; private set; }
+
         #endregion
         #region Collection
 
@@ -51,6 +54,7 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; private set; } = new HashSet<MusicianProfileSection>();
 
         public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; private set; } = new HashSet<MusicianProfileEducation>();
+
         public virtual ICollection<MusicianProfileCredential> MusicianProfileCredentials { get; private set; } = new HashSet<MusicianProfileCredential>();
 
         #endregion

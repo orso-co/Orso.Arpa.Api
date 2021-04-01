@@ -39,6 +39,12 @@ namespace Orso.Arpa.Persistence.Configurations
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder
+                .HasOne(e => e.PreferredPosition)
+                .WithMany(p => p.MusicianProfiles)
+                .HasForeignKey(e => e.PreferredPositionId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder
                 .Property(e => e.Background)
                 .HasMaxLength(1000);
         }
