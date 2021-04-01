@@ -33,6 +33,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<MusicianProfileCredential> MusicianProfileCredentials { get; set; }
         public DbSet<MusicianProfileEducation> MusicianProfileEducations { get; set; }
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
+        public DbSet<MusicianProfileSelectValueMapping> MusicianProfileSelectValueMappings { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonAddress> PersonAddresses { get; set; }
         public DbSet<PersonSection> PersonSections { get; set; }

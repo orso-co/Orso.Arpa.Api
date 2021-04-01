@@ -12,9 +12,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new List<SelectValueDto>
                 {
+                    ChamberMusic,
                     ClassicalMusic,
+                    ContemporaryMusic,
                     Crossover,
-                    ChamberMusic
+                    DancePerformance,
+                    FilmMusic,
                 };
             }
         }
@@ -53,6 +56,45 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Id = Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"),
                     Name = "Chamber Music",
+                    Description = "",
+                };
+            }
+        }
+
+        public static SelectValueDto FilmMusic
+        {
+            get
+            {
+                return new SelectValueDto
+                {
+                    Id = Guid.Parse("5578f637-14b7-4c11-85a8-0b94d83da678"),
+                    Name = "Film Music",
+                    Description = "",
+                };
+            }
+        }
+
+        public static SelectValueDto DancePerformance
+        {
+            get
+            {
+                return new SelectValueDto
+                {
+                    Id = Guid.Parse("8daa5ae4-3885-4739-803a-693c7cfdf314"),
+                    Name = "Dance Performance",
+                    Description = "",
+                };
+            }
+        }
+
+        public static SelectValueDto ContemporaryMusic
+        {
+            get
+            {
+                return new SelectValueDto
+                {
+                    Id = Guid.Parse("4ef47024-d8a5-4b2d-8584-aeb29263dddb"),
+                    Name = "Contemporary Music",
                     Description = "",
                 };
             }

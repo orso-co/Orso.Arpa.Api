@@ -76,7 +76,10 @@ namespace Orso.Arpa.Persistence.Seed
                     Gladly,
                     EmergencyOnly,
                     NeverAgain,
-                    ForContactsOnly
+                    ForContactsOnly,
+                    FilmMusic,
+                    DancePerformance,
+                    ContemporaryMusic
                 };
             }
         }
@@ -366,5 +369,9 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue NeverAgain => new(Guid.Parse("5db547d6-c115-4409-8db7-59374ca2af83"), "Never again", string.Empty);
 
         public static SelectValue ForContactsOnly => new(Guid.Parse("0d1073cd-f6d5-4572-87ac-98ab6f15c05a"), "For contacts only", string.Empty);
+
+        public static SelectValue FilmMusic => new(Guid.Parse("a3be7b91-7548-492e-99dc-2788497f2930"), "Film Music", string.Empty);
+        public static SelectValue DancePerformance => new(Guid.Parse("982a9947-c6f8-4c9a-b96f-2a4825a11496"), "Dance Performance", string.Empty);
+        public static SelectValue ContemporaryMusic => new(Guid.Parse("2ecfb104-feb3-406a-b741-0ac9fdd3e8d7"), "Contemporary Music", string.Empty);
     }
 }
