@@ -8,7 +8,6 @@ namespace Orso.Arpa.Domain.Entities
     {
         public MusicianProfile(Guid? id, Create.Command command) : base(id)
         {
-            IsProfessional = command.IsProfessional;
             PersonId = command.PersonId;
             InstrumentId = command.InstrumentId;
         }
@@ -19,7 +18,6 @@ namespace Orso.Arpa.Domain.Entities
 
         #region Native
 
-        public bool IsProfessional { get; private set; }
         public byte LevelSelfAssessment { get; private set; }
         public byte LevelInnerASsessment { get; private set; }
         public byte ProfileFavorizitation { get; private set; }

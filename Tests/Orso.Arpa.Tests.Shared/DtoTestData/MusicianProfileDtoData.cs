@@ -1,6 +1,5 @@
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Persistence.Seed;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -12,8 +11,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.PerformerMusicianProfile.IsProfessional,
-                    SectionName = SectionSeedData.Alto1.Name
+                    SectionName = SectionSeedData.Alto1.Name,
+                    Qualification = SelectValueSeedData.Amateur.Name
                 };
             }
         }
@@ -24,7 +23,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.StaffMusicianProfile1.IsProfessional,
                     SectionName = SectionSeedData.Tenor1.Name
                 };
             }
@@ -36,7 +34,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.StaffMusicianProfile2.IsProfessional,
                     SectionName = SectionSeedData.Tenor2.Name
                 };
             }
@@ -48,7 +45,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.AdminMusicianProfile1.IsProfessional,
                     SectionName = SectionSeedData.Soprano1.Name
                 };
             }
@@ -60,7 +56,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    IsProfessional = MusicianProfileSeedData.UserWithoutRoleMusicianProfile.IsProfessional,
                     SectionName = SectionSeedData.Bass1.Name
                 };
             }
