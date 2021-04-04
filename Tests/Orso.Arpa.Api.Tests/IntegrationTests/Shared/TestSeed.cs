@@ -27,7 +27,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await SeedAppointmentParticipationsAsync(arpaContext);
             await SeedUrlsAsync(arpaContext);
 
-            if (!(await arpaContext.SaveChangesAsync(default) > 0))
+            if (await arpaContext.SaveChangesAsync(default) <= 0)
             {
                 throw new System.Exception("Problem seeding test data");
             }
