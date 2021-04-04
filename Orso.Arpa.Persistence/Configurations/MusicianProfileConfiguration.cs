@@ -12,37 +12,37 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Person)
                 .WithMany(p => p.MusicianProfiles)
                 .HasForeignKey(e => e.PersonId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Instrument)
                 .WithMany(s => s.MusicianProfiles)
                 .HasForeignKey(e => e.InstrumentId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Qualification)
                 .WithMany(c => c.MusicianProfilesAsQualification)
                 .HasForeignKey(e => e.QualificationId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Salary)
                 .WithMany(c => c.MusicianProfilesAsSalary)
                 .HasForeignKey(e => e.SalaryId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Inquery)
                 .WithMany(c => c.MusicianProfilesAsInquery)
                 .HasForeignKey(e => e.InqueryId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.PreferredPosition)
                 .WithMany(p => p.MusicianProfiles)
                 .HasForeignKey(e => e.PreferredPositionId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Property(e => e.Background)

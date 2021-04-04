@@ -12,7 +12,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Section)
                 .WithMany(v => v.Positions)
                 .HasForeignKey(e => e.SectionId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Property(e => e.Name)

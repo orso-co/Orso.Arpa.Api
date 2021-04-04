@@ -14,14 +14,14 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Venue)
                 .WithMany(r => r.SphereOfActivityConcerts)
                 .HasForeignKey(e => e.VenueId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 
             builder
                 .HasOne(e => e.MusicianProfile)
                 .WithMany(r => r.SphereOfActivityConcerts)
                 .HasForeignKey(e => e.MusicianProfileId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
         }
     }

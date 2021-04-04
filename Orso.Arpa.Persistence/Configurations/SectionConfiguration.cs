@@ -16,7 +16,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Parent)
                 .WithMany(p => p.Children)
                 .HasForeignKey(e => e.ParentId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Property(e => e.Name)

@@ -4385,7 +4385,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Region", "Region")
                         .WithMany("Addresses")
                         .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Region");
                 });
@@ -4395,32 +4395,32 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Category")
                         .WithMany("AppointmentsAsCategory")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Emolument")
                         .WithMany("AppointmentsAsEmolument")
                         .HasForeignKey("EmolumentId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "EmolumentPattern")
                         .WithMany("AppointmentsAsEmolumentPattern")
                         .HasForeignKey("EmolumentPatternId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Expectation")
                         .WithMany("AppointmentsAsExpectation")
                         .HasForeignKey("ExpectationId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
                         .WithMany("AppointmentsAsStatus")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("Appointments")
                         .HasForeignKey("VenueId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Category");
 
@@ -4440,24 +4440,24 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("AppointmentParticipations")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("AppointmentParticipations")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Prediction")
                         .WithMany("AppointmentParticipationsAsPrediction")
                         .HasForeignKey("PredictionId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Result")
                         .WithMany("AppointmentParticipationsAsResult")
                         .HasForeignKey("ResultId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
@@ -4473,12 +4473,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("AppointmentRooms")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
                         .WithMany("AppointmentRooms")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
@@ -4490,17 +4490,17 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithOne("Audition")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.Audition", "AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "RepetitorStatus")
                         .WithMany("AuditionsAsRepetitorStatus")
                         .HasForeignKey("RepetitorStatusId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
                         .WithMany("AuditionsAsStatus")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
@@ -4514,12 +4514,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("AvailableDocumentStatus")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "SelectValueMapping")
                         .WithMany("AvailableDocumentStatus")
                         .HasForeignKey("SelectValueMappingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
 
@@ -4531,34 +4531,34 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Inquery")
                         .WithMany("MusicianProfilesAsInquery")
                         .HasForeignKey("InqueryId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Instrument")
                         .WithMany("MusicianProfiles")
                         .HasForeignKey("InstrumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("MusicianProfiles")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Position", "PreferredPosition")
                         .WithMany("MusicianProfiles")
                         .HasForeignKey("PreferredPositionId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Qualification")
                         .WithMany("MusicianProfilesAsQualification")
                         .HasForeignKey("QualificationId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Salary")
                         .WithMany("MusicianProfilesAsSalary")
                         .HasForeignKey("SalaryId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Inquery");
 
@@ -4578,12 +4578,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Credential", "Credential")
                         .WithMany("MusicianProfileCredentials")
                         .HasForeignKey("CredentialId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("MusicianProfileCredentials")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Credential");
 
@@ -4595,12 +4595,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Education", "Education")
                         .WithMany("MusicianProfileEducations")
                         .HasForeignKey("EducationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("MusicianProfileEducations")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Education");
 
@@ -4612,12 +4612,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("DoublingInstruments")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("MusicianProfileSections")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
 
@@ -4629,12 +4629,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("StakeholderGroups")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("StakeholderGroups")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");
 
@@ -4646,7 +4646,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("Positions")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Section");
@@ -4657,12 +4657,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("PreferredGenres")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "SelectValueMapping")
                         .WithMany("PreferredGenres")
                         .HasForeignKey("SelectValueMappingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
 
@@ -4679,7 +4679,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "State")
                         .WithMany("ProjectsAsState")
@@ -4705,12 +4705,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("ProjectAppointments")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("ProjectAppointments")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
@@ -4722,13 +4722,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("ProjectParticipations")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("ProjectParticipations")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("MusicianProfile");
@@ -4741,7 +4741,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.User", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -4752,7 +4752,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("Rooms")
                         .HasForeignKey("VenueId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Venue");
@@ -4763,7 +4763,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
                 });
@@ -4773,12 +4773,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("SectionAppointments")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("SectionAppointments")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
@@ -4790,13 +4790,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueCategory", "SelectValueCategory")
                         .WithMany("SelectValueMappings")
                         .HasForeignKey("SelectValueCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValue", "SelectValue")
                         .WithMany("SelectValueMappings")
                         .HasForeignKey("SelectValueId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("SelectValue");
@@ -4809,12 +4809,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("SphereOfActivityConcerts")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("SphereOfActivityConcerts")
                         .HasForeignKey("VenueId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
 
@@ -4826,12 +4826,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("SphereOfActivityRehearsals")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("SphereOfActivityRehearsals")
                         .HasForeignKey("VenueId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
 
@@ -4843,7 +4843,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("Urls")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -4854,12 +4854,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Role", "Role")
                         .WithMany("UrlRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Url", "Url")
                         .WithMany("UrlRoles")
                         .HasForeignKey("UrlId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Role");
 
@@ -4871,7 +4871,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithOne("User")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.User", "PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");
                 });
@@ -4881,7 +4881,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Address", "Address")
                         .WithOne("Venue")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.Venue", "AddressId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Address");
                 });
@@ -4891,12 +4891,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("Addresses")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
                         .WithMany("PersonAddresses")
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");
 

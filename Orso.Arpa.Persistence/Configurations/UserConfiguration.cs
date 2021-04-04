@@ -12,7 +12,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Person)
                 .WithOne(p => p.User)
                 .HasForeignKey<User>(e => e.PersonId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 
             builder

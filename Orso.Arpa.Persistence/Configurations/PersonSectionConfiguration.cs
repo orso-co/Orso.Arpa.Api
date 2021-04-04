@@ -14,14 +14,14 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Person)
                 .WithMany(r => r.StakeholderGroups)
                 .HasForeignKey(e => e.PersonId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 
             builder
                 .HasOne(e => e.Section)
                 .WithMany(r => r.StakeholderGroups)
                 .HasForeignKey(e => e.SectionId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
         }
     }

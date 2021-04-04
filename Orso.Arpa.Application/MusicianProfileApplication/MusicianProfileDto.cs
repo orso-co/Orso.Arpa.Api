@@ -5,7 +5,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 {
     public class MusicianProfileDto
     {
-        public bool IsProfessional { get; set; }
         public string SectionName { get; set; }
         public string Qualification { get; set; }
     }

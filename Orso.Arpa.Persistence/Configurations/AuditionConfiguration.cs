@@ -12,19 +12,19 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Status)
                 .WithMany(c => c.AuditionsAsStatus)
                 .HasForeignKey(e => e.StatusId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.RepetitorStatus)
                 .WithMany(c => c.AuditionsAsRepetitorStatus)
                 .HasForeignKey(e => e.RepetitorStatusId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Appointment)
                 .WithOne(p => p.Audition)
                 .HasForeignKey<Audition>(e => e.AppointmentId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 
             builder

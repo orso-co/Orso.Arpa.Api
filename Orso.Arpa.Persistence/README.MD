@@ -29,7 +29,7 @@ Use a command line or terminal window to run these commands. If you are using Vi
 dotnet ef migrations add "<NameOfMigration>" -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
 ```
 
-### Remove Migration
+### Remove Last Migration
 In case a formerly added migration needs to be revoked, ensure to have revoked *EntityTypeConfigurations* to the point of
 time, where the errorneous add was issued. Then run the *remove* command.
 ```
