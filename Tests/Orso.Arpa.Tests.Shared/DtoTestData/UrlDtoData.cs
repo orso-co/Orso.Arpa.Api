@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoleApplication;
+using Orso.Arpa.Application.UrlApplication;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {

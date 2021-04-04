@@ -72,7 +72,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         public void Should_Have_Validation_Error_If_Too_Long_Number_Is_Supplied()
         {
             _validator.ShouldHaveValidationErrorFor(command => command.Number,
-                "1234567890123456789012345678901"); 
+                "1234567890123456789012345678901");
         }
 
         [Test]

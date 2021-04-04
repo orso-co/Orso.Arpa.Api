@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using FluentValidation;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Domain.Entities;
 
-namespace Orso.Arpa.Application.ProjectApplication
+namespace Orso.Arpa.Application.UrlApplication
 {
     public class UrlDto : BaseEntityDto
     {
@@ -22,20 +21,6 @@ namespace Orso.Arpa.Application.ProjectApplication
             CreateMap<Url, UrlDto>()
                 .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.UrlRoles.Select(ur => ur.Role)))
                 .IncludeBase<BaseEntity, BaseEntityDto>();
-        }
-    }
-
-    public class UrlDtoValidator : AbstractValidator<UrlDto>
-    {
-        public UrlDtoValidator()
-        {
-            RuleFor(p => p.Href)
-                .NotEmpty()
-                .MaximumLength(1000);
-
-            RuleFor(p => p.AnchorText)
-                .NotEmpty()
-                .MaximumLength(1000);
         }
     }
 }

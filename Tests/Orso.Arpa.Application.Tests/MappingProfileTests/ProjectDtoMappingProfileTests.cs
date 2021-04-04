@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoleApplication;
+using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 

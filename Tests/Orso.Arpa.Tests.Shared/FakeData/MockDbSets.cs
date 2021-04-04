@@ -12,6 +12,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         public static DbSet<Appointment> Appointments => AppointmentSeedData.Appointments.AsQueryable().BuildMockDbSet();
         public static DbSet<Person> Persons => PersonTestSeedData.Persons.AsQueryable().BuildMockDbSet();
         public static DbSet<Project> Projects => ProjectSeedData.Projects.AsQueryable().BuildMockDbSet();
+        public static DbSet<Url> Urls => UrlSeedData.Urls.AsQueryable().BuildMockDbSet();
         public static DbSet<Room> Rooms => RoomSeedData.Rooms.AsQueryable().BuildMockDbSet();
         public static DbSet<SelectValueCategory> SelectValueCategories => FakeSelectValueCategories.SelectValueCategories.AsQueryable().BuildMockDbSet();
         public static DbSet<SelectValue> SelectValues => SelectValueSeedData.SelectValues.AsQueryable().BuildMockDbSet();

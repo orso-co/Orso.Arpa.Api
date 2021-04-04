@@ -31,7 +31,6 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentCreateDtoValidator()
         {
-
             RuleFor(d => d)
                 .NotNull();
             RuleFor(d => d.StartTime)

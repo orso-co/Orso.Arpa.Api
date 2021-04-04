@@ -7,6 +7,7 @@ using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Application.RoomApplication;
+using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
