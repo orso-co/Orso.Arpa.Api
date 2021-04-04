@@ -2,23 +2,22 @@ using System;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class MusicianProfileSelectValueMapping : BaseEntity
+    public class PreferredGenre : BaseEntity
     {
-        public MusicianProfileSelectValueMapping(Guid? id, MusicianProfile musicianProfile, SelectValueMapping selectValueMapping) : base(id)
+        public PreferredGenre(Guid? id, MusicianProfile musicianProfile, SelectValueMapping selectValueMapping) : base(id)
         {
             MusicianProfile = musicianProfile;
             SelectValueMapping = selectValueMapping;
         }
 
-        public MusicianProfileSelectValueMapping(Guid musicianProfileId, Guid selectValueMappingId)
+        public PreferredGenre(Guid musicianProfileId, Guid selectValueMappingId)
         {
             MusicianProfileId = musicianProfileId;
             SelectValueMappingId = selectValueMappingId;
         }
 
-        public MusicianProfileSelectValueMapping()
-        {
-        }
+        public PreferredGenre() { }
+
 
         public Guid SelectValueMappingId { get; private set; }
         public virtual SelectValueMapping SelectValueMapping { get; private set; }

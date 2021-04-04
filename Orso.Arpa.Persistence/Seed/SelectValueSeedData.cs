@@ -86,7 +86,13 @@ namespace Orso.Arpa.Persistence.Seed
                     IsAskingForPianist,
                     NoPianistNeeded,
                     BringsPianist,
-                    Unnecessary
+                    Unnecessary,
+                    CV,
+                    LetterOfRecommendation,
+                    Diploma,
+                    Photo,
+                    Video,
+                    Audio
                 };
             }
         }
@@ -387,5 +393,11 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue IsAskingForPianist => new(Guid.Parse("45d534e3-6605-42f0-ae57-1a943e18a9cd"), "Is asking for pianist", string.Empty);
         public static SelectValue BringsPianist => new(Guid.Parse("0141e712-7080-4e3d-8145-44a3080aa274"), "Brings pianist", string.Empty);
         public static SelectValue NoPianistNeeded => new(Guid.Parse("6bdf5666-65ef-475a-9c48-9a38f18de041"), "No pianist needed", string.Empty);
+        public static SelectValue CV => new(Guid.Parse("c0911d95-0c6d-4834-840c-43cddf3c51a0"), "CV", string.Empty);
+        public static SelectValue LetterOfRecommendation => new(Guid.Parse("0cf5b2e2-4f01-441a-adc8-a975c7494fd7"), "Letter of recommendation", string.Empty);
+        public static SelectValue Diploma => new(Guid.Parse("c1951202-0e6e-41f7-bf07-5cefe47efade"), "Diploma", string.Empty);
+        public static SelectValue Audio => new(Guid.Parse("3550443d-5acf-4159-bd59-d7da04dd9434"), "Audio", string.Empty);
+        public static SelectValue Video => new(Guid.Parse("d075dda3-ba29-472b-a699-1f92c1af13a9"), "Video", string.Empty);
+        public static SelectValue Photo => new(Guid.Parse("e340f76d-074b-40e8-85b0-1bb66a596a06"), "Photo", string.Empty);
     }
 }

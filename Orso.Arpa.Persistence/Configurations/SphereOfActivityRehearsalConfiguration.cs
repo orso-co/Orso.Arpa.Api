@@ -1,0 +1,28 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Orso.Arpa.Domain.Entities;
+
+namespace Orso.Arpa.Persistence.Configurations
+{
+    public class SphereOfActivityRehearsalConfiguration : IEntityTypeConfiguration<SphereOfActivityRehearsal>
+    {
+        public void Configure(EntityTypeBuilder<SphereOfActivityRehearsal> builder)
+        {
+            builder.HasKey(e => new { e.MusicianProfileId, e.VenueId });
+
+            builder
+                .HasOne(e => e.Venue)
+                .WithMany(r => r.SphereOfActivityRehearsals)
+                .HasForeignKey(e => e.VenueId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
+
+            builder
+                .HasOne(e => e.MusicianProfile)
+                .WithMany(r => r.SphereOfActivityRehearsals)
+                .HasForeignKey(e => e.MusicianProfileId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
+        }
+    }
+}

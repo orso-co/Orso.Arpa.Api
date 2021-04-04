@@ -28,6 +28,7 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(MusicianProfileInqueryMappings);
                 list.AddRange(AuditionStatusMappings);
                 list.AddRange(AuditionRepetitorStatusMappings);
+                list.AddRange(MusicianProfileAvailableDocumentStatusMappings);
                 return list;
             }
         }
@@ -280,6 +281,23 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("9808c1f6-0bbd-4054-acca-779d56a8a934"), SelectValueCategorySeedData.AuditionRepetitorStatus.Id, SelectValueSeedData.BringsPianist.Id),
                     new SelectValueMapping(Guid.Parse("0d1b888f-0f45-4f02-806b-480d5594bd27"), SelectValueCategorySeedData.AuditionRepetitorStatus.Id, SelectValueSeedData.NoPianistNeeded.Id),
                     new SelectValueMapping(Guid.Parse("98addc5f-f2fa-4640-8441-d4220b7daea2"), SelectValueCategorySeedData.AuditionRepetitorStatus.Id, SelectValueSeedData.Unknown.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> MusicianProfileAvailableDocumentStatusMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("f9cc5445-8a6e-480b-bffb-410089f55896"), SelectValueCategorySeedData.MusicianProfileAvailableDocumentStatus.Id, SelectValueSeedData.CV.Id),
+                    new SelectValueMapping(Guid.Parse("a3e5843b-05c3-452c-a29d-da8de738181a"), SelectValueCategorySeedData.MusicianProfileAvailableDocumentStatus.Id, SelectValueSeedData.LetterOfRecommendation.Id),
+                    new SelectValueMapping(Guid.Parse("1b53d96a-f9a1-4037-b103-f7aae9b278d7"), SelectValueCategorySeedData.MusicianProfileAvailableDocumentStatus.Id, SelectValueSeedData.Diploma.Id),
+                    new SelectValueMapping(Guid.Parse("edfad6f1-6584-4798-a09a-9f6146127d82"), SelectValueCategorySeedData.MusicianProfileAvailableDocumentStatus.Id, SelectValueSeedData.Audio.Id),
+                    new SelectValueMapping(Guid.Parse("f1626a63-6bf1-442a-86ad-8a86242bde94"), SelectValueCategorySeedData.MusicianProfileAvailableDocumentStatus.Id, SelectValueSeedData.Video.Id),
+                    new SelectValueMapping(Guid.Parse("887e7e2e-0c90-4c4c-9504-3f2a5af7fbcb"), SelectValueCategorySeedData.MusicianProfileAvailableDocumentStatus.Id, SelectValueSeedData.Photo.Id),
+                    new SelectValueMapping(Guid.Parse("4298e1f5-ea1d-4a83-9b32-e5dc3a7cbca9"), SelectValueCategorySeedData.MusicianProfileAvailableDocumentStatus.Id, SelectValueSeedData.Other.Id),
                 };
             }
         }
