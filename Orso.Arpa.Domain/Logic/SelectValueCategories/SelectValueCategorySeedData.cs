@@ -25,7 +25,9 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     ProjectState,
                     MusicianProfileQualification,
                     MusicianProfileSalary,
-                    MusicianProfileInquery
+                    MusicianProfileInquery,
+                    AuditionStatus,
+                    AuditionRepetitorStatus
                 };
             }
         }
@@ -113,5 +115,17 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(MusicianProfile),
             nameof(MusicianProfile.Inquery),
             "Inquery");
+
+        public static SelectValueCategory AuditionStatus => new(
+            Guid.Parse("072c2a9a-a492-4190-9a49-505ff7056528"),
+            nameof(Audition),
+            nameof(Audition.Status),
+            "Status");
+
+        public static SelectValueCategory AuditionRepetitorStatus => new(
+            Guid.Parse("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
+            nameof(Audition),
+            nameof(Audition.RepetitorStatus),
+            "Repetitor status");
     }
 }

@@ -26,6 +26,8 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(MusicianProfileQualificationMappings);
                 list.AddRange(MusicianProfileSalaryMappings);
                 list.AddRange(MusicianProfileInqueryMappings);
+                list.AddRange(AuditionStatusMappings);
+                list.AddRange(AuditionRepetitorStatusMappings);
                 return list;
             }
         }
@@ -248,6 +250,36 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("ab5c5904-2683-47c4-a436-319303b8e62f"), SelectValueCategorySeedData.MusicianProfileInquery.Id, SelectValueSeedData.NeverAgain.Id),
                     new SelectValueMapping(Guid.Parse("a15014ad-582e-4388-9b58-aceb52cf41bf"), SelectValueCategorySeedData.MusicianProfileInquery.Id, SelectValueSeedData.Unknown.Id),
                     new SelectValueMapping(Guid.Parse("90b5cfa9-890b-4b89-a750-646f3a26db23"), SelectValueCategorySeedData.MusicianProfileInquery.Id, SelectValueSeedData.ForContactsOnly.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> AuditionStatusMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("be152c92-b807-4850-8327-9d1916dabead"), SelectValueCategorySeedData.AuditionStatus.Id, SelectValueSeedData.Passed.Id),
+                    new SelectValueMapping(Guid.Parse("7b8defe6-9922-43d6-8df0-3a73f47d6980"), SelectValueCategorySeedData.AuditionStatus.Id, SelectValueSeedData.Failed.Id),
+                    new SelectValueMapping(Guid.Parse("0e997440-53f2-4823-8581-4d4716525885"), SelectValueCategorySeedData.AuditionStatus.Id, SelectValueSeedData.Awaiting.Id),
+                    new SelectValueMapping(Guid.Parse("fab42540-8c9d-4b18-9341-660f60dd7644"), SelectValueCategorySeedData.AuditionStatus.Id, SelectValueSeedData.Cancelled.Id),
+                    new SelectValueMapping(Guid.Parse("3acd5be1-5fbc-4de4-a45c-2e230c413c85"), SelectValueCategorySeedData.AuditionStatus.Id, SelectValueSeedData.Unnecessary.Id),
+                    new SelectValueMapping(Guid.Parse("24c5bbe1-37eb-4368-ac7c-a6061058bbef"), SelectValueCategorySeedData.AuditionStatus.Id, SelectValueSeedData.Unknown.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> AuditionRepetitorStatusMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("a88b874f-9879-482f-85ec-1ddda9bb545c"), SelectValueCategorySeedData.AuditionRepetitorStatus.Id, SelectValueSeedData.IsAskingForPianist.Id),
+                    new SelectValueMapping(Guid.Parse("9808c1f6-0bbd-4054-acca-779d56a8a934"), SelectValueCategorySeedData.AuditionRepetitorStatus.Id, SelectValueSeedData.BringsPianist.Id),
+                    new SelectValueMapping(Guid.Parse("0d1b888f-0f45-4f02-806b-480d5594bd27"), SelectValueCategorySeedData.AuditionRepetitorStatus.Id, SelectValueSeedData.NoPianistNeeded.Id),
+                    new SelectValueMapping(Guid.Parse("98addc5f-f2fa-4640-8441-d4220b7daea2"), SelectValueCategorySeedData.AuditionRepetitorStatus.Id, SelectValueSeedData.Unknown.Id),
                 };
             }
         }

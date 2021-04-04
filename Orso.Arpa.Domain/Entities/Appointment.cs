@@ -55,6 +55,9 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? ExpectationId { get; private set; }
         public virtual SelectValueMapping Expectation { get; private set; }
 
+        public Guid? AuditionId { get; private set; }
+        public virtual Audition Audition { get; private set; }
+
         #endregion
         #region Collection
 

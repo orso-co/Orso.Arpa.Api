@@ -79,7 +79,14 @@ namespace Orso.Arpa.Persistence.Seed
                     ForContactsOnly,
                     FilmMusic,
                     DancePerformance,
-                    ContemporaryMusic
+                    ContemporaryMusic,
+                    Passed,
+                    Failed,
+                    Awaiting,
+                    IsAskingForPianist,
+                    NoPianistNeeded,
+                    BringsPianist,
+                    Unnecessary
                 };
             }
         }
@@ -373,5 +380,12 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue FilmMusic => new(Guid.Parse("a3be7b91-7548-492e-99dc-2788497f2930"), "Film Music", string.Empty);
         public static SelectValue DancePerformance => new(Guid.Parse("982a9947-c6f8-4c9a-b96f-2a4825a11496"), "Dance Performance", string.Empty);
         public static SelectValue ContemporaryMusic => new(Guid.Parse("2ecfb104-feb3-406a-b741-0ac9fdd3e8d7"), "Contemporary Music", string.Empty);
+        public static SelectValue Passed => new(Guid.Parse("166edc65-9915-4836-b0a3-3c60ad0bcc04"), "Passed", string.Empty);
+        public static SelectValue Failed => new(Guid.Parse("33e57595-2166-4cce-aa34-60d7148ae9f7"), "Failed", string.Empty);
+        public static SelectValue Awaiting => new(Guid.Parse("42f546ab-1b96-4eab-88a4-753cad8392c1"), "Awaiting", string.Empty);
+        public static SelectValue Unnecessary => new(Guid.Parse("6307ec0e-482a-4777-8b2e-4e8cd5d1f252"), "Unnecessary", string.Empty);
+        public static SelectValue IsAskingForPianist => new(Guid.Parse("45d534e3-6605-42f0-ae57-1a943e18a9cd"), "Is asking for pianist", string.Empty);
+        public static SelectValue BringsPianist => new(Guid.Parse("0141e712-7080-4e3d-8145-44a3080aa274"), "Brings pianist", string.Empty);
+        public static SelectValue NoPianistNeeded => new(Guid.Parse("6bdf5666-65ef-475a-9c48-9a38f18de041"), "No pianist needed", string.Empty);
     }
 }

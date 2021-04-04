@@ -63,5 +63,11 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<MusicianProfileSelectValueMapping> MusicianProfileSelectValueMappingsAsPreferredGenres { get; private set; }
             = new HashSet<MusicianProfileSelectValueMapping>();
+
+        public virtual ICollection<Audition> AuditionsAsStatus { get; private set; }
+            = new HashSet<Audition>();
+
+        public virtual ICollection<Audition> AuditionsAsRepetitorStatus { get; private set; }
+            = new HashSet<Audition>();
     }
 }
