@@ -274,7 +274,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             staffParticipation.Participation = null;
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
-            adminParticipation.MusicianProfiles.Add(new MusicianProfileDto { Qualification = SelectValueSeedData.SemiProfessional.Name, SectionName = "Soprano 2" });
+            adminParticipation.MusicianProfiles.Add(new MusicianProfileDto { SectionName = "Soprano 2" });
             expectedDto.Participations.Add(adminParticipation);
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
@@ -341,7 +341,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
             expectedDto.Participations.Add(adminParticipation);
-            adminParticipation.MusicianProfiles.Add(new MusicianProfileDto { Qualification = SelectValueSeedData.SemiProfessional.Name, SectionName = "Soprano 2" });
+            adminParticipation.MusicianProfiles.Add(new MusicianProfileDto { SectionName = "Soprano 2" });
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act
