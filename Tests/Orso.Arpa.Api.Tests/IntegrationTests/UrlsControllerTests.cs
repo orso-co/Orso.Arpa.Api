@@ -6,7 +6,9 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -18,7 +20,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             ProjectDto project = ProjectDtoData.HoorayForHollywood;
-            UrlDto url = UrlDtoData.Google;
+            UrlDto url = UrlDtoData.ArpaWebsite;
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             // Act: add url to project
@@ -42,17 +44,17 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Modify()
         {
-            //// Arrange
-            //Project project = ProjectSeedData.HoorayForHollywood;
-            //UrlDto url = UrlDtoData.GoogleDe;
-            //HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+            // Arrange
+            Project project = ProjectSeedData.HoorayForHollywood;
+            UrlDto url = UrlDtoData.Google;
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
-            //// Act: take first url of project and replace with new contents
-            //HttpResponseMessage responseMessage = await client
-            //    .PutAsync(ApiEndpoints.UrlController.PutUrl(project.Id, project.Urls[0].Id), BuildStringContent(url));
+            // Act: take first url of project and replace with new contents
+            HttpResponseMessage responseMessage = await client
+                .PutAsync(ApiEndpoints.UrlsController.Put(project.Id, UrlDtoData.GoogleDe.Id), BuildStringContent(url));
 
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             //// Act: get project to validate that url has been changed
             //responseMessage = await client
@@ -68,17 +70,17 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Delete()
         {
-            //// Arrange
-            //Project project = ProjectSeedData.HoorayForHollywood;
-            //Url url = project.Urls[0];
-            //HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+            // Arrange
+            Project project = ProjectSeedData.HoorayForHollywood;
+            Url url = UrlSeedData.GoogleDe;
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
-            //// Act: delete url from projects list of urls
-            //HttpResponseMessage responseMessage = await client
-            //    .DeleteAsync(ApiEndpoints.UrlController.DeleteUrl(project.Id, url.Id));
+            // Act: delete url from projects list of urls
+            HttpResponseMessage responseMessage = await client
+                .DeleteAsync(ApiEndpoints.UrlsController.Delete(project.Id, url.Id));
 
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             //// Act: get project to validate that url is no longer part of the list of urls
             //responseMessage = await client

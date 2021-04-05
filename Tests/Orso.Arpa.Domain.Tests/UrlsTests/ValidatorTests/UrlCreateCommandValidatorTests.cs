@@ -31,10 +31,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_ProjectId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, new Command()
-            {
-                ProjectId = Guid.NewGuid()
-            });
+            _validator.ShouldNotHaveValidationErrorFor(command => command.ProjectId, Guid.NewGuid());
         }
     }
 }

@@ -14,9 +14,9 @@ namespace Orso.Arpa.Domain.Logic.Urls
         public class Command : IModifyCommand<Url>
         {
             public Guid Id { get; set; }
-            public string Href { get; private set; }
-            public string AnchorText { get; private set; }
-            public IList<Guid> roleIds { get; private set; } = new List<Guid>();
+            public string Href { get; set; }
+            public string AnchorText { get; set; }
+            public IList<Guid> roleIds { get; set; } = new List<Guid>();
         }
 
         public class MappingProfile : Profile

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -9,6 +10,16 @@ namespace Orso.Arpa.Application.UrlApplication
 {
     public class UrlDto : BaseEntityDto
     {
+        public UrlDto(Guid id, string anchorText, string href, List<RoleDto> roles, string createdBy, DateTime createdAt)
+        {
+            Id = id;
+            AnchorText = anchorText;
+            Href = href;
+            Roles = roles;
+            CreatedBy = createdBy;
+            CreatedAt = createdAt;
+        }
+
         public string Href { get; set; }
         public string AnchorText { get; set; }
         public IList<RoleDto> Roles { get; set; } = new List<RoleDto>();
