@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
         {
             public bool IsProfessional { get; set; }
             public Guid PersonId { get; set; }
-            public Guid SectionId { get; set; }
+            public Guid InstrumentId { get; set; }
         }
     }
 }

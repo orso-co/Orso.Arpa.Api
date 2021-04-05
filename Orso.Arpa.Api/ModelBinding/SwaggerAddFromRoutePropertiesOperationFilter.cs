@@ -12,9 +12,9 @@ namespace Orso.Arpa.Api.ModelBinding
         {
             IEnumerable<string> defaultValues = context.ApiDescription.CustomAttributes()
                 .Where(x => x.GetType() == typeof(SwaggerFromRoutePropertyAttribute))
-                .Select(x => ((SwaggerFromRoutePropertyAttribute)x).Parameter.ToLower());
+                .Select(x => ((SwaggerFromRoutePropertyAttribute)x).Parameter.ToLower(System.Globalization.CultureInfo.InvariantCulture));
 
-            foreach (OpenApiParameter param in operation.Parameters.Where(x => defaultValues.Contains(x.Name.ToLower())))
+            foreach (OpenApiParameter param in operation.Parameters.Where(x => defaultValues.Contains(x.Name, StringComparer.OrdinalIgnoreCase)))
             {
                 param.Description = FormatDescription(param.Description);
             }

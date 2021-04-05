@@ -69,7 +69,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 {
                     return true;
                 }
-                return sectionTree.FirstOrDefault(st => st.Data.Id == musicianProfile.SectionId)
+                return sectionTree.FirstOrDefault(st => st.Data.Id == musicianProfile.InstrumentId)
                     .GetParents()
                     .Select(section => section.Id)
                     .Intersect(appointment.SectionAppointments.Select(sa => sa.SectionId))

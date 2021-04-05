@@ -16,13 +16,13 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.SelectValue)
                 .WithMany(s => s.SelectValueMappings)
                 .HasForeignKey(e => e.SelectValueId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.SelectValueCategory)
                 .WithMany(s => s.SelectValueMappings)
                 .HasForeignKey(e => e.SelectValueCategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
