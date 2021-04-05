@@ -1,6 +1,8 @@
 using System;
+using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
+using static Orso.Arpa.Domain.Logic.Urls.Create;
 
 namespace Orso.Arpa.Application.UrlApplication
 {
@@ -8,7 +10,14 @@ namespace Orso.Arpa.Application.UrlApplication
     {
         public string Href { get; set; }
         public string AnchorText { get; set; }
-        public Guid ProjectId { get; set; }
+        public Guid Id { get; set; }
+    }
+    public class UrlCreateDtoMappingProfile : Profile
+    {
+        public UrlCreateDtoMappingProfile()
+        {
+            CreateMap<UrlCreateDto, Command>();
+        }
     }
 
     public class UrlCreateDtoValidator : AbstractValidator<UrlCreateDto>
@@ -24,7 +33,7 @@ namespace Orso.Arpa.Application.UrlApplication
                 .NotEmpty()
                 .MaximumLength(1000);
 
-            RuleFor(p => p.ProjectId)
+            RuleFor(p => p.Id)
                 .NotEmpty();
         }
     }

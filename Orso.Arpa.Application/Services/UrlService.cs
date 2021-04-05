@@ -1,10 +1,11 @@
-using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.Urls;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -21,28 +22,21 @@ namespace Orso.Arpa.Application.Services
         {
         }
 
-        Task IUrlService.AddAsync(Guid id, UrlCreateDto urlCreateDto)
+        async Task IUrlService.PutAsync(UrlModifyDto urlModifyDto)
         {
-            throw new NotImplementedException();
-        }
-        Task IUrlService.PutAsync(Guid id, Guid urlId, UrlModifyDto urlModifyDto)
-        {
-            throw new NotImplementedException();
+            await ModifyAsync(urlModifyDto);
         }
 
-        Task IUrlService.DeleteAsync(Guid id, Guid urlId)
+        public async Task AddRoleAsync(UrlAddRoleDto addRoleDto)
         {
-            throw new NotImplementedException();
+            AddRole.Command command = _mapper.Map<AddRole.Command>(addRoleDto);
+            await _mediator.Send(command);
         }
 
-        Task IUrlService.AddRoleAsync(Guid id, Guid urlId, UrlAddRoleDto urlAddRoleDt)
+        public async Task RemoveRoleAsync(UrlRemoveRoleDto removeRoleDto)
         {
-            throw new NotImplementedException();
-        }
-
-        Task IUrlService.RemoveRoleAsync(Guid id, Guid urlId, Guid roledId)
-        {
-            throw new NotImplementedException();
+            RemoveRole.Command command = _mapper.Map<RemoveRole.Command>(removeRoleDto);
+            await _mediator.Send(command);
         }
     }
 }

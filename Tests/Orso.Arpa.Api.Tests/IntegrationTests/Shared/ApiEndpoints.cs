@@ -84,6 +84,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Post() => Projects;
 
+            public static string Post(Guid id) => $"{Projects}/{id}/urls";
+
             public static string Put(Guid id) => $"{Projects}/{id}";
 
             public static string Delete(Guid id) => $"{Projects}/{id}";
@@ -91,17 +93,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class UrlsController
         {
-            private static string Projects => $"{Base}/projects/";
+            private static string Urls => $"{Base}/urls";
 
-            public static string Post(Guid id) => $"{Projects}/{id}/urls";
+            public static string Put(Guid id) => $"{Urls}/{id}";
 
-            public static string Put(Guid id, Guid urlId) => $"{Projects}/{id}/urls/{urlId}";
+            public static string Delete(Guid id) => $"{Urls}/{id}";
 
-            public static string Delete(Guid id, Guid urlId) => $"{Projects}/{id}/urls/{urlId}";
+            public static string AddRole(Guid id) => $"{Urls}/{id}/roles";
 
-            public static string AddRole(Guid id, Guid urlId) => $"{Projects}/{id}/urls/{urlId}/roles";
-
-            public static string RemoveRole(Guid id, Guid urlId, Guid roleId) => $"{Projects}/{id}/urls/{urlId}/roles/{roleId}";
+            public static string RemoveRole(Guid id, Guid roleId) => $"{Urls}/{id}/roles/{roleId}";
         }
 
         public static class MeController

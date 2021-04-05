@@ -31,13 +31,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_ProjectId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, Guid.Empty);
+            _validator.ShouldHaveValidationErrorFor(command => command.Id, Guid.Empty);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_ProjectId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.ProjectId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, Guid.NewGuid());
         }
     }
 }

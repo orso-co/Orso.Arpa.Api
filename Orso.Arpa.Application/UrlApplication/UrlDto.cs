@@ -19,6 +19,7 @@ namespace Orso.Arpa.Application.UrlApplication
             CreatedBy = createdBy;
             CreatedAt = createdAt;
         }
+        public UrlDto() { }
 
         public string Href { get; set; }
         public string AnchorText { get; set; }

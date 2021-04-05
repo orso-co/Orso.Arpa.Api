@@ -41,12 +41,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         IsCompleted = true,
                     });
 
-                //Todo: produziert einen Stack overflow
-                //project.Urls.Add(UrlSeedData.ArpaWebsite);
-                //project.Urls.Add(UrlSeedData.OrsoWebsite);
-                //project.Urls.Add(UrlSeedData.Google);
                 return project;
-
             }
         }
 
@@ -71,7 +66,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         IsCompleted = false
                     });
 
-                //project.Urls.Add(UrlSeedData.GoogleDe);
                 return project;
             }
         }
