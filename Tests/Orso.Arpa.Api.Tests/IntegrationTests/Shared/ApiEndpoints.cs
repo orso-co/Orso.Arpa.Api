@@ -93,7 +93,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             private static string Projects => $"{Base}/projects/";
 
-            public static string Post(Guid id) => $"{Projects}/{id}/urls/";
+            public static string Post(Guid id) => $"{Projects}/{id}/urls";
 
             public static string Put(Guid id, Guid urlId) => $"{Projects}/{id}/urls/{urlId}";
 

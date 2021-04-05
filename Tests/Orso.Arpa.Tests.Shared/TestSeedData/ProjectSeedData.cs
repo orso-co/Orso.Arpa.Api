@@ -24,7 +24,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new Project(
+                var project = new Project(
                     Guid.Parse("a19d84f1-4ac1-49c3-abfe-527092b80b6d"),
                     new Create.Command
                     {
@@ -40,6 +40,13 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         ParentId = null,
                         IsCompleted = true,
                     });
+
+                //Todo: produziert einen Stack overflow
+                //project.Urls.Add(UrlSeedData.ArpaWebsite);
+                //project.Urls.Add(UrlSeedData.OrsoWebsite);
+                //project.Urls.Add(UrlSeedData.Google);
+                return project;
+
             }
         }
 
@@ -47,7 +54,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new Project(
+                var project = new Project(
                     Guid.Parse("8f8c500f-71f5-49be-92c8-150ac9e88219"),
                     new Create.Command
                     {
@@ -61,8 +68,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         EndDate = new DateTime(2020, 06, 06),
                         StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
                         ParentId = null,
-                        IsCompleted = false,
+                        IsCompleted = false
                     });
+
+                //project.Urls.Add(UrlSeedData.GoogleDe);
+                return project;
             }
         }
     }

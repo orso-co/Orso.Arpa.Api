@@ -61,6 +61,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 };
                 var id = Guid.Parse("fa8d667d-3bb6-4482-91ed-20754be6d539");
                 var url = new Url(id, command);
+                url.UrlRoles.Add(new(id, RoleSeedData.Staff.Id));
                 url.UrlRoles.Add(new(id, RoleSeedData.Performer.Id));
                 return url;
             }

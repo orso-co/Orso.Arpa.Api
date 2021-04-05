@@ -49,6 +49,7 @@ namespace Orso.Arpa.Domain.Tests.UrlsTests.MappingProfileTests
             expectedUrl.SetProperty(nameof(Entities.Url.AnchorText), expectedUrl.AnchorText + " modified");
             var command = new Modify.Command
             {
+                Id = expectedUrl.Id,
                 Href = expectedUrl.Href,
                 AnchorText = expectedUrl.AnchorText,
             };
@@ -57,8 +58,8 @@ namespace Orso.Arpa.Domain.Tests.UrlsTests.MappingProfileTests
             Entities.Url url = _mapper.Map(command, sourceUrl);
 
             // Assert
-            url.Should().BeEquivalentTo(expectedUrl, opt => opt.Excluding(dto => dto.Urls));
-            url.Urls.Should().BeEquivalentTo(expectedUrl.Urls, opt => opt.Excluding(dto => dto.UrlRoles));
+            //Todo: tbd - UrlRoles needs to map, too!
+            url.Should().BeEquivalentTo(expectedUrl, opt => opt.Excluding(dto => dto.UrlRoles));
         }
     }
 }
