@@ -16,14 +16,18 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public Guid Id { get; set; }
             public string Href { get; set; }
             public string AnchorText { get; set; }
-            public IList<Guid> roleIds { get; set; } = new List<Guid>();
+            public virtual ICollection<UrlRole> UrlRoles { get; private set; } = new HashSet<UrlRole>();
         }
 
         public class MappingProfile : Profile
         {
             public MappingProfile()
             {
-                CreateMap<Command, Url>();
+                CreateMap<Command, Url>()
+                    .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
+                    .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText))
+                    .ForMember(dest => dest.UrlRoles, opt => opt.MapFrom(src => src.UrlRoles))
+                    .ForAllOtherMembers(opt => opt.Ignore());
             }
         }
 
@@ -35,6 +39,5 @@ namespace Orso.Arpa.Domain.Logic.Urls
                     .EntityExists<Command, Url>(arpaContext);
             }
         }
-
     }
 }
