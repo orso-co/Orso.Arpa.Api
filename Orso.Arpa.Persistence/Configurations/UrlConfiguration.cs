@@ -20,7 +20,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Project)
                 .WithMany(p => p.Urls)
                 .HasForeignKey(e => e.ProjectId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
