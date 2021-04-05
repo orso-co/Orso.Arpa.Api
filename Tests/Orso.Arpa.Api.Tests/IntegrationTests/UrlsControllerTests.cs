@@ -51,7 +51,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Act: take first url of project and replace with new contents
             HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.UrlsController.Put(project.Id, UrlDtoData.GoogleDe.Id), BuildStringContent(url));
+                .PutAsync(ApiEndpoints.UrlsController.Put(project.Id,/*project.Urls[0].Id*/ UrlDtoData.GoogleDe.Id), BuildStringContent(url));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
