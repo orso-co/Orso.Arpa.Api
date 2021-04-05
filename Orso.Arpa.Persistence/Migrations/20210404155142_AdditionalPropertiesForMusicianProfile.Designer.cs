@@ -10,8 +10,8 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210329151113_ProjectUrls")]
-    partial class ProjectUrls
+    [Migration("20210404155142_AdditionalPropertiesForMusicianProfile")]
+    partial class AdditionalPropertiesForMusicianProfile
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -4743,7 +4743,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.User", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
