@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
@@ -40,15 +41,16 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-                Appointment appointment = FakeAppointments.RockingXMasRehearsal;
-                MyAppointmentDto expectedDto = UserAppointmentDtoTestData.PerformerUserAppointment;
+            Appointment appointment = FakeAppointments.RockingXMasRehearsal;
+            appointment.ProjectAppointments.First().Project.Urls.Remove(appointment.ProjectAppointments.First().Project.Urls.First());
+            MyAppointmentDto expectedDto = UserAppointmentDtoTestData.PerformerUserAppointment;
 
-                // Act
-                MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);
+            // Act
+            MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);
 
-                // Assert
-                dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                    .Excluding(dto => dto.PredictionId));
+            // Assert
+            dto.Should().BeEquivalentTo(expectedDto, opt => opt
+                .Excluding(dto => dto.PredictionId));
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,6 +72,11 @@ namespace Orso.Arpa.Persistence.DataAccess
                 MethodInfo method = ArpaContextUtility.SetGlobalQueryMethod.MakeGenericMethod(type);
                 method.Invoke(this, new object[] { builder });
             }
+
+            builder.Entity<Url>()
+                .HasQueryFilter(url => !url.Deleted
+                    && (url.UrlRoles.Count == 0
+                    || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
