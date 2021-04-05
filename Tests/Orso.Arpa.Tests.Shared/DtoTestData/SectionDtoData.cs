@@ -177,6 +177,46 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
         };
 
+        public static IList<SectionDto> Instruments => new List<SectionDto>
+        {
+            Soprano,
+            MezzoSoprano,
+            Alto,
+            Tenor,
+            Baritone,
+            Bass,
+            Flute,
+            Oboe,
+            Clarinet,
+            Bassoon,
+            Saxophone,
+            Horn,
+            Trumpet,
+            Trombone,
+            Euphonium,
+            Tuba,
+            // Percussion noch nicht fertig!
+            Timpani,
+            Mallets,
+            Harp,
+            Keyboards,
+            Accordion,
+            Bandoneon,
+            DrumSet,
+            Guitars,
+            GlassHarp,
+            Bagpipes,
+            Didgeridoo,
+            Violins,
+            Viola,
+            Violoncello,
+            DoubleBass,
+            ElectricGuitarBand,
+            ElectricBassBand,
+            DrumSetBand,
+            KeyboardsBand
+        };
+
         public static SectionDto Performers => new() { Id = Guid.Parse("8bba816f-2315-43c0-b18e-99a27b1c9668"), Name = "Performers", };
 
 

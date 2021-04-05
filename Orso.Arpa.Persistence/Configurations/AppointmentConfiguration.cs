@@ -12,41 +12,37 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Category)
                 .WithMany(c => c.AppointmentsAsCategory)
                 .HasForeignKey(e => e.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
-            // ToDo: Set null in code
             builder
                 .HasOne(e => e.Status)
                 .WithMany(c => c.AppointmentsAsStatus)
                 .HasForeignKey(e => e.StatusId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
-            // ToDo: Set null in code
             builder
                 .HasOne(e => e.Emolument)
                 .WithMany(c => c.AppointmentsAsEmolument)
                 .HasForeignKey(e => e.EmolumentId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
-            // ToDo: Set null in code
             builder
                 .HasOne(e => e.EmolumentPattern)
                 .WithMany(c => c.AppointmentsAsEmolumentPattern)
                 .HasForeignKey(e => e.EmolumentPatternId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
-            // ToDo: Set null in code
             builder
                 .HasOne(e => e.Expectation)
                 .WithMany(c => c.AppointmentsAsExpectation)
                 .HasForeignKey(e => e.ExpectationId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Venue)
                 .WithMany(c => c.Appointments)
                 .HasForeignKey(e => e.VenueId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Property(e => e.Name)

@@ -27,9 +27,9 @@ namespace Orso.Arpa.Api.Controllers
         [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<SectionDto>>> Get()
+        public async Task<ActionResult<IEnumerable<SectionDto>>> Get([FromQuery]bool instrumentsOnly = false)
         {
-            return Ok(await _sectionService.GetAsync());
+            return Ok(await _sectionService.GetAsync(instrumentsOnly));
         }
 
         /// <summary>

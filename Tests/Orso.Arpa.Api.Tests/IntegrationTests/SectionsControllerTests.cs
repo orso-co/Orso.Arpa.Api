@@ -42,5 +42,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             SectionTreeDto result = await DeserializeResponseMessageAsync<SectionTreeDto>(responseMessage);
             result.Should().BeEquivalentTo(SectionTreeDtoData.Level2SectionTreeDto);
         }
+
+        [Test, Order(3)]
+        public async Task Should_Get_Instruments()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.SectionsController.GetInstruments());
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<SectionDto> result = await DeserializeResponseMessageAsync<IEnumerable<SectionDto>>(responseMessage);
+            result.Should().BeEquivalentTo(SectionDtoData.Instruments);
+        }
     }
 }

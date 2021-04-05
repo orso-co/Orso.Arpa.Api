@@ -148,7 +148,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -161,7 +162,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid?>("RegionId")
                         .HasColumnType("uniqueidentifier");
@@ -192,6 +194,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AuditionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
@@ -199,7 +204,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -224,7 +230,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -273,7 +280,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -282,7 +290,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
@@ -318,7 +327,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -330,7 +340,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("AppointmentId", "RoomId");
 
@@ -339,7 +350,99 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.ToTable("AppointmentRooms");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Audition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AppointmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("InnerComment")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("InternalComment")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Repertoire")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("RepetitorStatusId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StatusId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId")
+                        .IsUnique()
+                        .HasFilter("[AppointmentId] IS NOT NULL");
+
+                    b.HasIndex("RepetitorStatusId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("Auditions");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.AvailableDocument", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SelectValueMappingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("MusicianProfileId", "SelectValueMappingId");
+
+                    b.HasIndex("SelectValueMappingId");
+
+                    b.ToTable("AvailableDocuments");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Credential", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -349,33 +452,262 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsProfessional")
-                        .HasColumnType("bit");
+                    b.Property<string>("Details")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Keyword")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte>("SortOrder")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Timespan")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Credentials");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Education", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Institution")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte>("SortOrder")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Timespan")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Educations");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Background")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<byte>("ExperienceLevel")
+                        .HasColumnType("tinyint");
+
+                    b.Property<Guid?>("InqueryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InstrumentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsMainProfile")
+                        .HasColumnType("bit");
+
+                    b.Property<byte>("LevelInnerASsessment")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("LevelSelfAssessment")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("PersonId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PreferredPositionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("ProfileFavorizitation")
+                        .HasColumnType("tinyint");
+
+                    b.Property<Guid?>("QualificationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SalaryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InqueryId");
+
+                    b.HasIndex("InstrumentId");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("PreferredPositionId");
+
+                    b.HasIndex("QualificationId");
+
+                    b.HasIndex("SalaryId");
+
+                    b.ToTable("MusicianProfiles");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileCredential", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CredentialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("MusicianProfileId", "CredentialId");
+
+                    b.HasIndex("CredentialId");
+
+                    b.ToTable("MusicianProfileCredentials");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileEducation", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EducationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("MusicianProfileId", "EducationId");
+
+                    b.HasIndex("EducationId");
+
+                    b.ToTable("MusicianProfileEducations");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileSection", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SectionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("PersonId");
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("MusicianProfileId", "SectionId");
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("MusicianProfiles");
+                    b.ToTable("MusicianProfileSections");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Person", b =>
@@ -392,7 +724,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -408,7 +741,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<byte>("Reliability")
                         .HasColumnType("tinyint");
@@ -446,7 +780,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -458,13 +793,86 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("PersonId", "SectionId");
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("PersonSection");
+                    b.ToTable("PersonSections");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Position", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SectionId");
+
+                    b.ToTable("Positions");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredGenre", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SelectValueMappingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("MusicianProfileId", "SelectValueMappingId");
+
+                    b.HasIndex("SelectValueMappingId");
+
+                    b.ToTable("PreferredGenre");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Project", b =>
@@ -477,7 +885,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -499,7 +908,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Number")
                         .IsRequired()
@@ -555,7 +965,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -567,7 +978,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("ProjectId", "AppointmentId");
 
@@ -586,7 +998,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -595,7 +1008,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("MusicianProfileId")
                         .HasColumnType("uniqueidentifier");
@@ -646,7 +1060,7 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Region", b =>
@@ -659,7 +1073,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -668,7 +1083,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -747,7 +1163,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -760,7 +1177,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -786,16 +1204,21 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsInstrument")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -816,6 +1239,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Performers"
                         },
                         new
@@ -823,6 +1247,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("4e7a61c5-d2e4-4e3b-b21d-34a90cf958b2"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Conductor",
                             ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
                         },
@@ -831,6 +1256,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("18f1e750-f50d-4f06-8205-21203981bff6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Assistant Conductor",
                             ParentId = new Guid("4e7a61c5-d2e4-4e3b-b21d-34a90cf958b2")
                         },
@@ -839,6 +1265,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("6fc908f0-da26-4237-80ca-dfe30453123c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Répétiteur",
                             ParentId = new Guid("4e7a61c5-d2e4-4e3b-b21d-34a90cf958b2")
                         },
@@ -847,6 +1274,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("94c42496-fdb6-4341-b82f-735fd1706d39"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Vocal Coach",
                             ParentId = new Guid("4e7a61c5-d2e4-4e3b-b21d-34a90cf958b2")
                         },
@@ -855,6 +1283,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Choir",
                             ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
                         },
@@ -863,6 +1292,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Female Voices",
                             ParentId = new Guid("c2cfb7a0-4981-4dda-b988-8ba74957f6a4")
                         },
@@ -871,6 +1301,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("5d469fc5-b3e6-40b8-9fa9-542981083ce3"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "High Female Voices",
                             ParentId = new Guid("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6")
                         },
@@ -879,6 +1310,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("7daa1394-a70d-4a24-88a6-ccf511d75c4d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Soprano",
                             ParentId = new Guid("5d469fc5-b3e6-40b8-9fa9-542981083ce3")
                         },
@@ -887,6 +1319,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8470ddf0-43ab-477e-b3bc-47ede014b359"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Soprano 1",
                             ParentId = new Guid("7daa1394-a70d-4a24-88a6-ccf511d75c4d")
                         },
@@ -895,6 +1328,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("22d7cf92-7b29-4cf1-a6fa-2954377589b4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Soprano 2",
                             ParentId = new Guid("7daa1394-a70d-4a24-88a6-ccf511d75c4d")
                         },
@@ -903,6 +1337,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("eb42b2f7-413e-4c1a-ab79-23c74b02d054"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Mezzo Soprano",
                             ParentId = new Guid("5d469fc5-b3e6-40b8-9fa9-542981083ce3")
                         },
@@ -911,6 +1346,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("48337b78-70f0-493e-911b-296632b06ef8"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Low Female Voices",
                             ParentId = new Guid("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6")
                         },
@@ -919,6 +1355,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Alto",
                             ParentId = new Guid("48337b78-70f0-493e-911b-296632b06ef8")
                         },
@@ -927,6 +1364,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e809ee90-23f9-44de-b80e-2fddd5ee3683"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Alto 1",
                             ParentId = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940")
                         },
@@ -935,6 +1373,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("50dfa2be-85e2-4638-aa53-22dadc97a844"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Alto 2",
                             ParentId = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940")
                         },
@@ -943,6 +1382,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("4599103d-f220-4744-92d1-7c6993e9bda4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Male Voices",
                             ParentId = new Guid("c2cfb7a0-4981-4dda-b988-8ba74957f6a4")
                         },
@@ -951,6 +1391,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("7924daef-2542-4648-a42f-4c4374ee09db"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "High Male Voices",
                             ParentId = new Guid("4599103d-f220-4744-92d1-7c6993e9bda4")
                         },
@@ -959,6 +1400,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Tenor",
                             ParentId = new Guid("7924daef-2542-4648-a42f-4c4374ee09db")
                         },
@@ -967,6 +1409,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("3db46ff0-9165-46cc-8f28-6a1d52dee518"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Tenor 1",
                             ParentId = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da")
                         },
@@ -975,6 +1418,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Tenor 2",
                             ParentId = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da")
                         },
@@ -983,6 +1427,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Low Male Voices",
                             ParentId = new Guid("4599103d-f220-4744-92d1-7c6993e9bda4")
                         },
@@ -991,6 +1436,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("bb647161-8394-47d3-9f43-825762a70fc2"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Baritone",
                             ParentId = new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a")
                         },
@@ -999,6 +1445,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Basso",
                             ParentId = new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a")
                         },
@@ -1007,6 +1454,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Basso 1",
                             ParentId = new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca")
                         },
@@ -1015,6 +1463,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("61fa66ec-3103-43fe-800c-930547dff82c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Basso 2",
                             ParentId = new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca")
                         },
@@ -1023,6 +1472,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("308659d6-6014-4d2c-a62a-be75bf202e62"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Orchestra",
                             ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
                         },
@@ -1031,6 +1481,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("b289cfe7-d66e-48d8-83a9-f4b1f7710863"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Winds",
                             ParentId = new Guid("308659d6-6014-4d2c-a62a-be75bf202e62")
                         },
@@ -1039,6 +1490,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Woodwinds",
                             ParentId = new Guid("b289cfe7-d66e-48d8-83a9-f4b1f7710863")
                         },
@@ -1047,6 +1499,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Flute",
                             ParentId = new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd")
                         },
@@ -1055,6 +1508,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("ec8aeaf8-f370-4ac8-bd12-ccce0cbcfa0f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Piccolo Flute",
                             ParentId = new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b")
                         },
@@ -1063,6 +1517,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("f9c1924b-2b45-459c-b919-99059cb41e73"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Alto Flute",
                             ParentId = new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b")
                         },
@@ -1071,6 +1526,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d0a18a79-ad5a-450d-92cc-20a58496aaf0"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Tenor Flute",
                             ParentId = new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b")
                         },
@@ -1079,6 +1535,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("fc66c8b8-d9de-4ff0-a695-37e717103686"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Bass Flute",
                             ParentId = new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b")
                         },
@@ -1087,6 +1544,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Oboe",
                             ParentId = new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd")
                         },
@@ -1095,6 +1553,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("4e71ffc3-e086-4c16-a932-3d80fd302971"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Oboe d'Amore",
                             ParentId = new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42")
                         },
@@ -1103,6 +1562,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("abe0d27b-2c99-4755-891c-fb0b91f19bb6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "English Horn",
                             ParentId = new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42")
                         },
@@ -1111,6 +1571,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("2f8d732f-bf82-4a62-86a1-62bffd708189"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Bariton Oboe",
                             ParentId = new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42")
                         },
@@ -1119,6 +1580,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Clarinet",
                             ParentId = new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd")
                         },
@@ -1127,6 +1589,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d2551427-d727-42d9-be0e-dea2ae82f2d6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Eb Clarinet",
                             ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
                         },
@@ -1135,6 +1598,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("be75913a-9703-4a8d-9e07-7a8d32c459f8"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Alto Clarinet",
                             ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
                         },
@@ -1143,6 +1607,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8c0a80d1-5889-4794-89b6-b80a3828aa5b"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Basset Horn",
                             ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
                         },
@@ -1151,6 +1616,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("5109e464-7b01-40bd-a5e0-398ac3d1bb83"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Bass Clarinet",
                             ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
                         },
@@ -1159,6 +1625,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("a5cc5e9d-b318-4edc-af84-ff3d701d0bcb"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Double Bass Clarinet",
                             ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
                         },
@@ -1167,6 +1634,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("5c14f673-13f2-488f-8c21-7286d3ee10c3"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Bassoon",
                             ParentId = new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd")
                         },
@@ -1175,6 +1643,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8d01524c-7c22-4a20-8f26-711d11addbfd"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Contra Bassoon",
                             ParentId = new Guid("5c14f673-13f2-488f-8c21-7286d3ee10c3")
                         },
@@ -1183,6 +1652,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("7cb00d2e-5a98-4b68-b775-3b5d1f267d96"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Contraforte",
                             ParentId = new Guid("5c14f673-13f2-488f-8c21-7286d3ee10c3")
                         },
@@ -1191,6 +1661,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Saxophone",
                             ParentId = new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd")
                         },
@@ -1199,6 +1670,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("b5d01e60-af61-4d29-bfb3-2f0dbac1e2fb"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Soprano Saxophone",
                             ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
                         },
@@ -1207,6 +1679,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("4a31447d-63c2-4e28-ab39-255a956fbe18"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Alto Saxophone",
                             ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
                         },
@@ -1215,6 +1688,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("da998fcb-92b9-4828-976e-826e97e05cb3"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Tenor Saxophone",
                             ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
                         },
@@ -1223,6 +1697,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e4622ea3-f6a0-40b2-ac80-a2c9df099aeb"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Baritone Saxophone",
                             ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
                         },
@@ -1231,6 +1706,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("fb4f9841-294a-4b6c-bfec-02d3735b1ea0"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Bass Saxophone",
                             ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
                         },
@@ -1239,6 +1715,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("f4c70178-d069-44dc-8956-7160c5fef52e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Brass",
                             ParentId = new Guid("b289cfe7-d66e-48d8-83a9-f4b1f7710863")
                         },
@@ -1247,6 +1724,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("7d0d2295-df8a-4cfa-9f43-87dbf9fc133f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "High Brass",
                             ParentId = new Guid("f4c70178-d069-44dc-8956-7160c5fef52e")
                         },
@@ -1255,6 +1733,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("b9532add-efec-4510-831c-902c32ef7dbb"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Horn",
                             ParentId = new Guid("7d0d2295-df8a-4cfa-9f43-87dbf9fc133f")
                         },
@@ -1263,6 +1742,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("c42591db-4e41-413f-8b98-6607e2f12e39"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Wagner Tuba",
                             ParentId = new Guid("b9532add-efec-4510-831c-902c32ef7dbb")
                         },
@@ -1271,6 +1751,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("205b0a0e-1a36-48e9-8b45-df37dc5effa5"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Trumpet",
                             ParentId = new Guid("7d0d2295-df8a-4cfa-9f43-87dbf9fc133f")
                         },
@@ -1279,6 +1760,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("69e64d64-419f-4f9c-9948-a117b02ff198"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Flugelhorn",
                             ParentId = new Guid("205b0a0e-1a36-48e9-8b45-df37dc5effa5")
                         },
@@ -1287,6 +1769,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("2393549e-5b16-4414-a896-3cebb7bcc9df"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Piccolo Trumpet",
                             ParentId = new Guid("205b0a0e-1a36-48e9-8b45-df37dc5effa5")
                         },
@@ -1295,6 +1778,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("290f84d4-bb3f-41c3-9f42-c649c8eeea26"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Soprano Cornet",
                             ParentId = new Guid("205b0a0e-1a36-48e9-8b45-df37dc5effa5")
                         },
@@ -1303,6 +1787,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("305c06e0-b99f-4f91-ae83-869d8b25c63d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Cornet",
                             ParentId = new Guid("205b0a0e-1a36-48e9-8b45-df37dc5effa5")
                         },
@@ -1311,6 +1796,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Low Brass",
                             ParentId = new Guid("f4c70178-d069-44dc-8956-7160c5fef52e")
                         },
@@ -1319,6 +1805,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e20ce055-5715-42f4-97e6-4025559b15f7"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Trombone",
                             ParentId = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041")
                         },
@@ -1327,6 +1814,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("80f15184-6417-476a-87ac-0f752d011391"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Alto Trombone",
                             ParentId = new Guid("e20ce055-5715-42f4-97e6-4025559b15f7")
                         },
@@ -1335,6 +1823,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("da660c21-0151-4255-a81b-4d25fede199b"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Bass Trombone",
                             ParentId = new Guid("e20ce055-5715-42f4-97e6-4025559b15f7")
                         },
@@ -1343,6 +1832,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("32f3fdd9-9517-4db5-856e-376e9fa52b84"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Double Bass Trombone",
                             ParentId = new Guid("e20ce055-5715-42f4-97e6-4025559b15f7")
                         },
@@ -1351,6 +1841,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("554fd3db-110b-4335-bc2a-1d5070f6621a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Euphonium",
                             ParentId = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041")
                         },
@@ -1359,6 +1850,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("803219aa-1a32-4a68-95ae-348bd487135a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Tenor Horn",
                             ParentId = new Guid("554fd3db-110b-4335-bc2a-1d5070f6621a")
                         },
@@ -1367,6 +1859,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("b525e539-7fa4-49d7-ae93-ec0748022d4d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Baritone Horn",
                             ParentId = new Guid("554fd3db-110b-4335-bc2a-1d5070f6621a")
                         },
@@ -1375,6 +1868,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("18cbded8-0d64-4e0e-bc19-d6903e0fd5a9"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Tuba",
                             ParentId = new Guid("e4e7239e-0d0d-4a30-93b6-8a61e3ab8041")
                         },
@@ -1383,6 +1877,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("2fabd3a1-d398-4108-a74f-2665710133d1"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Eb Tuba",
                             ParentId = new Guid("18cbded8-0d64-4e0e-bc19-d6903e0fd5a9")
                         },
@@ -1391,6 +1886,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("31a2b9bf-0c2b-47ec-b8bc-34c9423b74d4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "F Tuba",
                             ParentId = new Guid("18cbded8-0d64-4e0e-bc19-d6903e0fd5a9")
                         },
@@ -1399,6 +1895,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Percussion",
                             ParentId = new Guid("308659d6-6014-4d2c-a62a-be75bf202e62")
                         },
@@ -1407,6 +1904,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("ea916a8d-1bce-4e87-b5b0-ff6304bb01a5"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Timpani",
                             ParentId = new Guid("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c")
                         },
@@ -1415,6 +1913,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d12ebc93-4b55-455c-a9db-a826fca9a1f2"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Mallets",
                             ParentId = new Guid("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c")
                         },
@@ -1423,6 +1922,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("dcf267e6-5b58-4534-8e4b-a8c5747b1816"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Glockenspiel",
                             ParentId = new Guid("d12ebc93-4b55-455c-a9db-a826fca9a1f2")
                         },
@@ -1431,6 +1931,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("852d8129-a5b7-4378-ad9c-df89dc878b4f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Vibraphone",
                             ParentId = new Guid("d12ebc93-4b55-455c-a9db-a826fca9a1f2")
                         },
@@ -1439,6 +1940,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("2804ed14-7b73-4e17-bd21-edd048a60cb4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Xylophone",
                             ParentId = new Guid("d12ebc93-4b55-455c-a9db-a826fca9a1f2")
                         },
@@ -1447,6 +1949,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("bb0715dc-7f9d-4ddb-b5f5-9e7806e1069f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Marimbaphone",
                             ParentId = new Guid("d12ebc93-4b55-455c-a9db-a826fca9a1f2")
                         },
@@ -1455,6 +1958,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("c15c3649-d7bb-4bbf-bdd3-f6146ebc825c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Drum Set (Orchestra)",
                             ParentId = new Guid("0558a5ff-ee27-44a1-82ab-d0c0cc018c3c")
                         },
@@ -1463,6 +1967,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Others",
                             ParentId = new Guid("308659d6-6014-4d2c-a62a-be75bf202e62")
                         },
@@ -1471,6 +1976,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("0cf93477-f42f-46c3-8e3d-45ccdc54ad8c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Harp",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
                         },
@@ -1479,6 +1985,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("614a8fd0-acfa-4268-b716-3b35a6a17b7a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Keyboards",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
                         },
@@ -1487,6 +1994,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8ed82e0e-0354-4192-8f26-5a2437e9208d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Piano",
                             ParentId = new Guid("614a8fd0-acfa-4268-b716-3b35a6a17b7a")
                         },
@@ -1495,6 +2003,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("bc6cfeb7-569d-4c22-8e80-647aed560bf0"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Celesta",
                             ParentId = new Guid("614a8fd0-acfa-4268-b716-3b35a6a17b7a")
                         },
@@ -1503,6 +2012,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("f6af00f5-e81c-4d85-aadd-1e33748e9a64"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Cembalo",
                             ParentId = new Guid("614a8fd0-acfa-4268-b716-3b35a6a17b7a")
                         },
@@ -1511,6 +2021,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("182019da-bde2-44d7-8c77-88cfb0ce428c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Organ",
                             ParentId = new Guid("614a8fd0-acfa-4268-b716-3b35a6a17b7a")
                         },
@@ -1519,6 +2030,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d22fb8aa-7d38-42c4-9586-30e559f63799"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Synthesizer",
                             ParentId = new Guid("614a8fd0-acfa-4268-b716-3b35a6a17b7a")
                         },
@@ -1527,6 +2039,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("76891771-b5f2-4666-8972-ba7f494fc9de"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Accordion",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
                         },
@@ -1535,6 +2048,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d7ff1f62-e5c5-4662-823b-f77ff7706b4e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Bandoneon",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
                         },
@@ -1543,6 +2057,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("a22b6f19-3e9c-4389-824b-22db7b8cf8fd"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Guitars",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
                         },
@@ -1551,6 +2066,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("1d0ed0b3-b87b-439f-932e-616d7e03a0d6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Acoustic Guitar (Orchestra)",
                             ParentId = new Guid("a22b6f19-3e9c-4389-824b-22db7b8cf8fd")
                         },
@@ -1559,6 +2075,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("ed0829d0-d978-430e-96ec-b93cf75f3fd6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Electric Guitar (Orchestra)",
                             ParentId = new Guid("a22b6f19-3e9c-4389-824b-22db7b8cf8fd")
                         },
@@ -1567,6 +2084,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("9cd74865-f82a-4be9-afc1-384fb25b7fe4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Electric Bass (Orchestra)",
                             ParentId = new Guid("a22b6f19-3e9c-4389-824b-22db7b8cf8fd")
                         },
@@ -1575,6 +2093,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("08bc313b-d0dd-4b78-bdbf-d976682d965e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "GlassHarp",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
                         },
@@ -1583,6 +2102,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("0031e6f5-2d51-4e88-9e82-7bd2c8340cac"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Bagpipes",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
                         },
@@ -1591,6 +2111,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8903b8c5-0ef8-48fd-9c2b-71fbae827965"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Didgeridoo",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
                         },
@@ -1599,6 +2120,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Strings",
                             ParentId = new Guid("308659d6-6014-4d2c-a62a-be75bf202e62")
                         },
@@ -1607,6 +2129,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "High Strings",
                             ParentId = new Guid("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb")
                         },
@@ -1615,6 +2138,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("fab9a49a-9fa4-4af3-9e40-e13bdc930513"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Violins",
                             ParentId = new Guid("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8")
                         },
@@ -1623,6 +2147,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("eb5728b5-b1fd-4a70-8894-7bb152087837"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Violin I",
                             ParentId = new Guid("fab9a49a-9fa4-4af3-9e40-e13bdc930513")
                         },
@@ -1631,6 +2156,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("f3ee3c42-4e4e-411d-a839-6e0420bc35a3"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Violin II",
                             ParentId = new Guid("fab9a49a-9fa4-4af3-9e40-e13bdc930513")
                         },
@@ -1639,6 +2165,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("df541ea1-a5fd-4975-b6fd-7cd652a79073"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Viola",
                             ParentId = new Guid("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8")
                         },
@@ -1647,6 +2174,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("fdd5d68c-2620-47a3-80e4-64fda6dc7e3f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Low Strings",
                             ParentId = new Guid("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb")
                         },
@@ -1655,6 +2183,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d8686f68-78da-4022-b0b8-97e0c263d694"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Violoncello",
                             ParentId = new Guid("fdd5d68c-2620-47a3-80e4-64fda6dc7e3f")
                         },
@@ -1663,6 +2192,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e45ec6fa-7595-4084-9e01-991746b7f5e9"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Double Bass",
                             ParentId = new Guid("fdd5d68c-2620-47a3-80e4-64fda6dc7e3f")
                         },
@@ -1671,6 +2201,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Band",
                             ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
                         },
@@ -1679,6 +2210,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("48833c1b-cbc1-43b2-a4c5-f1fa4289f5ab"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Electric Guitar (Band)",
                             ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
                         },
@@ -1687,6 +2219,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("454c2ad6-e3c8-428a-b74e-c73873159c0e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Electric Bass (Band)",
                             ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
                         },
@@ -1695,6 +2228,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d787fe9a-2283-43f6-bbc8-8a098e1f1c81"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Drum Set (Band)",
                             ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
                         },
@@ -1703,6 +2237,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("7f811b88-e7db-461a-af5d-e249b1ce9e7d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = true,
                             Name = "Keyboards (Band)",
                             ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
                         },
@@ -1711,6 +2246,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Soloists",
                             ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
                         },
@@ -1719,6 +2255,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("067647c0-3f25-449e-9212-03f39fa88f0f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Members"
                         },
                         new
@@ -1726,6 +2263,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("b58d047f-ec04-41e9-a728-06a8a160f55b"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Visitors"
                         },
                         new
@@ -1733,6 +2271,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("75f593aa-fd20-4c05-9300-b31dbb90712e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Volunteers"
                         },
                         new
@@ -1740,6 +2279,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("13802d8b-4c73-4a52-8748-20bf3ba0c2b1"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Suppliers"
                         },
                         new
@@ -1747,6 +2287,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("6a107070-daae-41fc-b27d-416d44d36374"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
+                            IsInstrument = false,
                             Name = "Contractors"
                         });
                 });
@@ -1763,7 +2304,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -1775,7 +2317,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("SectionId", "AppointmentId");
 
@@ -1794,7 +2337,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -1807,7 +2351,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -2241,6 +2786,230 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Description = "",
                             Name = "Contest"
+                        },
+                        new
+                        {
+                            Id = new Guid("3f93768e-ac24-4741-9eb8-49d1e8e4a6e1"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Amateur"
+                        },
+                        new
+                        {
+                            Id = new Guid("e20ff004-aafc-4e28-87f9-0d9c6372951c"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Student"
+                        },
+                        new
+                        {
+                            Id = new Guid("35d63f30-8704-47d5-865a-ee713a082433"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Semi-Professional"
+                        },
+                        new
+                        {
+                            Id = new Guid("f52b9170-c6f6-4828-b96c-df5dfbe9bd73"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Professional"
+                        },
+                        new
+                        {
+                            Id = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Unknown"
+                        },
+                        new
+                        {
+                            Id = new Guid("3c014654-b4c9-4c7a-a251-ae88ad504c8a"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Without"
+                        },
+                        new
+                        {
+                            Id = new Guid("dec26aef-f0de-4c9f-a164-e23e2543c987"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "With - strict"
+                        },
+                        new
+                        {
+                            Id = new Guid("d53b4a35-f472-42a1-ab22-c7afb1e7d77e"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "With - negotiable"
+                        },
+                        new
+                        {
+                            Id = new Guid("1f0e9a86-4641-4d7e-8413-a1beba0e8afb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Gladly"
+                        },
+                        new
+                        {
+                            Id = new Guid("5850e103-4ac9-472e-85f2-cddc08732ccc"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Emergency only"
+                        },
+                        new
+                        {
+                            Id = new Guid("5db547d6-c115-4409-8db7-59374ca2af83"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Never again"
+                        },
+                        new
+                        {
+                            Id = new Guid("0d1073cd-f6d5-4572-87ac-98ab6f15c05a"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "For contacts only"
+                        },
+                        new
+                        {
+                            Id = new Guid("a3be7b91-7548-492e-99dc-2788497f2930"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Film Music"
+                        },
+                        new
+                        {
+                            Id = new Guid("982a9947-c6f8-4c9a-b96f-2a4825a11496"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Dance Performance"
+                        },
+                        new
+                        {
+                            Id = new Guid("2ecfb104-feb3-406a-b741-0ac9fdd3e8d7"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Contemporary Music"
+                        },
+                        new
+                        {
+                            Id = new Guid("166edc65-9915-4836-b0a3-3c60ad0bcc04"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Passed"
+                        },
+                        new
+                        {
+                            Id = new Guid("33e57595-2166-4cce-aa34-60d7148ae9f7"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Failed"
+                        },
+                        new
+                        {
+                            Id = new Guid("42f546ab-1b96-4eab-88a4-753cad8392c1"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Awaiting"
+                        },
+                        new
+                        {
+                            Id = new Guid("45d534e3-6605-42f0-ae57-1a943e18a9cd"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Is asking for pianist"
+                        },
+                        new
+                        {
+                            Id = new Guid("6bdf5666-65ef-475a-9c48-9a38f18de041"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "No pianist needed"
+                        },
+                        new
+                        {
+                            Id = new Guid("0141e712-7080-4e3d-8145-44a3080aa274"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Brings pianist"
+                        },
+                        new
+                        {
+                            Id = new Guid("6307ec0e-482a-4777-8b2e-4e8cd5d1f252"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Unnecessary"
+                        },
+                        new
+                        {
+                            Id = new Guid("c0911d95-0c6d-4834-840c-43cddf3c51a0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "CV"
+                        },
+                        new
+                        {
+                            Id = new Guid("0cf5b2e2-4f01-441a-adc8-a975c7494fd7"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Letter of recommendation"
+                        },
+                        new
+                        {
+                            Id = new Guid("c1951202-0e6e-41f7-bf07-5cefe47efade"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Diploma"
+                        },
+                        new
+                        {
+                            Id = new Guid("e340f76d-074b-40e8-85b0-1bb66a596a06"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Photo"
+                        },
+                        new
+                        {
+                            Id = new Guid("d075dda3-ba29-472b-a699-1f92c1af13a9"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Video"
+                        },
+                        new
+                        {
+                            Id = new Guid("3550443d-5acf-4159-bd59-d7da04dd9434"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Audio"
                         });
                 });
 
@@ -2254,7 +3023,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -2263,7 +3033,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -2384,6 +3155,60 @@ namespace Orso.Arpa.Persistence.Migrations
                             Name = "State",
                             Property = "State",
                             Table = "Project"
+                        },
+                        new
+                        {
+                            Id = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Qualification",
+                            Property = "Qualification",
+                            Table = "MusicianProfile"
+                        },
+                        new
+                        {
+                            Id = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Salary",
+                            Property = "Salary",
+                            Table = "MusicianProfile"
+                        },
+                        new
+                        {
+                            Id = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Inquery",
+                            Property = "Inquery",
+                            Table = "MusicianProfile"
+                        },
+                        new
+                        {
+                            Id = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Available document status",
+                            Property = "AvailableDocumentStatus",
+                            Table = "MusicianProfile"
+                        },
+                        new
+                        {
+                            Id = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Status",
+                            Property = "Status",
+                            Table = "Audition"
+                        },
+                        new
+                        {
+                            Id = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Repetitor status",
+                            Property = "RepetitorStatus",
+                            Table = "Audition"
                         });
                 });
 
@@ -2397,7 +3222,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -2406,7 +3232,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("SelectValueCategoryId")
                         .HasColumnType("uniqueidentifier");
@@ -2833,6 +3660,30 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("5578f637-14b7-4c11-85a8-0b94d83da678"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
+                            SelectValueId = new Guid("a3be7b91-7548-492e-99dc-2788497f2930")
+                        },
+                        new
+                        {
+                            Id = new Guid("8daa5ae4-3885-4739-803a-693c7cfdf314"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
+                            SelectValueId = new Guid("982a9947-c6f8-4c9a-b96f-2a4825a11496")
+                        },
+                        new
+                        {
+                            Id = new Guid("4ef47024-d8a5-4b2d-8584-aeb29263dddb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
+                            SelectValueId = new Guid("2ecfb104-feb3-406a-b741-0ac9fdd3e8d7")
+                        },
+                        new
+                        {
                             Id = new Guid("34f05f05-ef23-4f36-94e7-73b917530c51"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -2942,7 +3793,331 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9804d695-d8c7-40bd-814f-8458b55fb583"),
                             SelectValueId = new Guid("425f1526-0513-4535-bdd8-47632d82956f")
+                        },
+                        new
+                        {
+                            Id = new Guid("f036bca9-95d4-4526-b845-fff9208ab103"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
+                            SelectValueId = new Guid("3f93768e-ac24-4741-9eb8-49d1e8e4a6e1")
+                        },
+                        new
+                        {
+                            Id = new Guid("6304b935-633d-4bba-a90f-9bd864c867c6"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
+                            SelectValueId = new Guid("e20ff004-aafc-4e28-87f9-0d9c6372951c")
+                        },
+                        new
+                        {
+                            Id = new Guid("20f9698c-2f3d-41fd-9f33-1feeababfb1c"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
+                            SelectValueId = new Guid("35d63f30-8704-47d5-865a-ee713a082433")
+                        },
+                        new
+                        {
+                            Id = new Guid("30f592f6-485a-468a-bfb2-4854be733e74"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
+                            SelectValueId = new Guid("f52b9170-c6f6-4828-b96c-df5dfbe9bd73")
+                        },
+                        new
+                        {
+                            Id = new Guid("42d76464-4b4b-4884-b8e3-1f69baaced4c"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
+                        },
+                        new
+                        {
+                            Id = new Guid("58a0d16f-2dac-4836-930e-1dd320430ef4"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
+                            SelectValueId = new Guid("3c014654-b4c9-4c7a-a251-ae88ad504c8a")
+                        },
+                        new
+                        {
+                            Id = new Guid("459dc1ea-de92-4a26-9b7b-848d67154cae"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
+                            SelectValueId = new Guid("dec26aef-f0de-4c9f-a164-e23e2543c987")
+                        },
+                        new
+                        {
+                            Id = new Guid("2fbb99cd-d14a-4b7c-b7fb-9b676f961e2c"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
+                            SelectValueId = new Guid("d53b4a35-f472-42a1-ab22-c7afb1e7d77e")
+                        },
+                        new
+                        {
+                            Id = new Guid("d80bf2be-de2f-4d72-ba02-6081b5ba77d2"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
+                        },
+                        new
+                        {
+                            Id = new Guid("68e947c0-9450-4b64-90d7-553850396a3f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
+                            SelectValueId = new Guid("1f0e9a86-4641-4d7e-8413-a1beba0e8afb")
+                        },
+                        new
+                        {
+                            Id = new Guid("60c1a391-59b4-4cea-ba83-59e09f7512b6"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
+                            SelectValueId = new Guid("5850e103-4ac9-472e-85f2-cddc08732ccc")
+                        },
+                        new
+                        {
+                            Id = new Guid("ab5c5904-2683-47c4-a436-319303b8e62f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
+                            SelectValueId = new Guid("5db547d6-c115-4409-8db7-59374ca2af83")
+                        },
+                        new
+                        {
+                            Id = new Guid("a15014ad-582e-4388-9b58-aceb52cf41bf"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
+                        },
+                        new
+                        {
+                            Id = new Guid("90b5cfa9-890b-4b89-a750-646f3a26db23"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
+                            SelectValueId = new Guid("0d1073cd-f6d5-4572-87ac-98ab6f15c05a")
+                        },
+                        new
+                        {
+                            Id = new Guid("be152c92-b807-4850-8327-9d1916dabead"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
+                            SelectValueId = new Guid("166edc65-9915-4836-b0a3-3c60ad0bcc04")
+                        },
+                        new
+                        {
+                            Id = new Guid("7b8defe6-9922-43d6-8df0-3a73f47d6980"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
+                            SelectValueId = new Guid("33e57595-2166-4cce-aa34-60d7148ae9f7")
+                        },
+                        new
+                        {
+                            Id = new Guid("0e997440-53f2-4823-8581-4d4716525885"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
+                            SelectValueId = new Guid("42f546ab-1b96-4eab-88a4-753cad8392c1")
+                        },
+                        new
+                        {
+                            Id = new Guid("fab42540-8c9d-4b18-9341-660f60dd7644"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
+                            SelectValueId = new Guid("33bbdccf-59a9-4b05-bdac-af50137cecb3")
+                        },
+                        new
+                        {
+                            Id = new Guid("3acd5be1-5fbc-4de4-a45c-2e230c413c85"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
+                            SelectValueId = new Guid("6307ec0e-482a-4777-8b2e-4e8cd5d1f252")
+                        },
+                        new
+                        {
+                            Id = new Guid("24c5bbe1-37eb-4368-ac7c-a6061058bbef"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
+                        },
+                        new
+                        {
+                            Id = new Guid("a88b874f-9879-482f-85ec-1ddda9bb545c"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
+                            SelectValueId = new Guid("45d534e3-6605-42f0-ae57-1a943e18a9cd")
+                        },
+                        new
+                        {
+                            Id = new Guid("9808c1f6-0bbd-4054-acca-779d56a8a934"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
+                            SelectValueId = new Guid("0141e712-7080-4e3d-8145-44a3080aa274")
+                        },
+                        new
+                        {
+                            Id = new Guid("0d1b888f-0f45-4f02-806b-480d5594bd27"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
+                            SelectValueId = new Guid("6bdf5666-65ef-475a-9c48-9a38f18de041")
+                        },
+                        new
+                        {
+                            Id = new Guid("98addc5f-f2fa-4640-8441-d4220b7daea2"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
+                        },
+                        new
+                        {
+                            Id = new Guid("f9cc5445-8a6e-480b-bffb-410089f55896"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
+                            SelectValueId = new Guid("c0911d95-0c6d-4834-840c-43cddf3c51a0")
+                        },
+                        new
+                        {
+                            Id = new Guid("a3e5843b-05c3-452c-a29d-da8de738181a"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
+                            SelectValueId = new Guid("0cf5b2e2-4f01-441a-adc8-a975c7494fd7")
+                        },
+                        new
+                        {
+                            Id = new Guid("1b53d96a-f9a1-4037-b103-f7aae9b278d7"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
+                            SelectValueId = new Guid("c1951202-0e6e-41f7-bf07-5cefe47efade")
+                        },
+                        new
+                        {
+                            Id = new Guid("edfad6f1-6584-4798-a09a-9f6146127d82"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
+                            SelectValueId = new Guid("3550443d-5acf-4159-bd59-d7da04dd9434")
+                        },
+                        new
+                        {
+                            Id = new Guid("f1626a63-6bf1-442a-86ad-8a86242bde94"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
+                            SelectValueId = new Guid("d075dda3-ba29-472b-a699-1f92c1af13a9")
+                        },
+                        new
+                        {
+                            Id = new Guid("887e7e2e-0c90-4c4c-9504-3f2a5af7fbcb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
+                            SelectValueId = new Guid("e340f76d-074b-40e8-85b0-1bb66a596a06")
+                        },
+                        new
+                        {
+                            Id = new Guid("4298e1f5-ea1d-4a83-9b32-e5dc3a7cbca9"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
+                            SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0")
                         });
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.SphereOfActivityConcert", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VenueId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte>("Rating")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("MusicianProfileId", "VenueId");
+
+                    b.HasIndex("VenueId");
+
+                    b.ToTable("SphereOfActivityConcerts");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.SphereOfActivityRehearsal", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VenueId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte>("Rating")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("MusicianProfileId", "VenueId");
+
+                    b.HasIndex("VenueId");
+
+                    b.ToTable("SphereOfActivityRehearsals");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Url", b =>
@@ -2959,7 +4134,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -2972,7 +4148,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
@@ -2996,7 +4173,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -3008,7 +4186,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("UrlId", "RoleId");
 
@@ -3105,7 +4284,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
@@ -3118,7 +4298,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -3206,7 +4387,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Region", "Region")
                         .WithMany("Addresses")
                         .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Region");
                 });
@@ -3216,32 +4397,32 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Category")
                         .WithMany("AppointmentsAsCategory")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Emolument")
                         .WithMany("AppointmentsAsEmolument")
                         .HasForeignKey("EmolumentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "EmolumentPattern")
                         .WithMany("AppointmentsAsEmolumentPattern")
                         .HasForeignKey("EmolumentPatternId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Expectation")
                         .WithMany("AppointmentsAsExpectation")
                         .HasForeignKey("ExpectationId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
                         .WithMany("AppointmentsAsStatus")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("Appointments")
                         .HasForeignKey("VenueId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Category");
 
@@ -3261,24 +4442,24 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("AppointmentParticipations")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("AppointmentParticipations")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Prediction")
                         .WithMany("AppointmentParticipationsAsPrediction")
                         .HasForeignKey("PredictionId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Result")
                         .WithMany("AppointmentParticipationsAsResult")
                         .HasForeignKey("ResultId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
@@ -3294,33 +4475,153 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("AppointmentRooms")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
                         .WithMany("AppointmentRooms")
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
                     b.Navigation("Room");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Audition", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
+                        .WithOne("Audition")
+                        .HasForeignKey("Orso.Arpa.Domain.Entities.Audition", "AppointmentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "RepetitorStatus")
+                        .WithMany("AuditionsAsRepetitorStatus")
+                        .HasForeignKey("RepetitorStatusId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
+                        .WithMany("AuditionsAsStatus")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("RepetitorStatus");
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.AvailableDocument", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("AvailableDocumentStatus")
+                        .HasForeignKey("MusicianProfileId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "SelectValueMapping")
+                        .WithMany("AvailableDocumentStatus")
+                        .HasForeignKey("SelectValueMappingId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("MusicianProfile");
+
+                    b.Navigation("SelectValueMapping");
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Inquery")
+                        .WithMany("MusicianProfilesAsInquery")
+                        .HasForeignKey("InqueryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.Section", "Instrument")
+                        .WithMany("MusicianProfiles")
+                        .HasForeignKey("InstrumentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("MusicianProfiles")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
+                    b.HasOne("Orso.Arpa.Domain.Entities.Position", "PreferredPosition")
                         .WithMany("MusicianProfiles")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PreferredPositionId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Qualification")
+                        .WithMany("MusicianProfilesAsQualification")
+                        .HasForeignKey("QualificationId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Salary")
+                        .WithMany("MusicianProfilesAsSalary")
+                        .HasForeignKey("SalaryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Inquery");
+
+                    b.Navigation("Instrument");
 
                     b.Navigation("Person");
+
+                    b.Navigation("PreferredPosition");
+
+                    b.Navigation("Qualification");
+
+                    b.Navigation("Salary");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileCredential", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Credential", "Credential")
+                        .WithMany("MusicianProfileCredentials")
+                        .HasForeignKey("CredentialId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("MusicianProfileCredentials")
+                        .HasForeignKey("MusicianProfileId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Credential");
+
+                    b.Navigation("MusicianProfile");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileEducation", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Education", "Education")
+                        .WithMany("MusicianProfileEducations")
+                        .HasForeignKey("EducationId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("MusicianProfileEducations")
+                        .HasForeignKey("MusicianProfileId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Education");
+
+                    b.Navigation("MusicianProfile");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileSection", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("DoublingInstruments")
+                        .HasForeignKey("MusicianProfileId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
+                        .WithMany("MusicianProfileSections")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("MusicianProfile");
 
                     b.Navigation("Section");
                 });
@@ -3330,16 +4631,44 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("StakeholderGroups")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("StakeholderGroups")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");
 
                     b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Position", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
+                        .WithMany("Positions")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredGenre", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("PreferredGenres")
+                        .HasForeignKey("MusicianProfileId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "SelectValueMapping")
+                        .WithMany("PreferredGenres")
+                        .HasForeignKey("SelectValueMappingId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("MusicianProfile");
+
+                    b.Navigation("SelectValueMapping");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Project", b =>
@@ -3352,7 +4681,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "State")
                         .WithMany("ProjectsAsState")
@@ -3378,12 +4707,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("ProjectAppointments")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("ProjectAppointments")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
@@ -3395,13 +4724,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("ProjectParticipations")
                         .HasForeignKey("MusicianProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("ProjectParticipations")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("MusicianProfile");
@@ -3425,7 +4754,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("Rooms")
                         .HasForeignKey("VenueId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Venue");
@@ -3436,7 +4765,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
                 });
@@ -3446,12 +4775,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("SectionAppointments")
                         .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("SectionAppointments")
                         .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
 
@@ -3463,13 +4792,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueCategory", "SelectValueCategory")
                         .WithMany("SelectValueMappings")
                         .HasForeignKey("SelectValueCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValue", "SelectValue")
                         .WithMany("SelectValueMappings")
                         .HasForeignKey("SelectValueId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("SelectValue");
@@ -3477,12 +4806,46 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("SelectValueCategory");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.SphereOfActivityConcert", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("SphereOfActivityConcerts")
+                        .HasForeignKey("MusicianProfileId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
+                        .WithMany("SphereOfActivityConcerts")
+                        .HasForeignKey("VenueId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("MusicianProfile");
+
+                    b.Navigation("Venue");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.SphereOfActivityRehearsal", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("SphereOfActivityRehearsals")
+                        .HasForeignKey("MusicianProfileId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
+                        .WithMany("SphereOfActivityRehearsals")
+                        .HasForeignKey("VenueId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("MusicianProfile");
+
+                    b.Navigation("Venue");
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Url", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("Urls")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -3493,12 +4856,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Role", "Role")
                         .WithMany("UrlRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Url", "Url")
                         .WithMany("UrlRoles")
                         .HasForeignKey("UrlId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Role");
 
@@ -3510,7 +4873,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithOne("User")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.User", "PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");
                 });
@@ -3520,7 +4883,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Address", "Address")
                         .WithOne("Venue")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.Venue", "AddressId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Address");
                 });
@@ -3530,12 +4893,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("Addresses")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
                         .WithMany("PersonAddresses")
                         .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");
 
@@ -3553,14 +4916,40 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("AppointmentRooms");
 
+                    b.Navigation("Audition");
+
                     b.Navigation("ProjectAppointments");
 
                     b.Navigation("SectionAppointments");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Credential", b =>
+                {
+                    b.Navigation("MusicianProfileCredentials");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Education", b =>
+                {
+                    b.Navigation("MusicianProfileEducations");
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
+                    b.Navigation("AvailableDocumentStatus");
+
+                    b.Navigation("DoublingInstruments");
+
+                    b.Navigation("MusicianProfileCredentials");
+
+                    b.Navigation("MusicianProfileEducations");
+
+                    b.Navigation("PreferredGenres");
+
                     b.Navigation("ProjectParticipations");
+
+                    b.Navigation("SphereOfActivityConcerts");
+
+                    b.Navigation("SphereOfActivityRehearsals");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Person", b =>
@@ -3574,6 +4963,11 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("StakeholderGroups");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Position", b =>
+                {
+                    b.Navigation("MusicianProfiles");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Project", b =>
@@ -3608,6 +5002,10 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("MusicianProfiles");
 
+                    b.Navigation("MusicianProfileSections");
+
+                    b.Navigation("Positions");
+
                     b.Navigation("SectionAppointments");
 
                     b.Navigation("StakeholderGroups");
@@ -3639,7 +5037,21 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("AppointmentsAsStatus");
 
+                    b.Navigation("AuditionsAsRepetitorStatus");
+
+                    b.Navigation("AuditionsAsStatus");
+
+                    b.Navigation("AvailableDocumentStatus");
+
+                    b.Navigation("MusicianProfilesAsInquery");
+
+                    b.Navigation("MusicianProfilesAsQualification");
+
+                    b.Navigation("MusicianProfilesAsSalary");
+
                     b.Navigation("PersonAddresses");
+
+                    b.Navigation("PreferredGenres");
 
                     b.Navigation("ProjectsAsGenre");
 
@@ -3663,6 +5075,10 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("Rooms");
+
+                    b.Navigation("SphereOfActivityConcerts");
+
+                    b.Navigation("SphereOfActivityRehearsals");
                 });
 #pragma warning restore 612, 618
         }

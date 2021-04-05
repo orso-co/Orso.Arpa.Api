@@ -12,7 +12,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Address)
                 .WithOne(a => a.Venue)
                 .HasForeignKey<Venue>(e => e.AddressId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Property(e => e.Name)

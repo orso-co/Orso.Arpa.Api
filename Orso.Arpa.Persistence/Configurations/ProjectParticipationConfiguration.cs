@@ -12,13 +12,13 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Project)
                 .WithMany(p => p.ProjectParticipations)
                 .HasForeignKey(e => e.ProjectId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.MusicianProfile)
                 .WithMany(m => m.ProjectParticipations)
                 .HasForeignKey(e => e.MusicianProfileId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

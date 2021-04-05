@@ -12,26 +12,25 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Person)
                 .WithMany(p => p.AppointmentParticipations)
                 .HasForeignKey(e => e.PersonId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Appointment)
                 .WithMany(a => a.AppointmentParticipations)
                 .HasForeignKey(e => e.AppointmentId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Result)
                 .WithMany(c => c.AppointmentParticipationsAsResult)
                 .HasForeignKey(e => e.ResultId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
 
-            // ToDo: Set null in code
             builder
                 .HasOne(e => e.Prediction)
                 .WithMany(c => c.AppointmentParticipationsAsPrediction)
                 .HasForeignKey(e => e.PredictionId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
