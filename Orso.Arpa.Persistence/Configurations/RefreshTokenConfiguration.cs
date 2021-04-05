@@ -12,7 +12,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(a => a.User)
                 .WithMany(r => r.RefreshTokens)
                 .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .Property(a => a.CreatedByIp)
