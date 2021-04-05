@@ -10,8 +10,8 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210329151113_ProjectUrls")]
-    partial class ProjectUrls
+    [Migration("20210405093716_DeleteBehaviorForRefreshToken")]
+    partial class DeleteBehaviorForRefreshToken
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
