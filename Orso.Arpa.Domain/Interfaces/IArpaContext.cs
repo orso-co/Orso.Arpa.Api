@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -37,5 +38,6 @@ namespace Orso.Arpa.Domain.Interfaces
         EntityEntry Remove(object entity);
 
         EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
+        Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity;
     }
 }

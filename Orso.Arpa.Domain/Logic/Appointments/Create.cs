@@ -1,5 +1,8 @@
 using System;
+using FluentValidation;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Extensions;
+using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -18,6 +21,18 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public Guid? EmolumentId { get; set; }
             public Guid? EmolumentPatternId { get; set; }
             public Guid? ExpectationId { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IArpaContext arpaContext)
+            {
+                RuleFor(d => d.EmolumentId)
+                    .EntityExists<Command, SelectValueMapping>(arpaContext);
+
+                RuleFor(d => d.EmolumentId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Emolument);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -16,9 +17,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     {
         private IArpaContext _arpaContext;
         private Validator _validator;
-        private DbSet<Appointment> _mockAppointments;
         private DbSet<AppointmentRoom> _mockAppointmentRooms;
-        private DbSet<Room> _mockRooms;
         private Guid _validAppointmentId;
         private Guid _validRoomId;
 
@@ -27,13 +26,8 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext);
-            _mockAppointments = MockDbSets.Appointments;
             _mockAppointmentRooms = MockDbSets.AppointmentRooms;
-            _mockRooms = MockDbSets.Rooms;
-            _arpaContext.Set<Appointment>().Returns(_mockAppointments);
-            _arpaContext.Set<AppointmentRoom>().Returns(_mockAppointmentRooms);
             _arpaContext.AppointmentRooms.Returns(_mockAppointmentRooms);
-            _arpaContext.Set<Room>().Returns(_mockRooms);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validRoomId = RoomSeedData.MusikraumWeiherhofSchule.Id;
         }
@@ -41,18 +35,22 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(c => c.Id, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, _validRoomId));
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_RoomId_Does_Not_Exist()
         {
+            _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(c => c.RoomId, Guid.NewGuid());
         }
 
@@ -60,7 +58,8 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Room_Is_Already_Linked()
         {
             Guid linkedRoomId = RoomSeedData.AulaWeiherhofSchule.Id;
-
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.RoomId, new Command(_validAppointmentId, linkedRoomId));
         }
     }

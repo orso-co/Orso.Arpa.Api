@@ -73,6 +73,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PublicDetails = "Public Details",
                 EndTime = new DateTime(2021, 3, 5, 14, 15, 20),
                 StartTime = new DateTime(2021, 3, 5, 9, 15, 20),
+                EmolumentId = Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b")
             };
 
             var expectedDto = new AppointmentDto
@@ -86,7 +87,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PublicDetails = createDto.PublicDetails,
                 EndTime = createDto.EndTime,
                 StartTime = createDto.StartTime,
-                StatusId = createDto.StatusId
+                StatusId = createDto.StatusId,
+                EmolumentId = createDto.EmolumentId
             };
 
             // Act

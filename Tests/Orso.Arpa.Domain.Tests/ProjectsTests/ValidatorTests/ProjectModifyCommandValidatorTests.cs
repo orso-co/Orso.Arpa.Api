@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -25,7 +26,6 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _mockProjectDbSet = MockDbSets.Projects;
 
             _arpaContext.Projects.Returns(_mockProjectDbSet);
-            _arpaContext.Set<Project>().Returns(_mockProjectDbSet);
 
             _validator = new Validator(_arpaContext);
         }
@@ -33,7 +33,8 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Duplicate_Number()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command() {
+            _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command()
+            {
                 Id = ProjectSeedData.RockingXMas.Id,
                 Number = ProjectSeedData.HoorayForHollywood.Number
             });
@@ -62,6 +63,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(c => c.Id, new Command()
             {
                 Id = Guid.NewGuid(),
@@ -72,6 +74,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
@@ -82,6 +85,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_ParentId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.ParentId, new Command()
             {
                 Id = ProjectSeedData.HoorayForHollywood.Id,
@@ -93,6 +97,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_ParentId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(command => command.ParentId, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
