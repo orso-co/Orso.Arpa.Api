@@ -28,10 +28,19 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.EmolumentId)
-                    .EntityExists<Command, SelectValueMapping>(arpaContext);
-
-                RuleFor(d => d.EmolumentId)
                     .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Emolument);
+
+                RuleFor(d => d.EmolumentPatternId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.EmolumentPattern);
+
+                RuleFor(d => d.ExpectationId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Expectation);
+
+                RuleFor(d => d.StatusId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Status);
+
+                RuleFor(d => d.CategoryId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Category);
             }
         }
     }

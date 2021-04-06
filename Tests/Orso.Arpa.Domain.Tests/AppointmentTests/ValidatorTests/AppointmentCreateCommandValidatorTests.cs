@@ -8,13 +8,12 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Appointments.Modify;
+using static Orso.Arpa.Domain.Logic.Appointments.Create;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {
     [TestFixture]
-    public class AppointmentModifyCommandValidatorTests
+    public class AppointmentCreateCommandValidatorTests
     {
         private IArpaContext _arpaContext;
         private Validator _validator;
@@ -24,23 +23,9 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
+            _validator = new Validator(_arpaContext);
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
             _arpaContext.SelectValueCategories.Returns(_mockSelectValueCategoryDbSet);
-            _validator = new Validator(_arpaContext);
-        }
-
-        [Test]
-        public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
-        {
-            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.Id, Guid.NewGuid());
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, AppointmentSeedData.RockingXMasRehearsal.Id);
         }
 
         [Test]

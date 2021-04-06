@@ -64,6 +64,16 @@ namespace Orso.Arpa.Domain.Logic.Projects
 
                 RuleFor(c => c.ParentId)
                     .EntityExists<Command, Project>(arpaContext);
+
+
+                RuleFor(d => d.StateId)
+                    .SelectValueMapping<Command, Project>(arpaContext, a => a.State);
+
+                RuleFor(d => d.GenreId)
+                   .SelectValueMapping<Command, Project>(arpaContext, a => a.Genre);
+
+                RuleFor(d => d.TypeId)
+                   .SelectValueMapping<Command, Project>(arpaContext, a => a.Type);
             }
         }
     }

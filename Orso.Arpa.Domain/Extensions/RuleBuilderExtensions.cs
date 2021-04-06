@@ -55,16 +55,15 @@ namespace Orso.Arpa.Domain.Extensions
         public static IRuleBuilderOptions<TRequest, Guid?> SelectValueMapping<TRequest, TEntity>(
             this IRuleBuilderInitial<TRequest, Guid?> ruleBuilderInitial,
             IArpaContext arpaContext,
-            Expression<Func<TEntity, SelectValueMapping>> propertyPath) where TRequest : IRequest<TEntity> where TEntity : BaseEntity
+            Expression<Func<TEntity, SelectValueMapping>> propertyPath) where TRequest : IBaseRequest where TEntity : BaseEntity
         {
             var member = propertyPath.Body as MemberExpression;
             var propInfo = member.Member as PropertyInfo;
-            var tableName = typeof(TEntity).Name;
-            var propertyName = propInfo.Name;
 
             return ruleBuilderInitial
+                .EntityExists<TRequest, SelectValueMapping>(arpaContext)
                 .MustAsync(async (selectValueMappingId, cancellation) => !selectValueMappingId.HasValue || (await arpaContext.SelectValueCategories
-                    .SingleAsync(category => category.Table == tableName && category.Property == propertyName, cancellation))
+                    .SingleAsync(category => category.Table == typeof(TEntity).Name && category.Property == propInfo.Name, cancellation))
                     .SelectValueMappings.Any(mapping => mapping.Id == selectValueMappingId.Value))
                 .WithMessage("The selected value is not valid for this field");
         }
