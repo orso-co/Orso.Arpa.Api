@@ -19,13 +19,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_RoleId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.roleId, Guid.Empty);
+            _validator.ShouldHaveValidationErrorFor(command => command.RoleId, Guid.Empty);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_RoleId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.roleId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorFor(command => command.RoleId, Guid.NewGuid());
         }
     }
 }

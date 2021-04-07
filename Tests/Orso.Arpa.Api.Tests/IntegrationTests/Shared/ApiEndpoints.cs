@@ -95,6 +95,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             private static string Urls => $"{Base}/urls";
 
+            public static string Get(Guid id) => $"{Urls}/{id}";
+
             public static string Put(Guid id) => $"{Urls}/{id}";
 
             public static string Delete(Guid id) => $"{Urls}/{id}";

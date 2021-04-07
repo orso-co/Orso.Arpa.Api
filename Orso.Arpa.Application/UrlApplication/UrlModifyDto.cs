@@ -18,7 +18,10 @@ namespace Orso.Arpa.Application.UrlApplication
     {
         public UrlModifyDtoMappingProfile()
         {
-            CreateMap<UrlModifyDto, Command>();
+            CreateMap<UrlModifyDto, Command>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
+                .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText));
         }
     }
 
