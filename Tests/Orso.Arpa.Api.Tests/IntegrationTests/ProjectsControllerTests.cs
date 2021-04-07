@@ -8,7 +8,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
@@ -307,29 +306,22 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test]
-        public async Task Should_Add()
+        public async Task Should_Add_Url()
         {
             // Arrange
-            ProjectDto project = ProjectDtoData.HoorayForHollywood;
-            var url = new UrlCreateDto { Href = "http://google.de", AnchorText = "hallo google" };
+            ProjectDto expectedDto = ProjectDtoData.HoorayForHollywood;
+            expectedDto.Urls.Add(UrlDtoData.ArpaWebsite);
+
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
-            // Act: add url to project
+            // Act
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.ProjectsController.Post(project.Id), BuildStringContent(url));
+                .PostAsync(ApiEndpoints.ProjectsController.Post(expectedDto.Id), BuildStringContent(UrlDtoData.ArpaWebsite));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-            // Act: get project to validate that url has been added to list of urls
-            //responseMessage = await client
-            //    .GetAsync(ApiEndpoints.UrlsController.Get(project.Id));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            //ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-
-            //TODO prüfen, dass die neue URL jetzt zum Projekt hinzugefügt wurde
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
         }
     }
 }
