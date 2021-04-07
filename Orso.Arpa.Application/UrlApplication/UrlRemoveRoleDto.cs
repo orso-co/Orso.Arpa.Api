@@ -8,7 +8,6 @@ namespace Orso.Arpa.Application.AppointmentApplication
     public class UrlRemoveRoleDto
     {
         public Guid Id { get; set; }
-
         public Guid RoleId { get; set; }
     }
 

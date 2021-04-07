@@ -4,118 +4,111 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     [TestFixture]
     public class UrlControllerTests : IntegrationTestBase
     {
-        [Test]
-        public async Task Should_Add()
+        [Test, Order(1)]
+        public async Task Should_Get_By_Id()
         {
             // Arrange
-            ProjectDto project = ProjectDtoData.HoorayForHollywood;
-            var url = new UrlCreateDto { Href = "http://google.de", AnchorText = "hallo google" };
+            UrlDto expectedUrl = UrlDtoData.ArpaWebsite;
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
-            // Act: add url to project
+            // Act
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.UrlsController.Post(project.Id), BuildStringContent(url));
+                .GetAsync(ApiEndpoints.UrlsController.Get(expectedUrl.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-            // Act: get project to validate that url has been added to list of urls
-            //responseMessage = await client
-            //    .GetAsync(ApiEndpoints.UrlsController.Get(project.Id));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            //ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-
-            //TODO prüfen, dass die neue URL jetzt zum Projekt hinzugefügt wurde
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedUrl);
         }
 
-        [Test]
+        [Test, Order(2)]
         public async Task Should_Modify()
         {
             // Arrange
-            ProjectDto project = ProjectDtoData.HoorayForHollywood;
-            UrlDto existing = UrlDtoData.GoogleDe;
-            var url = new UrlModifyDto
+            UrlDto urlToModify = UrlDtoData.GoogleDe;
+            var modifyDto = new UrlModifyDto
             {
-                Href = "http://google.com",
-                AnchorText = existing.AnchorText,
-                Id = existing.Id,
+                Href = "http://google.de/modified",
+                AnchorText = "modified anchor",
+                Id = urlToModify.Id,
             };
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
-            // Act: take first url of project and replace with new contents
+            // Act
             HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.UrlsController.Put(existing.Id), BuildStringContent(url));
+                .PutAsync(ApiEndpoints.UrlsController.Put(urlToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-            //// Act: get project to validate that url has been changed
-            //responseMessage = await client
-            //    .GetAsync(ApiEndpoints.UrlController.Get(project.Id));
-
-            //// Assert
-            //responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            //ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-
-            ////TODO prüfen, dass die neue URL geändert wurde
         }
 
-        [Test]
+        [Test, Order(100)]
         public async Task Should_Delete()
         {
             // Arrange
-            ProjectDto project = ProjectDtoData.HoorayForHollywood;
+            UrlDto urlToDelete = ProjectDtoData.HoorayForHollywood.Urls[0];
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             // Act: delete url from projects list of urls
             HttpResponseMessage responseMessage = await client
-                .DeleteAsync(ApiEndpoints.UrlsController.Delete(project.Urls[0].Id));
+                .DeleteAsync(ApiEndpoints.UrlsController.Delete(urlToDelete.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            HttpResponseMessage getResponseMessage = await client
+                .GetAsync(ApiEndpoints.UrlsController.Get(urlToDelete.Id));
+            getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        [Test]
+        [Test, Order(10)]
         public async Task Should_Add_Role()
         {
             // Arrange
             UrlDto expectedDto = UrlDtoData.ArpaWebsite;
             expectedDto.Roles.Add(RoleDtoData.Performer);
+            var addRoleDto = new UrlAddRoleDto { RoleId = RoleDtoData.Performer.Id };
 
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.UrlsController.AddRole(expectedDto.Id, RoleDtoData.Staff.Id), null);
+                .PostAsync(ApiEndpoints.UrlsController.AddRole(expectedDto.Id), BuildStringContent(addRoleDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto);
         }
+
+        [Test, Order(11)]
         public async Task Should_Remove_Role()
         {
+            // Arrange
+            UrlDto expectedDto = UrlDtoData.ArpaWebsite;
+            expectedDto.Roles.Clear();
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
                 .DeleteAsync(ApiEndpoints.UrlsController.RemoveRole(
-                    UrlDtoData.ArpaWebsite.Id,
-                    UrlDtoData.ArpaWebsite.Roles[0].Id));
+                    UrlSeedData.ArpaWebsite.Id,
+                    RoleSeedData.Staff.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
         }
-
     }
 }

@@ -8,6 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -299,6 +300,32 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test]
+        public async Task Should_Add()
+        {
+            // Arrange
+            ProjectDto project = ProjectDtoData.HoorayForHollywood;
+            var url = new UrlCreateDto { Href = "http://google.de", AnchorText = "hallo google" };
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+
+            // Act: add url to project
+            HttpResponseMessage responseMessage = await client
+                .PostAsync(ApiEndpoints.ProjectsController.Post(project.Id), BuildStringContent(url));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            // Act: get project to validate that url has been added to list of urls
+            //responseMessage = await client
+            //    .GetAsync(ApiEndpoints.UrlsController.Get(project.Id));
+
+            //// Assert
+            //responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            //ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+
+            //TODO prüfen, dass die neue URL jetzt zum Projekt hinzugefügt wurde
         }
     }
 }

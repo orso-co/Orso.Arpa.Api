@@ -6,6 +6,7 @@ using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.Services
@@ -21,6 +22,11 @@ namespace Orso.Arpa.Application.Services
     {
         public ProjectService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
+        }
+
+        public Task<UrlDto> AddUrlAsync(UrlCreateDto urlCreateDto)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<ProjectDto>> GetAsync(bool includeCompleted)

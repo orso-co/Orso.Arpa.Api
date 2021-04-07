@@ -51,7 +51,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Guid.Parse("be021bf0-db90-4a05-9d7c-0e98c9a3f893"),
             "Google DE",
             "https://www.google.de",
-            new List<RoleDto> { },
+            new List<RoleDto>(),
             "anonymous",
             new DateTime(2021, 1, 1)
             );

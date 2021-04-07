@@ -8,15 +8,18 @@ namespace Orso.Arpa.Application.UrlApplication
 {
     public class UrlCreateDto
     {
+        public Guid Id { get; set; }
         public string Href { get; set; }
         public string AnchorText { get; set; }
-        public Guid Id { get; set; }
     }
     public class UrlCreateDtoMappingProfile : Profile
     {
         public UrlCreateDtoMappingProfile()
         {
-            CreateMap<UrlCreateDto, Command>();
+            CreateMap<UrlCreateDto, Command>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
+                .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText));
         }
     }
 
