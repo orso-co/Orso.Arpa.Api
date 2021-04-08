@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -19,8 +20,6 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         private Validator _validator;
         private Guid _validAppointmentId;
         private Guid _validSectionId;
-        private DbSet<Appointment> _mockAppointments;
-        private DbSet<Section> _mockSections;
         private DbSet<SectionAppointment> _mockSectionAppointments;
 
         [SetUp]
@@ -30,36 +29,37 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _validator = new Validator(_arpaContext);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validSectionId = SectionSeedData.LowFemaleVoices.Id;
-            _mockAppointments = MockDbSets.Appointments;
             _mockSectionAppointments = MockDbSets.SectionAppointments;
-            _mockSections = MockDbSets.Sections;
-            _arpaContext.Set<Appointment>().Returns(_mockAppointments);
             _arpaContext.SectionAppointments.Returns(_mockSectionAppointments);
-            _arpaContext.Set<SectionAppointment>().Returns(_mockSectionAppointments);
-            _arpaContext.Set<Section>().Returns(_mockSections);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(c => c.Id, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, _validSectionId));
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_SectionId_Does_Not_Exist()
         {
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(c => c.SectionId, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Section_Is_Already_Linked()
         {
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.SectionId, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
     }
