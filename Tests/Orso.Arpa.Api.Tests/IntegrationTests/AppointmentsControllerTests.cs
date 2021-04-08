@@ -26,12 +26,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1)]
         public async Task Should_Get_Appointments()
         {
+            // Arrange
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForPerformer;
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
             .CreateClient()
             .AuthenticateWith(_performer)
             .GetAsync(ApiEndpoints.AppointmentsController.Get(new DateTime(2019, 12, 21), DateRange.Day));
-            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -44,8 +46,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(2)]
         public async Task Should_Get_By_Id()
         {
+            // Arrange
             using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
-            AppointmentDto expectedAppointment = AppointmentDtoData.RockingXMasRehearsal;
+            AppointmentDto expectedAppointment = AppointmentDtoData.RockingXMasRehearsalForPerformer;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -119,7 +122,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(100)]
         public async Task Should_Add_Section()
         {
-            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForStaff;
             expectedDto.Participations.RemoveAt(1);
             expectedDto.Participations.RemoveAt(1);
             expectedDto.Sections.Add(new SectionDto() { Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), Name = "Alto" });
@@ -310,7 +313,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Remove_Section()
         {
             // Arrange
-            AppointmentDto expectedDto = AppointmentDtoData.AfterShowParty;
+            AppointmentDto expectedDto = AppointmentDtoData.AfterShowPartyForStaff;
             expectedDto.Sections.Clear();
 
             // Act

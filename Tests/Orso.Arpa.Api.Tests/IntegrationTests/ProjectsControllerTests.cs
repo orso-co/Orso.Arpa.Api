@@ -20,31 +20,34 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     public class ProjectsControllerTests : IntegrationTestBase
     {
         [Test, Order(1)]
-        public async Task Should_Get_All_Projects()
+        public async Task Should_Get_All_Projects_As_Performer()
         {
+            // Arrange
+            IList<ProjectDto> expectedProjects = ProjectDtoData.ProjectsForPerformer;
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.ProjectsController.Get(true));         
+                .GetAsync(ApiEndpoints.ProjectsController.Get(true));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<ProjectDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectDto>>(responseMessage);
-            result.Should().BeEquivalentTo(ProjectDtoData.Projects);
+            result.Should().BeEquivalentTo(expectedProjects);
         }
 
         [Test, Order(2)]
-        public async Task Should_Get_Only_Completed_Projects()
+        public async Task Should_Get_All_Projects_As_Staff()
         {
             // Arrange
-            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.Projects.Where(p => !p.IsCompleted);
+            IList<ProjectDto> expectedProjects = ProjectDtoData.ProjectsForStaff;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.ProjectsController.Get());               
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.ProjectsController.Get(true));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -53,6 +56,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(3)]
+        public async Task Should_Get_Only_Completed_Projects()
+        {
+            // Arrange
+            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.ProjectsForPerformer.Where(p => !p.IsCompleted);
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.ProjectsController.Get());
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<ProjectDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectDto>>(responseMessage);
+            result.Should().BeEquivalentTo(expectedProjects);
+        }
+
+        [Test, Order(4)]
         public async Task Should_Get_By_Id()
         {
             using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));

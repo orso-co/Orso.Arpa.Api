@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
@@ -33,7 +34,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Domain.Entities.Project project = FakeProjects.RockingXMas;
-            ProjectDto expectedDto = ProjectDtoData.RockingXMas;
+            project.Urls.Remove(project.Urls.First());
+            ProjectDto expectedDto = ProjectDtoData.RockingXMasForPerformer;
 
             // Act
             ProjectDto dto = _mapper.Map<ProjectDto>(project);
