@@ -268,7 +268,7 @@ namespace Orso.Arpa.Api
         {
             services.AddDbContext<ArpaContext>(opt =>
             {
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"));
                 if (_hostingEnvironment.IsDevelopment())
                 {
                     opt.EnableSensitiveDataLogging();
