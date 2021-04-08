@@ -63,9 +63,17 @@ namespace Orso.Arpa.Domain.Logic.Projects
                     .WithMessage("The specified project number is already in use. The project number needs to be unique.");
 
                 RuleFor(c => c.ParentId)
-                    .MustAsync(async (parentId, cancellation) => await arpaContext.Projects.AnyAsync(p => p.Id == parentId.Value, cancellation))
-                    .When(dto => dto.ParentId.HasValue)
-                    .WithMessage("The project could not be found");
+                    .EntityExists<Command, Project>(arpaContext);
+
+
+                RuleFor(d => d.StateId)
+                    .SelectValueMapping<Command, Project>(arpaContext, a => a.State);
+
+                RuleFor(d => d.GenreId)
+                   .SelectValueMapping<Command, Project>(arpaContext, a => a.Genre);
+
+                RuleFor(d => d.TypeId)
+                   .SelectValueMapping<Command, Project>(arpaContext, a => a.Type);
             }
         }
     }

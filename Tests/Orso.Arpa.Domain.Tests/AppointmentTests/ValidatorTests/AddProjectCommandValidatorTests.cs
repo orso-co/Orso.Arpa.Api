@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -22,8 +23,6 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         private Validator _validator;
         private Guid _validAppointmentId;
         private Guid _validProjectId;
-        private DbSet<Project> _mockProjects;
-        private DbSet<Appointment> _mockAppointments;
         private DbSet<ProjectAppointment> _mockProjectAppointments;
 
         [SetUp]
@@ -37,14 +36,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext, localizer);
 
-            _mockProjects = MockDbSets.Projects;
-            _arpaContext.Set<Project>().Returns(_mockProjects);
-
-            _mockAppointments = MockDbSets.Appointments;
-            _arpaContext.Set<Appointment>().Returns(_mockAppointments);
-
             _mockProjectAppointments = MockDbSets.ProjectAppointments;
-            _arpaContext.Set<ProjectAppointment>().Returns(_mockProjectAppointments);
             _arpaContext.ProjectAppointments.Returns(_mockProjectAppointments);
 
             _validAppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id;
@@ -54,18 +46,22 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(c => c.Id, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, _validProjectId));
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_ProjectId_Does_Not_Exist()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(c => c.ProjectId, Guid.NewGuid());
         }
 
@@ -73,7 +69,8 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Project_Is_Already_Linked()
         {
             Guid linkedProjectId = ProjectSeedData.RockingXMas.Id;
-
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, new Command(_validAppointmentId, linkedProjectId));
         }
     }

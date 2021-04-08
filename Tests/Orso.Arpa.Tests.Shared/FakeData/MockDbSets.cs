@@ -13,7 +13,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         public static DbSet<Person> Persons => PersonTestSeedData.Persons.AsQueryable().BuildMockDbSet();
         public static DbSet<Project> Projects => ProjectSeedData.Projects.AsQueryable().BuildMockDbSet();
         public static DbSet<Room> Rooms => RoomSeedData.Rooms.AsQueryable().BuildMockDbSet();
-        public static DbSet<SelectValueMapping> SelectValueMappints => SelectValueMappingSeedData.SelectValueMappings.AsQueryable().BuildMockDbSet();
+        public static DbSet<SelectValueCategory> SelectValueCategories => FakeSelectValueCategories.SelectValueCategories.AsQueryable().BuildMockDbSet();
+        public static DbSet<SelectValue> SelectValues => SelectValueSeedData.SelectValues.AsQueryable().BuildMockDbSet();
+        public static DbSet<SelectValueMapping> SelectValueMappings => SelectValueMappingSeedData.SelectValueMappings.AsQueryable().BuildMockDbSet();
         public static DbSet<ProjectAppointment> ProjectAppointments => AppointmentSeedData.RockingXMasRehearsal.ProjectAppointments.AsQueryable().BuildMockDbSet();
         public static DbSet<AppointmentRoom> AppointmentRooms => AppointmentSeedData.AfterShowParty.AppointmentRooms.AsQueryable().BuildMockDbSet();
         public static DbSet<SectionAppointment> SectionAppointments => AppointmentSeedData.AfterShowParty.SectionAppointments.AsQueryable().BuildMockDbSet();
