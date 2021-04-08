@@ -15,4 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj" />
+  </ItemGroup>
 </Project>
