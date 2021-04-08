@@ -7,19 +7,53 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class ProjectDtoData
     {
-        public static IList<ProjectDto> Projects
+        public static IList<ProjectDto> ProjectsForPerformer
         {
             get
             {
                 return new List<ProjectDto>
                 {
-                    RockingXMas,
+                    RockingXMasForPerformer,
                     HoorayForHollywood
                 };
             }
         }
 
-        public static ProjectDto RockingXMas
+        public static IList<ProjectDto> ProjectsForStaff
+        {
+            get
+            {
+                return new List<ProjectDto>
+                {
+                    RockingXMasForStaff,
+                    HoorayForHollywood
+                };
+            }
+        }
+
+        public static ProjectDto RockingXMasForPerformer
+        {
+            get
+            {
+                ProjectDto dto = RockingXMasBase;
+                dto.Urls.Add(UrlDtoData.OrsoWebsite);
+                dto.Urls.Add(UrlDtoData.Google);
+                return dto;
+            }
+        }
+
+        public static ProjectDto RockingXMasForStaff
+        {
+            get
+            {
+                ProjectDto dto = RockingXMasBase;
+                dto.Urls.Add(UrlDtoData.ArpaWebsite);
+                dto.Urls.Add(UrlDtoData.OrsoWebsite);
+                return dto;
+            }
+        }
+
+        private static ProjectDto RockingXMasBase
         {
             get
             {
@@ -33,11 +67,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                     StartDate = new DateTime(2020, 12, 24),
                     EndDate = new DateTime(2020, 12, 26),
-                    Urls = new List<UrlDto> { UrlDtoData.ArpaWebsite, UrlDtoData.OrsoWebsite, UrlDtoData.Google },
                     StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
                     ParentId = null,
                     IsCompleted = true,
-
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("a19d84f1-4ac1-49c3-abfe-527092b80b6d"),
                     CreatedAt = new DateTime(2021, 1, 1),

@@ -8,13 +8,14 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class AppointmentDtoData
     {
-        public static IList<AppointmentDto> Appointments
+        public static IList<AppointmentDto> AppointmentsForPerformer
         {
             get
             {
                 return new List<AppointmentDto>
                 {
-                    RockingXMasRehearsal,
+                    RockingXMasRehearsalForPerformer,
+                    AfterShowPartyForPerformer,
                     RockingXMasConcert,
                     StaffMeeting,
                     PhotoSession
@@ -22,7 +23,42 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static AppointmentDto RockingXMasRehearsal
+        public static IList<AppointmentDto> AppointmentsForStaff
+        {
+            get
+            {
+                return new List<AppointmentDto>
+                {
+                    RockingXMasRehearsalForStaff,
+                    AfterShowPartyForStaff,
+                    RockingXMasConcert,
+                    StaffMeeting,
+                    PhotoSession
+                };
+            }
+        }
+
+        public static AppointmentDto RockingXMasRehearsalForPerformer
+        {
+            get
+            {
+                AppointmentDto dto = RockingXMasRehearsalBase;
+                dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
+                return dto;
+            }
+        }
+
+        public static AppointmentDto RockingXMasRehearsalForStaff
+        {
+            get
+            {
+                AppointmentDto dto = RockingXMasRehearsalBase;
+                dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
+                return dto;
+            }
+        }
+
+        private static AppointmentDto RockingXMasRehearsalBase
         {
             get
             {
@@ -46,7 +82,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.Participations.Add(PerformerParticipation);
                 dto.Participations.Add(StaffParticipation);
                 dto.Participations.Add(AdminParticipation);
-                dto.Projects.Add(ProjectDtoData.RockingXMas);
                 return dto;
             }
         }
@@ -140,7 +175,27 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static AppointmentDto AfterShowParty
+        public static AppointmentDto AfterShowPartyForPerformer
+        {
+            get
+            {
+                AppointmentDto dto = AfterShowPartyBase;
+                dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
+                return dto;
+            }
+        }
+
+        public static AppointmentDto AfterShowPartyForStaff
+        {
+            get
+            {
+                AppointmentDto dto = AfterShowPartyBase;
+                dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
+                return dto;
+            }
+        }
+
+        private static AppointmentDto AfterShowPartyBase
         {
             get
             {
@@ -162,7 +217,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedAt = new DateTime(2021, 1, 1)
                 };
                 dto.Sections.Add(SectionDtoData.Alto);
-                dto.Projects.Add(ProjectDtoData.RockingXMas);
                 dto.Rooms.Add(RoomDtoData.AulaWeiherhofSchule);
                 AppointmentParticipationListItemDto performerParticipation = PerformerParticipation;
                 performerParticipation.Participation = null;

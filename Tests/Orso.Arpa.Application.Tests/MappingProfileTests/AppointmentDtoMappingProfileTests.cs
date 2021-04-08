@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
@@ -36,7 +37,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMasRehearsal;
-            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
+            appointment.ProjectAppointments.First().Project.Urls.Remove(appointment.ProjectAppointments.First().Project.Urls.First());
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForPerformer;
 
             // Act
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
