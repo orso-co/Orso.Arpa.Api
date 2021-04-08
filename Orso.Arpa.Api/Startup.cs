@@ -319,7 +319,7 @@ namespace Orso.Arpa.Api
         protected virtual void EnsureDatabaseMigrations(IApplicationBuilder app)
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
-            System.IServiceProvider services = scope.ServiceProvider;
+            IServiceProvider services = scope.ServiceProvider;
             try
             {
                 ArpaContext context = services.GetRequiredService<ArpaContext>();
@@ -327,7 +327,7 @@ namespace Orso.Arpa.Api
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
                 logger.LogError(ex, "An error occured during database migration");
