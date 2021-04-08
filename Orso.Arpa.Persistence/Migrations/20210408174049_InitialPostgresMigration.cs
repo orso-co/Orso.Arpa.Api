@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Orso.Arpa.Persistence.Migrations
 {
-    public partial class InitialPostgreSQLMigration : Migration
+    public partial class InitialPostgresMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,174 +12,174 @@ namespace Orso.Arpa.Persistence.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Level = table.Column<short>(type: "smallint", nullable: false),
-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    level = table.Column<short>(type: "smallint", nullable: false),
+                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    normalized_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    concurrency_stamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_roles", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Credentials",
+                name: "credentials",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Timespan = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Keyword = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Details = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
-                    SortOrder = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    timespan = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    keyword = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    details = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    sort_order = table.Column<byte>(type: "smallint", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Credentials", x => x.Id);
+                    table.PrimaryKey("pk_credentials", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Educations",
+                name: "educations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Timespan = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Institution = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Comment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    SortOrder = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    timespan = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    institution = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    comment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    sort_order = table.Column<byte>(type: "smallint", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Educations", x => x.Id);
+                    table.PrimaryKey("pk_educations", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Persons",
+                name: "persons",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    GivenName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Surname = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    AboutMe = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    Reliability = table.Column<byte>(type: "smallint", nullable: false),
-                    Favorization = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    given_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    surname = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    about_me = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    reliability = table.Column<byte>(type: "smallint", nullable: false),
+                    favorization = table.Column<byte>(type: "smallint", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Persons", x => x.Id);
+                    table.PrimaryKey("pk_persons", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Regions",
+                name: "regions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Regions", x => x.Id);
+                    table.PrimaryKey("pk_regions", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sections",
+                name: "sections",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    IsInstrument = table.Column<bool>(type: "boolean", nullable: false),
-                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    is_instrument = table.Column<bool>(type: "boolean", nullable: false),
+                    parent_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sections", x => x.Id);
+                    table.PrimaryKey("pk_sections", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Sections_Sections_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Sections",
-                        principalColumn: "Id");
+                        name: "fk_sections_sections_parent_id",
+                        column: x => x.parent_id,
+                        principalTable: "sections",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "SelectValueCategories",
+                name: "select_value_categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Table = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Property = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    table = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    property = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SelectValueCategories", x => x.Id);
+                    table.PrimaryKey("pk_select_value_categories", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SelectValues",
+                name: "select_values",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SelectValues", x => x.Id);
+                    table.PrimaryKey("pk_select_values", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    claim_type = table.Column<string>(type: "text", nullable: true),
+                    claim_value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_role_claims", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
+                        name: "fk_asp_net_role_claims_asp_net_roles_role_id",
+                        column: x => x.role_id,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -187,131 +187,131 @@ namespace Orso.Arpa.Persistence.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    person_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    normalized_user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    normalized_email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    email_confirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    password_hash = table.Column<string>(type: "text", nullable: true),
+                    security_stamp = table.Column<string>(type: "text", nullable: true),
+                    concurrency_stamp = table.Column<string>(type: "text", nullable: true),
+                    phone_number = table.Column<string>(type: "text", nullable: true),
+                    phone_number_confirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    two_factor_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    lockout_end = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    lockout_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    access_failed_count = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_users", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Persons_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Persons",
-                        principalColumn: "Id");
+                        name: "fk_asp_net_users_persons_person_id",
+                        column: x => x.person_id,
+                        principalTable: "persons",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "PersonSections",
+                name: "person_sections",
                 columns: table => new
                 {
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SectionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    person_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    section_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PersonSections", x => new { x.PersonId, x.SectionId });
+                    table.PrimaryKey("pk_person_sections", x => new { x.person_id, x.section_id });
                     table.ForeignKey(
-                        name: "FK_PersonSections_Persons_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Persons",
-                        principalColumn: "Id");
+                        name: "fk_person_sections_persons_person_id",
+                        column: x => x.person_id,
+                        principalTable: "persons",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_PersonSections_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
-                        principalColumn: "Id");
+                        name: "fk_person_sections_sections_section_id",
+                        column: x => x.section_id,
+                        principalTable: "sections",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Positions",
+                name: "positions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    SectionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    section_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Positions", x => x.Id);
+                    table.PrimaryKey("pk_positions", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Positions_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
-                        principalColumn: "Id");
+                        name: "fk_positions_sections_section_id",
+                        column: x => x.section_id,
+                        principalTable: "sections",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "SelectValueMappings",
+                name: "select_value_mappings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SelectValueId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SelectValueCategoryId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    select_value_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    select_value_category_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SelectValueMappings", x => x.Id);
+                    table.PrimaryKey("pk_select_value_mappings", x => x.id);
                     table.ForeignKey(
-                        name: "FK_SelectValueMappings_SelectValueCategories_SelectValueCatego~",
-                        column: x => x.SelectValueCategoryId,
-                        principalTable: "SelectValueCategories",
-                        principalColumn: "Id");
+                        name: "fk_select_value_mappings_select_value_categories_select_value_",
+                        column: x => x.select_value_category_id,
+                        principalTable: "select_value_categories",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_SelectValueMappings_SelectValues_SelectValueId",
-                        column: x => x.SelectValueId,
-                        principalTable: "SelectValues",
-                        principalColumn: "Id");
+                        name: "fk_select_value_mappings_select_values_select_value_id",
+                        column: x => x.select_value_id,
+                        principalTable: "select_values",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    claim_type = table.Column<string>(type: "text", nullable: true),
+                    claim_value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.PrimaryKey("pk_asp_net_user_claims", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_asp_net_user_claims_asp_net_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -319,19 +319,19 @@ namespace Orso.Arpa.Persistence.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    login_provider = table.Column<string>(type: "text", nullable: false),
+                    provider_key = table.Column<string>(type: "text", nullable: false),
+                    provider_display_name = table.Column<string>(type: "text", nullable: true),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("pk_asp_net_user_logins", x => new { x.login_provider, x.provider_key });
                     table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_asp_net_user_logins_asp_net_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -339,23 +339,23 @@ namespace Orso.Arpa.Persistence.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false)
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("pk_asp_net_user_roles", x => new { x.user_id, x.role_id });
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
+                        name: "fk_asp_net_user_roles_asp_net_roles_role_id",
+                        column: x => x.role_id,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_asp_net_user_roles_asp_net_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -363,747 +363,747 @@ namespace Orso.Arpa.Persistence.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: true)
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    login_provider = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("pk_asp_net_user_tokens", x => new { x.user_id, x.login_provider, x.name });
                     table.ForeignKey(
-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_asp_net_user_tokens_asp_net_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RefreshTokens",
+                name: "refresh_tokens",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Token = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ExpiryOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    CreatedByIp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    RevokedOn = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    RevokedByIp = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    token = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    expiry_on = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    created_on = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    created_by_ip = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    revoked_on = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    revoked_by_ip = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.PrimaryKey("pk_refresh_tokens", x => x.id);
                     table.ForeignKey(
-                        name: "FK_RefreshTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "fk_refresh_tokens_users_user_id",
+                        column: x => x.user_id,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Addresses",
+                name: "addresses",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Address1 = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Address2 = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Zip = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
-                    City = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    UrbanDistrict = table.Column<string>(type: "text", nullable: true),
-                    Country = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    State = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    RegionId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Discriminator = table.Column<string>(type: "text", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: true),
-                    TypeId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    address1 = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    address2 = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    zip = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    city = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    urban_district = table.Column<string>(type: "text", nullable: true),
+                    country = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    state = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    region_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    discriminator = table.Column<string>(type: "text", nullable: false),
+                    person_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    type_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.PrimaryKey("pk_addresses", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Addresses_Persons_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Persons",
-                        principalColumn: "Id");
+                        name: "fk_addresses_persons_person_id",
+                        column: x => x.person_id,
+                        principalTable: "persons",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Addresses_Regions_RegionId",
-                        column: x => x.RegionId,
-                        principalTable: "Regions",
-                        principalColumn: "Id");
+                        name: "fk_addresses_regions_region_id",
+                        column: x => x.region_id,
+                        principalTable: "regions",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Addresses_SelectValueMappings_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_addresses_select_value_mappings_type_id",
+                        column: x => x.type_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "MusicianProfiles",
+                name: "musician_profiles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    LevelSelfAssessment = table.Column<byte>(type: "smallint", nullable: false),
-                    LevelInnerASsessment = table.Column<byte>(type: "smallint", nullable: false),
-                    ProfileFavorizitation = table.Column<byte>(type: "smallint", nullable: false),
-                    IsMainProfile = table.Column<bool>(type: "boolean", nullable: false),
-                    Background = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    ExperienceLevel = table.Column<byte>(type: "smallint", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InstrumentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    QualificationId = table.Column<Guid>(type: "uuid", nullable: true),
-                    SalaryId = table.Column<Guid>(type: "uuid", nullable: true),
-                    InqueryId = table.Column<Guid>(type: "uuid", nullable: true),
-                    PreferredPositionId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    level_self_assessment = table.Column<byte>(type: "smallint", nullable: false),
+                    level_inner_assessment = table.Column<byte>(type: "smallint", nullable: false),
+                    profile_favorizitation = table.Column<byte>(type: "smallint", nullable: false),
+                    is_main_profile = table.Column<bool>(type: "boolean", nullable: false),
+                    background = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    experience_level = table.Column<byte>(type: "smallint", nullable: false),
+                    person_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    instrument_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    qualification_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    salary_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    inquery_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    preferred_position_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MusicianProfiles", x => x.Id);
+                    table.PrimaryKey("pk_musician_profiles", x => x.id);
                     table.ForeignKey(
-                        name: "FK_MusicianProfiles_Persons_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Persons",
-                        principalColumn: "Id");
+                        name: "fk_musician_profiles_persons_person_id",
+                        column: x => x.person_id,
+                        principalTable: "persons",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_MusicianProfiles_Positions_PreferredPositionId",
-                        column: x => x.PreferredPositionId,
-                        principalTable: "Positions",
-                        principalColumn: "Id");
+                        name: "fk_musician_profiles_positions_preferred_position_id",
+                        column: x => x.preferred_position_id,
+                        principalTable: "positions",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_MusicianProfiles_Sections_InstrumentId",
-                        column: x => x.InstrumentId,
-                        principalTable: "Sections",
-                        principalColumn: "Id");
+                        name: "fk_musician_profiles_sections_instrument_id",
+                        column: x => x.instrument_id,
+                        principalTable: "sections",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_MusicianProfiles_SelectValueMappings_InqueryId",
-                        column: x => x.InqueryId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_musician_profiles_select_value_mappings_inquery_id",
+                        column: x => x.inquery_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_MusicianProfiles_SelectValueMappings_QualificationId",
-                        column: x => x.QualificationId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_musician_profiles_select_value_mappings_qualification_id",
+                        column: x => x.qualification_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_MusicianProfiles_SelectValueMappings_SalaryId",
-                        column: x => x.SalaryId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_musician_profiles_select_value_mappings_salary_id",
+                        column: x => x.salary_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Projects",
+                name: "projects",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    ShortTitle = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    Number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    TypeId = table.Column<Guid>(type: "uuid", nullable: true),
-                    GenreId = table.Column<Guid>(type: "uuid", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    StateId = table.Column<Guid>(type: "uuid", nullable: true),
-                    ParentId = table.Column<Guid>(type: "uuid", nullable: true),
-                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    short_title = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    type_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    genre_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    start_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    end_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    state_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    parent_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    is_completed = table.Column<bool>(type: "boolean", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.PrimaryKey("pk_projects", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Projects_Projects_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "Projects",
-                        principalColumn: "Id");
+                        name: "fk_projects_projects_parent_id",
+                        column: x => x.parent_id,
+                        principalTable: "projects",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Projects_SelectValueMappings_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_projects_select_value_mappings_genre_id",
+                        column: x => x.genre_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Projects_SelectValueMappings_StateId",
-                        column: x => x.StateId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_projects_select_value_mappings_state_id",
+                        column: x => x.state_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Projects_SelectValueMappings_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_projects_select_value_mappings_type_id",
+                        column: x => x.type_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Venues",
+                name: "venues",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    AddressId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    description = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    address_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Venues", x => x.Id);
+                    table.PrimaryKey("pk_venues", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Venues_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id");
+                        name: "fk_venues_addresses_address_id",
+                        column: x => x.address_id,
+                        principalTable: "addresses",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "AvailableDocuments",
+                name: "available_documents",
                 columns: table => new
                 {
-                    SelectValueMappingId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicianProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    select_value_mapping_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    musician_profile_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AvailableDocuments", x => new { x.MusicianProfileId, x.SelectValueMappingId });
+                    table.PrimaryKey("pk_available_documents", x => new { x.musician_profile_id, x.select_value_mapping_id });
                     table.ForeignKey(
-                        name: "FK_AvailableDocuments_MusicianProfiles_MusicianProfileId",
-                        column: x => x.MusicianProfileId,
-                        principalTable: "MusicianProfiles",
-                        principalColumn: "Id");
+                        name: "fk_available_documents_musician_profiles_musician_profile_id",
+                        column: x => x.musician_profile_id,
+                        principalTable: "musician_profiles",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_AvailableDocuments_SelectValueMappings_SelectValueMappingId",
-                        column: x => x.SelectValueMappingId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_available_documents_select_value_mappings_select_value_mapp",
+                        column: x => x.select_value_mapping_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "MusicianProfileCredentials",
+                name: "musician_profile_credentials",
                 columns: table => new
                 {
-                    CredentialId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicianProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    credential_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    musician_profile_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MusicianProfileCredentials", x => new { x.MusicianProfileId, x.CredentialId });
+                    table.PrimaryKey("pk_musician_profile_credentials", x => new { x.musician_profile_id, x.credential_id });
                     table.ForeignKey(
-                        name: "FK_MusicianProfileCredentials_Credentials_CredentialId",
-                        column: x => x.CredentialId,
-                        principalTable: "Credentials",
-                        principalColumn: "Id");
+                        name: "fk_musician_profile_credentials_credentials_credential_id",
+                        column: x => x.credential_id,
+                        principalTable: "credentials",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_MusicianProfileCredentials_MusicianProfiles_MusicianProfile~",
-                        column: x => x.MusicianProfileId,
-                        principalTable: "MusicianProfiles",
-                        principalColumn: "Id");
+                        name: "fk_musician_profile_credentials_musician_profiles_musician_pro",
+                        column: x => x.musician_profile_id,
+                        principalTable: "musician_profiles",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "MusicianProfileEducations",
+                name: "musician_profile_educations",
                 columns: table => new
                 {
-                    EducationId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicianProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    education_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    musician_profile_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MusicianProfileEducations", x => new { x.MusicianProfileId, x.EducationId });
+                    table.PrimaryKey("pk_musician_profile_educations", x => new { x.musician_profile_id, x.education_id });
                     table.ForeignKey(
-                        name: "FK_MusicianProfileEducations_Educations_EducationId",
-                        column: x => x.EducationId,
-                        principalTable: "Educations",
-                        principalColumn: "Id");
+                        name: "fk_musician_profile_educations_educations_education_id",
+                        column: x => x.education_id,
+                        principalTable: "educations",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_MusicianProfileEducations_MusicianProfiles_MusicianProfileId",
-                        column: x => x.MusicianProfileId,
-                        principalTable: "MusicianProfiles",
-                        principalColumn: "Id");
+                        name: "fk_musician_profile_educations_musician_profiles_musician_prof",
+                        column: x => x.musician_profile_id,
+                        principalTable: "musician_profiles",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "MusicianProfileSections",
+                name: "musician_profile_sections",
                 columns: table => new
                 {
-                    SectionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicianProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    section_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    musician_profile_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MusicianProfileSections", x => new { x.MusicianProfileId, x.SectionId });
+                    table.PrimaryKey("pk_musician_profile_sections", x => new { x.musician_profile_id, x.section_id });
                     table.ForeignKey(
-                        name: "FK_MusicianProfileSections_MusicianProfiles_MusicianProfileId",
-                        column: x => x.MusicianProfileId,
-                        principalTable: "MusicianProfiles",
-                        principalColumn: "Id");
+                        name: "fk_musician_profile_sections_musician_profiles_musician_profil",
+                        column: x => x.musician_profile_id,
+                        principalTable: "musician_profiles",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_MusicianProfileSections_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
-                        principalColumn: "Id");
+                        name: "fk_musician_profile_sections_sections_section_id",
+                        column: x => x.section_id,
+                        principalTable: "sections",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "PreferredGenre",
+                name: "preferred_genre",
                 columns: table => new
                 {
-                    SelectValueMappingId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicianProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    select_value_mapping_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    musician_profile_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PreferredGenre", x => new { x.MusicianProfileId, x.SelectValueMappingId });
+                    table.PrimaryKey("pk_preferred_genre", x => new { x.musician_profile_id, x.select_value_mapping_id });
                     table.ForeignKey(
-                        name: "FK_PreferredGenre_MusicianProfiles_MusicianProfileId",
-                        column: x => x.MusicianProfileId,
-                        principalTable: "MusicianProfiles",
-                        principalColumn: "Id");
+                        name: "fk_preferred_genre_musician_profiles_musician_profile_id",
+                        column: x => x.musician_profile_id,
+                        principalTable: "musician_profiles",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_PreferredGenre_SelectValueMappings_SelectValueMappingId",
-                        column: x => x.SelectValueMappingId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_preferred_genre_select_value_mappings_select_value_mapping_",
+                        column: x => x.select_value_mapping_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectParticipations",
+                name: "project_participations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicianProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    project_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    musician_profile_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectParticipations", x => x.Id);
+                    table.PrimaryKey("pk_project_participations", x => x.id);
                     table.ForeignKey(
-                        name: "FK_ProjectParticipations_MusicianProfiles_MusicianProfileId",
-                        column: x => x.MusicianProfileId,
-                        principalTable: "MusicianProfiles",
-                        principalColumn: "Id");
+                        name: "fk_project_participations_musician_profiles_musician_profile_id",
+                        column: x => x.musician_profile_id,
+                        principalTable: "musician_profiles",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_ProjectParticipations_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id");
+                        name: "fk_project_participations_projects_project_id",
+                        column: x => x.project_id,
+                        principalTable: "projects",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Urls",
+                name: "urls",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Href = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    AnchorText = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    href = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    anchor_text = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    project_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Urls", x => x.Id);
+                    table.PrimaryKey("pk_urls", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Urls_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id");
+                        name: "fk_urls_projects_project_id",
+                        column: x => x.project_id,
+                        principalTable: "projects",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Appointments",
+                name: "appointments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    PublicDetails = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    InternalDetails = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uuid", nullable: true),
-                    StatusId = table.Column<Guid>(type: "uuid", nullable: true),
-                    EmolumentId = table.Column<Guid>(type: "uuid", nullable: true),
-                    EmolumentPatternId = table.Column<Guid>(type: "uuid", nullable: true),
-                    VenueId = table.Column<Guid>(type: "uuid", nullable: true),
-                    ExpectationId = table.Column<Guid>(type: "uuid", nullable: true),
-                    AuditionId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    start_time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    end_time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    public_details = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    internal_details = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    category_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    status_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    emolument_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    emolument_pattern_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    venue_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    expectation_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    audition_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.PrimaryKey("pk_appointments", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Appointments_SelectValueMappings_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_appointments_select_value_mappings_category_id",
+                        column: x => x.category_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Appointments_SelectValueMappings_EmolumentId",
-                        column: x => x.EmolumentId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_appointments_select_value_mappings_emolument_id",
+                        column: x => x.emolument_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Appointments_SelectValueMappings_EmolumentPatternId",
-                        column: x => x.EmolumentPatternId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_appointments_select_value_mappings_emolument_pattern_id",
+                        column: x => x.emolument_pattern_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Appointments_SelectValueMappings_ExpectationId",
-                        column: x => x.ExpectationId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_appointments_select_value_mappings_expectation_id",
+                        column: x => x.expectation_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Appointments_SelectValueMappings_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_appointments_select_value_mappings_status_id",
+                        column: x => x.status_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Appointments_Venues_VenueId",
-                        column: x => x.VenueId,
-                        principalTable: "Venues",
-                        principalColumn: "Id");
+                        name: "fk_appointments_venues_venue_id",
+                        column: x => x.venue_id,
+                        principalTable: "venues",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rooms",
+                name: "rooms",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    VenueId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Building = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Floor = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    venue_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    building = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    floor = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rooms", x => x.Id);
+                    table.PrimaryKey("pk_rooms", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Rooms_Venues_VenueId",
-                        column: x => x.VenueId,
-                        principalTable: "Venues",
-                        principalColumn: "Id");
+                        name: "fk_rooms_venues_venue_id",
+                        column: x => x.venue_id,
+                        principalTable: "venues",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "SphereOfActivityConcerts",
+                name: "sphere_of_activity_concerts",
                 columns: table => new
                 {
-                    VenueId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicianProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Rating = table.Column<byte>(type: "smallint", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    venue_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    musician_profile_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    rating = table.Column<byte>(type: "smallint", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SphereOfActivityConcerts", x => new { x.MusicianProfileId, x.VenueId });
+                    table.PrimaryKey("pk_sphere_of_activity_concerts", x => new { x.musician_profile_id, x.venue_id });
                     table.ForeignKey(
-                        name: "FK_SphereOfActivityConcerts_MusicianProfiles_MusicianProfileId",
-                        column: x => x.MusicianProfileId,
-                        principalTable: "MusicianProfiles",
-                        principalColumn: "Id");
+                        name: "fk_sphere_of_activity_concerts_musician_profiles_musician_prof",
+                        column: x => x.musician_profile_id,
+                        principalTable: "musician_profiles",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_SphereOfActivityConcerts_Venues_VenueId",
-                        column: x => x.VenueId,
-                        principalTable: "Venues",
-                        principalColumn: "Id");
+                        name: "fk_sphere_of_activity_concerts_venues_venue_id",
+                        column: x => x.venue_id,
+                        principalTable: "venues",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "SphereOfActivityRehearsals",
+                name: "sphere_of_activity_rehearsals",
                 columns: table => new
                 {
-                    VenueId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicianProfileId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Rating = table.Column<byte>(type: "smallint", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    venue_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    musician_profile_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    rating = table.Column<byte>(type: "smallint", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SphereOfActivityRehearsals", x => new { x.MusicianProfileId, x.VenueId });
+                    table.PrimaryKey("pk_sphere_of_activity_rehearsals", x => new { x.musician_profile_id, x.venue_id });
                     table.ForeignKey(
-                        name: "FK_SphereOfActivityRehearsals_MusicianProfiles_MusicianProfile~",
-                        column: x => x.MusicianProfileId,
-                        principalTable: "MusicianProfiles",
-                        principalColumn: "Id");
+                        name: "fk_sphere_of_activity_rehearsals_musician_profiles_musician_pr",
+                        column: x => x.musician_profile_id,
+                        principalTable: "musician_profiles",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_SphereOfActivityRehearsals_Venues_VenueId",
-                        column: x => x.VenueId,
-                        principalTable: "Venues",
-                        principalColumn: "Id");
+                        name: "fk_sphere_of_activity_rehearsals_venues_venue_id",
+                        column: x => x.venue_id,
+                        principalTable: "venues",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "UrlRoles",
+                name: "url_roles",
                 columns: table => new
                 {
-                    UrlId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    url_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UrlRoles", x => new { x.UrlId, x.RoleId });
+                    table.PrimaryKey("pk_url_roles", x => new { x.url_id, x.role_id });
                     table.ForeignKey(
-                        name: "FK_UrlRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
+                        name: "fk_url_roles_roles_role_id",
+                        column: x => x.role_id,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id");
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_UrlRoles_Urls_UrlId",
-                        column: x => x.UrlId,
-                        principalTable: "Urls",
-                        principalColumn: "Id");
+                        name: "fk_url_roles_urls_url_id",
+                        column: x => x.url_id,
+                        principalTable: "urls",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppointmentParticipations",
+                name: "appointment_participations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppointmentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ResultId = table.Column<Guid>(type: "uuid", nullable: true),
-                    PredictionId = table.Column<Guid>(type: "uuid", nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    person_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    appointment_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    result_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    prediction_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppointmentParticipations", x => x.Id);
+                    table.PrimaryKey("pk_appointment_participations", x => x.id);
                     table.ForeignKey(
-                        name: "FK_AppointmentParticipations_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id");
+                        name: "fk_appointment_participations_appointments_appointment_id",
+                        column: x => x.appointment_id,
+                        principalTable: "appointments",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_AppointmentParticipations_Persons_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Persons",
-                        principalColumn: "Id");
+                        name: "fk_appointment_participations_persons_person_id",
+                        column: x => x.person_id,
+                        principalTable: "persons",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_AppointmentParticipations_SelectValueMappings_PredictionId",
-                        column: x => x.PredictionId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_appointment_participations_select_value_mappings_prediction",
+                        column: x => x.prediction_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_AppointmentParticipations_SelectValueMappings_ResultId",
-                        column: x => x.ResultId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_appointment_participations_select_value_mappings_result_id",
+                        column: x => x.result_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Auditions",
+                name: "auditions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppointmentId = table.Column<Guid>(type: "uuid", nullable: true),
-                    StatusId = table.Column<Guid>(type: "uuid", nullable: true),
-                    RepetitorStatusId = table.Column<Guid>(type: "uuid", nullable: true),
-                    InnerComment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    InternalComment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    Repertoire = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    appointment_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    status_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    repetitor_status_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    inner_comment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    internal_comment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    repertoire = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Auditions", x => x.Id);
+                    table.PrimaryKey("pk_auditions", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Auditions_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id");
+                        name: "fk_auditions_appointments_appointment_id",
+                        column: x => x.appointment_id,
+                        principalTable: "appointments",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Auditions_SelectValueMappings_RepetitorStatusId",
-                        column: x => x.RepetitorStatusId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_auditions_select_value_mappings_repetitor_status_id",
+                        column: x => x.repetitor_status_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_Auditions_SelectValueMappings_StatusId",
-                        column: x => x.StatusId,
-                        principalTable: "SelectValueMappings",
-                        principalColumn: "Id");
+                        name: "fk_auditions_select_value_mappings_status_id",
+                        column: x => x.status_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectAppointments",
+                name: "project_appointments",
                 columns: table => new
                 {
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppointmentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    project_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    appointment_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectAppointments", x => new { x.ProjectId, x.AppointmentId });
+                    table.PrimaryKey("pk_project_appointments", x => new { x.project_id, x.appointment_id });
                     table.ForeignKey(
-                        name: "FK_ProjectAppointments_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id");
+                        name: "fk_project_appointments_appointments_appointment_id",
+                        column: x => x.appointment_id,
+                        principalTable: "appointments",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_ProjectAppointments_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id");
+                        name: "fk_project_appointments_projects_project_id",
+                        column: x => x.project_id,
+                        principalTable: "projects",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "SectionAppointments",
+                name: "section_appointments",
                 columns: table => new
                 {
-                    SectionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppointmentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    section_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    appointment_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SectionAppointments", x => new { x.SectionId, x.AppointmentId });
+                    table.PrimaryKey("pk_section_appointments", x => new { x.section_id, x.appointment_id });
                     table.ForeignKey(
-                        name: "FK_SectionAppointments_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id");
+                        name: "fk_section_appointments_appointments_appointment_id",
+                        column: x => x.appointment_id,
+                        principalTable: "appointments",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_SectionAppointments_Sections_SectionId",
-                        column: x => x.SectionId,
-                        principalTable: "Sections",
-                        principalColumn: "Id");
+                        name: "fk_section_appointments_sections_section_id",
+                        column: x => x.section_id,
+                        principalTable: "sections",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppointmentRooms",
+                name: "appointment_rooms",
                 columns: table => new
                 {
-                    RoomId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppointmentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    ModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    room_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    appointment_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    modified_by = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppointmentRooms", x => new { x.AppointmentId, x.RoomId });
+                    table.PrimaryKey("pk_appointment_rooms", x => new { x.appointment_id, x.room_id });
                     table.ForeignKey(
-                        name: "FK_AppointmentRooms_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id");
+                        name: "fk_appointment_rooms_appointments_appointment_id",
+                        column: x => x.appointment_id,
+                        principalTable: "appointments",
+                        principalColumn: "id");
                     table.ForeignKey(
-                        name: "FK_AppointmentRooms_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id");
+                        name: "fk_appointment_rooms_rooms_room_id",
+                        column: x => x.room_id,
+                        principalTable: "rooms",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.InsertData(
-                table: "Persons",
-                columns: new[] { "Id", "AboutMe", "CreatedAt", "CreatedBy", "Deleted", "Favorization", "GivenName", "ModifiedAt", "ModifiedBy", "Reliability", "Surname" },
+                table: "persons",
+                columns: new[] { "id", "about_me", "created_at", "created_by", "deleted", "favorization", "given_name", "modified_at", "modified_by", "reliability", "surname" },
                 values: new object[] { new Guid("56ed7c20-ba78-4a02-936e-5e840ef0748c"), null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, (byte)0, "Initial", null, null, (byte)0, "Admin" });
 
             migrationBuilder.InsertData(
-                table: "Regions",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "ModifiedAt", "ModifiedBy", "Name" },
+                table: "regions",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "modified_at", "modified_by", "name" },
                 values: new object[,]
                 {
                     { new Guid("3e6c559e-8d50-488d-a1ea-5dbc0f44ba9b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Freiburg" },
@@ -1112,8 +1112,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Sections",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "IsInstrument", "ModifiedAt", "ModifiedBy", "Name", "ParentId" },
+                table: "sections",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "is_instrument", "modified_at", "modified_by", "name", "parent_id" },
                 values: new object[,]
                 {
                     { new Guid("6a107070-daae-41fc-b27d-416d44d36374"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Contractors", null },
@@ -1125,8 +1125,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "SelectValueCategories",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "ModifiedAt", "ModifiedBy", "Name", "Property", "Table" },
+                table: "select_value_categories",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "modified_at", "modified_by", "name", "property", "table" },
                 values: new object[,]
                 {
                     { new Guid("f5d4763e-5862-4b62-ab92-2748ad213b10"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, "Result", "Result", "AppointmentParticipation" },
@@ -1149,8 +1149,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "SelectValues",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "Description", "ModifiedAt", "ModifiedBy", "Name" },
+                table: "select_values",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "description", "modified_at", "modified_by", "name" },
                 values: new object[,]
                 {
                     { new Guid("5b57a267-f331-41df-995a-93b60fc206ff"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Crossover" },
@@ -1237,8 +1237,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Sections",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "IsInstrument", "ModifiedAt", "ModifiedBy", "Name", "ParentId" },
+                table: "sections",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "is_instrument", "modified_at", "modified_by", "name", "parent_id" },
                 values: new object[,]
                 {
                     { new Guid("4e7a61c5-d2e4-4e3b-b21d-34a90cf958b2"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Conductor", new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668") },
@@ -1249,8 +1249,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "SelectValueMappings",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "ModifiedAt", "ModifiedBy", "SelectValueCategoryId", "SelectValueId" },
+                table: "select_value_mappings",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "modified_at", "modified_by", "select_value_category_id", "select_value_id" },
                 values: new object[,]
                 {
                     { new Guid("30f592f6-485a-468a-bfb2-4854be733e74"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null, null, new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"), new Guid("f52b9170-c6f6-4828-b96c-df5dfbe9bd73") },
@@ -1355,8 +1355,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Sections",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "IsInstrument", "ModifiedAt", "ModifiedBy", "Name", "ParentId" },
+                table: "sections",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "is_instrument", "modified_at", "modified_by", "name", "parent_id" },
                 values: new object[,]
                 {
                     { new Guid("18f1e750-f50d-4f06-8205-21203981bff6"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Assistant Conductor", new Guid("4e7a61c5-d2e4-4e3b-b21d-34a90cf958b2") },
@@ -1375,8 +1375,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Sections",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "IsInstrument", "ModifiedAt", "ModifiedBy", "Name", "ParentId" },
+                table: "sections",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "is_instrument", "modified_at", "modified_by", "name", "parent_id" },
                 values: new object[,]
                 {
                     { new Guid("5d469fc5-b3e6-40b8-9fa9-542981083ce3"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "High Female Voices", new Guid("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6") },
@@ -1401,8 +1401,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Sections",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "IsInstrument", "ModifiedAt", "ModifiedBy", "Name", "ParentId" },
+                table: "sections",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "is_instrument", "modified_at", "modified_by", "name", "parent_id" },
                 values: new object[,]
                 {
                     { new Guid("7daa1394-a70d-4a24-88a6-ccf511d75c4d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Soprano", new Guid("5d469fc5-b3e6-40b8-9fa9-542981083ce3") },
@@ -1437,8 +1437,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Sections",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "IsInstrument", "ModifiedAt", "ModifiedBy", "Name", "ParentId" },
+                table: "sections",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "is_instrument", "modified_at", "modified_by", "name", "parent_id" },
                 values: new object[,]
                 {
                     { new Guid("8470ddf0-43ab-477e-b3bc-47ede014b359"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Soprano 1", new Guid("7daa1394-a70d-4a24-88a6-ccf511d75c4d") },
@@ -1478,8 +1478,8 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Sections",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "Deleted", "IsInstrument", "ModifiedAt", "ModifiedBy", "Name", "ParentId" },
+                table: "sections",
+                columns: new[] { "id", "created_at", "created_by", "deleted", "is_instrument", "modified_at", "modified_by", "name", "parent_id" },
                 values: new object[,]
                 {
                     { new Guid("c42591db-4e41-413f-8b98-6607e2f12e39"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Wagner Tuba", new Guid("b9532add-efec-4510-831c-902c32ef7dbb") },
@@ -1497,313 +1497,313 @@ namespace Orso.Arpa.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_PersonId",
-                table: "Addresses",
-                column: "PersonId");
+                name: "ix_addresses_person_id",
+                table: "addresses",
+                column: "person_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_RegionId",
-                table: "Addresses",
-                column: "RegionId");
+                name: "ix_addresses_region_id",
+                table: "addresses",
+                column: "region_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_TypeId",
-                table: "Addresses",
-                column: "TypeId");
+                name: "ix_addresses_type_id",
+                table: "addresses",
+                column: "type_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppointmentParticipations_AppointmentId",
-                table: "AppointmentParticipations",
-                column: "AppointmentId");
+                name: "ix_appointment_participations_appointment_id",
+                table: "appointment_participations",
+                column: "appointment_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppointmentParticipations_PersonId",
-                table: "AppointmentParticipations",
-                column: "PersonId");
+                name: "ix_appointment_participations_person_id",
+                table: "appointment_participations",
+                column: "person_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppointmentParticipations_PredictionId",
-                table: "AppointmentParticipations",
-                column: "PredictionId");
+                name: "ix_appointment_participations_prediction_id",
+                table: "appointment_participations",
+                column: "prediction_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppointmentParticipations_ResultId",
-                table: "AppointmentParticipations",
-                column: "ResultId");
+                name: "ix_appointment_participations_result_id",
+                table: "appointment_participations",
+                column: "result_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppointmentRooms_RoomId",
-                table: "AppointmentRooms",
-                column: "RoomId");
+                name: "ix_appointment_rooms_room_id",
+                table: "appointment_rooms",
+                column: "room_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_CategoryId",
-                table: "Appointments",
-                column: "CategoryId");
+                name: "ix_appointments_category_id",
+                table: "appointments",
+                column: "category_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_EmolumentId",
-                table: "Appointments",
-                column: "EmolumentId");
+                name: "ix_appointments_emolument_id",
+                table: "appointments",
+                column: "emolument_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_EmolumentPatternId",
-                table: "Appointments",
-                column: "EmolumentPatternId");
+                name: "ix_appointments_emolument_pattern_id",
+                table: "appointments",
+                column: "emolument_pattern_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_ExpectationId",
-                table: "Appointments",
-                column: "ExpectationId");
+                name: "ix_appointments_expectation_id",
+                table: "appointments",
+                column: "expectation_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_StatusId",
-                table: "Appointments",
-                column: "StatusId");
+                name: "ix_appointments_status_id",
+                table: "appointments",
+                column: "status_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_VenueId",
-                table: "Appointments",
-                column: "VenueId");
+                name: "ix_appointments_venue_id",
+                table: "appointments",
+                column: "venue_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetRoleClaims_RoleId",
+                name: "ix_asp_net_role_claims_role_id",
                 table: "AspNetRoleClaims",
-                column: "RoleId");
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
-                column: "NormalizedName",
+                column: "normalized_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
+                name: "ix_asp_net_user_claims_user_id",
                 table: "AspNetUserClaims",
-                column: "UserId");
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserLogins_UserId",
+                name: "ix_asp_net_user_logins_user_id",
                 table: "AspNetUserLogins",
-                column: "UserId");
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_RoleId",
+                name: "ix_asp_net_user_roles_role_id",
                 table: "AspNetUserRoles",
-                column: "RoleId");
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
-                column: "NormalizedEmail");
+                column: "normalized_email");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_PersonId",
+                name: "ix_asp_net_users_person_id",
                 table: "AspNetUsers",
-                column: "PersonId",
+                column: "person_id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
-                column: "NormalizedUserName",
+                column: "normalized_user_name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Auditions_AppointmentId",
-                table: "Auditions",
-                column: "AppointmentId",
+                name: "ix_auditions_appointment_id",
+                table: "auditions",
+                column: "appointment_id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Auditions_RepetitorStatusId",
-                table: "Auditions",
-                column: "RepetitorStatusId");
+                name: "ix_auditions_repetitor_status_id",
+                table: "auditions",
+                column: "repetitor_status_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Auditions_StatusId",
-                table: "Auditions",
-                column: "StatusId");
+                name: "ix_auditions_status_id",
+                table: "auditions",
+                column: "status_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AvailableDocuments_SelectValueMappingId",
-                table: "AvailableDocuments",
-                column: "SelectValueMappingId");
+                name: "ix_available_documents_select_value_mapping_id",
+                table: "available_documents",
+                column: "select_value_mapping_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfileCredentials_CredentialId",
-                table: "MusicianProfileCredentials",
-                column: "CredentialId");
+                name: "ix_musician_profile_credentials_credential_id",
+                table: "musician_profile_credentials",
+                column: "credential_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfileEducations_EducationId",
-                table: "MusicianProfileEducations",
-                column: "EducationId");
+                name: "ix_musician_profile_educations_education_id",
+                table: "musician_profile_educations",
+                column: "education_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfiles_InqueryId",
-                table: "MusicianProfiles",
-                column: "InqueryId");
+                name: "ix_musician_profile_sections_section_id",
+                table: "musician_profile_sections",
+                column: "section_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfiles_InstrumentId",
-                table: "MusicianProfiles",
-                column: "InstrumentId");
+                name: "ix_musician_profiles_inquery_id",
+                table: "musician_profiles",
+                column: "inquery_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfiles_PersonId",
-                table: "MusicianProfiles",
-                column: "PersonId");
+                name: "ix_musician_profiles_instrument_id",
+                table: "musician_profiles",
+                column: "instrument_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfiles_PreferredPositionId",
-                table: "MusicianProfiles",
-                column: "PreferredPositionId");
+                name: "ix_musician_profiles_person_id",
+                table: "musician_profiles",
+                column: "person_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfiles_QualificationId",
-                table: "MusicianProfiles",
-                column: "QualificationId");
+                name: "ix_musician_profiles_preferred_position_id",
+                table: "musician_profiles",
+                column: "preferred_position_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfiles_SalaryId",
-                table: "MusicianProfiles",
-                column: "SalaryId");
+                name: "ix_musician_profiles_qualification_id",
+                table: "musician_profiles",
+                column: "qualification_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicianProfileSections_SectionId",
-                table: "MusicianProfileSections",
-                column: "SectionId");
+                name: "ix_musician_profiles_salary_id",
+                table: "musician_profiles",
+                column: "salary_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersonSections_SectionId",
-                table: "PersonSections",
-                column: "SectionId");
+                name: "ix_person_sections_section_id",
+                table: "person_sections",
+                column: "section_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Positions_SectionId",
-                table: "Positions",
-                column: "SectionId");
+                name: "ix_positions_section_id",
+                table: "positions",
+                column: "section_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PreferredGenre_SelectValueMappingId",
-                table: "PreferredGenre",
-                column: "SelectValueMappingId");
+                name: "ix_preferred_genre_select_value_mapping_id",
+                table: "preferred_genre",
+                column: "select_value_mapping_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectAppointments_AppointmentId",
-                table: "ProjectAppointments",
-                column: "AppointmentId");
+                name: "ix_project_appointments_appointment_id",
+                table: "project_appointments",
+                column: "appointment_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectParticipations_MusicianProfileId",
-                table: "ProjectParticipations",
-                column: "MusicianProfileId");
+                name: "ix_project_participations_musician_profile_id",
+                table: "project_participations",
+                column: "musician_profile_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectParticipations_ProjectId",
-                table: "ProjectParticipations",
-                column: "ProjectId");
+                name: "ix_project_participations_project_id",
+                table: "project_participations",
+                column: "project_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_GenreId",
-                table: "Projects",
-                column: "GenreId");
+                name: "ix_projects_genre_id",
+                table: "projects",
+                column: "genre_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_Number",
-                table: "Projects",
-                column: "Number");
+                name: "ix_projects_number",
+                table: "projects",
+                column: "number");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_ParentId",
-                table: "Projects",
-                column: "ParentId");
+                name: "ix_projects_parent_id",
+                table: "projects",
+                column: "parent_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_StateId",
-                table: "Projects",
-                column: "StateId");
+                name: "ix_projects_state_id",
+                table: "projects",
+                column: "state_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_TypeId",
-                table: "Projects",
-                column: "TypeId");
+                name: "ix_projects_type_id",
+                table: "projects",
+                column: "type_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefreshTokens_UserId",
-                table: "RefreshTokens",
-                column: "UserId");
+                name: "ix_refresh_tokens_user_id",
+                table: "refresh_tokens",
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_VenueId",
-                table: "Rooms",
-                column: "VenueId");
+                name: "ix_rooms_venue_id",
+                table: "rooms",
+                column: "venue_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SectionAppointments_AppointmentId",
-                table: "SectionAppointments",
-                column: "AppointmentId");
+                name: "ix_section_appointments_appointment_id",
+                table: "section_appointments",
+                column: "appointment_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sections_ParentId",
-                table: "Sections",
-                column: "ParentId");
+                name: "ix_sections_parent_id",
+                table: "sections",
+                column: "parent_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SelectValueCategories_Property",
-                table: "SelectValueCategories",
-                column: "Property");
+                name: "ix_select_value_categories_property",
+                table: "select_value_categories",
+                column: "property");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SelectValueCategories_Table",
-                table: "SelectValueCategories",
-                column: "Table");
+                name: "ix_select_value_categories_table",
+                table: "select_value_categories",
+                column: "table");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SelectValueMappings_SelectValueCategoryId",
-                table: "SelectValueMappings",
-                column: "SelectValueCategoryId");
+                name: "ix_select_value_mappings_select_value_category_id",
+                table: "select_value_mappings",
+                column: "select_value_category_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SelectValueMappings_SelectValueId",
-                table: "SelectValueMappings",
-                column: "SelectValueId");
+                name: "ix_select_value_mappings_select_value_id",
+                table: "select_value_mappings",
+                column: "select_value_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SphereOfActivityConcerts_VenueId",
-                table: "SphereOfActivityConcerts",
-                column: "VenueId");
+                name: "ix_sphere_of_activity_concerts_venue_id",
+                table: "sphere_of_activity_concerts",
+                column: "venue_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SphereOfActivityRehearsals_VenueId",
-                table: "SphereOfActivityRehearsals",
-                column: "VenueId");
+                name: "ix_sphere_of_activity_rehearsals_venue_id",
+                table: "sphere_of_activity_rehearsals",
+                column: "venue_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UrlRoles_RoleId",
-                table: "UrlRoles",
-                column: "RoleId");
+                name: "ix_url_roles_role_id",
+                table: "url_roles",
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Urls_ProjectId",
-                table: "Urls",
-                column: "ProjectId");
+                name: "ix_urls_project_id",
+                table: "urls",
+                column: "project_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Venues_AddressId",
-                table: "Venues",
-                column: "AddressId",
+                name: "ix_venues_address_id",
+                table: "venues",
+                column: "address_id",
                 unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AppointmentParticipations");
+                name: "appointment_participations");
 
             migrationBuilder.DropTable(
-                name: "AppointmentRooms");
+                name: "appointment_rooms");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -1821,100 +1821,100 @@ namespace Orso.Arpa.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Auditions");
+                name: "auditions");
 
             migrationBuilder.DropTable(
-                name: "AvailableDocuments");
+                name: "available_documents");
 
             migrationBuilder.DropTable(
-                name: "MusicianProfileCredentials");
+                name: "musician_profile_credentials");
 
             migrationBuilder.DropTable(
-                name: "MusicianProfileEducations");
+                name: "musician_profile_educations");
 
             migrationBuilder.DropTable(
-                name: "MusicianProfileSections");
+                name: "musician_profile_sections");
 
             migrationBuilder.DropTable(
-                name: "PersonSections");
+                name: "person_sections");
 
             migrationBuilder.DropTable(
-                name: "PreferredGenre");
+                name: "preferred_genre");
 
             migrationBuilder.DropTable(
-                name: "ProjectAppointments");
+                name: "project_appointments");
 
             migrationBuilder.DropTable(
-                name: "ProjectParticipations");
+                name: "project_participations");
 
             migrationBuilder.DropTable(
-                name: "RefreshTokens");
+                name: "refresh_tokens");
 
             migrationBuilder.DropTable(
-                name: "SectionAppointments");
+                name: "section_appointments");
 
             migrationBuilder.DropTable(
-                name: "SphereOfActivityConcerts");
+                name: "sphere_of_activity_concerts");
 
             migrationBuilder.DropTable(
-                name: "SphereOfActivityRehearsals");
+                name: "sphere_of_activity_rehearsals");
 
             migrationBuilder.DropTable(
-                name: "UrlRoles");
+                name: "url_roles");
 
             migrationBuilder.DropTable(
-                name: "Rooms");
+                name: "rooms");
 
             migrationBuilder.DropTable(
-                name: "Credentials");
+                name: "credentials");
 
             migrationBuilder.DropTable(
-                name: "Educations");
+                name: "educations");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Appointments");
+                name: "appointments");
 
             migrationBuilder.DropTable(
-                name: "MusicianProfiles");
+                name: "musician_profiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Urls");
+                name: "urls");
 
             migrationBuilder.DropTable(
-                name: "Venues");
+                name: "venues");
 
             migrationBuilder.DropTable(
-                name: "Positions");
+                name: "positions");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "projects");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
+                name: "addresses");
 
             migrationBuilder.DropTable(
-                name: "Sections");
+                name: "sections");
 
             migrationBuilder.DropTable(
-                name: "Persons");
+                name: "persons");
 
             migrationBuilder.DropTable(
-                name: "Regions");
+                name: "regions");
 
             migrationBuilder.DropTable(
-                name: "SelectValueMappings");
+                name: "select_value_mappings");
 
             migrationBuilder.DropTable(
-                name: "SelectValueCategories");
+                name: "select_value_categories");
 
             migrationBuilder.DropTable(
-                name: "SelectValues");
+                name: "select_values");
         }
     }
 }
