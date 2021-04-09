@@ -68,18 +68,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
             {
                 Project existingProject = await _arpaContext.Projects.FindAsync(new object[] { request.ProjectId }, cancellationToken);
 
-                // create a new Url here and attach it to the existing project
-                var command = new Orso.Arpa.Domain.Logic.Urls.Create.Command
-                {
-                    AnchorText = request.AnchorText,
-                    Href = request.Href,
-                    ProjectId = request.ProjectId,
-                };
-                var newUrl = new Url(Guid.NewGuid(), command);
-
-                // TODO: shouldn't the above work as something like this to use the auto-mapper?
-                //var newUrl = new Url(Guid.NewGuid(), _mapper.Map<Command, Orso.Arpa.Domain.Logic.Urls.Create.Command>(request));
-
+                var newUrl = new Url(Guid.NewGuid(), _mapper.Map<Command, Orso.Arpa.Domain.Logic.Urls.Create.Command>(request));
                 await _arpaContext.Urls.AddAsync(newUrl, cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
