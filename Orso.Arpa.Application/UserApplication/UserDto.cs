@@ -13,7 +13,7 @@ namespace Orso.Arpa.Application.UserApplication
         public string DisplayName { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
     }
 

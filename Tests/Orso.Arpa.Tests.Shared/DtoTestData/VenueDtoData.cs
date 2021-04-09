@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Orso.Arpa.Application.AddressApplication;
 using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -30,7 +31,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Weiherhof Schule",
                     Description = "Proberäume",
                     CreatedBy = "anonymous",
-                    CreatedAt = new DateTime(2021, 1, 1),
+                    CreatedAt = FakeDateTime.UtcNow,
                     Address = new AddressDto
                     {
                         Id = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
@@ -42,7 +43,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                         State = "Baden-Württemberg",
                         RegionId = RegionSeedData.Freiburg.Id,
                         CreatedBy = "anonymous",
-                        CreatedAt = new DateTime(2021, 1, 1)
+                        CreatedAt = FakeDateTime.UtcNow
                     }
                 };
                 dto.Rooms.Add(RoomDtoData.AulaWeiherhofSchule);

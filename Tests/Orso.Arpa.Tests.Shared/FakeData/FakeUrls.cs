@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
@@ -15,7 +14,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 Url url = UrlSeedData.ArpaWebsite;
                 url.SetProperty(nameof(Url.CreatedBy), "anonymous");
-                url.SetProperty(nameof(Url.CreatedAt), new DateTime(2021, 1, 1));
+                url.SetProperty(nameof(Url.CreatedAt), FakeDateTime.UtcNow);
                 foreach (UrlRole urlRole in url.UrlRoles)
                 {
                     urlRole.SetProperty(nameof(UrlRole.Role), RoleSeedData.Roles.First(r => r.Id == urlRole.RoleId));
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 Url url = UrlSeedData.OrsoWebsite;
                 url.SetProperty(nameof(Url.CreatedBy), "anonymous");
-                url.SetProperty(nameof(Url.CreatedAt), new DateTime(2021, 1, 1));
+                url.SetProperty(nameof(Url.CreatedAt), FakeDateTime.UtcNow);
                 foreach (UrlRole urlRole in url.UrlRoles)
                 {
                     urlRole.SetProperty(nameof(UrlRole.Role), RoleSeedData.Roles.First(r => r.Id == urlRole.RoleId));
@@ -45,7 +44,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 Url url = UrlSeedData.Google;
                 url.SetProperty(nameof(Url.CreatedBy), "anonymous");
-                url.SetProperty(nameof(Url.CreatedAt), new DateTime(2021, 1, 1));
+                url.SetProperty(nameof(Url.CreatedAt), FakeDateTime.UtcNow);
                 foreach (UrlRole urlRole in url.UrlRoles)
                 {
                     urlRole.SetProperty(nameof(UrlRole.Role), RoleSeedData.Roles.First(r => r.Id == urlRole.RoleId));

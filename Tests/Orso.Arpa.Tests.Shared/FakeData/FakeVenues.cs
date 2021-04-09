@@ -1,5 +1,4 @@
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -15,9 +14,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 venue.Rooms.Add(FakeRooms.AulaWeiherhofSchule);
                 venue.Rooms.Add(FakeRooms.MusikraumWeiherhofSchule);
                 venue.SetProperty(nameof(Venue.CreatedBy), "anonymous");
-                venue.SetProperty(nameof(Venue.CreatedAt), DateTimeProvider.Instance.GetUtcNow());
+                venue.SetProperty(nameof(Venue.CreatedAt), FakeDateTime.UtcNow);
                 venue.Address.SetProperty(nameof(Address.CreatedBy), "anonymous");
-                venue.Address.SetProperty(nameof(Address.CreatedAt), DateTimeProvider.Instance.GetUtcNow());
+                venue.Address.SetProperty(nameof(Address.CreatedAt), FakeDateTime.UtcNow);
                 return venue;
             }
         }

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Configurations;
 
 namespace Orso.Arpa.Persistence.DataAccess
@@ -16,12 +17,15 @@ namespace Orso.Arpa.Persistence.DataAccess
     public class ArpaContext : IdentityDbContext<User, Role, Guid>, IArpaContext
     {
         private readonly ITokenAccessor _tokenAccessor;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public ArpaContext(
             DbContextOptions options,
-            ITokenAccessor tokenAccessor) : base(options)
+            ITokenAccessor tokenAccessor,
+            IDateTimeProvider dateTimeProvider) : base(options)
         {
             _tokenAccessor = tokenAccessor;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public DbSet<Address> Addresses { get; set; }
@@ -91,11 +95,11 @@ namespace Orso.Arpa.Persistence.DataAccess
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Create(currentUserDisplayName);
+                        entry.Entity.Create(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.Modify(currentUserDisplayName);
+                        entry.Entity.Modify(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
                         break;
 
                     case EntityState.Deleted:
@@ -110,7 +114,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         private async Task DeleteWithNavigationsAsync(string currentUserDisplayName, EntityEntry entry, CancellationToken cancellationToken)
         {
             entry.State = EntityState.Modified;
-            (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName);
+            (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
 
             foreach (IProperty property in entry.CurrentValues.Properties)
             {

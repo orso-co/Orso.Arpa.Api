@@ -7,9 +7,9 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -29,7 +29,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Name = createDto.Name,
                 CreatedBy = _staff.DisplayName,
-                CreatedAt = DateTimeProvider.Instance.GetUtcNow(),
+                CreatedAt = FakeDateTime.UtcNow,
                 ModifiedAt = null,
                 ModifiedBy = null,
             };
@@ -66,7 +66,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Name = modifyDto.Name,
                 CreatedBy = regionToModify.CreatedBy,
                 CreatedAt = null,
-                ModifiedAt = DateTimeProvider.Instance.GetUtcNow(),
+                ModifiedAt = FakeDateTime.UtcNow,
                 ModifiedBy = _staff.DisplayName,
             };
 
@@ -75,19 +75,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .AuthenticateWith(_staff);
 
-                HttpResponseMessage responseMessage = await client
-                    .PutAsync(ApiEndpoints.RegionsController.Put(regionToModify.Id), BuildStringContent(modifyDto));
+            HttpResponseMessage responseMessage = await client
+                .PutAsync(ApiEndpoints.RegionsController.Put(regionToModify.Id), BuildStringContent(modifyDto));
 
-                // Assert
-                responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-                HttpResponseMessage getMessage = await client
-                    .GetAsync(ApiEndpoints.RegionsController.Get(regionToModify.Id));
+            HttpResponseMessage getMessage = await client
+                .GetAsync(ApiEndpoints.RegionsController.Get(regionToModify.Id));
 
-                getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-                RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(getMessage);
+            getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(getMessage);
 
-                result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.ModifiedAt));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.ModifiedAt));
         }
 
         [Test, Order(1)]

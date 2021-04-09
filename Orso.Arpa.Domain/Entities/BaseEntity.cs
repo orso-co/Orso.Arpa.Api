@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -24,22 +23,22 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        public virtual void Create(string createdBy, DateTime? createdAt = null)
+        public virtual void Create(string createdBy, DateTime createdAt)
         {
             CreatedBy = createdBy;
-            CreatedAt = createdAt ?? DateTimeProvider.Instance.GetUtcNow();
+            CreatedAt = createdAt;
         }
 
-        public virtual void Modify(string modifiedBy)
+        public virtual void Modify(string modifiedBy, DateTime modifiedAt)
         {
             ModifiedBy = modifiedBy;
-            ModifiedAt = DateTimeProvider.Instance.GetUtcNow();
+            ModifiedAt = modifiedAt;
         }
 
-        public void Delete(string modifiedBy)
+        public void Delete(string deletedBy, DateTime deletedAt)
         {
             Deleted = true;
-            Modify(modifiedBy);
+            Modify(deletedBy, deletedAt);
         }
     }
 }

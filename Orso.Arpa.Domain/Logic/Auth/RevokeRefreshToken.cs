@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -35,11 +36,13 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             private readonly ArpaUserManager _userManager;
             private readonly IArpaContext _arpaContext;
+            private readonly IDateTimeProvider _dateTimeProvider;
 
-            public Handler(ArpaUserManager userManager, IArpaContext arpaContext)
+            public Handler(ArpaUserManager userManager, IArpaContext arpaContext, IDateTimeProvider dateTimeProvider)
             {
                 _userManager = userManager;
                 _arpaContext = arpaContext;
+                _dateTimeProvider = dateTimeProvider;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -54,7 +57,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 RefreshToken existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == request.RefreshToken);
 
-                existingToken.Revoke(request);
+                existingToken.Revoke(request, _dateTimeProvider.GetUtcNow());
 
                 _arpaContext.Set<RefreshToken>().Update(existingToken);
 

@@ -37,6 +37,7 @@ using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Mail.Interfaces;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Swashbuckle.AspNetCore.Swagger;
@@ -62,6 +63,7 @@ namespace Orso.Arpa.Api
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterServices(services);
+            RegisterDateTimeProvider(services);
 
             ConfigureDatabase(services);
 
@@ -201,6 +203,11 @@ namespace Orso.Arpa.Api
                 .Get<ClubConfiguration>();
             services.AddSingleton(clubConfig);
             services.AddScoped<ITemplateParser, TemplateParser>();
+        }
+
+        protected virtual void RegisterDateTimeProvider(IServiceCollection services)
+        {
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)

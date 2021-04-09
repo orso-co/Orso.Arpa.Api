@@ -1,18 +1,18 @@
 using System;
 using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class RefreshToken
     {
-        public RefreshToken(string token, DateTime expiryOn, string createdByIp, Guid userId)
+        public RefreshToken(string token, DateTime expiryOn, string createdByIp, Guid userId, DateTime createdAt)
         {
             Token = token;
             ExpiryOn = expiryOn;
             CreatedByIp = createdByIp;
             UserId = userId;
+            CreatedOn = createdAt;
         }
 
         [JsonConstructor]
@@ -20,10 +20,10 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        public void Revoke(RevokeRefreshToken.Command command)
+        public void Revoke(RevokeRefreshToken.Command command, DateTime revokedAt)
         {
             RevokedByIp = command.RemoteIpAddress;
-            RevokedOn = DateTimeProvider.Instance.GetUtcNow();
+            RevokedOn = revokedAt;
         }
 
         [JsonInclude]
@@ -42,7 +42,7 @@ namespace Orso.Arpa.Domain.Entities
         public DateTime ExpiryOn { get; private set; }
 
         [JsonInclude]
-        public DateTime CreatedOn { get; private set; } = DateTimeProvider.Instance.GetUtcNow();
+        public DateTime CreatedOn { get; private set; }
 
         [JsonInclude]
         public string CreatedByIp { get; private set; }
@@ -53,10 +53,8 @@ namespace Orso.Arpa.Domain.Entities
         [JsonInclude]
         public string RevokedByIp { get; private set; }
 
-        [JsonInclude]
-        public bool IsExpired => DateTimeProvider.Instance.GetUtcNow() >= ExpiryOn;
+        public bool IsExpired(DateTime utcNow) => utcNow >= ExpiryOn;
 
-        [JsonInclude]
-        public bool IsActive => RevokedByIp == null && RevokedOn == DateTime.MinValue && !IsExpired;
+        public bool IsActive(DateTime utcNow) => RevokedByIp == null && RevokedOn == DateTime.MinValue && !IsExpired(utcNow);
     }
 }

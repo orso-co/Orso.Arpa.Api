@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2019, 12, 21, 10, 0, 0),
                     Venue = VenueDtoData.WeiherhofSchule,
                     PredictionId = Guid.Parse("319d508e-a6e2-437e-b48b-6be51e3459bd"),
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
 

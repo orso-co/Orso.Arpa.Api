@@ -9,7 +9,6 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Appointments;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -35,8 +34,8 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
         public async Task Should_Set_Dates()
         {
             // Arrange
-            DateTime startTime = DateTimeProvider.Instance.GetUtcNow();
-            DateTime endTime = DateTimeProvider.Instance.GetUtcNow().AddHours(2);
+            DateTime startTime = FakeDateTime.UtcNow;
+            DateTime endTime = FakeDateTime.UtcNow.AddHours(2);
             Appointment expectedAppointment = FakeAppointments.RockingXMasRehearsal;
             expectedAppointment.SetProperty(nameof(Appointment.EndTime), endTime);
             expectedAppointment.SetProperty(nameof(Appointment.StartTime), startTime);

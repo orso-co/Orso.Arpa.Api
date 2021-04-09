@@ -11,7 +11,6 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
@@ -33,7 +32,6 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
         public async Task Should_Get_User_Appointments()
         {
             // Arrange
-            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             DbSet<Appointment> mockData = MockDbSets.Appointments;
             mockData.AsAsyncEnumerable().Returns(GetTestValues());
             _arpaContext.Appointments.Returns(mockData);
@@ -47,7 +45,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
 
             // Assert
             result.Item1.Count().Should().Be(1);
-            result.Item1.First().Should().BeEquivalentTo(expectedAppointments.First(), opt=> opt.Excluding(app => app.ProjectAppointments));
+            result.Item1.First().Should().BeEquivalentTo(expectedAppointments.First(), opt => opt.Excluding(app => app.ProjectAppointments));
             result.Item2.Should().Be(1);
         }
 

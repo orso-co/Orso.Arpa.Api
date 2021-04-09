@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -17,18 +18,21 @@ namespace Orso.Arpa.Domain.GenericHandlers
                 Expression<Func<TEntity, bool>> predicate = null,
                 Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
                 int? skip = null,
-                int? take = null)
+                int? take = null,
+                bool? asSplitQuery = null)
             {
                 OrderBy = orderBy;
                 Skip = skip;
                 Take = take;
                 Predicate = predicate;
+                AsSplitQuery = asSplitQuery == true ? true : false;
             }
 
             public Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> OrderBy { get; }
             public int? Skip { get; }
             public int? Take { get; }
             public Expression<Func<TEntity, bool>> Predicate { get; }
+            public bool AsSplitQuery { get; }
         }
 
         public class Handler<TEntity> : IRequestHandler<Query<TEntity>, IQueryable<TEntity>> where TEntity : BaseEntity
@@ -64,7 +68,14 @@ namespace Orso.Arpa.Domain.GenericHandlers
                     query = query.Take(request.Take.Value);
                 }
 
-                return Task.FromResult(query);
+                if (request.AsSplitQuery)
+                {
+                    return Task.FromResult(query.AsSplitQuery());
+                }
+                else
+                {
+                    return Task.FromResult(query.AsSingleQuery());
+                }
             }
         }
     }

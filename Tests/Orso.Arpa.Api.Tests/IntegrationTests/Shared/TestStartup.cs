@@ -10,13 +10,15 @@ using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
 {
-    public class TestStartup : Startup, IDisposable
+    public class TestStartup : Startup
     {
         public static ITestDatabase TestDatabase { get; set; }
 
@@ -75,10 +77,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             base.Configure(app, env);
         }
 
-        public void Dispose()
+        protected override void RegisterDateTimeProvider(IServiceCollection services)
         {
-            TestDatabase.Drop();
-            TestDatabase = null;
+            services.AddSingleton<IDateTimeProvider, FakeDateTimeProvider>();
         }
     }
 }

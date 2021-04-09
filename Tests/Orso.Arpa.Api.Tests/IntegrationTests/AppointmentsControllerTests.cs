@@ -13,9 +13,9 @@ using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -47,7 +47,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_By_Id()
         {
             // Arrange
-            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             AppointmentDto expectedAppointment = AppointmentDtoData.RockingXMasRehearsalForPerformer;
 
             // Act
@@ -80,7 +79,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Name = createDto.Name,
                 CreatedBy = _staff.DisplayName,
-                CreatedAt = DateTimeProvider.Instance.GetUtcNow(),
+                CreatedAt = FakeDateTime.UtcNow,
                 ModifiedAt = null,
                 ModifiedBy = null,
                 InternalDetails = createDto.InternalDetails,
@@ -219,8 +218,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
                 EmolumentId = SelectValueMappingSeedData.AppointmentEmolumentMappings[0].Id,
                 EmolumentPatternId = SelectValueMappingSeedData.AppointmentEmolumentPatternMappings[0].Id,
-                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(5),
-                StartTime = DateTimeProvider.Instance.GetUtcNow(),
+                EndTime = FakeDateTime.UtcNow.AddHours(5),
+                StartTime = FakeDateTime.UtcNow,
                 StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id
             };
 
@@ -244,8 +243,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
                 PublicDetails = "Public Details",
-                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(5),
-                StartTime = DateTimeProvider.Instance.GetUtcNow(),
+                EndTime = FakeDateTime.UtcNow.AddHours(5),
+                StartTime = FakeDateTime.UtcNow,
             };
 
             // Act
@@ -265,13 +264,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             Appointment appointmentToModify = AppointmentSeedData.PhotoSession;
             var setDatesDto = new AppointmentSetDatesDto
             {
-                StartTime = DateTimeProvider.Instance.GetUtcNow(),
-                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(5)
+                StartTime = FakeDateTime.UtcNow,
+                EndTime = FakeDateTime.UtcNow.AddHours(5)
             };
             AppointmentDto expectedDto = AppointmentDtoData.PhotoSession;
             expectedDto.EndTime = setDatesDto.EndTime.Value;
             expectedDto.StartTime = setDatesDto.StartTime.Value;
             expectedDto.ModifiedBy = _staff.DisplayName;
+            expectedDto.ModifiedAt = FakeDateTime.UtcNow;
             AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
             performerParticipation.Participation = null;
             expectedDto.Participations.Add(performerParticipation);
@@ -292,8 +292,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.ModifiedAt));
-            result.ModifiedAt.Should().BeCloseTo(DateTime.UtcNow, 10000);
+            result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(109)]

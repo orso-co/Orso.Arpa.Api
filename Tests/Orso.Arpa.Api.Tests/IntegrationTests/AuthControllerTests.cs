@@ -428,7 +428,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             HttpClient client = _unAuthenticatedServer
                 .CreateClient();
-            User user = UserTestSeedData.Performer;
+            User user = UserTestSeedData.Staff;
             var loginDto = new LoginDto
             {
                 UsernameOrEmail = user.UserName,
@@ -464,7 +464,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             HttpClient client = _unAuthenticatedServer
                 .CreateClient();
-            User user = UserTestSeedData.Performer;
+            User user = UserTestSeedData.Staff;
             var loginDto = new LoginDto
             {
                 UsernameOrEmail = user.UserName,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -77,7 +78,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Participations.Add(PerformerParticipation);
                 dto.Participations.Add(StaffParticipation);
@@ -170,7 +171,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -214,7 +215,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("867622fa-7aa5-43f3-b3ef-5290d1f61734"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Sections.Add(SectionDtoData.Alto);
                 dto.Rooms.Add(RoomDtoData.AulaWeiherhofSchule);
@@ -250,7 +251,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
                 return dto;
@@ -276,7 +277,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
                     VenueId = null,
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
