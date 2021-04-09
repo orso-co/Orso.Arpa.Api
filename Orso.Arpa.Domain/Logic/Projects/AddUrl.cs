@@ -73,7 +73,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
                 {
                     AnchorText = request.AnchorText,
                     Href = request.Href,
-                    ProjectId = existingProject.Id
+                    ProjectId = request.ProjectId,
                 };
                 var newUrl = new Url(Guid.NewGuid(), command);
 
@@ -81,7 +81,6 @@ namespace Orso.Arpa.Domain.Logic.Projects
                 //var newUrl = new Url(Guid.NewGuid(), _mapper.Map<Command, Orso.Arpa.Domain.Logic.Urls.Create.Command>(request));
 
                 await _arpaContext.Urls.AddAsync(newUrl, cancellationToken);
-                existingProject.Urls.Add(newUrl);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
