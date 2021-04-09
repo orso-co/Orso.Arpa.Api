@@ -22,6 +22,11 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))
                 .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
                 .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText));
+
+            CreateMap<Command, Orso.Arpa.Domain.Logic.Urls.Create.Command>()
+                .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))
+                .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
+                .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText));
         }
     }
 
