@@ -1,7 +1,8 @@
+using System;
+using DoomedDatabases.Postgres;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,8 +16,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
 {
-    public class TestStartup : Startup
+    public class TestStartup : Startup, IDisposable
     {
+        public static ITestDatabase TestDatabase { get; set; }
+
         public TestStartup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
             : base(configuration, hostingEnvironment)
         {
@@ -24,16 +27,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         protected override void ConfigureDatabase(IServiceCollection services)
         {
-            var connection = new SqliteConnection("DataSource=:memory:");
-            connection.Open();
-
-            DbContextOptions<ArpaContext> options = new DbContextOptionsBuilder<ArpaContext>()
-                    .UseSqlite(connection)
-                    .Options;
+            if (TestDatabase is null)
+            {
+                TestDatabase = new TestDatabaseBuilder()
+                    .WithConnectionString(Configuration.GetConnectionString("PostgreSQLConnection"))
+                    .Build();
+                TestDatabase.Create();
+            }
 
             services.AddDbContext<ArpaContext>(options =>
             {
-                options.UseSqlite(connection);
+                options.UseNpgsql(TestDatabase.ConnectionString,
+                    opt => opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+                options.UseSnakeCaseNamingConvention();
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
             });
@@ -42,7 +48,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected override void EnsureDatabaseMigrations(IApplicationBuilder app)
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
-            System.IServiceProvider services = scope.ServiceProvider;
+            IServiceProvider services = scope.ServiceProvider;
             try
             {
                 ArpaContext context = services.GetRequiredService<ArpaContext>();
@@ -55,7 +61,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 dataSeeder.SeedDataAsync().Wait();
                 TestSeed.SeedDataAsync(userManager, signInManager, arpaContext).Wait();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 ILogger<TestStartup> logger = services.GetRequiredService<ILogger<TestStartup>>();
                 logger.LogError(ex, "An error occured during test database migration");
@@ -67,6 +73,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             app.UseMiddleware<TestRequestMiddleware>();
             base.Configure(app, env);
+        }
+
+        public void Dispose()
+        {
+            TestDatabase.Drop();
+            TestDatabase = null;
         }
     }
 }

@@ -46,6 +46,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             _unAuthenticatedServer.Dispose();
             _authenticatedServer.Dispose();
             _dateTimeProviderContext.Dispose();
+            TestStartup.TestDatabase?.Drop();
+            TestStartup.TestDatabase = null;
         }
 
         [SetUp]
