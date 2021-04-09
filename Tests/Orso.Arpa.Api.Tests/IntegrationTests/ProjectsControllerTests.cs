@@ -8,6 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
@@ -310,17 +311,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             ProjectDto expectedDto = ProjectDtoData.HoorayForHollywood;
-            expectedDto.Urls.Add(UrlDtoData.ArpaWebsite);
+            var createDto = new UrlCreateDto
+            {
+                Href = "http://www.landesblasorchester.de",
+                AnchorText = "Landesblasorchester Baden-Württemberg",
+                ProjectId = expectedDto.Id,
+            };
+
+            expectedDto.Urls.Add(
+                new UrlDto() { Id = Guid.NewGuid(), Href = createDto.Href, AnchorText = createDto.AnchorText }
+                );
 
             // Act
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.ProjectsController.Post(expectedDto.Id), BuildStringContent(UrlDtoData.ArpaWebsite));
+                .PostAsync(ApiEndpoints.ProjectsController.Post(expectedDto.Id), BuildStringContent(createDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
         }
     }
 }

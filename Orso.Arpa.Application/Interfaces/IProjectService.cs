@@ -12,7 +12,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task<ProjectDto> GetByIdAsync(Guid id);
 
         Task<ProjectDto> CreateAsync(ProjectCreateDto projectCreateDto);
-        Task<UrlDto> AddUrlAsync(UrlCreateDto urlCreateDto);
+        Task<ProjectDto> AddUrlAsync(UrlCreateDto urlCreateDto);
         Task ModifyAsync(ProjectModifyDto projectModifyDto);
         Task DeleteAsync(Guid id);
     }

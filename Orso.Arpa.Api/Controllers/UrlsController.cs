@@ -75,7 +75,6 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="addRoleDto"></param>
         /// <response code="204"></response>
         /// <response code="400">If invalid roleId or either urlId cannot not be found</response>
-        // TODO aussagekräftige und detailgenaue Fehlermeldungen
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/roles")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -89,15 +88,16 @@ namespace Orso.Arpa.Api.Controllers
         /// Remove an existing role from an existing urlId (from an existing projectId)
         /// </summary>
         /// <param name="removeRoleDto"></param>
-        /// <response code="200"></response>
+        /// <response code="204"></response>
         /// <response code="400">If either roleId or urlId cannot not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}/roles/{roleId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<UrlDto>> RemoveRole([FromRoute] UrlRemoveRoleDto removeRoleDto)
         {
-            return await _urlService.RemoveRoleAsync(removeRoleDto);
+            await _urlService.RemoveRoleAsync(removeRoleDto);
+            return NoContent();
         }
     }
 }

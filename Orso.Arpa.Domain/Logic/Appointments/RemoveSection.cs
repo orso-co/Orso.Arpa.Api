@@ -31,7 +31,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext)
             {
-                
                 RuleFor(d => d.SectionId)
                     .MustAsync(async (dto, sectionId, cancellation) => await arpaContext.SectionAppointments
                         .AnyAsync(sa => sa.SectionId == sectionId && sa.AppointmentId == dto.Id, cancellation))
