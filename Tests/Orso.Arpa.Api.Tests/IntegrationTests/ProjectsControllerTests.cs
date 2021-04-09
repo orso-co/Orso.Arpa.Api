@@ -308,9 +308,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ProjectDto expectedDto = ProjectDtoData.HoorayForHollywood;
             expectedDto.Urls.Add(UrlDtoData.ArpaWebsite);
 
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
-
             // Act
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
             HttpResponseMessage responseMessage = await client
                 .PostAsync(ApiEndpoints.ProjectsController.Post(expectedDto.Id), BuildStringContent(UrlDtoData.ArpaWebsite));
 

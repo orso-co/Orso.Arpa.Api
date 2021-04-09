@@ -29,6 +29,7 @@ namespace Orso.Arpa.Application.Services
             throw new NotImplementedException();
             //            CreateUrl.Command command = _mapper.Map<AddUrl.Command>(urlCreateDto);
             //            await _mediator.Send(command);
+            //            return await GetByIdAsync(urlCreateDto.Id);
         }
 
         public async Task<IEnumerable<ProjectDto>> GetAsync(bool includeCompleted)
