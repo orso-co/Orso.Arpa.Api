@@ -34,15 +34,10 @@ namespace Orso.Arpa.Domain.Logic.Projects
         {
             public MappingProfile()
             {
-                //TODO
-                //CreateMap<Command, UrlProject>()
-                //    .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId));
-
-                //CreateMap<Command, Url.Create.Command>()
-                //    .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
-                //    .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText))
-                //    .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId));
-
+                CreateMap<Command, AddUrl.Command>()
+                    .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
+                    .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText))
+                    .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId));
             }
         }
 
@@ -74,11 +69,18 @@ namespace Orso.Arpa.Domain.Logic.Projects
                 Project existingProject = await _arpaContext.Projects.FindAsync(new object[] { request.ProjectId }, cancellationToken);
 
                 // create a new Url here and attach it to the existing project
+                var command = new Orso.Arpa.Domain.Logic.Urls.Create.Command
+                {
+                    AnchorText = request.AnchorText,
+                    Href = request.Href,
+                    ProjectId = existingProject.Id
+                };
+                var newUrl = new Url(Guid.NewGuid(), command);
 
-                // ToDo: wie geht hier der Context-Switch von project zu url?
-                var newUrl = new Url(Guid.NewGuid()); //, _mapper.Map<Command, Create.Command>(request));
+                // TODO: shouldn't the above work as something like this to use the auto-mapper?
+                //var newUrl = new Url(Guid.NewGuid(), _mapper.Map<Command, Orso.Arpa.Domain.Logic.Urls.Create.Command>(request));
+
                 await _arpaContext.Urls.AddAsync(newUrl, cancellationToken);
-
                 existingProject.Urls.Add(newUrl);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
