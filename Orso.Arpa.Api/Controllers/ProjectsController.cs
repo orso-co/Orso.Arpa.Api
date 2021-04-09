@@ -80,7 +80,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("{id}/urls")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UrlDto>> Add([FromBodyAndRoute] UrlCreateDto urlCreateDto)
+        public async Task<ActionResult<ProjectDto>> Add([FromBodyAndRoute] UrlCreateDto urlCreateDto)
         {
             return await _projectService.AddUrlAsync(urlCreateDto);
         }

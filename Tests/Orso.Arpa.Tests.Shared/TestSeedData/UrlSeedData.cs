@@ -24,7 +24,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     AnchorText = "Our great ARPA 2.0 Website",
                     Href = "https://arpa2.orso.co",
-                    Id = ProjectSeedData.RockingXMas.Id
+                    ProjectId = ProjectSeedData.RockingXMas.Id
                 };
                 var id = Guid.Parse("a009cea6-031c-4f0c-ac05-931b2826127d");
                 var url = new Url(id, command);
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     AnchorText = "ORSO website",
                     Href = "https://www.orso.co",
-                    Id = ProjectSeedData.RockingXMas.Id
+                    ProjectId = ProjectSeedData.RockingXMas.Id
                 };
                 var id = Guid.Parse("2d7c6ac5-5b1c-42ef-9c3d-1edd3f46b33f");
                 var url = new Url(id, command);
@@ -57,7 +57,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     AnchorText = "Google",
                     Href = "https://www.google.com",
-                    Id = ProjectSeedData.RockingXMas.Id,
+                    ProjectId = ProjectSeedData.RockingXMas.Id,
                 };
                 var id = Guid.Parse("fa8d667d-3bb6-4482-91ed-20754be6d539");
                 var url = new Url(id, command);
@@ -73,7 +73,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     AnchorText = "Google DE",
                     Href = "https://www.google.de",
-                    Id = ProjectSeedData.HoorayForHollywood.Id
+                    ProjectId = ProjectSeedData.HoorayForHollywood.Id
                 };
                 return new Url(Guid.Parse("be021bf0-db90-4a05-9d7c-0e98c9a3f893"), command);
             }

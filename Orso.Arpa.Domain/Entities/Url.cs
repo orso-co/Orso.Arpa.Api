@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.Entities
         {
             Href = command.Href;
             AnchorText = command.AnchorText;
-            ProjectId = command.Id;
+            ProjectId = command.ProjectId;
         }
 
         internal Url(Guid? id) : base(id)

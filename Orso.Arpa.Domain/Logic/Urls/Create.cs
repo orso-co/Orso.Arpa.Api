@@ -13,16 +13,15 @@ namespace Orso.Arpa.Domain.Logic.Urls
         {
             public string Href { get; set; }
             public string AnchorText { get; set; }
-            public Guid Id { get; set; }
+            public Guid ProjectId { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
         {
             public Validator(IArpaContext arpaContext)
             {
-                //TODO
-                RuleFor(c => c.Id)
-                    .MustAsync(async (projectId, cancellation) => await arpaContext.Projects.AnyAsync(p => p.Id == projectId, cancellation))
+                RuleFor(c => c.ProjectId)
+                    .MustAsync(async (ProjectId, cancellation) => await arpaContext.Projects.AnyAsync(p => p.Id == ProjectId, cancellation))
                     .WithMessage("The project could not be found");
             }
         }

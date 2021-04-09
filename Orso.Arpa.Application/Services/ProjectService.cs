@@ -8,6 +8,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -24,12 +25,11 @@ namespace Orso.Arpa.Application.Services
         {
         }
 
-        public Task<UrlDto> AddUrlAsync(UrlCreateDto urlCreateDto)
+        public async Task<ProjectDto> AddUrlAsync(UrlCreateDto urlCreateDto)
         {
-            throw new NotImplementedException();
-            //            CreateUrl.Command command = _mapper.Map<AddUrl.Command>(urlCreateDto);
-            //            await _mediator.Send(command);
-            //            return await GetByIdAsync(urlCreateDto.Id);
+            AddUrl.Command command = _mapper.Map<AddUrl.Command>(urlCreateDto);
+            await _mediator.Send(command);
+            return await GetByIdAsync(urlCreateDto.ProjectId);
         }
 
         public async Task<IEnumerable<ProjectDto>> GetAsync(bool includeCompleted)

@@ -34,11 +34,10 @@ namespace Orso.Arpa.Application.Services
             return await GetByIdAsync(addRoleDto.Id);
         }
 
-        public async Task<UrlDto> RemoveRoleAsync(UrlRemoveRoleDto removeRoleDto)
+        public async Task RemoveRoleAsync(UrlRemoveRoleDto removeRoleDto)
         {
             RemoveRole.Command command = _mapper.Map<RemoveRole.Command>(removeRoleDto);
             await _mediator.Send(command);
-            return await GetByIdAsync(removeRoleDto.Id);
         }
     }
 }

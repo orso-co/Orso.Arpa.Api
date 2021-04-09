@@ -106,9 +106,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     RoleSeedData.Staff.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

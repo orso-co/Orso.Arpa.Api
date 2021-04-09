@@ -10,7 +10,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task<UrlDto> GetByIdAsync(Guid id);
         Task PutAsync(UrlModifyDto urlModifyDto);
         Task<UrlDto> AddRoleAsync(UrlAddRoleDto addRoleDto);
-        Task<UrlDto> RemoveRoleAsync(UrlRemoveRoleDto removeRoleDto);
+        Task RemoveRoleAsync(UrlRemoveRoleDto removeRoleDto);
         Task DeleteAsync(Guid id);
     }
 }
