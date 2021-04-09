@@ -45,8 +45,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(responseMessage);
 
             result.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dto => dto.Id)
-                .Excluding(dto => dto.CreatedAt));
+                .Excluding(dto => dto.Id));
             result.Id.Should().NotBeEmpty();
         }
 
@@ -87,7 +86,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             RegionDto result = await DeserializeResponseMessageAsync<RegionDto>(getMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.ModifiedAt));
+            result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(1)]

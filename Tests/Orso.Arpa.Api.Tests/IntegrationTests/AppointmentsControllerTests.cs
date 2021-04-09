@@ -100,9 +100,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
             result.Id.Should().NotBeEmpty();
-            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
 
         [Test, Order(104)]
