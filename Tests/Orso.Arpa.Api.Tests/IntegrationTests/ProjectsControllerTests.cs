@@ -92,7 +92,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedProject);
         }
 
-        [Test, Order(1000)]
+        [Test, Order(10)]
         public async Task Should_Create_With_Minimum_Fields_Defined()
         {
             // Arrange
@@ -128,7 +128,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
 
-        [Test, Order(1001)]
+        [Test, Order(11)]
         public async Task Should_Create_With_All_Fields_Defined()
         {
             // Arrange
@@ -178,7 +178,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
 
-        [Test, Order(1002)]
+        [Test, Order(12)]
         public async Task Should_Not_Create_Due_To_Non_Unique_Number()
         {
             // Arrange
@@ -199,7 +199,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Test, Order(1003)]
+        [Test, Order(13)]
         public async Task Should_Not_Create_Due_To_Missing_Mandatory_Field()
         {
             // Arrange
@@ -220,7 +220,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Test, Order(1004)]
+        [Test, Order(14)]
         public async Task Should_Not_Create_Due_Wrong_Dates()
         {
             // Arrange
@@ -243,7 +243,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Test, Order(10100)]
+        [Test, Order(30)]
         public async Task Should_Modify()
         {
             // Arrange
@@ -290,7 +290,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.ModifiedAt.Should().BeAfter(DateTime.MinValue);
         }
 
-        [Test, Order(10500)]
+        [Test, Order(100)]
         public async Task Should_Delete()
         {
             // Arrange
@@ -306,12 +306,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test]
+        [Test, Order(20)]
         public async Task Should_Add_Url()
         {
             // Arrange
             ProjectDto expectedDto = ProjectDtoData.HoorayForHollywood;
-            var createDto = new UrlCreateDto
+            var addDto = new ProjectAddUrlDto
             {
                 Href = "http://www.landesblasorchester.de",
                 AnchorText = "Landesblasorchester Baden-Württemberg",
@@ -319,18 +319,44 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             expectedDto.Urls.Add(
-                new UrlDto() { Id = Guid.NewGuid(), Href = createDto.Href, AnchorText = createDto.AnchorText }
+                new UrlDto() { Href = addDto.Href, AnchorText = addDto.AnchorText, CreatedBy = _staff.DisplayName }
                 );
 
             // Act
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.ProjectsController.Post(expectedDto.Id), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.ProjectsController.Post(expectedDto.Id), BuildStringContent(addDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls[1].Id).Excluding(r => r.Urls[1].CreatedAt));
+
+            // ToDo: potential change: if ProjectAddUrl shall not return the modified project, then use Get and assert
+            responseMessage = await client
+               .GetAsync(ApiEndpoints.ProjectsController.Get(expectedDto.Id));
+            result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls[1].Id).Excluding(r => r.Urls[1].CreatedAt));
+        }
+
+        [Test, Order(21)]
+        public async Task Should_Not_Add_Url_Due_To_Project_Not_Found()
+        {
+            // Arrange
+            var addDto = new ProjectAddUrlDto
+            {
+                Href = "http://www.landesblasorchester.de",
+                AnchorText = "Landesblasorchester Baden-Württemberg",
+                ProjectId = Guid.NewGuid(),
+            };
+
+            // Act
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+            HttpResponseMessage responseMessage = await client
+                .PostAsync(ApiEndpoints.ProjectsController.Post(addDto.ProjectId), BuildStringContent(addDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

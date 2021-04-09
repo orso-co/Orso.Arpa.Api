@@ -2,59 +2,44 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
-using static Orso.Arpa.Domain.Logic.Projects.Create;
+using static Orso.Arpa.Domain.Logic.Projects.AddUrl;
 
 namespace Orso.Arpa.Application.ProjectApplication
 {
-    public class ProjectCreateDto
+    public class ProjectAddUrlDto
     {
-        public string Title { get; set; }
-        public string ShortTitle { get; set; }
-        public string Description { get; set; }
-        public string Number { get; set; }
-        public Guid? TypeId { get; set; }
-        public Guid? GenreId { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public Guid? StateId { get; set; }
-        public Guid? ParentId { get; set; }
-        public bool IsCompleted { get; set; }
+        public string Href { get; set; }
+        public string AnchorText { get; set; }
+        public Guid ProjectId { get; set; }
+
     }
 
-    public class ProjectCreateDtoMappingProfile : Profile
+    public class ProjectAddUrlDtoMappingProfile : Profile
     {
-        public ProjectCreateDtoMappingProfile()
+        public ProjectAddUrlDtoMappingProfile()
         {
-            CreateMap<ProjectCreateDto, Command>();
+            CreateMap<ProjectAddUrlDto, Command>()
+                .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))
+                .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
+                .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText));
         }
     }
 
-    public class ProjectCreateDtoValidator : AbstractValidator<ProjectCreateDto>
+    public class ProjectAddUrlDtoValidator : AbstractValidator<ProjectAddUrlDto>
     {
-        public ProjectCreateDtoValidator()
+        public ProjectAddUrlDtoValidator()
         {
-            RuleFor(p => p.Title)
-                .NotEmpty()
-                .MaximumLength(100);
+            RuleFor(p => p.ProjectId)
+              .NotEmpty();
 
-            RuleFor(p => p.ShortTitle)
-                .NotEmpty()
-                .MaximumLength(30);
+            RuleFor(p => p.Href)
+                 .NotEmpty()
+                 .ValidUri()
+                 .MaximumLength(1000);
 
-            RuleFor(p => p.Description)
+            RuleFor(p => p.AnchorText)
+                .NotEmpty()
                 .MaximumLength(1000);
-
-            RuleFor(p => p.Number)
-                .NotEmpty()
-                .Sepa()
-                .MaximumLength(15);
-
-            When(p => p.StartDate != null && p.EndDate != null, () =>
-            {
-                RuleFor(p => p.EndDate)
-                    .Must((p, endTime) => endTime >= p.StartDate)
-                    .WithMessage("EndDate must be greater than StartTime");
-            });
         }
     }
 }

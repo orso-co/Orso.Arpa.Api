@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Application.UrlApplication;
 
 namespace Orso.Arpa.Application.Interfaces
 {
@@ -12,7 +11,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task<ProjectDto> GetByIdAsync(Guid id);
 
         Task<ProjectDto> CreateAsync(ProjectCreateDto projectCreateDto);
-        Task<ProjectDto> AddUrlAsync(UrlCreateDto urlCreateDto);
+        Task<ProjectDto> AddUrlAsync(ProjectAddUrlDto addUrlDto);
         Task ModifyAsync(ProjectModifyDto projectModifyDto);
         Task DeleteAsync(Guid id);
     }
