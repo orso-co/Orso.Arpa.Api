@@ -54,21 +54,16 @@ namespace Orso.Arpa.Domain.Logic.Projects
         public class Handler : IRequestHandler<Command>
         {
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
             public Handler(
-                IArpaContext arpaContext,
-                IMapper mapper)
+                IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Project existingProject = await _arpaContext.Projects.FindAsync(new object[] { request.ProjectId }, cancellationToken);
-
-                var newUrl = new Url(Guid.NewGuid(), _mapper.Map<Command, Orso.Arpa.Domain.Logic.Urls.Create.Command>(request));
+                var newUrl = new Url(Guid.NewGuid(), request);
                 await _arpaContext.Urls.AddAsync(newUrl, cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)

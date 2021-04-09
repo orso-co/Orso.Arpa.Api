@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Urls;
+using Orso.Arpa.Domain.Logic.Projects;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command
+                var command = new AddUrl.Command
                 {
                     AnchorText = "Our great ARPA 2.0 Website",
                     Href = "https://arpa2.orso.co",
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command
+                var command = new AddUrl.Command
                 {
                     AnchorText = "ORSO website",
                     Href = "https://www.orso.co",
@@ -53,7 +53,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command
+                var command = new AddUrl.Command
                 {
                     AnchorText = "Google",
                     Href = "https://www.google.com",
@@ -69,7 +69,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command
+                var command = new AddUrl.Command
                 {
                     AnchorText = "Google DE",
                     Href = "https://www.google.de",
