@@ -10,7 +10,7 @@ using Orso.Arpa.Tests.Shared.DtoTestData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class RegionDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class RegionDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
