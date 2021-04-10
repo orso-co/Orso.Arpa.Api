@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
@@ -16,7 +17,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _handler = new UserRegister.Handler(_userManager);
+            _handler = new UserRegister.Handler(_userManager, new FakeDateTimeProvider());
         }
 
         private ArpaUserManager _userManager;

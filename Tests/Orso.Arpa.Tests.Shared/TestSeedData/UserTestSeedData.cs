@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -30,7 +31,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     UserName = "performer",
                     Email = "performer@test.com",
                     PersonId = PersonTestSeedData.Performer.Id,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -45,7 +47,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     UserName = "staff",
                     Email = "staff@test.com",
                     PersonId = PersonTestSeedData.Staff.Id,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -60,7 +63,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     UserName = "withoutrole",
                     Email = "withoutrole@test.com",
                     PersonId = PersonTestSeedData.UserWithoutRole.Id,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -75,7 +79,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     UserName = "lockedout",
                     Email = "lockedout@test.com",
                     PersonId = PersonTestSeedData.LockedOutUser.Id,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -90,6 +95,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     UserName = "unconfirmed",
                     Email = "unconfirmed@test.com",
                     PersonId = PersonTestSeedData.UnconfirmedUser.Id,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }

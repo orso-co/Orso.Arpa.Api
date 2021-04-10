@@ -37,6 +37,7 @@ using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Mail.Interfaces;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Swashbuckle.AspNetCore.Swagger;
@@ -62,6 +63,7 @@ namespace Orso.Arpa.Api
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterServices(services);
+            RegisterDateTimeProvider(services);
 
             ConfigureDatabase(services);
 
@@ -203,6 +205,11 @@ namespace Orso.Arpa.Api
             services.AddScoped<ITemplateParser, TemplateParser>();
         }
 
+        protected virtual void RegisterDateTimeProvider(IServiceCollection services)
+        {
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        }
+
         private void ConfigureAuthentication(IServiceCollection services)
         {
             IdentityBuilder builder = services.AddIdentityCore<User>();
@@ -268,7 +275,11 @@ namespace Orso.Arpa.Api
         {
             services.AddDbContext<ArpaContext>(opt =>
             {
-                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                opt
+                    .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"),
+                        opt => opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+                    .UseSnakeCaseNamingConvention();
+
                 if (_hostingEnvironment.IsDevelopment())
                 {
                     opt.EnableSensitiveDataLogging();
@@ -319,7 +330,7 @@ namespace Orso.Arpa.Api
         protected virtual void EnsureDatabaseMigrations(IApplicationBuilder app)
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
-            System.IServiceProvider services = scope.ServiceProvider;
+            IServiceProvider services = scope.ServiceProvider;
             try
             {
                 ArpaContext context = services.GetRequiredService<ArpaContext>();
@@ -327,7 +338,7 @@ namespace Orso.Arpa.Api
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
                 logger.LogError(ex, "An error occured during database migration");

@@ -22,17 +22,20 @@ namespace Orso.Arpa.Infrastructure.Authentication
         private readonly ArpaUserManager _userManager;
         private readonly IArpaContext _arpaContext;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public JwtGenerator(
             JwtConfiguration jwtConfiguration,
             ArpaUserManager userManager,
             IArpaContext arpaContext,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IDateTimeProvider dateTimeProvider)
         {
             _jwtConfiguration = jwtConfiguration;
             _userManager = userManager;
             _arpaContext = arpaContext;
             _httpContextAccessor = httpContextAccessor;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task<string> CreateTokensAsync(User user, string remoteIpAddress)
@@ -64,7 +67,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             var tokenDesriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
-                Expires = DateTimeProvider.Instance.GetUtcNow().AddMinutes(_jwtConfiguration.AccessTokenExpiryInMinutes),
+                Expires = _dateTimeProvider.GetUtcNow().AddMinutes(_jwtConfiguration.AccessTokenExpiryInMinutes),
                 SigningCredentials = credentials,
                 Issuer = _jwtConfiguration.Issuer,
                 Audience = _jwtConfiguration.Audience
@@ -106,13 +109,15 @@ namespace Orso.Arpa.Infrastructure.Authentication
             using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
             var randomBytes = new byte[64];
             rngCryptoServiceProvider.GetBytes(randomBytes);
+            DateTime now = _dateTimeProvider.GetUtcNow();
 
             return new RefreshToken
             (
                 Convert.ToBase64String(randomBytes),
-                DateTimeProvider.Instance.GetUtcNow().AddDays(_jwtConfiguration.RefreshTokenExpiryInDays),
+                now.AddDays(_jwtConfiguration.RefreshTokenExpiryInDays),
                 ipAddress,
-                user.Id
+                user.Id,
+                now
             );
         }
     }

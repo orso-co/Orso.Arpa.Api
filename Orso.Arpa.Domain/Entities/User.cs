@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
-using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -16,6 +15,6 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<RefreshToken> RefreshTokens { get; private set; } = new HashSet<RefreshToken>();
 
         [JsonInclude]
-        public DateTime CreatedAt { get; private set; } = DateTimeProvider.Instance.GetUtcNow();
+        public DateTime CreatedAt { get; set; }
     }
 }

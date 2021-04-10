@@ -1,5 +1,4 @@
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -14,7 +13,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 Project project = ProjectSeedData.RockingXMas;
                 project.ProjectAppointments.Add(FakeProjectAppointments.RockingXMasRehearsal);
                 project.SetProperty(nameof(Project.CreatedBy), "anonymous");
-                project.SetProperty(nameof(Project.CreatedAt), DateTimeProvider.Instance.GetUtcNow());
+                project.SetProperty(nameof(Project.CreatedAt), FakeDateTime.UtcNow);
                 project.Urls.Add(FakeUrls.ArpaWebsite);
                 project.Urls.Add(FakeUrls.OrsoWebsite);
                 project.Urls.Add(FakeUrls.Google);

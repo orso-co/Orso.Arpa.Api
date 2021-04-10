@@ -34,7 +34,12 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             _userManager = new FakeUserManager();
             _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
             _arpaContext = Substitute.For<IArpaContext>();
-            _jwtGenerator = new JwtGenerator(_configuration, _userManager, _arpaContext, _httpContextAccessor);
+            _jwtGenerator = new JwtGenerator(
+                _configuration,
+                _userManager,
+                _arpaContext,
+                _httpContextAccessor,
+                new FakeDateTimeProvider());
         }
 
         private JwtGenerator _jwtGenerator;

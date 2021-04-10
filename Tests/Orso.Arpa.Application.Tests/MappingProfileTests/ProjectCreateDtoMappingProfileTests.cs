@@ -9,7 +9,7 @@ using Orso.Arpa.Domain.Logic.Projects;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class ProjectCreateDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class ProjectCreateDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()

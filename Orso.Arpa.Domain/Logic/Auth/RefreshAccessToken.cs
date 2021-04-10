@@ -10,6 +10,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -37,15 +38,18 @@ namespace Orso.Arpa.Domain.Logic.Auth
             private readonly ArpaUserManager _userManager;
             private readonly IArpaContext _arpaContext;
             private readonly IJwtGenerator _jwtGenerator;
+            private readonly IDateTimeProvider _dateTimeProvider;
 
             public Handler(
                 ArpaUserManager userManager,
                 IJwtGenerator jwtGenerator,
-                IArpaContext arpaContext)
+                IArpaContext arpaContext,
+                IDateTimeProvider dateTimeProvider)
             {
                 _userManager = userManager;
                 _arpaContext = arpaContext;
                 _jwtGenerator = jwtGenerator;
+                _dateTimeProvider = dateTimeProvider;
             }
 
             public async Task<string> Handle(Command request, CancellationToken cancellationToken)
@@ -68,7 +72,12 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (existingRefreshToken.CreatedByIp != request.RemoteIpAddress)
                 {
-                    existingRefreshToken.Revoke(new RevokeRefreshToken.Command() { RemoteIpAddress = request.RemoteIpAddress, RefreshToken = request.RefreshToken });
+                    existingRefreshToken.Revoke(new RevokeRefreshToken.Command()
+                    {
+                        RemoteIpAddress = request.RemoteIpAddress,
+                        RefreshToken = request.RefreshToken
+                    }, _dateTimeProvider.GetUtcNow());
+
                     await _arpaContext.SaveChangesAsync(cancellationToken);
                     throw new AuthorizationException("For security reasons, it is not allowed to use this refresh token with a different IP " +
                         "than the one with which the token was created. The refresh token has been revoked. Please log in again.");
@@ -77,10 +86,10 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress);
             }
 
-            private static RefreshToken GetValidRefreshToken(string token, User user)
+            private RefreshToken GetValidRefreshToken(string token, User user)
             {
                 RefreshToken existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == token);
-                return existingToken.IsActive ? existingToken : null;
+                return existingToken.IsActive(_dateTimeProvider.GetUtcNow()) ? existingToken : null;
             }
         }
     }

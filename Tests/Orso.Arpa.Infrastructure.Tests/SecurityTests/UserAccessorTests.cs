@@ -11,7 +11,6 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Infrastructure.Authentication;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -85,7 +84,6 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         public async Task Should_Get_Current_User()
         {
             // Arrange
-            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             User expectedUser = FakeUsers.Performer;
             var claims = new List<Claim>
             {

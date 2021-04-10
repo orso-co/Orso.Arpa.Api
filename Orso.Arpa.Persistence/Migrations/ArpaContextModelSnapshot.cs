@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
 
 namespace Orso.Arpa.Persistence.Migrations
@@ -15,29 +15,35 @@ namespace Orso.Arpa.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.4")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_type");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_value");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_role_claims");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_asp_net_role_claims_role_id");
 
                     b.ToTable("AspNetRoleClaims");
                 });
@@ -46,21 +52,27 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_type");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("claim_value");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_user_claims");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_asp_net_user_claims_user_id");
 
                     b.ToTable("AspNetUserClaims");
                 });
@@ -68,20 +80,26 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text")
+                        .HasColumnName("login_provider");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text")
+                        .HasColumnName("provider_key");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("provider_display_name");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+                    b.HasKey("LoginProvider", "ProviderKey")
+                        .HasName("pk_asp_net_user_logins");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_asp_net_user_logins_user_id");
 
                     b.ToTable("AspNetUserLogins");
                 });
@@ -89,14 +107,18 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_asp_net_user_roles");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_asp_net_user_roles_role_id");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -104,18 +126,23 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text")
+                        .HasColumnName("login_provider");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("value");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("UserId", "LoginProvider", "Name")
+                        .HasName("pk_asp_net_user_tokens");
 
                     b.ToTable("AspNetUserTokens");
                 });
@@ -124,64 +151,81 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Address1")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("address1");
 
                     b.Property<string>("Address2")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("address2");
 
                     b.Property<string>("City")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("city");
 
                     b.Property<string>("Country")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("country");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("discriminator");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<Guid?>("RegionId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("region_id");
 
                     b.Property<string>("State")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("state");
 
                     b.Property<string>("UrbanDistrict")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("urban_district");
 
                     b.Property<string>("Zip")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("zip");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_addresses");
 
-                    b.HasIndex("RegionId");
+                    b.HasIndex("RegionId")
+                        .HasDatabaseName("ix_addresses_region_id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("addresses");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Address");
                 });
@@ -190,568 +234,732 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid?>("AuditionId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("audition_id");
 
                     b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid?>("EmolumentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("emolument_id");
 
                     b.Property<Guid?>("EmolumentPatternId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("emolument_pattern_id");
 
                     b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("end_time");
 
                     b.Property<Guid?>("ExpectationId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("expectation_id");
 
                     b.Property<string>("InternalDetails")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("internal_details");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
                     b.Property<string>("PublicDetails")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("public_details");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("start_time");
 
                     b.Property<Guid?>("StatusId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("status_id");
 
                     b.Property<Guid?>("VenueId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("venue_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_appointments");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("ix_appointments_category_id");
 
-                    b.HasIndex("EmolumentId");
+                    b.HasIndex("EmolumentId")
+                        .HasDatabaseName("ix_appointments_emolument_id");
 
-                    b.HasIndex("EmolumentPatternId");
+                    b.HasIndex("EmolumentPatternId")
+                        .HasDatabaseName("ix_appointments_emolument_pattern_id");
 
-                    b.HasIndex("ExpectationId");
+                    b.HasIndex("ExpectationId")
+                        .HasDatabaseName("ix_appointments_expectation_id");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("StatusId")
+                        .HasDatabaseName("ix_appointments_status_id");
 
-                    b.HasIndex("VenueId");
+                    b.HasIndex("VenueId")
+                        .HasDatabaseName("ix_appointments_venue_id");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("appointments");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.AppointmentParticipation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid>("AppointmentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<Guid>("PersonId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("person_id");
 
                     b.Property<Guid?>("PredictionId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("prediction_id");
 
                     b.Property<Guid?>("ResultId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("result_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_appointment_participations");
 
-                    b.HasIndex("AppointmentId");
+                    b.HasIndex("AppointmentId")
+                        .HasDatabaseName("ix_appointment_participations_appointment_id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonId")
+                        .HasDatabaseName("ix_appointment_participations_person_id");
 
-                    b.HasIndex("PredictionId");
+                    b.HasIndex("PredictionId")
+                        .HasDatabaseName("ix_appointment_participations_prediction_id");
 
-                    b.HasIndex("ResultId");
+                    b.HasIndex("ResultId")
+                        .HasDatabaseName("ix_appointment_participations_result_id");
 
-                    b.ToTable("AppointmentParticipations");
+                    b.ToTable("appointment_participations");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.AppointmentRoom", b =>
                 {
                     b.Property<Guid>("AppointmentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
 
                     b.Property<Guid>("RoomId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("room_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("AppointmentId", "RoomId");
+                    b.HasKey("AppointmentId", "RoomId")
+                        .HasName("pk_appointment_rooms");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("RoomId")
+                        .HasDatabaseName("ix_appointment_rooms_room_id");
 
-                    b.ToTable("AppointmentRooms");
+                    b.ToTable("appointment_rooms");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Audition", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid?>("AppointmentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("InnerComment")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("inner_comment");
 
                     b.Property<string>("InternalComment")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("internal_comment");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Repertoire")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("repertoire");
 
                     b.Property<Guid?>("RepetitorStatusId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("repetitor_status_id");
 
                     b.Property<Guid?>("StatusId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("status_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_auditions");
 
                     b.HasIndex("AppointmentId")
                         .IsUnique()
-                        .HasFilter("[AppointmentId] IS NOT NULL");
+                        .HasDatabaseName("ix_auditions_appointment_id");
 
-                    b.HasIndex("RepetitorStatusId");
+                    b.HasIndex("RepetitorStatusId")
+                        .HasDatabaseName("ix_auditions_repetitor_status_id");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("StatusId")
+                        .HasDatabaseName("ix_auditions_status_id");
 
-                    b.ToTable("Auditions");
+                    b.ToTable("auditions");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.AvailableDocument", b =>
                 {
                     b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
 
                     b.Property<Guid>("SelectValueMappingId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("select_value_mapping_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("MusicianProfileId", "SelectValueMappingId");
+                    b.HasKey("MusicianProfileId", "SelectValueMappingId")
+                        .HasName("pk_available_documents");
 
-                    b.HasIndex("SelectValueMappingId");
+                    b.HasIndex("SelectValueMappingId")
+                        .HasDatabaseName("ix_available_documents_select_value_mapping_id");
 
-                    b.ToTable("AvailableDocuments");
+                    b.ToTable("available_documents");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Credential", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("Details")
                         .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("details");
 
                     b.Property<string>("Keyword")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("keyword");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<byte>("SortOrder")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("sort_order");
 
                     b.Property<string>("Timespan")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("timespan");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_credentials");
 
-                    b.ToTable("Credentials");
+                    b.ToTable("credentials");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Education", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Comment")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("comment");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("Institution")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("institution");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<byte>("SortOrder")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("sort_order");
 
                     b.Property<string>("Timespan")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("timespan");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_educations");
 
-                    b.ToTable("Educations");
+                    b.ToTable("educations");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Background")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("background");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<byte>("ExperienceLevel")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("experience_level");
 
                     b.Property<Guid?>("InqueryId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("inquery_id");
 
                     b.Property<Guid>("InstrumentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("instrument_id");
 
                     b.Property<bool>("IsMainProfile")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_main_profile");
 
-                    b.Property<byte>("LevelInnerASsessment")
-                        .HasColumnType("tinyint");
+                    b.Property<byte>("LevelInnerAssessment")
+                        .HasColumnType("smallint")
+                        .HasColumnName("level_inner_assessment");
 
                     b.Property<byte>("LevelSelfAssessment")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("level_self_assessment");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<Guid>("PersonId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("person_id");
 
                     b.Property<Guid?>("PreferredPositionId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("preferred_position_id");
 
                     b.Property<byte>("ProfileFavorizitation")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("profile_favorizitation");
 
                     b.Property<Guid?>("QualificationId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("qualification_id");
 
                     b.Property<Guid?>("SalaryId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("salary_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_musician_profiles");
 
-                    b.HasIndex("InqueryId");
+                    b.HasIndex("InqueryId")
+                        .HasDatabaseName("ix_musician_profiles_inquery_id");
 
-                    b.HasIndex("InstrumentId");
+                    b.HasIndex("InstrumentId")
+                        .HasDatabaseName("ix_musician_profiles_instrument_id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonId")
+                        .HasDatabaseName("ix_musician_profiles_person_id");
 
-                    b.HasIndex("PreferredPositionId");
+                    b.HasIndex("PreferredPositionId")
+                        .HasDatabaseName("ix_musician_profiles_preferred_position_id");
 
-                    b.HasIndex("QualificationId");
+                    b.HasIndex("QualificationId")
+                        .HasDatabaseName("ix_musician_profiles_qualification_id");
 
-                    b.HasIndex("SalaryId");
+                    b.HasIndex("SalaryId")
+                        .HasDatabaseName("ix_musician_profiles_salary_id");
 
-                    b.ToTable("MusicianProfiles");
+                    b.ToTable("musician_profiles");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileCredential", b =>
                 {
                     b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
 
                     b.Property<Guid>("CredentialId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("credential_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("MusicianProfileId", "CredentialId");
+                    b.HasKey("MusicianProfileId", "CredentialId")
+                        .HasName("pk_musician_profile_credentials");
 
-                    b.HasIndex("CredentialId");
+                    b.HasIndex("CredentialId")
+                        .HasDatabaseName("ix_musician_profile_credentials_credential_id");
 
-                    b.ToTable("MusicianProfileCredentials");
+                    b.ToTable("musician_profile_credentials");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileEducation", b =>
                 {
                     b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
 
                     b.Property<Guid>("EducationId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("education_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("MusicianProfileId", "EducationId");
+                    b.HasKey("MusicianProfileId", "EducationId")
+                        .HasName("pk_musician_profile_educations");
 
-                    b.HasIndex("EducationId");
+                    b.HasIndex("EducationId")
+                        .HasDatabaseName("ix_musician_profile_educations_education_id");
 
-                    b.ToTable("MusicianProfileEducations");
+                    b.ToTable("musician_profile_educations");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileSection", b =>
                 {
                     b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
 
                     b.Property<Guid>("SectionId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("MusicianProfileId", "SectionId");
+                    b.HasKey("MusicianProfileId", "SectionId")
+                        .HasName("pk_musician_profile_sections");
 
-                    b.HasIndex("SectionId");
+                    b.HasIndex("SectionId")
+                        .HasDatabaseName("ix_musician_profile_sections_section_id");
 
-                    b.ToTable("MusicianProfileSections");
+                    b.ToTable("musician_profile_sections");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Person", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("AboutMe")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("about_me");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<byte>("Favorization")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("favorization");
 
                     b.Property<string>("GivenName")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("given_name");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<byte>("Reliability")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("reliability");
 
                     b.Property<string>("Surname")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("surname");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_persons");
 
-                    b.ToTable("Persons");
+                    b.ToTable("persons");
 
                     b.HasData(
                         new
@@ -769,328 +977,420 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.PersonSection", b =>
                 {
                     b.Property<Guid>("PersonId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("person_id");
 
                     b.Property<Guid>("SectionId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("PersonId", "SectionId");
+                    b.HasKey("PersonId", "SectionId")
+                        .HasName("pk_person_sections");
 
-                    b.HasIndex("SectionId");
+                    b.HasIndex("SectionId")
+                        .HasDatabaseName("ix_person_sections_section_id");
 
-                    b.ToTable("PersonSections");
+                    b.ToTable("person_sections");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Position", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
                     b.Property<Guid>("SectionId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_positions");
 
-                    b.HasIndex("SectionId");
+                    b.HasIndex("SectionId")
+                        .HasDatabaseName("ix_positions_section_id");
 
-                    b.ToTable("Positions");
+                    b.ToTable("positions");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredGenre", b =>
                 {
                     b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
 
                     b.Property<Guid>("SelectValueMappingId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("select_value_mapping_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("MusicianProfileId", "SelectValueMappingId");
+                    b.HasKey("MusicianProfileId", "SelectValueMappingId")
+                        .HasName("pk_preferred_genre");
 
-                    b.HasIndex("SelectValueMappingId");
+                    b.HasIndex("SelectValueMappingId")
+                        .HasDatabaseName("ix_preferred_genre_select_value_mapping_id");
 
-                    b.ToTable("PreferredGenre");
+                    b.ToTable("preferred_genre");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Project", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("description");
 
                     b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("end_date");
 
                     b.Property<Guid?>("GenreId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("genre_id");
 
                     b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_completed");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("character varying(15)")
+                        .HasColumnName("number");
 
                     b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_id");
 
                     b.Property<string>("ShortTitle")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("short_title");
 
                     b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("start_date");
 
                     b.Property<Guid?>("StateId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("state_id");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("title");
 
                     b.Property<Guid?>("TypeId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("type_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_projects");
 
-                    b.HasIndex("GenreId");
+                    b.HasIndex("GenreId")
+                        .HasDatabaseName("ix_projects_genre_id");
 
-                    b.HasIndex("Number");
+                    b.HasIndex("Number")
+                        .HasDatabaseName("ix_projects_number");
 
-                    b.HasIndex("ParentId");
+                    b.HasIndex("ParentId")
+                        .HasDatabaseName("ix_projects_parent_id");
 
-                    b.HasIndex("StateId");
+                    b.HasIndex("StateId")
+                        .HasDatabaseName("ix_projects_state_id");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("TypeId")
+                        .HasDatabaseName("ix_projects_type_id");
 
-                    b.ToTable("Projects");
+                    b.ToTable("projects");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.ProjectAppointment", b =>
                 {
                     b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("project_id");
 
                     b.Property<Guid>("AppointmentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("ProjectId", "AppointmentId");
+                    b.HasKey("ProjectId", "AppointmentId")
+                        .HasName("pk_project_appointments");
 
-                    b.HasIndex("AppointmentId");
+                    b.HasIndex("AppointmentId")
+                        .HasDatabaseName("ix_project_appointments_appointment_id");
 
-                    b.ToTable("ProjectAppointments");
+                    b.ToTable("project_appointments");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.ProjectParticipation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
 
                     b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("project_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_project_participations");
 
-                    b.HasIndex("MusicianProfileId");
+                    b.HasIndex("MusicianProfileId")
+                        .HasDatabaseName("ix_project_participations_musician_profile_id");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("ProjectId")
+                        .HasDatabaseName("ix_project_participations_project_id");
 
-                    b.ToTable("ProjectParticipations");
+                    b.ToTable("project_participations");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("CreatedByIp")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("created_by_ip");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_on");
 
                     b.Property<DateTime>("ExpiryOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("expiry_on");
 
                     b.Property<string>("RevokedByIp")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("revoked_by_ip");
 
                     b.Property<DateTime>("RevokedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("revoked_on");
 
                     b.Property<string>("Token")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("token");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_refresh_tokens");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_refresh_tokens_user_id");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("refresh_tokens");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Region", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_regions");
 
-                    b.ToTable("Regions");
+                    b.ToTable("regions");
 
                     b.HasData(
                         new
@@ -1120,29 +1420,34 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("concurrency_stamp");
 
                     b.Property<short>("Level")
-                        .HasColumnType("smallint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("level");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("name");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_roles");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -1151,85 +1456,108 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Building")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("building");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("Floor")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("floor");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
                     b.Property<Guid>("VenueId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("venue_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_rooms");
 
-                    b.HasIndex("VenueId");
+                    b.HasIndex("VenueId")
+                        .HasDatabaseName("ix_rooms_venue_id");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("rooms");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Section", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<bool>("IsInstrument")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_instrument");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
                     b.Property<Guid?>("ParentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_sections");
 
-                    b.HasIndex("ParentId");
+                    b.HasIndex("ParentId")
+                        .HasDatabaseName("ix_sections_parent_id");
 
-                    b.ToTable("Sections");
+                    b.ToTable("sections");
 
                     b.HasData(
                         new
@@ -2293,72 +2621,91 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.SectionAppointment", b =>
                 {
                     b.Property<Guid>("SectionId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
 
                     b.Property<Guid>("AppointmentId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("SectionId", "AppointmentId");
+                    b.HasKey("SectionId", "AppointmentId")
+                        .HasName("pk_section_appointments");
 
-                    b.HasIndex("AppointmentId");
+                    b.HasIndex("AppointmentId")
+                        .HasDatabaseName("ix_section_appointments_appointment_id");
 
-                    b.ToTable("SectionAppointments");
+                    b.ToTable("section_appointments");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.SelectValue", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("description");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_select_values");
 
-                    b.ToTable("SelectValues");
+                    b.ToTable("select_values");
 
                     b.HasData(
                         new
@@ -3015,44 +3362,56 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Property")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("property");
 
                     b.Property<string>("Table")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("table");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_select_value_categories");
 
-                    b.HasIndex("Property");
+                    b.HasIndex("Property")
+                        .HasDatabaseName("ix_select_value_categories_property");
 
-                    b.HasIndex("Table");
+                    b.HasIndex("Table")
+                        .HasDatabaseName("ix_select_value_categories_table");
 
-                    b.ToTable("SelectValueCategories");
+                    b.ToTable("select_value_categories");
 
                     b.HasData(
                         new
@@ -3214,38 +3573,49 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<Guid>("SelectValueCategoryId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("select_value_category_id");
 
                     b.Property<Guid>("SelectValueId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("select_value_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_select_value_mappings");
 
-                    b.HasIndex("SelectValueCategoryId");
+                    b.HasIndex("SelectValueCategoryId")
+                        .HasDatabaseName("ix_select_value_mappings_select_value_category_id");
 
-                    b.HasIndex("SelectValueId");
+                    b.HasIndex("SelectValueId")
+                        .HasDatabaseName("ix_select_value_mappings_select_value_id");
 
-                    b.ToTable("SelectValueMappings");
+                    b.ToTable("select_value_mappings");
 
                     b.HasData(
                         new
@@ -4045,226 +4415,287 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.SphereOfActivityConcert", b =>
                 {
                     b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
 
                     b.Property<Guid>("VenueId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("venue_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<byte>("Rating")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("rating");
 
-                    b.HasKey("MusicianProfileId", "VenueId");
+                    b.HasKey("MusicianProfileId", "VenueId")
+                        .HasName("pk_sphere_of_activity_concerts");
 
-                    b.HasIndex("VenueId");
+                    b.HasIndex("VenueId")
+                        .HasDatabaseName("ix_sphere_of_activity_concerts_venue_id");
 
-                    b.ToTable("SphereOfActivityConcerts");
+                    b.ToTable("sphere_of_activity_concerts");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.SphereOfActivityRehearsal", b =>
                 {
                     b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
 
                     b.Property<Guid>("VenueId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("venue_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<byte>("Rating")
-                        .HasColumnType("tinyint");
+                        .HasColumnType("smallint")
+                        .HasColumnName("rating");
 
-                    b.HasKey("MusicianProfileId", "VenueId");
+                    b.HasKey("MusicianProfileId", "VenueId")
+                        .HasName("pk_sphere_of_activity_rehearsals");
 
-                    b.HasIndex("VenueId");
+                    b.HasIndex("VenueId")
+                        .HasDatabaseName("ix_sphere_of_activity_rehearsals_venue_id");
 
-                    b.ToTable("SphereOfActivityRehearsals");
+                    b.ToTable("sphere_of_activity_rehearsals");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Url", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("AnchorText")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("anchor_text");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("Href")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("href");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("project_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_urls");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("ProjectId")
+                        .HasDatabaseName("ix_urls_project_id");
 
-                    b.ToTable("Urls");
+                    b.ToTable("urls");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.UrlRole", b =>
                 {
                     b.Property<Guid>("UrlId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("url_id");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.HasKey("UrlId", "RoleId");
+                    b.HasKey("UrlId", "RoleId")
+                        .HasName("pk_url_roles");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_url_roles_role_id");
 
-                    b.ToTable("UrlRoles");
+                    b.ToTable("url_roles");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("integer")
+                        .HasColumnName("access_failed_count");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("concurrency_stamp");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("email");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("email_confirmed");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("lockout_enabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("lockout_end");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_email");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("normalized_user_name");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
 
                     b.Property<Guid>("PersonId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("person_id");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("phone_number");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("phone_number_confirmed");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text")
+                        .HasColumnName("security_stamp");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("two_factor_enabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("user_name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_asp_net_users");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.HasIndex("PersonId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_asp_net_users_person_id");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -4273,43 +4704,53 @@ namespace Orso.Arpa.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid?>("AddressId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("address_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("description");
 
                     b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_venues");
 
                     b.HasIndex("AddressId")
                         .IsUnique()
-                        .HasFilter("[AddressId] IS NOT NULL");
+                        .HasDatabaseName("ix_venues_address_id");
 
-                    b.ToTable("Venues");
+                    b.ToTable("venues");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.PersonAddress", b =>
@@ -4317,14 +4758,18 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasBaseType("Orso.Arpa.Domain.Entities.Address");
 
                     b.Property<Guid?>("PersonId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("person_id");
 
                     b.Property<Guid?>("TypeId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("type_id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonId")
+                        .HasDatabaseName("ix_addresses_person_id");
 
-                    b.HasIndex("TypeId");
+                    b.HasIndex("TypeId")
+                        .HasDatabaseName("ix_addresses_type_id");
 
                     b.HasDiscriminator().HasValue("PersonAddress");
                 });
@@ -4334,6 +4779,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_asp_net_role_claims_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -4343,6 +4789,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_asp_net_user_claims_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -4352,6 +4799,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_asp_net_user_logins_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -4361,12 +4809,14 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_asp_net_user_roles_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_asp_net_user_roles_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -4376,6 +4826,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -4385,6 +4836,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Region", "Region")
                         .WithMany("Addresses")
                         .HasForeignKey("RegionId")
+                        .HasConstraintName("fk_addresses_regions_region_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Region");
@@ -4395,31 +4847,37 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Category")
                         .WithMany("AppointmentsAsCategory")
                         .HasForeignKey("CategoryId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_category_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Emolument")
                         .WithMany("AppointmentsAsEmolument")
                         .HasForeignKey("EmolumentId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_emolument_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "EmolumentPattern")
                         .WithMany("AppointmentsAsEmolumentPattern")
                         .HasForeignKey("EmolumentPatternId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_emolument_pattern_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Expectation")
                         .WithMany("AppointmentsAsExpectation")
                         .HasForeignKey("ExpectationId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_expectation_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
                         .WithMany("AppointmentsAsStatus")
                         .HasForeignKey("StatusId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_status_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("Appointments")
                         .HasForeignKey("VenueId")
+                        .HasConstraintName("fk_appointments_venues_venue_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Category");
@@ -4440,23 +4898,27 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("AppointmentParticipations")
                         .HasForeignKey("AppointmentId")
+                        .HasConstraintName("fk_appointment_participations_appointments_appointment_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("AppointmentParticipations")
                         .HasForeignKey("PersonId")
+                        .HasConstraintName("fk_appointment_participations_persons_person_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Prediction")
                         .WithMany("AppointmentParticipationsAsPrediction")
                         .HasForeignKey("PredictionId")
+                        .HasConstraintName("fk_appointment_participations_select_value_mappings_prediction")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Result")
                         .WithMany("AppointmentParticipationsAsResult")
                         .HasForeignKey("ResultId")
+                        .HasConstraintName("fk_appointment_participations_select_value_mappings_result_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
@@ -4473,11 +4935,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("AppointmentRooms")
                         .HasForeignKey("AppointmentId")
+                        .HasConstraintName("fk_appointment_rooms_appointments_appointment_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Room", "Room")
                         .WithMany("AppointmentRooms")
                         .HasForeignKey("RoomId")
+                        .HasConstraintName("fk_appointment_rooms_rooms_room_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
@@ -4490,16 +4954,19 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithOne("Audition")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.Audition", "AppointmentId")
+                        .HasConstraintName("fk_auditions_appointments_appointment_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "RepetitorStatus")
                         .WithMany("AuditionsAsRepetitorStatus")
                         .HasForeignKey("RepetitorStatusId")
+                        .HasConstraintName("fk_auditions_select_value_mappings_repetitor_status_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
                         .WithMany("AuditionsAsStatus")
                         .HasForeignKey("StatusId")
+                        .HasConstraintName("fk_auditions_select_value_mappings_status_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
@@ -4514,11 +4981,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("AvailableDocumentStatus")
                         .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_available_documents_musician_profiles_musician_profile_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "SelectValueMapping")
                         .WithMany("AvailableDocumentStatus")
                         .HasForeignKey("SelectValueMappingId")
+                        .HasConstraintName("fk_available_documents_select_value_mappings_select_value_mapp")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
@@ -4531,33 +5000,39 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Inquery")
                         .WithMany("MusicianProfilesAsInquery")
                         .HasForeignKey("InqueryId")
+                        .HasConstraintName("fk_musician_profiles_select_value_mappings_inquery_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Instrument")
                         .WithMany("MusicianProfiles")
                         .HasForeignKey("InstrumentId")
+                        .HasConstraintName("fk_musician_profiles_sections_instrument_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("MusicianProfiles")
                         .HasForeignKey("PersonId")
+                        .HasConstraintName("fk_musician_profiles_persons_person_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Position", "PreferredPosition")
                         .WithMany("MusicianProfiles")
                         .HasForeignKey("PreferredPositionId")
+                        .HasConstraintName("fk_musician_profiles_positions_preferred_position_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Qualification")
                         .WithMany("MusicianProfilesAsQualification")
                         .HasForeignKey("QualificationId")
+                        .HasConstraintName("fk_musician_profiles_select_value_mappings_qualification_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Salary")
                         .WithMany("MusicianProfilesAsSalary")
                         .HasForeignKey("SalaryId")
+                        .HasConstraintName("fk_musician_profiles_select_value_mappings_salary_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Inquery");
@@ -4578,11 +5053,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Credential", "Credential")
                         .WithMany("MusicianProfileCredentials")
                         .HasForeignKey("CredentialId")
+                        .HasConstraintName("fk_musician_profile_credentials_credentials_credential_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("MusicianProfileCredentials")
                         .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_musician_profile_credentials_musician_profiles_musician_pro")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Credential");
@@ -4595,11 +5072,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Education", "Education")
                         .WithMany("MusicianProfileEducations")
                         .HasForeignKey("EducationId")
+                        .HasConstraintName("fk_musician_profile_educations_educations_education_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("MusicianProfileEducations")
                         .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_musician_profile_educations_musician_profiles_musician_prof")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Education");
@@ -4612,11 +5091,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("DoublingInstruments")
                         .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_musician_profile_sections_musician_profiles_musician_profil")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("MusicianProfileSections")
                         .HasForeignKey("SectionId")
+                        .HasConstraintName("fk_musician_profile_sections_sections_section_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
@@ -4629,11 +5110,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("StakeholderGroups")
                         .HasForeignKey("PersonId")
+                        .HasConstraintName("fk_person_sections_persons_person_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("StakeholderGroups")
                         .HasForeignKey("SectionId")
+                        .HasConstraintName("fk_person_sections_sections_section_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");
@@ -4646,6 +5129,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("Positions")
                         .HasForeignKey("SectionId")
+                        .HasConstraintName("fk_positions_sections_section_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -4657,11 +5141,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("PreferredGenres")
                         .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_preferred_genre_musician_profiles_musician_profile_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "SelectValueMapping")
                         .WithMany("PreferredGenres")
                         .HasForeignKey("SelectValueMappingId")
+                        .HasConstraintName("fk_preferred_genre_select_value_mappings_select_value_mapping_")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
@@ -4674,21 +5160,25 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Genre")
                         .WithMany("ProjectsAsGenre")
                         .HasForeignKey("GenreId")
+                        .HasConstraintName("fk_projects_select_value_mappings_genre_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
+                        .HasConstraintName("fk_projects_projects_parent_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "State")
                         .WithMany("ProjectsAsState")
                         .HasForeignKey("StateId")
+                        .HasConstraintName("fk_projects_select_value_mappings_state_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
                         .WithMany("ProjectsAsType")
                         .HasForeignKey("TypeId")
+                        .HasConstraintName("fk_projects_select_value_mappings_type_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Genre");
@@ -4705,11 +5195,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("ProjectAppointments")
                         .HasForeignKey("AppointmentId")
+                        .HasConstraintName("fk_project_appointments_appointments_appointment_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("ProjectAppointments")
                         .HasForeignKey("ProjectId")
+                        .HasConstraintName("fk_project_appointments_projects_project_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
@@ -4722,12 +5214,14 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("ProjectParticipations")
                         .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_project_participations_musician_profiles_musician_profile_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("ProjectParticipations")
                         .HasForeignKey("ProjectId")
+                        .HasConstraintName("fk_project_participations_projects_project_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -4741,6 +5235,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.User", "User")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_refresh_tokens_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -4752,6 +5247,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("Rooms")
                         .HasForeignKey("VenueId")
+                        .HasConstraintName("fk_rooms_venues_venue_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -4763,6 +5259,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
+                        .HasConstraintName("fk_sections_sections_parent_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
@@ -4773,11 +5270,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Appointment", "Appointment")
                         .WithMany("SectionAppointments")
                         .HasForeignKey("AppointmentId")
+                        .HasConstraintName("fk_section_appointments_appointments_appointment_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
                         .WithMany("SectionAppointments")
                         .HasForeignKey("SectionId")
+                        .HasConstraintName("fk_section_appointments_sections_section_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Appointment");
@@ -4790,12 +5289,14 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueCategory", "SelectValueCategory")
                         .WithMany("SelectValueMappings")
                         .HasForeignKey("SelectValueCategoryId")
+                        .HasConstraintName("fk_select_value_mappings_select_value_categories_select_value_")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValue", "SelectValue")
                         .WithMany("SelectValueMappings")
                         .HasForeignKey("SelectValueId")
+                        .HasConstraintName("fk_select_value_mappings_select_values_select_value_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -4809,11 +5310,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("SphereOfActivityConcerts")
                         .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_sphere_of_activity_concerts_musician_profiles_musician_prof")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("SphereOfActivityConcerts")
                         .HasForeignKey("VenueId")
+                        .HasConstraintName("fk_sphere_of_activity_concerts_venues_venue_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
@@ -4826,11 +5329,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
                         .WithMany("SphereOfActivityRehearsals")
                         .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_sphere_of_activity_rehearsals_musician_profiles_musician_pr")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Venue", "Venue")
                         .WithMany("SphereOfActivityRehearsals")
                         .HasForeignKey("VenueId")
+                        .HasConstraintName("fk_sphere_of_activity_rehearsals_venues_venue_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
@@ -4843,6 +5348,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Project", "Project")
                         .WithMany("Urls")
                         .HasForeignKey("ProjectId")
+                        .HasConstraintName("fk_urls_projects_project_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -4854,11 +5360,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Role", "Role")
                         .WithMany("UrlRoles")
                         .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_url_roles_roles_role_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Url", "Url")
                         .WithMany("UrlRoles")
                         .HasForeignKey("UrlId")
+                        .HasConstraintName("fk_url_roles_urls_url_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Role");
@@ -4871,6 +5379,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithOne("User")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.User", "PersonId")
+                        .HasConstraintName("fk_asp_net_users_persons_person_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");
@@ -4881,6 +5390,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Address", "Address")
                         .WithOne("Venue")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.Venue", "AddressId")
+                        .HasConstraintName("fk_venues_addresses_address_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Address");
@@ -4891,11 +5401,13 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("Addresses")
                         .HasForeignKey("PersonId")
+                        .HasConstraintName("fk_addresses_persons_person_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
                         .WithMany("PersonAddresses")
                         .HasForeignKey("TypeId")
+                        .HasConstraintName("fk_addresses_select_value_mappings_type_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Person");

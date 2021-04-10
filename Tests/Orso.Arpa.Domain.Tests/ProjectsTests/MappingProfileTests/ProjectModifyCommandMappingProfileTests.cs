@@ -1,9 +1,7 @@
-using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Logic.Projects;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -12,20 +10,6 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.MappingProfileTests
     [TestFixture]
     public class ProjectModifyCommandMappingProfileTests
     {
-        protected DateTimeProviderContext _dateTimeProviderContext;
-
-        [OneTimeSetUp]
-        protected void OneTimeSetUp()
-        {
-            _dateTimeProviderContext = new DateTimeProviderContext(new DateTime(2021, 1, 1));
-        }
-
-        [OneTimeTearDown]
-        protected void OneTimeTearDown()
-        {
-            _dateTimeProviderContext.Dispose();
-        }
-
         [SetUp]
         public void Setup()
         {

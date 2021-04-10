@@ -8,7 +8,7 @@ using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipatio
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class SetMyProjectAppointmentPredictionDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class SetMyProjectAppointmentPredictionDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
