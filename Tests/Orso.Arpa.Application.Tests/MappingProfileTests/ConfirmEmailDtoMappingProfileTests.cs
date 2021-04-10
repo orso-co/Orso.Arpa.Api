@@ -8,7 +8,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class ConfirmEmailDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class ConfirmEmailDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()

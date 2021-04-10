@@ -8,7 +8,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class MyProfileModifyDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class MyProfileModifyDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
