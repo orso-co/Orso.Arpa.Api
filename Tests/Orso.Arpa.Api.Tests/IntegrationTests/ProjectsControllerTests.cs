@@ -306,17 +306,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_Url()
         {
             // Arrange
-            ProjectDto expectedDto = ProjectDtoData.HoorayForHollywood;
             var addDto = new ProjectAddUrlDto
             {
                 Href = "http://www.landesblasorchester.de",
                 AnchorText = "Landesblasorchester Baden-Württemberg",
-                ProjectId = expectedDto.Id,
+                ProjectId = ProjectDtoData.HoorayForHollywood.Id,
             };
-
-            expectedDto.Urls.Add(
-                new UrlDto() { Href = addDto.Href, AnchorText = addDto.AnchorText, CreatedBy = _staff.DisplayName }
-                );
+            var expectedDto = new UrlDto()
+            {
+                Href = addDto.Href,
+                AnchorText = addDto.AnchorText,
+                CreatedBy = _staff.DisplayName,
+            };
 
             // Act
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
@@ -325,14 +326,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls[1].Id).Excluding(r => r.Urls[1].CreatedAt));
-
-            // ToDo: potential change: if ProjectAddUrl shall not return the modified project, then use Get and assert
-            responseMessage = await client
-               .GetAsync(ApiEndpoints.ProjectsController.Get(expectedDto.Id));
-            result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls[1].Id).Excluding(r => r.Urls[1].CreatedAt));
+            UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
         }
 
         [Test, Order(21)]

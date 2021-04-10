@@ -5,6 +5,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -51,7 +52,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Url>
         {
             private readonly IArpaContext _arpaContext;
 
@@ -61,14 +62,13 @@ namespace Orso.Arpa.Domain.Logic.Projects
                 _arpaContext = arpaContext;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Url> Handle(Command request, CancellationToken cancellationToken)
             {
-                var newUrl = new Url(Guid.NewGuid(), request);
-                await _arpaContext.Urls.AddAsync(newUrl, cancellationToken);
+                EntityEntry<Url> newUrl = await _arpaContext.Urls.AddAsync(new Url(Guid.NewGuid(), request), cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
-                    return Unit.Value;
+                    return newUrl.Entity;
                 }
 
                 throw new Exception("Problem creating new url");
