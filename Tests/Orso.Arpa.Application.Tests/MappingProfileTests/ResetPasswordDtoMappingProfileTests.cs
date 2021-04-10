@@ -9,7 +9,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class ResetPasswordDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class ResetPasswordDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()

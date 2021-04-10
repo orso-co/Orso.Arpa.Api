@@ -11,7 +11,7 @@ using Orso.Arpa.Tests.Shared.Extensions;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class SelectValueDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class SelectValueDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
