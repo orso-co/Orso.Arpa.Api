@@ -8,6 +8,7 @@ using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 
@@ -73,15 +74,16 @@ namespace Orso.Arpa.Api.Controllers
         /// Adds a new Url to an existing project
         /// </summary>
         /// <param name="addUrlDto"></param>
-        /// <response code="204"></response>
+        /// <response code="201"></response>
         /// <response code="400">If dto is not valid or if projectId cannot not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/urls")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ProjectDto>> AddUrl([FromBodyAndRoute] ProjectAddUrlDto addUrlDto)
+        public async Task<ActionResult<UrlDto>> AddUrl([FromBodyAndRoute] ProjectAddUrlDto addUrlDto)
         {
-            return await _projectService.AddUrlAsync(addUrlDto);
+            UrlDto createdUrl = await _projectService.AddUrlAsync(addUrlDto);
+            return CreatedAtAction(nameof(GetById), new { id = createdUrl.Id }, createdUrl);
         }
 
         /// <summary>
