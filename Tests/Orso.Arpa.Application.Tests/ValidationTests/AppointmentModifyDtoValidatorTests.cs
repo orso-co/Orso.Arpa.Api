@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Misc;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
@@ -82,7 +82,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_StartTime_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.StartTime, DateTimeProvider.Instance.GetUtcNow());
+            _validator.ShouldNotHaveValidationErrorFor(command => command.StartTime, FakeDateTime.UtcNow);
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_EndTime_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, DateTimeProvider.Instance.GetUtcNow());
+            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, FakeDateTime.UtcNow);
         }
 
         [Test]
@@ -102,8 +102,8 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _validator.ShouldHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
             {
-                StartTime = DateTimeProvider.Instance.GetUtcNow(),
-                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(-3)
+                StartTime = FakeDateTime.UtcNow,
+                EndTime = FakeDateTime.UtcNow.AddHours(-3)
             });
         }
 
@@ -112,8 +112,8 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
             {
-                StartTime = DateTimeProvider.Instance.GetUtcNow(),
-                EndTime = DateTimeProvider.Instance.GetUtcNow().AddHours(3)
+                StartTime = FakeDateTime.UtcNow,
+                EndTime = FakeDateTime.UtcNow.AddHours(3)
             });
         }
 

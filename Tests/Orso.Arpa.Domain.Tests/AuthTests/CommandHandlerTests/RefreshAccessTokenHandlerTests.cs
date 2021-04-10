@@ -11,6 +11,7 @@ using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
@@ -23,7 +24,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _userManager = new FakeUserManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext);
+            _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext, new FakeDateTimeProvider());
         }
 
         private ArpaUserManager _userManager;

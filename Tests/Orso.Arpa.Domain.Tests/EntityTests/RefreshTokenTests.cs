@@ -3,6 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Domain.Tests.EntityTests
 {
@@ -13,39 +14,39 @@ namespace Orso.Arpa.Domain.Tests.EntityTests
         public void Should_Be_Expired()
         {
             // Arrange
-            var refreshToken = new RefreshToken("token", DateTime.MinValue, "ip", Guid.Empty);
+            var refreshToken = new RefreshToken("token", DateTime.MinValue, "ip", Guid.Empty, FakeDateTime.UtcNow);
 
             // Assert
-            refreshToken.IsExpired.Should().BeTrue();
-            refreshToken.IsActive.Should().BeFalse();
+            refreshToken.IsExpired(FakeDateTime.UtcNow).Should().BeTrue();
+            refreshToken.IsActive(FakeDateTime.UtcNow).Should().BeFalse();
         }
 
         [Test]
         public void Should_Not_Be_Expired()
         {
             // Arrange
-            var refreshToken = new RefreshToken("token", DateTime.MaxValue, "ip", Guid.Empty);
+            var refreshToken = new RefreshToken("token", DateTime.MaxValue, "ip", Guid.Empty, FakeDateTime.UtcNow);
 
             // Assert
-            refreshToken.IsExpired.Should().BeFalse();
-            refreshToken.IsActive.Should().BeTrue();
+            refreshToken.IsExpired(FakeDateTime.UtcNow).Should().BeFalse();
+            refreshToken.IsActive(FakeDateTime.UtcNow).Should().BeTrue();
         }
 
         [Test]
         public void Should_Revoke()
         {
             // Arrange
-            var refreshToken = new RefreshToken("token", DateTime.MaxValue, "ip", Guid.Empty);
+            var refreshToken = new RefreshToken("token", DateTime.MaxValue, "ip", Guid.Empty, FakeDateTime.UtcNow);
             var command = new RevokeRefreshToken.Command() { RefreshToken = "token", RemoteIpAddress = "ip2" };
 
             // Act
-            refreshToken.Revoke(command);
+            refreshToken.Revoke(command, FakeDateTime.UtcNow);
 
             // Assert
             refreshToken.RevokedByIp.Should().BeEquivalentTo("ip2");
             refreshToken.RevokedOn.Should().BeMoreThan(TimeSpan.Zero);
-            refreshToken.IsActive.Should().BeFalse();
-            refreshToken.IsExpired.Should().BeFalse();
+            refreshToken.IsActive(FakeDateTime.UtcNow).Should().BeFalse();
+            refreshToken.IsExpired(FakeDateTime.UtcNow).Should().BeFalse();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using Orso.Arpa.Application.RoomApplication;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -17,7 +18,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Aula",
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
                     CreatedBy = "anonymous",
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Floor = "OG",
                     Name = "Musikraum",
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }

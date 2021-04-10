@@ -56,7 +56,8 @@ namespace Orso.Arpa.Application.Services
             IQueryable<Appointment> entities = await _mediator.Send(new List.Query<Appointment>(
                 predicate: a =>
                     a.StartTime >= DateHelper.GetStartTime(date.Value, range)
-                    && a.StartTime <= DateHelper.GetEndTime(date.Value, range)));
+                    && a.StartTime <= DateHelper.GetEndTime(date.Value, range),
+                asSplitQuery: true));
 
             var dtoList = new List<AppointmentDto>();
             var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();

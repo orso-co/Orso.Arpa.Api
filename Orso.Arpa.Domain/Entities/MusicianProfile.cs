@@ -19,7 +19,7 @@ namespace Orso.Arpa.Domain.Entities
         #region Native
 
         public byte LevelSelfAssessment { get; private set; }
-        public byte LevelInnerASsessment { get; private set; }
+        public byte LevelInnerAssessment { get; private set; }
         public byte ProfileFavorizitation { get; private set; }
         public bool IsMainProfile { get; private set; }
         public string Background { get; private set; }

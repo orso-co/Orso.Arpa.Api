@@ -9,9 +9,9 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -76,7 +76,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(4)]
         public async Task Should_Get_By_Id()
         {
-            using var context = new DateTimeProviderContext(new DateTime(2021, 1, 1));
             ProjectDto expectedProject = ProjectDtoData.HoorayForHollywood;
 
             // Act
@@ -109,6 +108,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Number = createDto.Number,
                 IsCompleted = false,
                 CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow
             };
 
             // Act
@@ -121,10 +121,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.CreatedAt).Excluding(r => r.Id));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
             result.Id.Should().NotBeEmpty();
-            result.CreatedAt.Should().BeBefore(DateTime.UtcNow);
-            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
 
         [Test, Order(1001)]
@@ -159,6 +157,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ParentId = createDto.ParentId,
                 IsCompleted = false,
                 CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow
             };
 
             // Act
@@ -171,10 +170,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.CreatedAt).Excluding(r => r.Id));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
             result.Id.Should().NotBeEmpty();
-            result.CreatedAt.Should().BeBefore(DateTime.UtcNow);
-            result.CreatedAt.Should().BeAfter(DateTime.MinValue);
         }
 
         [Test, Order(1002)]
@@ -285,8 +282,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(modifyDto, opt => opt.Excluding(r => r.Id));
             result.Id.Should().Be(projectToModify.Id);
             result.ModifiedBy.Should().Be(_staff.DisplayName);
-            result.ModifiedAt.Should().BeBefore(DateTime.UtcNow);
-            result.ModifiedAt.Should().BeAfter(DateTime.MinValue);
+            result.ModifiedAt.Should().Be(FakeDateTime.UtcNow);
         }
 
         [Test, Order(10500)]

@@ -9,6 +9,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
@@ -20,7 +21,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             _userManager = new FakeUserManager();
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new RevokeRefreshToken.Handler(_userManager, _arpaContext);
+            _handler = new RevokeRefreshToken.Handler(_userManager, _arpaContext, new FakeDateTimeProvider());
         }
 
         private ArpaUserManager _userManager;

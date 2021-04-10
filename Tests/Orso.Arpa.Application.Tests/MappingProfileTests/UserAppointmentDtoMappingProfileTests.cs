@@ -15,7 +15,7 @@ using Orso.Arpa.Tests.Shared.FakeData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class UserAppointmentDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class UserAppointmentDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()

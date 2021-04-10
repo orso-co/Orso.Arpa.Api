@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -38,8 +37,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     NormalizedEmail = "PERFORMER@TEST.COM",
                     NormalizedUserName = "PERFORMER",
                     EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
-                user.RefreshTokens.Add(new RefreshToken("performer_valid_refresh_token", DateTimeProvider.Instance.GetUtcNow().AddDays(5), "127.0.0.1", user.Id));
+                user.RefreshTokens.Add(new RefreshToken("performer_valid_refresh_token", FakeDateTime.UtcNow.AddDays(5), "127.0.0.1", user.Id, FakeDateTime.UtcNow));
                 return user;
             }
         }
@@ -57,9 +57,10 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Person = PersonTestSeedData.Staff,
                     NormalizedEmail = "STAFF@TEST.COM",
                     NormalizedUserName = "STAFF",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
-                user.RefreshTokens.Add(new RefreshToken("staff_expired_refresh_token", DateTimeProvider.Instance.GetUtcNow().AddDays(-5), "127.0.0.1", user.Id));
+                user.RefreshTokens.Add(new RefreshToken("staff_expired_refresh_token", FakeDateTime.UtcNow.AddDays(-5), "127.0.0.1", user.Id, FakeDateTime.UtcNow));
                 return user;
             }
         }
@@ -77,7 +78,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Person = PersonSeedData.Admin,
                     NormalizedEmail = "ADMIN@TEST.COM",
                     NormalizedUserName = "ADMIN",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -95,7 +97,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Person = PersonTestSeedData.UserWithoutRole,
                     NormalizedEmail = "WOTHOUTROLE@TEST.COM",
                     NormalizedUserName = "WITHOUTROLE",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -113,7 +116,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Person = PersonTestSeedData.LockedOutUser,
                     NormalizedEmail = "LOCKEDOUT@TEST.COM",
                     NormalizedUserName = "LOCKEDOUT",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -131,7 +135,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     Person = PersonTestSeedData.UnconfirmedUser,
                     NormalizedEmail = "UNCONFIRMED@TEST.COM",
                     NormalizedUserName = "UNCONFIRMED",
-                    EmailConfirmed = false
+                    EmailConfirmed = false,
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }

@@ -9,7 +9,7 @@ using Orso.Arpa.Tests.Shared.FakeData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class UserDtoMappingProfileTests : DtoMappingProfileTestBase
+    public class UserDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()

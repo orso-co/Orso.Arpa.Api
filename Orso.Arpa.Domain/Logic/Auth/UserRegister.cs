@@ -10,6 +10,7 @@ using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -45,10 +46,12 @@ namespace Orso.Arpa.Domain.Logic.Auth
         public class Handler : IRequestHandler<Command>
         {
             private readonly ArpaUserManager _userManager;
+            private readonly IDateTimeProvider _dateTimeProvider;
 
-            public Handler(ArpaUserManager userManager)
+            public Handler(ArpaUserManager userManager, IDateTimeProvider dateTimeProvider)
             {
                 _userManager = userManager;
+                _dateTimeProvider = dateTimeProvider;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -63,7 +66,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 {
                     Email = request.Email,
                     UserName = request.UserName,
-                    Person = person
+                    Person = person,
+                    CreatedAt = _dateTimeProvider.GetUtcNow()
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user, request.Password);

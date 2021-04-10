@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Configurations;
 
 namespace Orso.Arpa.Persistence.DataAccess
@@ -17,15 +18,18 @@ namespace Orso.Arpa.Persistence.DataAccess
     public class ArpaContext : IdentityDbContext<User, Role, Guid>, IArpaContext
     {
         private readonly ITokenAccessor _tokenAccessor;
+        private readonly IDateTimeProvider _dateTimeProvider;
         public delegate Task CallBack<T>() where T : BaseEntity;
         private readonly CallBack<Translation> _translationCallBack;
 
         public ArpaContext(
             DbContextOptions options,
             ITokenAccessor tokenAccessor,
+            IDateTimeProvider dateTimeProvider,
             CallBack<Translation> translationCallBack) : base(options)
         {
             _tokenAccessor = tokenAccessor;
+            _dateTimeProvider = dateTimeProvider;
             _translationCallBack = translationCallBack;
         }
 
@@ -100,32 +104,16 @@ namespace Orso.Arpa.Persistence.DataAccess
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Create(currentUserDisplayName);
+                        entry.Entity.Create(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.Modify(currentUserDisplayName);
+                        entry.Entity.Modify(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
                         break;
 
                     case EntityState.Deleted:
                         await DeleteWithNavigationsAsync(currentUserDisplayName, entry, cancellationToken);
                         break;
-                }
-            }
-
-            return await base.SaveChangesAsync(cancellationToken);
-        }
-
-        private async Task DeleteWithNavigationsAsync(string currentUserDisplayName, EntityEntry entry, CancellationToken cancellationToken)
-        {
-            entry.State = EntityState.Modified;
-            (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName);
-
-            foreach (IProperty property in entry.CurrentValues.Properties)
-            {
-                if (property.IsColumnNullable() && property.IsForeignKey())
-                {
-                    entry.CurrentValues[property] = null;
                 }
             }
 
@@ -135,6 +123,43 @@ namespace Orso.Arpa.Persistence.DataAccess
                 _translationCallBack();
 
             return task;
+        }
+
+        private async Task DeleteWithNavigationsAsync(string currentUserDisplayName, EntityEntry entry, CancellationToken cancellationToken)
+        {
+            entry.State = EntityState.Modified;
+            (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
+
+            foreach (IProperty property in entry.CurrentValues.Properties)
+            {
+                if (property.IsColumnNullable() && property.IsForeignKey())
+                {
+                    entry.CurrentValues[property] = null;
+                }
+            }
+            foreach (NavigationEntry navigationEntry in entry.Navigations)
+            {
+                if (navigationEntry is CollectionEntry collectionEntry)
+                {
+                    if (!collectionEntry.IsLoaded)
+                    {
+                        await collectionEntry.LoadAsync(cancellationToken);
+                    }
+                    foreach (var dependentEntryObject in collectionEntry.CurrentValue)
+                    {
+                        EntityEntry dependentEntry = Entry(dependentEntryObject);
+                        if (dependentEntry.Entity.GetType().IsSubclassOf(typeof(BaseEntity)))
+                        {
+                            await DeleteWithNavigationsAsync(currentUserDisplayName, dependentEntry, cancellationToken);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ClearChangeTracker()
+        {
+            ChangeTracker.Clear();
         }
 
         public async Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity

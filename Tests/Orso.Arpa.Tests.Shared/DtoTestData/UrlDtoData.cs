@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoleApplication;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Href = "https://arpa2.orso.co",
                     Roles = new List<RoleDto> { RoleDtoData.Staff },
                     CreatedBy = "anonymous",
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -48,7 +49,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Href = "https://www.orso.co",
                     Roles = new List<RoleDto> { RoleDtoData.Staff, RoleDtoData.Performer },
                     CreatedBy = "anonymous",
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -63,7 +64,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Href = "https://www.google.com",
                     Roles = new List<RoleDto> { RoleDtoData.Performer },
                     CreatedBy = "anonymous",
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -77,7 +78,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     AnchorText = "Google DE",
                     Href = "https://www.google.de",
                     CreatedBy = "anonymous",
-                    CreatedAt = new DateTime(2021, 1, 1)
+                    CreatedAt = FakeDateTime.UtcNow
                     // RolesIds remains empty here
                 };
             }

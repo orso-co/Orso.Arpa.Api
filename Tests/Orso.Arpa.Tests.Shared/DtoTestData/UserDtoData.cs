@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.UserApplication;
-using Orso.Arpa.Misc;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -34,7 +34,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Per Former",
                     Email = "performer@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = DateTimeProvider.Instance.GetUtcNow()
+                    CreatedAt = FakeDateTime.UtcNow
                 };
                 user.StakeholderGroupIds.Add(Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"));
                 return user;
@@ -52,7 +52,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Staff Member",
                     Email = "staff@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = DateTimeProvider.Instance.GetUtcNow()
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -68,7 +68,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Initial Admin",
                     Email = "admin@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = DateTimeProvider.Instance.GetUtcNow()
+                    CreatedAt = null
                 };
             }
         }
@@ -84,7 +84,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Without Role",
                     Email = "withoutrole@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = DateTimeProvider.Instance.GetUtcNow()
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -100,7 +100,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "LockedOut User",
                     Email = "lockedout@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = DateTimeProvider.Instance.GetUtcNow()
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }
@@ -116,7 +116,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Unconfirmed User",
                     Email = "unconfirmed@test.com",
                     EmailConfirmed = false,
-                    CreatedAt = DateTimeProvider.Instance.GetUtcNow()
+                    CreatedAt = FakeDateTime.UtcNow
                 };
             }
         }

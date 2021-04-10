@@ -17,29 +17,29 @@ namespace Orso.Arpa.Domain.Entities
 
         protected BaseEntity(Guid? id)
         {
-            Id = id ?? Id;
+            Id = id ?? Guid.NewGuid();
         }
 
         protected BaseEntity()
         {
         }
 
-        public virtual void Create(string createdBy, DateTime? createdAt = null)
+        public virtual void Create(string createdBy, DateTime createdAt)
         {
             CreatedBy = createdBy;
-            CreatedAt = createdAt ?? DateTimeProvider.Instance.GetUtcNow();
+            CreatedAt = createdAt;
         }
 
-        public virtual void Modify(string modifiedBy)
+        public virtual void Modify(string modifiedBy, DateTime modifiedAt)
         {
             ModifiedBy = modifiedBy;
-            ModifiedAt = DateTimeProvider.Instance.GetUtcNow();
+            ModifiedAt = modifiedAt;
         }
 
-        public virtual void Delete(string modifiedBy)
+        public void Delete(string deletedBy, DateTime deletedAt)
         {
             Deleted = true;
-            Modify(modifiedBy);
+            Modify(deletedBy, deletedAt);
         }
     }
 }
