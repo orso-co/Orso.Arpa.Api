@@ -13,10 +13,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<Modify.MappingProfile>();
-            });
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<Modify.MappingProfile>());
 
             _mapper = new Mapper(config);
         }

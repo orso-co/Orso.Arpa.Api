@@ -11,7 +11,6 @@ namespace Orso.Arpa.Application.ProjectApplication
         public string Href { get; set; }
         public string AnchorText { get; set; }
         public Guid ProjectId { get; set; }
-
     }
 
     public class ProjectAddUrlDtoMappingProfile : Profile

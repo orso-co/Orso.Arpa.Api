@@ -61,7 +61,6 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
