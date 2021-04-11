@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.Services
         public async Task<UrlDto> AddUrlAsync(ProjectAddUrlDto addUrlDto)
         {
             AddUrl.Command command = _mapper.Map<AddUrl.Command>(addUrlDto);
-            Task<Url> createdUrl = await _mediator.Send(command);
+            Url createdUrl = await _mediator.Send(command);
             return _mapper.Map<UrlDto>(createdUrl);
         }
 
