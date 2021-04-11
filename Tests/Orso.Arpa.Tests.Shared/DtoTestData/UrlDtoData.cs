@@ -54,5 +54,47 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             "anonymous",
             FakeDateTime.UtcNow
             );
+                    Roles = new List<RoleDto> { RoleDtoData.Performer },
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1)
+                };
+            }
+        }
+        public static UrlDto GoogleDe
+        {
+            get
+            {
+                return new UrlDto
+                {
+                    Id = Guid.Parse("be021bf0-db90-4a05-9d7c-0e98c9a3f893"),
+                    AnchorText = "Google DE",
+                    Href = "https://www.google.de",
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1)
+                    // RolesIds remains empty here
+                };
+            }
+        }
+                    Roles = new List<RoleDto> { RoleDtoData.Performer },
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1)
+                };
+            }
+        }
+        public static UrlDto GoogleDe
+        {
+            get
+            {
+                return new UrlDto
+                {
+                    Id = Guid.Parse("be021bf0-db90-4a05-9d7c-0e98c9a3f893"),
+                    AnchorText = "Google DE",
+                    Href = "https://www.google.de",
+                    CreatedBy = "anonymous",
+                    CreatedAt = new DateTime(2021, 1, 1)
+                    // RolesIds remains empty here
+                };
+            }
+        }
     }
 }
