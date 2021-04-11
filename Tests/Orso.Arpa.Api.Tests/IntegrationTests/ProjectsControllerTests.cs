@@ -317,6 +317,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Href = addDto.Href,
                 AnchorText = addDto.AnchorText,
                 CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow
             };
 
             // Act
@@ -327,7 +328,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
         }
 
         [Test, Order(21)]
