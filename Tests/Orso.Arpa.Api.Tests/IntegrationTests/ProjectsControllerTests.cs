@@ -329,7 +329,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(expectedDto.Id), BuildStringContent(addDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.CreatedAt));
         }

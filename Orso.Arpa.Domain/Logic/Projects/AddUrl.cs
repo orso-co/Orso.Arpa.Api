@@ -13,7 +13,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
 {
     public static class AddUrl
     {
-        public class Command : IRequest
+        public class Command : IRequest<Url>
         {
             public Command(string href, string anchorText, Guid projectId)
             {
