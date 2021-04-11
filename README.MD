@@ -12,21 +12,9 @@
 ## Running the app using Docker
 >  Make sure to have the latest docker version installed for your OS: [Docker](https://www.docker.com/get-started)
 
-## Development Database for MacOS
-Localdb is used in the development environment as the local database. Localdb doesn't support MacOS, so to start the app a docker container running MSSQL is required and a few changes in the source code are necessary:
-* Install Docker: https://docs.docker.com/docker-for-mac/install/
-* Pull the latest MSSQL docker image: docker pull mcr.microsoft.com/mssql/server:2019-latest
-* Start an MSSQL container: docker run -d --name sql_server -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Pa$$w0rd' -p 1433:1433 mcr.microsoft.com/mssql/server:2019-latest
-* Change the default connection string in appsettings.test.json and appsettings.development.json to "DefaultConnection": "Server=localhost,1433\\Catalog=orso-arpa;User=SA;Password=Pa$$w0rd;MultipleActiveResultSets=true"
-* Replace \\\ in path names with /, for example in TemplateParser.cs:
-var templatePath = $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/Templates/Html/{templateData.Name}.html";
-* There may be other places in the source code where path names need to be adjusted; please add them here if you find any
-
-# Entity Framework Migrations
-
-Use [docker-compose.yml](./docker-compose.yml) to spin up the api, mssql and mailhog.
+Use [docker-compose.yml](./docker-compose.yml) to spin up the api, postgres and mailhog.
 - **API:** http://localhost:5000
-- **MSSQL:** localhost:1433 (USerId: SA, Password: Local@Dev!)
+- **Postgres:** localhost:5432
 - **MailHog:**  http://localhost:8025 (receives all emails)
 
 #### Start
@@ -47,12 +35,16 @@ Use [docker-compose.yml](./docker-compose.yml) to spin up the api, mssql and mai
 ```
 #### Rebuild API
 Rebuilding the API on source updates.
+```shell
+<project-root>$ docker-compose stop api
+<project-root>$ docker-compose build --no-cache api
+```
 > Dotnet watch and volume src mounts are currently disabled due to performance impacts on the host system.
 >
 > **Development Notes:**
 > Create an entry for *mssql* and *mail* in your local hosts file.
 > c:\windows\system32\drivers\etc\hosts or /etc/hosts
-> -> 127.0.0.1 mail mssql
+> -> 127.0.0.1 mail postgres
 >
 > *It's also possible to use "localhost". Adjust the environment settings for ConnectionStrings and SmtpServer.*
 >
@@ -60,13 +52,11 @@ Rebuilding the API on source updates.
 > - Use your IDE or the dotnet cli to run it on your local machine
 > - You might need to set some environment variables or edit *appsettings.Development.json*:
 >    - ASPNETCORE_ENVIRONMENT=Development
->    - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=orso-arpa;MultipleActiveResultSets=true;User Id=SA;Password=Local@Dev!
+>    - ConnectionStrings__PostgreSQLConnection=host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;
 >    - EmailConfiguration__SmtpServer=mail
 >    - EmailConfiguration__Port=1025
 >    - EmailConfiguration__From=test@localhost
-```shell
-<project-root>$ docker-compose build --no-cache api
-```
+
 
 ### Login
 The initial database contains a single user with an admin role. You can login using the following credentials:
