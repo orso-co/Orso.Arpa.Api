@@ -1,16 +1,16 @@
 version: '3.8'
 
 services:
-    mssql:
-        image: mcr.microsoft.com/mssql/server
+    postgres:
+        image: postgres:13-alpine
         volumes:
-            - mssql-volume:/var/opt/mssql
+            - pgdata:/var/lib/postgresql/data
         environment:
-            - ACCEPT_EULA=Y
-            - SA_PASSWORD=Local@Dev!
-            - MSSQL_PID=Express
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=orso-arpa
         ports:
-            - 1433:1433
+            - 5432:5432
     api:
         build:
             context: .
@@ -23,12 +23,12 @@ services:
             - 5000:5000
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
-            - ConnectionStrings__DefaultConnection=Server=mssql,1433;Database=orso-arpa;MultipleActiveResultSets=true;User Id=SA;Password=Local@Dev!
+            - ConnectionStrings__PostgreSQLConnection=host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;
             - EmailConfiguration__SmtpServer=mail
             - EmailConfiguration__Port=1025
             - EmailConfiguration__From=test@localhost
         depends_on:
-            - mssql
+            - postgres
             - mail
     mail:
         image: mailhog/mailhog
@@ -44,4 +44,4 @@ services:
 # https://github.com/microsoft/mssql-docker/issues/12
 # https://adilsoncarvalho.com/using-mssql-on-linux-using-docker-for-mac-a5d4ac81e57f
 volumes:
-    mssql-volume:
+    pgdata:
