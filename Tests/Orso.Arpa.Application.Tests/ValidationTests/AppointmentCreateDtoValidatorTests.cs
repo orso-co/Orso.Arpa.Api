@@ -42,15 +42,15 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_EmolumentId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EmolumentId, default(Guid?));
+            _validator.ShouldNotHaveValidationErrorFor(command => command.SalaryId, default(Guid?));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_EmolumentId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EmolumentId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorFor(command => command.SalaryId, Guid.NewGuid());
         }
 
         [Test]
