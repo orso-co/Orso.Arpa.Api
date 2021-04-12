@@ -21,15 +21,15 @@ namespace Orso.Arpa.Persistence.Configurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasOne(e => e.Emolument)
-                .WithMany(c => c.AppointmentsAsEmolument)
-                .HasForeignKey(e => e.EmolumentId)
+                .HasOne(e => e.Salary)
+                .WithMany(c => c.AppointmentsAsSalary)
+                .HasForeignKey(e => e.SalaryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasOne(e => e.EmolumentPattern)
-                .WithMany(c => c.AppointmentsAsEmolumentPattern)
-                .HasForeignKey(e => e.EmolumentPatternId)
+                .HasOne(e => e.SalaryPattern)
+                .WithMany(c => c.AppointmentsAsSalaryPattern)
+                .HasForeignKey(e => e.SalaryPatternId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder

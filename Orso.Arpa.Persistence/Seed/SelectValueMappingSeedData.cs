@@ -14,8 +14,8 @@ namespace Orso.Arpa.Persistence.Seed
                 var list = new List<SelectValueMapping>();
                 list.AddRange(AddressTypeMappings);
                 list.AddRange(AppointmentCategoryMappings);
-                list.AddRange(AppointmentEmolumentMappings);
-                list.AddRange(AppointmentEmolumentPatternMappings);
+                list.AddRange(AppointmentSalaryMappings);
+                list.AddRange(AppointmentSalaryPatternMappings);
                 list.AddRange(AppointmentExpectationMappings);
                 list.AddRange(AppointmentParticipationPredictionMappings);
                 list.AddRange(AppointmentParticipationResultMappings);
@@ -74,31 +74,31 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        public static IList<SelectValueMapping> AppointmentEmolumentMappings
+        public static IList<SelectValueMapping> AppointmentSalaryMappings
         {
             get
             {
                 return new List<SelectValueMapping>
                 {
-                    new SelectValueMapping(Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b"), SelectValueCategorySeedData.AppointmentEmolument.Id, SelectValueSeedData.Yes.Id),
-                    new SelectValueMapping(Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"), SelectValueCategorySeedData.AppointmentEmolument.Id, SelectValueSeedData.No.Id),
-                    new SelectValueMapping(Guid.Parse("5b936e5f-3743-4cc3-91af-0cc8742c846e"), SelectValueCategorySeedData.AppointmentEmolument.Id, SelectValueSeedData.Ambiguous.Id),
-                    new SelectValueMapping(Guid.Parse("bbe90120-55f3-4474-a059-1334d0adaa57"), SelectValueCategorySeedData.AppointmentEmolument.Id, SelectValueSeedData.SpecialCase.Id),
+                    new SelectValueMapping(Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b"), SelectValueCategorySeedData.AppointmentSalary.Id, SelectValueSeedData.Yes.Id),
+                    new SelectValueMapping(Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"), SelectValueCategorySeedData.AppointmentSalary.Id, SelectValueSeedData.No.Id),
+                    new SelectValueMapping(Guid.Parse("5b936e5f-3743-4cc3-91af-0cc8742c846e"), SelectValueCategorySeedData.AppointmentSalary.Id, SelectValueSeedData.Ambiguous.Id),
+                    new SelectValueMapping(Guid.Parse("bbe90120-55f3-4474-a059-1334d0adaa57"), SelectValueCategorySeedData.AppointmentSalary.Id, SelectValueSeedData.SpecialCase.Id),
                 };
             }
         }
 
-        public static IList<SelectValueMapping> AppointmentEmolumentPatternMappings
+        public static IList<SelectValueMapping> AppointmentSalaryPatternMappings
         {
             get
             {
                 return new List<SelectValueMapping>
                 {
-                    new SelectValueMapping(Guid.Parse("8b51c75f-d597-48ef-8451-5f5fc32d57d1"), SelectValueCategorySeedData.AppointmentEmolumentPattern.Id, SelectValueSeedData.Gloeckner2018.Id),
-                    new SelectValueMapping(Guid.Parse("104fc525-bb0b-49dc-b2b2-9a8f63e45c92"), SelectValueCategorySeedData.AppointmentEmolumentPattern.Id, SelectValueSeedData.OrchestraConcertLumpSum10h.Id),
-                    new SelectValueMapping(Guid.Parse("f15b88b2-395d-4195-af25-8b8879640baf"), SelectValueCategorySeedData.AppointmentEmolumentPattern.Id, SelectValueSeedData.OrchestraConcertLumpSum12h.Id),
-                    new SelectValueMapping(Guid.Parse("74278b65-fd54-49d2-9cd2-061dd6318c7d"), SelectValueCategorySeedData.AppointmentEmolumentPattern.Id, SelectValueSeedData.OrchestraConcertLumpSum1808.Id),
-                    new SelectValueMapping(Guid.Parse("836c69d6-46f1-40d4-b75d-6aa86f9ec066"), SelectValueCategorySeedData.AppointmentEmolumentPattern.Id, SelectValueSeedData.OrchestraRehearsalHourlyRate.Id),
+                    new SelectValueMapping(Guid.Parse("8b51c75f-d597-48ef-8451-5f5fc32d57d1"), SelectValueCategorySeedData.AppointmentSalaryPattern.Id, SelectValueSeedData.Gloeckner2018.Id),
+                    new SelectValueMapping(Guid.Parse("104fc525-bb0b-49dc-b2b2-9a8f63e45c92"), SelectValueCategorySeedData.AppointmentSalaryPattern.Id, SelectValueSeedData.OrchestraConcertLumpSum10h.Id),
+                    new SelectValueMapping(Guid.Parse("f15b88b2-395d-4195-af25-8b8879640baf"), SelectValueCategorySeedData.AppointmentSalaryPattern.Id, SelectValueSeedData.OrchestraConcertLumpSum12h.Id),
+                    new SelectValueMapping(Guid.Parse("74278b65-fd54-49d2-9cd2-061dd6318c7d"), SelectValueCategorySeedData.AppointmentSalaryPattern.Id, SelectValueSeedData.OrchestraConcertLumpSum1808.Id),
+                    new SelectValueMapping(Guid.Parse("836c69d6-46f1-40d4-b75d-6aa86f9ec066"), SelectValueCategorySeedData.AppointmentSalaryPattern.Id, SelectValueSeedData.OrchestraRehearsalHourlyRate.Id),
                 };
             }
         }

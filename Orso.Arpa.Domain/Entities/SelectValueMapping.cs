@@ -26,10 +26,10 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<Appointment> AppointmentsAsStatus { get; private set; }
             = new HashSet<Appointment>();
 
-        public virtual ICollection<Appointment> AppointmentsAsEmolument { get; private set; }
+        public virtual ICollection<Appointment> AppointmentsAsSalary { get; private set; }
             = new HashSet<Appointment>();
 
-        public virtual ICollection<Appointment> AppointmentsAsEmolumentPattern { get; private set; }
+        public virtual ICollection<Appointment> AppointmentsAsSalaryPattern { get; private set; }
             = new HashSet<Appointment>();
 
         public virtual ICollection<Appointment> AppointmentsAsExpectation { get; private set; }

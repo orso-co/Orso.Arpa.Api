@@ -18,8 +18,8 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public string PublicDetails { get; set; }
             public string InternalDetails { get; set; }
             public Guid? StatusId { get; set; }
-            public Guid? EmolumentId { get; set; }
-            public Guid? EmolumentPatternId { get; set; }
+            public Guid? SalaryId { get; set; }
+            public Guid? SalaryPatternId { get; set; }
             public Guid? ExpectationId { get; set; }
         }
 
@@ -27,11 +27,11 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(d => d.EmolumentId)
-                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Emolument);
+                RuleFor(d => d.SalaryId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Salary);
 
-                RuleFor(d => d.EmolumentPatternId)
-                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.EmolumentPattern);
+                RuleFor(d => d.SalaryPatternId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.SalaryPattern);
 
                 RuleFor(d => d.ExpectationId)
                     .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Expectation);

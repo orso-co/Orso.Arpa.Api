@@ -32,8 +32,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .RuleFor(dto => dto.StartTime, (f, u) => f.Date.Soon())
                 .RuleFor(dto => dto.EndTime, (f, u) => f.Date.Soon())
                 .RuleFor(dto => dto.CategoryId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.EmolumentId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.EmolumentPatternId, f => Guid.NewGuid())
+                .RuleFor(dto => dto.SalaryId, f => Guid.NewGuid())
+                .RuleFor(dto => dto.SalaryPatternId, f => Guid.NewGuid())
                 .RuleFor(dto => dto.StatusId, f => Guid.NewGuid())
                 .RuleFor(dto => dto.ExpectationId, f => Guid.NewGuid())
                 .Generate();

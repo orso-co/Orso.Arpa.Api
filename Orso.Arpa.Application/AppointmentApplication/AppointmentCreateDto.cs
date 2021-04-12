@@ -14,8 +14,8 @@ namespace Orso.Arpa.Application.AppointmentApplication
         public string PublicDetails { get; set; }
         public string InternalDetails { get; set; }
         public Guid? StatusId { get; set; }
-        public Guid? EmolumentId { get; set; }
-        public Guid? EmolumentPatternId { get; set; }
+        public Guid? SalaryId { get; set; }
+        public Guid? SalaryPatternId { get; set; }
         public Guid? ExpectationId { get; set; }
     }
 

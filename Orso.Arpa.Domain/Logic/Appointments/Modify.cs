@@ -20,8 +20,8 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public string PublicDetails { get; set; }
             public string InternalDetails { get; set; }
             public Guid? StatusId { get; set; }
-            public Guid? EmolumentId { get; set; }
-            public Guid? EmolumentPatternId { get; set; }
+            public Guid? SalaryId { get; set; }
+            public Guid? SalaryPatternId { get; set; }
             public Guid? ExpectationId { get; set; }
         }
 
@@ -37,8 +37,8 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                     .ForMember(dest => dest.PublicDetails, opt => opt.MapFrom(src => src.PublicDetails))
                     .ForMember(dest => dest.InternalDetails, opt => opt.MapFrom(src => src.InternalDetails))
                     .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => src.StatusId))
-                    .ForMember(dest => dest.EmolumentId, opt => opt.MapFrom(src => src.EmolumentId))
-                    .ForMember(dest => dest.EmolumentPatternId, opt => opt.MapFrom(src => src.EmolumentPatternId))
+                    .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.SalaryId))
+                    .ForMember(dest => dest.SalaryPatternId, opt => opt.MapFrom(src => src.SalaryPatternId))
                     .ForMember(dest => dest.ExpectationId, opt => opt.MapFrom(src => src.ExpectationId))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
@@ -51,11 +51,11 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext);
 
-                RuleFor(d => d.EmolumentId)
-                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Emolument);
+                RuleFor(d => d.SalaryId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Salary);
 
-                RuleFor(d => d.EmolumentPatternId)
-                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.EmolumentPattern);
+                RuleFor(d => d.SalaryPatternId)
+                    .SelectValueMapping<Command, Appointment>(arpaContext, a => a.SalaryPattern);
 
                 RuleFor(d => d.ExpectationId)
                     .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Expectation);
