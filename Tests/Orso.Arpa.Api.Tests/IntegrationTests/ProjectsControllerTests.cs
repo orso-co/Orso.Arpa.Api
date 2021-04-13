@@ -290,7 +290,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_Url()
         {
             // Arrange
-            var addDto = new ProjectAddUrlDto
+            var addDto = new UrlCreateDto
             {
                 Href = "http://www.landesblasorchester.de",
                 AnchorText = "Landesblasorchester Baden-Württemberg",
@@ -320,7 +320,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Add_Url_Due_To_Project_Not_Found()
         {
             // Arrange
-            var addDto = new ProjectAddUrlDto
+            var addDto = new UrlCreateDto
             {
                 Href = "http://www.landesblasorchester.de",
                 AnchorText = "Landesblasorchester Baden-Württemberg",

@@ -17,10 +17,12 @@ namespace Orso.Arpa.Api.Controllers
     public class ProjectsController : BaseController
     {
         private readonly IProjectService _projectService;
+        private readonly IUrlService _urlService;
 
-        public ProjectsController(IProjectService projectService)
+        public ProjectsController(IProjectService projectService, IUrlService urlService)
         {
             _projectService = projectService;
+            _urlService = urlService;
         }
 
         /// <summary>
@@ -73,16 +75,16 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Adds a new Url to an existing project
         /// </summary>
-        /// <param name="addUrlDto"></param>
+        /// <param name="urlCreateDto"></param>
         /// <response code="201"></response>
         /// <response code="400">If dto is not valid or if projectId cannot not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/urls")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UrlDto>> AddUrl([FromBodyAndRoute] ProjectAddUrlDto addUrlDto)
+        public async Task<ActionResult<UrlDto>> AddUrl([FromBodyAndRoute] UrlCreateDto urlCreateDto)
         {
-            UrlDto createdUrl = await _projectService.AddUrlAsync(addUrlDto);
+            UrlDto createdUrl = await _urlService.CreateAsync(urlCreateDto);
             return CreatedAtAction(nameof(GetById), new { id = createdUrl.Id }, createdUrl);
         }
 

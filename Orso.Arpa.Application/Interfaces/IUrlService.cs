@@ -8,6 +8,7 @@ namespace Orso.Arpa.Application.Interfaces
     public interface IUrlService
     {
         Task<UrlDto> GetByIdAsync(Guid id);
+        Task<UrlDto> CreateAsync(UrlCreateDto createUrlDto);
         Task PutAsync(UrlModifyDto urlModifyDto);
         Task<UrlDto> AddRoleAsync(UrlAddRoleDto addRoleDto);
         Task RemoveRoleAsync(UrlRemoveRoleDto removeRoleDto);

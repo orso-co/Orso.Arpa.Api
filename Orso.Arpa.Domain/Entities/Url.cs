@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Domain.Logic.Urls;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Url : BaseEntity
     {
-        public Url(Guid? id, AddUrl.Command command) : base(id)
+        public Url(Guid? id, Create.Command command) : base(id)
         {
             Href = command.Href;
             AnchorText = command.AnchorText;
