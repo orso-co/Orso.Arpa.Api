@@ -16,9 +16,9 @@ namespace Orso.Arpa.Domain.Logic.Urls
     {
         public class Command : IRequest
         {
-            public Command(Guid id, Guid roleId)
+            public Command(Guid urlId, Guid roleId)
             {
-                Id = id;
+                UrlId = urlId;
                 RoleId = roleId;
             }
 
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
             {
             }
 
-            public Guid Id { get; private set; }
+            public Guid UrlId { get; private set; }
             public Guid RoleId { get; private set; }
         }
 
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public MappingProfile()
             {
                 CreateMap<Command, UrlRole>()
-                    .ForMember(dest => dest.UrlId, opt => opt.MapFrom(src => src.Id))
+                    .ForMember(dest => dest.UrlId, opt => opt.MapFrom(src => src.UrlId))
                     .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.RoleId));
             }
         }
@@ -44,7 +44,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
         {
             public Validator(IArpaContext arpaContext, RoleManager<Role> roleManager)
             {
-                RuleFor(d => d.Id)
+                RuleFor(d => d.UrlId)
                     .EntityExists<Command, Url>(arpaContext);
 
                 RuleFor(d => d.RoleId)
@@ -52,7 +52,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
                     .WithMessage("The role could not be found.")
 
                     .MustAsync(async (dto, roleId, cancellation) => !(await arpaContext.UrlRoles
-                        .AnyAsync(ar => ar.RoleId == roleId && ar.UrlId == dto.Id, cancellation)))
+                        .AnyAsync(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation)))
                     .WithMessage("The role is already linked to the url");
             }
         }
@@ -72,7 +72,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Url existingUrl = await _arpaContext.Urls.FindAsync(new object[] { request.Id }, cancellationToken);
+                Url existingUrl = await _arpaContext.Urls.FindAsync(new object[] { request.UrlId }, cancellationToken);
                 Role existingRole = await _roleManager.Roles.SingleAsync(r => r.Id == request.RoleId, cancellationToken);
 
                 var urlRole = new UrlRole(null, existingUrl, existingRole);

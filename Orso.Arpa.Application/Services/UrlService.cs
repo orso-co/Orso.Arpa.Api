@@ -13,9 +13,9 @@ namespace Orso.Arpa.Application.Services
         UrlDto,
         Url,
         UrlCreateDto,
-        Domain.Logic.Urls.Create.Command,
+        Create.Command,
         UrlModifyDto,
-        Domain.Logic.Urls.Modify.Command
+        Modify.Command
         >, IUrlService
     {
         public UrlService(IMediator mediator, IMapper mapper) : base(mediator, mapper)

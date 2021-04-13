@@ -33,12 +33,9 @@ namespace Orso.Arpa.Application.UrlApplication
                 .NotEmpty();
 
             RuleFor(p => p.Href)
-                .NotEmpty()
-                .ValidUri()
-                .MaximumLength(1000);
+                .ValidUri(1000);
 
             RuleFor(p => p.AnchorText)
-                .NotEmpty()
                 .MaximumLength(1000);
         }
     }

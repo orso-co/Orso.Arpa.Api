@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
@@ -16,7 +15,6 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public Guid Id { get; set; }
             public string Href { get; set; }
             public string AnchorText { get; set; }
-            public virtual ICollection<UrlRole> UrlRoles { get; private set; } = new HashSet<UrlRole>();
         }
 
         public class MappingProfile : Profile
@@ -26,7 +24,6 @@ namespace Orso.Arpa.Domain.Logic.Urls
                 CreateMap<Command, Url>()
                     .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
                     .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText))
-                    .ForMember(dest => dest.UrlRoles, opt => opt.MapFrom(src => src.UrlRoles))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }

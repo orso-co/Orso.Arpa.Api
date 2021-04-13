@@ -31,7 +31,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedUrl);
         }
 
-        [Test, Order(2)]
+        [Test, Order(100)]
         public async Task Should_Modify()
         {
             // Arrange
@@ -52,26 +52,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(100)]
-        public async Task Should_Delete()
-        {
-            // Arrange
-            UrlDto urlToDelete = ProjectDtoData.HoorayForHollywood.Urls[0];
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
-
-            // Act: delete url from projects list of urls
-            HttpResponseMessage responseMessage = await client
-                .DeleteAsync(ApiEndpoints.UrlsController.Delete(urlToDelete.Id));
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-            HttpResponseMessage getResponseMessage = await client
-                .GetAsync(ApiEndpoints.UrlsController.Get(urlToDelete.Id));
-            getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        }
-
-        [Test, Order(10)]
+        [Test, Order(1000)]
         public async Task Should_Add_Role()
         {
             // Arrange
@@ -90,7 +71,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(11)]
+        [Test, Order(10000)]
+        public async Task Should_Delete()
+        {
+            // Arrange
+            UrlDto urlToDelete = ProjectDtoData.HoorayForHollywood.Urls[0];
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+
+            // Act: delete url from projects list of urls
+            HttpResponseMessage responseMessage = await client
+                .DeleteAsync(ApiEndpoints.UrlsController.Delete(urlToDelete.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            HttpResponseMessage getResponseMessage = await client
+                .GetAsync(ApiEndpoints.UrlsController.Get(urlToDelete.Id));
+            getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Test, Order(10001)]
         public async Task Should_Remove_Role()
         {
             // Arrange

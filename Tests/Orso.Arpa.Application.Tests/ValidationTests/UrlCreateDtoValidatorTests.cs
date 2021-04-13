@@ -23,12 +23,6 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_AnchorText_Is_Supplied([Values(null, "")] string name)
-        {
-            _validator.ShouldHaveValidationErrorFor(command => command.AnchorText, name);
-        }
-
-        [Test]
         public void Should_Have_Validation_Error_If_Empty_ProjectId_Is_Supplied()
         {
             _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, Guid.Empty);
