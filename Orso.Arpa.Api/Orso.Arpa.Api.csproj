@@ -18,6 +18,7 @@
     <None Include="appsettings.Test.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="E:\dev\Orso.Arpa.Api\Tests\README.MD" Link="README.MD" />
     <None Include="wwwroot\images\arpa_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

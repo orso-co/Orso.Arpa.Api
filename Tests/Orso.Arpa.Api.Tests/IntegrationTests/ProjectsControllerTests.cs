@@ -229,7 +229,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
-                Number = ProjectSeedData.HoorayForHollywood.Number,
+                Number = ProjectSeedData.RockingXMas.Number,
             };
 
             // Act
