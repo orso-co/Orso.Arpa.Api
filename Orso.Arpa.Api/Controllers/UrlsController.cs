@@ -74,7 +74,7 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="addRoleDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If invalid roleId or either urlId cannot not be found</response>
+        /// <response code="400">If invalid roleId or urlId cannot not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/roles")]
         [ProducesResponseType(StatusCodes.Status200OK)]
