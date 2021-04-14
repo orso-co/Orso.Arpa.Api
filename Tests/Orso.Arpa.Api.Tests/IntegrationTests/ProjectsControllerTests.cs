@@ -290,12 +290,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_Url()
         {
             // Arrange
-            var addDto = new UrlCreateDto
-            {
-                Href = "http://www.landesblasorchester.de",
-                AnchorText = "Landesblasorchester Baden-Württemberg",
-                ProjectId = ProjectDtoData.HoorayForHollywood.Id,
-            };
+            var addDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg", ProjectDtoData.HoorayForHollywood.Id);
             var expectedDto = new UrlDto()
             {
                 Href = addDto.Href,
@@ -320,12 +315,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Add_Url_Due_To_Project_Not_Found()
         {
             // Arrange
-            var addDto = new UrlCreateDto
-            {
-                Href = "http://www.landesblasorchester.de",
-                AnchorText = "Landesblasorchester Baden-Württemberg",
-                ProjectId = Guid.NewGuid(),
-            };
+            var addDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg", Guid.NewGuid());
 
             // Act
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);

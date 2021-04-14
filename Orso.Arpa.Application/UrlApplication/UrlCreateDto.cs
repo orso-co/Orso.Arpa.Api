@@ -8,6 +8,17 @@ namespace Orso.Arpa.Application.UrlApplication
 {
     public class UrlCreateDto
     {
+        public UrlCreateDto()
+        {
+        }
+
+        public UrlCreateDto(string href, string anchorText, Guid projectId)
+        {
+            Href = href;
+            AnchorText = anchorText;
+            ProjectId = projectId;
+        }
+
         public string Href { get; set; }
         public string AnchorText { get; set; }
         public Guid ProjectId { get; set; }
