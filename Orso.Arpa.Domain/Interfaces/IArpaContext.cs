@@ -39,5 +39,7 @@ namespace Orso.Arpa.Domain.Interfaces
 
         EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
         Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity;
+
+        EntityEntry Entry(object entity);
     }
 }

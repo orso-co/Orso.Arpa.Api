@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 TEntity modifiedEntity = _mapper.Map(request, existingEntity);
 
-                _context.Set<TEntity>().Update(modifiedEntity);
+                _context.Entry(existingEntity)?.CurrentValues?.SetValues(modifiedEntity);
 
                 if (await _context.SaveChangesAsync(cancellationToken) > 0)
                 {
