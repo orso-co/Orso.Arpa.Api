@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Configurations;
@@ -66,6 +68,8 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
 
+        public DbSet<Audit> AuditLogs { get; set; }
+
 
         public DbSet<Translation> Translations { get; set; }
 
@@ -117,12 +121,13 @@ namespace Orso.Arpa.Persistence.DataAccess
                 }
             }
 
+            SaveAuditTrail(currentUserDisplayName);
             Task<int> task = base.SaveChangesAsync(cancellationToken);
 
             if(!ChangeTracker.Entries<Translation>().IsNullOrEmpty())
                 _translationCallBack();
 
-            return task;
+            return await task;
         }
 
         private async Task DeleteWithNavigationsAsync(string currentUserDisplayName, EntityEntry entry, CancellationToken cancellationToken)
@@ -154,6 +159,62 @@ namespace Orso.Arpa.Persistence.DataAccess
                         }
                     }
                 }
+            }
+        }
+
+        private void SaveAuditTrail(string currentUserDisplayName)
+        {
+            ChangeTracker.DetectChanges();
+            var auditEntries = new List<Audit>();
+            foreach (EntityEntry entry in ChangeTracker.Entries())
+            {
+                if (entry.Entity is Audit || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
+                {
+                    continue;
+                }
+
+                var auditEntry = new Audit()
+                {
+                    TableName = entry.Entity.GetType().Name,
+                    CreatedBy = currentUserDisplayName,
+                    CreatedAt = _dateTimeProvider.GetUtcNow()
+                };
+
+                auditEntries.Add(auditEntry);
+
+                foreach (PropertyEntry property in entry.Properties)
+                {
+                    string propertyName = property.Metadata.Name;
+                    if (property.Metadata.IsPrimaryKey())
+                    {
+                        auditEntry.KeyValues[propertyName] = (Guid)property.CurrentValue;
+                        continue;
+                    }
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            auditEntry.Type = AuditType.Create;
+                            auditEntry.NewValues[propertyName] = property.CurrentValue;
+                            break;
+                        case EntityState.Deleted:
+                            auditEntry.Type = AuditType.Delete;
+                            auditEntry.OldValues[propertyName] = property.OriginalValue;
+                            break;
+                        case EntityState.Modified:
+                            if (property.IsModified)
+                            {
+                                auditEntry.ChangedColumns.Add(propertyName);
+                                auditEntry.Type = AuditType.Update;
+                                auditEntry.OldValues[propertyName] = property.OriginalValue;
+                                auditEntry.NewValues[propertyName] = property.CurrentValue;
+                            }
+                            break;
+                    }
+                }
+            }
+            foreach (Audit auditEntry in auditEntries)
+            {
+                AuditLogs.Add(auditEntry);
             }
         }
 

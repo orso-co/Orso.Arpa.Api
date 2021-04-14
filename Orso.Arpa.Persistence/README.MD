@@ -22,7 +22,7 @@ Contains Data that will be seeded on app start. Don't forget to add a new migrat
 MS SQL Server is used. If you run the app locally, the LocalDB is used by default. Consider changing the connection string in the `appsettings.Development.json` file if no LocalDB is available. The appsettings file can be found in the Orso.Arpa.Api project.
 
 ## Entity Framework Migrations
-Use a command line or terminal window to run these commands. If you are using Visual Studio consider using the built-in Package Manager Console. Install globally the dotnet ef tools: `dotnet tool install --global dotnet-ef`
+Use a command line or terminal window to run these commands. If you are using Visual Studio consider using the built-in Package Manager Console. Install globally the dotnet ef tools: `dotnet tool install --global dotnet-ef`. To update the tool to the current version use `dotnet tool update --global dotnet-ef`.
 
 ### Add New Migration
 ```
