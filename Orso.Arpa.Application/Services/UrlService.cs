@@ -29,11 +29,6 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<UrlDto>(createdUrl);
         }
 
-        async Task IUrlService.PutAsync(UrlModifyDto urlModifyDto)
-        {
-            await ModifyAsync(urlModifyDto);
-        }
-
         public async Task<UrlDto> AddRoleAsync(UrlAddRoleDto addRoleDto)
         {
             AddRole.Command command = _mapper.Map<AddRole.Command>(addRoleDto);

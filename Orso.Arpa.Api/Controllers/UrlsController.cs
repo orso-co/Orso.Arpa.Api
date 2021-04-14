@@ -49,7 +49,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Put([FromBodyAndRoute] UrlModifyDto urlModifyDto)
         {
-            await _urlService.PutAsync(urlModifyDto);
+            await _urlService.ModifyAsync(urlModifyDto);
             return NoContent();
         }
 
