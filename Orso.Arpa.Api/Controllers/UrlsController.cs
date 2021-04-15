@@ -47,6 +47,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [SwaggerFromRouteProperty(nameof(UrlModifyDto.Id))]
+
         public async Task<ActionResult> Put([FromBodyAndRoute] UrlModifyDto urlModifyDto)
         {
             await _urlService.ModifyAsync(urlModifyDto);
@@ -76,10 +78,10 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If invalid roleId or urlId cannot not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
-        [HttpPost("{id}/roles")]
+        [HttpPost("{id}/roles/{roleId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UrlDto>> AddRole([FromBodyAndRoute] UrlAddRoleDto addRoleDto)
+        public async Task<ActionResult<UrlDto>> AddRole([FromRoute] UrlAddRoleDto addRoleDto)
         {
             return await _urlService.AddRoleAsync(addRoleDto);
         }

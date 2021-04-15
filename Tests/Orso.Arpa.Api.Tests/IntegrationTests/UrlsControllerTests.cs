@@ -63,7 +63,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.UrlsController.AddRole(expectedDto.Id), BuildStringContent(addRoleDto));
+                .PostAsync(ApiEndpoints.UrlsController.AddRole(expectedDto.Id, RoleDtoData.Performer.Id), null);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
