@@ -24,7 +24,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var project = new Project(
+                return new Project(
                     Guid.Parse("a19d84f1-4ac1-49c3-abfe-527092b80b6d"),
                     new Create.Command
                     {
@@ -40,8 +40,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         ParentId = null,
                         IsCompleted = true,
                     });
-
-                return project;
             }
         }
 
@@ -49,7 +47,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var project = new Project(
+                return new Project(
                     Guid.Parse("8f8c500f-71f5-49be-92c8-150ac9e88219"),
                     new Create.Command
                     {
@@ -65,8 +63,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         ParentId = null,
                         IsCompleted = false
                     });
-
-                return project;
             }
         }
     }
