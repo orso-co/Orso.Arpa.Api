@@ -72,7 +72,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PublicDetails = "Public Details",
                 EndTime = new DateTime(2021, 3, 5, 14, 15, 20),
                 StartTime = new DateTime(2021, 3, 5, 9, 15, 20),
-                EmolumentId = Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b")
+                SalaryId = Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b")
             };
 
             var expectedDto = new AppointmentDto
@@ -87,7 +87,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 EndTime = createDto.EndTime,
                 StartTime = createDto.StartTime,
                 StatusId = createDto.StatusId,
-                EmolumentId = createDto.EmolumentId
+                SalaryId = createDto.SalaryId
             };
 
             // Act
@@ -215,8 +215,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InternalDetails = "Internal Details",
                 PublicDetails = "Public Details",
                 CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
-                EmolumentId = SelectValueMappingSeedData.AppointmentEmolumentMappings[0].Id,
-                EmolumentPatternId = SelectValueMappingSeedData.AppointmentEmolumentPatternMappings[0].Id,
+                SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[0].Id,
+                SalaryPatternId = SelectValueMappingSeedData.AppointmentSalaryPatternMappings[0].Id,
                 EndTime = FakeDateTime.UtcNow.AddHours(5),
                 StartTime = FakeDateTime.UtcNow,
                 StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id

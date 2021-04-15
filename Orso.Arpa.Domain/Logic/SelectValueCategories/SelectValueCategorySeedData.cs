@@ -14,8 +14,8 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                 {
                     AddressType,
                     AppointmentCategory,
-                    AppointmentEmolument,
-                    AppointmentEmolumentPattern,
+                    AppointmentSalary,
+                    AppointmentSalaryPattern,
                     AppointmentExpectation,
                     AppointmentParticipationPrediction,
                     AppointmentParticipationResult,
@@ -87,17 +87,17 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(Appointment.Status),
             "Status");
 
-        public static SelectValueCategory AppointmentEmolument => new(
+        public static SelectValueCategory AppointmentSalary => new(
             Guid.Parse("1d62ed51-c99e-4b55-83d7-f9f9a5b8234e"),
             nameof(Appointment),
-            nameof(Appointment.Emolument),
-            "Emolument");
+            nameof(Appointment.Salary),
+            "Salary");
 
-        public static SelectValueCategory AppointmentEmolumentPattern => new(
+        public static SelectValueCategory AppointmentSalaryPattern => new(
             Guid.Parse("e4ff93b9-318e-41ed-b067-51ee94f41adf"),
             nameof(Appointment),
-            nameof(Appointment.EmolumentPattern),
-            "Emolument Pattern");
+            nameof(Appointment.SalaryPattern),
+            "Salary Pattern");
 
         public static SelectValueCategory MusicianProfileQualification => new(
             Guid.Parse("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),

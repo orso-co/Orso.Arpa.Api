@@ -53,59 +53,59 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_EmolumentId_Does_Not_Exist()
+        public void Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.EmolumentId, Guid.NewGuid());
+            _validator.ShouldHaveValidationErrorFor(c => c.SalaryId, Guid.NewGuid());
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_EmolumentId_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(c => c.EmolumentId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            _validator.ShouldHaveValidationErrorFor(c => c.SalaryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_EmolumentId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.EmolumentId, SelectValueMappingSeedData.AppointmentEmolumentMappings[0].Id);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryId, SelectValueMappingSeedData.AppointmentSalaryMappings[0].Id);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_EmolumentId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.EmolumentId, (Guid?)null);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryId, (Guid?)null);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_EmolumentPatternId_Does_Not_Exist()
+        public void Should_Have_Validation_Error_If_SalaryPatternId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.EmolumentPatternId, Guid.NewGuid());
+            _validator.ShouldHaveValidationErrorFor(c => c.SalaryPatternId, Guid.NewGuid());
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_EmolumentPatternId_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Invalid_SalaryPatternId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(c => c.EmolumentPatternId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            _validator.ShouldHaveValidationErrorFor(c => c.SalaryPatternId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_EmolumentPatternId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_SalaryPatternId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.EmolumentPatternId, SelectValueMappingSeedData.AppointmentEmolumentPatternMappings[0].Id);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryPatternId, SelectValueMappingSeedData.AppointmentSalaryPatternMappings[0].Id);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_EmolumentPatternId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Empty_SalaryPatternId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.EmolumentPatternId, (Guid?)null);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryPatternId, (Guid?)null);
         }
 
         [Test]
