@@ -33,7 +33,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
             {
-
                 RuleFor(d => d.SectionId)
                     .MustAsync(async (dto, sectionId, cancellation) => await arpaContext.SectionAppointments
                         .AnyAsync(sa => sa.SectionId == sectionId && sa.AppointmentId == dto.Id, cancellation))
@@ -59,6 +58,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
+                    _arpaContext.ClearChangeTracker();
                     return Unit.Value;
                 }
 

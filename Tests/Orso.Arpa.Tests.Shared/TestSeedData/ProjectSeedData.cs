@@ -61,7 +61,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         EndDate = new DateTime(2020, 06, 06),
                         StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
                         ParentId = null,
-                        IsCompleted = false,
+                        IsCompleted = false
                     });
             }
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.ProjectApplication

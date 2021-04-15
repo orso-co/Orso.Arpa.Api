@@ -51,7 +51,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-
                 AppointmentRoom roomToRemove = await _arpaContext.AppointmentRooms
                                     .FirstOrDefaultAsync(ar => ar.RoomId == request.RoomId && ar.AppointmentId == request.Id, cancellationToken);
 

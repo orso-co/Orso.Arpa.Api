@@ -32,7 +32,6 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentCreateDtoValidator(IStringLocalizer<ApplicationResource> localizer)
         {
-
             RuleFor(d => d)
                 .NotNull();
             RuleFor(d => d.StartTime)
