@@ -8,6 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -88,6 +89,52 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedProject);
+        }
+
+        [Test, Order(100)]
+        public async Task Should_Modify()
+        {
+            // Arrange
+            Project projectToModify = ProjectSeedData.HoorayForHollywood;
+            HttpClient client = _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff);
+
+            var modifyDto = new ProjectModifyDto
+            {
+                Title = "changed " + projectToModify.Title,
+                ShortTitle = "changed " + projectToModify.ShortTitle,
+                Description = "changed " + projectToModify.Description,
+                Number = "X-" + projectToModify.Number,
+                TypeId = SelectValueMappingSeedData.ProjectTypeMappings[2].Id,
+                GenreId = SelectValueMappingSeedData.ProjectGenreMappings[2].Id,
+                StartDate = new DateTime(2021, 02, 02),
+                EndDate = new DateTime(2021, 02, 28),
+                StateId = SelectValueMappingSeedData.ProjectStateMappings[2].Id,
+                ParentId = ProjectSeedData.RockingXMas.Id,
+                IsCompleted = true,
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await client
+                .PutAsync(ApiEndpoints.ProjectsController.Put(projectToModify.Id), BuildStringContent(modifyDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            // check now, if modification really did make it into the database. Fetch the (now modified) project again via GetById
+
+            // Act
+            responseMessage = await client
+                .GetAsync(ApiEndpoints.ProjectsController.Get(projectToModify.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
+            result.Should().BeEquivalentTo(modifyDto, opt => opt.Excluding(r => r.Id));
+            result.Id.Should().Be(projectToModify.Id);
+            result.ModifiedBy.Should().Be(_staff.DisplayName);
+            result.ModifiedAt.Should().Be(FakeDateTime.UtcNow);
         }
 
         [Test, Order(1000)]
@@ -182,7 +229,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
-                Number = ProjectSeedData.HoorayForHollywood.Number,
+                Number = ProjectSeedData.RockingXMas.Number,
             };
 
             // Act
@@ -239,53 +286,46 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Test, Order(10100)]
-        public async Task Should_Modify()
+        [Test, Order(1010)]
+        public async Task Should_Add_Url()
         {
             // Arrange
-            Project projectToModify = ProjectSeedData.HoorayForHollywood;
-            HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff);
-
-            var modifyDto = new ProjectModifyDto
+            var addDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg", ProjectDtoData.HoorayForHollywood.Id);
+            var expectedDto = new UrlDto()
             {
-                Title = "changed " + projectToModify.Title,
-                ShortTitle = "changed " + projectToModify.ShortTitle,
-                Description = "changed " + projectToModify.Description,
-                Number = "X-" + projectToModify.Number,
-                TypeId = SelectValueMappingSeedData.ProjectTypeMappings[2].Id,
-                GenreId = SelectValueMappingSeedData.ProjectGenreMappings[2].Id,
-                StartDate = new DateTime(2021, 02, 02),
-                EndDate = new DateTime(2021, 02, 28),
-                StateId = SelectValueMappingSeedData.ProjectStateMappings[2].Id,
-                ParentId = ProjectSeedData.RockingXMas.Id,
-                IsCompleted = true,
+                Href = addDto.Href,
+                AnchorText = addDto.AnchorText,
+                CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow
             };
 
             // Act
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
             HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.ProjectsController.Put(projectToModify.Id), BuildStringContent(modifyDto));
+                .PostAsync(ApiEndpoints.ProjectsController.AddUrl(expectedDto.Id), BuildStringContent(addDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-            // check now, if modification really did make it into the database. Fetch the (now modified) project again via GetById
-
-            // Act
-            responseMessage = await client
-                .GetAsync(ApiEndpoints.ProjectsController.Get(projectToModify.Id));
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(modifyDto, opt => opt.Excluding(r => r.Id));
-            result.Id.Should().Be(projectToModify.Id);
-            result.ModifiedBy.Should().Be(_staff.DisplayName);
-            result.ModifiedAt.Should().Be(FakeDateTime.UtcNow);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Id.Should().NotBeEmpty();
         }
 
-        [Test, Order(10500)]
+        [Test, Order(1011)]
+        public async Task Should_Not_Add_Url_Due_To_Project_Not_Found()
+        {
+            // Arrange
+            var addDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg", Guid.NewGuid());
+
+            // Act
+            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+            HttpResponseMessage responseMessage = await client
+                .PostAsync(ApiEndpoints.ProjectsController.AddUrl(addDto.ProjectId), BuildStringContent(addDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        [Test, Order(10000)]
         public async Task Should_Delete()
         {
             // Arrange

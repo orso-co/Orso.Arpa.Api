@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -9,9 +10,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20210412191118_AddedTableAuditLogs")]
+    partial class AddedTableAuditLogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,6 +260,14 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("deleted");
 
+                    b.Property<Guid?>("EmolumentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("emolument_id");
+
+                    b.Property<Guid?>("EmolumentPatternId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("emolument_pattern_id");
+
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("end_time");
@@ -290,14 +300,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("public_details");
 
-                    b.Property<Guid?>("SalaryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("salary_id");
-
-                    b.Property<Guid?>("SalaryPatternId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("salary_pattern_id");
-
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("start_time");
@@ -316,14 +318,14 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasIndex("CategoryId")
                         .HasDatabaseName("ix_appointments_category_id");
 
+                    b.HasIndex("EmolumentId")
+                        .HasDatabaseName("ix_appointments_emolument_id");
+
+                    b.HasIndex("EmolumentPatternId")
+                        .HasDatabaseName("ix_appointments_emolument_pattern_id");
+
                     b.HasIndex("ExpectationId")
                         .HasDatabaseName("ix_appointments_expectation_id");
-
-                    b.HasIndex("SalaryId")
-                        .HasDatabaseName("ix_appointments_salary_id");
-
-                    b.HasIndex("SalaryPatternId")
-                        .HasDatabaseName("ix_appointments_salary_pattern_id");
 
                     b.HasIndex("StatusId")
                         .HasDatabaseName("ix_appointments_status_id");
@@ -3485,8 +3487,8 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("1d62ed51-c99e-4b55-83d7-f9f9a5b8234e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Salary",
-                            Property = "Salary",
+                            Name = "Emolument",
+                            Property = "Emolument",
                             Table = "Appointment"
                         },
                         new
@@ -3494,8 +3496,8 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e4ff93b9-318e-41ed-b067-51ee94f41adf"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Salary Pattern",
-                            Property = "SalaryPattern",
+                            Name = "Emolument Pattern",
+                            Property = "EmolumentPattern",
                             Table = "Appointment"
                         },
                         new
@@ -4898,22 +4900,22 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasConstraintName("fk_appointments_select_value_mappings_category_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Emolument")
+                        .WithMany("AppointmentsAsEmolument")
+                        .HasForeignKey("EmolumentId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_emolument_id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "EmolumentPattern")
+                        .WithMany("AppointmentsAsEmolumentPattern")
+                        .HasForeignKey("EmolumentPatternId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_emolument_pattern_id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Expectation")
                         .WithMany("AppointmentsAsExpectation")
                         .HasForeignKey("ExpectationId")
                         .HasConstraintName("fk_appointments_select_value_mappings_expectation_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Salary")
-                        .WithMany("AppointmentsAsSalary")
-                        .HasForeignKey("SalaryId")
-                        .HasConstraintName("fk_appointments_select_value_mappings_salary_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "SalaryPattern")
-                        .WithMany("AppointmentsAsSalaryPattern")
-                        .HasForeignKey("SalaryPatternId")
-                        .HasConstraintName("fk_appointments_select_value_mappings_salary_pattern_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
@@ -4930,11 +4932,11 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("Category");
 
+                    b.Navigation("Emolument");
+
+                    b.Navigation("EmolumentPattern");
+
                     b.Navigation("Expectation");
-
-                    b.Navigation("Salary");
-
-                    b.Navigation("SalaryPattern");
 
                     b.Navigation("Status");
 
@@ -5587,11 +5589,11 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("AppointmentsAsCategory");
 
+                    b.Navigation("AppointmentsAsEmolument");
+
+                    b.Navigation("AppointmentsAsEmolumentPattern");
+
                     b.Navigation("AppointmentsAsExpectation");
-
-                    b.Navigation("AppointmentsAsSalary");
-
-                    b.Navigation("AppointmentsAsSalaryPattern");
 
                     b.Navigation("AppointmentsAsStatus");
 
