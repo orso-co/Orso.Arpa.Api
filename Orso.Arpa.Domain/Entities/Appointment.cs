@@ -16,8 +16,8 @@ namespace Orso.Arpa.Domain.Entities
             PublicDetails = command.PublicDetails;
             InternalDetails = command.InternalDetails;
             StatusId = command.StatusId;
-            EmolumentId = command.EmolumentId;
-            EmolumentPatternId = command.EmolumentPatternId;
+            SalaryId = command.SalaryId;
+            SalaryPatternId = command.SalaryPatternId;
             ExpectationId = command.ExpectationId;
         }
 
@@ -43,11 +43,11 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? StatusId { get; private set; }
         public virtual SelectValueMapping Status { get; private set; }
 
-        public Guid? EmolumentId { get; private set; }
-        public virtual SelectValueMapping Emolument { get; private set; }
+        public Guid? SalaryId { get; private set; }
+        public virtual SelectValueMapping Salary { get; private set; }
 
-        public Guid? EmolumentPatternId { get; private set; }
-        public virtual SelectValueMapping EmolumentPattern { get; private set; }
+        public Guid? SalaryPatternId { get; private set; }
+        public virtual SelectValueMapping SalaryPattern { get; private set; }
 
         public Guid? VenueId { get; private set; }
         public virtual Venue Venue { get; private set; }
