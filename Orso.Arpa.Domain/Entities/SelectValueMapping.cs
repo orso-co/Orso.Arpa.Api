@@ -67,7 +67,6 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<AvailableDocument> AvailableDocumentStatus { get; private set; }
             = new HashSet<AvailableDocument>();
 
-
         public virtual ICollection<Audition> AuditionsAsStatus { get; private set; }
             = new HashSet<Audition>();
 

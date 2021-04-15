@@ -17,6 +17,8 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<Person> Persons { get; set; }
         DbSet<PersonAddress> PersonAddresses { get; set; }
         DbSet<Project> Projects { get; set; }
+        DbSet<Url> Urls { get; set; }
+        DbSet<UrlRole> UrlRoles { get; set; }
         DbSet<ProjectAppointment> ProjectAppointments { get; set; }
         DbSet<ProjectParticipation> ProjectParticipations { get; set; }
         DbSet<Region> Regions { get; set; }
@@ -27,7 +29,6 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<SelectValueMapping> SelectValueMappings { get; set; }
         DbSet<Venue> Venues { get; set; }
         DbSet<Room> Rooms { get; set; }
-        DbSet<Url> Urls { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

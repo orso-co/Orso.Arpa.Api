@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.Logic.Venues
         public class Command : IModifyCommand<Venue>
         {
             public Guid Id { get; set; }
-            // ToDo: Add proeprties
+            // ToDo: Add properties
         }
     }
 }
