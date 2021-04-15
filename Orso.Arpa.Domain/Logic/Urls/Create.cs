@@ -1,8 +1,8 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
 
@@ -44,8 +44,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.ProjectId)
-                    .MustAsync(async (projectId, cancellation) => await arpaContext.Projects.AnyAsync(p => p.Id == projectId, cancellation))
-                    .WithMessage("The project could not be found");
+                    .EntityExists<Command, Project>(arpaContext);
             }
         }
     }

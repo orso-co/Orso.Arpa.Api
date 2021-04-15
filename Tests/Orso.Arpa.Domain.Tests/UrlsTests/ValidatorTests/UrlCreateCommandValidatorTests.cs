@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -31,12 +32,14 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_ProjecId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(c => c.ProjectId, ProjectSeedData.RockingXMas.Id);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_ProjectId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldHaveValidationErrorFor(c => c.ProjectId, Guid.NewGuid());
         }
     }
