@@ -85,7 +85,7 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<UrlDto>> AddUrl([FromBodyAndRoute] UrlCreateDto urlCreateDto)
         {
             UrlDto createdUrl = await _urlService.CreateAsync(urlCreateDto);
-            return CreatedAtAction(nameof(UrlsController.GetById), new { id = createdUrl.Id }, createdUrl);
+            return CreatedAtAction(nameof(GetById), "Urls", new { id = createdUrl.Id }, createdUrl);
         }
 
         /// <summary>
