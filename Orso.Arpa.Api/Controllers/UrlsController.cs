@@ -48,7 +48,6 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [SwaggerFromRouteProperty(nameof(UrlModifyDto.Id))]
-
         public async Task<ActionResult> Put([FromBodyAndRoute] UrlModifyDto urlModifyDto)
         {
             await _urlService.ModifyAsync(urlModifyDto);
