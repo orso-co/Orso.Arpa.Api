@@ -302,7 +302,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.ProjectsController.AddUrl(expectedDto.Id), BuildStringContent(addDto));
+                .PostAsync(ApiEndpoints.ProjectsController.AddUrl(addDto.ProjectId), BuildStringContent(addDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
