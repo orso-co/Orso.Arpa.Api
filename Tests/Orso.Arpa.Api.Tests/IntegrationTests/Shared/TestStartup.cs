@@ -11,7 +11,6 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Misc;
-using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -21,6 +20,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     public class TestStartup : Startup
     {
         public static ITestDatabase TestDatabase { get; set; }
+        public static bool IsSeeded { get; set; }
 
         public TestStartup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
             : base(configuration, hostingEnvironment)
@@ -49,19 +49,21 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         protected override void EnsureDatabaseMigrations(IApplicationBuilder app)
         {
+            base.EnsureDatabaseMigrations(app);
+
             using IServiceScope scope = app.ApplicationServices.CreateScope();
             IServiceProvider services = scope.ServiceProvider;
             try
             {
-                ArpaContext context = services.GetRequiredService<ArpaContext>();
                 ArpaUserManager userManager = services.GetRequiredService<ArpaUserManager>();
                 SignInManager<User> signInManager = services.GetRequiredService<SignInManager<User>>();
                 IArpaContext arpaContext = services.GetRequiredService<IArpaContext>();
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-                IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
-                dataSeeder.SeedDataAsync().Wait();
-                TestSeed.SeedDataAsync(userManager, signInManager, arpaContext).Wait();
+
+                if (!IsSeeded)
+                {
+                    TestSeed.SeedDataAsync(userManager, signInManager, arpaContext).Wait();
+                    IsSeeded = true;
+                }
             }
             catch (Exception ex)
             {

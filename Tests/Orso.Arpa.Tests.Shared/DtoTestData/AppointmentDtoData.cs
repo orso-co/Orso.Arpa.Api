@@ -289,7 +289,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new AppointmentDto
                 {
-                    Id = Guid.Parse("90be67fe-c0b9-4824-9acd-6d8730f3f39b"),
+                    Id = Guid.Parse("6197d4ae-cb53-48db-b407-937b3857c621"),
                     CategoryId = Guid.Parse("e9c79ae9-5498-459d-8852-9f135da7afae"),
                     SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
                     SalaryPatternId = null,

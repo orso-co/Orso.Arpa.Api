@@ -39,9 +39,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             VenueDto dto = _mapper.Map<VenueDto>(venue);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dto => dto.AddressId));
-            dto.AddressId.Should().Be(expectedDto.Id);
+            dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

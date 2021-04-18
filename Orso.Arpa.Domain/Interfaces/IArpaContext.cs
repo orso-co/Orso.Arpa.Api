@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Views;
 
 namespace Orso.Arpa.Domain.Interfaces
 {
@@ -30,6 +31,9 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<SelectValueMapping> SelectValueMappings { get; set; }
         DbSet<Venue> Venues { get; set; }
         DbSet<Room> Rooms { get; set; }
+        DbSet<AppointmentForUser> AppointmentsForUser { get; set; }
+        public DbSet<Musician> Musicians { get; set; }
+
         DbSet<AuditLog> AuditLogs { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.Entities
         {
             Name = command.Name;
             Description = command.Description;
-            Address = new Address(id, command);
+            Address = new Address(command.AddressId, command);
             AddressId = Address.Id;
         }
 

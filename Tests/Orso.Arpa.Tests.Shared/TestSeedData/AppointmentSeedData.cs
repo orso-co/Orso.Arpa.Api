@@ -155,7 +155,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var id = Guid.Parse("90be67fe-c0b9-4824-9acd-6d8730f3f39b");
+                var id = Guid.Parse("6197d4ae-cb53-48db-b407-937b3857c621");
                 return new Appointment
                 (
                     id,

@@ -32,9 +32,9 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
         public async Task Should_Get_User_Appointments()
         {
             // Arrange
-            DbSet<Appointment> mockData = MockDbSets.Appointments;
-            mockData.AsAsyncEnumerable().Returns(GetTestValues());
-            _arpaContext.Appointments.Returns(mockData);
+            DbSet<Appointment> appointmentMockData = MockDbSets.Appointments;
+            appointmentMockData.AsAsyncEnumerable().Returns(GetTestValues());
+            _arpaContext.Appointments.Returns(appointmentMockData);
             Person person = FakePersons.Performer;
             var expectedAppointments = new List<Appointment> { FakeAppointments.RockingXMasRehearsal };
 

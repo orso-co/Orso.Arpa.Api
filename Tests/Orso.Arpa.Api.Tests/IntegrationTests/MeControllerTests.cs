@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             var expectedFile = File.ReadAllBytes(
-                Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                Path.Combine(AppContext.BaseDirectory,
                 "Files",
                 "ARPA_QRCode_Per_Former.png"));
 

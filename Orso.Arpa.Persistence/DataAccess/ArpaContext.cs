@@ -13,8 +13,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Views;
 using Orso.Arpa.Misc;
-using Orso.Arpa.Persistence.Configurations;
+using Orso.Arpa.Persistence.EntityConfigurations;
 
 namespace Orso.Arpa.Persistence.DataAccess
 {
@@ -34,12 +35,14 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentForUser> AppointmentsForUser { get; set; }
         public DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AvailableDocument> AvailableDocuments { get; set; }
         public DbSet<CurriculumVitaeReference> CurriculumVitaeReference { get; set; }
         public DbSet<Education> Educations { get; set; }
+        public DbSet<Musician> Musicians { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
         public DbSet<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; }
         public DbSet<MusicianProfileEducation> MusicianProfileEducations { get; set; }
