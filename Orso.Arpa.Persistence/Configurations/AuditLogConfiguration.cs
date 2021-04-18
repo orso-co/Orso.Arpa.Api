@@ -10,9 +10,9 @@ using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
-    public class AuditConfiguration : IEntityTypeConfiguration<Audit>
+    public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
     {
-        public void Configure(EntityTypeBuilder<Audit> builder)
+        public void Configure(EntityTypeBuilder<AuditLog> builder)
         {
             builder
                 .Property(e => e.Type)
@@ -42,20 +42,10 @@ namespace Orso.Arpa.Persistence.Configurations
                 .Metadata.SetValueComparer(dictionaryValueComparer);
 
             builder
-                .Property(e => e.KeyValues)
-                .HasConversion(
-                    e => JsonSerializer.Serialize(e, null),
-                    e => JsonSerializer.Deserialize<Dictionary<string, Guid>>(e, null))
-                .Metadata.SetValueComparer(new ValueComparer<Dictionary<string, Guid>>(
-                    (c1, c2) => c1.SequenceEqual(c2),
-                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                    c => c));
-
-            builder
                 .Property(e => e.Type)
                 .HasConversion(
                     v => v.ToString(),
-                    v => (AuditType)Enum.Parse(typeof(AuditType), v));
+                    v => (AuditLogType)Enum.Parse(typeof(AuditLogType), v));
 
             builder
                 .Property(e => e.ChangedColumns)

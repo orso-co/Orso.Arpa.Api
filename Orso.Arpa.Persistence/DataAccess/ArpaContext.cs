@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -62,9 +63,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Url> Urls { get; set; }
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
-
-        public DbSet<Audit> AuditLogs { get; set; }
-
+        public DbSet<AuditLog> AuditLogs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -151,15 +150,15 @@ namespace Orso.Arpa.Persistence.DataAccess
         private void SaveAuditTrail(string currentUserDisplayName)
         {
             ChangeTracker.DetectChanges();
-            var auditEntries = new List<Audit>();
+            var auditEntries = new List<AuditLog>();
             foreach (EntityEntry entry in ChangeTracker.Entries())
             {
-                if (entry.Entity is Audit || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
+                if (entry.Entity is AuditLog || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
                 {
                     continue;
                 }
 
-                var auditEntry = new Audit()
+                var auditEntry = new AuditLog()
                 {
                     TableName = entry.Entity.GetType().Name,
                     CreatedBy = currentUserDisplayName,
@@ -173,24 +172,26 @@ namespace Orso.Arpa.Persistence.DataAccess
                     string propertyName = property.Metadata.Name;
                     if (property.Metadata.IsPrimaryKey())
                     {
-                        auditEntry.KeyValues[propertyName] = (Guid)property.CurrentValue;
+                        Dictionary<string, Guid> foo = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, null);
+                        foo[propertyName] = (Guid)property.CurrentValue;
+                        auditEntry.KeyValues = JsonSerializer.Serialize(foo);
                         continue;
                     }
                     switch (entry.State)
                     {
                         case EntityState.Added:
-                            auditEntry.Type = AuditType.Create;
+                            auditEntry.Type = AuditLogType.Create;
                             auditEntry.NewValues[propertyName] = property.CurrentValue;
                             break;
                         case EntityState.Deleted:
-                            auditEntry.Type = AuditType.Delete;
+                            auditEntry.Type = AuditLogType.Delete;
                             auditEntry.OldValues[propertyName] = property.OriginalValue;
                             break;
                         case EntityState.Modified:
                             if (property.IsModified)
                             {
                                 auditEntry.ChangedColumns.Add(propertyName);
-                                auditEntry.Type = AuditType.Update;
+                                auditEntry.Type = AuditLogType.Update;
                                 auditEntry.OldValues[propertyName] = property.OriginalValue;
                                 auditEntry.NewValues[propertyName] = property.CurrentValue;
                             }
@@ -198,7 +199,7 @@ namespace Orso.Arpa.Persistence.DataAccess
                     }
                 }
             }
-            foreach (Audit auditEntry in auditEntries)
+            foreach (AuditLog auditEntry in auditEntries)
             {
                 AuditLogs.Add(auditEntry);
             }
