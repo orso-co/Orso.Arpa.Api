@@ -290,19 +290,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_Url()
         {
             // Arrange
-            var addDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg", ProjectDtoData.HoorayForHollywood.Id);
+            var urlCreateDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg");
             var expectedDto = new UrlDto()
             {
-                Href = addDto.Href,
-                AnchorText = addDto.AnchorText,
+                Href = urlCreateDto.Href,
+                AnchorText = urlCreateDto.AnchorText,
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow
             };
 
             // Act
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
-            HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.ProjectsController.AddUrl(addDto.ProjectId), BuildStringContent(addDto));
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.ProjectsController.AddUrl(ProjectDtoData.HoorayForHollywood.Id), BuildStringContent(urlCreateDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -315,12 +316,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Add_Url_Due_To_Project_Not_Found()
         {
             // Arrange
-            var addDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg", Guid.NewGuid());
+            var urlCreateDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg");
 
             // Act
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.ProjectsController.AddUrl(addDto.ProjectId), BuildStringContent(addDto));
+                .PostAsync(ApiEndpoints.ProjectsController.AddUrl(Guid.NewGuid()), BuildStringContent(urlCreateDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
