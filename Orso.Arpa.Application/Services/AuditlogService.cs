@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Orso.Arpa.Application.AuditLogApplication;
 using Orso.Arpa.Application.Interfaces;
@@ -31,9 +30,7 @@ namespace Orso.Arpa.Application.Services
                 skip: skip ?? 0,
                 take: take ?? 25));
 
-            return entities
-                .ProjectTo<AuditLogDto>(_mapper.ConfigurationProvider)
-                .AsEnumerable();
+            return _mapper.Map<IEnumerable<AuditLogDto>>(entities);
         }
     }
 }

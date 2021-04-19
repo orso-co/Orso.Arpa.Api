@@ -9,6 +9,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuditLogApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -18,7 +19,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     {
         private static Guid GetEntryId()
         {
-            return (Guid)JsonSerializer.Deserialize<Dictionary<string, Guid>>(AuditLogseedData.CreateRegion.KeyValues, null)["Id"];
+            return JsonSerializer.Deserialize<Dictionary<string, Guid>>(AuditLogseedData.CreateRegion.KeyValues, null)["Id"];
         }
 
         [Test, Order(1)]
@@ -39,8 +40,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Count().Should().Be(3);
 
             AuditLogDto auditLog = result.Last();               // this should be the create command as the oldest entry
-            //auditLog.Type.Should().Be(AuditLogType.Create);   // cannot test this here, because sort order does not work due to test seed data being all created at FakeDateTime.UtcNow which all have the time 00:00:00
-            //TODO auditLog.NewValues.Count.Should().BeGreaterThan(0); // prove that mapping dictionaries work
+            auditLog.Type.Should().Be(AuditLogType.Update);   // cannot test this here, because sort order does not work due to test seed data being all created at FakeDateTime.UtcNow which all have the time 00:00:00
+            auditLog.NewValues.Count.Should().BeGreaterThan(0); // prove that mapping dictionaries work
         }
 
         [Test, Order(2)]
