@@ -6,7 +6,7 @@ using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
-    public static class AuditLogseedData
+    public static class AuditLogSeedData
     {
         public static IList<AuditLog> AuditLogs
         {

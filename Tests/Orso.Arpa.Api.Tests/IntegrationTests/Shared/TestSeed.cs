@@ -81,7 +81,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         private static async Task SeedAuditLogAsync(IArpaContext arpaContext)
         {
-            await arpaContext.AuditLogs.AddRangeAsync(AuditLogseedData.AuditLogs);
+            await arpaContext.AuditLogs.AddRangeAsync(AuditLogSeedData.AuditLogs);
         }
 
         private static async Task SeedUsersAsync(ArpaUserManager userManager, SignInManager<User> signInManager)

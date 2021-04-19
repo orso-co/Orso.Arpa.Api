@@ -11,12 +11,12 @@ using Orso.Arpa.Domain.GenericHandlers;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class AuditLogservice : IAuditLogservice
+    public class AuditLogService : IAuditLogService
     {
         protected readonly IMapper _mapper;
         protected readonly IMediator _mediator;
 
-        public AuditLogservice(IMediator mediator, IMapper mapper)
+        public AuditLogService(IMediator mediator, IMapper mapper)
         {
             _mapper = mapper;
             _mediator = mediator;

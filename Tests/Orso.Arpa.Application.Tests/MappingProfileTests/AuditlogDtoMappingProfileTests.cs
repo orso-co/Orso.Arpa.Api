@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            AuditLog auditLog = AuditLogseedData.UpdateRegion;
+            AuditLog auditLog = AuditLogSeedData.UpdateRegion;
             AuditLogDto expectedDto = AuditLogDtoData.UpdateRegion;
 
             // Act

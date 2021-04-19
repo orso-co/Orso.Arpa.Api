@@ -12,11 +12,11 @@ namespace Orso.Arpa.Api.Controllers
 {
     public class AuditLogsController : BaseController
     {
-        private readonly IAuditLogservice _auditLogservice;
+        private readonly IAuditLogService _auditLogService;
 
-        public AuditLogsController(IAuditLogservice auditLogservice)
+        public AuditLogsController(IAuditLogService AuditLogService)
         {
-            _auditLogservice = auditLogservice;
+            _auditLogService = AuditLogService;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AuditLogDto>>> Get([FromQuery] Guid entityId, [FromQuery] int? skip, [FromQuery] int? take)
         {
-            return Ok(await _auditLogservice.GetAsync(entityId, skip, take));
+            return Ok(await _auditLogService.GetAsync(entityId, skip, take));
         }
     }
 }

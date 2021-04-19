@@ -191,7 +191,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<ISectionService, SectionService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IVenueService, VenueService>();
-            services.AddScoped<IAuditLogservice, AuditLogservice>();
+            services.AddScoped<IAuditLogService, AuditLogService>();
             services.AddGenericListHandler(typeof(AuditLog));
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
