@@ -4,12 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Orso.Arpa.Api.Controllers;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
@@ -26,6 +29,7 @@ using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Localization;
 using Orso.Arpa.Application.Services;
+using Orso.Arpa.Application.Tranlation;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
@@ -84,6 +88,7 @@ namespace Orso.Arpa.Api
             services.AddControllers(options =>
             {
                 options.ModelBinderProviders.InsertBodyAndRouteBinding();
+                options.Filters.Add(typeof(TranslationResultFilter));
             })
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
@@ -107,11 +112,9 @@ namespace Orso.Arpa.Api
             LocalizerCache lz = new LocalizerCache(services.BuildServiceProvider());
             services.AddSingleton<LocalizerCache>(sp => lz);
             services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => lz.CallBack);
-            //services.AddScoped<Translation.CallBack>(sp => sp.GetService<LocalizerCache>().CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
             services.AddLocalization();
-            //services.AddMvc().AddMvcLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -337,6 +340,8 @@ namespace Orso.Arpa.Api
             AddSwagger(app);
 
             EnsureDatabaseMigrations(app);
+
+            //app.UseTranslateMiddleware();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Orso.Arpa.Application.Tranlation;
 
 namespace Orso.Arpa.Domain.Entities
 {
