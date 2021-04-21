@@ -85,7 +85,7 @@ namespace Orso.Arpa.Api.Middleware
         }
     }
 
-    public static class ApplicationBuilderExtensions
+    public static partial class ApplicationBuilderExtensions
     {
         /// <summary>
         /// Adds the <see cref="ErrorResponseLocalizationMiddleware"/> to replace error responses
