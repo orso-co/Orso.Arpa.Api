@@ -1,7 +1,6 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Persistence.Seed;
 using static Orso.Arpa.Domain.Logic.Urls.AddRole;
 
 namespace Orso.Arpa.Application.UrlApplication
@@ -30,8 +29,7 @@ namespace Orso.Arpa.Application.UrlApplication
             RuleFor(d => d.Id)
                 .NotEmpty();
             RuleFor(d => d.RoleId)
-                .NotEmpty()
-                .NotEqual(RoleSeedData.Admin.Id);
+                .NotEmpty();
         }
     }
 }

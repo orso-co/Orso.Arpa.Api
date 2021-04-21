@@ -349,3 +349,4 @@ healthchecksdb
 
 #MAC system files
 .DS_Store
+/Tests/AuditLogTests.playlist

@@ -20,7 +20,10 @@ namespace Orso.Arpa.Application.UrlApplication
 
         public string Href { get; set; }
         public string AnchorText { get; set; }
-        public Guid Id { get; set; }    // projectId
+        /// <summary>
+        /// specify projectId of project where you want to attach the new url to
+        /// </summary>
+        public Guid Id { get; set; }
     }
     public class UrlCreateDtoMappingProfile : Profile
     {

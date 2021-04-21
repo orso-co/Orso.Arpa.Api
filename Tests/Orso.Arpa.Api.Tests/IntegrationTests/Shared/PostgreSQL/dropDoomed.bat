@@ -4,6 +4,12 @@ rem ------------------------------------------------------------------
 rem created by: Erich Hermann, 2021-04-11
 rem 
 rem drops all *doomed_database* databases from the PostgreSQL server
+rem
+rem precondition: please install grep untility from
+rem    http://gnuwin32.sourceforge.net/packages/grep.htm
+rem into the same folder as this batch, or somewhere in your %PATH%,
+rem or use the fully qualified path to the grep utiliy in the
+rem for statement below
 rem ------------------------------------------------------------------
 
 setlocal

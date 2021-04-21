@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Domain.Logic.Urls
 {
@@ -26,8 +27,8 @@ namespace Orso.Arpa.Domain.Logic.Urls
             {
             }
 
-            public Guid UrlId { get; private set; }
-            public Guid RoleId { get; private set; }
+            public Guid UrlId { get; set; }
+            public Guid RoleId { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -53,7 +54,10 @@ namespace Orso.Arpa.Domain.Logic.Urls
 
                     .MustAsync(async (dto, roleId, cancellation) => !(await arpaContext.UrlRoles
                         .AnyAsync(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation)))
-                    .WithMessage("The role is already linked to the url");
+                    .WithMessage("The role is already linked to the url")
+
+                    .MustAsync(async (roleId, cancellation) => !await roleManager.Roles.AnyAsync(r => r.Id == roleId && r.Name == RoleNames.Admin, cancellation))
+                    .WithMessage("Url visibility is not used for the admin role.");
             }
         }
 
