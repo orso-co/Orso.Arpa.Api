@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
                     new ResourceManagerStringLocalizerFactory(
                         new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
                         new LoggerFactory()));
-            IEnumerable<LocalizedString> localizedStrings = localizer.GetAllStrings(true);
+
             _validator = new ChangePasswordDtoValidator(localizer);
         }
 
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_New_Password_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.NewPassword);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.NewPassword, UserSeedData.ValidPassword);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Correct_Current_Password_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.CurrentPassword);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.CurrentPassword, UserSeedData.ValidPassword);
         }
     }
 }
