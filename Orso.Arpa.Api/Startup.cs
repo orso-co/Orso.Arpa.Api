@@ -125,7 +125,7 @@ namespace Orso.Arpa.Api
                 throw new ArgumentNullException(nameof (services));
             LocalizerCache lz = new LocalizerCache(services.BuildServiceProvider());
             services.AddSingleton<LocalizerCache>(sp => lz);
-            services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => lz.CallBack);
+            //services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => lz.CallBack);
             //services.AddScoped<Translation.CallBack>(sp => sp.GetService<LocalizerCache>().CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
