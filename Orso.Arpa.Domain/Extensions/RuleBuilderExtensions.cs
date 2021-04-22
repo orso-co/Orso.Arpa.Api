@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
