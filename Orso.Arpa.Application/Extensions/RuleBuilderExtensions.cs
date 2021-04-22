@@ -1,7 +1,6 @@
 using System;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Localization;
 
 namespace Orso.Arpa.Application.Extensions
 {
