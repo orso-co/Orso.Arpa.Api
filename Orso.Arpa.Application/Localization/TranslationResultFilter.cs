@@ -1,11 +1,19 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
 using AutoMapper.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Localization;
+using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Application.Tranlation;
 
 
@@ -46,10 +54,13 @@ namespace Orso.Arpa.Application.Localization
 
             if (obj is IEnumerable enumerable)
             {
-                foreach (object o in enumerable)
+                IEnumerator enumerator = enumerable.GetEnumerator();
+                while (enumerator.MoveNext())
                 {
-                    Translate(o);
+                    Translate(enumerator.Current);
                 }
+
+                return;
             }
 
             obj.GetType().GetProperties().ForAll(p =>
@@ -61,7 +72,7 @@ namespace Orso.Arpa.Application.Localization
                         if (p.GetCustomAttributes<TranslateAttribute>() != null &&
                             p.GetValue(obj) is string)
                         {
-                            p.SetValue(obj, transl((string)p.GetValue(obj)));
+                            p.SetValue(obj, "bla"/*transl((string)p.GetValue(obj))*/);
                         }
 
                         else if (p.GetCustomAttributes<TranslateAttribute>() != null &&
@@ -70,7 +81,7 @@ namespace Orso.Arpa.Application.Localization
                             var tanslationableArray = (string[])p.GetValue(obj);
                             for (int i = 0; i < tanslationableArray.Length; i++)
                             {
-                                tanslationableArray[i] = transl(tanslationableArray[i]);
+                                tanslationableArray[i] = (string) transl(tanslationableArray[i]);
                             }
                         }
                         else
@@ -91,64 +102,64 @@ namespace Orso.Arpa.Application.Localization
         {
             return "this was changed";
         }
-        /*
-                PropertyObject[] GetProperties(object? obj)
+/*
+        PropertyObject[] GetProperties(object? obj)
+        {
+            var propertyList = new List<PropertyObject>();
+
+            if (obj == null)
+            {
+                return propertyList.ToArray();
+            }
+
+            if (obj.GetType().IsArray)
+            {
+                object[] objectArray = (object[])obj;
+                objectArray.ForAll(o =>
                 {
-                    var propertyList = new List<PropertyObject>();
-
-                    if (obj == null)
+                    o.GetType().GetProperties().ForAll(p =>
                     {
-                        return propertyList.ToArray();
-                    }
-
-                    if (obj.GetType().IsArray)
-                    {
-                        object[] objectArray = (object[])obj;
-                        objectArray.ForAll(o =>
+                        if (p.GetIndexParameters().Length == 0)
                         {
-                            o.GetType().GetProperties().ForAll(p =>
-                            {
-                                if (p.GetIndexParameters().Length == 0)
-                                {
-                                    propertyList.Add(new PropertyObject(p.GetValue(o), p, o));
-                                    propertyList.AddRange(GetProperties(p.GetValue(o)));
-                                }
-                            });
-                        });
-                    }
-                    else
-                    {
-                        obj.GetType().GetProperties().ForAll(p =>
-                        {
-                            if (p.GetIndexParameters().Length == 0)
-                            {
-                                propertyList.Add(new PropertyObject(p.GetValue(obj), p, obj));
-                                propertyList.AddRange(GetProperties(p.GetValue(obj)));
-                            }
-                        });
-
-                        //obj.GetType().GetProperties().ForAll(p => propertyList.AddRange(GetProperties(p.GetValue(obj))));
-                    }
-
-
-
-                    return propertyList.ToArray();
-                }
-
-                struct PropertyObject
+                            propertyList.Add(new PropertyObject(p.GetValue(o), p, o));
+                            propertyList.AddRange(GetProperties(p.GetValue(o)));
+                        }
+                    });
+                });
+            }
+            else
+            {
+                obj.GetType().GetProperties().ForAll(p =>
                 {
-                    public object obj;
-                    public PropertyInfo propInfo;
-                    public object parentObj;
-
-                    public PropertyObject(object obj, PropertyInfo propInfo, object parentObj)
+                    if (p.GetIndexParameters().Length == 0)
                     {
-                        this.obj = obj;
-                        this.propInfo = propInfo;
-                        this.parentObj = parentObj;
+                        propertyList.Add(new PropertyObject(p.GetValue(obj), p, obj));
+                        propertyList.AddRange(GetProperties(p.GetValue(obj)));
                     }
-                }
+                });
 
-        */
+                //obj.GetType().GetProperties().ForAll(p => propertyList.AddRange(GetProperties(p.GetValue(obj))));
+            }
+
+
+
+            return propertyList.ToArray();
+        }
+
+        struct PropertyObject
+        {
+            public object obj;
+            public PropertyInfo propInfo;
+            public object parentObj;
+
+            public PropertyObject(object obj, PropertyInfo propInfo, object parentObj)
+            {
+                this.obj = obj;
+                this.propInfo = propInfo;
+                this.parentObj = parentObj;
+            }
+        }
+
+*/
     }
 }
