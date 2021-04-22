@@ -46,10 +46,10 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext, localizer);
+                    .EntityExists<Command, Appointment>(arpaContext);
 
                 RuleFor(d => d.ProjectId)
-                    .EntityExists<Command, Project>(arpaContext, localizer)
+                    .EntityExists<Command, Project>(arpaContext)
 
                     .MustAsync(async (dto, projectId, cancellation) => !(await arpaContext.ProjectAppointments
                         .AnyAsync(pa => pa.ProjectId == projectId && pa.AppointmentId == dto.Id, cancellation)))

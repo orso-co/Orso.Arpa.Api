@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Logic.Regions
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
+            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource> localizer)
             {
                 RuleFor(c => c.Id)
                     .EntityExists<Command, Region>(arpaContext, localizer);
@@ -39,10 +39,11 @@ namespace Orso.Arpa.Domain.Logic.Regions
                 RuleFor(c => c.Name)
                     .MustAsync(async (dto, name, cancellation) => !(await arpaContext.Regions
 #pragma warning disable RCS1155 // Use StringComparison when comparing strings.
-                        .AnyAsync(r => r.Name.ToLower() == name.ToLower() && r.Id != dto.Id, cancellation)))
+                        .AnyAsync(r => r.Name.ToLower() == name.ToLower() && r.Id != dto.Id,
+                            cancellation)))
 #pragma warning restore RCS1155 // Use StringComparison when comparing strings.
                     .WithMessage(localizer["A region with the requested name does already exist"]);
-            }
+        }
         }
     }
 }

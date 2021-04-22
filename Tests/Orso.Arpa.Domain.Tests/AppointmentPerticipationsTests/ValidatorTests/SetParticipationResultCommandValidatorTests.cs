@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using FluentValidation.TestHelper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

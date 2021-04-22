@@ -52,7 +52,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Appointment>
         {
             private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
@@ -65,17 +65,17 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 _mapper = mapper;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Appointment> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
 
                 _mapper.Map(request, existingAppointment);
 
-                _arpaContext.Appointments.Update(existingAppointment);
+                EntityEntry<Appointment> changedAppointment = _arpaContext.Appointments.Update(existingAppointment);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
-                    return Unit.Value;
+                    return changedAppointment?.Entity;
                 }
 
                 throw new Exception("Problem updating appointment");
