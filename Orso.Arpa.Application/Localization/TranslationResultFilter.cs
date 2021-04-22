@@ -45,7 +45,7 @@ namespace Orso.Arpa.Application.Localization
             context.HttpContext.Response.Body.Write(JsonSerializer.SerializeToUtf8Bytes(obj));
         }
 
-        private void Translate(object? obj)
+        public void Translate(object? obj)
         {
             if (obj == null)
             {
