@@ -3,7 +3,6 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Resources.Cultures;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Identity;
 using static Orso.Arpa.Domain.Logic.Auth.ChangePassword;
