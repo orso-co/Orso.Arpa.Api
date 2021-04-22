@@ -1,7 +1,6 @@
 using System;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Localization;
 
 namespace Orso.Arpa.Application.Extensions
 {
@@ -32,7 +31,7 @@ namespace Orso.Arpa.Application.Extensions
                 .ValidUri();
         }
 
-        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder)
+        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder, IStringLocalizer localizer)
         {
             return ruleBuilder
                 .MaximumLength(256)

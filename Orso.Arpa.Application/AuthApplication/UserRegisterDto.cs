@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Localization;
@@ -14,6 +16,7 @@ namespace Orso.Arpa.Application.AuthApplication
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string ClientUri { get; set; }
+        public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
     }
 
     public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
