@@ -67,9 +67,10 @@ namespace Orso.Arpa.Api
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterServices(services);
-            RegisterDateTimeProvider(services);
 
             ConfigureLocalization(services);
+
+            RegisterDateTimeProvider(services);
 
             ConfigureDatabase(services);
 
@@ -82,7 +83,11 @@ namespace Orso.Arpa.Api
                 typeof(Modify.MappingProfile).Assembly);
             services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
-            services.AddControllers(options => options.ModelBinderProviders.InsertBodyAndRouteBinding())
+            services.AddControllers(options =>
+                {
+                    options.ModelBinderProviders.InsertBodyAndRouteBinding();
+                    options.Filters.Add(typeof(TranslationResultFilter));
+                })
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters
                     .Add(new DateTimeJsonConverter()))
                 .AddApplicationPart(typeof(Startup).Assembly)
@@ -104,9 +109,9 @@ namespace Orso.Arpa.Api
         {
             if (services == null)
                 throw new ArgumentNullException(nameof (services));
-            LocalizerCache lz = new LocalizerCache(services.BuildServiceProvider());
-            services.AddSingleton<LocalizerCache>(sp => lz);
-            //services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => lz.CallBack);
+            var lz = new LocalizerCache(services.BuildServiceProvider());
+            services.AddSingleton(_ => lz);
+            services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => lz.CallBack);
             //services.AddScoped<Translation.CallBack>(sp => sp.GetService<LocalizerCache>().CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
