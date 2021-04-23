@@ -52,8 +52,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
                     .MustAsync(async (roleId, cancellation) => await roleManager.Roles.AnyAsync(r => r.Id == roleId, cancellation))
                     .WithMessage("The role could not be found.")
 
-                    .MustAsync(async (dto, roleId, cancellation) => !(await arpaContext.UrlRoles
-                        .AnyAsync(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation)))
+                    .MustAsync(async (dto, roleId, cancellation) => !(await arpaContext.EntityExistsAsync<UrlRole>(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation)))
                     .WithMessage("The role is already linked to the url")
 
                     .MustAsync(async (roleId, cancellation) => !await roleManager.Roles.AnyAsync(r => r.Id == roleId && r.Name == RoleNames.Admin, cancellation))
