@@ -17,43 +17,58 @@ namespace Orso.Arpa.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3");
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.4");
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Translations", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("key");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("text");
 
                     b.Property<string>("LocalizationCulture")
                         .IsRequired()
-                        .HasColumnType("nvarchar(6)");
+                        .HasColumnType("ncharacter varying(6)")
+                        .HasColumnName("localization_culture");
 
                     b.Property<string>("ResourceKey")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("resource_key");
 
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
 
-                    b.Property<string>("ModifiedBy");
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
 
-                    b.Property<Guid>("PersonId");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
 
-                    b.Property<DateTimeOffset>("CreatedAt");
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
 
-                    b.Property<string>("CreatedBy");
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
-                    b.Property<bool>("Deleted");
-
-                    //b.HasAlternateKey("Key", "LocalizationCulture", "ResourceKey");
-
-                    b.ToTable("Translations");
+                    b.ToTable("translations");
                 });
 #pragma warning restore 612, 618
         }
