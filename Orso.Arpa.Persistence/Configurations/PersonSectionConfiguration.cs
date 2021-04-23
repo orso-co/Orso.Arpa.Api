@@ -21,7 +21,7 @@ namespace Orso.Arpa.Persistence.Configurations
                 .HasOne(e => e.Section)
                 .WithMany(r => r.StakeholderGroups)
                 .HasForeignKey(e => e.SectionId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
         }
     }
