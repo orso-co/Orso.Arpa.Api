@@ -164,5 +164,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string SetParticipationResult(Guid id, Guid personId, Guid resultId) =>
                 $"{Appointments}/{id}/participations/{personId}/result/{resultId}";
         }
+        public static class AuditLogsController
+        {
+            private static string AuditLogs => $"{Base}/auditLogs";
+
+            public static string Get(Guid entityId, int? skip, int? take) => $"{AuditLogs}?entityid={entityId}&skip={skip}&take={take}";
+        }
     }
 }

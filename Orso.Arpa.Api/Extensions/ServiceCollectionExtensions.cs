@@ -33,7 +33,7 @@ namespace Orso.Arpa.Api.Extensions
             services.AddTransient(handlerInterfaceType, handlerType);
         }
 
-        private static void AddGenericListHandler(this IServiceCollection services, Type entityType)
+        public static void AddGenericListHandler(this IServiceCollection services, Type entityType)
         {
             Type queryType = typeof(Domain.GenericHandlers.List.Query<>).MakeGenericType(entityType);
             Type handlerType = typeof(Domain.GenericHandlers.List.Handler<>).MakeGenericType(entityType);

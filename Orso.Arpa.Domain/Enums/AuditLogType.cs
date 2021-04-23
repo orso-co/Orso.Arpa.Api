@@ -1,6 +1,6 @@
 namespace Orso.Arpa.Domain.Enums
 {
-    public enum AuditType
+    public enum AuditLogType
     {
         None = 0,
         Create = 1,

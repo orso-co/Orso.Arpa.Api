@@ -5,14 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.GenericHandlers
 {
     public static class List
     {
-        public class Query<TEntity> : IRequest<IQueryable<TEntity>> where TEntity : BaseEntity
+        public class Query<TEntity> : IRequest<IQueryable<TEntity>> where TEntity : class
         {
             public Query(
                 Expression<Func<TEntity, bool>> predicate = null,
@@ -35,7 +34,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
             public bool AsSplitQuery { get; }
         }
 
-        public class Handler<TEntity> : IRequestHandler<Query<TEntity>, IQueryable<TEntity>> where TEntity : BaseEntity
+        public class Handler<TEntity> : IRequestHandler<Query<TEntity>, IQueryable<TEntity>> where TEntity : class
         {
             private readonly IArpaContext _context;
 
