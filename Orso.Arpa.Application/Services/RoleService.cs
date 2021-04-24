@@ -23,14 +23,7 @@ namespace Orso.Arpa.Application.Services
         public async Task<IEnumerable<RoleDto>> GetAsync()
         {
             IEnumerable<Role> roles = await _mediator.Send(new List.Query());
-
-            var dtos = new List<RoleDto>();
-            foreach (Role role in roles)
-            {
-                dtos.Add(_mapper.Map<RoleDto>(role));
-            }
-
-            return dtos;
+            return _mapper.Map<IEnumerable<RoleDto>>(roles);
         }
     }
 }
