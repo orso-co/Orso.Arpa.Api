@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,8 @@ namespace Orso.Arpa.Domain.Interfaces
 
         EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
         Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity;
+
+        Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class;
 
         EntityEntry Entry(object entity);
     }

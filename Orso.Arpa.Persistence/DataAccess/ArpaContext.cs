@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading;
@@ -215,6 +216,13 @@ namespace Orso.Arpa.Persistence.DataAccess
             return await Set<TEntity>()
                 .AsQueryable()
                 .AnyAsync(entity => entity.Id == id, cancellationToken);
+        }
+
+        public async Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class
+        {
+            return await Set<TEntity>()
+                .AsQueryable()
+                .AnyAsync(predicate, cancellationToken);
         }
     }
 }

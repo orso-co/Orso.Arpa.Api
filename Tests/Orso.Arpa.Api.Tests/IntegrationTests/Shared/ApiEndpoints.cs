@@ -101,7 +101,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Delete(Guid id) => $"{Urls}/{id}";
 
-            public static string AddRole(Guid id) => $"{Urls}/{id}/roles";
+            public static string AddRole(Guid id, Guid roleId) => $"{Urls}/{id}/roles/{roleId}";
 
             public static string RemoveRole(Guid id, Guid roleId) => $"{Urls}/{id}/roles/{roleId}";
         }

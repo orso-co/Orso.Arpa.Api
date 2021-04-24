@@ -12,23 +12,25 @@ namespace Orso.Arpa.Application.UrlApplication
         {
         }
 
-        public UrlCreateDto(string href, string anchorText, Guid projectId)
+        public UrlCreateDto(string href, string anchorText)
         {
             Href = href;
             AnchorText = anchorText;
-            ProjectId = projectId;
         }
 
         public string Href { get; set; }
         public string AnchorText { get; set; }
-        public Guid ProjectId { get; set; }
+        /// <summary>
+        /// specify projectId of project where you want to attach the new url to
+        /// </summary>
+        public Guid Id { get; set; }
     }
     public class UrlCreateDtoMappingProfile : Profile
     {
         public UrlCreateDtoMappingProfile()
         {
             CreateMap<UrlCreateDto, Command>()
-                .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))
+                .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
                 .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText));
         }
@@ -38,7 +40,7 @@ namespace Orso.Arpa.Application.UrlApplication
     {
         public UrlCreateDtoValidator()
         {
-            RuleFor(p => p.ProjectId)
+            RuleFor(p => p.Id)
                .NotEmpty();
 
             RuleFor(p => p.Href)

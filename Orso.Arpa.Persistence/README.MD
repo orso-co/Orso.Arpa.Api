@@ -25,7 +25,11 @@ file can be found in the Orso.Arpa.Api project.
 
 ## Entity Framework Migrations
 Use a command line or terminal window to run these commands. If you are using Visual Studio consider using the
-built-in Package Manager Console. Install globally the dotnet ef tools: `dotnet tool install --global dotnet-ef`
+built-in Package Manager Console.
+
+Install globally the dotnet ef tools: `dotnet tool install --global dotnet-ef`
+
+Update toos to the most recent version: `dotnet tool update --global dotnet-ef`
 
 ### Add New Migration
 ```

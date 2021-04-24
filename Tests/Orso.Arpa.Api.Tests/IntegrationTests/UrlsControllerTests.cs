@@ -58,12 +58,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             UrlDto expectedDto = UrlDtoData.ArpaWebsite;
             expectedDto.Roles.Add(RoleDtoData.Performer);
-            var addRoleDto = new UrlAddRoleDto { RoleId = RoleDtoData.Performer.Id };
 
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.UrlsController.AddRole(expectedDto.Id), BuildStringContent(addRoleDto));
+                .PostAsync(ApiEndpoints.UrlsController.AddRole(expectedDto.Id, RoleDtoData.Performer.Id), null);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
