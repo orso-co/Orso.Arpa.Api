@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.Localization
 
         public IStringLocalizer Create(Type resourceSource)
         {
-            return Create(resourceSource.Name, "en-EN");
+            return Create(resourceSource.Name, "en-US");
         }
 
         public IStringLocalizer Create(string baseName, string location)

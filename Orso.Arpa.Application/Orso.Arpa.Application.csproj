@@ -8,4 +8,10 @@
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Localization\StringLocalizer.cs">
+      <DependentUpon>TranslateObject.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
