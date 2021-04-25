@@ -20,10 +20,12 @@ namespace Orso.Arpa.Domain.Entities
 
         public byte LevelSelfAssessment { get; private set; }
         public byte LevelInnerAssessment { get; private set; }
-        public byte ProfileFavorizitation { get; private set; }
+        public byte ProfilePreferencePerformer { get; private set; }
+        public byte ProfilePreferenceStaff { get; private set; }
         public bool IsMainProfile { get; private set; }
         public string Background { get; private set; }
         public byte ExperienceLevel { get; private set; }
+        public string SalaryComment { get; private set; }
 
         #endregion
         #region Reference
@@ -40,8 +42,8 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
 
-        public Guid? InqueryId { get; private set; }
-        public virtual SelectValueMapping Inquery { get; private set; }
+        public Guid? InquiryStatusId { get; private set; }
+        public virtual SelectValueMapping InquiryStatus { get; private set; }
 
         public Guid? PreferredPositionId { get; private set; }
         public virtual Position PreferredPosition { get; private set; }
