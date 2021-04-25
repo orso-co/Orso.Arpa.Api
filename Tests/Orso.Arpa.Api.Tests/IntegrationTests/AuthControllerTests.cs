@@ -9,10 +9,10 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using netDumbster.smtp;
 using NUnit.Framework;
-using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Entities;
@@ -130,7 +130,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            errorMessage.Status.Should().Be(422);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", new[] { "Your email address is not confirmed. Please confirm your email address first" } } });
         }
 
         [Test]
@@ -199,11 +203,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            ErrorMessage errorMessage = await DeserializeResponseMessageAsync<ErrorMessage>(responseMessage);
-            errorMessage.title.Should().Be("One or more validation errors occurred.");
-            errorMessage.status.Should().Be(400);
-            errorMessage.errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", new[] { "Email aleady exists" } } });
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            errorMessage.Status.Should().Be(422);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", new[] { "Email aleady exists" } } });
         }
 
         [Test]
@@ -226,11 +230,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-            ErrorMessage errorMessage = await DeserializeResponseMessageAsync<ErrorMessage>(responseMessage);
-            errorMessage.title.Should().Be("One or more validation errors occurred.");
-            errorMessage.status.Should().Be(400);
-            errorMessage.errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "Username aleady exists" } } });
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            errorMessage.Status.Should().Be(422);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "Username aleady exists" } } });
         }
 
         [Test]
@@ -273,7 +277,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(dto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            errorMessage.Status.Should().Be(422);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "CurrentPassword", new[] { "Incorrect password supplied" } } });
         }
 
         [Test]
@@ -432,8 +440,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.CreateNewEmailConfirmationToken(), BuildStringContent(dto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(0);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            errorMessage.Status.Should().Be(422);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", new[] { "The email address is already confirmed" } } });
         }
 
         [Test]

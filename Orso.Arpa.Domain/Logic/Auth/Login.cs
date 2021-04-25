@@ -57,7 +57,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (!await userManager.IsEmailConfirmedAsync(user))
                 {
-                    throw new ValidationException(new[] { new ValidationFailure(nameof(user.Email), "Your email address is not confirmed. Please confirm your email address first") });
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);

@@ -5,8 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
-using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
@@ -279,10 +279,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            ErrorMessage errorMessage = await DeserializeResponseMessageAsync<ErrorMessage>(responseMessage);
-            errorMessage.title.Should().Be("Resource not found.");
-            errorMessage.status.Should().Be(404);
-            errorMessage.errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Id", new[] { "Appointment could not be found." } } });
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("Resource not found.");
+            errorMessage.Status.Should().Be(404);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Id", new[] { "Appointment could not be found." } } });
         }
 
         [Test, Order(108)]
