@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     MusicianProfileQualification,
                     MusicianProfileSalary,
                     MusicianProfileInquiryStatus,
-                    MusicianProfileAvailableDocumentStatus,
+                    MusicianProfileAvailableDocuments,
                     AuditionStatus,
                     AuditionRepetitorStatus
                 };
@@ -117,10 +117,10 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(MusicianProfile.InquiryStatus),
             "InquiryStatus");
 
-        public static SelectValueCategory MusicianProfileAvailableDocumentStatus => new(
+        public static SelectValueCategory MusicianProfileAvailableDocuments => new(
             Guid.Parse("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
             nameof(MusicianProfile),
-            nameof(MusicianProfile.AvailableDocumentStatus),
+            nameof(MusicianProfile.AvailableDocuments),
             "Available document status");
 
         public static SelectValueCategory AuditionStatus => new(
