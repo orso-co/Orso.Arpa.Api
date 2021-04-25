@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Persistence.Seed;
@@ -65,7 +66,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task> func1 = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func1.Should().Throw<AuthenticationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
+            func1.Should().Throw<AuthorizationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
         }
     }
 }
