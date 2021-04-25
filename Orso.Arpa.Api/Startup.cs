@@ -100,7 +100,6 @@ namespace Orso.Arpa.Api
                         return result;
                     };
                 });
-            ;
 
             ConfigureSwagger(services);
 
