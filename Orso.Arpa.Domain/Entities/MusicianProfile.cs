@@ -60,6 +60,8 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<RegionPreferencePerformance> RegionPreferencePerformances { get; private set; } = new HashSet<RegionPreferencePerformance>();
 
         public virtual ICollection<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; private set; } = new HashSet<RegionPreferenceRehearsal>();
+
+        public virtual ICollection<Audition> Auditions { get; private set; } = new HashSet<Audition>();
         #endregion
 
         #region cross reference
