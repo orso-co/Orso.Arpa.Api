@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.Localization
 
             // Act
             translationResultFilter.Translate(
-                obj);
+                obj, 2);
 
             // Assert
             obj.Name.Should().Be(expectedResult.Name);
@@ -58,7 +58,7 @@ namespace Orso.Arpa.Application.Tests.Localization
 
             // Act
             translationResultFilter.Translate(
-                sections);
+                sections, 2);
 
             // Assert
             sections.Select(s => s.Name).All(s => s.Equals("this was changed")).Should().BeTrue();
@@ -73,7 +73,7 @@ namespace Orso.Arpa.Application.Tests.Localization
 
             // Act
             translationResultFilter.Translate(
-                sections);
+                sections, 2);
 
             // Assert
             sections.Select(s => s.Name).All(s => s.Equals("this was changed")).Should().BeTrue();
