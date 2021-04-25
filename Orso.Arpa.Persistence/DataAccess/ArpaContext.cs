@@ -38,10 +38,10 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AvailableDocument> AvailableDocuments { get; set; }
-        public DbSet<Credential> Credentials { get; set; }
+        public DbSet<Reference> Credentials { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
-        public DbSet<MusicianProfileCredential> MusicianProfileCredentials { get; set; }
+        public DbSet<MusicianProfileReference> MusicianProfileReferences { get; set; }
         public DbSet<MusicianProfileEducation> MusicianProfileEducations { get; set; }
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
         public DbSet<Person> Persons { get; set; }
@@ -59,8 +59,8 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<SelectValue> SelectValues { get; set; }
         public DbSet<SelectValueCategory> SelectValueCategories { get; set; }
         public DbSet<SelectValueMapping> SelectValueMappings { get; set; }
-        public DbSet<SphereOfActivityConcert> SphereOfActivityConcerts { get; set; }
-        public DbSet<SphereOfActivityRehearsal> SphereOfActivityRehearsals { get; set; }
+        public DbSet<RegionPreferencePerformance> RegionPreferencePerformances { get; set; }
+        public DbSet<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; set; }
         public DbSet<Url> Urls { get; set; }
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
