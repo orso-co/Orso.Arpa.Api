@@ -27,8 +27,8 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<Room> Rooms { get; private set; } = new HashSet<Room>();
         public virtual ICollection<Appointment> Appointments { get; private set; } = new HashSet<Appointment>();
 
-        public virtual ICollection<SphereOfActivityConcert> SphereOfActivityConcerts { get; private set; } = new HashSet<SphereOfActivityConcert>();
+        public virtual ICollection<RegionPreferencePerformance> RegionPreferencePerformances { get; private set; } = new HashSet<RegionPreferencePerformance>();
 
-        public virtual ICollection<SphereOfActivityRehearsal> SphereOfActivityRehearsals { get; private set; } = new HashSet<SphereOfActivityRehearsal>();
+        public virtual ICollection<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; private set; } = new HashSet<RegionPreferenceRehearsal>();
     }
 }

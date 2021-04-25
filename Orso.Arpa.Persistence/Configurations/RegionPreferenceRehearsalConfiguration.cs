@@ -4,22 +4,22 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
-    public class SphereOfActivityConcertConfiguration : IEntityTypeConfiguration<SphereOfActivityConcert>
+    public class RegionPreferenceRehearsalConfiguration : IEntityTypeConfiguration<RegionPreferenceRehearsal>
     {
-        public void Configure(EntityTypeBuilder<SphereOfActivityConcert> builder)
+        public void Configure(EntityTypeBuilder<RegionPreferenceRehearsal> builder)
         {
             builder.HasKey(e => new { e.MusicianProfileId, e.VenueId });
 
             builder
                 .HasOne(e => e.Venue)
-                .WithMany(r => r.SphereOfActivityConcerts)
+                .WithMany(r => r.RegionPreferenceRehearsals)
                 .HasForeignKey(e => e.VenueId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 
             builder
                 .HasOne(e => e.MusicianProfile)
-                .WithMany(r => r.SphereOfActivityConcerts)
+                .WithMany(r => r.RegionPreferenceRehearsals)
                 .HasForeignKey(e => e.MusicianProfileId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);

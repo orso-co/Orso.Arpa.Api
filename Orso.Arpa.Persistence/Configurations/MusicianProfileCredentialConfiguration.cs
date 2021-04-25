@@ -4,22 +4,22 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
-    public class MusicianProfileCredentialConfiguration : IEntityTypeConfiguration<MusicianProfileCredential>
+    public class MusicianProfileCredentialConfiguration : IEntityTypeConfiguration<MusicianProfileReference>
     {
-        public void Configure(EntityTypeBuilder<MusicianProfileCredential> builder)
+        public void Configure(EntityTypeBuilder<MusicianProfileReference> builder)
         {
-            builder.HasKey(e => new { e.MusicianProfileId, e.CredentialId });
+            builder.HasKey(e => new { e.MusicianProfileId, e.ReferenceId });
 
             builder
-                .HasOne(e => e.Credential)
-                .WithMany(r => r.MusicianProfileCredentials)
-                .HasForeignKey(e => e.CredentialId)
+                .HasOne(e => e.Reference)
+                .WithMany(r => r.MusicianProfileReferences)
+                .HasForeignKey(e => e.ReferenceId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 
             builder
                 .HasOne(e => e.MusicianProfile)
-                .WithMany(r => r.MusicianProfileCredentials)
+                .WithMany(r => r.MusicianProfileReferences)
                 .HasForeignKey(e => e.MusicianProfileId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);

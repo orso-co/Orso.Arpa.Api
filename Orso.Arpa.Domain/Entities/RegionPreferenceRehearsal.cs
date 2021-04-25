@@ -2,21 +2,21 @@ using System;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class SphereOfActivityConcert : BaseEntity
+    public class RegionPreferenceRehearsal : BaseEntity
     {
-        public SphereOfActivityConcert(Guid? id, MusicianProfile musicianProfile, Venue venue) : base(id)
+        public RegionPreferenceRehearsal(Guid? id, MusicianProfile musicianProfile, Venue venue) : base(id)
         {
             MusicianProfile = musicianProfile;
             Venue = venue;
         }
 
-        public SphereOfActivityConcert(Guid musicianProfileId, Guid venueId)
+        public RegionPreferenceRehearsal(Guid musicianProfileId, Guid venueId)
         {
             MusicianProfileId = musicianProfileId;
             VenueId = venueId;
         }
 
-        public SphereOfActivityConcert()
+        public RegionPreferenceRehearsal()
         {
         }
 
