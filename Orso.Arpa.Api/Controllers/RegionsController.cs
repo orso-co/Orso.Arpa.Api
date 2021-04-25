@@ -56,11 +56,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="createDto"></param>
         /// <returns>The created region</returns>
         /// <response code="201">Returns the created region</response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<RegionDto>> Post([FromBody] RegionCreateDto createDto)
         {
             RegionDto createdDto = await _regionService.CreateAsync(createDto);
@@ -73,11 +75,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="modifyDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or if region could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerFromRouteProperty(nameof(RegionModifyDto.Id))]
         public async Task<IActionResult> Put([FromBodyAndRoute] RegionModifyDto modifyDto)
         {
@@ -91,11 +95,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="204"></response>
-        /// <response code="400">If region could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _regionService.DeleteAsync(id);

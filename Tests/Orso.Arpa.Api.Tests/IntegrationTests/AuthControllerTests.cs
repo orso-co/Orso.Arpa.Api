@@ -12,6 +12,7 @@ using FluentAssertions;
 using Microsoft.Net.Http.Headers;
 using netDumbster.smtp;
 using NUnit.Framework;
+using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Domain.Entities;
@@ -184,6 +185,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var registerDto = new UserRegisterDto
             {
+                Surname = "Nachname",
+                GivenName = "Ludmilla",
                 Email = UserTestSeedData.Performer.Email,
                 UserName = "ludmilla",
                 Password = UserSeedData.ValidPassword,
@@ -197,6 +200,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            ErrorMessage errorMessage = await DeserializeResponseMessageAsync<ErrorMessage>(responseMessage);
+            errorMessage.title.Should().Be("One or more validation errors occurred.");
+            errorMessage.status.Should().Be(400);
+            errorMessage.errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", new[] { "Email aleady exists" } } });
         }
 
         [Test]
@@ -205,9 +212,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var registerDto = new UserRegisterDto
             {
+                Surname = "Nachname",
+                GivenName = "Ludmilla",
                 Email = "ludmilla@test.com",
                 UserName = UserTestSeedData.Performer.UserName,
-                Password = UserSeedData.ValidPassword
+                Password = UserSeedData.ValidPassword,
+                ClientUri = "http://localhost:4200"
             };
 
             // Act
@@ -217,6 +227,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            ErrorMessage errorMessage = await DeserializeResponseMessageAsync<ErrorMessage>(responseMessage);
+            errorMessage.title.Should().Be("One or more validation errors occurred.");
+            errorMessage.status.Should().Be(400);
+            errorMessage.errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "Username aleady exists" } } });
         }
 
         [Test]

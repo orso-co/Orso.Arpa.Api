@@ -58,7 +58,7 @@ namespace Orso.Arpa.Api.Middleware
                 case ValidationException ve:
                     errorMessage = new ErrorMessage
                     {
-                        title = "One or more validation errors occurred",
+                        title = "One or more validation errors occurred.",
                         status = (int)HttpStatusCode.BadRequest
                     };
                     foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))

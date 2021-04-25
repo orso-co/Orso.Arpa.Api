@@ -42,11 +42,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="urlModifyDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or urlId cannot be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerFromRouteProperty(nameof(UrlModifyDto.Id))]
         public async Task<ActionResult> Put([FromBodyAndRoute] UrlModifyDto urlModifyDto)
         {
@@ -59,11 +61,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="204"></response>
-        /// <response code="400">If either urlId cannot not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _urlService.DeleteAsync(id);
@@ -75,11 +79,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="addRoleDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If invalid roleId or urlId cannot not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/roles/{roleId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<UrlDto>> AddRole([FromRoute] UrlAddRoleDto addRoleDto)
         {
             return await _urlService.AddRoleAsync(addRoleDto);
@@ -90,11 +96,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="removeRoleDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If either roleId or urlId cannot not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}/roles/{roleId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<UrlDto>> RemoveRole([FromRoute] UrlRemoveRoleDto removeRoleDto)
         {
             await _urlService.RemoveRoleAsync(removeRoleDto);

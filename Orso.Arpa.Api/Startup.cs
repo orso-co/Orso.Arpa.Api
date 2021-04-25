@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -76,7 +78,8 @@ namespace Orso.Arpa.Api
                 typeof(Modify.MappingProfile).Assembly);
             services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
-            services.AddControllers(options => options.ModelBinderProviders.InsertBodyAndRouteBinding())
+            services
+                .AddControllers(options => options.ModelBinderProviders.InsertBodyAndRouteBinding())
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters
                     .Add(new DateTimeJsonConverter()))
                 .AddApplicationPart(typeof(Startup).Assembly)
@@ -84,7 +87,20 @@ namespace Orso.Arpa.Api
                 {
                     config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
                     config.RegisterValidatorsFromAssemblyContaining<Validator>();
+                })
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.InvalidModelStateResponseFactory = context =>
+                    {
+                        ProblemDetailsFactory problemDetailsFactory = context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+                        ValidationProblemDetails problemDetails = problemDetailsFactory.CreateValidationProblemDetails(context.HttpContext, context.ModelState, statusCode: 422);
+                        var result = new UnprocessableEntityObjectResult(problemDetails);
+                        result.ContentTypes.Add("application/problem+json");
+                        result.ContentTypes.Add("application/problem+xml");
+                        return result;
+                    };
                 });
+            ;
 
             ConfigureSwagger(services);
 

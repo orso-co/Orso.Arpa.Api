@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
@@ -260,7 +261,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails validationProblemDetails = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
+            validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
+            validationProblemDetails.Status.Should().Be(422);
+            validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Number", new[] { "'Number' darf nicht leer sein." } } });
         }
 
         [Test, Order(1004)]
@@ -283,7 +289,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails validationProblemDetails = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
+            validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
+            validationProblemDetails.Status.Should().Be(422);
+            validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "EndDate", new[] { "'EndDate' must be greater than 'StartDate'" } } });
         }
 
         [Test, Order(1010)]

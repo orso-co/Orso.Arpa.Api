@@ -61,11 +61,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="appointmentCreateDto"></param>
         /// <returns>The created appointment</returns>
         /// <response code="201">Returns the created appointment</response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<AppointmentDto>> Post([FromBody] AppointmentCreateDto appointmentCreateDto)
         {
             AppointmentDto createdAppointment = await _appointmentService.CreateAsync(appointmentCreateDto);
@@ -77,11 +79,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="addRoomDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or if room or appointment could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/rooms/{roomId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> AddRoom([FromRoute] AppointmentAddRoomDto addRoomDto)
         {
             await _appointmentService.AddRoomAsync(addRoomDto);
@@ -93,11 +97,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="addProjectDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid or if project or appointment could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<AppointmentDto>> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto)
         {
             return await _appointmentService.AddProjectAsync(addProjectDto);
@@ -108,11 +114,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="addSectionDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid or if section or appointment could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<AppointmentDto>> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto)
         {
             return await _appointmentService.AddSectionAsync(addSectionDto);
@@ -123,11 +131,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="setVenueDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or if venue or appointment could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}/venue/set/{venueId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> SetVenue([FromRoute] AppointmentSetVenueDto setVenueDto)
         {
             await _appointmentService.SetVenueAsync(setVenueDto);
@@ -139,11 +149,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="appointmentModifyDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or if appointment could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerFromRouteProperty(nameof(AppointmentModifyDto.Id))]
         public async Task<ActionResult> Put([FromBodyAndRoute] AppointmentModifyDto appointmentModifyDto)
         {
@@ -157,11 +169,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="removeRoomDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}/rooms/{roomId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> RemoveRoom([FromRoute] AppointmentRemoveRoomDto removeRoomDto)
         {
             await _appointmentService.RemoveRoomAsync(removeRoomDto);
@@ -173,11 +187,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="removeSectionDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<AppointmentDto>> RemoveSection([FromRoute] AppointmentRemoveSectionDto removeSectionDto)
         {
             return await _appointmentService.RemoveSectionAsync(removeSectionDto);
@@ -188,11 +204,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="removeProjectDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpDelete("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<AppointmentDto>> RemoveProject([FromRoute] AppointmentRemoveProjectDto removeProjectDto)
         {
             return await _appointmentService.RemoveProjectAsync(removeProjectDto);
@@ -203,11 +221,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="204"></response>
-        /// <response code="400">If appointment could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Admin)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _appointmentService.DeleteAsync(id);
@@ -219,12 +239,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="setDatesDto"></param>
         /// <response code="200"></response>
-        /// <response code="400">If dto is not valid</response>
-        /// <response code="400">If appointment could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}/dates/set")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerFromRouteProperty(nameof(AppointmentSetDatesDto.Id))]
         public async Task<ActionResult<AppointmentDto>> SetDates([FromBodyAndRoute] AppointmentSetDatesDto setDatesDto)
         {
@@ -236,11 +257,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="setParticipationResult"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or if appointment or participation or result value could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}/participations/{personId}/result/{resultId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> SetParticipationResult([FromRoute] AppointmentParticipationSetResultDto setParticipationResult)
         {
             await _appointmentService.SetParticipationResultAsync(setParticipationResult);

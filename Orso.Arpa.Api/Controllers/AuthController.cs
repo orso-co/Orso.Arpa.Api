@@ -26,12 +26,14 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="loginDto"></param>
         /// <returns>The created jwt access token. Sets refreshtoken Cookie</returns>
         /// <response code="200"></response>
-        /// <response code="400">If username or password are empty or if email address is not yet confirmed</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         /// <response code="401">If username or password are incorrect or user is locked</response>
         [HttpPost("login")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
         {
@@ -43,11 +45,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="registerDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         /// <response code="424">If email could not be sent</response>
         [HttpPost("register")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> Register([FromBody] UserRegisterDto registerDto)
@@ -61,11 +65,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="forgotPassswordDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         /// <response code="424">If email could not be sent</response>
         [HttpPost("forgotpassword")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPassswordDto)
@@ -79,11 +85,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="resetPasswordDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or token is expired or invalid or if user could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [HttpPost("resetpassword")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
             await _authService.ResetPasswordAsync(resetPasswordDto);
@@ -95,10 +103,12 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="changePasswordDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
             await _authService.ChangePasswordAsync(changePasswordDto);
@@ -110,11 +120,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="setRoleDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [HttpPut("role")]
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> SetRole([FromBody] SetRoleDto setRoleDto)
         {
             await _authService.SetRoleAsync(setRoleDto);
@@ -126,11 +138,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="confirmEmailDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or token is expired or invalid or if user could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [HttpPost("confirmemail")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> ConfirmEmail([FromBody] ConfirmEmailDto confirmEmailDto)
         {
             await _authService.ConfirmEmailAsync(confirmEmailDto);
@@ -142,12 +156,14 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="createEmailConfirmationTokenDto"></param>
         /// <response code="204"></response>
-        /// <response code="400">If dto is not valid or if user could not be found</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         /// <remarks>This endpoint can be called if the previous token is expired</remarks>
         [HttpPost("emailconfirmationtoken")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> CreateNewEmailConfirmationToken(
             [FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
         {
@@ -159,7 +175,8 @@ namespace Orso.Arpa.Api.Controllers
         /// Creates a new access and refresh token based on the existing refresh token in the refreshtoken Cookie
         /// </summary>
         /// <response code="200"></response>
-        /// <response code="400">If request does not contain a refresh token cookie or no user could be found with supplied refresh token</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         /// <response code="401">If refresh token is not valid</response>
         /// <response code="403">If the refresh token was accessed with a different IP than it was created</response>
         /// <returns>A new access token. Sets new refresh token cookie</returns>
@@ -167,6 +184,7 @@ namespace Orso.Arpa.Api.Controllers
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<TokenDto>> RefreshAccessToken()
@@ -178,11 +196,12 @@ namespace Orso.Arpa.Api.Controllers
         /// Revokes current refresh token
         /// </summary>
         /// <response code="204"></response>
-        /// <response code="400">If request does not contain a refresh token cookie
-        /// or no user could be found with supplied refresh token</response>
+        /// <response code="400">If domain validation fails</response>
+        /// <response code="422">If formal validation fails</response>
         [HttpPost("logout")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Logout()
         {
             await _authService.RevokeRefreshTokenAsync(RefreshToken, RemoteIpAddress);

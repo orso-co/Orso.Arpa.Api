@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Orso.Arpa.Api.Middleware
 {
-    internal class ErrorMessage
+    public class ErrorMessage
     {
         public string title { get; set; }
         public string description { get; set; }
