@@ -2,19 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.Json;
 using AutoMapper.Internal;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Application.Tranlation;
+using Orso.Arpa.Domain.Entities;
 
 
 namespace Orso.Arpa.Application.Localization
@@ -22,6 +18,7 @@ namespace Orso.Arpa.Application.Localization
     public class TranslationResultFilter : IResultFilter
     {
         private readonly IStringLocalizer _localizer;
+
 
         public TranslationResultFilter(IStringLocalizer<ApplicationResource> localizer)
         {
@@ -38,67 +35,108 @@ namespace Orso.Arpa.Application.Localization
             object obj = context.Result.GetType().
                 GetProperty("Value")?.GetValue(context.Result);
 
-            Translate(obj);
+            obj = Translate(obj,2);
 
             context.HttpContext.Response.Body.Position = 0;
             context.HttpContext.Response.Body.SetLength(0);
             context.HttpContext.Response.Body.Write(JsonSerializer.SerializeToUtf8Bytes(obj));
         }
 
-        public void Translate(object? obj)
+        public object Translate(object obj, int maxLevels)
         {
-            if (obj == null)
+            object retObject;
+
+            if (maxLevels < 0 || obj == null)
             {
-                throw new NullReferenceException();
+                return obj;
             }
 
-            if (obj is IEnumerable enumerable)
+            if (obj.GetType().FullName!.StartsWith("Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable") ||
+                obj.GetType().FullName!.StartsWith("System.Collections.Generic.List"))
             {
-                IEnumerator enumerator = enumerable.GetEnumerator();
+                retObject = new ArrayList();
+                IEnumerator enumerator = ((IEnumerable)obj).GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    Translate(enumerator.Current);
+                    ((ArrayList)retObject).Add(Translate(enumerator.Current, maxLevels-1));
                 }
-                return;
+                return retObject;
             }
 
-            obj.GetType().GetProperties().ForAll(p =>
+            if (obj.GetType() is object[])
             {
-                try
+                retObject = new ArrayList();
+                ((object[])obj).ForAll(o =>
+                {
+                    ((ArrayList)retObject).Add(Translate(o, maxLevels - 1));
+                });
+                return retObject;
+            }
+
+            retObject = FormatterServices.GetUninitializedObject(obj.GetType());
+
+            try
+            {
+                obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy).ForAll(p =>
                 {
                     if (p.GetIndexParameters().Length == 0 && p.GetValue(obj) != null)
                     {
-                        if (p.GetCustomAttributes<TranslateAttribute>() != null &&
+                        if (p.GetCustomAttributes<TranslateAttribute>() is { } translateAttributes &&
                             p.GetValue(obj) is string)
                         {
-                            p.SetValue(obj, "bla"/*transl((string)p.GetValue(obj))*/);
+                            p.SetValue(retObject, localize((string)p.GetValue(obj)));
                         }
 
-                        else if (p.GetCustomAttributes<TranslateAttribute>() != null &&
+                        else if (p.GetCustomAttributes<TranslateAttribute>() is { } translateAttributes2 &&
                                  p.GetValue(obj) is string[])
                         {
                             var tanslationableArray = (string[])p.GetValue(obj);
+                            IList<string> newTranslatedArray = new List<string>();
                             for (int i = 0; i < tanslationableArray.Length; i++)
                             {
-                                tanslationableArray[i] = (string) transl(tanslationableArray[i]);
+                                newTranslatedArray.Add(localize(tanslationableArray[i]));
                             }
+
+                            p.SetValue(retObject, newTranslatedArray.ToArray());
+                        }
+                        else if (p.PropertyType.IsPrimitive || p.PropertyType.IsStatic() || p.PropertyType == typeof(string) || p.PropertyType == typeof(string[]))
+                        {
+                            p.SetValue(retObject, p.GetValue(obj));
                         }
                         else
                         {
-                            Translate(p.GetValue(obj));
+                            p.SetValue(retObject, Translate(p.GetValue(obj), maxLevels-1));
                         }
                     }
-                }
-                catch (Exception e)
+                });
+
+                obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy).ForAll(f =>
                 {
-                    var msg = e.Message;
-                }
-            });
+                    if (f.GetValue(obj) != null)
+                    {
+                        if (f.FieldType.IsPrimitive || f.FieldType.IsStatic() || f.FieldType == typeof(string) || f.FieldType == typeof(string[]))
+                        {
+                            if (f.GetValue(retObject) == null)
+                                f.SetValue(retObject, f.GetValue(obj));
+                        }
+                        else
+                        {
+                            if (f.GetValue(retObject) == null)
+                                f.SetValue(retObject, Translate(f.GetValue(obj), maxLevels-1));
+                        }
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                return obj;
+            }
+            return retObject;
         }
 
-        private string transl(string str)
+        private string localize(string str)
         {
-            return "this was changed";
+            return "translate: " + str;
         }
     }
 }

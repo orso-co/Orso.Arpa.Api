@@ -25,14 +25,13 @@ namespace Orso.Arpa.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Translations", x => x.id);
-                    //table.UniqueConstraint("AK_Translation_Key_LocalizationCulture_ResourceKey", x => new { x.Key, x.LocalizationCulture, x.ResourceKey });
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Translations");
+                name: "translations");
         }
     }
 }
