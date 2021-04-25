@@ -71,6 +71,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("The system could not log you in. Please enter a valid user name and password");
+            errorMessage.Status.Should().Be(401);
         }
 
         [Test]
@@ -91,6 +94,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("The system could not log you in. Please enter a valid user name and password");
+            errorMessage.Status.Should().Be(401);
         }
 
         [Test]
@@ -110,7 +116,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("Your account is locked out. Kindly wait for 10 minutes and try again");
+            errorMessage.Status.Should().Be(403);
         }
 
         [Test]
@@ -301,6 +310,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("Invalid token supplied");
+            errorMessage.Detail.Should().Be("This request requires a valid JWT access token to be provided");
+            errorMessage.Status.Should().Be(401);
         }
 
         private static IEnumerable<TestCaseData> SetRoleTestData
