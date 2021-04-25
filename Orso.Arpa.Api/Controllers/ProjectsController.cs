@@ -45,7 +45,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="id"></param>
         /// <returns>The queried project</returns>
         /// <response code="200"></response>
-        /// <response code="404">If no project could be found for the supplied id</response>
+        /// <response code="404">If entity could not be found</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
@@ -63,11 +63,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="201">Returns the created project</response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProjectDto>> Post([FromBody] ProjectCreateDto projectCreateDto)
         {
             ProjectDto createdProject = await _projectService.CreateAsync(projectCreateDto);
@@ -81,11 +83,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="201"></response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/urls")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         [SwaggerFromRouteProperty(nameof(UrlCreateDto.Id))]
         public async Task<ActionResult<UrlDto>> AddUrl([FromBodyAndRoute] UrlCreateDto urlCreateDto)
         {
@@ -100,11 +104,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         [SwaggerFromRouteProperty(nameof(ProjectModifyDto.Id))]
         public async Task<ActionResult> Put([FromBodyAndRoute] ProjectModifyDto projectModifyDto)
         {
@@ -120,11 +126,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Admin)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _projectService.DeleteAsync(id);

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
+using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
@@ -231,6 +232,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
+
         [Test, Order(108)]
         public async Task Should_Modify_With_Only_Mandatory_Fields_Specified()
         {
@@ -254,6 +256,33 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test, Order(108)]
+        public async Task Should_Not_Modify_If_Not_Existing_Id_Is_Supplied()
+        {
+            // Arrange
+            var modifyDto = new AppointmentModifyDto
+            {
+                Name = "New Appointment",
+                InternalDetails = "Internal Details",
+                PublicDetails = "Public Details",
+                EndTime = FakeDateTime.UtcNow.AddHours(5),
+                StartTime = FakeDateTime.UtcNow,
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PutAsync(ApiEndpoints.AppointmentsController.Put(Guid.NewGuid()), BuildStringContent(modifyDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            ErrorMessage errorMessage = await DeserializeResponseMessageAsync<ErrorMessage>(responseMessage);
+            errorMessage.title.Should().Be("Resource not found.");
+            errorMessage.status.Should().Be(404);
+            errorMessage.errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Id", new[] { "Appointment could not be found." } } });
         }
 
         [Test, Order(108)]

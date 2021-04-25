@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.WebUtilities;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
@@ -27,7 +28,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 RuleFor(c => c.UsernameOrEmail)
                     .MustAsync(async (username, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(username) != null)
-                    .WithMessage("The user could not be found");
+                    .OnFailure((request) => throw new NotFoundException(typeof(User).Name, nameof(Command.UsernameOrEmail)));
             }
         }
 

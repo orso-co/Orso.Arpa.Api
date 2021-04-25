@@ -70,10 +70,12 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [HttpPut("profile")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> PutProfile([FromBody] MyProfileModifyDto userProfileModifyDto)
         {
             await _userService.ModifyProfileOfCurrentUserAsync(userProfileModifyDto);
@@ -87,11 +89,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpPut("appointments/{id}/participation/prediction/{predictionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> SetParticipationPrediction([FromRoute] SetMyProjectAppointmentPredictionDto setParticipationPrediction)
         {
             await _userService.SetAppointmentParticipationPredictionAsync(setParticipationPrediction);

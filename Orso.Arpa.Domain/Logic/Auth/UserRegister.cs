@@ -39,7 +39,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     .MustAsync(async (email, cancellation) => await userManager.FindByEmailAsync(email) == null)
                     .WithMessage("Email aleady exists");
                 RuleForEach(c => c.StakeholderGroupIds)
-                    .EntityExists<Command, Section>(context);
+                    .EntityExists<Command, Section>(context, nameof(Command.StakeholderGroupIds));
             }
         }
 

@@ -6,6 +6,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -36,6 +37,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Duplicate_Number()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
@@ -46,6 +48,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Unused_Number()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
@@ -56,6 +59,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Own_Number()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
@@ -67,7 +71,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.Id, new Command()
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.Id, new Command()
             {
                 Id = Guid.NewGuid(),
                 Number = "some number"
@@ -101,7 +105,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Invalid_ParentId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(command => command.ParentId, new Command()
+            _validator.ShouldThrowNotFoundExceptionFor(command => command.ParentId, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
                 Number = "New Number",
@@ -113,6 +117,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Invalid_StateId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.StateId, new Command()
             {
                 Number = "New Number",
@@ -124,7 +129,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Not_Existing_StateId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(command => command.StateId, new Command()
+            _validator.ShouldThrowNotFoundExceptionFor(command => command.StateId, new Command()
             {
                 Number = "New Number",
                 StateId = Guid.NewGuid()
@@ -134,6 +139,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_StateId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.StateId, new Command()
             {
                 Number = "New Number",
@@ -144,6 +150,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_StateId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.StateId, new Command()
             {
@@ -156,6 +163,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Invalid_GenreId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.GenreId, new Command()
             {
                 Number = "New Number",
@@ -167,7 +175,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Not_Existing_GenreId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(command => command.GenreId, new Command()
+            _validator.ShouldThrowNotFoundExceptionFor(command => command.GenreId, new Command()
             {
                 Number = "New Number",
                 GenreId = Guid.NewGuid()
@@ -177,6 +185,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_GenreId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.GenreId, new Command()
             {
                 Number = "New Number",
@@ -187,6 +196,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_GenreId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.GenreId, new Command()
             {
@@ -199,6 +209,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Invalid_TypeId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.TypeId, new Command()
             {
                 Number = "New Number",
@@ -210,7 +221,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Not_Existing_TypeId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(command => command.TypeId, new Command()
+            _validator.ShouldThrowNotFoundExceptionFor(command => command.TypeId, new Command()
             {
                 Number = "New Number",
                 TypeId = Guid.NewGuid()
@@ -220,6 +231,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_TypeId_Is_Supplied()
         {
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.TypeId, new Command()
             {
                 Number = "New Number",
@@ -231,6 +243,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Not_Have_Validation_Error_If_Valid_TypeId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.TypeId, new Command()
             {
                 Number = "New Number",

@@ -1,6 +1,7 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Auth.ForgotPassword;
@@ -23,7 +24,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Username_Does_Not_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(c => c.UsernameOrEmail, "DoesNotExist");
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.UsernameOrEmail, "DoesNotExist");
         }
 
         [Test]

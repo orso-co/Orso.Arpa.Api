@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Url>(arpaContext);
+                    .EntityExists<Command, Url>(arpaContext, nameof(Command.Id));
             }
         }
     }

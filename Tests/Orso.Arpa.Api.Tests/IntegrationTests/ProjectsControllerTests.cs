@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
+using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
@@ -335,7 +336,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.AddUrl(Guid.NewGuid()), BuildStringContent(urlCreateDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            ErrorMessage errorMessage = await DeserializeResponseMessageAsync<ErrorMessage>(responseMessage);
+            errorMessage.title.Should().Be("Resource not found.");
+            errorMessage.status.Should().Be(404);
+            errorMessage.errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "ProjectId", new[] { "Project could not be found." } } });
         }
         [Test, Order(10000)]
         public async Task Should_Delete()

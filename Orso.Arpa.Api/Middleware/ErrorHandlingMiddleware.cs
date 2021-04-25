@@ -80,10 +80,10 @@ namespace Orso.Arpa.Api.Middleware
                 case NotFoundException nfe:
                     errorMessage = new ErrorMessage
                     {
-                        title = nfe.Message,
+                        title = "Resource not found.",
                         status = (int)HttpStatusCode.NotFound
                     };
-                    errorMessage.errors.Add(nfe.PropertyName, new string[] { $"{nfe.TypeName} not found" });
+                    errorMessage.errors.Add(nfe.PropertyName, new string[] { nfe.Message });
                     _logger.LogError(nfe, "NOT FOUND ERROR", errorMessage);
                     break;
 

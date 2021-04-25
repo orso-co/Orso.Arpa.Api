@@ -6,6 +6,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Urls.Create;
@@ -37,10 +38,10 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_ProjectId_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Not_Existing_ProjectId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.ProjectId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.ProjectId, Guid.NewGuid());
         }
     }
 }

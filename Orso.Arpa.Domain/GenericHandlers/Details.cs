@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 if (entity == null)
                 {
-                    throw new NotFoundException(typeof(TEntity).Name, nameof(request.Id), request);
+                    throw new NotFoundException(typeof(TEntity).Name, nameof(request.Id));
                 }
 
                 return entity;

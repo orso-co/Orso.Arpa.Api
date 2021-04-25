@@ -58,11 +58,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="201">Returns the created region</response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<RegionDto>> Post([FromBody] RegionCreateDto createDto)
         {
             RegionDto createdDto = await _regionService.CreateAsync(createDto);
@@ -77,11 +79,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         [SwaggerFromRouteProperty(nameof(RegionModifyDto.Id))]
         public async Task<IActionResult> Put([FromBodyAndRoute] RegionModifyDto modifyDto)
         {
@@ -97,11 +101,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="422">If formal validation fails</response>
+        /// <response code="404">If entity could not be found</response>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ErrorMessage), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _regionService.DeleteAsync(id);
