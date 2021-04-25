@@ -270,7 +270,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
             validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
             validationProblemDetails.Status.Should().Be(422);
-            validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Number", new[] { "'Number' darf nicht leer sein." } } });
+            validationProblemDetails.Errors["Number"].Should().NotBeEmpty();
         }
 
         [Test, Order(1004)]
