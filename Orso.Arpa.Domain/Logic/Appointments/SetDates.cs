@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -36,9 +36,8 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public Validator(IArpaContext arpaContext, IMapper mapper)
             {
                 RuleFor(d => d.Id)
-                    .MustAsync(async (id, cancellation) => await arpaContext.Set<Appointment>()
-                        .AnyAsync(entity => entity.Id == id, cancellation))
-                    .WithMessage($"The {typeof(Appointment).Name} could not be found.");
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
+
                 RuleFor(d => d.EndTime)
                     .MustAsync(async (request, endTime, cancellation) =>
                     {

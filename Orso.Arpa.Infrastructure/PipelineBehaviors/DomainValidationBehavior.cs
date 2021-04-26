@@ -29,7 +29,7 @@ namespace Orso.Arpa.Infrastructure.PipelineBehaviors
                 .Where(e => e != null)
                 .ToList();
 
-            if (failures.Any())
+            if (failures.Count > 0)
             {
                 throw new ValidationException(failures);
             }

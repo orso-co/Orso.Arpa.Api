@@ -5,6 +5,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetResult;
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.Id, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.Id, Guid.NewGuid());
         }
 
         [Test]
@@ -55,14 +56,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
         public void Should_Have_Validation_Error_If_PersonId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.PersonId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.PersonId, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Result_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.ResultId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.ResultId, Guid.NewGuid());
         }
     }
 }

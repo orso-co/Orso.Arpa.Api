@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -45,11 +46,11 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public Validator(IArpaContext arpaContext, RoleManager<Role> roleManager)
             {
                 RuleFor(d => d.UrlId)
-                       .EntityExists<Command, Url>(arpaContext);
+                       .EntityExists<Command, Url>(arpaContext, nameof(Command.UrlId));
 
                 RuleFor(d => d.RoleId)
                     .MustAsync(async (roleId, cancellation) => await roleManager.Roles.AnyAsync(r => r.Id == roleId, cancellation))
-                    .WithMessage("The role could not be found.")
+                    .OnFailure((request) => throw new NotFoundException(typeof(Role).Name, nameof(Command.RoleId)))
 
                    .MustAsync(async (dto, roleId, cancellation) => await arpaContext.UrlRoles
                         .AnyAsync(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation))

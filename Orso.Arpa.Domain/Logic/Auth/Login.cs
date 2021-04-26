@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -57,7 +58,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (!await userManager.IsEmailConfirmedAsync(user))
                 {
-                    throw new ValidationException(new[] { new ValidationFailure(nameof(user.Email), "Your email address is not confirmed. Please confirm your email address first") });
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
                 SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
@@ -69,7 +70,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (result.IsLockedOut)
                 {
-                    throw new AuthenticationException("Your account is locked out. Kindly wait for 10 minutes and try again");
+                    throw new AuthorizationException("Your account is locked out. Kindly wait for 10 minutes and try again");
                 }
 
                 throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password");

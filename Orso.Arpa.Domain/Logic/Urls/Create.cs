@@ -44,7 +44,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.ProjectId)
-                    .EntityExists<Command, Project>(arpaContext);
+                    .EntityExists<Command, Project>(arpaContext, nameof(Command.ProjectId));
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
@@ -239,7 +240,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            errorMessage.Status.Should().Be(422);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Number", new[] { "The specified project number is already in use. The project number needs to be unique." } } });
         }
 
         [Test, Order(1003)]
@@ -260,7 +265,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails validationProblemDetails = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
+            validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
+            validationProblemDetails.Status.Should().Be(422);
+            validationProblemDetails.Errors["Number"].Should().NotBeEmpty();
         }
 
         [Test, Order(1004)]
@@ -283,7 +293,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails validationProblemDetails = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
+            validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
+            validationProblemDetails.Status.Should().Be(422);
+            validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "EndDate", new[] { "'EndDate' must be greater than 'StartDate'" } } });
         }
 
         [Test, Order(1010)]
@@ -324,7 +339,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.AddUrl(Guid.NewGuid()), BuildStringContent(urlCreateDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("Resource not found.");
+            errorMessage.Status.Should().Be(404);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "ProjectId", new[] { "Project could not be found." } } });
         }
         [Test, Order(10000)]
         public async Task Should_Delete()

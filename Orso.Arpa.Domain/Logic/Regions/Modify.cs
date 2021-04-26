@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Logic.Regions
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.Id)
-                    .EntityExists<Command, Region>(arpaContext);
+                    .EntityExists<Command, Region>(arpaContext, nameof(Command.Id));
 
                 RuleFor(c => c.Name)
                     .MustAsync(async (dto, name, cancellation) => !(await arpaContext.Regions

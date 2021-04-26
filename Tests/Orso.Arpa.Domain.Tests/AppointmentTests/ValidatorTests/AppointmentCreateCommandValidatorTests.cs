@@ -6,6 +6,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using static Orso.Arpa.Domain.Logic.Appointments.Create;
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.SalaryId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.SalaryId, Guid.NewGuid());
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_SalaryPatternId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.SalaryPatternId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.SalaryPatternId, Guid.NewGuid());
         }
 
         [Test]
@@ -88,7 +89,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_ExpectationId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.ExpectationId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.ExpectationId, Guid.NewGuid());
         }
 
         [Test]
@@ -116,7 +117,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_StatusId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.StatusId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.StatusId, Guid.NewGuid());
         }
 
         [Test]
@@ -144,7 +145,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_CategoryId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveValidationErrorFor(c => c.CategoryId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.CategoryId, Guid.NewGuid());
         }
 
         [Test]
