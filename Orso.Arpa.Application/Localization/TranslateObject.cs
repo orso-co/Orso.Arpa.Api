@@ -6,6 +6,7 @@ namespace Orso.Arpa.Application.Localization
     //TODO: delete this object after testing!
     public class TranslateObject
     {
+        private string _text;
 
         public TranslateObject()
         {
@@ -17,8 +18,8 @@ namespace Orso.Arpa.Application.Localization
         [Translate]
         public string Text
         {
-            get;
-            private set;
+            get => "bubu";
+            private set => _text = value;
         }
 
         [Translate]

@@ -32,6 +32,11 @@ namespace Orso.Arpa.Application.Localization
 
         public void OnResultExecuted(ResultExecutedContext context)
         {
+            if (!context.HttpContext.Response.ContentType.Contains("application/json"))
+            {
+                return;
+            }
+
             object obj = context.Result.GetType().
                 GetProperty("Value")?.GetValue(context.Result);
 
@@ -51,14 +56,24 @@ namespace Orso.Arpa.Application.Localization
                 return obj;
             }
 
-            if (obj.GetType().FullName!.StartsWith("Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable") ||
-                obj.GetType().FullName!.StartsWith("System.Collections.Generic.List"))
+            if (obj.GetType().FullName!.StartsWith("Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable"))
             {
                 retObject = new ArrayList();
                 IEnumerator enumerator = ((IEnumerable)obj).GetEnumerator();
                 while (enumerator.MoveNext())
                 {
                     ((ArrayList)retObject).Add(Translate(enumerator.Current, maxLevels-1));
+                }
+                return retObject;
+            }
+
+            if (obj.GetType().FullName!.StartsWith("System.Collections.Generic.List"))
+            {
+                retObject = new List<object>();
+                IEnumerator enumerator = ((IEnumerable)obj).GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    ((List<object>)retObject).Add(Translate(enumerator.Current, maxLevels-1));
                 }
                 return retObject;
             }
@@ -77,7 +92,26 @@ namespace Orso.Arpa.Application.Localization
 
             try
             {
-                obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy).ForAll(p =>
+
+                foreach (FieldInfo f in obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy))
+                //obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy).ForAll(f =>
+                {
+                    if (f.GetValue(obj) != null)
+                    {
+                        if (f.FieldType.IsPrimitive || f.FieldType.IsStatic() || f.FieldType == typeof(string) || f.FieldType == typeof(string[]))
+                        {
+                            f.SetValue(retObject, f.GetValue(obj));
+                        }
+                        else
+                        {
+                            f.SetValue(retObject, Translate(f.GetValue(obj), maxLevels-1));
+                        }
+                    }
+                }
+                //);
+
+                foreach (PropertyInfo p in obj.GetType().GetProperties())
+                //obj.GetType().GetProperties().ForAll(p =>
                 {
                     if (p.GetIndexParameters().Length == 0 && p.GetValue(obj) != null)
                     {
@@ -108,24 +142,8 @@ namespace Orso.Arpa.Application.Localization
                             p.SetValue(retObject, Translate(p.GetValue(obj), maxLevels-1));
                         }
                     }
-                });
-
-                obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy).ForAll(f =>
-                {
-                    if (f.GetValue(obj) != null)
-                    {
-                        if (f.FieldType.IsPrimitive || f.FieldType.IsStatic() || f.FieldType == typeof(string) || f.FieldType == typeof(string[]))
-                        {
-                            if (f.GetValue(retObject) == null)
-                                f.SetValue(retObject, f.GetValue(obj));
-                        }
-                        else
-                        {
-                            if (f.GetValue(retObject) == null)
-                                f.SetValue(retObject, Translate(f.GetValue(obj), maxLevels-1));
-                        }
-                    }
-                });
+                }
+                //);
             }
             catch (Exception e)
             {
@@ -136,7 +154,7 @@ namespace Orso.Arpa.Application.Localization
 
         private string localize(string str)
         {
-            return "translate: " + str;
+            return str;
         }
     }
 }
