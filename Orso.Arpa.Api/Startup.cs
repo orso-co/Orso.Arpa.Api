@@ -69,6 +69,7 @@ namespace Orso.Arpa.Api
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterServices(services);
+
             RegisterDateTimeProvider(services);
 
             ConfigureLocalization(services);
@@ -119,21 +120,18 @@ namespace Orso.Arpa.Api
         {
             if (services == null)
                 throw new ArgumentNullException(nameof (services));
-            LocalizerCache lz = new LocalizerCache(services.BuildServiceProvider());
-            services.AddSingleton<LocalizerCache>(sp => lz);
-            //services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => lz.CallBack);
-            //services.AddScoped<Translation.CallBack>(sp => sp.GetService<LocalizerCache>().CallBack);
+            var lz = new LocalizerCache(services.BuildServiceProvider());
+            services.AddSingleton(_ => lz);
+            services.AddSingleton<ArpaContext.CallBack<Translation>>(_ => lz.CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
             services.AddLocalization();
-            //services.AddMvc().AddMvcLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 options.SetDefaultCulture("en-US");
                 options.AddSupportedUICultures("en-US", "de-DE");
                 options.FallBackToParentUICultures = true;
-                options.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
             });
         }
 
