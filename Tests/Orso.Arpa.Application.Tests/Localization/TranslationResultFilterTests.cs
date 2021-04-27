@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.Extensions.Localization;
@@ -13,18 +14,20 @@ namespace Orso.Arpa.Application.Tests.Localization
     [TestFixture]
     public class TranslationResultFilterTests
     {
-        private IStringLocalizer<ApplicationResource> _subStringLocalizer;
+        private LocalizerCache _localizerCache;
+        private CultureInfo _cultureInfo;
 
         [SetUp]
         public void SetUp()
         {
-            _subStringLocalizer = Substitute.For<IStringLocalizer<ApplicationResource>>();
+            _localizerCache = Substitute.For<LocalizerCache>();
+            _cultureInfo = Substitute.For<CultureInfo>();
         }
 
         private TranslationResultFilter CreateTranslationResultFilter()
         {
             return new TranslationResultFilter(
-                _subStringLocalizer);
+                _localizerCache);
         }
 
         [Test]
@@ -37,7 +40,7 @@ namespace Orso.Arpa.Application.Tests.Localization
             expectedResult.Name = "this was changed";
 
             // Act
-            translationResultFilter.Translate(
+            translationResultFilter.TranslateObject(
                 obj, 2);
 
             // Assert
@@ -57,7 +60,7 @@ namespace Orso.Arpa.Application.Tests.Localization
             };
 
             // Act
-            translationResultFilter.Translate(
+            translationResultFilter.TranslateObject(
                 sections, 2);
 
             // Assert
@@ -72,7 +75,7 @@ namespace Orso.Arpa.Application.Tests.Localization
             IList<SectionDto> sections = SectionDtoData.Sections;
 
             // Act
-            translationResultFilter.Translate(
+            translationResultFilter.TranslateObject(
                 sections, 2);
 
             // Assert

@@ -111,12 +111,10 @@ namespace Orso.Arpa.Api
                 throw new ArgumentNullException(nameof (services));
             var lz = new LocalizerCache(services.BuildServiceProvider());
             services.AddSingleton(_ => lz);
-            services.AddSingleton<ArpaContext.CallBack<Translation>>(sp => lz.CallBack);
-            //services.AddScoped<Translation.CallBack>(sp => sp.GetService<LocalizerCache>().CallBack);
+            services.AddSingleton<ArpaContext.CallBack<Translation>>(_ => lz.CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
             services.AddLocalization();
-            //services.AddMvc().AddMvcLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -124,8 +122,6 @@ namespace Orso.Arpa.Api
                 options.AddSupportedUICultures("en-US", "de-DE");
                 options.FallBackToParentUICultures = true;
                 options.RequestCultureProviders.Add(new CookieRequestCultureProvider {CookieName = "Culture"});
-                options.RequestCultureProviders.Remove(
-                    new AcceptLanguageHeaderRequestCultureProvider());  // avoids browser from overwriting UI language request
             });
         }
 
