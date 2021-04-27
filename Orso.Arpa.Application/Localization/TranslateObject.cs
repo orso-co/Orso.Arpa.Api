@@ -1,5 +1,5 @@
-using System;
-using Orso.Arpa.Application.Tranlation;
+
+using Orso.Arpa.Domain.Translation;
 
 namespace Orso.Arpa.Application.Localization
 {
@@ -15,21 +15,21 @@ namespace Orso.Arpa.Application.Localization
             Text = "myText";
         }
 
-        [Translate]
+        [Translate(nameof(TranslateObject))]
         public string Text
         {
-            get => "bubu";
+            get => _text;
             private set => _text = value;
         }
 
-        [Translate]
+        [Translate(nameof(TranslateObject))]
         public string OtherData
         {
             get;
             private set;
         }
 
-        [Translate]
+        [Translate(nameof(TranslateObject))]
         public string[] StringArray
         {
             get;
