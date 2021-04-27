@@ -37,7 +37,7 @@ namespace Orso.Arpa.Application.Localization
             }
 
             Translation translation = _translations.AsQueryable().First(d =>
-                d.Deleted == false && d.Key == key && d.LocalizationCulture == culture);
+                d.Deleted == false && d.Key == key && d.ResourceKey == resourceKey && d.LocalizationCulture == culture);
 
             return (translation == null) ? key : translation.Text ?? key;
         }
