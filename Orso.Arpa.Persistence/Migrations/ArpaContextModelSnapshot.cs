@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
 
@@ -4555,6 +4556,269 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasDatabaseName("ix_sphere_of_activity_rehearsals_venue_id");
 
                     b.ToTable("sphere_of_activity_rehearsals");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Translation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(true)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("key");
+
+                    b.Property<string>("LocalizationCulture")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("character varying(5)")
+                        .HasColumnName("localization_culture");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<string>("ResourceKey")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("resource_key");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(true)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("text");
+
+                    b.HasKey("Id")
+                        .HasName("pk_translations");
+
+                    b.ToTable("translations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f55993f0-2629-4a6e-95b8-758f6e68f774"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "EndTime must be later than StartTime",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "ApplicationResource",
+                            Text = "Endzeit muss später Startzeit sein"
+                        },
+                        new
+                        {
+                            Id = new Guid("62b75f0f-ca82-48bf-acd0-853c642b4a52"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Password must be at least 6 characters",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "ApplicationResource",
+                            Text = "Das Passwort muss mindestens 6 Zeichen enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("122894ba-c993-47c0-af17-87e57e8daf35"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Password must contain at least one uppercase letter",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "ApplicationResource",
+                            Text = "Das Passwort muss mindestens einen Großbuchstaben enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("4fcedf65-e57d-429c-8fa3-266383205b45"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Password must contain at least one lowercase letter",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "ApplicationResource",
+                            Text = "Das Passwort muss mindestens einen Kleinbuchstaben enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("acf85e3f-d013-49cd-9943-e00c97ea458d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Password must contain at least one digit",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "ApplicationResource",
+                            Text = "Das Passwort muss mindestens eine Zahl enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("3848468e-cd87-4cac-9e38-274b5ae481e4"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Password must contain at least one special character",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "ApplicationResource",
+                            Text = "Das Passwort muss mindestens ein Sonderzeichen enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("ae32fa39-9e66-49e3-aefb-b22583201845"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Username may only contain alphanumeric characters",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "ApplicationResource",
+                            Text = "Der Benutzername darf nur alphanumerische Zeichen enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("355ba10a-3611-4609-8d35-1f47d58d8379"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "The project is already linked to the appointment",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Das Projekt ist bereits dem Termin zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("27d1b47c-1f49-482d-af2a-ba655a925f7e"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "The room is already linked to the appointment",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Der Raum ist bereits dem Termin zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("a08b8308-f219-41ee-8e2f-f5b1c7c1421a"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "The section is already linked to the Appointment",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Die Sektion ist bereits dem Termin zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("9dab3175-3bab-4faa-a92c-efdd54bbfc3d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "The project is not linked to the appointment",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Das Projekt ist dem Termin nicht zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("54580bf2-7a47-4211-9842-dcb1ea083933"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "The room is not linked to the appointment",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Der Raum ist dem Termin nicht zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("71f27314-0515-402e-9a9c-f32dc2335e2c"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "The section is not linked to the Appointment",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Die Sektion ist dem Termin nicht zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("77ed3f2e-fecf-477c-ab03-de14019d2147"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Incorrect password supplied",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Inkorrektes Passwort angegeben"
+                        },
+                        new
+                        {
+                            Id = new Guid("573c4551-d766-48bd-b6ee-16dc5cfdb913"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "The user could not be found",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Der Benutzer konnte nicht gefunden werden"
+                        },
+                        new
+                        {
+                            Id = new Guid("635f453f-7caf-4f65-99dd-787882ad02ac"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Your email address is not confirmed. Please confirm your email address first",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Deine Email wurde noch nicht bestätigt. Bitte bestätige zuerst deine Email"
+                        },
+                        new
+                        {
+                            Id = new Guid("ebc99220-9b0b-4e8f-b6b8-ea6dde34f3f4"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Your account is locked. Kindly wait for 10 minutes and try again",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Dein Konto wurde gesperrt. Bitte warte 10 Minuten und versuche es anschließend erneut"
+                        },
+                        new
+                        {
+                            Id = new Guid("982692bf-f056-46f6-8c0f-47d14da90e0d"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Username already exists",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Der Benutzername existiert bereits"
+                        },
+                        new
+                        {
+                            Id = new Guid("77ca5561-d75c-4e2c-91a5-34f896fc3152"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "Email already exists",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Die Email existiert bereits"
+                        },
+                        new
+                        {
+                            Id = new Guid("ddf7ce73-8f66-4547-9c58-7cc051b6e887"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "A region with the requested name does already exist",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "DomainResource",
+                            Text = "Eine Region mit diesem Namen existiert bereits"
+                        });
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Url", b =>

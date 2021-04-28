@@ -1,5 +1,4 @@
-
-using Orso.Arpa.Domain.Translation;
+using Orso.Arpa.Domain.Localization;
 
 namespace Orso.Arpa.Application.Localization
 {

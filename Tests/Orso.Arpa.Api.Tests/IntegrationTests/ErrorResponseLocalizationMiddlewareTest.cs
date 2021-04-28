@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -34,7 +33,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day)+"&culture=de-DE");
+                .GetAsync(ApiEndpoints.RolesController.Get()+"?culture=de-DE");
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
@@ -49,7 +48,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day)+"&culture=en-US");
+                .GetAsync(ApiEndpoints.RolesController.Get()+"?culture=en-US");
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
