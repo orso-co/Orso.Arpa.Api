@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Microsoft.Extensions.Localization;
 
 namespace Orso.Arpa.Application.Localization
@@ -14,7 +15,8 @@ namespace Orso.Arpa.Application.Localization
 
         public IStringLocalizer Create(Type resourceSource)
         {
-            return Create(resourceSource.Name, "en-US");
+            string culture = CultureInfo.CurrentUICulture.Name ?? "en-US";
+            return Create(resourceSource.Name, culture);
         }
 
         public IStringLocalizer Create(string baseName, string location)

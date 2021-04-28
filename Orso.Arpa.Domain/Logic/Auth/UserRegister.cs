@@ -61,7 +61,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 var person = new Person(Guid.NewGuid(), request);
                 foreach (Guid sectionId in request.StakeholderGroupIds)
                 {
-                    person.StakeholderGroups.Add(new PersonSection(person.Id, sectionId));
+                    person.StakeholderGroups.Add(new PersonSection(null, person.Id, sectionId));
                 }
 
                 var user = new User

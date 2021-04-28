@@ -46,7 +46,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[2].Id
                     }
                 );
-                appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.RockingXMas.Id, id));
+                appointment.ProjectAppointments.Add(new ProjectAppointment(
+                    Guid.Parse("677356ab-650c-4d44-be4f-b6c61528c356"),
+                    ProjectSeedData.RockingXMas.Id,
+                    id));
                 appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
                 return appointment;
             }
@@ -101,9 +104,15 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[0].Id
                     }
                 );
-                appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.RockingXMas.Id, appointmentId));
+                appointment.ProjectAppointments.Add(new ProjectAppointment(
+                    Guid.Parse("0ce71f0f-26a1-4315-b1f2-0b27c20360fe"),
+                    ProjectSeedData.RockingXMas.Id,
+                    appointmentId));
                 appointment.AppointmentRooms.Add(new AppointmentRoom(appointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
-                appointment.SectionAppointments.Add(new SectionAppointment(SectionSeedData.Alto.Id, appointmentId));
+                appointment.SectionAppointments.Add(new SectionAppointment(
+                    Guid.Parse("3f6f909d-0786-4bc8-88c7-98fa3316db00"),
+                    SectionSeedData.Alto.Id,
+                    appointmentId));
                 appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
                 return appointment;
             }
@@ -132,7 +141,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     }
                 );
                 appointment.SetProperty(nameof(Appointment.VenueId), Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"));
-                appointment.ProjectAppointments.Add(new ProjectAppointment(ProjectSeedData.HoorayForHollywood.Id, id));
+                appointment.ProjectAppointments.Add(new ProjectAppointment(
+                    Guid.Parse("1d600521-f7e3-4f77-9f97-827d353d7bbf"),
+                    ProjectSeedData.HoorayForHollywood.Id,
+                    id));
                 return appointment;
             }
         }

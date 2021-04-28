@@ -70,7 +70,6 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public DbSet<Audit> AuditLogs { get; set; }
 
-
         public DbSet<Translation> Translations { get; set; }
 
 

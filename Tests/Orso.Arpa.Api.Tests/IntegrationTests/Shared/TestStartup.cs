@@ -1,12 +1,17 @@
 using System;
+using System.Threading.Tasks;
 using DoomedDatabases.Postgres;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using NSubstitute;
+using Orso.Arpa.Application.Localization;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
@@ -80,6 +85,30 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected override void RegisterDateTimeProvider(IServiceCollection services)
         {
             services.AddSingleton<IDateTimeProvider, FakeDateTimeProvider>();
+        }
+
+        protected override void ConfigureLocalization(IServiceCollection services)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof (services));
+            var lz = new LocalizerCache(services);
+            services.AddSingleton(_ => lz);
+            services.AddSingleton<ArpaContext.CallBack<Translation>>(_ => lz.CallBack);
+            services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
+
+            services.AddLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture("en-US");
+                options.AddSupportedUICultures("en-US", "de-DE");
+                options.AddSupportedCultures("en-US", "de-DE");
+                options.FallBackToParentCultures = true;
+                options.RequestCultureProviders.Add(new QueryStringRequestCultureProvider());
+                options.RequestCultureProviders.Remove(
+                    new AcceptLanguageHeaderRequestCultureProvider());  // avoids browser from overwriting UI language request
+            });
+
         }
     }
 }

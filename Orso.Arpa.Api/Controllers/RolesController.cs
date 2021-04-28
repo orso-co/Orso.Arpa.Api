@@ -24,7 +24,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A list of roles</returns>
         /// <response code="200"></response>
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<RoleDto>> Get()
         {

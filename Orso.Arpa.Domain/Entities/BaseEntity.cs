@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Entities
 {

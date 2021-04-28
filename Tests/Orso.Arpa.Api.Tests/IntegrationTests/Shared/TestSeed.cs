@@ -6,6 +6,7 @@ using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using TranslationSeedData = Orso.Arpa.Tests.Shared.TestSeedData.TranslationSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
@@ -26,6 +27,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await SeedProjectParticipationsAsync(arpaContext);
             await SeedAppointmentParticipationsAsync(arpaContext);
             await SeedUrlsAsync(arpaContext);
+            await SeedTranslationData(arpaContext);
 
             if (await arpaContext.SaveChangesAsync(default) <= 0)
             {
@@ -105,6 +107,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             {
                 await signInManager.CheckPasswordSignInAsync(lockedOutUser, "wrongPassword", true);
             }
+        }
+
+        private static async Task SeedTranslationData(IArpaContext arpaContext)
+        {
+            await arpaContext.Translations.AddRangeAsync(TranslationSeedData.Translations);
         }
     }
 }

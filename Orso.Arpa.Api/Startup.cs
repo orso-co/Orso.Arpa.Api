@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -66,9 +65,9 @@ namespace Orso.Arpa.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            RegisterServices(services);
-
             ConfigureLocalization(services);
+
+            RegisterServices(services);
 
             RegisterDateTimeProvider(services);
 
@@ -86,7 +85,7 @@ namespace Orso.Arpa.Api
             services.AddControllers(options =>
                 {
                     options.ModelBinderProviders.InsertBodyAndRouteBinding();
-                    options.Filters.Add(typeof(TranslationResultFilter));
+                    options.Filters.Add(typeof(LocationResultFilter));
                 })
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters
                     .Add(new DateTimeJsonConverter()))
@@ -109,20 +108,19 @@ namespace Orso.Arpa.Api
         {
             if (services == null)
                 throw new ArgumentNullException(nameof (services));
-            var lz = new LocalizerCache(services.BuildServiceProvider());
+            var lz = new LocalizerCache(services);
             services.AddSingleton(_ => lz);
             services.AddSingleton<ArpaContext.CallBack<Translation>>(_ => lz.CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
-
-            services.AddLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 options.SetDefaultCulture("en-US");
                 options.AddSupportedUICultures("en-US", "de-DE");
                 options.FallBackToParentUICultures = true;
-                options.RequestCultureProviders.Add(new CookieRequestCultureProvider {CookieName = "Culture"});
             });
+
+            services.AddLocalization();
         }
 
         private static void ConfigureAuthorization(IServiceCollection services)
@@ -351,6 +349,8 @@ namespace Orso.Arpa.Api
 
             EnsureDatabaseMigrations(app);
 
+            PreloadTranslationsFromDb(app);
+
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
@@ -374,6 +374,23 @@ namespace Orso.Arpa.Api
                 context.Database.Migrate();
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
+            }
+            catch (Exception ex)
+            {
+                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                logger.LogError(ex, "An error occured during database migration");
+                throw;
+            }
+        }
+
+        protected void PreloadTranslationsFromDb(IApplicationBuilder app)
+        {
+            using IServiceScope scope = app.ApplicationServices.CreateScope();
+            IServiceProvider services = scope.ServiceProvider;
+            try
+            {
+                LocalizerCache localizerCache = services.GetRequiredService<LocalizerCache>();
+                localizerCache.CallBack();
             }
             catch (Exception ex)
             {

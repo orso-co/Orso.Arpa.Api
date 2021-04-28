@@ -31,7 +31,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var person = new Person(
                     Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
                     new UserRegister.Command { GivenName = "Per", Surname = "Former" });
-                person.StakeholderGroups.Add(new PersonSection(person.Id, SectionSeedData.Choir.Id));
+                person.StakeholderGroups.Add(new PersonSection(
+                    Guid.Parse("e94c3925-4edb-4a56-a8a0-a655500f8f4a"),
+                    person.Id,
+                    SectionSeedData.Choir.Id));
                 return person;
             }
         }
