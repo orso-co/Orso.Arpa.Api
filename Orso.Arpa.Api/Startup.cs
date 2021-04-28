@@ -88,8 +88,11 @@ namespace Orso.Arpa.Api
             services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
             services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
-            services
-                .AddControllers()
+            services.AddControllers(options =>
+                {
+                    options.ModelBinderProviders.InsertBodyAndRouteBinding();
+                    options.Filters.Add(typeof(LocationResultFilter));
+                })
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters
                     .Add(new DateTimeJsonConverter()))
                 .AddApplicationPart(typeof(Startup).Assembly)
@@ -124,12 +127,10 @@ namespace Orso.Arpa.Api
         {
             if (services == null)
                 throw new ArgumentNullException(nameof (services));
-            var lz = new LocalizerCache(services.BuildServiceProvider());
+            var lz = new LocalizerCache(services);
             services.AddSingleton(_ => lz);
             services.AddSingleton<ArpaContext.CallBack<Translation>>(_ => lz.CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
-
-            services.AddLocalization();
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -137,6 +138,8 @@ namespace Orso.Arpa.Api
                 options.AddSupportedUICultures("en-US", "de-DE");
                 options.FallBackToParentUICultures = true;
             });
+
+            services.AddLocalization();
         }
 
 
@@ -384,6 +387,8 @@ namespace Orso.Arpa.Api
 
             EnsureDatabaseMigrations(app);
 
+            PreloadTranslationsFromDb(app);
+
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
@@ -407,6 +412,23 @@ namespace Orso.Arpa.Api
                 context.Database.Migrate();
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
+            }
+            catch (Exception ex)
+            {
+                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                logger.LogError(ex, "An error occured during database migration");
+                throw;
+            }
+        }
+
+        protected void PreloadTranslationsFromDb(IApplicationBuilder app)
+        {
+            using IServiceScope scope = app.ApplicationServices.CreateScope();
+            IServiceProvider services = scope.ServiceProvider;
+            try
+            {
+                LocalizerCache localizerCache = services.GetRequiredService<LocalizerCache>();
+                localizerCache.CallBack();
             }
             catch (Exception ex)
             {
