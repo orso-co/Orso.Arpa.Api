@@ -15,18 +15,16 @@ namespace Orso.Arpa.Application.Tests.Localization
     public class TranslationResultFilterTests
     {
         private LocalizerCache _localizerCache;
-        private CultureInfo _cultureInfo;
 
         [SetUp]
         public void SetUp()
         {
             _localizerCache = Substitute.For<LocalizerCache>();
-            _cultureInfo = Substitute.For<CultureInfo>();
         }
 
-        private TranslationResultFilter CreateTranslationResultFilter()
+        private LocationResultFilter CreateTranslationResultFilter()
         {
-            return new TranslationResultFilter(
+            return new LocationResultFilter(
                 _localizerCache);
         }
 
@@ -34,13 +32,13 @@ namespace Orso.Arpa.Application.Tests.Localization
         public void Should_Translate_Single_Section()
         {
             // Arrange
-            TranslationResultFilter translationResultFilter = CreateTranslationResultFilter();
+            LocationResultFilter locationResultFilter = CreateTranslationResultFilter();
             SectionApplication.SectionDto obj = SectionDtoData.Alto;
             SectionApplication.SectionDto expectedResult = SectionDtoData.Alto;
             expectedResult.Name = "this was changed";
 
             // Act
-            translationResultFilter.TranslateObject(
+            locationResultFilter.TranslateObject(
                 obj, 2);
 
             // Assert
@@ -52,7 +50,7 @@ namespace Orso.Arpa.Application.Tests.Localization
         public void Should_Translate_Section_Collection()
         {
             // Arrange
-            TranslationResultFilter translationResultFilter = CreateTranslationResultFilter();
+            LocationResultFilter locationResultFilter = CreateTranslationResultFilter();
             var sections = new List<SectionDto>
             {
                 SectionDtoData.Alto,
@@ -60,7 +58,7 @@ namespace Orso.Arpa.Application.Tests.Localization
             };
 
             // Act
-            translationResultFilter.TranslateObject(
+            locationResultFilter.TranslateObject(
                 sections, 2);
 
             // Assert
@@ -71,11 +69,11 @@ namespace Orso.Arpa.Application.Tests.Localization
         public void Should_Translate_All_Sections()
         {
             // Arrange
-            TranslationResultFilter translationResultFilter = CreateTranslationResultFilter();
+            LocationResultFilter locationResultFilter = CreateTranslationResultFilter();
             IList<SectionDto> sections = SectionDtoData.Sections;
 
             // Act
-            translationResultFilter.TranslateObject(
+            locationResultFilter.TranslateObject(
                 sections, 2);
 
             // Assert
