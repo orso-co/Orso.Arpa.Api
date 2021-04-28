@@ -6,6 +6,7 @@ using Castle.Core.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Orso.Arpa.Domain;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.DataAccess;
 
@@ -13,13 +14,13 @@ namespace Orso.Arpa.Application.Localization
 {
     public class LocalizerCache
     {
-        private readonly IServiceProvider _serviceProvider;
+        private static IServiceCollection _services;
         private static readonly object _syncLock = new();
-        private static List<Translation> _translations = null;
+        private static List<Translation> _translations;
 
-        public LocalizerCache(IServiceProvider serviceProvider)
+        public LocalizerCache(IServiceCollection services)
         {
-            _serviceProvider = serviceProvider;
+            _services = services;
             _translations = GetDbTranslationList();
         }
 
@@ -33,10 +34,11 @@ namespace Orso.Arpa.Application.Localization
 
             if (_translations.IsNullOrEmpty())
             {
+                _translations = GetDbTranslationList();
                 return key;
             }
 
-            Translation translation = _translations.AsQueryable().First(d =>
+            Translation translation = _translations.AsQueryable().DefaultIfEmpty(null).FirstOrDefault(d =>
                 d.Deleted == false && d.Key == key && d.ResourceKey == resourceKey && d.LocalizationCulture == culture);
 
             return (translation == null) ? key : translation.Text ?? key;
@@ -46,9 +48,9 @@ namespace Orso.Arpa.Application.Localization
         {
             lock (_syncLock)
             {
-                using IServiceScope scope = _serviceProvider.CreateScope();
-                ArpaContext context = scope.ServiceProvider.GetService<ArpaContext>();
-                return context?.Translations.ToList();
+                using IServiceScope scope = _services.BuildServiceProvider().CreateScope();
+                IArpaContext context = scope.ServiceProvider.GetService<IArpaContext>();
+                return context?.Translations?.ToList();
             }
         }
     }

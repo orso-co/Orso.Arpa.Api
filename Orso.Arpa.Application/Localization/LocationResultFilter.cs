@@ -10,21 +10,21 @@ using System.Threading;
 using AutoMapper.Internal;
 using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Orso.Arpa.Domain.Translation;
+using Orso.Arpa.Domain.Localization;
 
 
 namespace Orso.Arpa.Application.Localization
 {
-    public class TranslationResultFilter : IResultFilter
+    public class LocationResultFilter : IResultFilter
     {
         private readonly LocalizerCache _localizerCache;
-        private readonly string _culture;
+        private readonly string _uiCulture;
 
 
-        public TranslationResultFilter(LocalizerCache localizerCache)
+        public LocationResultFilter(LocalizerCache localizerCache)
         {
             _localizerCache = localizerCache;
-            _culture = Thread.CurrentThread.CurrentCulture.Name;
+            _uiCulture = Thread.CurrentThread.CurrentUICulture.Name;
         }
 
         public void OnResultExecuting(ResultExecutingContext context)
@@ -99,7 +99,7 @@ namespace Orso.Arpa.Application.Localization
                         {
                             p.SetValue(obj,
                                 _localizerCache.GetTranslation((string)p.GetValue(obj),
-                                    p.GetCustomAttributes<TranslateAttribute>().First().ResourceKey, _culture));
+                                    p.GetCustomAttributes<TranslateAttribute>().First().ResourceKey, _uiCulture));
 
                         }
                         else if (!p.GetCustomAttributes<TranslateAttribute>().IsNullOrEmpty() &&
@@ -111,7 +111,7 @@ namespace Orso.Arpa.Application.Localization
                             {
                                 newTranslatedArray.Add(_localizerCache.GetTranslation(
                                     (string)p.GetValue(obj),
-                                    p.GetCustomAttributes<TranslateAttribute>().First().ResourceKey, _culture));
+                                    p.GetCustomAttributes<TranslateAttribute>().First().ResourceKey, _uiCulture));
                             }
 
                             p.SetValue(obj, newTranslatedArray.ToArray());
