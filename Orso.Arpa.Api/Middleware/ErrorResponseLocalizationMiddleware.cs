@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -11,14 +12,14 @@ namespace Orso.Arpa.Api.Middleware
     public class ErrorResponseLocalizationMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IStringLocalizer<ApiResource> _localizer;
+        private readonly IStringLocalizerFactory _localizerFactory;
 
 
         public ErrorResponseLocalizationMiddleware(RequestDelegate next,
-            IStringLocalizer<ApiResource> localizer)
+            IStringLocalizerFactory localizerFactory)
         {
             _next = next;
-            _localizer = localizer;
+            _localizerFactory = localizerFactory;
         }
 
         /// <summary>
@@ -29,12 +30,8 @@ namespace Orso.Arpa.Api.Middleware
         /// <returns>A <see cref="Task"/> that completes when the middleware has completed processing.</returns>
         public async Task Invoke(HttpContext context)
         {
-
-            if (_localizer == null)
-            {
-                await _next(context);
-                return;
-            }
+            var culture = CultureInfo.CurrentUICulture.Name;
+            var localizer = _localizerFactory.Create(nameof(ApiResource), culture);
 
             Stream originalBody = context.Response.Body;
 
@@ -57,11 +54,11 @@ namespace Orso.Arpa.Api.Middleware
                     {
                         serializedErrorMessage.description =
                             serializedErrorMessage.description != null
-                                ? _localizer[serializedErrorMessage.description]
+                                ? localizer[serializedErrorMessage.description]
                                 : null;
 
                         serializedErrorMessage.title = serializedErrorMessage.title != null
-                            ? _localizer[serializedErrorMessage.title]
+                            ? localizer[serializedErrorMessage.title]
                             : null;
 
                         await using var streamWrite = new StreamWriter(originalBody);
