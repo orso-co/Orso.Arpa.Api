@@ -32,6 +32,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         public void Should_Have_Validation_Error_If_AdminRole_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.RoleId, new Command { RoleId = RoleDtoData.Admin.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }
 
@@ -39,6 +40,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         public void Should_Not_Have_Validation_Error_If_NonAdminRole_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
+            _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.RoleId, new Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
             _validator.ShouldNotHaveValidationErrorFor(command => command.RoleId, new Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }

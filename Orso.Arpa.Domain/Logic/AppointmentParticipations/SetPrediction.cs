@@ -41,11 +41,11 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext);
+                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
                 RuleFor(d => d.PersonId)
-                    .EntityExists<Command, Person>(arpaContext);
+                    .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
                 RuleFor(d => d.PredictionId)
-                    .EntityExists<Command, SelectValueMapping>(arpaContext);
+                    .EntityExists<Command, SelectValueMapping>(arpaContext, nameof(Command.PredictionId));
             }
         }
 

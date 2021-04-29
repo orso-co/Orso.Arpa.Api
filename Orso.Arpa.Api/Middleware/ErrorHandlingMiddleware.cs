@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Mail;
@@ -42,82 +43,82 @@ namespace Orso.Arpa.Api.Middleware
             HttpContext context,
             Exception ex)
         {
-            ErrorMessage errorMessage = null;
+            ValidationProblemDetails errorMessage = null;
             switch (ex)
             {
                 case IdentityException ie:
-                    errorMessage = new ErrorMessage
+                    errorMessage = new ValidationProblemDetails
                     {
-                        status = (int)HttpStatusCode.InternalServerError,
-                        title = ie.Message,
-                        description = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
+                        Status = (int)HttpStatusCode.InternalServerError,
+                        Title = ie.Message,
+                        Detail = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
                     };
                     _logger.LogError(ie, "IDENTITY ERROR", errorMessage, errorMessage);
                     break;
 
                 case ValidationException ve:
-                    errorMessage = new ErrorMessage
+                    errorMessage = new ValidationProblemDetails
                     {
-                        title = "One or more validation errors occurred",
-                        status = (int)HttpStatusCode.BadRequest
+                        Title = "One or more validation errors occurred.",
+                        Status = (int)HttpStatusCode.UnprocessableEntity
                     };
                     foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
                     {
-                        errorMessage.errors.Add(errorGrouping.Key, errorGrouping.Select(g => g.ErrorMessage).ToArray());
+                        errorMessage.Errors.Add(errorGrouping.Key, errorGrouping.Select(g => g.ErrorMessage).ToArray());
                     }
                     _logger.LogError(ve, "DOMAIN VALIDATION ERROR", errorMessage);
                     break;
 
                 case AuthenticationException ae:
-                    errorMessage = new ErrorMessage
+                    errorMessage = new ValidationProblemDetails
                     {
-                        title = ae.Message,
-                        status = (int)HttpStatusCode.Unauthorized
+                        Title = ae.Message,
+                        Status = (int)HttpStatusCode.Unauthorized,
                     };
                     _logger.LogError(ae, "AUTHENTICATION ERROR", errorMessage);
                     break;
 
                 case NotFoundException nfe:
-                    errorMessage = new ErrorMessage
+                    errorMessage = new ValidationProblemDetails
                     {
-                        title = nfe.Message,
-                        status = (int)HttpStatusCode.NotFound
+                        Title = "Resource not found.",
+                        Status = (int)HttpStatusCode.NotFound
                     };
-                    errorMessage.errors.Add(nfe.PropertyName, new string[] { $"{nfe.TypeName} not found" });
+                    errorMessage.Errors.Add(nfe.PropertyName, new string[] { nfe.Message });
                     _logger.LogError(nfe, "NOT FOUND ERROR", errorMessage);
                     break;
 
                 case EmailException ee:
-                    errorMessage = new ErrorMessage
+                    errorMessage = new ValidationProblemDetails
                     {
-                        status = (int)HttpStatusCode.FailedDependency,
-                        title = ee.Message,
-                        description = ee.InnerException?.Message
+                        Status = (int)HttpStatusCode.FailedDependency,
+                        Title = ee.Message,
+                        Detail = ee.InnerException?.Message
                     };
                     _logger.LogError(ee, "EMAIL ERROR", errorMessage);
                     break;
 
                 case AuthorizationException aze:
-                    errorMessage = new ErrorMessage
+                    errorMessage = new ValidationProblemDetails
                     {
-                        title = aze.Message,
-                        status = (int)HttpStatusCode.Forbidden
+                        Title = aze.Message,
+                        Status = (int)HttpStatusCode.Forbidden
                     };
                     _logger.LogError(aze, "AUTHORIZATION ERROR", errorMessage);
                     break;
 
                 case Exception e:
-                    errorMessage = new ErrorMessage
+                    errorMessage = new ValidationProblemDetails
                     {
-                        status = (int)HttpStatusCode.InternalServerError,
-                        title = "An unexpected error occured",
-                        description = e.Message
+                        Status = (int)HttpStatusCode.InternalServerError,
+                        Title = "An unexpected error occured",
+                        Detail = e.Message
                     };
                     _logger.LogError(e, "SERVER ERROR", errorMessage);
                     break;
             }
 
-            context.Response.StatusCode = errorMessage?.status ?? 500;
+            context.Response.StatusCode = errorMessage?.Status ?? 500;
 
             if (errorMessage != null)
             {

@@ -4,9 +4,9 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Domain.Configuration;
 
 namespace Orso.Arpa.Api.Extensions
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Api.Extensions
                         // Ensure we always have an error and error description.
                         if (string.IsNullOrEmpty(context.Error))
                         {
-                            context.Error = "invalid_token";
+                            context.Error = "Invalid token supplied";
                         }
 
                         if (string.IsNullOrEmpty(context.ErrorDescription))
@@ -61,11 +61,11 @@ namespace Orso.Arpa.Api.Extensions
                             context.ErrorDescription = $"The token expired on {authenticationException.Expires:o}";
                         }
 
-                        return context.Response.WriteAsync(JsonSerializer.Serialize(new ErrorMessage()
+                        return context.Response.WriteAsync(JsonSerializer.Serialize(new ValidationProblemDetails()
                         {
-                            title = context.Error,
-                            description = context.ErrorDescription,
-                            status = 401
+                            Title = context.Error,
+                            Detail = context.ErrorDescription,
+                            Status = 401
                         }));
                     }
                 };

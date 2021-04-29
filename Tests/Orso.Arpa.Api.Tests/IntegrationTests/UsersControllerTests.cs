@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.UserApplication;
@@ -42,7 +43,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.UsersController.Delete("deletedusername"));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("Resource not found.");
+            errorMessage.Status.Should().Be(404);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "User could not be found." } } });
+
         }
 
         [Test, Order(10000)]

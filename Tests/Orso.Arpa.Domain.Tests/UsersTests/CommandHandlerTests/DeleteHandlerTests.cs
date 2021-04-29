@@ -2,10 +2,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using FluentValidation;
 using MediatR;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Logic.Users;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -40,13 +40,13 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
         }
 
         [Test]
-        public void Should_Throw_Validation_Exception_If_User_Is_Already_Deleted()
+        public void Should_Throw_NotFoundException_If_User_Is_Already_Deleted()
         {
             // Act
             Func<Task<Unit>> func = async () => await _handler.Handle(new Delete.Command("deletedusername"), new CancellationToken());
 
             // Assert
-            func.Should().Throw<ValidationException>();
+            func.Should().Throw<NotFoundException>();
         }
     }
 }
