@@ -258,6 +258,14 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("deleted");
 
+                    b.Property<Guid?>("EmolumentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("emolument_id");
+
+                    b.Property<Guid?>("EmolumentPatternId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("emolument_pattern_id");
+
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("end_time");
@@ -290,14 +298,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("public_details");
 
-                    b.Property<Guid?>("SalaryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("salary_id");
-
-                    b.Property<Guid?>("SalaryPatternId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("salary_pattern_id");
-
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("start_time");
@@ -316,14 +316,14 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasIndex("CategoryId")
                         .HasDatabaseName("ix_appointments_category_id");
 
+                    b.HasIndex("EmolumentId")
+                        .HasDatabaseName("ix_appointments_emolument_id");
+
+                    b.HasIndex("EmolumentPatternId")
+                        .HasDatabaseName("ix_appointments_emolument_pattern_id");
+
                     b.HasIndex("ExpectationId")
                         .HasDatabaseName("ix_appointments_expectation_id");
-
-                    b.HasIndex("SalaryId")
-                        .HasDatabaseName("ix_appointments_salary_id");
-
-                    b.HasIndex("SalaryPatternId")
-                        .HasDatabaseName("ix_appointments_salary_pattern_id");
 
                     b.HasIndex("StatusId")
                         .HasDatabaseName("ix_appointments_status_id");
@@ -614,60 +614,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.ToTable("available_documents");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.CurriculumVitaeReference", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<string>("Details")
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)")
-                        .HasColumnName("details");
-
-                    b.Property<string>("Keyword")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("keyword");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<byte>("SortOrder")
-                        .HasColumnType("smallint")
-                        .HasColumnName("sort_order");
-
-                    b.Property<string>("Timespan")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("timespan");
-
-                    b.HasKey("Id")
-                        .HasName("pk_curriculum_vitae_reference");
-
-                    b.ToTable("curriculum_vitae_reference");
-                });
-
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Education", b =>
                 {
                     b.Property<Guid>("Id")
@@ -751,13 +697,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("smallint")
                         .HasColumnName("experience_level");
 
-                    b.Property<Guid?>("InquiryStatusPerformerId")
+                    b.Property<Guid?>("InquiryStatusId")
                         .HasColumnType("uuid")
-                        .HasColumnName("inquiry_status_performer_id");
-
-                    b.Property<Guid?>("InquiryStatusStaffId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("inquiry_status_staff_id");
+                        .HasColumnName("inquiry_status_id");
 
                     b.Property<Guid>("InstrumentId")
                         .HasColumnType("uuid")
@@ -767,13 +709,13 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_main_profile");
 
-                    b.Property<byte>("LevelAssessmentPerformer")
+                    b.Property<byte>("LevelInnerAssessment")
                         .HasColumnType("smallint")
-                        .HasColumnName("level_assessment_performer");
+                        .HasColumnName("level_inner_assessment");
 
-                    b.Property<byte>("LevelAssessmentStaff")
+                    b.Property<byte>("LevelSelfAssessment")
                         .HasColumnType("smallint")
-                        .HasColumnName("level_assessment_staff");
+                        .HasColumnName("level_self_assessment");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone")
@@ -815,11 +757,8 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("pk_musician_profiles");
 
-                    b.HasIndex("InquiryStatusPerformerId")
-                        .HasDatabaseName("ix_musician_profiles_inquiry_status_performer_id");
-
-                    b.HasIndex("InquiryStatusStaffId")
-                        .HasDatabaseName("ix_musician_profiles_inquiry_status_staff_id");
+                    b.HasIndex("InquiryStatusId")
+                        .HasDatabaseName("ix_musician_profiles_inquiry_status_id");
 
                     b.HasIndex("InstrumentId")
                         .HasDatabaseName("ix_musician_profiles_instrument_id");
@@ -837,51 +776,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasDatabaseName("ix_musician_profiles_salary_id");
 
                     b.ToTable("musician_profiles");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileCurriculumVitaeReference", b =>
-                {
-                    b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("musician_profile_id");
-
-                    b.Property<Guid>("CurriculumVitaeReferenceId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("curriculum_vitae_reference_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("modified_by");
-
-                    b.HasKey("MusicianProfileId", "CurriculumVitaeReferenceId")
-                        .HasName("pk_musician_profile_curriculum_vitae_references");
-
-                    b.HasIndex("CurriculumVitaeReferenceId")
-                        .HasDatabaseName("ix_musician_profile_curriculum_vitae_references_curriculum_vit");
-
-                    b.ToTable("musician_profile_curriculum_vitae_references");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileEducation", b =>
@@ -927,6 +821,51 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasDatabaseName("ix_musician_profile_educations_education_id");
 
                     b.ToTable("musician_profile_educations");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileReference", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
+
+                    b.Property<Guid>("ReferenceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reference_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.HasKey("MusicianProfileId", "ReferenceId")
+                        .HasName("pk_musician_profile_references");
+
+                    b.HasIndex("ReferenceId")
+                        .HasDatabaseName("ix_musician_profile_references_reference_id");
+
+                    b.ToTable("musician_profile_references");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileSection", b =>
@@ -1423,6 +1362,60 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasDatabaseName("ix_project_participations_project_id");
 
                     b.ToTable("project_participations");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Reference", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<string>("Details")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("details");
+
+                    b.Property<string>("Keyword")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("keyword");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<byte>("SortOrder")
+                        .HasColumnType("smallint")
+                        .HasColumnName("sort_order");
+
+                    b.Property<string>("Timespan")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("timespan");
+
+                    b.HasKey("Id")
+                        .HasName("pk_credentials");
+
+                    b.ToTable("credentials");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.RefreshToken", b =>
@@ -3654,8 +3647,8 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("1d62ed51-c99e-4b55-83d7-f9f9a5b8234e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Salary",
-                            Property = "Salary",
+                            Name = "Emolument",
+                            Property = "Emolument",
                             Table = "Appointment"
                         },
                         new
@@ -3663,8 +3656,8 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("e4ff93b9-318e-41ed-b067-51ee94f41adf"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Salary Pattern",
-                            Property = "SalaryPattern",
+                            Name = "Emolument Pattern",
+                            Property = "EmolumentPattern",
                             Table = "Appointment"
                         },
                         new
@@ -3753,17 +3746,8 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            Name = "Inquiry status performer",
-                            Property = "InquiryStatusPerformer",
-                            Table = "MusicianProfile"
-                        },
-                        new
-                        {
-                            Id = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Inquiry status staff",
-                            Property = "InquiryStatusStaff",
+                            Name = "InquiryStatus",
+                            Property = "InquiryStatus",
                             Table = "MusicianProfile"
                         },
                         new
@@ -4502,46 +4486,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cdfb1c47-22dc-4657-aab8-1dbfaf21e862"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("1f0e9a86-4641-4d7e-8413-a1beba0e8afb")
-                        },
-                        new
-                        {
-                            Id = new Guid("9363bb46-937e-42bf-bb71-5fb16126b501"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("5850e103-4ac9-472e-85f2-cddc08732ccc")
-                        },
-                        new
-                        {
-                            Id = new Guid("03a0cbc1-4546-4b54-b05d-ec37dafeec25"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("5db547d6-c115-4409-8db7-59374ca2af83")
-                        },
-                        new
-                        {
-                            Id = new Guid("0fdbc388-feba-4607-9771-7751009f1fc8"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
-                        },
-                        new
-                        {
-                            Id = new Guid("354ef017-70ca-4c2b-914c-71be7289a0e5"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("0d1073cd-f6d5-4572-87ac-98ab6f15c05a")
-                        },
-                        new
-                        {
                             Id = new Guid("be152c92-b807-4850-8327-9d1916dabead"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -5018,22 +4962,22 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasConstraintName("fk_appointments_select_value_mappings_category_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Emolument")
+                        .WithMany("AppointmentsAsEmolument")
+                        .HasForeignKey("EmolumentId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_emolument_id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "EmolumentPattern")
+                        .WithMany("AppointmentsAsEmolumentPattern")
+                        .HasForeignKey("EmolumentPatternId")
+                        .HasConstraintName("fk_appointments_select_value_mappings_emolument_pattern_id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Expectation")
                         .WithMany("AppointmentsAsExpectation")
                         .HasForeignKey("ExpectationId")
                         .HasConstraintName("fk_appointments_select_value_mappings_expectation_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Salary")
-                        .WithMany("AppointmentsAsSalary")
-                        .HasForeignKey("SalaryId")
-                        .HasConstraintName("fk_appointments_select_value_mappings_salary_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "SalaryPattern")
-                        .WithMany("AppointmentsAsSalaryPattern")
-                        .HasForeignKey("SalaryPatternId")
-                        .HasConstraintName("fk_appointments_select_value_mappings_salary_pattern_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Status")
@@ -5050,11 +4994,11 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("Category");
 
+                    b.Navigation("Emolument");
+
+                    b.Navigation("EmolumentPattern");
+
                     b.Navigation("Expectation");
-
-                    b.Navigation("Salary");
-
-                    b.Navigation("SalaryPattern");
 
                     b.Navigation("Status");
 
@@ -5170,16 +5114,10 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "InquiryStatusPerformer")
-                        .WithMany("MusicianProfilesAsInquiryStatusPerformer")
-                        .HasForeignKey("InquiryStatusPerformerId")
-                        .HasConstraintName("fk_musician_profiles_select_value_mappings_inquiry_status_perf")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "InquiryStatusStaff")
-                        .WithMany("MusicianProfilesAsInquiryStatusStaff")
-                        .HasForeignKey("InquiryStatusStaffId")
-                        .HasConstraintName("fk_musician_profiles_select_value_mappings_inquiry_status_staf")
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "InquiryStatus")
+                        .WithMany("MusicianProfilesAsInquiryStatus")
+                        .HasForeignKey("InquiryStatusId")
+                        .HasConstraintName("fk_musician_profiles_select_value_mappings_inquiry_status_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Instrument")
@@ -5213,9 +5151,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasConstraintName("fk_musician_profiles_select_value_mappings_salary_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("InquiryStatusPerformer");
-
-                    b.Navigation("InquiryStatusStaff");
+                    b.Navigation("InquiryStatus");
 
                     b.Navigation("Instrument");
 
@@ -5224,25 +5160,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("Qualification");
 
                     b.Navigation("Salary");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileCurriculumVitaeReference", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.Entities.CurriculumVitaeReference", "CurriculumVitaeReference")
-                        .WithMany("MusicianProfileCurriculumVitaeReferences")
-                        .HasForeignKey("CurriculumVitaeReferenceId")
-                        .HasConstraintName("fk_musician_profile_curriculum_vitae_references_curriculum_vit")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
-                        .WithMany("MusicianProfileCurriculumVitaeReferences")
-                        .HasForeignKey("MusicianProfileId")
-                        .HasConstraintName("fk_musician_profile_curriculum_vitae_references_musician_profi")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("CurriculumVitaeReference");
-
-                    b.Navigation("MusicianProfile");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileEducation", b =>
@@ -5262,6 +5179,25 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("Education");
 
                     b.Navigation("MusicianProfile");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileReference", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("MusicianProfileReferences")
+                        .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_musician_profile_references_musician_profiles_musician_prof")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.Reference", "Reference")
+                        .WithMany("MusicianProfileReferences")
+                        .HasForeignKey("ReferenceId")
+                        .HasConstraintName("fk_musician_profile_references_credentials_reference_id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("MusicianProfile");
+
+                    b.Navigation("Reference");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileSection", b =>
@@ -5630,11 +5566,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("SectionAppointments");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.CurriculumVitaeReference", b =>
-                {
-                    b.Navigation("MusicianProfileCurriculumVitaeReferences");
-                });
-
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Education", b =>
                 {
                     b.Navigation("MusicianProfileEducations");
@@ -5648,9 +5579,9 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("DoublingInstruments");
 
-                    b.Navigation("MusicianProfileCurriculumVitaeReferences");
-
                     b.Navigation("MusicianProfileEducations");
+
+                    b.Navigation("MusicianProfileReferences");
 
                     b.Navigation("PreferredGenres");
 
@@ -5690,6 +5621,11 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("ProjectParticipations");
 
                     b.Navigation("Urls");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Reference", b =>
+                {
+                    b.Navigation("MusicianProfileReferences");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Region", b =>
@@ -5740,11 +5676,11 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("AppointmentsAsCategory");
 
+                    b.Navigation("AppointmentsAsEmolument");
+
+                    b.Navigation("AppointmentsAsEmolumentPattern");
+
                     b.Navigation("AppointmentsAsExpectation");
-
-                    b.Navigation("AppointmentsAsSalary");
-
-                    b.Navigation("AppointmentsAsSalaryPattern");
 
                     b.Navigation("AppointmentsAsStatus");
 
@@ -5754,9 +5690,7 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("AvailableDocuments");
 
-                    b.Navigation("MusicianProfilesAsInquiryStatusPerformer");
-
-                    b.Navigation("MusicianProfilesAsInquiryStatusStaff");
+                    b.Navigation("MusicianProfilesAsInquiryStatus");
 
                     b.Navigation("MusicianProfilesAsQualification");
 
