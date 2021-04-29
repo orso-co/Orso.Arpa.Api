@@ -25,7 +25,8 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(ProjectStateMappings);
                 list.AddRange(MusicianProfileQualificationMappings);
                 list.AddRange(MusicianProfileSalaryMappings);
-                list.AddRange(MusicianProfileInquiryStatusMappings);
+                list.AddRange(MusicianProfileInquiryStatusPerformerMappings);
+                list.AddRange(MusicianProfileInquiryStatusStaffMappings);
                 list.AddRange(AuditionStatusMappings);
                 list.AddRange(AuditionRepetitorStatusMappings);
                 list.AddRange(MusicianProfileAvailableDocumentsMappings);
@@ -240,17 +241,32 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        public static IList<SelectValueMapping> MusicianProfileInquiryStatusMappings
+        public static IList<SelectValueMapping> MusicianProfileInquiryStatusPerformerMappings
         {
             get
             {
                 return new List<SelectValueMapping>
                 {
-                    new SelectValueMapping(Guid.Parse("68e947c0-9450-4b64-90d7-553850396a3f"), SelectValueCategorySeedData.MusicianProfileInquiryStatus.Id, SelectValueSeedData.Gladly.Id),
-                    new SelectValueMapping(Guid.Parse("60c1a391-59b4-4cea-ba83-59e09f7512b6"), SelectValueCategorySeedData.MusicianProfileInquiryStatus.Id, SelectValueSeedData.EmergencyOnly.Id),
-                    new SelectValueMapping(Guid.Parse("ab5c5904-2683-47c4-a436-319303b8e62f"), SelectValueCategorySeedData.MusicianProfileInquiryStatus.Id, SelectValueSeedData.NeverAgain.Id),
-                    new SelectValueMapping(Guid.Parse("a15014ad-582e-4388-9b58-aceb52cf41bf"), SelectValueCategorySeedData.MusicianProfileInquiryStatus.Id, SelectValueSeedData.Unknown.Id),
-                    new SelectValueMapping(Guid.Parse("90b5cfa9-890b-4b89-a750-646f3a26db23"), SelectValueCategorySeedData.MusicianProfileInquiryStatus.Id, SelectValueSeedData.ForContactsOnly.Id),
+                    new SelectValueMapping(Guid.Parse("68e947c0-9450-4b64-90d7-553850396a3f"), SelectValueCategorySeedData.MusicianProfileInquiryStatusPerformer.Id, SelectValueSeedData.Gladly.Id),
+                    new SelectValueMapping(Guid.Parse("60c1a391-59b4-4cea-ba83-59e09f7512b6"), SelectValueCategorySeedData.MusicianProfileInquiryStatusPerformer.Id, SelectValueSeedData.EmergencyOnly.Id),
+                    new SelectValueMapping(Guid.Parse("ab5c5904-2683-47c4-a436-319303b8e62f"), SelectValueCategorySeedData.MusicianProfileInquiryStatusPerformer.Id, SelectValueSeedData.NeverAgain.Id),
+                    new SelectValueMapping(Guid.Parse("a15014ad-582e-4388-9b58-aceb52cf41bf"), SelectValueCategorySeedData.MusicianProfileInquiryStatusPerformer.Id, SelectValueSeedData.Unknown.Id),
+                    new SelectValueMapping(Guid.Parse("90b5cfa9-890b-4b89-a750-646f3a26db23"), SelectValueCategorySeedData.MusicianProfileInquiryStatusPerformer.Id, SelectValueSeedData.ForContactsOnly.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> MusicianProfileInquiryStatusStaffMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("cdfb1c47-22dc-4657-aab8-1dbfaf21e862"), SelectValueCategorySeedData.MusicianProfileInquiryStatusStaff.Id, SelectValueSeedData.Gladly.Id),
+                    new SelectValueMapping(Guid.Parse("9363bb46-937e-42bf-bb71-5fb16126b501"), SelectValueCategorySeedData.MusicianProfileInquiryStatusStaff.Id, SelectValueSeedData.EmergencyOnly.Id),
+                    new SelectValueMapping(Guid.Parse("03a0cbc1-4546-4b54-b05d-ec37dafeec25"), SelectValueCategorySeedData.MusicianProfileInquiryStatusStaff.Id, SelectValueSeedData.NeverAgain.Id),
+                    new SelectValueMapping(Guid.Parse("0fdbc388-feba-4607-9771-7751009f1fc8"), SelectValueCategorySeedData.MusicianProfileInquiryStatusStaff.Id, SelectValueSeedData.Unknown.Id),
+                    new SelectValueMapping(Guid.Parse("354ef017-70ca-4c2b-914c-71be7289a0e5"), SelectValueCategorySeedData.MusicianProfileInquiryStatusStaff.Id, SelectValueSeedData.ForContactsOnly.Id),
                 };
             }
         }
