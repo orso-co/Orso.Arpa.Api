@@ -49,7 +49,7 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; private set; } = new HashSet<MusicianProfileEducation>();
 
-        public virtual ICollection<MusicianProfileReference> MusicianProfileReferences { get; private set; } = new HashSet<MusicianProfileReference>();
+        public virtual ICollection<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; private set; } = new HashSet<MusicianProfileCurriculumVitaeReference>();
 
         public virtual ICollection<PreferredGenre> PreferredGenres { get; private set; } = new HashSet<PreferredGenre>();
 

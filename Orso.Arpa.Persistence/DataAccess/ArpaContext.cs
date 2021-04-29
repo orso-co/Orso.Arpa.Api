@@ -38,10 +38,10 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AvailableDocument> AvailableDocuments { get; set; }
-        public DbSet<Reference> Credentials { get; set; }
+        public DbSet<CurriculumVitaeReference> CurriculumVitaeReference { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
-        public DbSet<MusicianProfileReference> MusicianProfileReferences { get; set; }
+        public DbSet<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; }
         public DbSet<MusicianProfileEducation> MusicianProfileEducations { get; set; }
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
         public DbSet<Person> Persons { get; set; }

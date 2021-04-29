@@ -4,9 +4,9 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.Configurations
 {
-    public class CredentialConfiguration : IEntityTypeConfiguration<Reference>
+    public class CurriculumVitaeReferenceConfiguration : IEntityTypeConfiguration<CurriculumVitaeReference>
     {
-        public void Configure(EntityTypeBuilder<Reference> builder)
+        public void Configure(EntityTypeBuilder<CurriculumVitaeReference> builder)
         {
             builder
                 .Property(a => a.Timespan)
