@@ -1,7 +1,6 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Resources.Cultures;
 using Orso.Arpa.Application.General;
@@ -63,7 +62,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
             RuleFor(d => d.EndTime)
                 .NotEmpty()
                 .Must((dto, endTime) => endTime >= dto.StartTime)
-                .WithMessage(localizer["EndTime must be later than StartTime"]);
+                .WithMessage("EndTime must be greater than StartTime");
             RuleFor(d => d.Name)
                 .NotEmpty()
                 .MaximumLength(50);

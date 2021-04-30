@@ -29,7 +29,6 @@ using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Localization;
 using Orso.Arpa.Application.Services;
-using Orso.Arpa.Domain;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
@@ -132,9 +131,9 @@ namespace Orso.Arpa.Api
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.SetDefaultCulture("en-US");
-                options.AddSupportedUICultures("en-US", "de-DE");
-                options.FallBackToParentUICultures = true;
+                options.SetDefaultCulture("en-GB");
+                options.AddSupportedUICultures("en", "en-GB", "de", "de-DE");
+                options.FallBackToParentCultures = true;
             });
 
             services.AddLocalization();
@@ -427,7 +426,7 @@ namespace Orso.Arpa.Api
             catch (Exception ex)
             {
                 ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                logger.LogError(ex, "An error occured during database migration");
+                logger.LogError(ex, "Error during localization of data");
                 throw;
             }
         }

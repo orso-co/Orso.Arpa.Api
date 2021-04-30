@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +40,7 @@ namespace Orso.Arpa.Application.Localization
             }
 
             Translation translation = _translations.AsQueryable().DefaultIfEmpty(null).FirstOrDefault(d =>
-                d.Deleted == false && d.Key == key && d.ResourceKey == resourceKey && d.LocalizationCulture == culture);
+                d.Deleted == false && d.Key == key && d.ResourceKey == resourceKey && Regex.Match(d.LocalizationCulture, "(^|[^-])"+culture+"([^-]|$)", RegexOptions.None).Success);
 
             return (translation == null) ? key : translation.Text ?? key;
         }
