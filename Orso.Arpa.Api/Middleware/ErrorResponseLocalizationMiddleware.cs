@@ -31,7 +31,7 @@ namespace Orso.Arpa.Api.Middleware
         public async Task Invoke(HttpContext context)
         {
             var culture = CultureInfo.CurrentUICulture.Name;
-            var localizer = _localizerFactory.Create(nameof(ApiResource), culture);
+            var localizer = _localizerFactory.Create("Validator", culture);
 
             Stream originalBody = context.Response.Body;
 
