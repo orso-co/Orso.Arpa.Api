@@ -24,8 +24,7 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>A list of sections</returns>
         /// <response code="200"></response>
-        //[Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
-        [AllowAnonymous]
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<SectionDto>>> Get([FromQuery] bool instrumentsOnly = false)

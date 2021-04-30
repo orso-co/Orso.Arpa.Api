@@ -15,7 +15,7 @@ namespace Orso.Arpa.Persistence.Configurations
 
             builder.Property(m => m.Text).IsUnicode().HasMaxLength(1000).IsRequired();
 
-            builder.Property(m => m.LocalizationCulture).HasMaxLength(5).IsRequired();
+            builder.Property(m => m.LocalizationCulture).HasMaxLength(60).IsRequired();
 
             builder.Property(m => m.ResourceKey).HasMaxLength(50).IsRequired();
 

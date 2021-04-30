@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Extensions;
 using static Orso.Arpa.Domain.Logic.Auth.ChangePassword;
 
@@ -22,10 +21,10 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class ChangePasswordDtoValidator : AbstractValidator<ChangePasswordDto>
     {
-        public ChangePasswordDtoValidator(IStringLocalizer<ApplicationResource> localizer)
+        public ChangePasswordDtoValidator()
         {
             RuleFor(c => c.NewPassword)
-                .Password(localizer);
+                .Password();
             RuleFor(c => c.CurrentPassword)
                 .NotEmpty();
         }
