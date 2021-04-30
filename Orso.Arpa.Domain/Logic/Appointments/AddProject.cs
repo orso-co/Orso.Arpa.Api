@@ -5,8 +5,6 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
@@ -43,7 +41,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
+            public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext);
@@ -53,7 +51,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
                     .MustAsync(async (dto, projectId, cancellation) => !(await arpaContext.ProjectAppointments
                         .AnyAsync(pa => pa.ProjectId == projectId && pa.AppointmentId == dto.Id, cancellation)))
-                    .WithMessage(localizer["The project is already linked to the appointment"]);
+                    .WithMessage("The project is already linked to the appointment");
             }
         }
 

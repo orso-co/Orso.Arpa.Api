@@ -1,7 +1,6 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Logic.Auth;
 
@@ -16,12 +15,12 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class ResetPasswordDtoValidator : AbstractValidator<ResetPasswordDto>
     {
-        public ResetPasswordDtoValidator(IStringLocalizer<ApplicationResource> localizer)
+        public ResetPasswordDtoValidator()
         {
             RuleFor(c => c.UsernameOrEmail)
                 .NotEmpty();
             RuleFor(c => c.Password)
-                .Password(localizer);
+                .Password();
             RuleFor(c => c.Token)
                 .NotEmpty();
             When(dto => dto.UsernameOrEmail != null && dto.UsernameOrEmail.Contains('@'), () =>
@@ -29,7 +28,7 @@ namespace Orso.Arpa.Application.AuthApplication
                 RuleFor(dto => dto.UsernameOrEmail).EmailAddress().MaximumLength(256);
             }).Otherwise(() =>
             {
-                RuleFor(dto => dto.UsernameOrEmail).Username(localizer);
+                RuleFor(dto => dto.UsernameOrEmail).Username();
             });
         }
     }

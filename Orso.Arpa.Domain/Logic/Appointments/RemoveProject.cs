@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -31,12 +29,12 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
+            public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.ProjectId)
                     .MustAsync(async (dto, projectId, cancellation) => await arpaContext.ProjectAppointments
                         .AnyAsync(pa => pa.AppointmentId == dto.Id && pa.ProjectId == projectId, cancellation))
-                    .WithMessage(localizer["The project is not linked to the appointment"]);
+                    .WithMessage("The project is not linked to the appointment");
             }
         }
 

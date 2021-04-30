@@ -4,12 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
@@ -21,18 +17,12 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 {
     public class LoginHandlerTests
     {
-        private IStringLocalizer<DomainResource>  localizer;
-
         [OneTimeSetUp]
         public void Setup()
         {
-            localizer = new StringLocalizer<DomainResource> (
-                new ResourceManagerStringLocalizerFactory(
-                    new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
-                    new LoggerFactory()));
             _signInManager = new FakeSignInManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
-            _handler = new Login.Handler(_signInManager, _jwtGenerator, localizer);
+            _handler = new Login.Handler(_signInManager, _jwtGenerator);
         }
 
         private SignInManager<User> _signInManager;
@@ -42,7 +32,6 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         [Test]
         public async Task Should_Login_User()
         {
-
             // Arrange
             const string expectedToken = "TestToken";
             User user = FakeUsers.Performer;
@@ -69,14 +58,14 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
 
                 // Assert
-                func.Should().Throw<AuthenticationException>().WithMessage(localizer["The system could not log you in. Please enter a valid user name and password"]);
+                func.Should().Throw<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
             }
 
             // Act
             Func<Task> func1 = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func1.Should().Throw<AuthenticationException>().WithMessage(localizer["Your account is locked. Kindly wait for 10 minutes and try again"]);
+            func1.Should().Throw<AuthenticationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
         }
     }
 }

@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
@@ -40,7 +38,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
+            public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext);

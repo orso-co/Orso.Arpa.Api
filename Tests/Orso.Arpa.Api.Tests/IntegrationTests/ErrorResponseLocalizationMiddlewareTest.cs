@@ -13,8 +13,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class ErrorResponseLocalizationMiddlewareTest : IntegrationTestBase
     {
-        [Test]
-        public async Task Should_Localize_Default()
+        [Test, Order(1)]
+        public async Task Should_Localize_Default_En_GB()
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
@@ -28,8 +28,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Description.Should().Be("Please try to login again");
         }
 
-        [Test]
-        public async Task Should_Localize_De()
+        [Test, Order(2)]
+        public async Task Should_Localize_De_DE()
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
@@ -43,8 +43,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Description.Should().Be("Bitte melde dich erneut an");
         }
 
-        [Test]
-        public async Task Should_Localize_En()
+        [Test, Order(3)]
+        public async Task Should_Localize_En_US()
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
@@ -58,12 +58,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Description.Should().Be("Please try to login again");
         }
 
-        [Test]
-        public async Task Should_Localize_Cookie_De()
+        [Test, Order(4)]
+        public async Task Should_Localize_Accept_Language_Header_De_DE()
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
                 ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day));
-            requestMessage.Headers.Add("Cookie", "Culture=c%3Dde-DE%7Cuic%3Dde-DE");
+            requestMessage.Headers.Add("Accept-Language", "de-DE");
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
                 .SendAsync(requestMessage);
@@ -76,12 +76,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Description.Should().Be("Bitte melde dich erneut an");
         }
 
-        [Test]
-        public async Task Should_Localize_Cookie_En()
+        [Test, Order(5)]
+        public async Task Should_Localize_Accept_Language_Header_En_GB()
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
                 ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day));
-            requestMessage.Headers.Add("Cookie", "Culture=c%3Den-EN%7Cuic%3Den-EN");
+            requestMessage.Headers.Add("Accept-Language", "en-GB");
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
                 .SendAsync(requestMessage);
@@ -94,12 +94,30 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Description.Should().Be("Please try to login again");
         }
 
-        [Test]
-        public async Task Should_Localize_Cookie_Default()
+        [Test, Order(6)]
+        public async Task Should_Localize_Accept_Language_Header_En_US_Defaults_To_En()
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
                 ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day));
-            requestMessage.Headers.Add("Cookie", "");
+            requestMessage.Headers.Add("Accept-Language", "en-US");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .SendAsync(requestMessage);
+
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            string errorResponse = await responseMessage.Content.ReadAsStringAsync();
+            ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
+
+            errorMessage.Description.Should().Be("Please try to login again");
+        }
+
+        [Test, Order(7)]
+        public async Task Should_Localize_Accept_Language_Header_Default_En()
+        {
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
+                ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day));
+            requestMessage.Headers.Add("Accept-Language", "*");
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
                 .SendAsync(requestMessage);

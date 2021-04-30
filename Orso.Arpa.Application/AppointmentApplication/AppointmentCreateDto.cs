@@ -1,7 +1,6 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 using static Orso.Arpa.Domain.Logic.Appointments.Create;
 
 namespace Orso.Arpa.Application.AppointmentApplication
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
 
     public class AppointmentCreateDtoValidator : AbstractValidator<AppointmentCreateDto>
     {
-        public AppointmentCreateDtoValidator(IStringLocalizer<ApplicationResource> localizer)
+        public AppointmentCreateDtoValidator()
         {
             RuleFor(d => d)
                 .NotNull();
@@ -39,7 +38,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
             RuleFor(d => d.EndTime)
                 .NotEmpty()
                 .Must((dto, endTime) => endTime >= dto.StartTime)
-                .WithMessage(localizer["EndTime must be later than StartTime"]);
+                .WithMessage("EndTime must be greater than StartTime");
             RuleFor(d => d.Name)
                 .NotEmpty()
                 .MaximumLength(50);

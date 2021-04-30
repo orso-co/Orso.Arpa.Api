@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.Localization;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -13,17 +12,17 @@ namespace Orso.Arpa.Domain.Extensions
     public static class RuleBuilderExtensions
     {
         public static IRuleBuilder<TRequest, Guid> EntityExists<TRequest, TEntity>(
-            this IRuleBuilder<TRequest, Guid> ruleBuilder, IArpaContext arpaContext,
-            IStringLocalizer localizer) where TRequest : IRequest where TEntity : BaseEntity
+            this IRuleBuilder<TRequest, Guid> ruleBuilder,
+            IArpaContext arpaContext) where TRequest : IRequest where TEntity : BaseEntity
         {
             return ruleBuilder
                 .MustAsync(async (id, cancellation) => (await arpaContext.EntityExistsAsync<TEntity>(id, cancellation)))
-                .WithMessage(localizer[GetEntityExistsErrorMessage<TEntity>()]);
+                .WithMessage(GetEntityExistsErrorMessage<TEntity>());
         }
 
         public static IRuleBuilder<TRequest, Guid?> EntityExists<TRequest, TEntity>(
-            this IRuleBuilder<TRequest, Guid?> ruleBuilder, IArpaContext arpaContext,
-            IStringLocalizer localizer) where TRequest : IRequest where TEntity : BaseEntity
+            this IRuleBuilder<TRequest, Guid?> ruleBuilder,
+            IArpaContext arpaContext) where TRequest : IRequest where TEntity : BaseEntity
         {
             return ruleBuilder
                 .MustAsync(async (id, cancellation) => !id.HasValue || (await arpaContext.EntityExistsAsync<TEntity>(id.Value, cancellation)))

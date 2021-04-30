@@ -1,8 +1,6 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
@@ -48,10 +46,10 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource>  localizer)
+            public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext, localizer);
+                    .EntityExists<Command, Appointment>(arpaContext);
 
                 RuleFor(d => d.SalaryId)
                     .SelectValueMapping<Command, Appointment>(arpaContext, a => a.Salary);

@@ -1,7 +1,4 @@
 using FluentValidation.TestHelper;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 
@@ -15,12 +12,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [SetUp]
         public void Setup()
         {
-            IStringLocalizer<ApplicationResource> localizer =
-                new StringLocalizer<ApplicationResource>(
-                    new ResourceManagerStringLocalizerFactory(
-                        new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
-                        new LoggerFactory()));
-            _validator = new CreateEmailConfirmationTokenDtoValidator(localizer);
+            _validator = new CreateEmailConfirmationTokenDtoValidator();
         }
 
         [Test]

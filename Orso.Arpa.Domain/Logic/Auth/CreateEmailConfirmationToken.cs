@@ -5,8 +5,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
@@ -25,12 +23,12 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(ArpaUserManager userManager,
-                IStringLocalizer<DomainResource>  localizer)
+            public Validator(
+                ArpaUserManager userManager)
             {
                 RuleFor(c => c.UsernameOrEmail)
                     .MustAsync(async (email, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(email) != null)
-                    .WithMessage(localizer["The user could not be found"]);
+                    .WithMessage("The user could not be found");
             }
         }
 

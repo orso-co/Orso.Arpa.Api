@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
@@ -35,7 +33,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IMapper mapper, IStringLocalizer<DomainResource>  localizer)
+            public Validator(IArpaContext arpaContext, IMapper mapper)
             {
                 RuleFor(d => d.Id)
                     .MustAsync(async (id, cancellation) => await arpaContext.Set<Appointment>()

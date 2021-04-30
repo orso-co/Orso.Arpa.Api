@@ -2,8 +2,6 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
@@ -31,19 +29,18 @@ namespace Orso.Arpa.Domain.Logic.Regions
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IStringLocalizer<DomainResource> localizer)
+            public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.Id)
-                    .EntityExists<Command, Region>(arpaContext, localizer);
+                    .EntityExists<Command, Region>(arpaContext);
 
                 RuleFor(c => c.Name)
                     .MustAsync(async (dto, name, cancellation) => !(await arpaContext.Regions
 #pragma warning disable RCS1155 // Use StringComparison when comparing strings.
-                        .AnyAsync(r => r.Name.ToLower() == name.ToLower() && r.Id != dto.Id,
-                            cancellation)))
+                        .AnyAsync(r => r.Name.ToLower() == name.ToLower() && r.Id != dto.Id, cancellation)))
 #pragma warning restore RCS1155 // Use StringComparison when comparing strings.
-                    .WithMessage(localizer["A region with the requested name does already exist"]);
-        }
+                    .WithMessage("A region with the requested name does already exist");
+            }
         }
     }
 }

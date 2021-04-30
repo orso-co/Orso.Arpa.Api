@@ -1,10 +1,6 @@
 using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using NUnit.Framework;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -22,14 +18,9 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [SetUp]
         public void Setup()
         {
-            IStringLocalizer<DomainResource> localizer =
-                new StringLocalizer<DomainResource>(
-                    new ResourceManagerStringLocalizerFactory(
-                        new OptionsWrapper<LocalizationOptions>(new LocalizationOptions()),
-                        new LoggerFactory()));
             _userManager = new FakeUserManager();
             _roleManager = new FakeRoleManager();
-            _validator = new Validator(_userManager, _roleManager, localizer);
+            _validator = new Validator(_userManager, _roleManager);
         }
 
         [Test]

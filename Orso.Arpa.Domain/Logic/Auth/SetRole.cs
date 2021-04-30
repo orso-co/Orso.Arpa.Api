@@ -5,8 +5,6 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using Orso.Arpa.Application;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 
@@ -24,15 +22,14 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             public Validator(
                 ArpaUserManager userManager,
-                RoleManager<Role> roleManager,
-                IStringLocalizer<DomainResource>  localizer)
+                RoleManager<Role> roleManager)
             {
                 RuleFor(c => c.Username)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
-                    .WithMessage(localizer["The user could not be found"]);
+                    .WithMessage("The user could not be found");
                 RuleForEach(c => c.RoleNames)
                     .MustAsync(async (roleName, cancellation) => await roleManager.RoleExistsAsync(roleName))
-                    .WithMessage(localizer["The role '{PropertyValue}' could not be found"]);
+                    .WithMessage("The role '{PropertyValue}' could not be found");
             }
         }
 
