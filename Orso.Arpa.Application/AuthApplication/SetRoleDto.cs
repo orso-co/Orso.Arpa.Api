@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Logic.Me;
@@ -26,11 +25,11 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class SetRoleDtoValidator : AbstractValidator<SetRoleDto>
     {
-        public SetRoleDtoValidator(IStringLocalizer<ApplicationResource> localizer)
+        public SetRoleDtoValidator()
         {
             RuleFor(c => c.Username)
                 .NotEmpty()
-                .Username(localizer);
+                .Username();
             RuleFor(c => c.RoleNames)
                 .NotNull();
         }
