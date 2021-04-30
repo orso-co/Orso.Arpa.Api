@@ -10,6 +10,7 @@ using System.Threading;
 using AutoMapper.Internal;
 using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Localization;
 
 
@@ -19,12 +20,15 @@ namespace Orso.Arpa.Application.Localization
     {
         private readonly LocalizerCache _localizerCache;
         private readonly string _uiCulture;
+        private readonly ILogger<LocationResultFilter> _logger;
 
 
-        public LocationResultFilter(LocalizerCache localizerCache)
+        public LocationResultFilter(LocalizerCache localizerCache,
+        ILogger<LocationResultFilter> logger)
         {
             _localizerCache = localizerCache;
             _uiCulture = Thread.CurrentThread.CurrentUICulture.Name;
+            _logger = logger;
         }
 
         public void OnResultExecuting(ResultExecutingContext context)
@@ -128,7 +132,7 @@ namespace Orso.Arpa.Application.Localization
             }
             catch (Exception e)
             {
-                //TODO: do some logging here and throw exception.
+                _logger.LogError($"Error during translation: {e.Message}");
             }
         }
     }

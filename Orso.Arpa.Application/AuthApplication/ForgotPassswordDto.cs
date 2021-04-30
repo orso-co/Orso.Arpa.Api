@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Logic.Auth;
 
@@ -22,7 +21,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class ForgotPasswordDtoValidator : AbstractValidator<ForgotPasswordDto>
     {
-        public ForgotPasswordDtoValidator(IStringLocalizer<ApplicationResource> localizer)
+        public ForgotPasswordDtoValidator()
         {
             RuleFor(q => q.UsernameOrEmail)
                 .NotEmpty();
@@ -33,7 +32,7 @@ namespace Orso.Arpa.Application.AuthApplication
                 RuleFor(dto => dto.UsernameOrEmail).EmailAddress().MaximumLength(256);
             }).Otherwise(() =>
             {
-                RuleFor(dto => dto.UsernameOrEmail).Username(localizer);
+                RuleFor(dto => dto.UsernameOrEmail).Username();
             });
         }
     }
