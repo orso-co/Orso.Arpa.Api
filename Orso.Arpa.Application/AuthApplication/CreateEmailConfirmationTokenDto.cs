@@ -1,6 +1,5 @@
 using AutoMapper;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 using Orso.Arpa.Application.Extensions;
 using static Orso.Arpa.Domain.Logic.Auth.CreateEmailConfirmationToken;
 
@@ -14,7 +13,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
     public class CreateEmailConfirmationTokenDtoValidator : AbstractValidator<CreateEmailConfirmationTokenDto>
     {
-        public CreateEmailConfirmationTokenDtoValidator(IStringLocalizer<ApplicationResource> localizer)
+        public CreateEmailConfirmationTokenDtoValidator()
         {
             RuleFor(c => c.UsernameOrEmail)
                .NotEmpty();
@@ -25,7 +24,7 @@ namespace Orso.Arpa.Application.AuthApplication
                 RuleFor(dto => dto.UsernameOrEmail).EmailAddress().MaximumLength(256);
             }).Otherwise(() =>
             {
-                RuleFor(dto => dto.UsernameOrEmail).Username(localizer);
+                RuleFor(dto => dto.UsernameOrEmail).Username();
             });
         }
     }
