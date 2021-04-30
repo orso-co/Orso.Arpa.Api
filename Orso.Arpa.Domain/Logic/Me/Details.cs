@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -9,6 +10,16 @@ namespace Orso.Arpa.Domain.Logic.Me
     public static class Details
     {
         public class Query : IRequest<User> { }
+
+        public class QueryById : IRequest<User>
+        {
+            public QueryById(Guid id)
+            {
+                Id = id;
+            }
+
+            private Guid Id { get; set; }
+        }
 
         public class Handler : IRequestHandler<Query, User>
         {

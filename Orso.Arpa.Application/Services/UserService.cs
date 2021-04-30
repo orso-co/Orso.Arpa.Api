@@ -46,6 +46,11 @@ namespace Orso.Arpa.Application.Services
             return dtos;
         }
 
+        public async Task<UserDto> GetByIdAsync(Guid id)
+        {
+            return _mapper.Map<UserDto>(await _mediator.Send(new Details.QueryById(id)));
+        }
+
         public async Task DeleteAsync(string userName)
         {
             await _mediator.Send(new Delete.Command(userName));
