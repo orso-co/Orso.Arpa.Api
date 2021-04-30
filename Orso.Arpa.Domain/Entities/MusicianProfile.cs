@@ -17,17 +17,17 @@ namespace Orso.Arpa.Domain.Entities
         }
 
         #region Native
-
-        public byte LevelSelfAssessment { get; private set; }
-        public byte LevelInnerAssessment { get; private set; }
-        public byte ProfileFavorizitation { get; private set; }
+        public byte LevelAssessmentPerformer { get; private set; }
+        public byte LevelAssessmentStaff { get; private set; }
+        public byte ProfilePreferencePerformer { get; private set; }
+        public byte ProfilePreferenceStaff { get; private set; }
         public bool IsMainProfile { get; private set; }
         public string Background { get; private set; }
         public byte ExperienceLevel { get; private set; }
-
+        public string SalaryComment { get; private set; }
         #endregion
-        #region Reference
 
+        #region Reference
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }
 
@@ -40,31 +40,35 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
 
-        public Guid? InqueryId { get; private set; }
-        public virtual SelectValueMapping Inquery { get; private set; }
+        public Guid? InquiryStatusPerformerId { get; private set; }
+        public virtual SelectValueMapping InquiryStatusPerformer { get; private set; }
 
-        public Guid? PreferredPositionId { get; private set; }
-        public virtual Position PreferredPosition { get; private set; }
-
+        public Guid? InquiryStatusStaffId { get; private set; }
+        public virtual SelectValueMapping InquiryStatusStaff { get; private set; }
         #endregion
+
         #region Collection
-
-        public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
-
         public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; private set; } = new HashSet<MusicianProfileSection>();
 
         public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; private set; } = new HashSet<MusicianProfileEducation>();
 
-        public virtual ICollection<MusicianProfileCredential> MusicianProfileCredentials { get; private set; } = new HashSet<MusicianProfileCredential>();
+        public virtual ICollection<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; private set; } = new HashSet<MusicianProfileCurriculumVitaeReference>();
 
         public virtual ICollection<PreferredGenre> PreferredGenres { get; private set; } = new HashSet<PreferredGenre>();
 
-        public virtual ICollection<AvailableDocument> AvailableDocumentStatus { get; private set; } = new HashSet<AvailableDocument>();
+        public virtual ICollection<PreferredPosition> PreferredPositions { get; private set; } = new HashSet<PreferredPosition>();
 
-        public virtual ICollection<SphereOfActivityConcert> SphereOfActivityConcerts { get; private set; } = new HashSet<SphereOfActivityConcert>();
+        public virtual ICollection<AvailableDocument> AvailableDocuments { get; private set; } = new HashSet<AvailableDocument>();
 
-        public virtual ICollection<SphereOfActivityRehearsal> SphereOfActivityRehearsals { get; private set; } = new HashSet<SphereOfActivityRehearsal>();
+        public virtual ICollection<RegionPreferencePerformance> RegionPreferencePerformances { get; private set; } = new HashSet<RegionPreferencePerformance>();
 
+        public virtual ICollection<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; private set; } = new HashSet<RegionPreferenceRehearsal>();
+
+        public virtual ICollection<Audition> Auditions { get; private set; } = new HashSet<Audition>();
+        #endregion
+
+        #region cross reference
+        public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
         #endregion
     }
 }
