@@ -49,5 +49,15 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 _ => throw new NotSupportedException("Requested DateRange is not supported"),
             };
         }
+
+        public static bool DoDateRangesIntersect(DateTime date, DateRange range, Tuple<DateTime, DateTime> queryRange)
+        {
+            DateTime rangeStartTime = DateHelper.GetStartTime(date, range);
+            DateTime rangeEndTime = DateHelper.GetEndTime(date, range);
+
+            return queryRange.Item1 <= rangeStartTime && queryRange.Item2 > rangeStartTime
+                    || queryRange.Item1 >= rangeStartTime && queryRange.Item2 <= rangeEndTime
+                    || queryRange.Item1 <= rangeEndTime && queryRange.Item2 > rangeEndTime;
+        }
     }
 }

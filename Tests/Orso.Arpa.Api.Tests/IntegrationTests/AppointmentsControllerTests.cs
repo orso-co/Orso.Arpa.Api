@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -24,24 +23,49 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     [TestFixture]
     public class AppointmentsControllerTests : IntegrationTestBase
     {
-        [Test, Order(1)]
-        public async Task Should_Get_Appointments()
+        private static IEnumerable<TestCaseData> s_appointmentQueryTestData
         {
-            // Arrange
-            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForPerformer;
+            get
+            {
+                yield return new TestCaseData(DateRange.Day, new DateTime(2019, 12, 21), new List<AppointmentDto> {
+                    AppointmentDtoData.RockingXMasRehearsalForPerformer,
+                    AppointmentDtoData.RehearsalWeekend
+                }, false);
+                // 16.-22.12.2019
+                yield return new TestCaseData(DateRange.Week, new DateTime(2019, 12, 21), new List<AppointmentDto> {
+                    AppointmentDtoData.RockingXMasRehearsalForPerformer,
+                    AppointmentDtoData.RockingXMasConcert,
+                    AppointmentDtoData.RehearsalWeekend
+                }, true);
+                yield return new TestCaseData(DateRange.Month, new DateTime(2020, 12, 21), new List<AppointmentDto> {
+                    AppointmentDtoData.StaffMeeting,
+                    AppointmentDtoData.PhotoSession,
+                    AppointmentDtoData.AuditionDays
+                }, true);
+            }
+        }
 
+        [TestCaseSource(nameof(s_appointmentQueryTestData))]
+        [Test, Order(1)]
+        public async Task Should_Get_Appointments(DateRange dateRange, DateTime date, IList<AppointmentDto> expectedDtos, bool excludeParticipations)
+        {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_performer)
-            .GetAsync(ApiEndpoints.AppointmentsController.Get(new DateTime(2019, 12, 21), DateRange.Day));
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.AppointmentsController.Get(date, dateRange));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
-            result.Count().Should().Be(1);
-            AppointmentDto returnedAppointment = result.First();
-            returnedAppointment.Should().BeEquivalentTo(expectedDto);
+            if (excludeParticipations)
+            {
+                result.Should().BeEquivalentTo(expectedDtos, opt => opt.Excluding(dto => dto.Participations));
+            }
+            else
+            {
+                result.Should().BeEquivalentTo(expectedDtos);
+            }
         }
 
         [Test, Order(2)]

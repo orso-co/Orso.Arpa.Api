@@ -19,7 +19,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     AfterShowPartyForPerformer,
                     RockingXMasConcert,
                     StaffMeeting,
-                    PhotoSession
+                    PhotoSession,
+                    RehearsalWeekend,
+                    AuditionDays
                 };
             }
         }
@@ -34,7 +36,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     AfterShowPartyForStaff,
                     RockingXMasConcert,
                     StaffMeeting,
-                    PhotoSession
+                    PhotoSession,
+                    RehearsalWeekend,
+                    AuditionDays
                 };
             }
         }
@@ -279,6 +283,58 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     VenueId = null,
                     CreatedAt = FakeDateTime.UtcNow
                 };
+            }
+        }
+
+        public static AppointmentDto RehearsalWeekend
+        {
+            get
+            {
+                var dto = new AppointmentDto
+                {
+                    Id = Guid.Parse("f14e47d8-110f-4346-87d2-9a9bc0e2120c"),
+                    CategoryId = Guid.Parse("e9c79ae9-5498-459d-8852-9f135da7afae"),
+                    SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
+                    SalaryPatternId = null,
+                    EndTime = new DateTime(2019, 12, 24, 16, 00, 00),
+                    StartTime = new DateTime(2019, 12, 20, 15, 00, 00),
+                    InternalDetails = null,
+                    PublicDetails = "Accordion rehearsal weekend",
+                    Name = "Rehearsal weekend",
+                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    CreatedBy = "anonymous",
+                    ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
+                    VenueId = null,
+                    CreatedAt = FakeDateTime.UtcNow
+                };
+                dto.Sections.Add(SectionDtoData.Accordion);
+                return dto;
+            }
+        }
+
+        public static AppointmentDto AuditionDays
+        {
+            get
+            {
+                var dto = new AppointmentDto
+                {
+                    Id = Guid.Parse("51d24e3b-d258-4855-bc5a-3c05fb661636"),
+                    CategoryId = Guid.Parse("e9c79ae9-5498-459d-8852-9f135da7afae"),
+                    SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
+                    SalaryPatternId = null,
+                    StartTime = new DateTime(2020, 11, 29, 8, 00, 00),
+                    EndTime = new DateTime(2020, 12, 2, 17, 00, 00),
+                    InternalDetails = null,
+                    PublicDetails = "Audition days for piccolo flutes",
+                    Name = "Audition days",
+                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    CreatedBy = "anonymous",
+                    ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
+                    VenueId = null,
+                    CreatedAt = FakeDateTime.UtcNow
+                };
+                dto.Sections.Add(SectionDtoData.PiccoloFlute);
+                return dto;
             }
         }
     }
