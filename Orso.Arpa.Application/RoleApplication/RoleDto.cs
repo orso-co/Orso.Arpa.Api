@@ -1,6 +1,5 @@
 using System;
 using AutoMapper;
-using Orso.Arpa.Application.Tranlation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Localization;
 
@@ -8,7 +7,6 @@ namespace Orso.Arpa.Application.RoleApplication
 {
     public class RoleDto
     {
-        [Translate]
         public Guid Id { get; set; }
         [Translate(nameof(RoleDto))]
         public string RoleName { get; set; }

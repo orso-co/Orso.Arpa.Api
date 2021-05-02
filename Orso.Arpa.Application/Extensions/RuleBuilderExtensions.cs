@@ -1,12 +1,11 @@
 using System;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 
 namespace Orso.Arpa.Application.Extensions
 {
     public static class RuleBuilderExtensions
     {
-        public static IRuleBuilder<T, string> Password<T>(this IRuleBuilder<T, string> ruleBuilder, IStringLocalizer localizer)
+        public static IRuleBuilder<T, string> Password<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder
                     .NotEmpty()
@@ -31,25 +30,13 @@ namespace Orso.Arpa.Application.Extensions
                 .ValidUri();
         }
 
-        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder, IStringLocalizer localizer)
+        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder
                 .MaximumLength(256)
                 .MinimumLength(4)
                 .Matches("^[a-zA-Z0-9]*$")
                 .WithMessage("Username may only contain alphanumeric characters");
-        }
-
-        /// <summary>
-        /// valid SEPA characters in DFÜ Abkommen (Deutsche Kreditwirtschaft)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ruleBuilder"></param>
-        public static IRuleBuilder<T, string> Sepa<T>(this IRuleBuilder<T, string> ruleBuilder)
-        {
-            return ruleBuilder
-                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
-                .WithMessage("A valid SEPA string may only contain alphanumeric, space and the following speacial characters: / ? : ( ) . , ' + -");
         }
 
         /// <summary>

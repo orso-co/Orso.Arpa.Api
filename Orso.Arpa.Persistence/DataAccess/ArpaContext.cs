@@ -6,11 +6,13 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Configurations;
@@ -223,19 +225,18 @@ namespace Orso.Arpa.Persistence.DataAccess
             ChangeTracker.Clear();
         }
 
+        public async Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
+        {
+            return await Set<TEntity>()
+                .AsQueryable()
+                .AnyAsync(entity => entity.Id == id, cancellationToken);
+        }
 
         public async Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class
         {
             return await Set<TEntity>()
                 .AsQueryable()
                 .AnyAsync(predicate, cancellationToken);
-        }
-
-        public async Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
-        {
-            return await Set<TEntity>()
-                .AsQueryable()
-                .AnyAsync(entity => entity.Id == id, cancellationToken);
         }
     }
 }

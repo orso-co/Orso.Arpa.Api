@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
@@ -24,7 +25,7 @@ namespace Orso.Arpa.Api.Middleware
 
         /// <summary>
         /// If the Response is an error message (StatusCode >= 400) than
-        /// dependent on the culture information the <see cref="ErrorMessage"/> is manipulated.
+        /// dependent on the culture information the <see cref="ValidationProblemDetails"/> is manipulated.
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/>.</param>
         /// <returns>A <see cref="Task"/> that completes when the middleware has completed processing.</returns>
@@ -47,18 +48,18 @@ namespace Orso.Arpa.Api.Middleware
                     memStream.Position = 0;
                     string responseBody = await new StreamReader(memStream).ReadToEndAsync();
 
-                    ErrorMessage serializedErrorMessage =
-                        JsonConvert.DeserializeObject<ErrorMessage>(responseBody);
+                    ValidationProblemDetails serializedErrorMessage =
+                        JsonConvert.DeserializeObject<ValidationProblemDetails>(responseBody);
 
                     if (serializedErrorMessage != null)
                     {
-                        serializedErrorMessage.description =
-                            serializedErrorMessage.description != null
-                                ? localizer[serializedErrorMessage.description]
+                        serializedErrorMessage.Detail =
+                            serializedErrorMessage.Detail != null
+                                ? localizer[serializedErrorMessage.Detail]
                                 : null;
 
-                        serializedErrorMessage.title = serializedErrorMessage.title != null
-                            ? localizer[serializedErrorMessage.title]
+                        serializedErrorMessage.Title = serializedErrorMessage.Title != null
+                            ? localizer[serializedErrorMessage.Title]
                             : null;
 
                         await using var streamWrite = new StreamWriter(originalBody);
@@ -82,7 +83,7 @@ namespace Orso.Arpa.Api.Middleware
         }
     }
 
-    public static partial class ApplicationBuilderExtensions
+    public static class ApplicationBuilderExtensions
     {
         /// <summary>
         /// Adds the <see cref="ErrorResponseLocalizationMiddleware"/> to replace error responses
