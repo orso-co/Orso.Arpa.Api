@@ -22,7 +22,7 @@ namespace Orso.Arpa.Domain.Logic.Me
             public string AboutMe { get; set; }
         }
 
-        public class MappingProfile : Profile
+        public class MappingProfile : AutoMapper.Profile
         {
             public MappingProfile()
             {

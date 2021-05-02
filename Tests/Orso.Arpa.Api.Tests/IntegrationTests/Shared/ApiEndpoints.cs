@@ -39,6 +39,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Get() => Users;
 
+            public static string GetById(Guid id) => $"{Users}/{id}";
+
             public static string Delete(string username) => $"{Users}/{username}";
         }
 

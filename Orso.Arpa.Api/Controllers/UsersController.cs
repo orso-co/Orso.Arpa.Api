@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -48,6 +49,20 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<IEnumerable<UserDto>> Get()
         {
             return await _userService.GetAsync();
+        }
+
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <returns>The queried user</returns>
+        /// <response code="200"></response>
+        [HttpGet("{id}")]
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<UserDto> GetById([FromRoute] Guid id)
+        {
+            return await _userService.GetByIdAsync(id);
         }
     }
 }

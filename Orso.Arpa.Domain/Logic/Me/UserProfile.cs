@@ -6,7 +6,7 @@ using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Me
 {
-    public static class Details
+    public static class UserProfile
     {
         public class Query : IRequest<User> { }
 

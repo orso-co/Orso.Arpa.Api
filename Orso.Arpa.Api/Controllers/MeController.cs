@@ -13,11 +13,11 @@ namespace Orso.Arpa.Api.Controllers
     [Route("api/users/me")]
     public class MeController : BaseController
     {
-        private readonly IUserService _userService;
+        private readonly IMeService _meService;
 
-        public MeController(IUserService userService)
+        public MeController(IMeService meService)
         {
-            _userService = userService;
+            _meService = meService;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<MyProfileDto>> GetMyProfile()
         {
-            return await _userService.GetProfileOfCurrentUserAsync();
+            return await _meService.GetMyProfileAsync();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> SendQrCode()
         {
-            QrCodeFile qrCode = await _userService.SendQrCodeAsync();
+            QrCodeFile qrCode = await _meService.SendMyQrCodeAsync();
             return File(qrCode.Content, QrCodeFile.ContentType, qrCode.FileName);
         }
 
@@ -59,7 +59,7 @@ namespace Orso.Arpa.Api.Controllers
             [FromQuery] int? limit,
             [FromQuery] int? offset)
         {
-            return Ok(await _userService.GetAppointmentsOfCurrentUserAsync(limit, offset));
+            return Ok(await _meService.GetMyAppointmentsAsync(limit, offset));
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> PutProfile([FromBody] MyProfileModifyDto userProfileModifyDto)
         {
-            await _userService.ModifyProfileOfCurrentUserAsync(userProfileModifyDto);
+            await _meService.ModifyMyProfileAsync(userProfileModifyDto);
             return NoContent();
         }
 
@@ -93,7 +93,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult> SetParticipationPrediction([FromRoute] SetMyProjectAppointmentPredictionDto setParticipationPrediction)
         {
-            await _userService.SetAppointmentParticipationPredictionAsync(setParticipationPrediction);
+            await _meService.SetMyAppointmentParticipationPredictionAsync(setParticipationPrediction);
             return NoContent();
         }
     }
