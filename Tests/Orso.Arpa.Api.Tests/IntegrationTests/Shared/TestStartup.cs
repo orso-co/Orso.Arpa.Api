@@ -29,7 +29,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
         }
 
-
         protected override void ConfigureDatabase(IServiceCollection services)
         {
             if (TestDatabase is null)

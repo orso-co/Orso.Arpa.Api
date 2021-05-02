@@ -1,15 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using Orso.Arpa.Domain;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Misc;
-using Orso.Arpa.Persistence.DataAccess;
 
 namespace Orso.Arpa.Application.Localization
 {
