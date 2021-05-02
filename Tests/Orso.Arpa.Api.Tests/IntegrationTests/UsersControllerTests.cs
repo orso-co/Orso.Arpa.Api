@@ -85,5 +85,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             result.Should().BeEquivalentTo(expectedDtos);
         }
+
+        [Test, Order(2)]
+        public async Task Should_Get_User_By_Id()
+        {
+            // Arrange
+            UserDto expectedDto = UserDtoData.LockedOutUser;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.UsersController.GetById(expectedDto.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            UserDto result = (await DeserializeResponseMessageAsync<UserDto>(responseMessage));
+
+            result.Should().BeEquivalentTo(expectedDto);
+        }
     }
 }

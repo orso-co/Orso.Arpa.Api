@@ -29,6 +29,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 var user = new UserDto
                 {
+                    Id = Guid.Parse("6F836C0E-E27D-4363-A67A-9DA92037A589"),
                     UserName = "performer",
                     RoleNames = new[] { "Performer" },
                     DisplayName = "Per Former",
@@ -47,6 +48,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UserDto
                 {
+                    Id = Guid.Parse("DD0AA267-120E-4BD6-B6EB-02814C227E15"),
                     UserName = "staff",
                     RoleNames = new[] { "Staff" },
                     DisplayName = "Staff Member",
@@ -63,6 +65,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UserDto
                 {
+                    Id = Guid.Parse("b9ba1467-ad6f-40e5-a0c6-f482393b7feb"),
                     UserName = "admin",
                     RoleNames = new[] { "Admin" },
                     DisplayName = "Initial Admin",
@@ -79,6 +82,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UserDto
                 {
+                    Id = Guid.Parse("9E96F67D-6972-4889-BB64-6BCEED23D095"),
                     UserName = "withoutrole",
                     RoleNames = Array.Empty<string>(),
                     DisplayName = "Without Role",
@@ -95,6 +99,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UserDto
                 {
+                    Id = Guid.Parse("b1571de4-bdf4-4c98-8a63-4f72428e36af"),
                     UserName = "lockedout",
                     RoleNames = Array.Empty<string>(),
                     DisplayName = "LockedOut User",
@@ -111,6 +116,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new UserDto
                 {
+                    Id = Guid.Parse("a53b7c43-3168-4f9b-a643-29a12f114aa6"),
                     UserName = "unconfirmed",
                     RoleNames = Array.Empty<string>(),
                     DisplayName = "Unconfirmed User",
