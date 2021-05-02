@@ -6,6 +6,7 @@ using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using TranslationSeedData = Orso.Arpa.Tests.Shared.TestSeedData.TranslationSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
