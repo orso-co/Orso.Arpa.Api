@@ -48,11 +48,11 @@ namespace Orso.Arpa.Api.Middleware
                     memStream.Position = 0;
                     string responseBody = await new StreamReader(memStream).ReadToEndAsync();
 
-                    ValidationProblemDetails deserializedErrorMessage =
-                        JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
+                    try {
+                        ValidationProblemDetails deserializedErrorMessage =
+                            JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
 
-                    if (deserializedErrorMessage != null)
-                    {
+
                         deserializedErrorMessage.Detail =
                             deserializedErrorMessage.Detail != null
                                 ? localizer[deserializedErrorMessage.Detail]
@@ -67,7 +67,7 @@ namespace Orso.Arpa.Api.Middleware
                         await streamWrite.WriteAsync(
                             JsonSerializer.Serialize(deserializedErrorMessage));
                     }
-                    else
+                    catch (Exception e)
                     {
                         memStream.Position = 0;
                         await memStream.CopyToAsync(originalBody);
