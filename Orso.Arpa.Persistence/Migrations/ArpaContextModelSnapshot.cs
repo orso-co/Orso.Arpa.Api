@@ -4626,7 +4626,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Key = "EndTime must be later than StartTime",
                             LocalizationCulture = "de,de-DE",
-                            ResourceKey = "ApplicationResource",
+                            ResourceKey = "Validator",
                             Text = "Endzeit muss später Startzeit sein"
                         },
                         new
@@ -4636,7 +4636,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Key = "Password must be at least 6 characters",
                             LocalizationCulture = "de,de-DE",
-                            ResourceKey = "ApplicationResource",
+                            ResourceKey = "Validator",
                             Text = "Das Passwort muss mindestens 6 Zeichen enthalten"
                         },
                         new

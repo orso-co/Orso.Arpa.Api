@@ -57,7 +57,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Count().Should().Be(3);
 
             AuditLogDto auditLog = result.Last();               // this should be the create command as the oldest entry
-            auditLog.Type.Should().Be(AuditLogType.Update);     // cannot test this here, because sort order does not work due to test seed data being all created at FakeDateTime.UtcNow which all have the time 00:00:00
+            auditLog.Type.Should().Be(AuditLogType.Create);     // cannot test this here, because sort order does not work due to test seed data being all created at FakeDateTime.UtcNow which all have the time 00:00:00
             auditLog.NewValues.Count.Should().BeGreaterThan(0); // prove that mapping dictionaries work
         }
 
