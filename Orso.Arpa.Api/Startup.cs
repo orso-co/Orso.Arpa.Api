@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -344,6 +343,7 @@ namespace Orso.Arpa.Api
             app.UseErrorResponseLocalizationMiddleware();
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
+
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
             app.UseStaticFiles();

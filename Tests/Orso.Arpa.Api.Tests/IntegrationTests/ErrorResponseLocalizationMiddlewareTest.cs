@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
@@ -23,9 +24,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
-            ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
+            ValidationProblemDetails errorMessage = JsonConvert.DeserializeObject<ValidationProblemDetails>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
 
         [Test, Order(2)]
@@ -38,9 +39,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
-            ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
+            ValidationProblemDetails errorMessage = JsonConvert.DeserializeObject<ValidationProblemDetails>(errorResponse);
 
-            errorMessage.Description.Should().Be("Bitte melde dich erneut an");
+            errorMessage.Title.Should().Be("Bitte melde dich erneut an");
         }
 
         [Test, Order(3)]
@@ -53,9 +54,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
-            ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
+            ValidationProblemDetails errorMessage = JsonConvert.DeserializeObject<ValidationProblemDetails>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
 
         [Test, Order(4)]
@@ -71,9 +72,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
-            ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
+            ValidationProblemDetails errorMessage = JsonConvert.DeserializeObject<ValidationProblemDetails>(errorResponse);
 
-            errorMessage.Description.Should().Be("Bitte melde dich erneut an");
+            errorMessage.Title.Should().Be("Bitte melde dich erneut an");
         }
 
         [Test, Order(5)]
@@ -89,9 +90,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
-            ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
+            ValidationProblemDetails errorMessage = JsonConvert.DeserializeObject<ValidationProblemDetails>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
 
         [Test, Order(6)]
@@ -107,9 +108,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
-            ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
+            ValidationProblemDetails errorMessage = JsonConvert.DeserializeObject<ValidationProblemDetails>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
 
         [Test, Order(7)]
@@ -125,21 +126,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
-            ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
+            ValidationProblemDetails errorMessage = JsonConvert.DeserializeObject<ValidationProblemDetails>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
     }
 
-    internal class ErrorMessage
-    {
-        public string Title { get; set; } = null;
-
-        public string Description { get; set; } = null;
-
-        public int Status { get; set; }
-
-        public Dictionary<string, string[]> errors = new Dictionary<string, string[]>();
-
-    }
 }
