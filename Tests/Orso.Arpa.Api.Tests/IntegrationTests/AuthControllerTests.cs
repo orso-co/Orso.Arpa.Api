@@ -312,7 +312,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
-            errorMessage.Title.Should().Be("Invalid token supplied");
+            errorMessage.Title.Should().Be("Please try to login again");
             errorMessage.Detail.Should().Be("This request requires a valid JWT access token to be provided");
             errorMessage.Status.Should().Be(401);
         }
