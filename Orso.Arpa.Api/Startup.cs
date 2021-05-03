@@ -114,7 +114,6 @@ namespace Orso.Arpa.Api
             ConfigureAuthentication(services);
 
             ConfigureAuthorization(services);
-
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
@@ -126,14 +125,14 @@ namespace Orso.Arpa.Api
             services.AddSingleton<ArpaContext.CallBack<Translation>>(_ => lz.CallBack);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
+            services.AddLocalization();
+
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 options.SetDefaultCulture("en-GB");
                 options.AddSupportedUICultures("en", "en-GB", "de", "de-DE");
                 options.FallBackToParentCultures = true;
             });
-
-            services.AddLocalization();
         }
 
 
@@ -365,11 +364,11 @@ namespace Orso.Arpa.Api
 
             AddSwagger(app);
 
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
+
             EnsureDatabaseMigrations(app);
 
             PreloadTranslationsFromDb(app);
-
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 
         private static void AddSwagger(IApplicationBuilder app)
