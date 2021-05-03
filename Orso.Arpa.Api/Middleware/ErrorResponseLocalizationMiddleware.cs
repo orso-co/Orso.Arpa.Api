@@ -1,12 +1,12 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 
 namespace Orso.Arpa.Api.Middleware
 {
@@ -48,23 +48,24 @@ namespace Orso.Arpa.Api.Middleware
                     memStream.Position = 0;
                     string responseBody = await new StreamReader(memStream).ReadToEndAsync();
 
-                    ValidationProblemDetails serializedErrorMessage =
-                        JsonConvert.DeserializeObject<ValidationProblemDetails>(responseBody);
+                    ValidationProblemDetails deserializedErrorMessage =
+                        JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
 
-                    if (serializedErrorMessage != null)
+                    if (deserializedErrorMessage != null)
                     {
-                        serializedErrorMessage.Detail =
-                            serializedErrorMessage.Detail != null
-                                ? localizer[serializedErrorMessage.Detail]
+                        deserializedErrorMessage.Detail =
+                            deserializedErrorMessage.Detail != null
+                                ? localizer[deserializedErrorMessage.Detail]
                                 : null;
 
-                        serializedErrorMessage.Title = serializedErrorMessage.Title != null
-                            ? localizer[serializedErrorMessage.Title]
+                        deserializedErrorMessage.Title = deserializedErrorMessage.Title != null
+                            ? localizer[deserializedErrorMessage.Title]
                             : null;
 
                         await using var streamWrite = new StreamWriter(originalBody);
+
                         await streamWrite.WriteAsync(
-                            JsonConvert.SerializeObject(serializedErrorMessage));
+                            JsonSerializer.Serialize(deserializedErrorMessage));
                     }
                     else
                     {
