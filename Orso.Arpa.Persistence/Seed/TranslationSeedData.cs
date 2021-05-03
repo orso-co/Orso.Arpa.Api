@@ -41,7 +41,7 @@ namespace Orso.Arpa.Persistence.Seed
             "EndTime must be later than StartTime",
             "Endzeit muss später Startzeit sein",
             "de,de-DE",
-            "ApplicationResource"
+            "Validator"
         );
 
         private static Translation PasswordMinLenght_de_DE = new(
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Persistence.Seed
             "Password must be at least 6 characters",
             "Das Passwort muss mindestens 6 Zeichen enthalten",
             "de,de-DE",
-            "ApplicationResource"
+            "Validator"
         );
 
         private static Translation PasswordUpperCase_de_DE = new(
