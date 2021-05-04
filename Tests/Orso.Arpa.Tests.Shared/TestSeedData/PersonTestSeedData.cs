@@ -19,7 +19,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     UserWithoutRole,
                     DeletedUser,
                     LockedOutUser,
-                    UnconfirmedUser
+                    UnconfirmedUser,
+                    TrombonistAndEuphoniumPlayer,
                 };
             }
         }
@@ -86,6 +87,24 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new Person(
                     Guid.Parse("0bf0bd72-abda-458b-a783-403b8ba51850"),
                     new UserRegister.Command { GivenName = "Unconfirmed", Surname = "User" });
+            }
+        }
+        public static Person TrombonistAndEuphoniumPlayer
+        {
+            get
+            {
+                var person = new Person(
+                    Guid.Parse("f2dd46e6-602f-43ad-8fe4-e92227e2b993"),
+                    new UserRegister.Command { GivenName = "Trom", Surname = "Bone" });
+                person.StakeholderGroups.Add(new PersonSection(
+                    Guid.Parse("1449c5c2-74c1-490b-afa9-b53fa51bb978"),
+                    person.Id,
+                    SectionSeedData.Trombone.Id));
+                person.StakeholderGroups.Add(new PersonSection(
+                    Guid.Parse("d8b54521-9026-48a0-add0-04db63b9f63e"),
+                    person.Id,
+                    SectionSeedData.Euphonium.Id));
+                return person;
             }
         }
     }

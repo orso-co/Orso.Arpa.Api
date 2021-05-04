@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 using Orso.Arpa.Persistence.Seed;
-using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -20,7 +19,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     StaffMusicianProfile2,
                     AdminMusicianProfile1,
                     AdminMusicianProfile2,
-                    UserWithoutRoleMusicianProfile
+                    UserWithoutRoleMusicianProfile,
+                    Trombonist,
                 };
             }
         }
@@ -29,13 +29,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var musicianProfile = new MusicianProfile(Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"), new Create.Command
+                return new MusicianProfile(Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"), new Create.Command
                 {
                     PersonId = PersonTestSeedData.Performer.Id,
-                    InstrumentId = SectionSeedData.Alto1.Id
+                    InstrumentId = SectionSeedData.Alto1.Id,
                 });
-                musicianProfile.SetProperty(nameof(MusicianProfile.QualificationId), SelectValueMappingSeedData.MusicianProfileQualificationMappings[0].Id);
-                return musicianProfile;
             }
         }
 
@@ -95,6 +93,31 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     PersonId = PersonTestSeedData.UserWithoutRole.Id,
                     InstrumentId = SectionSeedData.Bass1.Id
+                });
+            }
+        }
+
+        public static MusicianProfile Trombonist
+        {
+            get
+            {
+                return new MusicianProfile(Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"), new Create.Command
+                {
+                    PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
+                    LevelAssessmentPerformer = 1,
+                    LevelAssessmentStaff = 2,
+                    ProfilePreferencePerformer = 3,
+                    ProfilePreferenceStaff = 4,
+                    IsMainProfile = true,
+                    Background = "Trombonist background description",
+                    ExperienceLevel = 5,
+                    SalaryComment = "Salary only via PayPal, other payments not accepted",
+
+                    InstrumentId = SectionSeedData.Trombone.Id,
+                    QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
+                    SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
+                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
+                    InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
                 });
             }
         }

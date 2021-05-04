@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Not_Existing_ProjectId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.ProjectId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
         }
     }
 }
