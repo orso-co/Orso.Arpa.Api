@@ -1,0 +1,34 @@
+{
+    "Validator": {
+        "Invalid token supplied": "Ungültiges Token angegeben",
+        "EndTime must be later than StartTime": "Endzeit muss später Startzeit sein",
+        "Password must be at least 6 characters": "Das Passwort muss mindestens 6 Zeichen enthalten",
+        "Password must contain at least one uppercase letter": "Das Passwort muss mindestens einen Großbuchstaben enthalten",
+        "Password must contain at least one lowercase letter": "Das Passwort muss mindestens einen Kleinbuchstaben enthalten",
+        "Password must contain at least one digit": "Das Passwort muss mindestens eine Zahl enthalten",
+        "Password must contain at least one special character": "Das Passwort muss mindestens ein Sonderzeichen enthalten",
+        "Username may only contain alphanumeric characters": "Der Benutzername darf nur alphanumerische Zeichen enthalten",
+        "The project is already linked to the appointment": "Das Projekt ist bereits dem Termin zugeordnet",
+        "The room is already linked to the appointment": "Der Raum ist bereits dem Termin zugeordnet",
+        "The section is already linked to the Appointment": "Die Sektion ist bereits dem Termin zugeordnet",
+        "The project is not linked to the appointment": "Das Projekt ist dem Termin nicht zugeordnet",
+        "The room is not linked to the appointment": "Der Raum ist dem Termin nicht zugeordnet",
+        "The section is not linked to the Appointment": "Die Sektion ist dem Termin nicht zugeordnet",
+        "Incorrect password supplied": "Inkorrektes Passwort angegeben",
+        "The user could not be found": "Der Benutzer konnte nicht gefunden werden",
+        "Your email address is not confirmed. Please confirm your email address first": "Deine Email wurde noch nicht bestätigt. Bitte bestätige zuerst deine Email",
+        "Your account is locked. Kindly wait for 10 minutes and try again": "Dein Konto wurde gesperrt. Bitte warte 10 Minuten und versuche es anschließend erneut",
+        "Username already exists": "Der Benutzername existiert bereits",
+        "Email already exists": "Die Email existiert bereits",
+        "A region with the requested name does already exist": "Eine Region mit diesem Namen existiert bereits"
+    },
+    "SectionDto": {
+        "Performers": "Künstler",
+        "Orchestra": "Orchester",
+        "Members": "Mitglieder",
+        "Visitors": "Besucher",
+        "Volunteers": "Freiwillige",
+        "Suppliers": "Zulieferer",
+        "Contractors": "Auftragnehmer"
+    }
+}

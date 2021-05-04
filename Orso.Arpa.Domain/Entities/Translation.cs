@@ -5,7 +5,6 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Translation : BaseEntity
     {
-
         public Translation(Guid? id, string key, string text, string localizationCulture, string resourceKey) : base(id)
         {
             Key = key;
@@ -14,8 +13,7 @@ namespace Orso.Arpa.Domain.Entities
             ResourceKey = resourceKey;
         }
 
-        [JsonConstructor]
-        protected Translation()
+        public Translation() : base(null)
         {
 
         }
@@ -27,6 +25,7 @@ namespace Orso.Arpa.Domain.Entities
         public string LocalizationCulture { get; set; }
 
         public string ResourceKey { get; set; }
+
     }
 
 }
