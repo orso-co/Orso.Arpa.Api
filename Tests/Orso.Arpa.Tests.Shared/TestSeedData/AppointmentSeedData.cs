@@ -19,7 +19,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     RockingXMasConcert,
                     AfterShowParty,
                     StaffMeeting,
-                    PhotoSession
+                    PhotoSession,
+                    RehearsalWeekend,
+                    AuditionDays
                 };
             }
         }
@@ -171,6 +173,66 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
                     }
                 );
+            }
+        }
+
+        public static Appointment RehearsalWeekend
+        {
+            get
+            {
+                var id = Guid.Parse("f14e47d8-110f-4346-87d2-9a9bc0e2120c");
+                var appointment = new Appointment
+                (
+                    id,
+                    new Create.Command
+                    {
+                        CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
+                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
+                        SalaryPatternId = null,
+                        EndTime = new DateTime(2019, 12, 24, 16, 00, 00),
+                        StartTime = new DateTime(2019, 12, 20, 15, 00, 00),
+                        PublicDetails = "Accordion rehearsal weekend",
+                        InternalDetails = null,
+                        Name = "Rehearsal weekend",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
+                    }
+                );
+                appointment.SectionAppointments.Add(new SectionAppointment(
+                    Guid.Parse("460792f7-2055-4885-b180-d3cde690a1bf"),
+                    SectionSeedData.Accordion.Id,
+                    id));
+                return appointment;
+            }
+        }
+
+        public static Appointment AuditionDays
+        {
+            get
+            {
+                var id = Guid.Parse("51d24e3b-d258-4855-bc5a-3c05fb661636");
+                var appointment = new Appointment
+                (
+                    id,
+                    new Create.Command
+                    {
+                        CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
+                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
+                        SalaryPatternId = null,
+                        StartTime = new DateTime(2020, 11, 29, 8, 00, 00),
+                        EndTime = new DateTime(2020, 12, 2, 17, 00, 00),
+                        PublicDetails = "Audition days for piccolo flutes",
+                        InternalDetails = null,
+                        Name = "Audition days",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
+                    }
+                );
+                appointment.SectionAppointments.Add(new SectionAppointment(
+                    Guid.Parse("bbc705d7-a63a-42a1-832c-b006db483d43"),
+                    SectionSeedData.PiccoloFlute.Id,
+                    id));
+                return appointment;
             }
         }
     }

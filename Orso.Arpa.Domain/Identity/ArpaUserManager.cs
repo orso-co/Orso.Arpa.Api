@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Orso.Arpa.Domain.Entities;
@@ -43,6 +45,11 @@ namespace Orso.Arpa.Domain.Identity
                 return await FindByEmailAsync(usernameOrEmail);
             }
             return await FindByNameAsync(usernameOrEmail);
+        }
+
+        public virtual Task<User> FindByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return Users.SingleOrDefaultAsync(u => u.Id.Equals(id), cancellationToken);
         }
     }
 }

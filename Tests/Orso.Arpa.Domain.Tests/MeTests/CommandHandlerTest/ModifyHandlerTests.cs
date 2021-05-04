@@ -12,7 +12,7 @@ using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
-namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
+namespace Orso.Arpa.Domain.Tests.MeTests.CommandHandlerTest
 {
     [TestFixture]
     public class ModifyHandlerTests

@@ -52,10 +52,13 @@ namespace Orso.Arpa.Application.Services
         {
             date ??= DateTime.Today;
 
+            DateTime rangeStartTime = DateHelper.GetStartTime(date.Value, range);
+            DateTime rangeEndTime = DateHelper.GetEndTime(date.Value, range);
+
             IQueryable<Appointment> entities = await _mediator.Send(new List.Query<Appointment>(
                 predicate: a =>
-                    a.StartTime >= DateHelper.GetStartTime(date.Value, range)
-                    && a.StartTime <= DateHelper.GetEndTime(date.Value, range),
+                    a.EndTime <= rangeEndTime && a.EndTime >= rangeStartTime
+                    || a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime,
                 asSplitQuery: true));
 
             var dtoList = new List<AppointmentDto>();

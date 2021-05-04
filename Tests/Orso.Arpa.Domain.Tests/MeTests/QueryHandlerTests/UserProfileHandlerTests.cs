@@ -8,19 +8,19 @@ using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Tests.Shared.FakeData;
 
-namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
+namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
 {
     [TestFixture]
-    public class CurrentUserHandlerTests
+    public class UserProfileHandlerTests
     {
         private IUserAccessor _userAccessor;
-        private Details.Handler _handler;
+        private UserProfile.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _userAccessor = Substitute.For<IUserAccessor>();
-            _handler = new Details.Handler(_userAccessor);
+            _handler = new UserProfile.Handler(_userAccessor);
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
             _userAccessor.GetCurrentUserAsync().Returns(user);
 
             // Act
-            User result = await _handler.Handle(new Details.Query(), new CancellationToken());
+            User result = await _handler.Handle(new UserProfile.Query(), new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(user);

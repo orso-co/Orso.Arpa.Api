@@ -12,14 +12,14 @@ namespace Orso.Arpa.Persistence.Configurations
 
             builder
                 .HasOne(e => e.SelectValueMapping)
-                .WithMany(r => r.AvailableDocumentStatus)
+                .WithMany(r => r.AvailableDocuments)
                 .HasForeignKey(e => e.SelectValueMappingId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 
             builder
                 .HasOne(e => e.MusicianProfile)
-                .WithMany(r => r.AvailableDocumentStatus)
+                .WithMany(r => r.AvailableDocuments)
                 .HasForeignKey(e => e.MusicianProfileId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);

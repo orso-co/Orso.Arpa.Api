@@ -58,13 +58,16 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<MusicianProfile> MusicianProfilesAsSalary { get; private set; }
             = new HashSet<MusicianProfile>();
 
-        public virtual ICollection<MusicianProfile> MusicianProfilesAsInquery { get; private set; }
+        public virtual ICollection<MusicianProfile> MusicianProfilesAsInquiryStatusPerformer { get; private set; }
+            = new HashSet<MusicianProfile>();
+
+        public virtual ICollection<MusicianProfile> MusicianProfilesAsInquiryStatusStaff { get; private set; }
             = new HashSet<MusicianProfile>();
 
         public virtual ICollection<PreferredGenre> PreferredGenres { get; private set; }
             = new HashSet<PreferredGenre>();
 
-        public virtual ICollection<AvailableDocument> AvailableDocumentStatus { get; private set; }
+        public virtual ICollection<AvailableDocument> AvailableDocuments { get; private set; }
             = new HashSet<AvailableDocument>();
 
         public virtual ICollection<Audition> AuditionsAsStatus { get; private set; }

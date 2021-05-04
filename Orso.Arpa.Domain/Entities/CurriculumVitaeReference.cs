@@ -4,14 +4,14 @@ using System.Text.Json.Serialization;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class Credential : BaseEntity
+    public class CurriculumVitaeReference : BaseEntity
     {
-        internal Credential(Guid? id) : base(id)
+        internal CurriculumVitaeReference(Guid? id) : base(id)
         {
         }
 
         [JsonConstructor]
-        protected Credential()
+        protected CurriculumVitaeReference()
         {
         }
 
@@ -21,6 +21,6 @@ namespace Orso.Arpa.Domain.Entities
         public string Details { get; private set; }
         public byte SortOrder { get; private set; }
 
-        public virtual ICollection<MusicianProfileCredential> MusicianProfileCredentials { get; private set; } = new HashSet<MusicianProfileCredential>();
+        public virtual ICollection<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; private set; } = new HashSet<MusicianProfileCurriculumVitaeReference>();
     }
 }

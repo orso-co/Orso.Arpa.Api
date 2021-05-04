@@ -33,15 +33,15 @@ namespace Orso.Arpa.Persistence.Configurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasOne(e => e.Inquery)
-                .WithMany(c => c.MusicianProfilesAsInquery)
-                .HasForeignKey(e => e.InqueryId)
+                .HasOne(e => e.InquiryStatusPerformer)
+                .WithMany(c => c.MusicianProfilesAsInquiryStatusPerformer)
+                .HasForeignKey(e => e.InquiryStatusPerformerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasOne(e => e.PreferredPosition)
-                .WithMany(p => p.MusicianProfiles)
-                .HasForeignKey(e => e.PreferredPositionId)
+                .HasOne(e => e.InquiryStatusStaff)
+                .WithMany(c => c.MusicianProfilesAsInquiryStatusStaff)
+                .HasForeignKey(e => e.InquiryStatusStaffId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
