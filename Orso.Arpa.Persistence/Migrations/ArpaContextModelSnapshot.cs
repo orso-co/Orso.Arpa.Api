@@ -4741,7 +4741,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("93eaa20b-649a-4549-a673-bee9c09526e5"),
+                            Id = new Guid("118f341d-daed-4469-ba5b-d200c6c06f4a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Invalid Token supplied",
@@ -4751,17 +4751,17 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7431c854-2c92-4d58-8c7d-da5b54d0a034"),
+                            Id = new Guid("882df0ec-bc0b-4b16-92cd-1db9a6a6361c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Invalid token supplied",
                             LocalizationCulture = "de,de-DE",
                             ResourceKey = "Validator",
-                            Text = "Ungültiges Token angegeben"
+                            Text = "Ungültiges Token agegeben"
                         },
                         new
                         {
-                            Id = new Guid("a7fa6ef8-14de-49e8-be75-e0951e50be65"),
+                            Id = new Guid("843e9f09-cd17-4f7c-a022-686b779fa416"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "EndTime must be later than StartTime",
@@ -4771,7 +4771,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c6a5d0df-432a-49ba-8bba-b325a213340c"),
+                            Id = new Guid("75199bd2-a2c7-4777-9052-aef07ce2eed3"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Password must be at least 6 characters",
@@ -4781,7 +4781,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d3a32722-5986-42aa-a340-d4dc0cc612e2"),
+                            Id = new Guid("15244dbb-4c0b-4285-8893-3d1361674e70"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Password must contain at least one uppercase letter",
@@ -4791,7 +4791,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("74e7b16e-2852-4cd6-acd6-3ea2d59c9e44"),
+                            Id = new Guid("f8c177a4-91f3-4651-92cb-ceefe69f1bd6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Password must contain at least one lowercase letter",
@@ -4801,7 +4801,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e1c07f9f-401d-47f4-93c7-fd1c4406e585"),
+                            Id = new Guid("f6e3cf69-aec4-4125-ba20-fad1aff89824"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Password must contain at least one digit",
@@ -4811,7 +4811,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("32211140-a3c7-42d2-a42f-0691b05537a9"),
+                            Id = new Guid("c6350566-90f0-4734-aabd-b8f8d779c98f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Password must contain at least one special character",
@@ -4821,7 +4821,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2fe30026-5ed6-45ba-b2e1-bada800d6ee9"),
+                            Id = new Guid("e2d4f1b8-2c31-4e77-8b4f-475b660212aa"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Username may only contain alphanumeric characters",
@@ -4831,7 +4831,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9bc920e6-dd3f-4d6d-806c-486e11539ebc"),
+                            Id = new Guid("e6a38f1d-0974-4351-ac1a-595f115a0a57"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "The project is already linked to the appointment",
@@ -4841,7 +4841,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7bd0accf-74fc-49db-902e-4070284ccbef"),
+                            Id = new Guid("0cc67d40-58b7-48ba-b23c-3773f865c5bb"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "The room is already linked to the appointment",
@@ -4851,7 +4851,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("969f1726-3b5c-4f0d-be74-d59071fc1433"),
+                            Id = new Guid("284767aa-78f7-4062-abc3-4f79eeaa4be0"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "The section is already linked to the Appointment",
@@ -4861,7 +4861,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d74692c4-260e-4fc6-aa18-2044107a4d07"),
+                            Id = new Guid("b94bddd7-996b-431c-bc0e-d4e2e7950c0d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "The project is not linked to the appointment",
@@ -4871,7 +4871,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6fb9b085-ddc9-4546-a8a9-cf0e22c640cc"),
+                            Id = new Guid("468fb69a-42df-4bd5-913b-536cd9e5d48a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "The room is not linked to the appointment",
@@ -4881,7 +4881,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6c06eaf0-3b3a-4248-9614-f639ef3988fa"),
+                            Id = new Guid("295b2816-d2fa-4752-8ca2-23fb3d73a404"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "The section is not linked to the Appointment",
@@ -4891,7 +4891,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5f41473c-d8bf-49dd-9d37-96d98d92233b"),
+                            Id = new Guid("190e83f8-55ef-46af-a5d0-60b751a3801f"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Incorrect password supplied",
@@ -4901,7 +4901,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c6b8fce9-6ff3-4287-97cd-fd424955bdd9"),
+                            Id = new Guid("184aced7-dabf-4a33-be75-ab2712090e5a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "The user could not be found",
@@ -4911,7 +4911,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dc843e1b-5d16-40c0-847a-c998937fbad8"),
+                            Id = new Guid("1f782b84-bb22-40a4-8d05-6945997711b7"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Your email address is not confirmed. Please confirm your email address first",
@@ -4921,7 +4921,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("013c708f-a202-4d86-be45-91915f43e6d1"),
+                            Id = new Guid("fe8f9371-2143-4e07-832c-dbac93102901"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Your account is locked. Kindly wait for 10 minutes and try again",
@@ -4931,7 +4931,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a3176c10-b577-4059-b6cc-ea69b8d63ff7"),
+                            Id = new Guid("0b0f9815-9a65-4209-839f-0cffa0d5a1ad"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Username already exists",
@@ -4941,7 +4941,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("db19aa8b-0e2e-4b50-af77-22b668740fa2"),
+                            Id = new Guid("08f8d37c-33a3-48f7-9ecd-946b6db7d113"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Email already exists",
@@ -4951,7 +4951,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b6e10cbc-ce63-4f50-b367-d9dc072b4e7e"),
+                            Id = new Guid("e257e659-3636-4050-936c-64882ca98c74"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "A region with the requested name does already exist",
@@ -4961,7 +4961,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("44fc6e39-b2aa-47e9-88f9-d9467d3683b7"),
+                            Id = new Guid("9c53fe16-740e-4adb-bb1b-680bfb13e953"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Performers",
@@ -4971,7 +4971,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e32a60b7-1522-4de3-88b7-92064d9b93af"),
+                            Id = new Guid("a9e22452-7bf0-4e44-a461-633b6e0ca9ca"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Orchestra",
@@ -4981,7 +4981,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("278b4094-ab9f-4cf7-b66e-f0fc07bc303b"),
+                            Id = new Guid("a5afa0e6-5f75-4447-83bc-081389af5ba4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Members",
@@ -4991,7 +4991,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c8a8d3a0-feae-410e-a5ab-f5df89d85cb6"),
+                            Id = new Guid("99d2dad6-7d49-4554-badb-629275f9628b"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Visitors",
@@ -5001,7 +5001,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ac309598-2b51-4a19-a553-b4931b5e7ee7"),
+                            Id = new Guid("53c17927-088f-4a82-b3a7-38620be329b4"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Volunteers",
@@ -5011,7 +5011,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bfaa4523-d490-400c-9ae5-d97954181ada"),
+                            Id = new Guid("f0ba8d0b-0385-441b-a49e-2b61d5e3aeae"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Suppliers",
@@ -5021,13 +5021,23 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("23ec7f03-aac0-4c6c-818b-f77f234766cc"),
+                            Id = new Guid("12addddc-cc71-43aa-b740-c05d23a85831"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Key = "Contractors",
                             LocalizationCulture = "de,de-DE",
                             ResourceKey = "SectionDto",
                             Text = "Auftragnehmer"
+                        },
+                        new
+                        {
+                            Id = new Guid("0be0c194-82f9-4015-904f-062e9762af13"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Key = "This request requires a valid JWT access token to be provided",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Diese Anfrage erfordert einen gültigen JWT Token"
                         });
                 });
 
