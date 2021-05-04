@@ -172,5 +172,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Get(Guid entityId, int? skip, int? take) => $"{AuditLogs}?entityid={entityId}&skip={skip}&take={take}";
         }
+
+        public static class MusicianProfilesController
+        {
+            private static string MusicianProfiles => $"{Base}/profile/musicians";
+
+            public static string Post() => MusicianProfiles;
+
+            public static string Put(Guid id) => $"{MusicianProfiles}/{id}";
+
+            public static string Get(Guid id) => $"{MusicianProfiles}/{id}";
+
+            public static string Delete(Guid id) => $"{MusicianProfiles}/{id}";
+        }
     }
 }
