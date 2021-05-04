@@ -52,7 +52,6 @@ namespace Orso.Arpa.Api.Middleware
                         ValidationProblemDetails deserializedErrorMessage =
                             JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
 
-
                         deserializedErrorMessage.Detail =
                             deserializedErrorMessage.Detail != null
                                 ? localizer[deserializedErrorMessage.Detail]
@@ -67,7 +66,7 @@ namespace Orso.Arpa.Api.Middleware
                         await streamWrite.WriteAsync(
                             JsonSerializer.Serialize(deserializedErrorMessage));
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         memStream.Position = 0;
                         await memStream.CopyToAsync(originalBody);
