@@ -58,10 +58,9 @@ namespace Orso.Arpa.Persistence.Seed
 
                     deDeMerge.ForAll(e => result.Add(e));
 
-                } catch (DirectoryNotFoundException e)
+                } catch (DirectoryNotFoundException)
                 {
                     Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
-                    throw;
                 }
 
                 return result;
