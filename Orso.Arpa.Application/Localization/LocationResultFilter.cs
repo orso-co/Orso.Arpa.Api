@@ -56,9 +56,7 @@ namespace Orso.Arpa.Application.Localization
             jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
             if (contentValueType!.FullName!.StartsWith(
-                "Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable") ||
-                contentValueType!.FullName!.StartsWith(
-                "System.Collections.Generic.List"))
+                "Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable"))
             {
 
                 obj = (object)JsonSerializer.Deserialize(json,
