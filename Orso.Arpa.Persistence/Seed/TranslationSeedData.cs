@@ -86,7 +86,42 @@ namespace Orso.Arpa.Persistence.Seed
 
         private static IList<Translation> ParseArpaTranslations(string json)
         {
-            return JsonSerializer.Deserialize<IList<Translation>>(json);
+            // Don't even try this: >> JsonSerializer.Deserialize<List<Translation>>(json) <<
+            IList<Translation> translations = new List<Translation>();
+
+            var jsonDocument = JsonDocument.Parse(json);
+            JsonElement rootElement = jsonDocument.RootElement;
+            rootElement.EnumerateArray().ForAll(t =>
+            {
+                string key = t.TryGetProperty("Key", out JsonElement element) ? element.GetString() : null;
+                string text = t.TryGetProperty("Text", out element) ? element.GetString() : null;
+                string localizationCulture = t.TryGetProperty("LocalizationCulture", out element)
+                    ? element.GetString()
+                    : null;
+                string resourceKey = t.TryGetProperty("ResourceKey", out element)
+                    ? element.GetString()
+                    : null;
+                Guid id = t.TryGetProperty("Id", out element) ? element.GetGuid() : Guid.Empty;
+                string createdBy = t.TryGetProperty("CreatedBy", out element) ? element.GetString() : null;
+                DateTime createdAt = t.TryGetProperty("CreatedAt", out element)
+                    ? (element.TryGetDateTime(out DateTime cdt) ? cdt : DateTime.Now)
+                    : DateTime.Now;
+                string modifiedBy = t.TryGetProperty("ModifiedBy", out element)
+                    ? element.GetString()
+                    : null;
+                DateTime? modifiedAt = t.TryGetProperty("ModifiedAt", out element)
+                        ? (element.GetString() == null ? null
+                    : element.TryGetDateTime(out DateTime mdt) ? mdt : null)
+                    : null;
+                bool deleted = t.TryGetProperty("Deleted", out element) && element.GetBoolean();
+
+                translations.Add(new Translation(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted));
+            });
+            return translations;
+        }
+
+        private class DataTime
+        {
         }
 
         private static IList<Translation> MergeBabelToArpa(IList<Translation> babel,
@@ -94,23 +129,51 @@ namespace Orso.Arpa.Persistence.Seed
         {
             IList<Translation> result = new List<Translation>();
 
-            arpa.ForAll(e => result.Add(e));
-            babel.ForAll(b =>
+            // Check already existing arpa translations and update
+            arpa.AsQueryable().Where(a => a.Deleted == false).ForAll(a =>
             {
-                IQueryable<Translation> query = result.AsQueryable().Where(a =>
-                    a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key) && b.Deleted == false);
-                if (query.IsNullOrEmpty())
+                IQueryable<Translation> query = babel.AsQueryable().Where(b =>
+                    a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key));
+
+                if (query.IsNullOrEmpty())  // if entry was removed.
                 {
-                    result.Add(b);
+                    if (a.Deleted == false)
+                        a.Delete(nameof(TranslationSeedData), DateTime.Now);
+                    result.Add(a);
                 }
                 else
-                {
-                    query.ToArray().ForAll(e =>
+                {   // if entry can be find in babel json
+                    Translation babelTranslate = query.First();
+                    Translation updatedTranslation = new Translation(a.Id, babelTranslate.Key,
+                        babelTranslate.Text, babelTranslate.LocalizationCulture,
+                        babelTranslate.ResourceKey);
+                    updatedTranslation.Create(a.CreatedBy, a.CreatedAt);
+
+                    // then check whether text changed.
+                    if (!a.Text.Equals(babelTranslate.Text))
                     {
-                        e.Text = b.Text;
-                        e.LocalizationCulture = b.LocalizationCulture;
-                        e.LocalizationCulture = b.LocalizationCulture;
-                    });
+                        updatedTranslation.Modify(nameof(TranslationSeedData), DateTime.Now);
+                    }
+
+                    result.Add(updatedTranslation);
+                }
+            });
+
+            // Check for new entries
+            babel.ForAll(b =>
+            {
+                IQueryable<Translation> query = arpa.AsQueryable().Where(a =>
+                    a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key) &&
+                    a.Deleted == false);
+
+                if (query.IsNullOrEmpty())
+                {
+                    Translation newTranslation = new Translation(b.Id, b.Key, b.Text,
+                        b.LocalizationCulture, b.ResourceKey);
+
+                    newTranslation.Create(nameof(TranslationSeedData), DateTime.Now);
+
+                    result.Add(newTranslation);
                 }
             });
 

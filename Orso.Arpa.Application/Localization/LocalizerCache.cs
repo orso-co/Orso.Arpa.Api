@@ -18,7 +18,6 @@ namespace Orso.Arpa.Application.Localization
         public LocalizerCache(IServiceCollection services)
         {
             _services = services;
-            _translations = GetDbTranslationList();
         }
 
         public Task CallBack()
@@ -39,6 +38,17 @@ namespace Orso.Arpa.Application.Localization
                 d.Deleted == false && d.Key == key && d.ResourceKey == resourceKey && Regex.Match(d.LocalizationCulture, "(^|[^-])"+culture+"([^-]|$)", RegexOptions.None).Success);
 
             return (translation == null) ? key : translation.Text ?? key;
+        }
+
+        public virtual IList<Translation> GetAllTranslations(string culture, string resourceKey)
+        {
+            if (_translations.IsNullOrEmpty())
+                return new List<Translation>();
+
+            IQueryable<Translation> query = _translations.AsQueryable().Where(d =>
+                d.Deleted == false && d.ResourceKey.Equals(resourceKey) && Regex.Match(d.LocalizationCulture, "(^|[^-])"+culture+"([^-]|$)", RegexOptions.None).Success);
+
+            return query.IsNullOrEmpty() ? new List<Translation>() : query.ToList();
         }
 
         private List<Translation> GetDbTranslationList()

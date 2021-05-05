@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using AutoMapper.Internal;
 using Microsoft.Extensions.Localization;
 
 namespace Orso.Arpa.Application.Localization
@@ -18,7 +21,21 @@ namespace Orso.Arpa.Application.Localization
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
-            throw new System.NotImplementedException();
+            IList<LocalizedString> localizedStrings = new List<LocalizedString>();
+
+            CultureInfo culture = CultureInfo.GetCultures(CultureTypes.AllCultures).AsQueryable()
+                .First(q => q.Name.Equals(_location));
+            _cache.GetAllTranslations(culture.ToString(), _resourceKey).ForAll(ls =>
+                localizedStrings.Add(new LocalizedString(ls.Key, ls.Text)));
+
+            if (includeParentCultures)
+            {
+                var parentCulture = culture.Parent;
+                _cache.GetAllTranslations(parentCulture.ToString(), _resourceKey).ForAll(ls =>
+                    localizedStrings.Add(new LocalizedString(ls.Key, ls.Text)));
+            }
+
+            return localizedStrings;
         }
 
         public LocalizedString this[string name]

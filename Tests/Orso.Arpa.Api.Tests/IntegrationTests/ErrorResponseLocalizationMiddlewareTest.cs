@@ -1,13 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.Localization;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -129,6 +136,33 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = JsonConvert.DeserializeObject<ValidationProblemDetails>(errorResponse);
 
             errorMessage.Title.Should().Be("Please try to login again");
+        }
+
+        [Test, Order(8)]
+        public void Should_Return_All_Requested_LocalizedStrings()
+        {
+            LocalizerCache localizerCache = Substitute.For<LocalizerCache>(FormatterServices.GetUninitializedObject(typeof(ServiceCollection)));
+            localizerCache.GetAllTranslations("de-DE", "RegionDto").Returns(
+                new List<Translation>
+                {
+                    new(new Guid(), "source", "quelle", "de-DE", "RegionDto"),
+                    new(new Guid(), "target", "ziel", "de-DE", "RegionDto")
+                }
+            );
+            localizerCache.GetAllTranslations("de", "RegionDto").Returns(
+                new List<Translation>
+                {
+                    new(new Guid(), "german", "deutsch", "de", "RegionDto"),
+                    new(new Guid(), "hallo", "hello", "de", "RegionDto")
+                }
+            );
+            StringLocalizer sl = new StringLocalizer("RegionDto", "de-DE", localizerCache);
+
+            IEnumerable<LocalizedString> lz = sl.GetAllStrings(false);
+            lz.ToList().Count.Should().Be(2);
+
+            lz = sl.GetAllStrings(true);
+            lz.ToList().Count.Should().Be(4);
         }
     }
 

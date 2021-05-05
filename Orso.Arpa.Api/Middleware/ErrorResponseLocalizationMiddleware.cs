@@ -52,7 +52,7 @@ namespace Orso.Arpa.Api.Middleware
                         ValidationProblemDetails deserializedErrorMessage =
                             JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
 
-                        deserializedErrorMessage.Detail =
+                        deserializedErrorMessage!.Detail =
                             deserializedErrorMessage.Detail != null
                                 ? localizer[deserializedErrorMessage.Detail]
                                 : null;
