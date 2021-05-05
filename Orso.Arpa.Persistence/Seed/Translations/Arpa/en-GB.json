@@ -1,3 +1,14 @@
 [
-
+  {
+    "Key": "Invalid Token supplied",
+    "Text": "Invalid Token supplied",
+    "LocalizationCulture": "en,en-GB",
+    "ResourceKey": "Validator",
+    "Id": "a3cdee11-efb1-49c1-bba4-20e6119eb47f",
+    "CreatedBy": "TranslationSeedData",
+    "CreatedAt": "2021-05-05T17:36:00.3897031+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  }
 ]
