@@ -12,7 +12,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         public string Title { get; set; }
         public string ShortTitle { get; set; }
         public string Description { get; set; }
-        public string Number { get; set; }
+        public string Code { get; set; }
         public Guid? TypeId { get; set; }
         public Guid? GenreId { get; set; }
         public DateTime? StartDate { get; set; }

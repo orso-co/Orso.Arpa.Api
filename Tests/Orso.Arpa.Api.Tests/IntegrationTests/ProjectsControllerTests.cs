@@ -106,7 +106,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Title = "changed " + projectToModify.Title,
                 ShortTitle = "changed " + projectToModify.ShortTitle,
                 Description = "changed " + projectToModify.Description,
-                Number = "X-" + projectToModify.Number,
+                Code = "X-" + projectToModify.Code,
                 TypeId = SelectValueMappingSeedData.ProjectTypeMappings[2].Id,
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[2].Id,
                 StartDate = new DateTime(2021, 02, 02),
@@ -146,14 +146,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
-                Number = "123XYZ,",
+                Code = "123XYZ,",
             };
 
             var expectedDto = new ProjectDto
             {
                 Title = createDto.Title,
                 ShortTitle = createDto.ShortTitle,
-                Number = createDto.Number,
+                Code = createDto.Code,
                 IsCompleted = false,
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow
@@ -182,7 +182,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Title = "New Project",
                 ShortTitle = "ShortName",
                 Description = "New project description",
-                Number = "0815XY",
+                Code = "0815XY",
                 TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                 StartDate = new DateTime(2021, 01, 01),
@@ -196,7 +196,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Title = createDto.Title,
                 ShortTitle = createDto.ShortTitle,
                 Description = createDto.Description,
-                Number = createDto.Number,
+                Code = createDto.Code,
                 TypeId = createDto.TypeId,
                 GenreId = createDto.GenreId,
                 StartDate = createDto.StartDate,
@@ -223,14 +223,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(1002)]
-        public async Task Should_Not_Create_Due_To_Non_Unique_Number()
+        public async Task Should_Not_Create_Due_To_Non_Unique_ProjectCode()
         {
             // Arrange
             var createDto = new ProjectCreateDto
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
-                Number = ProjectSeedData.RockingXMas.Number,
+                Code = ProjectSeedData.RockingXMas.Code,
             };
 
             // Act
@@ -244,7 +244,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Number", new[] { "The specified project number is already in use. The project number needs to be unique." } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Code", new[] { "The specified project code is already in use. The project code needs to be unique." } } });
         }
 
         [Test, Order(1003)]
@@ -255,7 +255,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
-                // mandatory "Number" field is missing here -> this should create the failure of the api call
+                // mandatory "Code" field is missing here -> this should create the failure of the api call
             };
 
             // Act
@@ -270,7 +270,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
             validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
             validationProblemDetails.Status.Should().Be(422);
-            validationProblemDetails.Errors["Number"].Should().NotBeEmpty();
+            validationProblemDetails.Errors["Code"].Should().NotBeEmpty();
         }
 
         [Test, Order(1004)]
@@ -281,7 +281,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Title = "New Project",
                 ShortTitle = "Shorty",
-                Number = "123XYZ,",
+                Code = "123XYZ,",
                 StartDate = new DateTime(2020, 01, 01),
                 EndDate = new DateTime(2020, 01, 01) - new TimeSpan(5, 0, 0, 0),    // this is before the StartDate
             };

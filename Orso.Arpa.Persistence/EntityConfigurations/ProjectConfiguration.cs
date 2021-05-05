@@ -24,12 +24,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(1000);
 
             builder
-                .Property(e => e.Number)
+                .Property(e => e.Code)
                 .HasMaxLength(15)
                 .IsRequired();
 
             builder
-                .HasIndex(e => e.Number);
+                .HasIndex(e => e.Code);
 
             builder
                 .HasOne(e => e.Type)

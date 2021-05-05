@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         public string Title { get; set; }
         public string ShortTitle { get; set; }
         public string Description { get; set; }
-        public string Number { get; set; }
+        public string Code { get; set; }
         public Guid? TypeId { get; set; }
         public Guid? GenreId { get; set; }
         public DateTime? StartDate { get; set; }
@@ -74,7 +74,7 @@ namespace Orso.Arpa.Application.ProjectApplication
             RuleFor(p => p.Description)
                 .MaximumLength(1000);
 
-            RuleFor(p => p.Number)
+            RuleFor(p => p.Code)
                 .NotEmpty()
                 .Sepa()
                 .MaximumLength(15);

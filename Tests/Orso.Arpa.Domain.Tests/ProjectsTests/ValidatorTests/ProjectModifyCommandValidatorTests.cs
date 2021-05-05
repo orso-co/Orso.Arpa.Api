@@ -35,35 +35,35 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Duplicate_Number()
+        public void Should_Have_Validation_Error_If_Duplicate_Code()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(command => command.Number, new Command()
+            _validator.ShouldHaveValidationErrorFor(command => command.Code, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
-                Number = ProjectSeedData.HoorayForHollywood.Number
+                Code = ProjectSeedData.HoorayForHollywood.Code
             });
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Unused_Number()
+        public void Should_Not_Have_Validation_Error_If_Unused_Code()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Code, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
-                Number = "New Number"
+                Code = "New Code"
             });
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Own_Number()
+        public void Should_Not_Have_Validation_Error_If_Own_Code()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, new Command()
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Code, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
-                Number = ProjectSeedData.RockingXMas.Number
+                Code = ProjectSeedData.RockingXMas.Code
             });
         }
 
@@ -74,7 +74,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _validator.ShouldThrowNotFoundExceptionFor(c => c.Id, new Command()
             {
                 Id = Guid.NewGuid(),
-                Number = "some number"
+                Code = "some code"
             });
         }
 
@@ -85,7 +85,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
-                Number = "some number"
+                Code = "some code"
             });
         }
 
@@ -96,7 +96,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _validator.ShouldNotHaveValidationErrorFor(command => command.ParentId, new Command()
             {
                 Id = ProjectSeedData.HoorayForHollywood.Id,
-                Number = "New Number",
+                Code = "New Code",
                 ParentId = ProjectSeedData.RockingXMas.Id
             });
         }
@@ -108,7 +108,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _validator.ShouldThrowNotFoundExceptionFor(command => command.ParentId, new Command()
             {
                 Id = ProjectSeedData.RockingXMas.Id,
-                Number = "New Number",
+                Code = "New Code",
                 ParentId = Guid.NewGuid()
             });
         }
@@ -120,7 +120,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.StateId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 StateId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
             });
         }
@@ -131,7 +131,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldThrowNotFoundExceptionFor(command => command.StateId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 StateId = Guid.NewGuid()
             });
         }
@@ -142,7 +142,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.StateId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 StateId = null
             });
         }
@@ -154,7 +154,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.StateId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id
             });
         }
@@ -166,7 +166,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.GenreId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 GenreId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
             });
         }
@@ -177,7 +177,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldThrowNotFoundExceptionFor(command => command.GenreId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 GenreId = Guid.NewGuid()
             });
         }
@@ -188,7 +188,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.GenreId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 GenreId = null
             });
         }
@@ -200,7 +200,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.GenreId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id
             });
         }
@@ -212,7 +212,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorFor(command => command.TypeId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 TypeId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
             });
         }
@@ -223,7 +223,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldThrowNotFoundExceptionFor(command => command.TypeId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 TypeId = Guid.NewGuid()
             });
         }
@@ -234,7 +234,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.TypeId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 TypeId = null
             });
         }
@@ -246,7 +246,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(command => command.TypeId, new Command()
             {
-                Number = "New Number",
+                Code = "New Code",
                 TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id
             });
         }

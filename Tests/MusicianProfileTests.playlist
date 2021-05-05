@@ -1,0 +1,620 @@
+<Playlist Version="2.0">
+  <Rule Name="Includes" Match="Any">
+    <Rule Match="All">
+      <Property Name="Solution" />
+      <Rule Match="Any">
+        <Rule Match="All">
+          <Property Name="Project" Value="Orso.Arpa.Domain.Tests" />
+          <Rule Match="Any">
+            <Rule Match="All">
+              <Property Name="Namespace" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileCreateCommandValidatorTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_PersonId_Is_Not_Existing" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_PersonId_Is_Not_Existing" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_InquiryStatusId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_InquiryStatusId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_Invalid_InquiryStatusId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_InquiryStatusId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Not_Have_Validation_Error_If_Empty_InquiryStatusId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_InquiryStatusId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_InquiryStatusId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_InquiryStatusId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreateCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileModifyCommandValidatorTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_InquiryStatusId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_InquiryStatusId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_Invalid_InquiryStatusId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_InquiryStatusId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_PersonId_Is_Not_Existing" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_PersonId_Is_Not_Existing" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Not_Have_Validation_Error_If_Empty_InquiryStatusId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_InquiryStatusId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_InquiryStatusId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_InquiryStatusId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifyCommandValidatorTests.Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileCreatecValidatorTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Have_Validation_Error_If_PersonId_Is_Not_Existing" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_PersonId_Is_Not_Existing" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileCreatecValidatorTests.Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileModifycValidatorTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Have_Validation_Error_If_PersonId_Is_Not_Existing" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_PersonId_Is_Not_Existing" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests.MusicianProfileModifycValidatorTests.Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+          </Rule>
+        </Rule>
+        <Rule Match="All">
+          <Property Name="Project" Value="Orso.Arpa.Application.Tests" />
+          <Rule Match="Any">
+            <Rule Match="All">
+              <Property Name="Namespace" Value="Orso.Arpa.Application.Tests.ValidationTests" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileCreateDtoValidatorTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileCreateDtoValidatorTests.Should_Have_Validation_Error_If_LevelSelfAssessment_Is_Out_Of_Range" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_LevelSelfAssessment_Is_Out_Of_Range" />
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_LevelSelfAssessment_Is_Out_Of_Range(6)" />
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_LevelSelfAssessment_Is_Out_Of_Range(byte.MinValue)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileCreateDtoValidatorTests.Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range" />
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range(1)" />
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range(3)" />
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range(5)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileCreateDtoValidatorTests.Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileCreateDtoValidatorTests.Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileCreateDtoValidatorTests.Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileCreateDtoValidatorTests.Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileModifyDtoValidatorTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileModifyDtoValidatorTests.Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileModifyDtoValidatorTests.Should_Have_Validation_Error_If_LevelSelfAssessment_Is_Out_Of_Range" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_LevelSelfAssessment_Is_Out_Of_Range" />
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_LevelSelfAssessment_Is_Out_Of_Range(byte.MinValue)" />
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_LevelSelfAssessment_Is_Out_Of_Range(6)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileModifyDtoValidatorTests.Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileModifyDtoValidatorTests.Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range" />
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range(1)" />
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range(3)" />
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_LevelSelfAssessment_Is_In_Range(5)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileModifyDtoValidatorTests.Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileModifyDtoValidatorTests.Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_QualificationId_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileModifyDtoValidatorTests.Should_Have_Validation_Error_If_Empty_Id_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Have_Validation_Error_If_Empty_Id_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.ValidationTests.MusicianProfileModifyDtoValidatorTests.Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+            <Rule Match="All">
+              <Property Name="Namespace" Value="Orso.Arpa.Application.Tests.MappingProfileTests" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileDtoMappingProfileTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.MappingProfileTests.MusicianProfileDtoMappingProfileTests.Should_Map" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Map" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileCreateDtoMappingProfileTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.MappingProfileTests.MusicianProfileCreateDtoMappingProfileTests.Should_Map" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Map" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfileModifyDtoMappingProfileTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Application.Tests.MappingProfileTests.MusicianProfileModifyDtoMappingProfileTests.Should_Map" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Map" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+          </Rule>
+        </Rule>
+        <Rule Match="All">
+          <Property Name="Project" Value="Orso.Arpa.Api.Tests" />
+          <Rule Match="Any">
+            <Rule Match="All">
+              <Property Name="Namespace" Value="Orso.Arpa.Api.Tests.IntegrationTests" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="MusicianProfilesControllerTests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Api.Tests.IntegrationTests.MusicianProfilesControllerTests.Should_Create" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Create" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Api.Tests.IntegrationTests.MusicianProfilesControllerTests.Should_Delete" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Delete" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Api.Tests.IntegrationTests.MusicianProfilesControllerTests.Should_Get_ById" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Get_ById" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Api.Tests.IntegrationTests.MusicianProfilesControllerTests.Should_Modify" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Modify" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="Orso.Arpa.Api.Tests.IntegrationTests.MusicianProfilesControllerTests.Should_Not_Create_Due_To_Missing_Mandatory_Field" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="Should_Not_Create_Due_To_Missing_Mandatory_Field" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+          </Rule>
+        </Rule>
+      </Rule>
+    </Rule>
+  </Rule>
+</Playlist>

@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.MappingProfileTests
                 Title = expectedProject.Title,
                 ShortTitle = expectedProject.ShortTitle,
                 Description = expectedProject.Description,
-                Number = expectedProject.Number,
+                Code = expectedProject.Code,
                 TypeId = expectedProject.TypeId,
                 GenreId = expectedProject.GenreId,
                 StartDate = expectedProject.StartDate,

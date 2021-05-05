@@ -29,7 +29,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .RuleFor(dto => dto.Title, (f) => f.Lorem.Paragraph(50))
                 .RuleFor(dto => dto.ShortTitle, (f) => f.Lorem.Paragraph(8))
                 .RuleFor(dto => dto.Description, (f) => f.Lorem.Paragraph())
-                .RuleFor(dto => dto.Number, "0815ABC")
+                .RuleFor(dto => dto.Code, "0815ABC")
                 .RuleFor(dto => dto.TypeId, Guid.NewGuid())
                 .RuleFor(dto => dto.GenreId, Guid.NewGuid())
                 .RuleFor(dto => dto.StartDate, new DateTime(2022, 03, 03))

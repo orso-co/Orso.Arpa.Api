@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     Title = "Title",
                     ShortTitle = "Short Title",
                     Description = "Description",
-                    Number = "0815ABC",
+                    Code = "0815ABC",
                     TypeId = Guid.NewGuid(),
                     GenreId = Guid.NewGuid(),
                     StartDate = new DateTime(2022, 03, 03),
