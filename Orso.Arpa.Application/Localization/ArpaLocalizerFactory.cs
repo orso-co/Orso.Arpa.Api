@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.Localization
 
         public IStringLocalizer Create(Type resourceSource)
         {
-            string culture = CultureInfo.CurrentUICulture.Name ?? "en-US";
+            string culture = CultureInfo.CurrentUICulture.Name;
             return Create(resourceSource.Name, culture);
         }
 

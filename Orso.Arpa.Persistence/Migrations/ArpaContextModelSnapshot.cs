@@ -4678,6 +4678,388 @@ namespace Orso.Arpa.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Translation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(true)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("key");
+
+                    b.Property<string>("LocalizationCulture")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("localization_culture");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<string>("ResourceKey")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("resource_key");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .IsUnicode(true)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("text");
+
+                    b.HasKey("Id")
+                        .HasName("pk_translations");
+
+                    b.ToTable("translations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a3cdee11-efb1-49c1-bba4-20e6119eb47f"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 389, DateTimeKind.Local).AddTicks(7031),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Invalid Token supplied",
+                            LocalizationCulture = "en,en-GB",
+                            ResourceKey = "Validator",
+                            Text = "Invalid Token supplied"
+                        },
+                        new
+                        {
+                            Id = new Guid("b9e1803f-b76d-4e8f-a437-c5753f2085e9"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 440, DateTimeKind.Local).AddTicks(4496),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "This request requires a valid JWT access token to be provided",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Diese Anfrage erfordert einen gültigen JWT Token"
+                        },
+                        new
+                        {
+                            Id = new Guid("7e7d0d27-affb-4772-b506-596a0cfc6be6"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 440, DateTimeKind.Local).AddTicks(7957),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Invalid token supplied",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Ungültiges Token agegeben"
+                        },
+                        new
+                        {
+                            Id = new Guid("b6ffb704-b60b-4b64-a586-d78a8a8d2f23"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 441, DateTimeKind.Local).AddTicks(1526),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "EndTime must be later than StartTime",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Endzeit muss später Startzeit sein"
+                        },
+                        new
+                        {
+                            Id = new Guid("87c25e29-e0bb-4f58-a0cb-db0a33df62ae"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 441, DateTimeKind.Local).AddTicks(4669),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Password must be at least 6 characters",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Das Passwort muss mindestens 6 Zeichen enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("3dd56653-ea29-4bb3-8c4b-191464a33ca1"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 441, DateTimeKind.Local).AddTicks(7779),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Password must contain at least one uppercase letter",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Das Passwort muss mindestens einen Großbuchstaben enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("d0fcfee7-6968-4ed6-a99f-ae159639c1d2"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 442, DateTimeKind.Local).AddTicks(1152),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Password must contain at least one lowercase letter",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Das Passwort muss mindestens einen Kleinbuchstaben enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("dcadedaf-5e0c-4592-8b2f-5142375b46ba"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 442, DateTimeKind.Local).AddTicks(4428),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Password must contain at least one digit",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Das Passwort muss mindestens eine Zahl enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("f2d78706-7324-48e3-b225-b0d905747b10"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 442, DateTimeKind.Local).AddTicks(7536),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Password must contain at least one special character",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Das Passwort muss mindestens ein Sonderzeichen enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaf187e0-6469-4dfd-bdd1-add3498efe08"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 443, DateTimeKind.Local).AddTicks(1599),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Username may only contain alphanumeric characters",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Der Benutzername darf nur alphanumerische Zeichen enthalten"
+                        },
+                        new
+                        {
+                            Id = new Guid("762f8376-c10d-403c-913d-58b240739247"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 443, DateTimeKind.Local).AddTicks(5183),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "The project is already linked to the appointment",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Das Projekt ist bereits dem Termin zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("8070c0d9-64c4-443d-81e0-edc1a1b3d438"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 443, DateTimeKind.Local).AddTicks(9010),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "The room is already linked to the appointment",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Der Raum ist bereits dem Termin zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("8020fde1-b9c5-4bef-9002-8ac47cc1829c"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 444, DateTimeKind.Local).AddTicks(2167),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "The section is already linked to the Appointment",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Die Sektion ist bereits dem Termin zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("d188ff99-d683-4b2a-9557-a78c5967474c"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 444, DateTimeKind.Local).AddTicks(6101),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "The project is not linked to the appointment",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Das Projekt ist dem Termin nicht zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("ba1cbe3a-328a-40c1-936d-7458debe56f4"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 444, DateTimeKind.Local).AddTicks(9260),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "The room is not linked to the appointment",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Der Raum ist dem Termin nicht zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("397ed7cd-c9dc-40a4-8a6e-525af4ab7f8c"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 445, DateTimeKind.Local).AddTicks(2661),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "The section is not linked to the Appointment",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Die Sektion ist dem Termin nicht zugeordnet"
+                        },
+                        new
+                        {
+                            Id = new Guid("b4bc79da-0ced-4cc9-9c4f-25a715d45e5c"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 445, DateTimeKind.Local).AddTicks(6065),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Incorrect password supplied",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Inkorrektes Passwort angegeben"
+                        },
+                        new
+                        {
+                            Id = new Guid("59f303b2-5046-45ae-bf8a-41d18528be5a"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 445, DateTimeKind.Local).AddTicks(9354),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "The user could not be found",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Der Benutzer konnte nicht gefunden werden"
+                        },
+                        new
+                        {
+                            Id = new Guid("86353d87-ca62-48c5-9500-3069b7fc6395"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 446, DateTimeKind.Local).AddTicks(2996),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Your email address is not confirmed. Please confirm your email address first",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Deine Email wurde noch nicht bestätigt. Bitte bestätige zuerst deine Email"
+                        },
+                        new
+                        {
+                            Id = new Guid("62e4fe21-6d12-4a02-9846-f79505928cd4"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 446, DateTimeKind.Local).AddTicks(5919),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Your account is locked. Kindly wait for 10 minutes and try again",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Dein Konto wurde gesperrt. Bitte warte 10 Minuten und versuche es anschließend erneut"
+                        },
+                        new
+                        {
+                            Id = new Guid("915f3d94-c98e-47fc-a60c-9f41031a30d0"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 446, DateTimeKind.Local).AddTicks(8963),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Username already exists",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Der Benutzername existiert bereits"
+                        },
+                        new
+                        {
+                            Id = new Guid("7ff6230d-1f53-48e2-a682-501e246591bf"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 447, DateTimeKind.Local).AddTicks(2496),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Email already exists",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Die Email existiert bereits"
+                        },
+                        new
+                        {
+                            Id = new Guid("225710c5-bca2-4454-b6d0-bc00709ac6f2"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 447, DateTimeKind.Local).AddTicks(5626),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "A region with the requested name does already exist",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "Validator",
+                            Text = "Eine Region mit diesem Namen existiert bereits"
+                        },
+                        new
+                        {
+                            Id = new Guid("8ef2ae60-54e0-4d7f-a835-956fbf3ed85e"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 447, DateTimeKind.Local).AddTicks(8737),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Performers",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "SectionDto",
+                            Text = "Künstler"
+                        },
+                        new
+                        {
+                            Id = new Guid("8ed22d22-6fe2-4b5b-9ebf-23a230b10723"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 448, DateTimeKind.Local).AddTicks(2046),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Orchestra",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "SectionDto",
+                            Text = "Orchester"
+                        },
+                        new
+                        {
+                            Id = new Guid("4199d3b9-4551-4b01-9dbd-830da8c991e1"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 448, DateTimeKind.Local).AddTicks(5395),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Members",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "SectionDto",
+                            Text = "Mitglieder"
+                        },
+                        new
+                        {
+                            Id = new Guid("9044f388-ea9c-4922-9f83-ad70fe82194f"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 448, DateTimeKind.Local).AddTicks(8645),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Visitors",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "SectionDto",
+                            Text = "Besucher"
+                        },
+                        new
+                        {
+                            Id = new Guid("84d57eff-c66a-4de0-bbf6-b5e3cc58cee4"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 449, DateTimeKind.Local).AddTicks(1912),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Volunteers",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "SectionDto",
+                            Text = "Freiwillige"
+                        },
+                        new
+                        {
+                            Id = new Guid("579803cf-6d21-43a6-b8ce-c7a3a07607cc"),
+                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 449, DateTimeKind.Local).AddTicks(5111),
+                            CreatedBy = "TranslationSeedData",
+                            Deleted = false,
+                            Key = "Suppliers",
+                            LocalizationCulture = "de,de-DE",
+                            ResourceKey = "SectionDto",
+                            Text = "Zulieferer"
+                        });
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Url", b =>
                 {
                     b.Property<Guid>("Id")

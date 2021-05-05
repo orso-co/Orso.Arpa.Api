@@ -120,10 +120,6 @@ namespace Orso.Arpa.Persistence.Seed
             return translations;
         }
 
-        private class DataTime
-        {
-        }
-
         private static IList<Translation> MergeBabelToArpa(IList<Translation> babel,
             IList<Translation> arpa)
         {
@@ -142,7 +138,7 @@ namespace Orso.Arpa.Persistence.Seed
                     result.Add(a);
                 }
                 else
-                {   // if entry can be find in babel json
+                {   // if entry can be found in babel json
                     Translation babelTranslate = query.First();
                     Translation updatedTranslation = new Translation(a.Id, babelTranslate.Key,
                         babelTranslate.Text, babelTranslate.LocalizationCulture,
