@@ -33,14 +33,13 @@ namespace Orso.Arpa.Application.Localization
 
         public void OnResultExecuting(ResultExecutingContext context)
         {
-            return;
         }
 
         public void OnResultExecuted(ResultExecutedContext context)
         {
             object obj;
 
-            if (context.HttpContext.Response.ContentType == null ||
+            if (context.HttpContext.Response.ContentType.IsNullOrEmpty() ||
                 !context.HttpContext.Response.ContentType.Contains("application/json"))
             {
                 return;
@@ -70,7 +69,7 @@ namespace Orso.Arpa.Application.Localization
                 obj = (object)JsonSerializer.Deserialize(json, contentValueType, jsonSerializerOptions);
             }
 
-            TranslateObject(obj,2);
+            TranslateObject(obj,8);
 
             context.HttpContext.Response.Body.Position = 0;
             context.HttpContext.Response.Body.SetLength(0);
@@ -92,6 +91,8 @@ namespace Orso.Arpa.Application.Localization
                     {
                         TranslateObject(o, maxLevels - 1);
                     }
+
+                    return;
                 }
 
                 obj.GetType().GetProperties().ForAll(p =>
@@ -132,7 +133,8 @@ namespace Orso.Arpa.Application.Localization
             }
             catch (Exception e)
             {
-                _logger.LogError($"Error during translation: {e.Message}");
+                if (!e.Message.IsNullOrEmpty())
+                    _logger.LogError($"Error during translation: {e.Message}");
             }
         }
     }
