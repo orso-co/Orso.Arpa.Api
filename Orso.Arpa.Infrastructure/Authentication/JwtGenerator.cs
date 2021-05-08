@@ -52,7 +52,9 @@ namespace Orso.Arpa.Infrastructure.Authentication
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
-                new Claim(ClaimTypes.Name, user.DisplayName)
+                new Claim(JwtRegisteredClaimNames.Name, user.DisplayName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, "Token");
@@ -62,13 +64,11 @@ namespace Orso.Arpa.Infrastructure.Authentication
                 claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
             }
 
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
             var tokenDesriptor = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
                 Expires = _dateTimeProvider.GetUtcNow().AddMinutes(_jwtConfiguration.AccessTokenExpiryInMinutes),
-                SigningCredentials = credentials,
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature),
                 Issuer = _jwtConfiguration.Issuer,
                 Audience = _jwtConfiguration.Audience
             };

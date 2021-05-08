@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -29,7 +28,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Login()
         {
             // Arrange
-            User user = UserSeedData.Admin;
+            User user = FakeUsers.Admin;
             var loginDto = new LoginDto
             {
                 UsernameOrEmail = user.UserName,
@@ -48,8 +47,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Token.Should().NotBeNullOrEmpty();
 
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(result.Token);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value.Should().Be(user.DisplayName);
+            decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.NameId).Value.Should().Be(user.UserName);
+            decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Name).Value.Should().Be(user.DisplayName);
+            decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value.Should().Be(user.Id.ToString());
+            decryptedToken.Claims.First(c => c.Type == "https://localhost:5001/person_id")?.Value.Should().Be(user.PersonId.ToString());
             var refreshToken = GetCookieValueFromResponse(responseMessage, "refreshToken");
             refreshToken.Should().NotBeNullOrEmpty();
         }

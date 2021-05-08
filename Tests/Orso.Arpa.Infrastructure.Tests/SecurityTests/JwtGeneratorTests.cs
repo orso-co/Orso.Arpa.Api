@@ -1,6 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -60,12 +59,13 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
 
             // Assert
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value.Should().Be(user.UserName);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value.Should().Be(user.DisplayName);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value.Should().BeEquivalentTo(RoleSeedData.Performer.Name);
-            decryptedToken.Claims.FirstOrDefault(c => c.Type == "RoleLevel")?.Value.Should().BeEquivalentTo(RoleSeedData.Performer.Level.ToString());
+            decryptedToken.Claims.First(c => c.Type == "nameid").Value.Should().Be(user.UserName);
+            decryptedToken.Claims.First(c => c.Type == "name").Value.Should().Be(user.DisplayName);
+            decryptedToken.Claims.First(c => c.Type == "sub").Value.Should().Be(user.Id.ToString());
+            decryptedToken.Claims.First(c => c.Type == "issuer/person_id").Value.Should().Be(user.PersonId.ToString());
+            decryptedToken.Claims.First(c => c.Type == "role").Value.Should().BeEquivalentTo(RoleSeedData.Performer.Name);
             decryptedToken.Issuer.Should().Be(_configuration.Issuer);
-            decryptedToken.Audiences.FirstOrDefault().Should().Be(_configuration.Audience);
+            decryptedToken.Audiences.First().Should().Be(_configuration.Audience);
         }
     }
 }

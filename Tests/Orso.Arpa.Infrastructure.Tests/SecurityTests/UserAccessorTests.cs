@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
@@ -56,7 +57,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             const string expectedDisplayName = "dumdidum";
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, expectedDisplayName)
+                new Claim(JwtRegisteredClaimNames.Name, expectedDisplayName)
             };
             _httpContextAccessor.HttpContext.User.Claims.Returns(claims);
 
