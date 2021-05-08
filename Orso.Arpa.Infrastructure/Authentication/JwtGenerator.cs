@@ -47,8 +47,6 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
         private async Task<string> CreateAccessTokenAsync(User user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.TokenKey));
-
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
@@ -68,7 +66,9 @@ namespace Orso.Arpa.Infrastructure.Authentication
             {
                 Subject = claimsIdentity,
                 Expires = _dateTimeProvider.GetUtcNow().AddMinutes(_jwtConfiguration.AccessTokenExpiryInMinutes),
-                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.TokenKey)),
+                    SecurityAlgorithms.HmacSha512Signature),
                 Issuer = _jwtConfiguration.Issuer,
                 Audience = _jwtConfiguration.Audience
             };
