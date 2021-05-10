@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.GenericHandlers;
@@ -48,9 +49,9 @@ namespace Orso.Arpa.Application.Services
                 skip: skip,
                 take: take));
 
-            return entities
+            return await entities
                 .ProjectTo<TGetDto>(_mapper.ConfigurationProvider)
-                .AsEnumerable();
+                .ToListAsync();
         }
 
         public virtual async Task<TGetDto> GetByIdAsync(Guid id)

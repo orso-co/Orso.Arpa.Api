@@ -34,11 +34,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 // 16.-22.12.2019
                 yield return new TestCaseData(DateRange.Week, new DateTime(2019, 12, 21), new List<AppointmentDto> {
                     AppointmentDtoData.RockingXMasRehearsalForPerformer,
-                    AppointmentDtoData.RockingXMasConcert,
+                    AppointmentDtoData.RockingXMasConcertForPerformer,
                     AppointmentDtoData.RehearsalWeekend
                 }, true);
                 yield return new TestCaseData(DateRange.Month, new DateTime(2020, 12, 21), new List<AppointmentDto> {
-                    AppointmentDtoData.StaffMeeting,
+                    AppointmentDtoData.StaffMeetingForPerformer,
                     AppointmentDtoData.PhotoSession,
                     AppointmentDtoData.AuditionDays
                 }, true);
@@ -69,7 +69,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(2)]
-        public async Task Should_Get_By_Id()
+        public async Task Should_Get_By_Id_Performer()
         {
             // Arrange
             AppointmentDto expectedAppointment = AppointmentDtoData.RockingXMasRehearsalForPerformer;
@@ -78,6 +78,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedAppointment.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedAppointment);
+        }
+
+        [Test, Order(3)]
+        public async Task Should_Get_By_Id_Staff()
+        {
+            // Arrange
+            AppointmentDto expectedAppointment = AppointmentDtoData.RockingXMasRehearsalForStaff;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedAppointment.Id));
 
             // Assert
