@@ -60,13 +60,13 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="projectCreateDto"></param>
         /// <returns>The created project</returns>
         /// <response code="201">Returns the created project</response>
-        /// <response code="422">If validation fails</response>
         /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<ProjectDto>> Post([FromBody] ProjectCreateDto projectCreateDto)
         {
             ProjectDto createdProject = await _projectService.CreateAsync(projectCreateDto);
@@ -78,13 +78,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="urlCreateDto"></param>
         /// <response code="201"></response>
-        /// <response code="422">If validation fails</response>
         /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/urls")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerFromRouteProperty(nameof(UrlCreateDto.Id))]
         public async Task<ActionResult<UrlDto>> AddUrl([FromBodyAndRoute] UrlCreateDto urlCreateDto)
         {
@@ -97,13 +97,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="projectModifyDto"></param>
         /// <response code="204"></response>
-        /// <response code="422">If validation fails</response>
         /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [SwaggerFromRouteProperty(nameof(ProjectModifyDto.Id))]
         public async Task<ActionResult> Put([FromBodyAndRoute] ProjectModifyDto projectModifyDto)
         {
@@ -117,13 +117,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <response code="204"></response>
-        /// <response code="422">If validation fails</response>
         /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Admin)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _projectService.DeleteAsync(id);

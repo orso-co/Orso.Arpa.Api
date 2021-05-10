@@ -25,13 +25,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="username"></param>
         /// <response code="204"></response>
-        /// <response code="422">If validation fails</response>
         /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
         [HttpDelete("{username}")]
         [Authorize(Roles = RoleNames.Admin)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Delete([FromRoute] string username)
         {
             await _userService.DeleteAsync(username);
