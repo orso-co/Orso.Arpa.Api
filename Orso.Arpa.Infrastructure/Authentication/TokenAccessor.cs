@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
@@ -37,7 +38,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             get
             {
                 return _httpContextAccessor?.HttpContext?.User?.Claims?
-                   .FirstOrDefault(c => c.Type == ClaimTypes.Name)?
+                   .FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?
                    .Value ?? "anonymous";
             }
         }
