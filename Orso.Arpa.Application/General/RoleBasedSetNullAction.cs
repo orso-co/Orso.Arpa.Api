@@ -7,6 +7,12 @@ using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Application.General
 {
+    /// <summary>
+    /// Sets the properties to NULL for which the current user has no authorization
+    /// </summary>
+    /// <typeparam name="TSource">The entity type</typeparam>
+    /// <typeparam name="TDestination">The dto type</typeparam>
+    /// <see cref="https://docs.automapper.org/en/latest/Before-and-after-map-actions.html#asp-net-core-and-automapper-extensions-microsoft-dependencyinjection"/>
     public class RoleBasedSetNullAction<TSource, TDestination> : IMappingAction<TSource, TDestination>
     {
         private readonly ITokenAccessor _tokenAccessor;
