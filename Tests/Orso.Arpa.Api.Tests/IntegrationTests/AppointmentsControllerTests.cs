@@ -68,40 +68,29 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             }
         }
 
-        [Test, Order(2)]
-        public async Task Should_Get_By_Id_Performer()
+        private static IEnumerable<TestCaseData> s_appointmentByIdTestData
         {
-            // Arrange
-            AppointmentDto expectedAppointment = AppointmentDtoData.RockingXMasRehearsalForPerformer;
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedAppointment.Id));
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedAppointment);
+            get
+            {
+                yield return new TestCaseData(FakeUsers.Performer, AppointmentDtoData.RockingXMasRehearsalForPerformer);
+                yield return new TestCaseData(FakeUsers.Staff, AppointmentDtoData.RockingXMasRehearsalForStaff);
+            }
         }
 
-        [Test, Order(3)]
-        public async Task Should_Get_By_Id_Staff()
+        [Test, Order(2)]
+        [TestCaseSource(nameof(s_appointmentByIdTestData))]
+        public async Task Should_Get_By_Id(User userToLogin, AppointmentDto expectedDto)
         {
-            // Arrange
-            AppointmentDto expectedAppointment = AppointmentDtoData.RockingXMasRehearsalForStaff;
-
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedAppointment.Id));
+                .AuthenticateWith(userToLogin)
+                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedAppointment);
+            result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(1000)]
