@@ -77,11 +77,10 @@ The initial database contains a single user with an admin role. You can login us
 * [Orso.Arpa.Mail](Orso.Arpa.Mail/README.MD)
 * [Orso.Arpa.Infrastructure](Orso.Arpa.Infrastructure/README.MD)
 * [Orso.Arpa.Misc](Orso.Arpa.Misc/README.MD)
-* [Orso.Arpa.FakeSmtp](Orso.Arpa.FakeSmtp/README.MD)
 
 ### Test projects
 
-* Orso.Arpa.Api.Tests
+* [Orso.Arpa.Api.Tests](Tests/Orso.Arpa.Api.Tests/README.MD)
 * Orso.Arpa.Application.Tests
 * Orso.Arpa.Domain.Tests
 * Orso.Arpa.Infrastructure.Tests
