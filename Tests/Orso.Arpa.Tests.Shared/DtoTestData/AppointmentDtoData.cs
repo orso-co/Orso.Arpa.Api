@@ -48,6 +48,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 AppointmentDto dto = RockingXMasRehearsalBase;
+                dto.InternalDetails = null;
                 dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
                 return dto;
             }
@@ -180,6 +181,16 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
+        public static AppointmentDto RockingXMasConcertForPerformer
+        {
+            get
+            {
+                AppointmentDto dto = RockingXMasConcert;
+                dto.InternalDetails = null;
+                return dto;
+            }
+        }
+
         public static AppointmentDto AfterShowPartyForPerformer
         {
             get
@@ -258,6 +269,16 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
+                return dto;
+            }
+        }
+
+        public static AppointmentDto StaffMeetingForPerformer
+        {
+            get
+            {
+                AppointmentDto dto = StaffMeeting;
+                dto.InternalDetails = null;
                 return dto;
             }
         }
