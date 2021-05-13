@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.RegionApplication;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -56,7 +57,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="201">Returns the created region</response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -75,7 +76,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
