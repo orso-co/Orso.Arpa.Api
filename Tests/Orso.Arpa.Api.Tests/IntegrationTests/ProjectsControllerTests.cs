@@ -101,7 +101,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .AuthenticateWith(_staff);
 
-            var modifyDto = new ProjectModifyDto
+            var modifyDto = new ProjectModifyBodyDto
             {
                 Title = "changed " + projectToModify.Title,
                 ShortTitle = "changed " + projectToModify.ShortTitle,
@@ -132,7 +132,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(modifyDto, opt => opt.Excluding(r => r.Id));
+            result.Should().BeEquivalentTo(modifyDto);
             result.Id.Should().Be(projectToModify.Id);
             result.ModifiedBy.Should().Be(_staff.DisplayName);
             result.ModifiedAt.Should().Be(FakeDateTime.UtcNow);
@@ -305,7 +305,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_Url()
         {
             // Arrange
-            var urlCreateDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg");
+            var urlCreateDto = new UrlCreateBodyDto
+            {
+                Href = "http://www.landesblasorchester.de",
+                AnchorText = "Landesblasorchester Baden-Württemberg"
+            };
             var expectedDto = new UrlDto()
             {
                 Href = urlCreateDto.Href,
@@ -331,7 +335,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Add_Url_Due_To_Project_Not_Found()
         {
             // Arrange
-            var urlCreateDto = new UrlCreateDto("http://www.landesblasorchester.de", "Landesblasorchester Baden-Württemberg");
+            var urlCreateDto = new UrlCreateBodyDto
+            {
+                Href = "http://www.landesblasorchester.de",
+                AnchorText = "Landesblasorchester Baden-Württemberg"
+            };
 
             // Act
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);

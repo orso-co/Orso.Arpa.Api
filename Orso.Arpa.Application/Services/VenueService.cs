@@ -19,6 +19,7 @@ namespace Orso.Arpa.Application.Services
         VenueCreateDto,
         Create.Command,
         VenueModifyDto,
+        VenueModifyBodyDto,
         Modify.Command>, IVenueService
     {
         public VenueService(IMediator mediator, IMapper mapper) : base(mediator, mapper)

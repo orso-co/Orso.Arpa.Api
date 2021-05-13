@@ -9,35 +9,37 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     public class RegionModifyDtoValidatorTests
     {
         private RegionModifyDtoValidator _validator;
+        private RegionModifyBodyDtoValidator _bodyValidator;
 
         [SetUp]
         public void Setup()
         {
             _validator = new RegionModifyDtoValidator();
+            _bodyValidator = new RegionModifyBodyDtoValidator();
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Id, Guid.Empty);
+            _validator.ShouldHaveValidationErrorFor(dto => dto.Id, Guid.Empty);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Name_Is_Supplied([Values(null, "")] string name)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Name, name);
+            _bodyValidator.ShouldHaveValidationErrorFor(dto => dto.Name, name);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Name, "Honolulu");
+            _bodyValidator.ShouldNotHaveValidationErrorFor(dto => dto.Name, "Honolulu");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorFor(dto => dto.Id, Guid.NewGuid());
         }
     }
 }

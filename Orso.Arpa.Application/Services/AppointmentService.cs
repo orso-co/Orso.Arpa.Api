@@ -22,6 +22,7 @@ namespace Orso.Arpa.Application.Services
         AppointmentCreateDto,
         Domain.Logic.Appointments.Create.Command,
         AppointmentModifyDto,
+        AppointmentModifyBodyDto,
         Domain.Logic.Appointments.Modify.Command>, IAppointmentService
     {
         public AppointmentService(IMediator mediator, IMapper mapper) : base(mediator, mapper)

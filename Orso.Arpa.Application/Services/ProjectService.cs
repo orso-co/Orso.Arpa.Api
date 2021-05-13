@@ -16,6 +16,7 @@ namespace Orso.Arpa.Application.Services
         ProjectCreateDto,
         Domain.Logic.Projects.Create.Command,
         ProjectModifyDto,
+        ProjectModifyBodyDto,
         Domain.Logic.Projects.Modify.Command
         >, IProjectService
     {

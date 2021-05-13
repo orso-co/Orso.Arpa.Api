@@ -1,22 +1,32 @@
-using System;
 using FluentValidation;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.General;
 
 namespace Orso.Arpa.Application.VenueApplication
 {
-    public class VenueModifyDto : IModifyDto
+    public class VenueModifyDto : BaseModifyDto<VenueModifyBodyDto>
     {
-        public Guid Id { get; set; }
+    }
 
+    public class VenueModifyBodyDto
+    {
         // ToDo: Add properties
         public string Name { get; set; }
 
         public string Description { get; set; }
     }
 
-    public class VenueModifyDtoValidator : AbstractValidator<VenueModifyDto>
+    public class VenueModifyDtoValidator : BaseModifyDtoValidator<VenueModifyDto, VenueModifyBodyDto>
     {
         public VenueModifyDtoValidator()
+        {
+            RuleFor(d => d.Body)
+                .SetValidator(new VenueModifyBodyDtoValidator());
+        }
+    }
+
+    public class VenueModifyBodyDtoValidator : AbstractValidator<VenueModifyBodyDto>
+    {
+        public VenueModifyBodyDtoValidator()
         {
             RuleFor(v => v.Name)
                 .NotEmpty()

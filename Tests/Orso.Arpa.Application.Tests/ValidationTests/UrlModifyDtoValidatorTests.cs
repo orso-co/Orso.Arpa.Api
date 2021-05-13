@@ -9,11 +9,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     public class UrlModifyDtoValidatorTests
     {
         private UrlModifyDtoValidator _validator;
+        private UrlModifyBodyDtoValidator _bodyValidator;
 
         [SetUp]
         public void SetUp()
         {
             _validator = new UrlModifyDtoValidator();
+            _bodyValidator = new UrlModifyBodyDtoValidator();
         }
 
         [Test]
@@ -31,7 +33,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Href_Is_Supplied([Values(null, "")] string name)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Href, name);
+            _bodyValidator.ShouldHaveValidationErrorFor(dto => dto.Href, name);
         }
     }
 }

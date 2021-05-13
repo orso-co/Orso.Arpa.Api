@@ -1,6 +1,5 @@
 using System;
 using AutoMapper;
-using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.ProjectApplication;
@@ -25,26 +24,45 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            ProjectModifyDto dto = new Faker<ProjectModifyDto>()
-                .RuleFor(dto => dto.Id, Guid.NewGuid())
-                .RuleFor(dto => dto.Title, (f) => f.Lorem.Paragraph(50))
-                .RuleFor(dto => dto.ShortTitle, (f) => f.Lorem.Paragraph(8))
-                .RuleFor(dto => dto.Description, (f) => f.Lorem.Paragraph())
-                .RuleFor(dto => dto.Number, "0815ABC")
-                .RuleFor(dto => dto.TypeId, Guid.NewGuid())
-                .RuleFor(dto => dto.GenreId, Guid.NewGuid())
-                .RuleFor(dto => dto.StartDate, new DateTime(2022, 03, 03))
-                .RuleFor(dto => dto.EndDate, new DateTime(2022, 04, 04))
-                .RuleFor(dto => dto.StateId, Guid.NewGuid())
-                .RuleFor(dto => dto.ParentId, Guid.NewGuid())
-                .RuleFor(dto => dto.IsCompleted, true)
-                .Generate();
+            var dto = new ProjectModifyDto
+            {
+                Id = Guid.NewGuid(),
+                Body = new ProjectModifyBodyDto
+                {
+                    Title = "Title",
+                    ShortTitle = "Short Title",
+                    Description = "Description",
+                    Number = "0815ABC",
+                    TypeId = Guid.NewGuid(),
+                    GenreId = Guid.NewGuid(),
+                    StartDate = new DateTime(2022, 03, 03),
+                    EndDate = new DateTime(2022, 04, 04),
+                    StateId = Guid.NewGuid(),
+                    ParentId = Guid.NewGuid(),
+                    IsCompleted = true
+                }
+            };
+            var expectedCommand = new Modify.Command
+            {
+                Id = dto.Id,
+                Title = dto.Body.Title,
+                ShortTitle = dto.Body.ShortTitle,
+                Description = dto.Body.Description,
+                Number = dto.Body.Number,
+                TypeId = dto.Body.TypeId,
+                GenreId = dto.Body.GenreId,
+                StartDate = dto.Body.StartDate,
+                EndDate = dto.Body.EndDate,
+                StateId = dto.Body.StateId,
+                ParentId = dto.Body.ParentId,
+                IsCompleted = dto.Body.IsCompleted
+            };
 
             // Act
             Modify.Command command = _mapper.Map<Modify.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

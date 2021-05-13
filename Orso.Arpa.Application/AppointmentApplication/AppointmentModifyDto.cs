@@ -1,15 +1,17 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Appointments.Modify;
 
 namespace Orso.Arpa.Application.AppointmentApplication
 {
-    public class AppointmentModifyDto : IModifyDto
+    public class AppointmentModifyDto : BaseModifyDto<AppointmentModifyBodyDto>
     {
-        public Guid Id { get; set; }
+    }
 
+    public class AppointmentModifyBodyDto
+    {
         public Guid? CategoryId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
@@ -26,21 +28,35 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentModifyDtoMappingProfile()
         {
-            CreateMap<AppointmentModifyDto, Command>();
+            CreateMap<AppointmentModifyDto, Command>()
+                .ForMember(dest => dest.ExpectationId, opt => opt.MapFrom(src => src.Body.ExpectationId))
+                .ForMember(dest => dest.SalaryPatternId, opt => opt.MapFrom(src => src.Body.SalaryPatternId))
+                .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.Body.SalaryId))
+                .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => src.Body.StatusId))
+                .ForMember(dest => dest.InternalDetails, opt => opt.MapFrom(src => src.Body.InternalDetails))
+                .ForMember(dest => dest.PublicDetails, opt => opt.MapFrom(src => src.Body.PublicDetails))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Body.Name))
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Body.EndTime))
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Body.StartTime))
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Body.CategoryId));
         }
     }
 
-    public class AppointmentModifyDtoValidator : AbstractValidator<AppointmentModifyDto>
+    public class AppointmentModifyDtoValidator : BaseModifyDtoValidator<AppointmentModifyDto, AppointmentModifyBodyDto>
     {
         public AppointmentModifyDtoValidator()
         {
+            RuleFor(d => d.Body)
+                .SetValidator(new AppointmentModifyBodyDtoValidator());
+        }
+    }
 
-            RuleFor(d => d)
-                .NotNull();
-            RuleFor(d => d.Id)
-                .NotEmpty();
+    public class AppointmentModifyBodyDtoValidator : AbstractValidator<AppointmentModifyBodyDto>
+    {
+        public AppointmentModifyBodyDtoValidator()
+        {
             RuleFor(d => d.StartTime)
-                .NotEmpty();
+               .NotEmpty();
             RuleFor(d => d.EndTime)
                 .NotEmpty()
                 .Must((dto, endTime) => endTime >= dto.StartTime)

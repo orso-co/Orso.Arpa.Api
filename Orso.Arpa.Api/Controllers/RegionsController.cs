@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Infrastructure.Authorization;
@@ -81,8 +80,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [SwaggerFromRouteProperty(nameof(RegionModifyDto.Id))]
-        public async Task<IActionResult> Put([FromBodyAndRoute] RegionModifyDto modifyDto)
+        public async Task<IActionResult> Put(RegionModifyDto modifyDto)
         {
             await _regionService.ModifyAsync(modifyDto);
 

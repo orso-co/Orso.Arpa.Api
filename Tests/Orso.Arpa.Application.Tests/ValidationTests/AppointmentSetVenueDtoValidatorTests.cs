@@ -29,9 +29,9 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_VenueId_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Empty_VenueId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.VenueId, default(Guid?));
+            _validator.ShouldHaveValidationErrorFor(command => command.VenueId, Guid.Empty);
         }
 
         [Test]

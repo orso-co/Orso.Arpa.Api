@@ -13,6 +13,7 @@ namespace Orso.Arpa.Application.Services
         RegionCreateDto,
         Create.Command,
         RegionModifyDto,
+        RegionModifyBodyDto,
         Modify.Command>, IRegionService
     {
         public RegionService(IMediator mediator, IMapper mapper) : base(mediator, mapper)

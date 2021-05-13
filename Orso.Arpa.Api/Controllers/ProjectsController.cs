@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
@@ -85,8 +84,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [SwaggerFromRouteProperty(nameof(UrlCreateDto.Id))]
-        public async Task<ActionResult<UrlDto>> AddUrl([FromBodyAndRoute] UrlCreateDto urlCreateDto)
+        public async Task<ActionResult<UrlDto>> AddUrl(UrlCreateDto urlCreateDto)
         {
             UrlDto createdUrl = await _urlService.CreateAsync(urlCreateDto);
             return CreatedAtAction(nameof(GetById), "Urls", new { id = createdUrl.Id }, createdUrl);
@@ -104,8 +102,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [SwaggerFromRouteProperty(nameof(ProjectModifyDto.Id))]
-        public async Task<ActionResult> Put([FromBodyAndRoute] ProjectModifyDto projectModifyDto)
+        public async Task<ActionResult> Put(ProjectModifyDto projectModifyDto)
         {
             await _projectService.ModifyAsync(projectModifyDto);
 

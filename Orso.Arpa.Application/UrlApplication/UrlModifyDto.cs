@@ -1,15 +1,17 @@
-using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Urls.Modify;
 
 namespace Orso.Arpa.Application.UrlApplication
 {
-    public class UrlModifyDto : IModifyDto
+    public class UrlModifyDto : BaseModifyDto<UrlModifyBodyDto>
     {
-        public Guid Id { get; set; }
+    }
+
+    public class UrlModifyBodyDto
+    {
         public string Href { get; set; }
         public string AnchorText { get; set; }
     }
@@ -20,20 +22,26 @@ namespace Orso.Arpa.Application.UrlApplication
         {
             CreateMap<UrlModifyDto, Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
-                .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText));
+                .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Body.Href))
+                .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.Body.AnchorText));
         }
     }
 
-    public class UrlModifyDtoValidator : AbstractValidator<UrlModifyDto>
+    public class UrlModifyDtoValidator : BaseModifyDtoValidator<UrlModifyDto, UrlModifyBodyDto>
     {
         public UrlModifyDtoValidator()
         {
-            RuleFor(d => d.Id)
-                .NotEmpty();
+            RuleFor(d => d.Body)
+                .SetValidator(new UrlModifyBodyDtoValidator());
+        }
+    }
 
+    public class UrlModifyBodyDtoValidator : AbstractValidator<UrlModifyBodyDto>
+    {
+        public UrlModifyBodyDtoValidator()
+        {
             RuleFor(p => p.Href)
-                .ValidUri(1000);
+               .ValidUri(1000);
 
             RuleFor(p => p.AnchorText)
                 .MaximumLength(1000);

@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
-using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -24,24 +24,41 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            AppointmentModifyDto dto = new Faker<AppointmentModifyDto>()
-                .RuleFor(dto => dto.InternalDetails, (f, u) => f.Lorem.Paragraph())
-                .RuleFor(dto => dto.PublicDetails, (f, u) => f.Lorem.Paragraph())
-                .RuleFor(dto => dto.Name, (f, u) => f.Name.FirstName())
-                .RuleFor(dto => dto.StartTime, (f, u) => f.Date.Soon())
-                .RuleFor(dto => dto.EndTime, (f, u) => f.Date.Soon())
-                .RuleFor(dto => dto.CategoryId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.SalaryId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.SalaryPatternId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.StatusId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.Id, f => Guid.NewGuid())
-                .Generate();
+            var dto = new AppointmentModifyDto
+            {
+                Id = Guid.NewGuid(),
+                Body = new AppointmentModifyBodyDto
+                {
+                    InternalDetails = "Internal Details",
+                    PublicDetails = "Public Details",
+                    Name = "Name",
+                    StartTime = DateTime.Now,
+                    EndTime = DateTime.Now.AddHours(2),
+                    CategoryId = Guid.NewGuid(),
+                    SalaryId = Guid.NewGuid(),
+                    SalaryPatternId = Guid.NewGuid(),
+                    StatusId = Guid.NewGuid()
+                }
+            };
+            var expectedCommand = new Modify.Command
+            {
+                Id = dto.Id,
+                InternalDetails = dto.Body.InternalDetails,
+                PublicDetails = dto.Body.PublicDetails,
+                Name = dto.Body.Name,
+                StartTime = dto.Body.StartTime,
+                EndTime = dto.Body.EndTime,
+                CategoryId = dto.Body.CategoryId,
+                SalaryId = dto.Body.SalaryId,
+                SalaryPatternId = dto.Body.SalaryPatternId,
+                StatusId = dto.Body.StatusId
+            };
 
             // Act
-            Domain.Logic.Appointments.Modify.Command command = _mapper.Map<Domain.Logic.Appointments.Modify.Command>(dto);
+            Modify.Command command = _mapper.Map<Modify.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

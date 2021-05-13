@@ -1,27 +1,35 @@
-using System;
 using FluentValidation;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.General;
 
 namespace Orso.Arpa.Application.SectionApplication
 {
-    public class SectionModifyDto : IModifyDto
+    public class SectionModifyDto : BaseModifyDto<SectionModifyBodyDto>
+    {
+    }
+
+    public class SectionModifyBodyDto
     {
         // ToDo: Add properties
 
-        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 
-    public class SectionModifyDtoValidator : AbstractValidator<SectionModifyDto>
+    public class SectionModifyDtoValidator : BaseModifyDtoValidator<SectionModifyDto, SectionModifyBodyDto>
     {
         public SectionModifyDtoValidator()
         {
-            RuleFor(s => s.Id)
-                .NotEmpty();
+            RuleFor(d => d.Body)
+                .SetValidator(new SectionModifyBodyDtoValidator());
+        }
+    }
 
+    public class SectionModifyBodyDtoValidator : AbstractValidator<SectionModifyBodyDto>
+    {
+        public SectionModifyBodyDtoValidator()
+        {
             RuleFor(s => s.Name)
-                .NotEmpty()
-                .MaximumLength(50);
+               .NotEmpty()
+               .MaximumLength(50);
         }
     }
 }
