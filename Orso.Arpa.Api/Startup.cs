@@ -22,6 +22,7 @@ using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
+using Orso.Arpa.Api.Swagger;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Services;

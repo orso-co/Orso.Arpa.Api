@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Orso.Arpa.Api.ModelBinding
+namespace Orso.Arpa.Api.Swagger
 {
     public class LowerCaseDocumentFilter : IDocumentFilter
     {
