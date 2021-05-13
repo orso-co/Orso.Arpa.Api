@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.UrlApplication;
@@ -48,8 +47,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [SwaggerFromRouteProperty(nameof(UrlModifyDto.Id))]
-        public async Task<ActionResult> Put([FromBodyAndRoute] UrlModifyDto urlModifyDto)
+        public async Task<ActionResult> Put(UrlModifyDto urlModifyDto)
         {
             await _urlService.ModifyAsync(urlModifyDto);
             return NoContent();

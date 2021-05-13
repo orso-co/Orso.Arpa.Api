@@ -7,7 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.GenericHandlers;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
@@ -15,11 +15,11 @@ using static Orso.Arpa.Domain.GenericHandlers.Modify;
 
 namespace Orso.Arpa.Application.Services
 {
-    public abstract class BaseService<TGetDto, TEntity, TCreateDto, TCreateCommand, TModifyDto, TModifyCommand>
+    public abstract class BaseService<TGetDto, TEntity, TCreateDto, TCreateCommand, TModifyDto, TModifyBodyDto, TModifyCommand>
         where TEntity : BaseEntity
         where TCreateCommand : ICreateCommand<TEntity>
+        where TModifyDto : BaseModifyDto<TModifyBodyDto>
         where TModifyCommand : IModifyCommand<TEntity>
-        where TModifyDto : IModifyDto
     {
         protected readonly IMapper _mapper;
         protected readonly IMediator _mediator;

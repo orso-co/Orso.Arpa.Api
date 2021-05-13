@@ -241,7 +241,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             Appointment appointmentToModify = AppointmentSeedData.RockingXMasConcert;
 
-            var modifyDto = new AppointmentModifyDto
+            var modifyDto = new AppointmentModifyBodyDto
             {
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
@@ -270,7 +270,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             Appointment appointmentToModify = AppointmentSeedData.RockingXMasConcert;
 
-            var modifyDto = new AppointmentModifyDto
+            var modifyDto = new AppointmentModifyBodyDto
             {
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
@@ -293,7 +293,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Modify_If_Not_Existing_Id_Is_Supplied()
         {
             // Arrange
-            var modifyDto = new AppointmentModifyDto
+            var modifyDto = new AppointmentModifyBodyDto
             {
                 Name = "New Appointment",
                 InternalDetails = "Internal Details",
@@ -321,7 +321,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Appointment appointmentToModify = AppointmentSeedData.PhotoSession;
-            var setDatesDto = new AppointmentSetDatesDto
+            var setDatesDto = new AppointmentSetDatesBodyDto
             {
                 StartTime = FakeDateTime.UtcNow,
                 EndTime = FakeDateTime.UtcNow.AddHours(5)

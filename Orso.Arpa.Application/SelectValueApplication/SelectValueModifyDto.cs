@@ -1,22 +1,32 @@
-using System;
 using FluentValidation;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.General;
 
 namespace Orso.Arpa.Application.SelectValueApplication
 {
-    public class SelectValueModifyDto : IModifyDto
+    public class SelectValueModifyDto : BaseModifyDto<SelectValueModifyBodyDto>
     {
-        public Guid Id { get; set; }
+    }
 
+    public class SelectValueModifyBodyDto
+    {
         // ToDo: Add properties
         public string Name { get; set; }
 
         public string Description { get; set; }
     }
 
-    public class SelectValueModifyDtoValidator : AbstractValidator<SelectValueModifyDto>
+    public class SelectValueModifyDtoValidator : BaseModifyDtoValidator<SelectValueModifyDto, SelectValueModifyBodyDto>
     {
         public SelectValueModifyDtoValidator()
+        {
+            RuleFor(d => d.Body)
+                .SetValidator(new SelectValueModifyBodyDtoValidator());
+        }
+    }
+
+    public class SelectValueModifyBodyDtoValidator : AbstractValidator<SelectValueModifyBodyDto>
+    {
+        public SelectValueModifyBodyDtoValidator()
         {
             RuleFor(s => s.Name)
                 .NotEmpty()

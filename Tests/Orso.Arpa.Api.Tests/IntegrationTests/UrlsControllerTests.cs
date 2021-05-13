@@ -36,11 +36,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             UrlDto urlToModify = UrlDtoData.GoogleDe;
-            var modifyDto = new UrlModifyDto
+            var modifyDto = new UrlModifyBodyDto
             {
                 Href = "http://google.de/modified",
                 AnchorText = "modified anchor",
-                Id = urlToModify.Id,
             };
             HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 

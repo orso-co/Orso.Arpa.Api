@@ -13,7 +13,7 @@ using Orso.Arpa.Domain.Logic.Sections;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class SectionService : BaseService<SectionDto, Section, SectionCreateDto, Create.Command, SectionModifyDto, Modify.Command>, ISectionService
+    public class SectionService : BaseService<SectionDto, Section, SectionCreateDto, Create.Command, SectionModifyDto, SectionModifyBodyDto, Modify.Command>, ISectionService
     {
         public SectionService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {

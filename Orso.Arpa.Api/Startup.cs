@@ -22,6 +22,7 @@ using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
+using Orso.Arpa.Api.Swagger;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.Services;
@@ -78,8 +79,9 @@ namespace Orso.Arpa.Api
                 typeof(Modify.MappingProfile).Assembly);
             services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
+            services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
             services
-                .AddControllers(options => options.ModelBinderProviders.InsertBodyAndRouteBinding())
+                .AddControllers()
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters
                     .Add(new DateTimeJsonConverter()))
                 .AddApplicationPart(typeof(Startup).Assembly)
@@ -154,7 +156,8 @@ namespace Orso.Arpa.Api
 
                 options.AddFluentValidationRules();
 
-                options.OperationFilter<SwaggerAddFromRoutePropertiesOperationFilter>();
+                options.DocumentFilter<LowerCaseDocumentFilter>();
+
                 options.OperationFilter<SwaggerAuthorizeOperationFilter>();
 
                 // Set the comments path for the Swagger JSON and UI.

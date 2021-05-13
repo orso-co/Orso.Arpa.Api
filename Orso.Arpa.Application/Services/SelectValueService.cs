@@ -10,7 +10,7 @@ using Orso.Arpa.Domain.Logic.SelectValues;
 
 namespace Orso.Arpa.Application.Services
 {
-    public class SelectValueService : BaseService<SelectValueDto, SelectValue, SelectValueCreateDto, Create.Command, SelectValueModifyDto, Modify.Command>, ISelectValueService
+    public class SelectValueService : BaseService<SelectValueDto, SelectValue, SelectValueCreateDto, Create.Command, SelectValueModifyDto, SelectValueModifyBodyDto, Modify.Command>, ISelectValueService
     {
         public SelectValueService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {

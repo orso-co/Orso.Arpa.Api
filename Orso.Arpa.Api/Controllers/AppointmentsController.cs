@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
@@ -156,8 +155,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [SwaggerFromRouteProperty(nameof(AppointmentModifyDto.Id))]
-        public async Task<ActionResult> Put([FromBodyAndRoute] AppointmentModifyDto appointmentModifyDto)
+        public async Task<ActionResult> Put(AppointmentModifyDto appointmentModifyDto)
         {
             await _appointmentService.ModifyAsync(appointmentModifyDto);
 
@@ -246,8 +244,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [SwaggerFromRouteProperty(nameof(AppointmentSetDatesDto.Id))]
-        public async Task<ActionResult<AppointmentDto>> SetDates([FromBodyAndRoute] AppointmentSetDatesDto setDatesDto)
+        public async Task<ActionResult<AppointmentDto>> SetDates(AppointmentSetDatesDto setDatesDto)
         {
             return await _appointmentService.SetDatesAsync(setDatesDto);
         }

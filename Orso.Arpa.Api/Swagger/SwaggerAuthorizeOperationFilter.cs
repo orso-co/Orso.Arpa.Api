@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Orso.Arpa.Api.ModelBinding
+namespace Orso.Arpa.Api.Swagger
 {
     public class SwaggerAuthorizeOperationFilter : IOperationFilter
     {
@@ -14,16 +14,23 @@ namespace Orso.Arpa.Api.ModelBinding
                 .GetCustomAttributes(true)
                 .OfType<AuthorizeAttribute>();
 
-            IEnumerable<string> policyAttributes = authAttributes
-                .Where(attr => attr.Policy != null)
-                .Select(attr => attr.Policy)
+            HandlePolicyAttributes(operation, authAttributes);
+
+            HandleRoleAttributes(operation, authAttributes);
+        }
+
+        private static void HandleRoleAttributes(OpenApiOperation operation, IEnumerable<AuthorizeAttribute> authAttributes)
+        {
+            IEnumerable<string> roleAttributes = authAttributes
+                .Where(attr => attr.Roles != null)
+                .Select(attr => attr.Roles)
                 .Distinct();
 
-            if (policyAttributes.Any())
+            if (roleAttributes.Any())
             {
                 operation.Responses.Add("403", new OpenApiResponse
                 {
-                    Description = $"If current user does not meet policy '{policyAttributes.First()}'",
+                    Description = $"If current user does not have the role of '{roleAttributes.First()}'",
                     Content = new Dictionary<string, OpenApiMediaType>()
                     {
                         { "application/json", new OpenApiMediaType() { Schema = new OpenApiSchema() { Type = "object", Properties = new Dictionary<string, OpenApiSchema>() {
@@ -38,17 +45,20 @@ namespace Orso.Arpa.Api.ModelBinding
                     Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
                 };
             }
+        }
 
-            IEnumerable<string> roleAttributes = authAttributes
-                .Where(attr => attr.Roles != null)
-                .Select(attr => attr.Roles)
+        private static void HandlePolicyAttributes(OpenApiOperation operation, IEnumerable<AuthorizeAttribute> authAttributes)
+        {
+            IEnumerable<string> policyAttributes = authAttributes
+                .Where(attr => attr.Policy != null)
+                .Select(attr => attr.Policy)
                 .Distinct();
 
-            if (roleAttributes.Any())
+            if (policyAttributes.Any())
             {
                 operation.Responses.Add("403", new OpenApiResponse
                 {
-                    Description = $"If current user does not have the role of '{roleAttributes.First()}'",
+                    Description = $"If current user does not meet policy '{policyAttributes.First()}'",
                     Content = new Dictionary<string, OpenApiMediaType>()
                     {
                         { "application/json", new OpenApiMediaType() { Schema = new OpenApiSchema() { Type = "object", Properties = new Dictionary<string, OpenApiSchema>() {

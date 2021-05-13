@@ -54,7 +54,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Region regionToModify = RegionSeedData.Berlin;
-            var modifyDto = new RegionModifyDto
+            var modifyDto = new RegionModifyBodyDto
             {
                 Name = "Honolulu"
             };

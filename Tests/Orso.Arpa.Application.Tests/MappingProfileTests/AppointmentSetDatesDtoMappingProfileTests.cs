@@ -28,15 +28,25 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new AppointmentSetDatesDto
             {
                 Id = Guid.NewGuid(),
-                StartTime = FakeDateTime.UtcNow,
-                EndTime = FakeDateTime.UtcNow.AddHours(2)
+                Body = new AppointmentSetDatesBodyDto
+                {
+                    StartTime = FakeDateTime.UtcNow,
+                    EndTime = FakeDateTime.UtcNow.AddHours(2)
+
+                }
+            };
+            var expectedCommand = new SetDates.Command
+            {
+                Id = dto.Id,
+                StartTime = dto.Body.StartTime,
+                EndTime = dto.Body.EndTime
             };
 
             // Act
             SetDates.Command command = _mapper.Map<SetDates.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

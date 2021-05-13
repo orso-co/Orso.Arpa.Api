@@ -10,11 +10,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     public class AppointmentModifyDtoValidatorTests
     {
         private AppointmentModifyDtoValidator _validator;
+        private AppointmentModifyBodyDtoValidator _bodyValidator;
 
         [SetUp]
         public void SetUp()
         {
             _validator = new AppointmentModifyDtoValidator();
+            _bodyValidator = new AppointmentModifyBodyDtoValidator();
         }
 
         [Test]
@@ -32,103 +34,112 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_CategoryId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.CategoryId, default(Guid?));
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.CategoryId, default(Guid?));
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_CategoryId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.CategoryId, Guid.NewGuid());
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.CategoryId, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_StatusId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.StatusId, default(Guid?));
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.StatusId, default(Guid?));
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_StatusId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.StatusId, Guid.NewGuid());
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.StatusId, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.SalaryId, default(Guid?));
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.SalaryId, default(Guid?));
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.SalaryId, Guid.NewGuid());
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.SalaryId, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_StartTime_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.StartTime, DateTime.MinValue);
+            _bodyValidator.ShouldHaveValidationErrorFor(command => command.StartTime, DateTime.MinValue);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_StartTime_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.StartTime, FakeDateTime.UtcNow);
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.StartTime, FakeDateTime.UtcNow);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_EndTime_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.EndTime, DateTime.MinValue);
+            _bodyValidator.ShouldHaveValidationErrorFor(command => command.EndTime, DateTime.MinValue);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_EndTime_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, FakeDateTime.UtcNow);
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.EndTime, FakeDateTime.UtcNow);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_EndTime_Is_Not_Greater_Than_StartTime()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
+            _validator.ShouldHaveValidationErrorFor(command => command.Body.EndTime, new AppointmentModifyDto
             {
-                StartTime = FakeDateTime.UtcNow,
-                EndTime = FakeDateTime.UtcNow.AddHours(-3)
+                Body = new AppointmentModifyBodyDto
+                {
+                    StartTime = FakeDateTime.UtcNow,
+                    EndTime = FakeDateTime.UtcNow.AddHours(-3)
+                }
             });
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_EndTime_Is_Greater_Than_StartTime()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Body.EndTime, new AppointmentModifyDto
             {
-                StartTime = FakeDateTime.UtcNow,
-                EndTime = FakeDateTime.UtcNow.AddHours(3)
+                Body = new AppointmentModifyBodyDto
+                {
+                    StartTime = FakeDateTime.UtcNow,
+                    EndTime = FakeDateTime.UtcNow.AddHours(3)
+                }
             });
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_EndTime_Is_Equal_To_StartTime()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.EndTime, new AppointmentModifyDto
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Body.EndTime, new AppointmentModifyDto
             {
-                StartTime = new DateTime(2019, 12, 28),
-                EndTime = new DateTime(2019, 12, 28)
+                Body = new AppointmentModifyBodyDto
+                {
+                    StartTime = new DateTime(2019, 12, 28),
+                    EndTime = new DateTime(2019, 12, 28)
+                }
             });
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Name_Is_Supplied([Values(null, "")] string name)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Name, name);
+            _bodyValidator.ShouldHaveValidationErrorFor(command => command.Name, name);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Name, "appointment");
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.Name, "appointment");
         }
     }
 }

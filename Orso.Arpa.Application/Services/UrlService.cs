@@ -15,6 +15,7 @@ namespace Orso.Arpa.Application.Services
         UrlCreateDto,
         Create.Command,
         UrlModifyDto,
+        UrlModifyBodyDto,
         Modify.Command
         >, IUrlService
     {

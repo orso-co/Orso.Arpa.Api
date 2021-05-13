@@ -1,14 +1,17 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Appointments.SetDates;
 
 namespace Orso.Arpa.Application.AppointmentApplication
 {
-    public class AppointmentSetDatesDto : IModifyDto
+    public class AppointmentSetDatesDto : BaseModifyDto<AppointmentSetDatesBodyDto>
     {
-        public Guid Id { get; set; }
+    }
+
+    public class AppointmentSetDatesBodyDto
+    {
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
     }
@@ -17,24 +20,31 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentSetDatesDtoMappingProfile()
         {
-            CreateMap<AppointmentSetDatesDto, Command>();
+            CreateMap<AppointmentSetDatesDto, Command>()
+                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Body.StartTime))
+                .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Body.EndTime));
         }
     }
 
-    public class AppointmentSetDatesDtoValidator : AbstractValidator<AppointmentSetDatesDto>
+    public class AppointmentSetDatesDtoValidator : BaseModifyDtoValidator<AppointmentSetDatesDto, AppointmentSetDatesBodyDto>
     {
         public AppointmentSetDatesDtoValidator()
         {
-            RuleFor(d => d)
-                .NotNull();
+            RuleFor(d => d.Body)
+                .SetValidator(new AppointmentSetDatesBodyDtoValidator());
+        }
+    }
+
+    public class AppointmentSetDatesBodyDtoValidator : AbstractValidator<AppointmentSetDatesBodyDto>
+    {
+        public AppointmentSetDatesBodyDtoValidator()
+        {
             RuleFor(c => c.EndTime)
-                    .NotNull()
-                    .When(c => c.StartTime == null);
+                .NotNull()
+                .When(c => c.StartTime == null);
             RuleFor(c => c.StartTime)
                 .NotNull()
                 .When(c => c.EndTime == null);
-            RuleFor(d => d.Id)
-                .NotEmpty();
         }
     }
 }

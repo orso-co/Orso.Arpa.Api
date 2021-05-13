@@ -2,14 +2,17 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Projects.Modify;
 
 namespace Orso.Arpa.Application.ProjectApplication
 {
-    public class ProjectModifyDto : IModifyDto
+    public class ProjectModifyDto : BaseModifyDto<ProjectModifyBodyDto>
     {
-        public Guid Id { get; set; }
+    }
+
+    public class ProjectModifyBodyDto
+    {
         public string Title { get; set; }
         public string ShortTitle { get; set; }
         public string Description { get; set; }
@@ -27,17 +30,39 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public ProjectModifyDtoMappingProfile()
         {
-            CreateMap<ProjectModifyDto, Command>();
+            CreateMap<ProjectModifyDto, Command>()
+                .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.Body.IsCompleted))
+                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.Body.ParentId))
+                .ForMember(dest => dest.StateId, opt => opt.MapFrom(src => src.Body.StateId))
+                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.Body.EndDate))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Body.StartDate))
+                .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.Body.GenreId))
+                .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Body.TypeId))
+                .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Body.Number))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Body.Description))
+                .ForMember(dest => dest.ShortTitle, opt => opt.MapFrom(src => src.Body.ShortTitle))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Body.Title));
         }
     }
 
-    public class ProjectModifyDtoValidator : AbstractValidator<ProjectModifyDto>
+    public class ProjectModifyDtoValidator : BaseModifyDtoValidator<ProjectModifyDto, ProjectModifyBodyDto>
     {
         public ProjectModifyDtoValidator()
         {
-            RuleFor(d => d.Id)
-                .NotEmpty();
+            RuleFor(d => d.Body)
+                .SetValidator(new ProjectModifyBodyDtoValidator());
 
+            RuleFor(p => p.Body.ParentId)
+                .Must((dto, parentId) => dto.Id != parentId.Value)
+                .When(dto => dto.Body?.ParentId != null)
+                .WithMessage("The project must not be its own parent");
+        }
+    }
+
+    public class ProjectModifyBodyDtoValidator : AbstractValidator<ProjectModifyBodyDto>
+    {
+        public ProjectModifyBodyDtoValidator()
+        {
             RuleFor(p => p.Title)
                 .NotEmpty()
                 .MaximumLength(100);
@@ -53,11 +78,6 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .NotEmpty()
                 .Sepa()
                 .MaximumLength(15);
-
-            RuleFor(p => p.ParentId)
-                .Must((dto, parentId) => dto.Id != parentId.Value)
-                .When(dto => dto.ParentId.HasValue)
-                .WithMessage("The project must not be its own parent");
 
             When(p => p.StartDate != null && p.EndDate != null, () =>
             {

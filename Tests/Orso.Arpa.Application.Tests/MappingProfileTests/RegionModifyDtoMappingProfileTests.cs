@@ -24,8 +24,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var regionDto = new RegionModifyDto { Id = Guid.NewGuid(), Name = "Name" };
-            var expectedCommand = new Modify.Command { Id = regionDto.Id, Name = regionDto.Name };
+            var regionDto = new RegionModifyDto { Id = Guid.NewGuid(), Body = new RegionModifyBodyDto { Name = "Name" } };
+            var expectedCommand = new Modify.Command { Id = regionDto.Id, Name = regionDto.Body.Name };
 
             // Act
             Modify.Command command = _mapper.Map<Modify.Command>(regionDto);
