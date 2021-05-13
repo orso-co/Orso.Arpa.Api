@@ -10,11 +10,11 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         #region Native
         public byte LevelAssessmentPerformer { get; set; }
         public byte LevelAssessmentStaff { get; set; }
-        public byte? ProfilePreferencePerformer { get; set; }
-        public byte? ProfilePreferenceStaff { get; set; }
-        public bool? IsMainProfile { get; set; }
+        public byte ProfilePreferencePerformer { get; set; }
+        public byte ProfilePreferenceStaff { get; set; }
+        public bool IsMainProfile { get; set; }
         public string Background { get; set; }
-        public byte? ExperienceLevel { get; set; }
+        public byte ExperienceLevel { get; set; }
         public string SalaryComment { get; set; }
         #endregion
 
