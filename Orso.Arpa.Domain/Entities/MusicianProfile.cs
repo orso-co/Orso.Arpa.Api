@@ -35,12 +35,12 @@ namespace Orso.Arpa.Domain.Entities
 
         #region Native
         public byte LevelAssessmentPerformer { get; private set; }
-        public byte? LevelAssessmentStaff { get; private set; }
-        public byte? ProfilePreferencePerformer { get; private set; }
-        public byte? ProfilePreferenceStaff { get; private set; }
-        public bool? IsMainProfile { get; private set; }
+        public byte LevelAssessmentStaff { get; private set; }
+        public byte ProfilePreferencePerformer { get; private set; }
+        public byte ProfilePreferenceStaff { get; private set; }
+        public bool IsMainProfile { get; private set; }
         public string Background { get; private set; }
-        public byte? ExperienceLevel { get; private set; }
+        public byte ExperienceLevel { get; private set; }
         public string SalaryComment { get; private set; }
         #endregion
 
