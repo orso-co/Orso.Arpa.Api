@@ -9,17 +9,19 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     public class UrlCreateDtoValidatorTests
     {
         private UrlCreateDtoValidator _validator;
+        private UrlCreateBodyDtoValidator _bodyValidator;
 
         [SetUp]
         public void SetUp()
         {
             _validator = new UrlCreateDtoValidator();
+            _bodyValidator = new UrlCreateBodyDtoValidator();
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Href_Is_Supplied([Values(null, "")] string name)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Body.Href, name);
+            _bodyValidator.ShouldHaveValidationErrorFor(command => command.Href, name);
         }
 
         [Test]
