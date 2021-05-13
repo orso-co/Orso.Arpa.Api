@@ -154,6 +154,8 @@ namespace Orso.Arpa.Api
 
                 options.AddFluentValidationRules();
 
+                options.DocumentFilter<LowerCaseDocumentFilter>();
+
                 options.OperationFilter<SwaggerAddFromRoutePropertiesOperationFilter>();
                 options.OperationFilter<SwaggerAuthorizeOperationFilter>();
 

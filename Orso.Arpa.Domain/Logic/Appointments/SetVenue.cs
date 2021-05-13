@@ -14,7 +14,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
     {
         public class Command : IRequest
         {
-            public Command(Guid id, Guid? venueId)
+            public Command(Guid id, Guid venueId)
             {
                 Id = id;
                 VenueId = venueId;
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             }
 
             public Guid Id { get; private set; }
-            public Guid? VenueId { get; private set; }
+            public Guid VenueId { get; private set; }
         }
 
         public class MappingProfile : Profile

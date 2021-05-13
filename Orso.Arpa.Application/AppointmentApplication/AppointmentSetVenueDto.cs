@@ -8,7 +8,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     public class AppointmentSetVenueDto
     {
         public Guid Id { get; set; }
-        public Guid? VenueId { get; set; }
+        public Guid VenueId { get; set; }
     }
 
     public class AppointmentSetVenueDtoMappingProfile : Profile
@@ -28,6 +28,8 @@ namespace Orso.Arpa.Application.AppointmentApplication
             RuleFor(d => d)
                 .NotNull();
             RuleFor(d => d.Id)
+                .NotEmpty();
+            RuleFor(d => d.VenueId)
                 .NotEmpty();
         }
     }
