@@ -110,13 +110,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class MeController
         {
-            private static string Me => $"{Base}/users/me";
+            private static string Me => $"{Base}/me";
 
-            public static string GetProfile() => $"{Me}/profile";
+            public static string GetProfile() => $"{Me}/profiles/user";
 
             public static string GetAppointments(int? limit = null, int? offset = null) => $"{Me}/appointments?limit={limit}&offset={offset}";
 
-            public static string PutProfile() => $"{Me}/profile";
+            public static string PutProfile() => $"{Me}/profiles/user";
 
             public static string SetAppointmentParticipationPrediction(Guid appointmentId, Guid predictionId)
                 => $"{Me}/appointments/{appointmentId}/participation/prediction/{predictionId}";

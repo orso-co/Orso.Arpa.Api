@@ -25,7 +25,7 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>The user profile of the current user</returns>
         /// <response code="200"></response>
-        [HttpGet("profile")]
+        [HttpGet("profiles/user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<MyProfileDto>> GetMyProfile()
         {
@@ -69,7 +69,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [HttpPut("profile")]
+        [HttpPut("profiles/user")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
