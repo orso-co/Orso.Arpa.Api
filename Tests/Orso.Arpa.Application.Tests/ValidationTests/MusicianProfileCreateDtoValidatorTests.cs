@@ -29,9 +29,9 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.QualificationId, Guid.Empty);
+            _validator.ShouldHaveValidationErrorFor(command => command.QualificationId, Guid.Empty);
         }
 
         [Test]

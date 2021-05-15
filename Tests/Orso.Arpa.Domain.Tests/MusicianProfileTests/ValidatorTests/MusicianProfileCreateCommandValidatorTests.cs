@@ -114,50 +114,88 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.QualificationId, (Guid?)null);
+            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.QualificationId, (Guid?)null, nameof(SelectValueMapping));
         }
         #endregion
 
-        #region SalaryId
+        #region InquiryStatusPerformerId
         [Test]
-        public void Should_Have_Validation_Error_If_SalaryId_Does_Not_Exist()
+        public void Should_Have_Validation_Error_If_InquiryStatusPerformerId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.SalaryId, Guid.NewGuid(), nameof(SelectValueMapping));
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.InquiryStatusPerformerId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Invalid_InquiryStatusPerformerId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.SalaryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.InquiryStatusPerformerId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_SalaryId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_InquiryStatusPerformerId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryId, SelectValueMappingSeedData.MusicianProfileSalaryMappings[0].Id);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.InquiryStatusPerformerId, SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_SalaryId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Empty_InquiryStatusPerformerId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryId, (Guid?)null);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.InquiryStatusPerformerId, (Guid?)null);
+        }
+        #endregion
+
+        #region InquiryStatusStaffId
+        [Test]
+        public void Should_Have_Validation_Error_If_InquiryStatusStaffId_Does_Not_Exist()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.InquiryStatusStaffId, Guid.NewGuid(), nameof(SelectValueMapping));
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Invalid_InquiryStatusStaffId_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.InquiryStatusStaffId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_InquiryStatusStaffId_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.InquiryStatusStaffId, SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[0].Id);
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Empty_InquiryStatusStaffId_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _validator.ShouldNotHaveValidationErrorFor(c => c.InquiryStatusStaffId, (Guid?)null);
         }
         #endregion
     }

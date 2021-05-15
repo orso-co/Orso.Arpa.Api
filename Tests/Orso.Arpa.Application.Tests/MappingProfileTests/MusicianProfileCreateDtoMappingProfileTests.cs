@@ -27,18 +27,17 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             MusicianProfileCreateDto dto = new Faker<MusicianProfileCreateDto>()
                 .RuleFor(dto => dto.LevelAssessmentPerformer, (byte)1)
-                .RuleFor(dto => dto.LevelAssessmentStaff, (byte)1)
-                .RuleFor(dto => dto.ProfilePreferencePerformer, (byte)3)
-                .RuleFor(dto => dto.ProfilePreferenceStaff, (byte)4)
-                .RuleFor(dto => dto.IsMainProfile, true)
-                .RuleFor(dto => dto.Background, (f) => f.Lorem.Paragraph(50))
-                .RuleFor(dto => dto.ExperienceLevel, (byte)5)
-                .RuleFor(dto => dto.Background, (f) => f.Lorem.Paragraph(50))
+                .RuleFor(dto => dto.LevelAssessmentStaff, (byte)2)
+
+                .RuleFor(dto => dto.PersonId, Guid.NewGuid())
+
                 .RuleFor(dto => dto.InstrumentId, Guid.NewGuid())
                 .RuleFor(dto => dto.QualificationId, Guid.NewGuid())
-                .RuleFor(dto => dto.SalaryId, Guid.NewGuid())
                 .RuleFor(dto => dto.InquiryStatusPerformerId, Guid.NewGuid())
                 .RuleFor(dto => dto.InquiryStatusStaffId, Guid.NewGuid())
+
+                // ToDo collections
+
                 .Generate();
 
             // Act

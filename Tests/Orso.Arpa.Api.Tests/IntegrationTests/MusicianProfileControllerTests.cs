@@ -57,21 +57,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             MusicianProfileDto musicianProfileToModify = MusicianProfileDtoData.PerformerProfile;
             var modifyDto = new MusicianProfileModifyDto
             {
-                PersonId = FakePersons.Performer.Id,
+                IsMainProfile = false,
+                IsDeactivated = false,
+
                 LevelAssessmentPerformer = 1,
                 LevelAssessmentStaff = 2,
                 ProfilePreferencePerformer = 3,
                 ProfilePreferenceStaff = 4,
-                IsMainProfile = false,
-                Background = "revised: Background description",
-                ExperienceLevel = 5,
+
+                BackgroundPerformer = "revised: Background description",
+                BackgroundStaff = "revised: Staff-Background description",
                 SalaryComment = "revised: Salary only via PayPal, other payments not accepted!",
 
+                PersonId = FakePersons.Performer.Id,
                 InstrumentId = SectionSeedData.Alto2.Id,
                 QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
                 SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
                 InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
                 InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
+
+                // ToDo Collections
             };
 
             // Act
@@ -94,7 +99,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 PersonId = FakePersons.Performer.Id,
                 InstrumentId = SectionSeedData.Euphonium.Id,
-                LevelAssessmentPerformer = 4,
                 QualificationId = SelectValueSeedData.SemiProfessional.Id,
             };
 
@@ -102,7 +106,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 PersonId = createDto.PersonId,
                 InstrumentId = createDto.InstrumentId,
-                LevelAssessmentPerformer = createDto.LevelAssessmentPerformer,
                 QualificationId = createDto.QualificationId,
 
                 CreatedBy = _staff.DisplayName,
@@ -134,8 +137,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 PersonId = FakePersons.Performer.Id,
                 InstrumentId = SectionSeedData.Euphonium.Id,
-                // -> this is the missing mandatory field: LevelAssessmentPerformer = 1,
-                QualificationId = SelectValueSeedData.SemiProfessional.Id,
+                // -> this is the missing mandatory field: QualificationId = SelectValueSeedData.SemiProfessional.Id,
             };
 
             var expectedDto = new MusicianProfileDto

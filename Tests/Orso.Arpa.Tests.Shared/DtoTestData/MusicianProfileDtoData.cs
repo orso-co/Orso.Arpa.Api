@@ -100,25 +100,30 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new MusicianProfileDto
                 {
                     Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
-                    PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
+
+                    IsMainProfile = true,
+                    IsDeactivated = false,
 
                     LevelAssessmentPerformer = 1,
                     LevelAssessmentStaff = 2,
                     ProfilePreferencePerformer = 3,
                     ProfilePreferenceStaff = 4,
-                    IsMainProfile = true,
-                    Background = "Trombonist background description",
-                    ExperienceLevel = 5,
+
+                    BackgroundPerformer = "Trombonist background description",
+                    BackgroundStaff = "Trombonist internal-background description",
                     SalaryComment = "Salary only via PayPal, other payments not accepted",
 
+                    PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
                     InstrumentId = SectionSeedData.Trombone.Id,
                     QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
                     SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
-                    InquiryStatusPerfomerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
+                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
                     InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
+
+                    //Todo collections
                 };
             }
         }
@@ -131,19 +136,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Id = Guid.Parse("6cac7b0e-f95e-4287-b29c-6e32f78c7e70"),
                     PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
 
+                    IsMainProfile = true,
+                    IsDeactivated = false,
+
                     LevelAssessmentPerformer = 1,
                     LevelAssessmentStaff = 2,
                     ProfilePreferencePerformer = 3,
                     ProfilePreferenceStaff = 4,
-                    IsMainProfile = true,
-                    Background = "Trombonist who plays Euphonium, too",
-                    ExperienceLevel = 5,
+
+                    BackgroundPerformer = "Trombonist who plays Euphonium, too",
+                    BackgroundStaff = "Excellent guy",
                     SalaryComment = "PayPal only",
 
                     InstrumentId = SectionSeedData.Euphonium.Id,
                     QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
                     SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
-                    InquiryStatusPerfomerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
+                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
                     InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
 
                     CreatedBy = "anonymous",

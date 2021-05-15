@@ -101,24 +101,33 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"), new Create.Command
+                var muPro = new MusicianProfile(Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"), new Create.Command
                 {
-                    PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
                     LevelAssessmentPerformer = 1,
                     LevelAssessmentStaff = 2,
-                    ProfilePreferencePerformer = 3,
-                    ProfilePreferenceStaff = 4,
-                    IsMainProfile = true,
-                    Background = "Trombonist background description",
-                    ExperienceLevel = 5,
-                    SalaryComment = "Salary only via PayPal, other payments not accepted",
 
+                    PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
                     InstrumentId = SectionSeedData.Trombone.Id,
                     QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
-                    SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
                     InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
                     InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
+
                 });
+
+                muPro.IsMainProfile = true;
+                muPro.IsDeactivated = false;
+                muPro.ProfilePreferencePerformer = 3;
+                muPro.ProfilePreferenceStaff = 4;
+
+                muPro.BackgroundPerformer = "Trombonist background description";
+                muPro.BackgroundStaff = "Trombonist internal-background description";
+                muPro.SalaryComment = "Salary only via PayPal, other payments not accepted";
+
+                muPro.SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id;
+
+                //ToDo Collections
+
+                return muPro;
             }
         }
     }
