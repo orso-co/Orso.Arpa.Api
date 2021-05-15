@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
@@ -14,21 +15,31 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             #region Native
             public byte LevelAssessmentPerformer { get; set; }
             public byte LevelAssessmentStaff { get; set; }
-            public byte ProfilePreferencePerformer { get; set; }
-            public byte ProfilePreferenceStaff { get; set; }
-            public bool IsMainProfile { get; set; }
-            public string Background { get; set; }
-            public byte ExperienceLevel { get; set; }
-            public string SalaryComment { get; set; }
             #endregion
 
             #region Reference
             public Guid PersonId { get; set; }
+            public virtual Person Person { get; set; }
+
             public Guid InstrumentId { get; set; }
+            public virtual Section Instrument { get; set; }
+
             public Guid? QualificationId { get; set; }
-            public Guid? SalaryId { get; set; }
+            public virtual SelectValueMapping Qualification { get; set; }
+
             public Guid? InquiryStatusPerformerId { get; set; }
+            public virtual SelectValueMapping InquiryStatusPerformer { get; set; }
+
             public Guid? InquiryStatusStaffId { get; set; }
+            public virtual SelectValueMapping InquiryStatusStaff { get; set; }
+            #endregion
+
+            #region Collection
+            public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; set; } = new HashSet<MusicianProfileSection>();
+            public virtual ICollection<PreferredPosition> PreferredPositionsPerformer { get; set; } = new HashSet<PreferredPosition>();
+            //public virtual ICollection<PreferredPosition> PreferredPositionsStaff { get; set; } = new HashSet<PreferredPosition>();
+            public virtual ICollection<PreferredPart> PreferredPartsPerformer { get; set; } = new HashSet<PreferredPart>();
+            //public virtual ICollection<PreferredPart> PreferredPartsStaff { get; set; } = new HashSet<PreferredPart>();
             #endregion
         }
 
@@ -45,14 +56,13 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 RuleFor(c => c.QualificationId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Qualification);
 
-                RuleFor(c => c.SalaryId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Salary);
-
                 RuleFor(c => c.InquiryStatusPerformerId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusPerformer);
 
                 RuleFor(c => c.InquiryStatusStaffId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusStaff);
+
+                //ToDo Validation for Collections
             }
         }
     }

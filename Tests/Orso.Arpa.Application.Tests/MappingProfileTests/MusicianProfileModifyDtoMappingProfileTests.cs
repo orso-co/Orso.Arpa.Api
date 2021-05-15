@@ -27,25 +27,35 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             MusicianProfileModifyDto dto = new Faker<MusicianProfileModifyDto>()
                 .RuleFor(dto => dto.Id, Guid.NewGuid())
+
+                .RuleFor(dto => dto.IsMainProfile, true)
+                .RuleFor(dto => dto.IsDeactivated, false)
+
                 .RuleFor(dto => dto.LevelAssessmentPerformer, (byte)1)
+                .RuleFor(dto => dto.LevelAssessmentStaff, (byte)2)
                 .RuleFor(dto => dto.ProfilePreferencePerformer, (byte)3)
                 .RuleFor(dto => dto.ProfilePreferenceStaff, (byte)4)
-                .RuleFor(dto => dto.IsMainProfile, true)
-                .RuleFor(dto => dto.Background, (f) => f.Lorem.Paragraph(50))
-                .RuleFor(dto => dto.ExperienceLevel, (byte)5)
-                .RuleFor(dto => dto.Background, (f) => f.Lorem.Paragraph(50))
+
+                .RuleFor(dto => dto.BackgroundPerformer, (f) => f.Lorem.Paragraph(50))
+                .RuleFor(dto => dto.BackgroundStaff, (f) => f.Lorem.Paragraph(50))
+                .RuleFor(dto => dto.SalaryComment, (f) => f.Lorem.Paragraph(50))
+
+                .RuleFor(dto => dto.PersonId, Guid.NewGuid())
                 .RuleFor(dto => dto.InstrumentId, Guid.NewGuid())
                 .RuleFor(dto => dto.QualificationId, Guid.NewGuid())
                 .RuleFor(dto => dto.SalaryId, Guid.NewGuid())
                 .RuleFor(dto => dto.InquiryStatusPerformerId, Guid.NewGuid())
                 .RuleFor(dto => dto.InquiryStatusStaffId, Guid.NewGuid())
+
+                // ToDo for collections
+
                 .Generate();
 
             // Act
             Modify.Command command = _mapper.Map<Modify.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            command.Should().BeEquivalentTo(dto);            //TODO warum sind beide Background* Felder identisch nach dem Mapper???
         }
     }
 }

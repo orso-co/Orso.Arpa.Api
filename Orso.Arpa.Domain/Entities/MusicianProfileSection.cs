@@ -20,6 +20,11 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public byte LevelAssessmentPerformer { get; private set; }
+        public byte LevelAssessmentStaff { get; private set; }
+        public Guid InstrumentAvailabilityId { get; private set; }
+        public string Comment { get; private set; }
+
         public Guid SectionId { get; private set; }
         public virtual Section Section { get; private set; }
         public Guid MusicianProfileId { get; private set; }
