@@ -18,6 +18,7 @@ namespace Orso.Arpa.Domain.Logic.Venues
             public string Country { get; set; }
             public string State { get; set; }
             public Guid? RegionId { get; set; }
+            public Guid? AddressId { get; set; }
         }
     }
 }

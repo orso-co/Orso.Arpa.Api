@@ -38,9 +38,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     AppointmentDtoData.RehearsalWeekend
                 }, true);
                 yield return new TestCaseData(DateRange.Month, new DateTime(2020, 12, 21), new List<AppointmentDto> {
-                    AppointmentDtoData.StaffMeetingForPerformer,
+                    AppointmentDtoData.AuditionDays,
                     AppointmentDtoData.PhotoSession,
-                    AppointmentDtoData.AuditionDays
+                    AppointmentDtoData.StaffMeetingForPerformer
                 }, true);
             }
         }

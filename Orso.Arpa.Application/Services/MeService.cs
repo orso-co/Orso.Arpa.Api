@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Domain.Entities;
@@ -46,11 +49,14 @@ namespace Orso.Arpa.Application.Services
             IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
             User currentUser = await _userAccessor.GetCurrentUserAsync();
 
-            Tuple<IEnumerable<Appointment>, int> appointmentTuple = await _mediator.Send(
+            Tuple<IQueryable<Appointment>, int> appointmentTuple = await _mediator.Send(
                 new AppointmentList.Query(limit, offset, flattenedTree, currentUser.Person));
-            MyAppointmentListDto listDto = _mapper.Map<MyAppointmentListDto>(appointmentTuple);
 
-            foreach (MyAppointmentDto dto in listDto.UserAppointments)
+            IList<MyAppointmentDto> myAppointmentDtos = await appointmentTuple.Item1
+                .ProjectTo<MyAppointmentDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            foreach (MyAppointmentDto dto in myAppointmentDtos)
             {
                 AppointmentParticipation participation = await _mediator.Send(new Domain.Logic.AppointmentParticipations.Details.Query(
                     dto.Id, currentUser.PersonId));
@@ -59,7 +65,12 @@ namespace Orso.Arpa.Application.Services
                     _mapper.Map(participation, dto);
                 }
             }
-            return listDto;
+
+            return new MyAppointmentListDto
+            {
+                TotalRecordsCount = appointmentTuple.Item2,
+                UserAppointments = myAppointmentDtos
+            };
         }
 
         public async Task SetMyAppointmentParticipationPredictionAsync(SetMyProjectAppointmentPredictionDto setParticipationPredictionDto)

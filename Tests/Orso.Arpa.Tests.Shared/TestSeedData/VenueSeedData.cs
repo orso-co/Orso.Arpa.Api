@@ -35,7 +35,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Country = "Deutschland",
                         UrbanDistrict = "Herdern",
                         RegionId = RegionSeedData.Freiburg.Id,
-                        State = "Baden-Württemberg"
+                        State = "Baden-Württemberg",
+                        AddressId = Guid.Parse("9dfd22c2-41c6-463c-a4cd-334215584d56")
                     });
             }
         }

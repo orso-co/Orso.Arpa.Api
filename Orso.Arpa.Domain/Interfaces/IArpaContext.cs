@@ -1,10 +1,12 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Views;
 
 namespace Orso.Arpa.Domain.Interfaces
 {
@@ -46,5 +48,6 @@ namespace Orso.Arpa.Domain.Interfaces
         Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class;
 
         EntityEntry Entry(object entity);
+        IQueryable<AppointmentForPerson> GetAppointmentIdsForPerson(Guid personId);
     }
 }

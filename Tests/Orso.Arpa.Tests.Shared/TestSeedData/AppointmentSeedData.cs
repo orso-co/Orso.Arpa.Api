@@ -21,7 +21,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     StaffMeeting,
                     PhotoSession,
                     RehearsalWeekend,
-                    AuditionDays
+                    AuditionDays,
+                    AltoRehearsal,
+                    SopranoRehearsal
                 };
             }
         }
@@ -155,8 +157,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var id = Guid.Parse("90be67fe-c0b9-4824-9acd-6d8730f3f39b");
-                return new Appointment
+                var id = Guid.Parse("6197d4ae-cb53-48db-b407-937b3857c621");
+                var appointment = new Appointment
                 (
                     id,
                     new Create.Command
@@ -173,6 +175,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
                     }
                 );
+                appointment.SectionAppointments.Add(new SectionAppointment(
+                   Guid.Parse("b64cb452-196d-4be2-ab86-9a5f091b79e1"),
+                   SectionSeedData.Choir.Id,
+                   id));
+                return appointment;
             }
         }
 
@@ -231,6 +238,78 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 appointment.SectionAppointments.Add(new SectionAppointment(
                     Guid.Parse("bbc705d7-a63a-42a1-832c-b006db483d43"),
                     SectionSeedData.PiccoloFlute.Id,
+                    id));
+                appointment.ProjectAppointments.Add(new ProjectAppointment(
+                    Guid.Parse("4336b5de-c4f7-4135-b3c8-f95b6597be0d"),
+                    ProjectSeedData.HoorayForHollywood.Id,
+                    id));
+                return appointment;
+            }
+        }
+
+        public static Appointment AltoRehearsal
+        {
+            get
+            {
+                var id = Guid.Parse("af02e789-fb96-4d69-b252-e1c91c23c2fe");
+                var appointment = new Appointment
+                (
+                    id,
+                    new Create.Command
+                    {
+                        CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
+                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
+                        SalaryPatternId = null,
+                        StartTime = new DateTime(2021, 12, 29, 8, 00, 00),
+                        EndTime = new DateTime(2021, 12, 29, 17, 00, 00),
+                        PublicDetails = "Hooray for Hollywood rehearsal for high alto voices only",
+                        InternalDetails = null,
+                        Name = "Alto rehearsal",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
+                    }
+                );
+                appointment.SectionAppointments.Add(new SectionAppointment(
+                    Guid.Parse("d91dd589-f253-44b5-8f4f-1cf7b9386fc7"),
+                    SectionSeedData.Alto1.Id,
+                    id));
+                appointment.ProjectAppointments.Add(new ProjectAppointment(
+                    Guid.Parse("ef191717-1461-457d-a966-efec14401a3a"),
+                    ProjectSeedData.HoorayForHollywood.Id,
+                    id));
+                return appointment;
+            }
+        }
+
+        public static Appointment SopranoRehearsal
+        {
+            get
+            {
+                var id = Guid.Parse("869cb371-e77e-4ffe-84a9-cdf852e31358");
+                var appointment = new Appointment
+                (
+                    id,
+                    new Create.Command
+                    {
+                        CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
+                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
+                        SalaryPatternId = null,
+                        StartTime = new DateTime(2021, 12, 30, 8, 00, 00),
+                        EndTime = new DateTime(2021, 12, 30, 17, 00, 00),
+                        PublicDetails = "Hooray for Hollywood rehearsal for soprano voices only",
+                        InternalDetails = null,
+                        Name = "Soprano rehearsal",
+                        ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
+                    }
+                );
+                appointment.SectionAppointments.Add(new SectionAppointment(
+                    Guid.Parse("438aabe1-f618-4b39-8f23-3cab4e79e351"),
+                    SectionSeedData.Soprano.Id,
+                    id));
+                appointment.ProjectAppointments.Add(new ProjectAppointment(
+                    Guid.Parse("70870ff8-fd72-4011-8fae-a3c5d27183b0"),
+                    ProjectSeedData.RockingXMas.Id,
                     id));
                 return appointment;
             }

@@ -13,8 +13,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Views;
 using Orso.Arpa.Misc;
-using Orso.Arpa.Persistence.Configurations;
+using Orso.Arpa.Persistence.EntityConfigurations;
 
 namespace Orso.Arpa.Persistence.DataAccess
 {
@@ -85,6 +86,9 @@ namespace Orso.Arpa.Persistence.DataAccess
                 .HasQueryFilter(url => !url.Deleted
                     && (url.UrlRoles.Count == 0
                     || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
+
+            builder.HasDbFunction(typeof(ArpaContext).GetMethod(nameof(GetAppointmentIdsForPerson), new[] { typeof(Guid) }))
+                .HasName("fn_appointments_for_person");
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
@@ -224,5 +228,13 @@ namespace Orso.Arpa.Persistence.DataAccess
                 .AsQueryable()
                 .AnyAsync(predicate, cancellationToken);
         }
+
+        /// <summary>
+        /// Method body for database function
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        /// <see cref="https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping"/>
+        public IQueryable<AppointmentForPerson> GetAppointmentIdsForPerson(Guid personId) => FromExpression(() => GetAppointmentIdsForPerson(personId));
     }
 }

@@ -44,6 +44,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             _authenticatedServer.Dispose();
             TestStartup.TestDatabase?.Drop();
             TestStartup.TestDatabase = null;
+            TestStartup.IsSeeded = false;
         }
 
         [SetUp]
