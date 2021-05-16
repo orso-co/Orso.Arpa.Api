@@ -9,7 +9,7 @@ using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
-    [Route("api/profile/musicians")]
+    [Route("api/profiles/musicians")]
     public class MusicianProfilesController : BaseController
     {
         private readonly IMusicianProfileService _musicianProfileService;

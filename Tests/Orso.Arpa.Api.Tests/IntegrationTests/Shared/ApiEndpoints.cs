@@ -175,15 +175,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class MusicianProfilesController
         {
-            private static string MusicianProfiles => $"{Base}/profile/musicians";
+            private static string MusiciansProfiles => $"{Base}/profiles/musicians";
 
-            public static string Post() => MusicianProfiles;
+            public static string Post() => MusiciansProfiles;
 
-            public static string Put(Guid id) => $"{MusicianProfiles}/{id}";
+            public static string Put(Guid id) => $"{MusiciansProfiles}/{id}";
 
-            public static string Get(Guid id) => $"{MusicianProfiles}/{id}";
+            public static string Get(Guid id) => $"{MusiciansProfiles}/{id}";
 
-            public static string Delete(Guid id) => $"{MusicianProfiles}/{id}";
+            public static string Delete(Guid id) => $"{MusiciansProfiles}/{id}";
         }
     }
 }
