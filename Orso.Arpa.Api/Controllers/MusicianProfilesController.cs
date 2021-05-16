@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Infrastructure.Authorization;
@@ -68,8 +67,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [SwaggerFromRouteProperty(nameof(MusicianProfileModifyDto.Id))]
-        public async Task<IActionResult> Put([FromBodyAndRoute] MusicianProfileModifyDto modifyDto)
+        public async Task<IActionResult> Put(MusicianProfileModifyDto modifyDto)
         {
             await _musicianProfileService.ModifyAsync(modifyDto);
 

@@ -1,6 +1,5 @@
 using System;
 using AutoMapper;
-using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.MusicianProfileApplication;
@@ -25,37 +24,63 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            MusicianProfileModifyDto dto = new Faker<MusicianProfileModifyDto>()
-                .RuleFor(dto => dto.Id, Guid.NewGuid())
+            var dto = new MusicianProfileModifyDto
+            {
+                Id = Guid.NewGuid(),
+                Body = new MusicianProfileModifyBodyDto
+                {
+                    IsMainProfile = true,
+                    IsDeactivated = false,
 
-                .RuleFor(dto => dto.IsMainProfile, true)
-                .RuleFor(dto => dto.IsDeactivated, false)
+                    LevelAssessmentPerformer = (byte)1,
+                    LevelAssessmentStaff = (byte)2,
+                    ProfilePreferencePerformer = (byte)3,
+                    ProfilePreferenceStaff = (byte)4,
 
-                .RuleFor(dto => dto.LevelAssessmentPerformer, (byte)1)
-                .RuleFor(dto => dto.LevelAssessmentStaff, (byte)2)
-                .RuleFor(dto => dto.ProfilePreferencePerformer, (byte)3)
-                .RuleFor(dto => dto.ProfilePreferenceStaff, (byte)4)
+                    BackgroundPerformer = "Performer gave some background",
+                    BackgroundStaff = "Staff gave some background",
+                    SalaryComment = "Perfomer only accepty PayPal",
 
-                .RuleFor(dto => dto.BackgroundPerformer, (f) => f.Lorem.Paragraph(50))
-                .RuleFor(dto => dto.BackgroundStaff, (f) => f.Lorem.Paragraph(50))
-                .RuleFor(dto => dto.SalaryComment, (f) => f.Lorem.Paragraph(50))
+                    PersonId = Guid.NewGuid(),
+                    InstrumentId = Guid.NewGuid(),
+                    QualificationId = Guid.NewGuid(),
+                    SalaryId = Guid.NewGuid(),
+                    InquiryStatusPerformerId = Guid.NewGuid(),
+                    InquiryStatusStaffId = Guid.NewGuid(),
 
-                .RuleFor(dto => dto.PersonId, Guid.NewGuid())
-                .RuleFor(dto => dto.InstrumentId, Guid.NewGuid())
-                .RuleFor(dto => dto.QualificationId, Guid.NewGuid())
-                .RuleFor(dto => dto.SalaryId, Guid.NewGuid())
-                .RuleFor(dto => dto.InquiryStatusPerformerId, Guid.NewGuid())
-                .RuleFor(dto => dto.InquiryStatusStaffId, Guid.NewGuid())
+                    // ToDo for collections
+                }
+            };
+            var expectedCommand = new Modify.Command
+            {
+                Id = dto.Id,
+                IsMainProfile = dto.Body.IsMainProfile,
+                IsDeactivated = dto.Body.IsDeactivated,
+
+                LevelAssessmentPerformer = dto.Body.LevelAssessmentPerformer,
+                LevelAssessmentStaff = dto.Body.LevelAssessmentStaff,
+                ProfilePreferencePerformer = dto.Body.ProfilePreferencePerformer,
+                ProfilePreferenceStaff = dto.Body.ProfilePreferenceStaff,
+
+                BackgroundPerformer = dto.Body.BackgroundPerformer,
+                BackgroundStaff = dto.Body.BackgroundStaff,
+                SalaryComment = dto.Body.SalaryComment,
+
+                PersonId = dto.Body.PersonId,
+                InstrumentId = dto.Body.InstrumentId,
+                QualificationId = dto.Body.QualificationId,
+                SalaryId = dto.Body.SalaryId,
+                InquiryStatusPerformerId = dto.Body.InquiryStatusPerformerId,
+                InquiryStatusStaffId = dto.Body.InquiryStatusStaffId,
 
                 // ToDo for collections
-
-                .Generate();
+            };
 
             // Act
             Modify.Command command = _mapper.Map<Modify.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);            //TODO warum sind beide Background* Felder identisch nach dem Mapper???
+            command.Should().BeEquivalentTo(expectedCommand);            //TODO warum sind beide Background* Felder identisch nach dem Mapper???
         }
     }
 }

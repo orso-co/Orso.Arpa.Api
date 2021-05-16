@@ -16,6 +16,7 @@ namespace Orso.Arpa.Application.Services
         MusicianProfileCreateDto,
         Create.Command,
         MusicianProfileModifyDto,
+        MusicianProfileModifyBodyDto,
         Modify.Command>, IMusicianProfileService
     {
         public MusicianProfileService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
