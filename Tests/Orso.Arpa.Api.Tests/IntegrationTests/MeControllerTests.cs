@@ -47,13 +47,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetAppointments(1, 3));
+                .GetAsync(ApiEndpoints.MeController.GetAppointments());
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyAppointmentListDto result = await DeserializeResponseMessageAsync<MyAppointmentListDto>(responseMessage);
 
-            result.UserAppointments.Should().BeEquivalentTo(expectedUserAppointments);
+            result.UserAppointments.Should().BeEquivalentTo(expectedUserAppointments, opt => opt.WithStrictOrderingFor(d => d.Id));
             result.TotalRecordsCount.Should().Be(4);
         }
 

@@ -40,11 +40,9 @@ namespace Orso.Arpa.Domain.Logic.Me
             public Task<Tuple<IEnumerable<Appointment>, int>> Handle(Query request, CancellationToken cancellationToken)
             {
                 IQueryable<Appointment> appointmentsForUser = _arpaContext.Appointments.AsQueryable()
-                    .Where(appointment => _arpaContext.AppointmentsForUser
-                        .AsQueryable()
-                        .Where(u => u.PersonId == request.Person.Id || u.PersonId == null)
-                        .Select(afu => afu.Id)
-                        .Contains(appointment.Id));
+                    .Where(appointment => _arpaContext.GetAppointmentIdsForPerson(request.Person.Id).Select(a => a.Id)
+                        .Contains(appointment.Id))
+                    .OrderByDescending(p => p.StartTime);
 
                 var count = appointmentsForUser.Count();
 
@@ -52,6 +50,50 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .Skip(request.Offset ?? 0)
                     .Take(request.Limit ?? count), count));
             }
+
+            //public async Task<Tuple<IEnumerable<Appointment>, int>> Handle(Query request, CancellationToken cancellationToken)
+            //{
+            //    List<Appointment> appointments = await _arpaContext.Appointments
+            //        .AsAsyncEnumerable()
+            //        .Where(appointment =>
+            //            IsPersonInProject(appointment, request.Person) &&
+            //            IsPersonInSection(appointment, request.Person, request.SectionTree))
+            //        .OrderByDescending(p => p.StartTime)
+            //        .ToListAsync();
+
+            //    var count = appointments.Count();
+
+            //    return new Tuple<IEnumerable<Appointment>, int>(appointments
+            //        .Skip(request.Offset ?? 0)
+            //        .Take(request.Limit ?? count), count);
+            //}
+
+            //private static bool IsPersonInSection(Appointment appointment, Person person, IEnumerable<ITree<Section>> sectionTree)
+            //{
+            //    if (appointment.SectionAppointments.Count == 0)
+            //    {
+            //        return true;
+            //    }
+            //    return person.MusicianProfiles
+            //        .Select(mp => sectionTree.FirstOrDefault(t => t.Data.Id == mp.InstrumentId))
+            //        .SelectMany(node => node.GetParents())
+            //        .Select(section => section.Id)
+            //        .Intersect(appointment.SectionAppointments.Select(sa => sa.SectionId))
+            //        .Any();
+            //}
+
+            //private static bool IsPersonInProject(Appointment appointment, Person person)
+            //{
+            //    if (appointment.ProjectAppointments.Count == 0)
+            //    {
+            //        return true;
+            //    }
+            //    return person.MusicianProfiles
+            //        .SelectMany(profile => profile.ProjectParticipations)
+            //        .Select(participation => participation.ProjectId)
+            //        .Intersect(appointment.ProjectAppointments.Select(pa => pa.ProjectId))
+            //        .Any();
+            //}
         }
     }
 }

@@ -4,14 +4,12 @@ using Orso.Arpa.Domain.Views;
 
 namespace Orso.Arpa.Persistence.ViewConfigurations
 {
-    public class AppointmentForUserConfiguration : IEntityTypeConfiguration<AppointmentForUser>
+    public class AppointmentForUserConfiguration : IEntityTypeConfiguration<AppointmentForPerson>
     {
-        public void Configure(EntityTypeBuilder<AppointmentForUser> builder)
+        public void Configure(EntityTypeBuilder<AppointmentForPerson> builder)
         {
             builder
-                .HasNoKey()
-                .ToView("appointments_for_user")
-                .ToTable("appointments_for_user", t => t.ExcludeFromMigrations());
+                .ToTable("AppointmentForUser", t => t.ExcludeFromMigrations());
         }
     }
 }

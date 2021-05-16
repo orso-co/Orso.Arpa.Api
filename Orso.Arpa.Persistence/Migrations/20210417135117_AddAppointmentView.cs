@@ -18,10 +18,14 @@ namespace Orso.Arpa.Persistence.Migrations
 
             var createAppointmentsForUserViewSql = File.ReadAllText(Path.Combine(sqlDirectory, "AppointmentsForUserView.sql"));
             migrationBuilder.Sql(createAppointmentsForUserViewSql);
+
+            var createAppointmentsForPersonFunctionSql = File.ReadAllText(Path.Combine(sqlDirectory, "AppointmentsForPersonFunction.sql"));
+            migrationBuilder.Sql(createAppointmentsForPersonFunctionSql);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("DROP FUNCTION fn_appointments_for_person");
             migrationBuilder.Sql("DROP VIEW appointments_for_user");
             migrationBuilder.Sql("DROP VIEW musician");
             migrationBuilder.Sql("DROP FUNCTION fn_list_parent_sections");

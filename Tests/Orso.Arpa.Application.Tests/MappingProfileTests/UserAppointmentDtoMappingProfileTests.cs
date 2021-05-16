@@ -44,7 +44,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMasRehearsal;
             appointment.ProjectAppointments.First().Project.Urls.Remove(appointment.ProjectAppointments.First().Project.Urls.First());
-            MyAppointmentDto expectedDto = UserAppointmentDtoTestData.PerformerUserAppointment;
+            MyAppointmentDto expectedDto = UserAppointmentDtoTestData.RockingXMasDressRehearsal;
 
             // Act
             MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);

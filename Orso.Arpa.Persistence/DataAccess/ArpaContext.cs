@@ -35,14 +35,12 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<AppointmentForUser> AppointmentsForUser { get; set; }
         public DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AvailableDocument> AvailableDocuments { get; set; }
         public DbSet<CurriculumVitaeReference> CurriculumVitaeReference { get; set; }
         public DbSet<Education> Educations { get; set; }
-        public DbSet<Musician> Musicians { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
         public DbSet<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; }
         public DbSet<MusicianProfileEducation> MusicianProfileEducations { get; set; }
@@ -88,6 +86,9 @@ namespace Orso.Arpa.Persistence.DataAccess
                 .HasQueryFilter(url => !url.Deleted
                     && (url.UrlRoles.Count == 0
                     || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
+
+            builder.HasDbFunction(typeof(ArpaContext).GetMethod(nameof(GetAppointmentIdsForPerson), new[] { typeof(Guid) }))
+                .HasName("fn_appointments_for_person");
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
@@ -227,5 +228,7 @@ namespace Orso.Arpa.Persistence.DataAccess
                 .AsQueryable()
                 .AnyAsync(predicate, cancellationToken);
         }
+
+        public IQueryable<AppointmentForPerson> GetAppointmentIdsForPerson(Guid personId) => FromExpression(() => GetAppointmentIdsForPerson(personId));
     }
 }

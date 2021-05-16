@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,9 +32,6 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<SelectValueMapping> SelectValueMappings { get; set; }
         DbSet<Venue> Venues { get; set; }
         DbSet<Room> Rooms { get; set; }
-        DbSet<AppointmentForUser> AppointmentsForUser { get; set; }
-        public DbSet<Musician> Musicians { get; set; }
-
         DbSet<AuditLog> AuditLogs { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
@@ -50,5 +48,6 @@ namespace Orso.Arpa.Domain.Interfaces
         Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class;
 
         EntityEntry Entry(object entity);
+        IQueryable<AppointmentForPerson> GetAppointmentIdsForPerson(Guid personId);
     }
 }
