@@ -29,13 +29,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_LevelAssessmentPerformer_Is_Out_Of_Range([Values((byte)0, (byte)6)] byte x)
+        public void Should_Have_Validation_Error_If_LevelAssessmentPerformer_Is_Out_Of_Range()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentPerformer, x);
+            _validator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentPerformer, 6);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_LevelAssessmentPerformer_Is_In_Range([Values(1, 3, 5)] byte x)
+        public void Should_Not_Have_Validation_Error_If_LevelAssessmentPerformer_Is_In_Range([Values(0, 1, 5)] byte x)
         {
             _validator.ShouldNotHaveValidationErrorFor(command => command.LevelAssessmentPerformer, x);
         }

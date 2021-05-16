@@ -119,7 +119,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.QualificationId, (Guid?)null, nameof(SelectValueMapping));
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.QualificationId, Guid.Empty, nameof(SelectValueMapping));
         }
         #endregion
 
