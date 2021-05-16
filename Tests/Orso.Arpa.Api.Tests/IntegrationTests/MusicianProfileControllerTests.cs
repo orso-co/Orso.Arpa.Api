@@ -99,7 +99,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 PersonId = FakePersons.Performer.Id,
                 InstrumentId = SectionSeedData.Euphonium.Id,
-                QualificationId = SelectValueSeedData.SemiProfessional.Id,
+                QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
             };
 
             var expectedDto = new MusicianProfileDto
@@ -137,7 +137,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 PersonId = FakePersons.Performer.Id,
                 InstrumentId = SectionSeedData.Euphonium.Id,
-                // -> this is the missing mandatory field: QualificationId = SelectValueSeedData.SemiProfessional.Id,
+                // -> this is the missing mandatory field: QualificationId 
             };
 
             var expectedDto = new MusicianProfileDto

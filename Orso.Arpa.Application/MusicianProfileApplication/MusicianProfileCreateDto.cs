@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Entities;
 using static Orso.Arpa.Domain.Logic.MusicianProfiles.Create;
 
@@ -61,9 +62,9 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .NotNull();
 
             RuleFor(p => p.LevelAssessmentPerformer)
-                .InclusiveBetween<MusicianProfileCreateDto, byte>(0, 5);
+                .FiveStarRating();
             RuleFor(p => p.LevelAssessmentStaff)
-                .InclusiveBetween<MusicianProfileCreateDto, byte>(0, 5);
+                .FiveStarRating();
 
             RuleFor(p => p.PersonId)
                .NotEmpty();
