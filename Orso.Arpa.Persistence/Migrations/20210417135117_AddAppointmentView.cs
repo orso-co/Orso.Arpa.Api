@@ -16,8 +16,17 @@ namespace Orso.Arpa.Persistence.Migrations
             var createListParentSectionsFunctionSql = File.ReadAllText(Path.Combine(sqlDirectory, "ListParentSectionsFunction.sql"));
             migrationBuilder.Sql(createListParentSectionsFunctionSql);
 
-            var createAppointmentsForUserViewSql = File.ReadAllText(Path.Combine(sqlDirectory, "AppointmentsForUserView.sql"));
-            migrationBuilder.Sql(createAppointmentsForUserViewSql);
+            var createIsPersonInSectionFunctionSql = File.ReadAllText(Path.Combine(sqlDirectory, "IsPersonInSectionFunction.sql"));
+            migrationBuilder.Sql(createIsPersonInSectionFunctionSql);
+
+            var createIsPersonInProjectFunctionSql = File.ReadAllText(Path.Combine(sqlDirectory, "IsPersonInProjectFunction.sql"));
+            migrationBuilder.Sql(createIsPersonInProjectFunctionSql);
+
+            var createUserAppointmentForSectionViewSql = File.ReadAllText(Path.Combine(sqlDirectory, "UserAppointmentForSectionView.sql"));
+            migrationBuilder.Sql(createUserAppointmentForSectionViewSql);
+
+            var createUserAppointmentForProjectViewSql = File.ReadAllText(Path.Combine(sqlDirectory, "UserAppointmentForProjectView.sql"));
+            migrationBuilder.Sql(createUserAppointmentForProjectViewSql);
 
             var createAppointmentsForPersonFunctionSql = File.ReadAllText(Path.Combine(sqlDirectory, "AppointmentsForPersonFunction.sql"));
             migrationBuilder.Sql(createAppointmentsForPersonFunctionSql);

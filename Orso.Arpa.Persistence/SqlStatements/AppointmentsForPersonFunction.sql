@@ -1,18 +1,21 @@
-CREATE OR REPLACE FUNCTION fn_appointments_for_person ( pPersonid uuid )
+create or replace function fn_appointments_for_person ( p_person_id uuid )
 	returns table (
 		id uuid
-	)
+	) 
 	language plpgsql
 as $$
-BEGIN
-	return query
-	SELECT DISTINCT a.id FROM appointments_for_user a WHERE a.person_id = pPersonid
-    UNION ALL
-	SELECT a.id
-      FROM appointments a
-	 WHERE a.id NOT IN (SELECT appointment_id FROM section_appointments)
-	   AND a.id NOT IN (SELECT appointment_id FROM project_appointments)
+begin
+	return query 
+
+    select a.id from appointments a where  
+      (select fn_is_person_in_section(a.id,p_person_id) ) 
+      and
+      (select fn_is_person_in_project(a.id,p_person_id) )
+
+    union 
+	-- Appointments ohne Sections und ohne Projects
+	select a.id from appointments a 
+	 where a.id NOT IN (select appointment_id from section_appointments)  
+	   and a.id NOT IN (select appointment_id from Project_appointments)
     ;
 end;$$
-
--- https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping

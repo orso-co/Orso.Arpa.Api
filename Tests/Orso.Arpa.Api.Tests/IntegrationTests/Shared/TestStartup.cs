@@ -39,8 +39,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             services.AddDbContext<ArpaContext>(options =>
             {
-                options.UseNpgsql(TestDatabase.ConnectionString,
-                    opt => opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+                options.UseNpgsql(TestDatabase.ConnectionString);
                 options.UseSnakeCaseNamingConvention();
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();

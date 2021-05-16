@@ -287,7 +287,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new AppointmentDto
+                var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("6197d4ae-cb53-48db-b407-937b3857c621"),
                     CategoryId = Guid.Parse("e9c79ae9-5498-459d-8852-9f135da7afae"),
@@ -304,6 +304,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     VenueId = null,
                     CreatedAt = FakeDateTime.UtcNow
                 };
+                dto.Sections.Add(SectionDtoData.Choir);
+                return dto;
             }
         }
 
@@ -355,6 +357,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Sections.Add(SectionDtoData.PiccoloFlute);
+                dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
                 return dto;
             }
         }

@@ -229,6 +229,12 @@ namespace Orso.Arpa.Persistence.DataAccess
                 .AnyAsync(predicate, cancellationToken);
         }
 
+        /// <summary>
+        /// Method body for database function
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        /// <see cref="https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping"/>
         public IQueryable<AppointmentForPerson> GetAppointmentIdsForPerson(Guid personId) => FromExpression(() => GetAppointmentIdsForPerson(personId));
     }
 }
