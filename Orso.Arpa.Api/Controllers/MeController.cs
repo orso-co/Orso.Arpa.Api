@@ -10,7 +10,6 @@ using static Orso.Arpa.Domain.Logic.Me.SendQRCode;
 
 namespace Orso.Arpa.Api.Controllers
 {
-    [Route("api/users/me")]
     public class MeController : BaseController
     {
         private readonly IMeService _meService;

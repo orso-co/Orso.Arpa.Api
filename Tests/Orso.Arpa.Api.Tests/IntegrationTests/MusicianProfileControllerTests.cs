@@ -55,7 +55,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             MusicianProfileDto musicianProfileToModify = MusicianProfileDtoData.PerformerProfile;
-            var modifyDto = new MusicianProfileModifyDto
+            var modifyDto = new MusicianProfileModifyBodyDto
             {
                 IsMainProfile = false,
                 IsDeactivated = false,

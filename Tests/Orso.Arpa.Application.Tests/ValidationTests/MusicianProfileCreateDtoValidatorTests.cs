@@ -19,7 +19,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_LevelAssessmentPerformer_Is_Out_Of_Range()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentPerformer, 6);
+            _validator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentPerformer, (byte)6);
         }
 
         [Test]
