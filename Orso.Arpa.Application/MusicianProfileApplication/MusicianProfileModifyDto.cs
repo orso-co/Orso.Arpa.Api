@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
 using static Orso.Arpa.Domain.Logic.MusicianProfiles.Modify;
@@ -103,13 +104,13 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public MusicianProfileModifyBodyDtoValidator()
         {
             RuleFor(p => p.LevelAssessmentPerformer)
-                .InclusiveBetween<MusicianProfileModifyBodyDto, byte>(0, 5);
+                .FiveStarRating();
             RuleFor(p => p.LevelAssessmentStaff)
-                .InclusiveBetween<MusicianProfileModifyBodyDto, byte>(0, 5);
+                .FiveStarRating();
             RuleFor(p => p.ProfilePreferencePerformer)
-                .InclusiveBetween<MusicianProfileModifyBodyDto, byte>(0, 5);
+                .FiveStarRating();
             RuleFor(p => p.ProfilePreferenceStaff)
-                .InclusiveBetween<MusicianProfileModifyBodyDto, byte>(0, 5);
+                .FiveStarRating();
 
             RuleFor(p => p.BackgroundPerformer)
                 .MaximumLength(1000);

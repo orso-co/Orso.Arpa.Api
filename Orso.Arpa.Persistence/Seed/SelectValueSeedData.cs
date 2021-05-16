@@ -359,29 +359,29 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue Contest => new(Guid.Parse("95de5380-4027-4b73-b4db-3697aba5ba38"), "Contest", string.Empty);
 
-        public static SelectValue Amateur => new(Guid.Parse("f036bca9-95d4-4526-b845-fff9208ab103"), "Amateur", string.Empty);
+        public static SelectValue Amateur => new(Guid.Parse("3f93768e-ac24-4741-9eb8-49d1e8e4a6e1"), "Amateur", string.Empty);
 
-        public static SelectValue Student => new(Guid.Parse("6304b935-633d-4bba-a90f-9bd864c867c6"), "Student", string.Empty);
+        public static SelectValue Student => new(Guid.Parse("e20ff004-aafc-4e28-87f9-0d9c6372951c"), "Student", string.Empty);
 
-        public static SelectValue SemiProfessional => new(Guid.Parse("20f9698c-2f3d-41fd-9f33-1feeababfb1c"), "Semi-Professional", string.Empty);
+        public static SelectValue SemiProfessional => new(Guid.Parse("35d63f30-8704-47d5-865a-ee713a082433"), "Semi-Professional", string.Empty);
 
-        public static SelectValue Professional => new(Guid.Parse("30f592f6-485a-468a-bfb2-4854be733e74"), "Professional", string.Empty);
+        public static SelectValue Professional => new(Guid.Parse("f52b9170-c6f6-4828-b96c-df5dfbe9bd73"), "Professional", string.Empty);
 
-        public static SelectValue Unknown => new(Guid.Parse("42d76464-4b4b-4884-b8e3-1f69baaced4c"), "Unknown", string.Empty);
+        public static SelectValue Unknown => new(Guid.Parse("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"), "Unknown", string.Empty);
 
-        public static SelectValue Without => new(Guid.Parse("58a0d16f-2dac-4836-930e-1dd320430ef4"), "Without", string.Empty);
+        public static SelectValue Without => new(Guid.Parse("3c014654-b4c9-4c7a-a251-ae88ad504c8a"), "Without", string.Empty);
 
-        public static SelectValue WithStrict => new(Guid.Parse("459dc1ea-de92-4a26-9b7b-848d67154cae"), "With - strict", string.Empty);
+        public static SelectValue WithStrict => new(Guid.Parse("dec26aef-f0de-4c9f-a164-e23e2543c987"), "With - strict", string.Empty);
 
-        public static SelectValue WithNegotiable => new(Guid.Parse("2fbb99cd-d14a-4b7c-b7fb-9b676f961e2c"), "With - negotiable", string.Empty);
+        public static SelectValue WithNegotiable => new(Guid.Parse("d53b4a35-f472-42a1-ab22-c7afb1e7d77e"), "With - negotiable", string.Empty);
 
-        public static SelectValue Gladly => new(Guid.Parse("68e947c0-9450-4b64-90d7-553850396a3f"), "Gladly", string.Empty);
+        public static SelectValue Gladly => new(Guid.Parse("1f0e9a86-4641-4d7e-8413-a1beba0e8afb"), "Gladly", string.Empty);
 
-        public static SelectValue EmergencyOnly => new(Guid.Parse("60c1a391-59b4-4cea-ba83-59e09f7512b6"), "Emergency only", string.Empty);
+        public static SelectValue EmergencyOnly => new(Guid.Parse("5850e103-4ac9-472e-85f2-cddc08732ccc"), "Emergency only", string.Empty);
 
-        public static SelectValue NeverAgain => new(Guid.Parse("ab5c5904-2683-47c4-a436-319303b8e62f"), "Never again", string.Empty);
+        public static SelectValue NeverAgain => new(Guid.Parse("5db547d6-c115-4409-8db7-59374ca2af83"), "Never again", string.Empty);
 
-        public static SelectValue ForContactsOnly => new(Guid.Parse("90b5cfa9-890b-4b89-a750-646f3a26db23"), "For contacts only", string.Empty);
+        public static SelectValue ForContactsOnly => new(Guid.Parse("0d1073cd-f6d5-4572-87ac-98ab6f15c05a"), "For contacts only", string.Empty);
 
         public static SelectValue FilmMusic => new(Guid.Parse("a3be7b91-7548-492e-99dc-2788497f2930"), "Film Music", string.Empty);
         public static SelectValue DancePerformance => new(Guid.Parse("982a9947-c6f8-4c9a-b96f-2a4825a11496"), "Dance Performance", string.Empty);

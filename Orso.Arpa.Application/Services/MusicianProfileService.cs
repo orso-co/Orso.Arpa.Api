@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.Services
 
         public Task<IEnumerable<MusicianProfileDto>> GetAsync(Guid personId)
         {
-            throw new NotImplementedException();
+            return GetAsync(profile => profile.PersonId == personId);
         }
     }
 }

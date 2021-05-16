@@ -50,5 +50,16 @@ namespace Orso.Arpa.Application.Extensions
                 .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
                 .WithMessage("A valid SEPA string may only contain alphanumeric, space and the following speacial characters: / ? : ( ) . , ' + -");
         }
+
+        /// <summary>
+        /// Five-Star rating 1 (lowest rating) .. 5 (topmost rating), 0 = rating not yet specified
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ruleBuilder"></param>
+        public static IRuleBuilder<T, byte> FiveStarRating<T>(this IRuleBuilder<T, byte> ruleBuilder)
+        {
+            return ruleBuilder
+                .InclusiveBetween<T, byte>(0, 5);
+        }
     }
 }
