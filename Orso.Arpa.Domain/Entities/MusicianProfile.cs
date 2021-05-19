@@ -35,17 +35,17 @@ namespace Orso.Arpa.Domain.Entities
         }
 
         #region Native
-        public bool IsMainProfile { get; set; }
-        public bool IsDeactivated { get; set; }
+        public bool IsMainProfile { get; private set; }
+        public bool IsDeactivated { get; private set; }
 
         public byte LevelAssessmentPerformer { get; private set; }
         public byte LevelAssessmentStaff { get; private set; }
-        public byte ProfilePreferencePerformer { get; set; }
-        public byte ProfilePreferenceStaff { get; set; }
+        public byte ProfilePreferencePerformer { get; private set; }
+        public byte ProfilePreferenceStaff { get; private set; }
 
-        public string BackgroundPerformer { get; set; }
-        public string BackgroundStaff { get; set; }
-        public string SalaryComment { get; set; }
+        public string BackgroundPerformer { get; private set; }
+        public string BackgroundStaff { get; private set; }
+        public string SalaryComment { get; private set; }
         #endregion
 
         #region Reference
@@ -58,7 +58,7 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? QualificationId { get; private set; }
         public virtual SelectValueMapping Qualification { get; private set; }
 
-        public Guid? SalaryId { get; set; }
+        public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
 
         public Guid? InquiryStatusPerformerId { get; private set; }
@@ -74,6 +74,7 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<PreferredPosition> PreferredPositionsPerformer { get; private set; } = new HashSet<PreferredPosition>();
         //public virtual ICollection<PreferredPosition> PreferredPositionsStaff { get; private set; } = new HashSet<PreferredPosition>();
         public virtual ICollection<PreferredPart> PreferredPartsPerformer { get; private set; } = new HashSet<PreferredPart>();
+        //ToDo: oder hier direkt: public virtual ICollection<InstrumentPart> PreferredPartsPerformer { get; private set; } = new HashSet<InstrumentPart>();
         //public virtual ICollection<PreferredPart> PreferredPartsStaff { get; private set; } = new HashSet<PreferredPart>();
 
         //Todo: ARPA-325

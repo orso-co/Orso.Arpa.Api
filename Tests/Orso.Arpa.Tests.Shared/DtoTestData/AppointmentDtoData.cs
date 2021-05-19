@@ -1,14 +1,29 @@
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.MusicianProfileForAppointmentApplication;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class AppointmentDtoData
     {
+        private readonly static IMapper _mapper;
+
+        static AppointmentDtoData()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MusicianProfileForAppointmentDtoMappingProfile>();
+                cfg.AddProfile<BaseEntityDtoMappingProfile>();
+            });
+
+            _mapper = new Mapper(config);
+        }
+
         public static IList<AppointmentDto> AppointmentsForPerformer
         {
             get
@@ -100,9 +115,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = PersonDtoData.Performer,
                     Participation = AppointmentParticipationDtoData.PerformerParticipation,
-                    MusicianProfiles = new List<MusicianProfileDto>
+
+                    MusicianProfiles = new List<MusicianProfileForAppointmentDto>
                     {
-                        MusicianProfileDtoData.PerformerProfile
+                        _mapper.Map<MusicianProfileForAppointmentDto>(MusicianProfileDtoData.PerformerProfile),
                     }
                 };
             }
@@ -116,10 +132,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = PersonDtoData.Staff,
                     Participation = AppointmentParticipationDtoData.StaffParticipation,
-                    MusicianProfiles = new List<MusicianProfileDto>
+                    MusicianProfiles = new List<MusicianProfileForAppointmentDto>
                     {
-                        MusicianProfileDtoData.StaffProfile1,
-                        MusicianProfileDtoData.StaffProfile2
+                        _mapper.Map<MusicianProfileForAppointmentDto>(MusicianProfileDtoData.StaffProfile1),
+                        _mapper.Map<MusicianProfileForAppointmentDto>(MusicianProfileDtoData.StaffProfile2),
                     }
                 };
             }
@@ -133,9 +149,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = PersonDtoData.Admin,
                     Participation = null,
-                    MusicianProfiles = new List<MusicianProfileDto>
+                    MusicianProfiles = new List<MusicianProfileForAppointmentDto>
                     {
-                        MusicianProfileDtoData.AdminProfile1
+                        _mapper.Map<MusicianProfileForAppointmentDto>(MusicianProfileDtoData.AdminProfile1),
                     }
                 };
             }
@@ -149,9 +165,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = PersonDtoData.WithoutRole,
                     Participation = null,
-                    MusicianProfiles = new List<MusicianProfileDto>
+                    MusicianProfiles = new List<MusicianProfileForAppointmentDto>
                     {
-                        MusicianProfileDtoData.WithoutRoleProfile
+                        _mapper.Map<MusicianProfileForAppointmentDto>(MusicianProfileDtoData.WithoutRoleProfile),
                     }
                 };
             }

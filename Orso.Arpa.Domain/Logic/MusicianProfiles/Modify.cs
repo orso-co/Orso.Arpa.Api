@@ -50,19 +50,19 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             #endregion
 
             #region Collection
-            public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; set; } = new HashSet<MusicianProfileSection>();
-            public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new HashSet<MusicianProfileEducation>();
-            public virtual ICollection<PreferredPosition> PreferredPositionsPerformer { get; set; } = new HashSet<PreferredPosition>();
-            //public virtual ICollection<PreferredPosition> PreferredPositionsStaff { get; set; } = new HashSet<PreferredPosition>();
-            public virtual ICollection<PreferredPart> PreferredPartsPerformer { get; set; } = new HashSet<PreferredPart>();
-            //public virtual ICollection<PreferredPart> PreferredPartsStaff { get; set; } = new HashSet<PreferredPart>();
+            public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
+            public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
+            public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
+            //public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
+            public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
+            //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
 
-            public virtual ICollection<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; } = new HashSet<MusicianProfileCurriculumVitaeReference>();
-            public virtual ICollection<PreferredGenre> PreferredGenres { get; set; } = new HashSet<PreferredGenre>();
-            public virtual ICollection<AvailableDocument> AvailableDocuments { get; set; } = new HashSet<AvailableDocument>();
-            public virtual ICollection<RegionPreferencePerformance> RegionPreferencePerformances { get; set; } = new HashSet<RegionPreferencePerformance>();
-            public virtual ICollection<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; set; } = new HashSet<RegionPreferenceRehearsal>();
-            public virtual ICollection<Audition> Auditions { get; set; } = new HashSet<Audition>();
+            public IList<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; } = new List<MusicianProfileCurriculumVitaeReference>();
+            public IList<PreferredGenre> PreferredGenres { get; set; } = new List<PreferredGenre>();
+            public IList<AvailableDocument> AvailableDocuments { get; set; } = new List<AvailableDocument>();
+            public IList<RegionPreferencePerformance> RegionPreferencePerformances { get; set; } = new List<RegionPreferencePerformance>();
+            public IList<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; set; } = new List<RegionPreferenceRehearsal>();
+            public IList<Audition> Auditions { get; set; } = new List<Audition>();
             #endregion
         }
 
@@ -98,6 +98,9 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     //.ForMember(dest => dest.PreferredPositionsStaff, opt => opt.MapFrom(src => src.PreferredPositionsStaff))
                     //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer))
                     //.ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.PreferredPartsStaff))
+
+                    // TODO da muss Senf rein mit neuen Einträgen hinzufügen, fehlende Löschen u.v.a.m
+
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }

@@ -89,6 +89,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new UserRegister.Command { GivenName = "Unconfirmed", Surname = "User" });
             }
         }
+
         public static Person TrombonistAndEuphoniumPlayer
         {
             get

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -111,19 +112,18 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
                     InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
                     InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
-
                 });
 
-                muPro.IsMainProfile = true;
-                muPro.IsDeactivated = false;
-                muPro.ProfilePreferencePerformer = 3;
-                muPro.ProfilePreferenceStaff = 4;
+                muPro.SetProperty(nameof(MusicianProfile.IsMainProfile), true);
+                muPro.SetProperty(nameof(MusicianProfile.IsDeactivated), false);
+                muPro.SetProperty(nameof(MusicianProfile.ProfilePreferencePerformer), (byte)3);
+                muPro.SetProperty(nameof(MusicianProfile.ProfilePreferenceStaff), (byte)4);
 
-                muPro.BackgroundPerformer = "Trombonist background description";
-                muPro.BackgroundStaff = "Trombonist internal-background description";
-                muPro.SalaryComment = "Salary only via PayPal, other payments not accepted";
+                muPro.SetProperty(nameof(MusicianProfile.BackgroundPerformer), "Trombonist background description");
+                muPro.SetProperty(nameof(MusicianProfile.BackgroundStaff), "Trombonist internal-background description");
+                muPro.SetProperty(nameof(MusicianProfile.SalaryComment), "Salary only via PayPal, other payments not accepted");
 
-                muPro.SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id;
+                muPro.SetProperty(nameof(MusicianProfile.SalaryId), SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id);
 
                 //ToDo Collections
 

@@ -140,19 +140,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 // -> this is the missing mandatory field: QualificationId 
             };
 
-            var expectedDto = new MusicianProfileDto
-            {
-                PersonId = createDto.PersonId,
-                InstrumentId = createDto.InstrumentId,
-                LevelAssessmentPerformer = createDto.LevelAssessmentPerformer,
-                QualificationId = createDto.QualificationId,
-
-                CreatedBy = _staff.DisplayName,
-                CreatedAt = FakeDateTime.UtcNow,
-                ModifiedAt = null,
-                ModifiedBy = null,
-            };
-
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
