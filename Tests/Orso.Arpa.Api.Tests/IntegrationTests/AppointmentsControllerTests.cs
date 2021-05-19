@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MusicianProfileForAppointmentApplication;
 using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
@@ -338,7 +338,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             staffParticipation.Participation = null;
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
-            adminParticipation.MusicianProfiles.Add(new MusicianProfileDto { InstrumentId = SectionSeedData.Soprano2.Id });
+            adminParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentId = SectionSeedData.Soprano2.Id });
             expectedDto.Participations.Add(adminParticipation);
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
@@ -404,7 +404,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
             expectedDto.Participations.Add(adminParticipation);
-            adminParticipation.MusicianProfiles.Add(new MusicianProfileDto { InstrumentId = SectionSeedData.Soprano2.Id });
+            adminParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentId = SectionSeedData.Soprano2.Id });
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act

@@ -32,12 +32,12 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         #endregion
 
         #region Collection
-        public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; set; } = new HashSet<MusicianProfileSection>();
-        public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new HashSet<MusicianProfileEducation>();
-        public virtual ICollection<PreferredPosition> PreferredPositionsPerformer { get; set; } = new HashSet<PreferredPosition>();
-        //public virtual ICollection<PreferredPosition> PreferredPositionsStaff { get; set; } = new HashSet<PreferredPosition>();
-        public virtual ICollection<PreferredPart> PreferredPartsPerformer { get; set; } = new HashSet<PreferredPart>();
-        //public virtual ICollection<PreferredPart> PreferredPartsStaff { get; set; } = new HashSet<PreferredPart>();
+        public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
+        public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
+        public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
+        //public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
+        public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
+        //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
         #endregion
     }
 

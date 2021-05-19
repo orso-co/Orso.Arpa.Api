@@ -44,7 +44,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     InstrumentId = SectionSeedData.Tenor1.Id,
 
-
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
                 };
@@ -72,7 +71,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new MusicianProfileDto
                 {
                     InstrumentId = SectionSeedData.Soprano1.Id,
-
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
