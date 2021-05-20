@@ -103,6 +103,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.Participations.Add(PerformerParticipation);
                 dto.Participations.Add(StaffParticipation);
                 dto.Participations.Add(AdminParticipation);
+                //ToDo - extend here in order to make Should_Remove_Project work
+                //dto.Participations.Add(TrombonistAndEuphoniumPlayerParticipation);
                 return dto;
             }
         }
@@ -123,6 +125,24 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
             }
         }
+
+        //ToDo - extend here in order to make Should_Remove_Project work
+        //public static AppointmentParticipationListItemDto TrombonistAndEuphoniumPlayerParticipation
+        //{
+        //    get
+        //    {
+        //        return new AppointmentParticipationListItemDto
+        //        {
+        //            Person = PersonDtoData.TrombonistAndEuphoniumPlayer,
+        //            Participation = AppointmentParticipationDtoData.PerformerParticipation,
+
+        //            MusicianProfiles = new List<MusicianProfileForAppointmentDto>
+        //            {
+        //                _mapper.Map<MusicianProfileForAppointmentDto>(MusicianProfileDtoData.Trombonist),
+        //            }
+        //        };
+        //    }
+        //}
 
         public static AppointmentParticipationListItemDto StaffParticipation
         {
