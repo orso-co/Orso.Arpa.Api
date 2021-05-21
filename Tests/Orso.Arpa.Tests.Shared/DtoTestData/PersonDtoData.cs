@@ -45,16 +45,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        //ToDo - extend here in order to make Should_Remove_Project work
-        //public static PersonDto TrombonistAndEuphoniumPlayer
-        //{
-        //    get
-        //    {
-        //        Person person = PersonTestSeedData.TrombonistAndEuphoniumPlayer;
-        //        return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
-        //    }
-        //}
-
         private static PersonDto CreateDto(Person person, string createdBy, DateTime? createdAt)
         {
             return new PersonDto
