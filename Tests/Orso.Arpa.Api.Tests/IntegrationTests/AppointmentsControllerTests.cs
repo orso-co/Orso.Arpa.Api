@@ -396,19 +396,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
-            AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
-            performerParticipation.Participation = null;
-            expectedDto.Participations.Add(performerParticipation);
-            AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;
-            staffParticipation.Participation = null;
-            expectedDto.Participations.Add(staffParticipation);
-            AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
-            expectedDto.Participations.Add(adminParticipation);
-            adminParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentId = SectionSeedData.Soprano2.Id });
-            expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
-            //AppointmentParticipationListItemDto tromboneParticipation = AppointmentDtoData.TrombonistAndEuphoniumPlayerParticipation;
-            //tromboneParticipation.Participation = null;
-            //expectedDto.Participations.Add(tromboneParticipation);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -421,8 +408,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Participations.RemoveAt(4);  //ToDo - this is nice trick that works, but this is dirty!
-            result.Should().BeEquivalentTo(expectedDto);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Participations));
         }
 
         [Test, Order(10004)]
