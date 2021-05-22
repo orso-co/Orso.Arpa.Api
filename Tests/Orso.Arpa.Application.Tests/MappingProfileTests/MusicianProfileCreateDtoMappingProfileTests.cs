@@ -26,25 +26,29 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             MusicianProfileCreateDto dto = new Faker<MusicianProfileCreateDto>()
-                .RuleFor(dto => dto.LevelAssessmentPerformer, (byte)1)
-                .RuleFor(dto => dto.LevelAssessmentStaff, (byte)2)
-
-                .RuleFor(dto => dto.PersonId, Guid.NewGuid())
-
-                .RuleFor(dto => dto.InstrumentId, Guid.NewGuid())
-                .RuleFor(dto => dto.QualificationId, Guid.NewGuid())
-                .RuleFor(dto => dto.InquiryStatusPerformerId, Guid.NewGuid())
-                .RuleFor(dto => dto.InquiryStatusStaffId, Guid.NewGuid())
-
-                // ToDo collections
+                .RuleFor(dto => dto.Id, Guid.NewGuid())
 
                 .Generate();
+
+            dto.Body = new Faker<MusicianProfileCreateBodyDto>()
+                .RuleFor(body => body.LevelAssessmentPerformer, (byte)1)
+                .Generate();
+
+            dto.Body.LevelAssessmentPerformer = (byte)1;
+            dto.Body.LevelAssessmentStaff = (byte)2;
+            dto.Body.InstrumentId = Guid.NewGuid();
+            dto.Body.QualificationId = Guid.NewGuid();
+            dto.Body.InquiryStatusPerformerId = Guid.NewGuid();
+            dto.Body.InquiryStatusStaffId = Guid.NewGuid();
+
+            // ToDo collections
 
             // Act
             Create.Command command = _mapper.Map<Create.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            command.Should().BeEquivalentTo(dto.Body);
+            command.PersonId.Should().Be(dto.Id);
         }
     }
 }

@@ -26,10 +26,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             User user = FakeUsers.Performer;
-            MyProfileDto expectedDto = UserProfileDtoData.Performer;
+            MyUserProfileDto expectedDto = UserProfileDtoData.Performer;
 
             // Act
-            MyProfileDto dto = _mapper.Map<MyProfileDto>(user);
+            MyUserProfileDto dto = _mapper.Map<MyUserProfileDto>(user);
 
             // Assert
             dto.Should().BeEquivalentTo(expectedDto);

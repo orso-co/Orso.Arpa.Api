@@ -24,7 +24,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new MyProfileModifyDto
+            var dto = new MyUserProfileModifyDto
             {
                 Email = UserTestSeedData.Performer.Email,
                 GivenName = "Orsi",

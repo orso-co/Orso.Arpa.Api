@@ -2,11 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.Logic.Persons;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Person : BaseEntity
     {
+        public Person(Guid? id, Create.Command command) : base(id)
+        {
+            GivenName = command.GivenName;
+            Surname = command.Surname;
+            AboutMe = command.AboutMe;
+        }
+
         public Person(Guid? id, UserRegister.Command command) : base(id)
         {
             GivenName = command.GivenName;

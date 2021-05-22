@@ -23,7 +23,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
+                .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.MusicianProfilesController.Get(expectedDto.Id));
 
             // Assert
@@ -89,65 +89,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
-
-        [Test, Order(1000)]
-        public async Task Should_Create()
-        {
-            // Arrange
-            var createDto = new MusicianProfileCreateDto
-            {
-                PersonId = FakePersons.Performer.Id,
-                InstrumentId = SectionSeedData.Euphonium.Id,
-                QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
-            };
-
-            var expectedDto = new MusicianProfileDto
-            {
-                PersonId = createDto.PersonId,
-                InstrumentId = createDto.InstrumentId,
-                QualificationId = createDto.QualificationId,
-
-                CreatedBy = _staff.DisplayName,
-                CreatedAt = FakeDateTime.UtcNow,
-                ModifiedAt = null,
-                ModifiedBy = null,
-            };
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.MusicianProfilesController.Post(), BuildStringContent(createDto));
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
-            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
-
-            result.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dto => dto.Id));
-            result.Id.Should().NotBeEmpty();
-        }
-
-        [Test, Order(1000)]
-        public async Task Should_Not_Create_Due_To_Missing_Mandatory_Field()
-        {
-            // Arrange
-            var createDto = new MusicianProfileCreateDto
-            {
-                PersonId = FakePersons.Performer.Id,
-                InstrumentId = SectionSeedData.Euphonium.Id,
-                // -> this is the missing mandatory field: QualificationId 
-            };
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.MusicianProfilesController.Post(), BuildStringContent(createDto));
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
         }
 
         [Test, Order(10000)]
