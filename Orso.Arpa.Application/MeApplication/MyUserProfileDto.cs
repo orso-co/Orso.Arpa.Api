@@ -14,9 +14,9 @@ namespace Orso.Arpa.Application.MeApplication
         public string AboutMe { get; set; }
     }
 
-    public class MyProfileDtoMappingProfile : Profile
+    public class MyUserProfileDtoMappingProfile : Profile
     {
-        public MyProfileDtoMappingProfile()
+        public MyUserProfileDtoMappingProfile()
         {
             CreateMap<User, MyUserProfileDto>()
                 .ForMember(dest => dest.GivenName, opt => opt.MapFrom(src => src.Person.GivenName))

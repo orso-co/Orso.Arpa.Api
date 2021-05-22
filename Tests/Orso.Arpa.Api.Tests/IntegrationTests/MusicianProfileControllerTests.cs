@@ -7,7 +7,6 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -69,7 +68,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 BackgroundStaff = "revised: Staff-Background description",
                 SalaryComment = "revised: Salary only via PayPal, other payments not accepted!",
 
-                PersonId = FakePersons.Performer.Id,
                 InstrumentId = SectionSeedData.Alto2.Id,
                 QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
                 SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,

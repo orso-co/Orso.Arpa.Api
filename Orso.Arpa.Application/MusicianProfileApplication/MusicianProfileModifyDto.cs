@@ -30,8 +30,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         #endregion
 
         #region Reference
-        public Guid PersonId { get; set; }
-
         public Guid InstrumentId { get; set; }
 
         public Guid QualificationId { get; set; }
@@ -72,7 +70,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.BackgroundStaff, opt => opt.MapFrom(src => src.Body.BackgroundStaff))
                 .ForMember(dest => dest.SalaryComment, opt => opt.MapFrom(src => src.Body.SalaryComment))
 
-                .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Body.PersonId))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.Body.InstrumentId))
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.Body.QualificationId))
                 .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.Body.SalaryId))
@@ -95,7 +92,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         {
             RuleFor(d => d.Body)
                 .SetValidator(new MusicianProfileModifyBodyDtoValidator());
-
         }
     }
 
@@ -119,8 +115,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleFor(p => p.SalaryComment)
                 .MaximumLength(500);
 
-            RuleFor(p => p.PersonId)
-               .NotEmpty();
             RuleFor(p => p.InstrumentId)
                .NotEmpty();
             RuleFor(p => p.QualificationId)

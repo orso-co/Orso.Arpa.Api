@@ -34,7 +34,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<MyUserProfileDto>> GetMyUserProfile()
         {
-            return await _meService.GetMyProfileAsync();
+            return await _meService.GetMyUserProfileAsync();
         }
 
         /// <summary>
@@ -78,9 +78,9 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> PutProfile([FromBody] MyUserProfileModifyDto userProfileModifyDto)
+        public async Task<ActionResult> PutUserProfile([FromBody] MyUserProfileModifyDto userProfileModifyDto)
         {
-            await _meService.ModifyMyProfileAsync(userProfileModifyDto);
+            await _meService.ModifyMyUserProfileAsync(userProfileModifyDto);
             return NoContent();
         }
 
@@ -132,6 +132,7 @@ namespace Orso.Arpa.Api.Controllers
         {
             return await _musicianProfileService.GetMyByIdAsync(id);
         }
+
         /// <summary>
         /// Adds a new musicianProfile
         /// </summary>
@@ -150,6 +151,24 @@ namespace Orso.Arpa.Api.Controllers
             MyMusicianProfileDto createdMusicianProfile = await _musicianProfileService.CreateAsync(musicianProfileCreateDto);
             //Todo Mira: hätte hier nameof(GetById) erwartet wie bei ProjectController.AddUrl
             return CreatedAtAction(nameof(_musicianProfileService.GetByIdAsync), "MusicianProfile", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
+        }
+
+        /// <summary>
+        /// Modifies the specified musician profile of the current user
+        /// </summary>
+        /// <param name="userMusicianProfileModifyDto"></param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Performer)]
+        [HttpPut("profiles/musician/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> PutMusicianProfile([FromBody] MyMusicianProfileModifyDto userMusicianProfileModifyDto)
+        {
+            await _meService.ModifyMyMusicianProfileAsync(userMusicianProfileModifyDto);
+            return NoContent();
         }
     }
 }

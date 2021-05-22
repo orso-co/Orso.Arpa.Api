@@ -207,6 +207,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.MeController.PutMusicianProfile(musicianProfileToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
+            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage); // ToDo - code just to get down to the error message, can this be better organized for debugging?
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 

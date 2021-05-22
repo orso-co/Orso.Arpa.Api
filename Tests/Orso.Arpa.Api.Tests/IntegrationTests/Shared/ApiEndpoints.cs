@@ -124,6 +124,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string SendQrCode() => $"{Me}/qrcode";
 
             public static string AddMusicianProfile() => $"{Me}/profiles/musician";
+
             public static string PutMusicianProfile(Guid id) => $"{Me}/profiles/musician/{id}";
 
             public static string GetMusicianProfiles() => $"{Me}/profiles/musician";

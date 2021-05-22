@@ -26,8 +26,6 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
         #endregion
 
         #region Reference
-        public Guid PersonId { get; set; }
-
         public Guid InstrumentId { get; set; }
 
         public Guid? InquiryStatusPerformerId { get; set; }
@@ -55,7 +53,6 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
                 .ForMember(dest => dest.ProfilePreferencePerformer, opt => opt.MapFrom(src => src.Body.ProfilePreferencePerformer))
                 .ForMember(dest => dest.BackgroundPerformer, opt => opt.MapFrom(src => src.Body.BackgroundPerformer))
 
-                .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Body.PersonId))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.Body.InstrumentId))
                 .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.Body.InquiryStatusPerformerId))
 
@@ -89,8 +86,6 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
             RuleFor(p => p.BackgroundPerformer)
                 .MaximumLength(1000);
 
-            RuleFor(p => p.PersonId)
-               .NotEmpty();
             RuleFor(p => p.InstrumentId)
                .NotEmpty();
 
