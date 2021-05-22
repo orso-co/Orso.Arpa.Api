@@ -14,17 +14,17 @@ namespace Orso.Arpa.Application.MeApplication
         public string AboutMe { get; set; }
     }
 
-    public class MyProfileModifyDtoMappingProfile : Profile
+    public class MyUserProfileModifyDtoMappingProfile : Profile
     {
-        public MyProfileModifyDtoMappingProfile()
+        public MyUserProfileModifyDtoMappingProfile()
         {
             CreateMap<MyUserProfileModifyDto, Command>();
         }
     }
 
-    public class MyProfileModifyDtoValidator : AbstractValidator<MyUserProfileModifyDto>
+    public class MyUserProfileModifyDtoValidator : AbstractValidator<MyUserProfileModifyDto>
     {
-        public MyProfileModifyDtoValidator()
+        public MyUserProfileModifyDtoValidator()
         {
             RuleFor(c => c.Email)
                 .NotEmpty()

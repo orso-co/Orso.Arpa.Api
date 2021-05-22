@@ -41,7 +41,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     BackgroundStaff = "Staff gave some background",
                     SalaryComment = "Perfomer only accepty PayPal",
 
-                    PersonId = Guid.NewGuid(),
                     InstrumentId = Guid.NewGuid(),
                     QualificationId = Guid.NewGuid(),
                     SalaryId = Guid.NewGuid(),
@@ -66,7 +65,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 BackgroundStaff = dto.Body.BackgroundStaff,
                 SalaryComment = dto.Body.SalaryComment,
 
-                PersonId = dto.Body.PersonId,
                 InstrumentId = dto.Body.InstrumentId,
                 QualificationId = dto.Body.QualificationId,
                 SalaryId = dto.Body.SalaryId,
