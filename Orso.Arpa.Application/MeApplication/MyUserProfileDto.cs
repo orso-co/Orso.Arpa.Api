@@ -3,7 +3,7 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.MeApplication
 {
-    public class MyProfileDto
+    public class MyUserProfileDto
     {
         public string UserName { get; set; }
         public string Email { get; set; }
@@ -18,7 +18,7 @@ namespace Orso.Arpa.Application.MeApplication
     {
         public MyProfileDtoMappingProfile()
         {
-            CreateMap<User, MyProfileDto>()
+            CreateMap<User, MyUserProfileDto>()
                 .ForMember(dest => dest.GivenName, opt => opt.MapFrom(src => src.Person.GivenName))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Person.Surname))
                 .ForMember(dest => dest.AboutMe, opt => opt.MapFrom(src => src.Person.AboutMe));

@@ -31,13 +31,13 @@ namespace Orso.Arpa.Application.Services
             _userAccessor = userAccessor;
         }
 
-        public async Task<MyProfileDto> GetMyProfileAsync()
+        public async Task<MyUserProfileDto> GetMyProfileAsync()
         {
             User user = await _mediator.Send(new UserProfile.Query());
-            return _mapper.Map<MyProfileDto>(user);
+            return _mapper.Map<MyUserProfileDto>(user);
         }
 
-        public async Task ModifyMyProfileAsync(MyProfileModifyDto userProfileModifyDto)
+        public async Task ModifyMyProfileAsync(MyUserProfileModifyDto userProfileModifyDto)
         {
             Modify.Command command = _mapper.Map<Modify.Command>(userProfileModifyDto);
             await _mediator.Send(command);

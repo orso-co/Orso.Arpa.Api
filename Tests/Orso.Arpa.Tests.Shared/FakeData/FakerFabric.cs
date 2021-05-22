@@ -5,11 +5,11 @@ namespace Orso.Arpa.Tests.Shared.FakeData
 {
     public static class FakerFabric
     {
-        public static Faker<MyProfileDto> UesrProfileDtoFaker
+        public static Faker<MyUserProfileDto> UesrProfileDtoFaker
         {
             get
             {
-                return new Faker<MyProfileDto>()
+                return new Faker<MyUserProfileDto>()
                     .RuleFor(u => u.GivenName, (f, u) => f.Name.FirstName())
                     .RuleFor(u => u.Surname, (f, u) => f.Name.LastName())
                     .RuleFor(u => u.UserName, (f, u) => f.Internet.UserName(u.GivenName, u.Surname))

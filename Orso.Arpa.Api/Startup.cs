@@ -211,6 +211,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IVenueService, VenueService>();
             services.AddScoped<IAuditLogService, AuditLogService>();
             services.AddScoped<IMusicianProfileService, MusicianProfileService>();
+            services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IMeService, MeService>();
             services.AddGenericListHandler(typeof(AuditLog));
 

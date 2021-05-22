@@ -7,8 +7,8 @@ namespace Orso.Arpa.Application.Interfaces
     public interface IMeService
     {
         Task<MyAppointmentListDto> GetMyAppointmentsAsync(int? limit, int? offset);
-        Task<MyProfileDto> GetMyProfileAsync();
-        Task ModifyMyProfileAsync(MyProfileModifyDto userProfileModifyDto);
+        Task<MyUserProfileDto> GetMyProfileAsync();
+        Task ModifyMyProfileAsync(MyUserProfileModifyDto userProfileModifyDto);
         Task<SendQRCode.QrCodeFile> SendMyQrCodeAsync();
         Task SetMyAppointmentParticipationPredictionAsync(SetMyProjectAppointmentPredictionDto setParticipationPredictionDto);
     }

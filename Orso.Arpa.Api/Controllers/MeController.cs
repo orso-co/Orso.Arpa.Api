@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 using static Orso.Arpa.Domain.Logic.Me.SendQRCode;
@@ -13,10 +17,12 @@ namespace Orso.Arpa.Api.Controllers
     public class MeController : BaseController
     {
         private readonly IMeService _meService;
+        private readonly IMusicianProfileService _musicianProfileService;
 
-        public MeController(IMeService meService)
+        public MeController(IMeService meService, IMusicianProfileService musicianProfileService)
         {
             _meService = meService;
+            _musicianProfileService = musicianProfileService;
         }
 
         /// <summary>
@@ -26,7 +32,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         [HttpGet("profiles/user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<MyProfileDto>> GetMyProfile()
+        public async Task<ActionResult<MyUserProfileDto>> GetMyUserProfile()
         {
             return await _meService.GetMyProfileAsync();
         }
@@ -72,7 +78,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> PutProfile([FromBody] MyProfileModifyDto userProfileModifyDto)
+        public async Task<ActionResult> PutProfile([FromBody] MyUserProfileModifyDto userProfileModifyDto)
         {
             await _meService.ModifyMyProfileAsync(userProfileModifyDto);
             return NoContent();
@@ -94,6 +100,56 @@ namespace Orso.Arpa.Api.Controllers
         {
             await _meService.SetMyAppointmentParticipationPredictionAsync(setParticipationPrediction);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Gets all my musicianProfiles
+        /// </summary>
+        /// <returns>All musicianProfiles of the current user</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        [Authorize(Roles = RoleNames.Performer)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [HttpGet("/profiles/musician")]
+        public async Task<ActionResult<IEnumerable<MyMusicianProfileDto>>> GetMyMusicianProfiles()
+        {
+            Guid personId = Guid.NewGuid(); //ToDo Mira - woher bekomme ich für Me die PersonId?
+            return Ok(await _musicianProfileService.GetMyAsync(personId));
+        }
+
+        /// <summary>
+        /// Gets my musicianProfile by id
+        /// </summary>
+        /// <returns>Requested musicianProfile of the current user</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        [Authorize(Roles = RoleNames.Performer)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [HttpGet("/profiles/musician/{id}")]
+        public async Task<ActionResult<MyMusicianProfileDto>> GetMyMusicianProfile([FromRoute] Guid id)
+        {
+            return await _musicianProfileService.GetMyByIdAsync(id);
+        }
+        /// <summary>
+        /// Adds a new musicianProfile
+        /// </summary>
+        /// <param name="musicianProfileCreateDto"></param>
+        /// <returns>The created musicianProfile</returns>
+        /// <response code="201">Returns the created musicianProfile</response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Performer)]
+        [HttpPost("/profiles/musician")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<MyMusicianProfileDto>> AddMusicianProfile(MyMusicianProfileCreateDto musicianProfileCreateDto)
+        {
+            MyMusicianProfileDto createdMusicianProfile = await _musicianProfileService.CreateAsync(musicianProfileCreateDto);
+            //Todo Mira: hätte hier nameof(GetById) erwartet wie bei ProjectController.AddUrl
+            return CreatedAtAction(nameof(_musicianProfileService.GetByIdAsync), "MusicianProfile", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
         }
     }
 }

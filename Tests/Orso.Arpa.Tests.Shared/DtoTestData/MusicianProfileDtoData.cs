@@ -98,6 +98,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new MusicianProfileDto
                 {
                     Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
+                    PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
 
                     IsMainProfile = true,
                     IsDeactivated = false,
@@ -111,7 +112,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     BackgroundStaff = "Trombonist internal-background description",
                     SalaryComment = "Salary only via PayPal, other payments not accepted",
 
-                    PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
                     InstrumentId = SectionSeedData.Trombone.Id,
                     QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
                     SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
@@ -157,5 +157,24 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
             }
         }
+
+        public static MusicianProfileDto TrumpetPlayer
+        {
+            get
+            {
+                return new MusicianProfileDto
+                {
+                    Id = Guid.Parse("6cac7b0e-f95e-4287-b29c-6e32f78c7e70"),
+                    PersonId = PersonTestSeedData.Performer.Id,
+
+                    InstrumentId = SectionSeedData.Trumpet.Id,
+                    QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
+
+                    CreatedBy = "anonymous",
+                    CreatedAt = FakeDateTime.UtcNow,
+                };
+            }
+        }
+
     }
 }

@@ -112,16 +112,23 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             private static string Me => $"{Base}/me";
 
-            public static string GetProfile() => $"{Me}/profiles/user";
+            public static string GetUserProfile() => $"{Me}/profiles/user";
 
             public static string GetAppointments(int? limit = null, int? offset = null) => $"{Me}/appointments?limit={limit}&offset={offset}";
 
-            public static string PutProfile() => $"{Me}/profiles/user";
+            public static string PutUserProfile() => $"{Me}/profiles/user";
 
             public static string SetAppointmentParticipationPrediction(Guid appointmentId, Guid predictionId)
                 => $"{Me}/appointments/{appointmentId}/participation/prediction/{predictionId}";
 
             public static string SendQrCode() => $"{Me}/qrcode";
+
+            public static string AddMusicianProfile() => $"{Me}/profiles/musician";
+            public static string PutMusicianProfile(Guid id) => $"{Me}/profiles/musician/{id}";
+
+            public static string GetMusicianProfiles() => $"{Me}/profiles/musician";
+
+            public static string GetMusicianProfile(Guid id) => $"{Me}/profiles/musician/{id}";
         }
 
         public static class RegionsController
@@ -172,18 +179,31 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Get(Guid entityId, int? skip, int? take) => $"{AuditLogs}?entityid={entityId}&skip={skip}&take={take}";
         }
-
         public static class MusicianProfilesController
         {
             private static string MusiciansProfiles => $"{Base}/profiles/musicians";
-
-            public static string Post() => MusiciansProfiles;
 
             public static string Put(Guid id) => $"{MusiciansProfiles}/{id}";
 
             public static string Get(Guid id) => $"{MusiciansProfiles}/{id}";
 
             public static string Delete(Guid id) => $"{MusiciansProfiles}/{id}";
+        }
+        public static class PersonsController
+        {
+            private static string Persons => $"{Base}/persons";
+
+            public static string Get() => Persons;
+
+            public static string Post() => Persons;
+
+            public static string Put(Guid id) => $"{Persons}/{id}";
+
+            public static string Get(Guid id) => $"{Persons}/{id}";
+
+            public static string Delete(Guid id) => $"{Persons}/{id}";
+
+            public static string AddMusicianProfile(Guid id) => $"{Persons}/{id}/profiles/musician";
         }
     }
 }
