@@ -42,9 +42,9 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <response code="200"></response>
         /// /// <response code="424">If email could not be sent</response>
+        [Authorize(Roles = RoleNames.Performer)]
         [HttpGet("qrcode")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = RoleNames.Performer)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult> SendQrCode()
         {
@@ -109,9 +109,9 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Performer)]
+        [HttpGet("/profiles/musician")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [HttpGet("/profiles/musician")]
         public async Task<ActionResult<IEnumerable<MyMusicianProfileDto>>> GetMyMusicianProfiles()
         {
             Guid personId = Guid.NewGuid(); //ToDo Mira - woher bekomme ich für Me die PersonId?
@@ -125,9 +125,9 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Performer)]
+        [HttpGet("/profiles/musician/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [HttpGet("/profiles/musician/{id}")]
         public async Task<ActionResult<MyMusicianProfileDto>> GetMyMusicianProfile([FromRoute] Guid id)
         {
             return await _musicianProfileService.GetMyByIdAsync(id);

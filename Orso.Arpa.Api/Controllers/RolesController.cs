@@ -23,8 +23,8 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>A list of roles</returns>
         /// <response code="200"></response>
-        [HttpGet]
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<RoleDto>> Get()
         {

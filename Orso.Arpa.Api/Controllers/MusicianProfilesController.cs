@@ -27,9 +27,9 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Staff)]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [HttpGet("{id}")]
         public async Task<ActionResult<MusicianProfileDto>> GetById([FromRoute] Guid id)
         {
             return Ok(await _musicianProfileService.GetByIdAsync(id));

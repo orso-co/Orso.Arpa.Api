@@ -29,8 +29,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A list of auditLogs</returns>
         /// <response code="200"></response>
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<AuditLogDto>>> Get([FromQuery] Guid entityId, [FromQuery] int? skip, [FromQuery] int? take)
         {
             return Ok(await _auditLogService.GetAsync(entityId, skip, take));

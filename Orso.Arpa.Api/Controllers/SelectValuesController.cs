@@ -26,9 +26,9 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="tableName"></param>
         /// <returns>A list of select values</returns>
         /// <response code="200"></response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<SelectValueDto>>> Get([FromRoute] string tableName, [FromRoute] string propertyName)
         {
             return Ok(await _selectValueService.GetAsync(tableName, propertyName));
