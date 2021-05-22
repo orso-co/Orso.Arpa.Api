@@ -30,9 +30,9 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If no person could be found for the supplied id</response>
         [Authorize(Roles = RoleNames.Staff)]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [HttpGet("{id}")]
         public async Task<ActionResult<PersonDto>> GetById([FromRoute] Guid id)
         {
             return await _personService.GetByIdAsync(id);
@@ -44,8 +44,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A list of persons</returns>
         /// <response code="200"></response>
         [Authorize(Roles = RoleNames.Staff)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PersonDto>>> Get()
         {
             return Ok(await _personService.GetAsync());

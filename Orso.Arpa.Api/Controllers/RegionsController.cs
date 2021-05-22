@@ -27,10 +27,10 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>The queried region</returns>
         /// <response code="200"></response>
         /// <response code="404">If no region could be found for the supplied id</response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<RegionDto>> GetById([FromRoute] Guid id)
         {
             return await _regionService.GetByIdAsync(id);
@@ -41,9 +41,9 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>A list of regions</returns>
         /// <response code="200"></response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet]
         [AllowAnonymous]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<RegionDto>>> Get()
         {
             return Ok(await _regionService.GetAsync());

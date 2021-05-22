@@ -26,10 +26,10 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>The queried appointment</returns>
         /// <response code="200"></response>
         /// <response code="404">If no url could be found for the supplied id</response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [Authorize(Roles = RoleNames.Staff)]
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AppointmentDto>> GetById([FromRoute] Guid id)
         {
             return Ok(await _urlService.GetByIdAsync(id));
