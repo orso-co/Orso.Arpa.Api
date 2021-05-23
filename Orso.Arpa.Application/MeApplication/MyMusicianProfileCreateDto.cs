@@ -2,11 +2,16 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
+using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.MusicianProfiles.Create;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
 {
     public class MyMusicianProfileCreateDto
+    {
+    }
+
+    public class MyMusicianProfileCreateBodyDto
     {
         #region Native
         public byte LevelAssessmentPerformer { get; set; }
@@ -38,6 +43,15 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformer))
                 //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
                 ;
+        }
+    }
+
+    public class MyMusicianProfileCreateDtoValidator : BaseModifyDtoValidator<MyMusicianProfileCreateDto, MusicianProfileCreateBodyDto>
+    {
+        public MyMusicianProfileCreateDtoValidator()
+        {
+            RuleFor(d => d.Body)
+                .SetValidator(new MusicianProfileCreateMeBodyDtoValidator());
         }
     }
 

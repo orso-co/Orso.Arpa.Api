@@ -93,12 +93,6 @@ namespace Orso.Arpa.Application.Services
             return await _mediator.Send(command);
         }
 
-        public async Task ModifyMyMusicianProfileAsync(MyMusicianProfileModifyDto modifyDto)
-        {
-            Orso.Arpa.Domain.Logic.MusicianProfiles.Modify.Command command = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfiles.Modify.Command>(modifyDto);
-            await _mediator.Send(command);
-        }
-
         public async Task<MyMusicianProfileDto> CreateAsync(MyMusicianProfileCreateDto createDto)
         {
             Orso.Arpa.Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfiles.Create.Command>(createDto);

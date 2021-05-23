@@ -17,10 +17,12 @@ namespace Orso.Arpa.Api.Controllers
     public class MeController : BaseController
     {
         private readonly IMeService _meService;
+        private readonly IMusicianProfileService _musicianProfileService;
 
-        public MeController(IMeService meService)
+        public MeController(IMeService meService, IMusicianProfileService musicianProfileService)
         {
             _meService = meService;
+            _musicianProfileService = musicianProfileService;
         }
 
         /// <summary>
