@@ -78,7 +78,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class ProjectsController
         {
-            private static string Projects => $"{Base}/projects";
+            private static string Projects => $"{Base}/Projects";
 
             public static string Get(bool includeCompleted = false) => $"{Projects}?includeCompleted={includeCompleted}";
 
@@ -95,7 +95,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class UrlsController
         {
-            private static string Urls => $"{Base}/urls";
+            private static string Urls => $"{Base}/Urls";
 
             public static string Get(Guid id) => $"{Urls}/{id}";
 
@@ -132,7 +132,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class RegionsController
         {
-            private static string Regions => $"{Base}/regions";
+            private static string Regions => $"{Base}/Regions";
 
             public static string Get() => Regions;
 
@@ -147,7 +147,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class AppointmentsController
         {
-            private static string Appointments => $"{Base}/appointments";
+            private static string Appointments => $"{Base}/Appointments";
 
             public static string Get(DateTime? date, DateRange range) => $"{Appointments}?date={date.Value.ToIsoString()}&range={range}";
 
@@ -190,7 +190,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         }
         public static class PersonsController
         {
-            private static string Persons => $"{Base}/persons";
+            private static string Persons => $"{Base}/Persons";
 
             public static string Get() => Persons;
 
