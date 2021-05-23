@@ -207,8 +207,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InstrumentId = createDto.InstrumentId,
                 LevelAssessmentPerformer = createDto.LevelAssessmentPerformer,
 
-                CreatedBy = _staff.DisplayName,
+                CreatedBy = _performer.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
+                PersonId = _performer.PersonId
             };
 
             // Act

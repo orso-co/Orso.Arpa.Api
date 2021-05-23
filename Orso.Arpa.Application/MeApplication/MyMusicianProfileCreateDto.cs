@@ -8,20 +8,12 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 {
     public class MyMusicianProfileCreateDto
     {
-        #region Native
         public byte LevelAssessmentPerformer { get; set; }
-        #endregion
-
-        #region Reference
         public Guid InstrumentId { get; set; }
         public Guid? InquiryStatusPerformerId { get; set; }
-        #endregion
-
-        #region Collection
         //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
         //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
         //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-        #endregion
     }
 
     public class MyMusicianProfileCreateDtoMappingProfile : Profile
@@ -41,9 +33,9 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         }
     }
 
-    public class MusicianProfileCreateMeBodyDtoValidator : AbstractValidator<MusicianProfileCreateBodyDto>
+    public class MyMusicianProfileCreateDtoValidator : AbstractValidator<MyMusicianProfileCreateDto>
     {
-        public MusicianProfileCreateMeBodyDtoValidator()
+        public MyMusicianProfileCreateDtoValidator()
         {
             RuleFor(p => p)
                 .NotNull();

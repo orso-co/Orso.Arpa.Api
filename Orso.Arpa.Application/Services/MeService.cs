@@ -95,7 +95,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<MyMusicianProfileDto> CreateAsync(MyMusicianProfileCreateDto createDto)
         {
-            Orso.Arpa.Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfiles.Create.Command>(createDto);
+            Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfiles.Create.Command>(createDto);
             command.PersonId = _userAccessor.PersonId;
 
             MusicianProfile createdEntity = await _mediator.Send(command);

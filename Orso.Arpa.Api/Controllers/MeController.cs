@@ -136,7 +136,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Adds a new musicianProfile
         /// </summary>
-        /// <param name="myMusicianProfileCreateBodyDto"></param>
+        /// <param name="myMusicianProfileCreateDto"></param>
         /// <returns>The created musicianProfile</returns>
         /// <response code="201">Returns the created musicianProfile</response>
         /// <response code="404">If entity could not be found</response>
@@ -146,9 +146,9 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<MyMusicianProfileDto>> AddMusicianProfile(MyMusicianProfileCreateDto myMusicianProfileCreateBodyDto)
+        public async Task<ActionResult<MyMusicianProfileDto>> AddMusicianProfile([FromBody] MyMusicianProfileCreateDto myMusicianProfileCreateDto)
         {
-            MyMusicianProfileDto createdMusicianProfile = await _meService.CreateAsync(myMusicianProfileCreateBodyDto);
+            MyMusicianProfileDto createdMusicianProfile = await _meService.CreateAsync(myMusicianProfileCreateDto);
             return CreatedAtAction(nameof(MusicianProfilesController.GetById), "MusicianProfiles", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
         }
     }

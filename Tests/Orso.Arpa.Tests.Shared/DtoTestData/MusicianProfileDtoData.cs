@@ -32,6 +32,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InstrumentId = SectionSeedData.Alto1.Id,
                     CreatedAt = FakeDateTime.UtcNow,
                     CreatedBy = "anonymous",
+                    IsMainProfile = true
                 };
             }
         }
@@ -46,6 +47,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
+                    IsMainProfile = true
                 };
             }
         }
@@ -60,6 +62,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
+                    IsMainProfile = false
                 };
             }
         }
@@ -74,6 +77,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
+                    IsMainProfile = true
                 };
             }
         }
@@ -88,6 +92,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
+                    IsMainProfile = false
                 };
             }
         }
@@ -119,7 +124,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
 
                     CreatedBy = "anonymous",
-                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedAt = FakeDateTime.UtcNow
 
                     //Todo collections
                 };
