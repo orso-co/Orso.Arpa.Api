@@ -109,7 +109,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Performer)]
-        [HttpGet("/profiles/musician")]
+        [HttpGet("profiles/musician")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<MyMusicianProfileDto>>> GetMyMusicianProfiles()
@@ -121,11 +121,12 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Gets my musicianProfile by id
         /// </summary>
+        /// <param name="id"></param>
         /// <returns>Requested musicianProfile of the current user</returns>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.Performer)]
-        [HttpGet("/profiles/musician/{id}")]
+        [HttpGet("profiles/musician/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MyMusicianProfileDto>> GetMyMusicianProfile([FromRoute] Guid id)
@@ -136,19 +137,19 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Adds a new musicianProfile
         /// </summary>
-        /// <param name="musicianProfileCreateDto"></param>
+        /// <param name="myMusicianProfileCreateDto"></param>
         /// <returns>The created musicianProfile</returns>
         /// <response code="201">Returns the created musicianProfile</response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Performer)]
-        [HttpPost("/profiles/musician")]
+        [HttpPost("profiles/musician")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<MyMusicianProfileDto>> AddMusicianProfile(MyMusicianProfileCreateDto musicianProfileCreateDto)
+        public async Task<ActionResult<MyMusicianProfileDto>> AddMusicianProfile(MyMusicianProfileCreateDto myMusicianProfileCreateDto)
         {
-            MyMusicianProfileDto createdMusicianProfile = await _musicianProfileService.CreateAsync(musicianProfileCreateDto);
+            MyMusicianProfileDto createdMusicianProfile = await _musicianProfileService.CreateAsync(myMusicianProfileCreateDto);
             //Todo Mira: hätte hier nameof(GetById) erwartet wie bei ProjectController.AddUrl
             return CreatedAtAction(nameof(_musicianProfileService.GetByIdAsync), "MusicianProfile", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
         }
@@ -156,7 +157,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Modifies the specified musician profile of the current user
         /// </summary>
-        /// <param name="userMusicianProfileModifyDto"></param>
+        /// <param name="myMusicianProfileCreateDto"></param>
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
@@ -165,9 +166,9 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> PutMusicianProfile([FromBody] MyMusicianProfileModifyDto userMusicianProfileModifyDto)
+        public async Task<ActionResult> PutMusicianProfile([FromBody] MyMusicianProfileModifyDto myMusicianProfileCreateDto)
         {
-            await _meService.ModifyMyMusicianProfileAsync(userMusicianProfileModifyDto);
+            await _meService.ModifyMyMusicianProfileAsync(myMusicianProfileCreateDto);
             return NoContent();
         }
     }
