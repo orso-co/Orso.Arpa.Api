@@ -53,17 +53,5 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.QualificationId, Guid.NewGuid());
         }
-
-        [Test]
-        public void Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied()
-        {
-            _bodyValidator.ShouldHaveValidationErrorFor(command => command.InstrumentId, Guid.Empty);
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied()
-        {
-            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.InstrumentId, Guid.NewGuid());
-        }
     }
 }

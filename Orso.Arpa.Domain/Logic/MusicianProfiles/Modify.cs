@@ -30,12 +30,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             #endregion
 
             #region Reference
-            public Guid PersonId { get; set; }
-            public virtual Person Person { get; set; }
-
-            public Guid InstrumentId { get; set; }
-            public virtual Section Instrument { get; set; }
-
             public Guid? QualificationId { get; set; }
             public virtual SelectValueMapping Qualification { get; set; }
 
@@ -85,8 +79,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .ForMember(dest => dest.BackgroundStaff, opt => opt.MapFrom(src => src.BackgroundStaff))
                     .ForMember(dest => dest.SalaryComment, opt => opt.MapFrom(src => src.SalaryComment))
 
-                    .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
-                    .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
                     .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.QualificationId))
                     .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.SalaryId))
                     .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.InquiryStatusPerformerId))
@@ -111,12 +103,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             {
                 RuleFor(c => c.Id)
                     .EntityExists<Command, MusicianProfile>(arpaContext, nameof(Command.Id));
-
-                RuleFor(c => c.PersonId)
-                     .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
-
-                RuleFor(c => c.InstrumentId)
-                    .EntityExists<Command, Section>(arpaContext, nameof(Command.InstrumentId));
 
                 RuleFor(c => c.QualificationId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Qualification);
