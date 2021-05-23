@@ -178,39 +178,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(110)]
-        public async Task Should_Modify_My_MusicianProfile()
-        {
-            // Arrange
-            MyMusicianProfileDto musicianProfileToModify = MyMusicianProfileDtoData.Trombonist;
-            var modifyDto = new MyMusicianProfileModifyBodyDto
-            {
-                IsMainProfile = false,
-                IsDeactivated = false,
-
-                LevelAssessmentPerformer = 2,
-                ProfilePreferencePerformer = 4,
-
-                BackgroundPerformer = "revised: Background description",
-
-                InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
-
-                // ToDo Collections
-            };
-
-            // Act
-            HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer);
-
-            HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.MeController.PutMusicianProfile(musicianProfileToModify.Id), BuildStringContent(modifyDto));
-
-            // Assert
-            //MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage); // ToDo - code just to get down to the error message, can this be better organized for debugging?
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
-
         [Test, Order(1001)]
         public async Task Should_Set_Appointment_Participation_Prediction()
         {
@@ -225,7 +192,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
-
         [Test, Order(1100)]
         public async Task Should_Add_My_MusicianProfile()
         {

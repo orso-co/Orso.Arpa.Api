@@ -149,23 +149,5 @@ namespace Orso.Arpa.Api.Controllers
             MyMusicianProfileDto createdMusicianProfile = await _meService.CreateAsync(myMusicianProfileCreateBodyDto);
             return CreatedAtAction(nameof(MusicianProfilesController.GetById), "MusicianProfiles", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
         }
-
-        /// <summary>
-        /// Modifies the specified musician profile of the current user
-        /// </summary>
-        /// <param name="myMusicianProfileCreateDto"></param>
-        /// <response code="204"></response>
-        /// <response code="404">If entity could not be found</response>
-        /// <response code="422">If validation fails</response>
-        [Authorize(Roles = RoleNames.Performer)]
-        [HttpPut("profiles/musician/{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> PutMusicianProfile([FromBody] MyMusicianProfileModifyDto myMusicianProfileCreateDto)
-        {
-            await _meService.ModifyMyMusicianProfileAsync(myMusicianProfileCreateDto);
-            return NoContent();
-        }
     }
 }
