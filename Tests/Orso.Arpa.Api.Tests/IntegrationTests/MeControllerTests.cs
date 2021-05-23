@@ -109,7 +109,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_staff)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.MeController.GetMusicianProfiles());
 
             // Assert
@@ -127,7 +127,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_staff)
+                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.MeController.GetMusicianProfile(expectedDto.Id));
 
             // Assert
