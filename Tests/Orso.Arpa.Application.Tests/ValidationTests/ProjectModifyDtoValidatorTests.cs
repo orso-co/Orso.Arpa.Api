@@ -80,14 +80,14 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Code_Is_Supplied([Values("ABC1 -/0", "abcdefghijklmno", "pqrstuvwxyzABCD", "EFGHIJKLMNOPQRS", "TUVWXYZ01234567", "89/-?:().,+ ")] string code)
         {
-            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.Code, number);
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.Code, code);
         }
 
         [Test]
 
         public void Should_Have_Validation_Error_If_Invalid_Character_In_Code_Is_Supplied([Values("ABC*", "ABC_", "ABCö", @"ABC\", "ABC{", "ABC[")] string code)
         {
-            _bodyValidator.ShouldHaveValidationErrorFor(command => command.Code, number);
+            _bodyValidator.ShouldHaveValidationErrorFor(command => command.Code, code);
         }
 
         [Test]

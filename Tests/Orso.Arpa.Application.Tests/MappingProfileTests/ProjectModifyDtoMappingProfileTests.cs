@@ -48,7 +48,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 Title = dto.Body.Title,
                 ShortTitle = dto.Body.ShortTitle,
                 Description = dto.Body.Description,
-                Number = dto.Body.Number,
+                Code = dto.Body.Code,
                 TypeId = dto.Body.TypeId,
                 GenreId = dto.Body.GenreId,
                 StartDate = dto.Body.StartDate,

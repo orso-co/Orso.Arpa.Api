@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Body.StartDate))
                 .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.Body.GenreId))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Body.TypeId))
-                .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Body.Number))
+                .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Body.Code))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Body.Description))
                 .ForMember(dest => dest.ShortTitle, opt => opt.MapFrom(src => src.Body.ShortTitle))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Body.Title));
