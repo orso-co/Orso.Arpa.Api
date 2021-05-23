@@ -6,7 +6,6 @@ using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -31,15 +30,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            MusicianProfile dto = FakeMusicianProfiles.PerformerMusicianProfile;
+            MusicianProfile musicianProfile = FakeMusicianProfiles.PerformerMusicianProfile;
             MusicianProfileDto expectedDto = MusicianProfileDtoData.PerformerProfile;
-            expectedDto.PersonId = PersonTestSeedData.Performer.Id;
 
             // Act
-            MusicianProfileDto mappedDto = _mapper.Map<MusicianProfileDto>(dto);
+            MusicianProfileDto mappedDto = _mapper.Map<MusicianProfileDto>(musicianProfile);
 
             // Assert
-            mappedDto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.CreatedAt).Excluding(r => r.CreatedBy));
+            mappedDto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

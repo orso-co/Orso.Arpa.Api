@@ -16,7 +16,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_ById()
         {
             // Arrange
-            MusicianProfileDto expectedDto = MusicianProfileDtoData.Trombonist;
+            MusicianProfileDto expectedDto = MusicianProfileDtoData.PerformerProfile;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

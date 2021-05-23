@@ -55,7 +55,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Modify()
         {
             // Arrange
-            Person personToModify = PersonTestSeedData.TrombonistAndEuphoniumPlayer;
+            Person personToModify = PersonTestSeedData.LockedOutUser;
             var modifyDto = new PersonModifyBodyDto
             {
                 GivenName = "Tom2",
@@ -194,7 +194,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.PersonsController.Delete(PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id));
+                .DeleteAsync(ApiEndpoints.PersonsController.Delete(PersonTestSeedData.UnconfirmedUser.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

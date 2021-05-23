@@ -104,7 +104,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_MusicianProfiles()
         {
             // Arrange
-            IList<MyMusicianProfileDto> expectedDto = MyMusicianProfileDtoData.ProfilesForTromboneAndEuphoniumPlayer;
+            IList<MyMusicianProfileDto> expectedDto = new List<MyMusicianProfileDto> { MyMusicianProfileDtoData.PerformerProfile };
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -122,13 +122,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_MusicianProfile_ById()
         {
             // Arrange
-            MyMusicianProfileDto expectedDto = MyMusicianProfileDtoData.Trombonist;
+            MyMusicianProfileDto expectedDto = MyMusicianProfileDtoData.PerformerProfile;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetMusicianProfile(Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13")));
+                .GetAsync(ApiEndpoints.MeController.GetMusicianProfile(expectedDto.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);

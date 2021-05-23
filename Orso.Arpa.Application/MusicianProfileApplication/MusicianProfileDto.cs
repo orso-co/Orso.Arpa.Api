@@ -7,7 +7,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 {
     public class MusicianProfileDto : BaseEntityDto
     {
-        #region Native
         public bool IsMainProfile { get; set; }
         public bool IsDeactivated { get; set; }
 
@@ -19,25 +18,19 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public string BackgroundPerformer { get; set; }
         public string BackgroundStaff { get; set; }
         public string SalaryComment { get; set; }
-        #endregion
-
-        #region Reference
         public Guid PersonId { get; set; }
         public Guid InstrumentId { get; set; }
         public Guid? QualificationId { get; set; }
         public Guid? SalaryId { get; set; }
         public Guid? InquiryStatusPerformerId { get; set; }
         public Guid? InquiryStatusStaffId { get; set; }
-        #endregion
-
-        #region Collection
         //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
         //public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
         //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
         ////public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
         //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
         //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
-        #endregion
+
     }
 
     public class MusicianProfileDtoMappingProfile : Profile

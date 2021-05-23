@@ -338,7 +338,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             staffParticipation.Participation = null;
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
-            adminParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentId = SectionSeedData.Soprano2.Id });
+            adminParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = SectionSeedData.Soprano2.Name });
             expectedDto.Participations.Add(adminParticipation);
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
@@ -396,6 +396,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
+            AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
+            performerParticipation.Participation = null;
+            expectedDto.Participations.Add(performerParticipation);
+            AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;
+            staffParticipation.Participation = null;
+            expectedDto.Participations.Add(staffParticipation);
+            AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
+            expectedDto.Participations.Add(adminParticipation);
+            adminParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Soprano 2" });
+            expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -408,7 +418,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Participations));
+            result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(10004)]

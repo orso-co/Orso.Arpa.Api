@@ -21,7 +21,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     AdminMusicianProfile1,
                     AdminMusicianProfile2,
                     UserWithoutRoleMusicianProfile,
-                    Trombonist,
                 };
             }
         }
@@ -30,11 +29,13 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(new Create.Command
+                var profile = new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonTestSeedData.Performer.Id,
                     InstrumentId = SectionSeedData.Alto1.Id,
                 }, true, Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"));
+                profile.SetProperty(nameof(MusicianProfile.QualificationId), SelectValueMappingSeedData.MusicianProfileQualificationMappings[0].Id);
+                return profile;
             }
         }
 
@@ -95,39 +96,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     PersonId = PersonTestSeedData.UserWithoutRole.Id,
                     InstrumentId = SectionSeedData.Bass1.Id
                 }, true, Guid.Parse("1a7a62f2-1ca0-4eed-9053-b59bc6db34d6"));
-            }
-        }
-
-        public static MusicianProfile Trombonist
-        {
-            get
-            {
-                var muPro = new MusicianProfile(new Create.Command
-                {
-                    LevelAssessmentPerformer = 1,
-                    LevelAssessmentStaff = 2,
-
-                    PersonId = PersonTestSeedData.TrombonistAndEuphoniumPlayer.Id,
-                    InstrumentId = SectionSeedData.Trombone.Id,
-                    QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
-                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
-                    InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
-                }, true, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
-
-                muPro.SetProperty(nameof(MusicianProfile.IsMainProfile), true);
-                muPro.SetProperty(nameof(MusicianProfile.IsDeactivated), false);
-                muPro.SetProperty(nameof(MusicianProfile.ProfilePreferencePerformer), (byte)3);
-                muPro.SetProperty(nameof(MusicianProfile.ProfilePreferenceStaff), (byte)4);
-
-                muPro.SetProperty(nameof(MusicianProfile.BackgroundPerformer), "Trombonist background description");
-                muPro.SetProperty(nameof(MusicianProfile.BackgroundStaff), "Trombonist internal-background description");
-                muPro.SetProperty(nameof(MusicianProfile.SalaryComment), "Salary only via PayPal, other payments not accepted");
-
-                muPro.SetProperty(nameof(MusicianProfile.SalaryId), SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id);
-
-                //ToDo Collections
-
-                return muPro;
             }
         }
     }
