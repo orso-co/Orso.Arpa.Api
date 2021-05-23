@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Entities;
 using static Orso.Arpa.Domain.Logic.MusicianProfiles.Create;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
@@ -25,9 +23,9 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         #endregion
 
         #region Collection
-        public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-        public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-        public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
+        //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
+        //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
+        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
         #endregion
     }
 
@@ -41,7 +39,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.Body.InstrumentId))
                 .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.Body.InquiryStatusPerformerId))
 
-                .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
+                //.ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
                 //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformer))
                 //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
                 ;

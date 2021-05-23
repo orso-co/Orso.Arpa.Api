@@ -68,7 +68,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 BackgroundStaff = "revised: Staff-Background description",
                 SalaryComment = "revised: Salary only via PayPal, other payments not accepted!",
 
-                InstrumentId = SectionSeedData.Alto2.Id,
                 QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
                 SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
                 InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,

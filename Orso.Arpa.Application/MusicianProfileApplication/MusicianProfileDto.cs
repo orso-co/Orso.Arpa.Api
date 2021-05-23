@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
@@ -32,11 +31,11 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         #endregion
 
         #region Collection
-        public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-        public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
-        public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-        //public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
-        public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
+        //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
+        //public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
+        //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
+        ////public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
+        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
         //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
         #endregion
     }
@@ -65,8 +64,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.InquiryStatusPerformerId))
                 .ForMember(dest => dest.InquiryStatusStaffId, opt => opt.MapFrom(src => src.InquiryStatusStaffId))
 
-                .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
-                .ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.MusicianProfileEducations))
+                //.ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
+                //.ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.MusicianProfileEducations))
                 //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.PreferredPositionsPerformer))
                 //.ForMember(dest => dest.PreferredPositionsStaff, opt => opt.MapFrom(src => src.PreferredPositionsStaff))
                 //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer))
