@@ -8,9 +8,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Persistence.Seed;
-using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.MusicianProfiles.Modify;
 
 namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
@@ -35,61 +33,6 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
             _mockSectionDbSet = MockDbSets.Sections;
             _arpaContext.Sections.Returns(_mockSectionDbSet);
         }
-
-        #region PersonId
-        [Test]
-        public void Should_Have_Validation_Error_If_PersonId_Is_Not_Existing()
-        {
-            _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.PersonId, Guid.NewGuid(), nameof(Person));
-        }
-
-        [Test]
-        public void Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.PersonId, Guid.Empty, nameof(Person));
-        }
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.PersonId, PersonTestSeedData.Performer.Id);
-        }
-        #endregion
-
-        #region InstrumentId
-        [Test]
-        public void Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing()
-        {
-            _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.InstrumentId, Guid.NewGuid(), nameof(Section));
-        }
-
-        [Test]
-        public void Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.InstrumentId, Guid.Empty, nameof(Section));
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.InstrumentId, SectionDtoData.Euphonium.Id);
-        }
-        #endregion
 
         #region QualificationId
         [Test]
