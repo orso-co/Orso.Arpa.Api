@@ -16,6 +16,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new List<MusicianProfile>
                 {
                     PerformerMusicianProfile,
+                    PerformersTromboneMusicianProfile,
+                    PerformersDeactivatedTubaProfile,
                     StaffMusicianProfile1,
                     StaffMusicianProfile2,
                     AdminMusicianProfile1,
@@ -39,6 +41,37 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
+        public static MusicianProfile PerformersTromboneMusicianProfile
+        {
+            get
+            {
+                var profile = new MusicianProfile(new Create.Command
+                {
+                    PersonId = PersonTestSeedData.Performer.Id,
+                    InstrumentId = SectionSeedData.Trombone.Id,
+                    LevelAssessmentPerformer = 1,
+                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[1].Id,
+                    QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[1].Id,
+                }, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
+                profile.SetProperty(nameof(MusicianProfile.BackgroundPerformer), "Background Trombonist");
+                profile.SetProperty(nameof(MusicianProfile.ProfilePreferencePerformer), (byte)3);
+                return profile;
+            }
+        }
+
+        public static MusicianProfile PerformersDeactivatedTubaProfile
+        {
+            get
+            {
+                var profile = new MusicianProfile(new Create.Command
+                {
+                    PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
+                    InstrumentId = SectionSeedData.Tuba.Id,
+                }, false, Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"));
+                profile.SetProperty(nameof(MusicianProfile.IsDeactivated), true);
+                return profile;
+            }
+        }
         public static MusicianProfile StaffMusicianProfile1
         {
             get

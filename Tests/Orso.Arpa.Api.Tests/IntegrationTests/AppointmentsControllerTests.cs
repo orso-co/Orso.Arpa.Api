@@ -397,6 +397,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
             AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
+            // ToDo Mira: ist das so gedacht, dass die Participants alle Profile haben oder sollte es nur das sein, mit dem sie beim jeweiligen Termin mitmachen?
+            performerParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Trombone", Qualification = "Student" });
+            performerParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Tuba" });
             performerParticipation.Participation = null;
             expectedDto.Participations.Add(performerParticipation);
             AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;

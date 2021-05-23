@@ -104,7 +104,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_MusicianProfiles()
         {
             // Arrange
-            IList<MyMusicianProfileDto> expectedDto = new List<MyMusicianProfileDto> { MyMusicianProfileDtoData.PerformerProfile };
+            IList<MyMusicianProfileDto> expectedDto = new List<MyMusicianProfileDto> {
+                MyMusicianProfileDtoData.PerformerProfile,
+                MyMusicianProfileDtoData.PerformersTromboneMusicianProfile,
+                MyMusicianProfileDtoData.PerformersDeactivatedTubaProfile,
+            };
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
