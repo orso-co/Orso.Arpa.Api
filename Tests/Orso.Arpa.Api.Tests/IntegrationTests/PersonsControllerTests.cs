@@ -146,7 +146,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 InstrumentId = createDto.InstrumentId,
                 QualificationId = createDto.QualificationId,
-
+                PersonId = PersonDtoData.Performer.Id,
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
             };

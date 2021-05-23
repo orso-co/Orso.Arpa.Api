@@ -8,9 +8,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
+using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
 
@@ -40,7 +42,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task ModifyMyUserProfileAsync(MyUserProfileModifyDto userProfileModifyDto)
         {
-            Modify.Command command = _mapper.Map<Modify.Command>(userProfileModifyDto);
+            Orso.Arpa.Domain.Logic.Me.Modify.Command command = _mapper.Map<Orso.Arpa.Domain.Logic.Me.Modify.Command>(userProfileModifyDto);
             await _mediator.Send(command);
         }
 
@@ -95,6 +97,29 @@ namespace Orso.Arpa.Application.Services
         {
             Orso.Arpa.Domain.Logic.MusicianProfiles.Modify.Command command = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfiles.Modify.Command>(modifyDto);
             await _mediator.Send(command);
+        }
+
+        public async Task<MyMusicianProfileDto> CreateAsync(MyMusicianProfileCreateDto createDto)
+        {
+            Orso.Arpa.Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfiles.Create.Command>(createDto);
+            command.PersonId = _userAccessor.PersonId;
+
+            MusicianProfile createdEntity = await _mediator.Send(command);
+            return _mapper.Map<MyMusicianProfileDto>(createdEntity);
+        }
+
+        public async Task<MyMusicianProfileDto> GetMyMusicianProfileAsync(Guid id)
+        {
+            var query = new MusicianProfileById.Query { Id = id, PersonId = _userAccessor.PersonId };
+            MusicianProfile musicialProfile = await _mediator.Send(query);
+            return _mapper.Map<MyMusicianProfileDto>(musicialProfile);
+        }
+
+        public async Task<IEnumerable<MyMusicianProfileDto>> GetMyMusicianProfilesAsync()
+        {
+            var query = new List.Query<MusicianProfile>(mp => mp.PersonId == _userAccessor.PersonId);
+            IQueryable<MusicianProfile> musicialProfile = await _mediator.Send(query);
+            return _mapper.Map<IEnumerable<MyMusicianProfileDto>>(musicialProfile);
         }
     }
 }

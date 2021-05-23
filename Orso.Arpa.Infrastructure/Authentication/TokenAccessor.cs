@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -51,6 +52,26 @@ namespace Orso.Arpa.Infrastructure.Authentication
                     .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)?
                     .Select(claim => claim.Value)
                     .ToList();
+            }
+        }
+
+        public Guid UserId
+        {
+            get
+            {
+                return Guid.Parse(_httpContextAccessor?.HttpContext?.User?.Claims?
+                   .FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?
+                   .Value ?? "");
+            }
+        }
+
+        public Guid PersonId
+        {
+            get
+            {
+                return Guid.Parse(_httpContextAccessor?.HttpContext?.User?.Claims?
+                   .FirstOrDefault(c => c.Type.Contains("/person_id"))?
+                   .Value ?? "");
             }
         }
     }

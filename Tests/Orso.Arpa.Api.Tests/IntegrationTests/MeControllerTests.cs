@@ -128,7 +128,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetMusicianProfile(expectedDto.Id));
+                .GetAsync(ApiEndpoints.MeController.GetMusicianProfile(Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13")));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -207,7 +207,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.MeController.PutMusicianProfile(musicianProfileToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
-            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage); // ToDo - code just to get down to the error message, can this be better organized for debugging?
+            //MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage); // ToDo - code just to get down to the error message, can this be better organized for debugging?
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
@@ -230,7 +230,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_My_MusicianProfile()
         {
             // Arrange
-            var createDto = new MyMusicianProfileCreateBodyDto
+            var createDto = new MyMusicianProfileCreateDto
             {
                 InstrumentId = SectionSeedData.Euphonium.Id,
                 LevelAssessmentPerformer = 1,
