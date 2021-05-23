@@ -13,25 +13,17 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 
     public class MusicianProfileCreateBodyDto
     {
-        #region Native
         public byte LevelAssessmentPerformer { get; set; }
         public byte LevelAssessmentStaff { get; set; }
-        #endregion
-
-        #region Reference
         public Guid InstrumentId { get; set; }
         public Guid QualificationId { get; set; }
         public Guid? InquiryStatusPerformerId { get; set; }
         public Guid? InquiryStatusStaffId { get; set; }
-        #endregion
-
-        #region Collection
         //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
         //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
         ////public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
         //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
         //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new HasListhSet<PreferredPart>();
-        #endregion
     }
 
     public class MusicianProfileCreateDtoMappingProfile : Profile

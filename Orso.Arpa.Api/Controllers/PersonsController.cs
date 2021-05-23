@@ -139,7 +139,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<MusicianProfileDto>> AddMusicianProfile(MusicianProfileCreateBodyDto musicianProfileCreateDto)
+        public async Task<ActionResult<MusicianProfileDto>> AddMusicianProfile(MusicianProfileCreateDto musicianProfileCreateDto)
         {
             MusicianProfileDto createdMusicianProfile = await _musicianProfileService.CreateAsync(musicianProfileCreateDto);
             return CreatedAtAction(nameof(MusicianProfilesController.GetById), "MusicianProfiles", new { id = createdMusicianProfile.Id }, createdMusicianProfile);

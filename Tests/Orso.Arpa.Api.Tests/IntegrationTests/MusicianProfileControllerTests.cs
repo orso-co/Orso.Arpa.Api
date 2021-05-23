@@ -5,7 +5,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -49,58 +48,58 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         //    result.Should().BeEquivalentTo(expectedDto);
         //}
 
-        [Test, Order(100)]
-        public async Task Should_Modify()
-        {
-            // Arrange
-            MusicianProfileDto musicianProfileToModify = MusicianProfileDtoData.PerformerProfile;
-            var modifyDto = new MusicianProfileModifyBodyDto
-            {
-                IsMainProfile = false,
-                IsDeactivated = false,
+        //[Test, Order(100)]
+        //public async Task Should_Modify()
+        //{
+        //    // Arrange
+        //    MusicianProfileDto musicianProfileToModify = MusicianProfileDtoData.PerformerProfile;
+        //    var modifyDto = new MusicianProfileModifyBodyDto
+        //    {
+        //        IsMainProfile = false,
+        //        IsDeactivated = false,
 
-                LevelAssessmentPerformer = 1,
-                LevelAssessmentStaff = 2,
-                ProfilePreferencePerformer = 3,
-                ProfilePreferenceStaff = 4,
+        //        LevelAssessmentPerformer = 1,
+        //        LevelAssessmentStaff = 2,
+        //        ProfilePreferencePerformer = 3,
+        //        ProfilePreferenceStaff = 4,
 
-                BackgroundPerformer = "revised: Background description",
-                BackgroundStaff = "revised: Staff-Background description",
-                SalaryComment = "revised: Salary only via PayPal, other payments not accepted!",
+        //        BackgroundPerformer = "revised: Background description",
+        //        BackgroundStaff = "revised: Staff-Background description",
+        //        SalaryComment = "revised: Salary only via PayPal, other payments not accepted!",
 
-                QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
-                SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
-                InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
-                InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
+        //        QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
+        //        SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
+        //        InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
+        //        InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
 
-                // ToDo Collections
-            };
+        //        // ToDo Collections
+        //    };
 
-            // Act
-            HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff);
+        //    // Act
+        //    HttpClient client = _authenticatedServer
+        //        .CreateClient()
+        //        .AuthenticateWith(_staff);
 
-            HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.MusicianProfilesController.Put(musicianProfileToModify.Id), BuildStringContent(modifyDto));
+        //    HttpResponseMessage responseMessage = await client
+        //        .PutAsync(ApiEndpoints.MusicianProfilesController.Put(musicianProfileToModify.Id), BuildStringContent(modifyDto));
 
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
+        //    // Assert
+        //    responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        //}
 
-        [Test, Order(10000)]
-        public async Task Should_Delete()
-        {
-            // Arrange
+        //[Test, Order(10000)]
+        //public async Task Should_Delete()
+        //{
+        //    // Arrange
 
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.MusicianProfilesController.Delete(MusicianProfileDtoData.PerformerProfile.Id));
+        //    // Act
+        //    HttpResponseMessage responseMessage = await _authenticatedServer
+        //        .CreateClient()
+        //        .AuthenticateWith(_staff)
+        //        .DeleteAsync(ApiEndpoints.MusicianProfilesController.Delete(MusicianProfileDtoData.PerformerProfile.Id));
 
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
+        //    // Assert
+        //    responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        //}
     }
 }

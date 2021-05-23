@@ -19,14 +19,14 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
         public class Handler<TEntity> : IRequestHandler<ICreateCommand<TEntity>, TEntity> where TEntity : BaseEntity
         {
-            private readonly IArpaContext _arpaContext;
+            protected readonly IArpaContext _arpaContext;
 
             public Handler(IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
             }
 
-            public async Task<TEntity> Handle(ICreateCommand<TEntity> request, CancellationToken cancellationToken)
+            public virtual async Task<TEntity> Handle(ICreateCommand<TEntity> request, CancellationToken cancellationToken)
             {
                 ConstructorInfo ctor = typeof(TEntity).GetConstructors()
                     .First(c => c.IsPublic);

@@ -1,46 +1,31 @@
 using System;
-using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentValidation;
+using MediatR;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
-using static Orso.Arpa.Domain.GenericHandlers.Create;
 
 namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 {
     public static class Create
     {
-        public class Command : ICreateCommand<MusicianProfile>
+        public class Command : IRequest<MusicianProfile>
         {
-            #region Native
             public byte LevelAssessmentPerformer { get; set; }
             public byte LevelAssessmentStaff { get; set; }
-            #endregion
-
-            #region Reference
             public Guid PersonId { get; set; }
-            public virtual Person Person { get; set; }
-
             public Guid InstrumentId { get; set; }
-            public virtual Section Instrument { get; set; }
-
             public Guid? QualificationId { get; set; }
-            public virtual SelectValueMapping Qualification { get; set; }
-
             public Guid? InquiryStatusPerformerId { get; set; }
-            public virtual SelectValueMapping InquiryStatusPerformer { get; set; }
-
             public Guid? InquiryStatusStaffId { get; set; }
-            public virtual SelectValueMapping InquiryStatusStaff { get; set; }
-            #endregion
-
-            #region Collection
-            public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-            public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
+            //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
+            //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
             //public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
-            public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
+            //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
             //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
-            #endregion
         }
 
         public class Validator : AbstractValidator<Command>
@@ -53,6 +38,8 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 RuleFor(c => c.InstrumentId)
                     .EntityExists<Command, Section>(arpaContext, nameof(Command.InstrumentId));
 
+                // ToDo: Prüfen, dass es nicht schon ein MP für diese Persion mit diesem Instrument gibt
+
                 RuleFor(c => c.QualificationId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Qualification);
 
@@ -63,6 +50,31 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusStaff);
 
                 //ToDo Validation for Collections
+            }
+        }
+
+        public class Handler : IRequestHandler<Command, MusicianProfile>
+        {
+            private readonly IArpaContext _arpaContext;
+
+            public Handler(IArpaContext arpaContext)
+            {
+                _arpaContext = arpaContext;
+            }
+
+            public async Task<MusicianProfile> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var isFirstProfile = !(await _arpaContext.EntityExistsAsync<MusicianProfile>(mp => mp.PersonId == request.PersonId, cancellationToken));
+                var newMusicianProfile = new MusicianProfile(request, isFirstProfile);
+
+                EntityEntry<MusicianProfile> createResult = _arpaContext.Add(newMusicianProfile);
+
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
+                {
+                    return createResult.Entity;
+                }
+
+                throw new Exception($"Problem creating {nameof(MusicianProfile)}");
             }
         }
     }

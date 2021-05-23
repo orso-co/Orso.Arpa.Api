@@ -6,28 +6,21 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class MusicianProfile : BaseEntity
     {
-        public MusicianProfile(Guid? id, Create.Command command) : base(id)
+        public MusicianProfile(Create.Command command, bool isMainProfile, Guid? id = null) : base(id)
         {
-            #region Native
             LevelAssessmentPerformer = command.LevelAssessmentPerformer;
             LevelAssessmentStaff = command.LevelAssessmentStaff;
-            #endregion
-
-            #region Reference
             PersonId = command.PersonId;
             InstrumentId = command.InstrumentId;
             QualificationId = command.QualificationId;
             InquiryStatusPerformerId = command.InquiryStatusPerformerId;
             InquiryStatusStaffId = command.InquiryStatusStaffId;
-            #endregion
-
-            #region Collection
-            DoublingInstruments = command.DoublingInstruments;
+            IsMainProfile = isMainProfile;
+            //DoublingInstruments = command.DoublingInstruments;
             //PreferredPositionsPerformer = command.PreferredPositionsPerformer;
             //PreferredPositionsStaff = command.PreferredPositionsStaff;
             //PreferredPartsPerformer = command.PreferredPartsPerformer;
             //PreferredPartsStaff = command.PreferredPartsStaff;
-            #endregion
         }
 
         public MusicianProfile()

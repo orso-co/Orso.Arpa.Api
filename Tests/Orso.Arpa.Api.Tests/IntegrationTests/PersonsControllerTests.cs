@@ -132,7 +132,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Id.Should().NotBeEmpty();
         }
 
-        [Test, Order(1100)]
+        [Test, Order(1001)]
         public async Task Should_Add_MusicianProfile()
         {
             // Arrange
