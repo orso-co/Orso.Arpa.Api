@@ -70,7 +70,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             {
                 Code = "New Code",
                 ParentId = Guid.NewGuid()
-            });
+            }, nameof(Project));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             {
                 Code = "New Code",
                 StateId = Guid.NewGuid()
-            });
+            }, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             {
                 Code = "New Code",
                 GenreId = Guid.NewGuid()
-            });
+            }, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             {
                 Code = "New Code",
                 TypeId = Guid.NewGuid()
-            });
+            }, nameof(SelectValueMapping));
         }
 
         [Test]

@@ -171,6 +171,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
             result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.ProjectsController.Get(result.Id)}");
         }
 
         [Test, Order(1001)]
@@ -220,6 +221,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
             result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.ProjectsController.Get(result.Id)}");
         }
 
         [Test, Order(1002)]
@@ -329,6 +331,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
             result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.UrlsController.Get(result.Id)}");
         }
 
         [Test, Order(1011)]

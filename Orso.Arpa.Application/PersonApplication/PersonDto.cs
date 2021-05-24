@@ -7,8 +7,8 @@ namespace Orso.Arpa.Application.PersonApplication
     public class PersonDto : BaseEntityDto
     {
         public string GivenName { get; set; }
-
         public string Surname { get; set; }
+        public string AboutMe { get; set; }
     }
 
     public class PersonDtoMappingProfile : Profile

@@ -44,10 +44,10 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>The queried project</returns>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProjectDto>> GetById([FromRoute] Guid id)
         {
             return Ok(await _projectService.GetByIdAsync(id));
@@ -87,7 +87,7 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<UrlDto>> AddUrl(UrlCreateDto urlCreateDto)
         {
             UrlDto createdUrl = await _urlService.CreateAsync(urlCreateDto);
-            return CreatedAtAction(nameof(GetById), "Urls", new { id = createdUrl.Id }, createdUrl);
+            return CreatedAtAction(nameof(UrlsController.GetById), "Urls", new { id = createdUrl.Id }, createdUrl);
         }
 
         /// <summary>

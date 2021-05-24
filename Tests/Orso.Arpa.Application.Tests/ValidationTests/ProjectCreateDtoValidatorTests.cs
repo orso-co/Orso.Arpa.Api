@@ -51,6 +51,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _validator.ShouldHaveValidationErrorFor(command => command.ShortTitle,
                 "1234567890123456789012345678901"); // valid length exceeded
         }
+        [Test]
         public void Should_Have_Validation_Error_If_Empty_Code_Is_Supplied([Values(null, "")] string name)
         {
             _validator.ShouldHaveValidationErrorFor(command => command.Code, name);

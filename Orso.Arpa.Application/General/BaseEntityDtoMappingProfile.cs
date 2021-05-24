@@ -10,6 +10,8 @@ namespace Orso.Arpa.Application.General
         {
             CreateMap<BaseEntity, BaseEntityDto>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.Equals(DateTime.MinValue) ? (DateTime?)null : src.CreatedAt));
+            CreateMap<BaseEntityDto, BaseEntityDto>()
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt.Equals(DateTime.MinValue) ? (DateTime?)null : src.CreatedAt));
         }
     }
 }

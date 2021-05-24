@@ -45,8 +45,16 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .Property(e => e.Background)
+                .Property(e => e.BackgroundPerformer)
                 .HasMaxLength(1000);
+
+            builder
+                .Property(e => e.BackgroundStaff)
+                .HasMaxLength(1000);
+
+            builder
+                .Property(e => e.SalaryComment)
+                .HasMaxLength(500);
         }
     }
 }

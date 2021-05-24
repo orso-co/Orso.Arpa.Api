@@ -16,7 +16,7 @@ namespace Orso.Arpa.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -722,17 +722,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.ToTable("educations");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.InstrumentPart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
-
-                    b.Property<string>("Background")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("background");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
@@ -747,9 +742,61 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("deleted");
 
-                    b.Property<byte>("ExperienceLevel")
-                        .HasColumnType("smallint")
-                        .HasColumnName("experience_level");
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_instrument_part");
+
+                    b.HasIndex("SectionId")
+                        .HasDatabaseName("ix_instrument_part_section_id");
+
+                    b.ToTable("instrument_part");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("BackgroundPerformer")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("background_performer");
+
+                    b.Property<string>("BackgroundStaff")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("background_staff");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
 
                     b.Property<Guid?>("InquiryStatusPerformerId")
                         .HasColumnType("uuid")
@@ -762,6 +809,14 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Property<Guid>("InstrumentId")
                         .HasColumnType("uuid")
                         .HasColumnName("instrument_id");
+
+                    b.Property<Guid?>("InstrumentPartId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("instrument_part_id");
+
+                    b.Property<bool>("IsDeactivated")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deactivated");
 
                     b.Property<bool>("IsMainProfile")
                         .HasColumnType("boolean")
@@ -805,7 +860,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("qualification_id");
 
                     b.Property<string>("SalaryComment")
-                        .HasColumnType("text")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("salary_comment");
 
                     b.Property<Guid?>("SalaryId")
@@ -823,6 +879,9 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.HasIndex("InstrumentId")
                         .HasDatabaseName("ix_musician_profiles_instrument_id");
+
+                    b.HasIndex("InstrumentPartId")
+                        .HasDatabaseName("ix_musician_profiles_instrument_part_id");
 
                     b.HasIndex("PersonId")
                         .HasDatabaseName("ix_musician_profiles_person_id");
@@ -939,6 +998,10 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("section_id");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("text")
+                        .HasColumnName("comment");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
@@ -955,6 +1018,18 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<Guid>("InstrumentAvailabilityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("instrument_availability_id");
+
+                    b.Property<byte>("LevelAssessmentPerformer")
+                        .HasColumnType("smallint")
+                        .HasColumnName("level_assessment_performer");
+
+                    b.Property<byte>("LevelAssessmentStaff")
+                        .HasColumnType("smallint")
+                        .HasColumnName("level_assessment_staff");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone")
@@ -1179,6 +1254,55 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasDatabaseName("ix_preferred_genre_select_value_mapping_id");
 
                     b.ToTable("preferred_genre");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredPart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
+
+                    b.Property<Guid?>("PartId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("part_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_preferred_part");
+
+                    b.HasIndex("MusicianProfileId")
+                        .HasDatabaseName("ix_preferred_part_musician_profile_id");
+
+                    b.HasIndex("PartId")
+                        .HasDatabaseName("ix_preferred_part_part_id");
+
+                    b.ToTable("preferred_part");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredPosition", b =>
@@ -5168,6 +5292,18 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("SelectValueMapping");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.InstrumentPart", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Section", "Section")
+                        .WithMany()
+                        .HasForeignKey("SectionId")
+                        .HasConstraintName("fk_instrument_part_sections_section_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Section");
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "InquiryStatusPerformer")
@@ -5188,6 +5324,11 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasConstraintName("fk_musician_profiles_sections_instrument_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.InstrumentPart", null)
+                        .WithMany("MusicianProfiles")
+                        .HasForeignKey("InstrumentPartId")
+                        .HasConstraintName("fk_musician_profiles_instrument_part_instrument_part_id");
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
                         .WithMany("MusicianProfiles")
@@ -5333,10 +5474,29 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("SelectValueMapping");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredPart", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("PreferredPartsPerformer")
+                        .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_preferred_part_musician_profiles_musician_profile_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.InstrumentPart", "Part")
+                        .WithMany()
+                        .HasForeignKey("PartId")
+                        .HasConstraintName("fk_preferred_part_instrument_part_part_id");
+
+                    b.Navigation("MusicianProfile");
+
+                    b.Navigation("Part");
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredPosition", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
-                        .WithMany("PreferredPositions")
+                        .WithMany("PreferredPositionsPerformer")
                         .HasForeignKey("MusicianProfileId")
                         .HasConstraintName("fk_preferred_position_musician_profiles_musician_profile_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5640,6 +5800,11 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("MusicianProfileEducations");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.InstrumentPart", b =>
+                {
+                    b.Navigation("MusicianProfiles");
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
                     b.Navigation("Auditions");
@@ -5654,7 +5819,9 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("PreferredGenres");
 
-                    b.Navigation("PreferredPositions");
+                    b.Navigation("PreferredPartsPerformer");
+
+                    b.Navigation("PreferredPositionsPerformer");
 
                     b.Navigation("ProjectParticipations");
 

@@ -8,12 +8,12 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class MyProfileModifyDtoMappingProfileTests
+    public class MyUserProfileModifyDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<MyProfileModifyDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<MyUserProfileModifyDtoMappingProfile>());
 
             _mapper = new Mapper(config);
         }
@@ -24,7 +24,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new MyProfileModifyDto
+            var dto = new MyUserProfileModifyDto
             {
                 Email = UserTestSeedData.Performer.Email,
                 GivenName = "Orsi",

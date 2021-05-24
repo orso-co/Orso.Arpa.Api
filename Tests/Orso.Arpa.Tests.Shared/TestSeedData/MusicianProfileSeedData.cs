@@ -16,11 +16,13 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new List<MusicianProfile>
                 {
                     PerformerMusicianProfile,
+                    PerformersTromboneMusicianProfile,
+                    PerformersDeactivatedTubaProfile,
                     StaffMusicianProfile1,
                     StaffMusicianProfile2,
                     AdminMusicianProfile1,
                     AdminMusicianProfile2,
-                    UserWithoutRoleMusicianProfile
+                    UserWithoutRoleMusicianProfile,
                 };
             }
         }
@@ -29,25 +31,56 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var musicianProfile = new MusicianProfile(Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"), new Create.Command
+                var profile = new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonTestSeedData.Performer.Id,
-                    InstrumentId = SectionSeedData.Alto1.Id
-                });
-                musicianProfile.SetProperty(nameof(MusicianProfile.QualificationId), SelectValueMappingSeedData.MusicianProfileQualificationMappings[0].Id);
-                return musicianProfile;
+                    InstrumentId = SectionSeedData.Alto1.Id,
+                }, true, Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"));
+                profile.SetProperty(nameof(MusicianProfile.QualificationId), SelectValueMappingSeedData.MusicianProfileQualificationMappings[0].Id);
+                return profile;
             }
         }
 
+        public static MusicianProfile PerformersTromboneMusicianProfile
+        {
+            get
+            {
+                var profile = new MusicianProfile(new Create.Command
+                {
+                    PersonId = PersonTestSeedData.Performer.Id,
+                    InstrumentId = SectionSeedData.Trombone.Id,
+                    LevelAssessmentPerformer = 1,
+                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[1].Id,
+                    QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[1].Id,
+                }, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
+                profile.SetProperty(nameof(MusicianProfile.BackgroundPerformer), "Background Trombonist");
+                profile.SetProperty(nameof(MusicianProfile.ProfilePreferencePerformer), (byte)3);
+                return profile;
+            }
+        }
+
+        public static MusicianProfile PerformersDeactivatedTubaProfile
+        {
+            get
+            {
+                var profile = new MusicianProfile(new Create.Command
+                {
+                    PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
+                    InstrumentId = SectionSeedData.Tuba.Id,
+                }, false, Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"));
+                profile.SetProperty(nameof(MusicianProfile.IsDeactivated), true);
+                return profile;
+            }
+        }
         public static MusicianProfile StaffMusicianProfile1
         {
             get
             {
-                return new MusicianProfile(Guid.Parse("f9d85f58-9156-4d5d-988b-3a3d0cb67205"), new Create.Command
+                return new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonTestSeedData.Staff.Id,
                     InstrumentId = SectionSeedData.Tenor1.Id
-                });
+                }, true, Guid.Parse("f9d85f58-9156-4d5d-988b-3a3d0cb67205"));
             }
         }
 
@@ -55,11 +88,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(Guid.Parse("c2b727eb-16f7-440d-a003-aab073532bbf"), new Create.Command
+                return new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonTestSeedData.Staff.Id,
                     InstrumentId = SectionSeedData.Tenor2.Id
-                });
+                }, true, Guid.Parse("c2b727eb-16f7-440d-a003-aab073532bbf"));
             }
         }
 
@@ -67,11 +100,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(Guid.Parse("7c215684-ee09-424f-9955-9b427494eaeb"), new Create.Command
+                return new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonSeedData.Admin.Id,
                     InstrumentId = SectionSeedData.Soprano1.Id
-                });
+                }, true, Guid.Parse("7c215684-ee09-424f-9955-9b427494eaeb"));
             }
         }
 
@@ -79,11 +112,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"), new Create.Command
+                return new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonSeedData.Admin.Id,
                     InstrumentId = SectionSeedData.Soprano2.Id
-                });
+                }, false, Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"));
             }
         }
 
@@ -91,11 +124,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(Guid.Parse("1a7a62f2-1ca0-4eed-9053-b59bc6db34d6"), new Create.Command
+                return new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonTestSeedData.UserWithoutRole.Id,
                     InstrumentId = SectionSeedData.Bass1.Id
-                });
+                }, true, Guid.Parse("1a7a62f2-1ca0-4eed-9053-b59bc6db34d6"));
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Orso.Arpa.Application.MeApplication
         public int TotalRecordsCount { get; set; }
     }
 
-    public class MyAppointmentListDtoMappingProfile : MyProfileDtoMappingProfile
+    public class MyAppointmentListDtoMappingProfile : MyUserProfileDtoMappingProfile
     {
         public MyAppointmentListDtoMappingProfile()
         {

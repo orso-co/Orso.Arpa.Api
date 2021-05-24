@@ -4,7 +4,7 @@ using static Orso.Arpa.Domain.Logic.Me.Modify;
 
 namespace Orso.Arpa.Application.MeApplication
 {
-    public class MyProfileModifyDto
+    public class MyUserProfileModifyDto
     {
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
@@ -14,17 +14,17 @@ namespace Orso.Arpa.Application.MeApplication
         public string AboutMe { get; set; }
     }
 
-    public class MyProfileModifyDtoMappingProfile : Profile
+    public class MyUserProfileModifyDtoMappingProfile : Profile
     {
-        public MyProfileModifyDtoMappingProfile()
+        public MyUserProfileModifyDtoMappingProfile()
         {
-            CreateMap<MyProfileModifyDto, Command>();
+            CreateMap<MyUserProfileModifyDto, Command>();
         }
     }
 
-    public class MyProfileModifyDtoValidator : AbstractValidator<MyProfileModifyDto>
+    public class MyUserProfileModifyDtoValidator : AbstractValidator<MyUserProfileModifyDto>
     {
-        public MyProfileModifyDtoValidator()
+        public MyUserProfileModifyDtoValidator()
         {
             RuleFor(c => c.Email)
                 .NotEmpty()

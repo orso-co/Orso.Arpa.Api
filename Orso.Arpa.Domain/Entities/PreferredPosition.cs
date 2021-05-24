@@ -18,7 +18,6 @@ namespace Orso.Arpa.Domain.Entities
 
         public PreferredPosition() { }
 
-
         public Guid? PositionId { get; private set; }
         public virtual Position Position { get; private set; }
 

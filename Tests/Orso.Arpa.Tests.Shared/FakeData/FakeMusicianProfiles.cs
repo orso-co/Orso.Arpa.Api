@@ -12,6 +12,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 MusicianProfile profile = MusicianProfileSeedData.PerformerMusicianProfile;
                 profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Performer);
+                profile.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
+                profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
                 profile.ProjectParticipations.Add(FakeProjectParticipations.PerformerProjectParticipation);
                 return profile;
             }

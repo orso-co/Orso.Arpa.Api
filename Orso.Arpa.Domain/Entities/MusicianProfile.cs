@@ -6,10 +6,21 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class MusicianProfile : BaseEntity
     {
-        public MusicianProfile(Guid? id, Create.Command command) : base(id)
+        public MusicianProfile(Create.Command command, bool isMainProfile, Guid? id = null) : base(id)
         {
+            LevelAssessmentPerformer = command.LevelAssessmentPerformer;
+            LevelAssessmentStaff = command.LevelAssessmentStaff;
             PersonId = command.PersonId;
             InstrumentId = command.InstrumentId;
+            QualificationId = command.QualificationId;
+            InquiryStatusPerformerId = command.InquiryStatusPerformerId;
+            InquiryStatusStaffId = command.InquiryStatusStaffId;
+            IsMainProfile = isMainProfile;
+            //DoublingInstruments = command.DoublingInstruments;
+            //PreferredPositionsPerformer = command.PreferredPositionsPerformer;
+            //PreferredPositionsStaff = command.PreferredPositionsStaff;
+            //PreferredPartsPerformer = command.PreferredPartsPerformer;
+            //PreferredPartsStaff = command.PreferredPartsStaff;
         }
 
         public MusicianProfile()
@@ -17,13 +28,16 @@ namespace Orso.Arpa.Domain.Entities
         }
 
         #region Native
+        public bool IsMainProfile { get; private set; }
+        public bool IsDeactivated { get; private set; }
+
         public byte LevelAssessmentPerformer { get; private set; }
         public byte LevelAssessmentStaff { get; private set; }
         public byte ProfilePreferencePerformer { get; private set; }
         public byte ProfilePreferenceStaff { get; private set; }
-        public bool IsMainProfile { get; private set; }
-        public string Background { get; private set; }
-        public byte ExperienceLevel { get; private set; }
+
+        public string BackgroundPerformer { get; private set; }
+        public string BackgroundStaff { get; private set; }
         public string SalaryComment { get; private set; }
         #endregion
 
@@ -49,21 +63,29 @@ namespace Orso.Arpa.Domain.Entities
 
         #region Collection
         public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; private set; } = new HashSet<MusicianProfileSection>();
-
         public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; private set; } = new HashSet<MusicianProfileEducation>();
+        public virtual ICollection<PreferredPosition> PreferredPositionsPerformer { get; private set; } = new HashSet<PreferredPosition>();
+        //public virtual ICollection<PreferredPosition> PreferredPositionsStaff { get; private set; } = new HashSet<PreferredPosition>();
+        public virtual ICollection<PreferredPart> PreferredPartsPerformer { get; private set; } = new HashSet<PreferredPart>();
+        //ToDo: oder hier direkt: public virtual ICollection<InstrumentPart> PreferredPartsPerformer { get; private set; } = new HashSet<InstrumentPart>();
+        //public virtual ICollection<PreferredPart> PreferredPartsStaff { get; private set; } = new HashSet<PreferredPart>();
 
+        //Todo: ARPA-325
         public virtual ICollection<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; private set; } = new HashSet<MusicianProfileCurriculumVitaeReference>();
 
+        //Todo: ARPA-326
         public virtual ICollection<PreferredGenre> PreferredGenres { get; private set; } = new HashSet<PreferredGenre>();
 
-        public virtual ICollection<PreferredPosition> PreferredPositions { get; private set; } = new HashSet<PreferredPosition>();
-
+        //Todo: ARPA-329
         public virtual ICollection<AvailableDocument> AvailableDocuments { get; private set; } = new HashSet<AvailableDocument>();
 
+        //Todo: ARPA-327
         public virtual ICollection<RegionPreferencePerformance> RegionPreferencePerformances { get; private set; } = new HashSet<RegionPreferencePerformance>();
 
+        //Todo: ARPA-327
         public virtual ICollection<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; private set; } = new HashSet<RegionPreferenceRehearsal>();
 
+        //Todo: ARPA-328
         public virtual ICollection<Audition> Auditions { get; private set; } = new HashSet<Audition>();
         #endregion
 

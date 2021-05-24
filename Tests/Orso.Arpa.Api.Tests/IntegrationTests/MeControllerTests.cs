@@ -8,6 +8,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -19,20 +21,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     public class MeControllerTests : IntegrationTestBase
     {
         [Test, Order(1)]
-        public async Task Should_Get_My_Profile()
+        public async Task Should_Get_My_UserProfile()
         {
             // Arrange
-            MyProfileDto expectedDto = UserProfileDtoData.Performer;
+            MyUserProfileDto expectedDto = UserProfileDtoData.Performer;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetProfile());
+                .GetAsync(ApiEndpoints.MeController.GetUserProfile());
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            MyProfileDto result = await DeserializeResponseMessageAsync<MyProfileDto>(responseMessage);
+            MyUserProfileDto result = await DeserializeResponseMessageAsync<MyUserProfileDto>(responseMessage);
 
             result.Should().BeEquivalentTo(expectedDto);
         }
@@ -98,12 +100,62 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
-        [Test, Order(1000)]
-        public async Task Should_Modify_Profile()
+        private static IEnumerable<TestCaseData> s_musicianProfileData
+        {
+            get
+            {
+                yield return new TestCaseData(false, new List<MyMusicianProfileDto> {
+                    MyMusicianProfileDtoData.PerformerProfile,
+                    MyMusicianProfileDtoData.PerformersTromboneMusicianProfile,
+                    });
+                yield return new TestCaseData(true, new List<MyMusicianProfileDto> {
+                    MyMusicianProfileDtoData.PerformerProfile,
+                    MyMusicianProfileDtoData.PerformersDeactivatedTubaProfile,
+                    MyMusicianProfileDtoData.PerformersTromboneMusicianProfile
+                    });
+            }
+        }
+
+        [Test, Order(10)]
+        [TestCaseSource(nameof(s_musicianProfileData))]
+        public async Task Should_Get_My_MusicianProfiles(bool includeDeactivated, IList<MyMusicianProfileDto> expectedDtos)
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.MeController.GetMusicianProfiles(includeDeactivated));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IList<MyMusicianProfileDto> result = await DeserializeResponseMessageAsync<IList<MyMusicianProfileDto>>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
+        }
+
+        [Test, Order(11)]
+        public async Task Should_Get_My_MusicianProfile_ById()
+        {
+            // Arrange
+            MyMusicianProfileDto expectedDto = MyMusicianProfileDtoData.PerformerProfile;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.MeController.GetMusicianProfile(expectedDto.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test, Order(100)]
+        public async Task Should_Modify_My_UserProfile()
         {
             // Arrange
             User userToModify = FakeUsers.Performer;
-            var modifyDto = new MyProfileModifyDto
+            var modifyDto = new MyUserProfileModifyDto
             {
                 Email = "changed" + userToModify.Email,
                 GivenName = "changed" + userToModify.Person.GivenName,
@@ -111,7 +163,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PhoneNumber = "changed" + userToModify.PhoneNumber
             };
 
-            var expectedDto = new MyProfileDto
+            var expectedDto = new MyUserProfileDto
             {
                 Email = modifyDto.Email,
                 GivenName = modifyDto.GivenName,
@@ -126,16 +178,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_performer);
 
             HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.MeController.PutProfile(), BuildStringContent(modifyDto));
+                .PutAsync(ApiEndpoints.MeController.PutUserProfile(), BuildStringContent(modifyDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             HttpResponseMessage getMessage = await client
-                .GetAsync(ApiEndpoints.MeController.GetProfile());
+                .GetAsync(ApiEndpoints.MeController.GetUserProfile());
 
             getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            MyProfileDto result = await DeserializeResponseMessageAsync<MyProfileDto>(getMessage);
+            MyUserProfileDto result = await DeserializeResponseMessageAsync<MyUserProfileDto>(getMessage);
 
             result.Should().BeEquivalentTo(expectedDto);
         }
@@ -153,6 +205,40 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+        [Test, Order(1100)]
+        public async Task Should_Add_My_MusicianProfile()
+        {
+            // Arrange
+            var createDto = new MyMusicianProfileCreateDto
+            {
+                InstrumentId = SectionSeedData.Euphonium.Id,
+                LevelAssessmentPerformer = 1,
+            };
+
+            var expectedDto = new MyMusicianProfileDto
+            {
+                InstrumentId = createDto.InstrumentId,
+                LevelAssessmentPerformer = createDto.LevelAssessmentPerformer,
+
+                CreatedBy = _performer.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow,
+                PersonId = _performer.PersonId
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .PostAsync(ApiEndpoints.MeController.AddMusicianProfile(), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.Id, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.Id, Guid.NewGuid(), nameof(Appointment));
         }
 
         [Test]
@@ -47,14 +47,15 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, _validProjectId));
+            _validator.ShouldNotHaveValidationErrorFor(c => c.Id, new Command(_validAppointmentId, _validProjectId), nameof(Appointment));
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_ProjectId_Does_Not_Exist()
         {
+            _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.ProjectId, Guid.NewGuid());
+            _validator.ShouldThrowNotFoundExceptionFor(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
         }
 
         [Test]
@@ -63,7 +64,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             Guid linkedProjectId = ProjectSeedData.RockingXMas.Id;
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, new Command(_validAppointmentId, linkedProjectId));
+            _validator.ShouldHaveValidationErrorFor(c => c.ProjectId, new Command(_validAppointmentId, linkedProjectId));
         }
     }
 }

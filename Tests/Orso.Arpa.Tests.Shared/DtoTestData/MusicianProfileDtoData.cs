@@ -1,5 +1,7 @@
+using System;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -11,8 +13,51 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    SectionName = SectionSeedData.Alto1.Name,
-                    Qualification = SelectValueSeedData.Amateur.Name
+                    Id = Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"),
+                    PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
+                    InstrumentId = SectionSeedData.Alto1.Id,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    IsMainProfile = true,
+                    QualificationId = Guid.Parse("f036bca9-95d4-4526-b845-fff9208ab103")
+                };
+            }
+        }
+
+        public static MusicianProfileDto PerformersTromboneMusicianProfile
+        {
+            get
+            {
+                return new MusicianProfileDto
+                {
+                    Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
+                    PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
+                    InstrumentId = SectionSeedData.Trombone.Id,
+                    LevelAssessmentPerformer = 1,
+                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[1].Id,
+                    BackgroundPerformer = "Background Trombonist",
+                    ProfilePreferencePerformer = 3,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    IsMainProfile = false,
+                    QualificationId = Guid.Parse("6304b935-633d-4bba-a90f-9bd864c867c6")
+                };
+            }
+        }
+
+        public static MusicianProfileDto PerformersDeactivatedTubaProfile
+        {
+            get
+            {
+                return new MusicianProfileDto
+                {
+                    Id = Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"),
+                    PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
+                    InstrumentId = SectionSeedData.Tuba.Id,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    IsMainProfile = false,
+                    IsDeactivated = true,
                 };
             }
         }
@@ -23,7 +68,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    SectionName = SectionSeedData.Tenor1.Name
+                    InstrumentId = SectionSeedData.Tenor1.Id,
+
+                    CreatedBy = "anonymous",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    IsMainProfile = true
                 };
             }
         }
@@ -34,7 +83,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    SectionName = SectionSeedData.Tenor2.Name
+                    InstrumentId = SectionSeedData.Tenor2.Id,
+
+                    CreatedBy = "anonymous",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    IsMainProfile = false
                 };
             }
         }
@@ -45,7 +98,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    SectionName = SectionSeedData.Soprano1.Name
+                    InstrumentId = SectionSeedData.Soprano1.Id,
+
+                    CreatedBy = "anonymous",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    IsMainProfile = true
                 };
             }
         }
@@ -56,7 +113,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    SectionName = SectionSeedData.Bass1.Name
+                    InstrumentId = SectionSeedData.Bass1.Id,
+
+                    CreatedBy = "anonymous",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    IsMainProfile = false
                 };
             }
         }

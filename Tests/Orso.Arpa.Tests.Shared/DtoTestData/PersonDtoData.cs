@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
@@ -9,6 +10,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class PersonDtoData
     {
+        public static IList<PersonDto> Persons
+        {
+            get
+            {
+                return new List<PersonDto>
+                {
+                    Performer,
+                    Staff,
+                    Admin,
+                    WithoutRole,
+                    UnconfirmedUser,
+                    DeletedUser,
+                    LockedOutUser
+                };
+            }
+        }
         public static PersonDto Performer
         {
             get
@@ -41,6 +58,33 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.UserWithoutRole;
+                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+            }
+        }
+
+        public static PersonDto UnconfirmedUser
+        {
+            get
+            {
+                Person person = PersonTestSeedData.UnconfirmedUser;
+                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+            }
+        }
+
+        public static PersonDto DeletedUser
+        {
+            get
+            {
+                Person person = PersonTestSeedData.DeletedUser;
+                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+            }
+        }
+
+        public static PersonDto LockedOutUser
+        {
+            get
+            {
+                Person person = PersonTestSeedData.LockedOutUser;
                 return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
             }
         }

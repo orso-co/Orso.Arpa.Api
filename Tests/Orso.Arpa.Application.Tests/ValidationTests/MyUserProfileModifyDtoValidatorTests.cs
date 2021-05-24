@@ -5,14 +5,14 @@ using Orso.Arpa.Application.MeApplication;
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
-    public class MyProfileModifyDtoValidatorTests
+    public class MyUserProfileModifyDtoValidatorTests
     {
-        private MyProfileModifyDtoValidator _validator;
+        private MyUserProfileModifyDtoValidator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new MyProfileModifyDtoValidator();
+            _validator = new MyUserProfileModifyDtoValidator();
         }
 
         [Test]

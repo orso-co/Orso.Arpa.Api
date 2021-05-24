@@ -28,8 +28,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="401">If username or password are incorrect or user is locked</response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [HttpPost("login")]
         [AllowAnonymous]
+        [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -47,8 +47,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         /// <response code="424">If email could not be sent</response>
-        [HttpPost("register")]
         [AllowAnonymous]
+        [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -67,8 +67,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         /// <response code="424">If email could not be sent</response>
-        [HttpPost("forgotpassword")]
         [AllowAnonymous]
+        [HttpPost("forgotpassword")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -86,8 +86,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [HttpPost("resetpassword")]
         [AllowAnonymous]
+        [HttpPost("resetpassword")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -121,8 +121,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [HttpPut("role")]
         [Authorize(Policy = AuthorizationPolicies.SetRolePolicy)]
+        [HttpPut("role")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -139,8 +139,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [HttpPost("confirmemail")]
         [AllowAnonymous]
+        [HttpPost("confirmemail")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -158,8 +158,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         /// <remarks>This endpoint can be called if the previous token is expired</remarks>
-        [HttpPost("emailconfirmationtoken")]
         [AllowAnonymous]
+        [HttpPost("emailconfirmationtoken")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -179,8 +179,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         /// <returns>A new access token. Sets new refresh token cookie</returns>
-        [HttpPost("refreshtoken")]
         [AllowAnonymous]
+        [HttpPost("refreshtoken")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]

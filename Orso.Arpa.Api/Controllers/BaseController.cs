@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Orso.Arpa.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [Produces("application/json")]
     [ApiController]
     [Authorize]
+    [Produces("application/json")]
+    [Route("api/[controller]")]
     public class BaseController : ControllerBase
     {
     }

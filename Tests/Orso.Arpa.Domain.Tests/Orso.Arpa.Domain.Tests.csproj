@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="AppointmentTests\QueryHandlerTests\" />
     <Folder Include="AuthTests\QueryHandlerTests\" />
+    <Folder Include="MusicianProfileTests\MappingProfileTests\" />
     <Folder Include="ProjectsTests\QueryHandlerTests\" />
     <Folder Include="RolesTests\ValidatorTests\" />
     <Folder Include="SelectValuesTests\ValidatorTests\" />

@@ -78,7 +78,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class ProjectsController
         {
-            private static string Projects => $"{Base}/projects";
+            private static string Projects => $"{Base}/Projects";
 
             public static string Get(bool includeCompleted = false) => $"{Projects}?includeCompleted={includeCompleted}";
 
@@ -95,7 +95,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class UrlsController
         {
-            private static string Urls => $"{Base}/urls";
+            private static string Urls => $"{Base}/Urls";
 
             public static string Get(Guid id) => $"{Urls}/{id}";
 
@@ -110,23 +110,29 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class MeController
         {
-            private static string Me => $"{Base}/users/me";
+            private static string Me => $"{Base}/me";
 
-            public static string GetProfile() => $"{Me}/profile";
+            public static string GetUserProfile() => $"{Me}/profiles/user";
 
             public static string GetAppointments(int? limit = null, int? offset = null) => $"{Me}/appointments?limit={limit}&offset={offset}";
 
-            public static string PutProfile() => $"{Me}/profile";
+            public static string PutUserProfile() => $"{Me}/profiles/user";
 
             public static string SetAppointmentParticipationPrediction(Guid appointmentId, Guid predictionId)
                 => $"{Me}/appointments/{appointmentId}/participation/prediction/{predictionId}";
 
             public static string SendQrCode() => $"{Me}/qrcode";
+
+            public static string AddMusicianProfile() => $"{Me}/profiles/musician";
+
+            public static string GetMusicianProfiles(bool includeDeactivated) => $"{Me}/profiles/musician?includeDeactivated={includeDeactivated}";
+
+            public static string GetMusicianProfile(Guid id) => $"{Me}/profiles/musician/{id}";
         }
 
         public static class RegionsController
         {
-            private static string Regions => $"{Base}/regions";
+            private static string Regions => $"{Base}/Regions";
 
             public static string Get() => Regions;
 
@@ -141,7 +147,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class AppointmentsController
         {
-            private static string Appointments => $"{Base}/appointments";
+            private static string Appointments => $"{Base}/Appointments";
 
             public static string Get(DateTime? date, DateRange range) => $"{Appointments}?date={date.Value.ToIsoString()}&range={range}";
 
@@ -171,6 +177,33 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             private static string AuditLogs => $"{Base}/auditLogs";
 
             public static string Get(Guid entityId, int? skip, int? take) => $"{AuditLogs}?entityid={entityId}&skip={skip}&take={take}";
+        }
+        public static class MusicianProfilesController
+        {
+            private static string MusiciansProfiles => $"{Base}/profiles/musicians";
+
+            public static string Put(Guid id) => $"{MusiciansProfiles}/{id}";
+
+            public static string Get(Guid id) => $"{MusiciansProfiles}/{id}";
+
+            public static string Delete(Guid id) => $"{MusiciansProfiles}/{id}";
+        }
+        public static class PersonsController
+        {
+            private static string Persons => $"{Base}/Persons";
+
+            public static string Get() => Persons;
+
+            public static string Post() => Persons;
+
+            public static string Put(Guid id) => $"{Persons}/{id}";
+
+            public static string Get(Guid id) => $"{Persons}/{id}";
+
+            public static string Delete(Guid id) => $"{Persons}/{id}";
+
+            public static string AddMusicianProfile(Guid id) => $"{Persons}/{id}/profiles/musician";
+            public static string GetMusicianProfiles(Guid id, bool includeDeactivated) => $"{Persons}/{id}/profiles/musician?includeDeactivated={includeDeactivated}";
         }
     }
 }

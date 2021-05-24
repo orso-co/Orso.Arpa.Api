@@ -27,8 +27,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [HttpDelete("{username}")]
         [Authorize(Roles = RoleNames.Admin)]
+        [HttpDelete("{username}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -43,8 +43,8 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>A list of users</returns>
         /// <response code="200"></response>
-        [HttpGet]
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<UserDto>> Get()
         {
@@ -56,8 +56,8 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <returns>The queried user</returns>
         /// <response code="200"></response>
-        [HttpGet("{id}")]
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<UserDto> GetById([FromRoute] Guid id)

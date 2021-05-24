@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MusicianProfileForAppointmentApplication;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -100,9 +100,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = PersonDtoData.Performer,
                     Participation = AppointmentParticipationDtoData.PerformerParticipation,
-                    MusicianProfiles = new List<MusicianProfileDto>
+
+                    MusicianProfiles = new List<MusicianProfileForAppointmentDto>
                     {
-                        MusicianProfileDtoData.PerformerProfile
+                        MusicianProfileForAppointmentDtoData.PerformerProfile,
                     }
                 };
             }
@@ -116,10 +117,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = PersonDtoData.Staff,
                     Participation = AppointmentParticipationDtoData.StaffParticipation,
-                    MusicianProfiles = new List<MusicianProfileDto>
+                    MusicianProfiles = new List<MusicianProfileForAppointmentDto>
                     {
-                        MusicianProfileDtoData.StaffProfile1,
-                        MusicianProfileDtoData.StaffProfile2
+                        MusicianProfileForAppointmentDtoData.StaffProfile1,
+                        MusicianProfileForAppointmentDtoData.StaffProfile2,
                     }
                 };
             }
@@ -133,9 +134,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = PersonDtoData.Admin,
                     Participation = null,
-                    MusicianProfiles = new List<MusicianProfileDto>
+                    MusicianProfiles = new List<MusicianProfileForAppointmentDto>
                     {
-                        MusicianProfileDtoData.AdminProfile1
+                        MusicianProfileForAppointmentDtoData.AdminProfile1,
                     }
                 };
             }
@@ -149,9 +150,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = PersonDtoData.WithoutRole,
                     Participation = null,
-                    MusicianProfiles = new List<MusicianProfileDto>
+                    MusicianProfiles = new List<MusicianProfileForAppointmentDto>
                     {
-                        MusicianProfileDtoData.WithoutRoleProfile
+                        MusicianProfileForAppointmentDtoData.WithoutRoleProfile,
                     }
                 };
             }

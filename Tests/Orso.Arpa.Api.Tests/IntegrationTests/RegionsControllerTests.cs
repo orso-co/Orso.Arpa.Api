@@ -47,6 +47,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto, opt => opt
                 .Excluding(dto => dto.Id));
             result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.RegionsController.Get(result.Id)}");
         }
 
         [Test]
