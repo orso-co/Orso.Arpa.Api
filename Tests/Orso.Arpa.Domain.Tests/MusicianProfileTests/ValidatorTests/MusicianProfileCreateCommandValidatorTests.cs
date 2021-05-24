@@ -1,5 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
+using FluentAssertions;
+using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -77,10 +82,21 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
+        public void Should_Have_Validation_Error_If_MusicianProfile_Exists_With_InstrumentId()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
+            IEnumerable<ValidationFailure> errors = _validator.ShouldHaveValidationErrorFor(c => c.InstrumentId, SectionDtoData.Euphonium.Id);
+            errors.First().ErrorMessage.Should().Be("There is already a musician profile for this person with this instrument id");
+        }
+
+        [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
             _validator.ShouldNotHaveValidationErrorFor(c => c.InstrumentId, SectionDtoData.Euphonium.Id);
         }
         #endregion

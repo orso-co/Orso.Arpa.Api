@@ -36,9 +36,10 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
 
                 RuleFor(c => c.InstrumentId)
-                    .EntityExists<Command, Section>(arpaContext, nameof(Command.InstrumentId));
-
-                // ToDo: Prüfen, dass es nicht schon ein MP für diese Persion mit diesem Instrument gibt
+                    .EntityExists<Command, Section>(arpaContext, nameof(Command.InstrumentId))
+                    .MustAsync(async (command, instrumentId, cancellation) => !await arpaContext
+                        .EntityExistsAsync<MusicianProfile>(mp => mp.InstrumentId == instrumentId && mp.PersonId == command.PersonId, cancellation))
+                    .WithMessage("There is already a musician profile for this person with this instrument id");
 
                 RuleFor(c => c.QualificationId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Qualification);
