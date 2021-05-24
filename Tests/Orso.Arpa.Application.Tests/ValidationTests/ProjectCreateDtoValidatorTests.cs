@@ -51,24 +51,23 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _validator.ShouldHaveValidationErrorFor(command => command.ShortTitle,
                 "1234567890123456789012345678901"); // valid length exceeded
         }
-
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Number_Is_Supplied([Values(null, "")] string name)
+        public void Should_Have_Validation_Error_If_Empty_Code_Is_Supplied([Values(null, "")] string name)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Number, name);
+            _validator.ShouldHaveValidationErrorFor(command => command.Code, name);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Too_Long_Number_Is_Supplied()
+        public void Should_Have_Validation_Error_If_Too_Long_Code_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Number,
+            _validator.ShouldHaveValidationErrorFor(command => command.Code,
                 "1234567890123456789012345678901"); // valid length exceeded
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Number_Is_Supplied([Values("ABC1 -/0", "abcdefghijklmno", "pqrstuvwxyzABCD", "EFGHIJKLMNOPQRS", "TUVWXYZ01234567", "89/-?:().,+ ")] string number)
+        public void Should_Not_Have_Validation_Error_If_Valid_Code_Is_Supplied([Values("ABC1 -/0", "abcdefghijklmno", "pqrstuvwxyzABCD", "EFGHIJKLMNOPQRS", "TUVWXYZ01234567", "89/-?:().,+ ")] string code)
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Number, number);
+            _validator.ShouldNotHaveValidationErrorFor(command => command.Code, code);
         }
 
         [Test]
@@ -77,9 +76,9 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         // a - z, A - Z, 0 - 9
         // special characters: / ? : ( ) . , ' + -
         // space character
-        public void Should_Have_Validation_Error_If_Invalid_Character_In_Number_Is_Supplied([Values("ABC*", "ABC_", "ABCö", @"ABC\", "ABC{", "ABC[")] string number)
+        public void Should_Have_Validation_Error_If_Invalid_Character_In_Code_Is_Supplied([Values("ABC*", "ABC_", "ABCö", @"ABC\", "ABC{", "ABC[")] string code)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Number, number);
+            _validator.ShouldHaveValidationErrorFor(command => command.Code, code);
         }
 
         [Test]

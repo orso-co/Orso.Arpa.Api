@@ -12,7 +12,7 @@ namespace Orso.Arpa.Domain.Entities
             Title = command.Title;
             ShortTitle = command.ShortTitle;
             Description = command.Description;
-            Number = command.Number;
+            Code = command.Code;
             TypeId = command.TypeId;
             GenreId = command.GenreId;
             StartDate = command.StartDate;
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Entities
         public string Title { get; private set; }
         public string ShortTitle { get; private set; }
         public string Description { get; private set; }
-        public string Number { get; private set; }
+        public string Code { get; private set; }
         public Guid? TypeId { get; set; }
         public virtual SelectValueMapping Type { get; private set; }
         public Guid? GenreId { get; private set; }

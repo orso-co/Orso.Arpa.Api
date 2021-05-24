@@ -15,7 +15,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public string Title { get; set; }
             public string ShortTitle { get; set; }
             public string Description { get; set; }
-            public string Number { get; set; }
+            public string Code { get; set; }
             public Guid? TypeId { get; set; }
             public Guid? GenreId { get; set; }
             public DateTime? StartDate { get; set; }
@@ -28,13 +28,13 @@ namespace Orso.Arpa.Domain.Logic.Projects
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(d => d.Number)
-                    .MustAsync(async (number, cancellation) =>
+                RuleFor(d => d.Code)
+                    .MustAsync(async (code, cancellation) =>
                         (!await arpaContext.Projects.AnyAsync(project =>
 #pragma warning disable RCS1155 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
-                                        project.Number.ToLower() == number.ToLower(), cancellation)))
+                                        project.Code.ToLower() == code.ToLower(), cancellation)))
 #pragma warning restore RCS1155 // Use StringComparison when comparing strings.
-                    .WithMessage("The specified project number is already in use. The project number needs to be unique.");
+                    .WithMessage("The specified project code is already in use. The project code needs to be unique.");
 
                 RuleFor(c => c.ParentId)
                     .EntityExists<Command, Project>(arpaContext, nameof(Command.ParentId));

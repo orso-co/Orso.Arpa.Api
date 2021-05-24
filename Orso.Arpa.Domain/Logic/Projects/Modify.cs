@@ -18,7 +18,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public string Title { get; set; }
             public string ShortTitle { get; set; }
             public string Description { get; set; }
-            public string Number { get; set; }
+            public string Code { get; set; }
             public Guid? TypeId { get; set; }
             public Guid? GenreId { get; set; }
             public DateTime? StartDate { get; set; }
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
                     .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                     .ForMember(dest => dest.ShortTitle, opt => opt.MapFrom(src => src.ShortTitle))
                     .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                    .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Number))
+                    .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Code))
                     .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId))
                     .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.GenreId))
                     .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
@@ -55,12 +55,12 @@ namespace Orso.Arpa.Domain.Logic.Projects
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Project>(arpaContext, nameof(Command.Id));
 
-                RuleFor(d => d.Number)
-                    .MustAsync(async (dto, number, cancellation) =>
+                RuleFor(d => d.Code)
+                    .MustAsync(async (dto, code, cancellation) =>
 #pragma warning disable RCS1155 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
-                        (!await arpaContext.Projects.AnyAsync(project => dto.Id != project.Id && project.Number.ToLower() == number.ToLower(), cancellation)))
+                        (!await arpaContext.Projects.AnyAsync(project => dto.Id != project.Id && project.Code.ToLower() == code.ToLower(), cancellation)))
 #pragma warning restore RCS1155 // Use StringComparison when comparing strings.
-                    .WithMessage("The specified project number is already in use. The project number needs to be unique.");
+                    .WithMessage("The specified project code is already in use. The project code needs to be unique.");
 
                 RuleFor(c => c.ParentId)
                     .EntityExists<Command, Project>(arpaContext, nameof(Command.ParentId));
