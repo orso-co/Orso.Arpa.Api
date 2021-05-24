@@ -32,10 +32,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     IsMainProfile = true,
                     IsDeactivated = false,
 
-                    LevelAssessmentPerformer = (byte)1,
-                    LevelAssessmentStaff = (byte)2,
-                    ProfilePreferencePerformer = (byte)3,
-                    ProfilePreferenceStaff = (byte)4,
+                    LevelAssessmentPerformer = 1,
+                    LevelAssessmentStaff = 2,
+                    ProfilePreferencePerformer = 3,
+                    ProfilePreferenceStaff = 4,
 
                     BackgroundPerformer = "Performer gave some background",
                     BackgroundStaff = "Staff gave some background",
@@ -76,7 +76,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Modify.Command command = _mapper.Map<Modify.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(expectedCommand);            //TODO warum sind beide Background* Felder identisch nach dem Mapper???
+            command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

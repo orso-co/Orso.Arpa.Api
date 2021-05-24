@@ -30,7 +30,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<PersonDto> result = await DeserializeResponseMessageAsync<IEnumerable<PersonDto>>(responseMessage);
-            //ToDo: das ist noch nicht die richtige Validierung - result.Should().BeEquivalentTo(PersonTestSeedData.Persons);
+            result.Should().BeEquivalentTo(PersonDtoData.Persons);
         }
 
         [Test, Order(2)]
