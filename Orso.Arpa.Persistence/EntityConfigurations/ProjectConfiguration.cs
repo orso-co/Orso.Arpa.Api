@@ -8,7 +8,6 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Project> builder)
         {
-            // ToDo: delete cascade in code
             builder
                 .Property(e => e.Title)
                 .HasMaxLength(100)

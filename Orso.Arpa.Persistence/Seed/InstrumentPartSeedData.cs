@@ -18,7 +18,7 @@ namespace Orso.Arpa.Persistence.Seed
         }
 
         /// <summary>
-        /// TODO
+        /// Todo: Hier müssen die Seeddaten aller Instrument Parts eingefügt werden
         /// </summary>
         public static InstrumentPart Part1 => new(Guid.Parse("be07fb21-e622-4b7e-b6aa-4c4b61988b4b"), Guid.NewGuid(), Guid.NewGuid());
     }
