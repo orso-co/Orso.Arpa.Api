@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.Interfaces
 {
@@ -14,11 +11,7 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task<PersonDto> GetByIdAsync(Guid id);
 
-        Task<IEnumerable<PersonDto>> GetAsync(
-            Expression<Func<Person, bool>> predicate = null,
-            Func<IQueryable<Person>, IOrderedQueryable<Person>> orderBy = null,
-            int? skip = null,
-            int? take = null);
+        Task<IEnumerable<PersonDto>> GetAsync();
 
         Task ModifyAsync(PersonModifyDto modifyDto);
 

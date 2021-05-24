@@ -30,24 +30,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto);
         }
 
-        //[Test, Order(2)]
-        //public async Task Should_Get_All_Profiles_Of_A_Person()
-        //{
-        //    // Arrange
-        //    IList<MusicianProfileDto> expectedDto = MusicianProfileDtoData.ProfilesForTromboneAndEuphoniumPlayer;
-
-        //    // Act
-        //    HttpResponseMessage responseMessage = await _authenticatedServer
-        //        .CreateClient()
-        //        .AuthenticateWith(_performer)
-        //        .GetAsync(ApiEndpoints.MusicianProfilesController.GetAllProfilesOfAPerson(expectedDto.Id));
-
-        //    // Assert
-        //    responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        //    IEnumerable<MusicianProfileDto> result = await DeserializeResponseMessageAsync<IEnumerable<MusicianProfileDto>>(responseMessage);
-        //    result.Should().BeEquivalentTo(expectedDto);
-        //}
-
         //[Test, Order(100)]
         //public async Task Should_Modify()
         //{

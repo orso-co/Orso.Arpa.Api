@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -109,9 +110,12 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<MyMusicianProfileDto>(musicialProfile);
         }
 
-        public async Task<IEnumerable<MyMusicianProfileDto>> GetMyMusicianProfilesAsync()
+        public async Task<IEnumerable<MyMusicianProfileDto>> GetMyMusicianProfilesAsync(bool includeDeactivated)
         {
-            var query = new List.Query<MusicianProfile>(mp => mp.PersonId == _userAccessor.PersonId);
+            Expression<Func<MusicianProfile, bool>> predicate = includeDeactivated ? mp => mp.PersonId == _userAccessor.PersonId : mp => mp.PersonId == _userAccessor.PersonId && !mp.IsDeactivated;
+
+            var query = new List.Query<MusicianProfile>(predicate, orderBy: mp => mp.OrderByDescending(m => m.IsMainProfile));
+
             IQueryable<MusicianProfile> musicialProfile = await _mediator.Send(query);
             return _mapper.Map<IEnumerable<MyMusicianProfileDto>>(musicialProfile);
         }

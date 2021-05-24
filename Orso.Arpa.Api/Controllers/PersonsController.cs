@@ -110,10 +110,11 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Gets all musicianProfiles for a person
+        /// Gets all musician profiles for a person
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>The created musicianProfile</returns>
+        /// <param name="includeDeactivated">Default: false</param>
+        /// <returns>The musician profiles of the person</returns>
         /// <response code="201">Returns the created musicianProfile</response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
@@ -121,9 +122,9 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet("{id}/profiles/musician")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<MusicianProfileDto>>> AddMusicianProfile([FromRoute] Guid id)
+        public async Task<ActionResult<IEnumerable<MusicianProfileDto>>> GetMusicianProfiles([FromRoute] Guid id, [FromQuery] bool includeDeactivated = false)
         {
-            return Ok(await _musicianProfileService.GetAsync(id));
+            return Ok(await _musicianProfileService.GetByPersonAsync(id, includeDeactivated));
         }
 
         /// <summary>

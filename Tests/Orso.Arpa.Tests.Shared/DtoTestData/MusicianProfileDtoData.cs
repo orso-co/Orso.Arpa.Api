@@ -24,6 +24,44 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
+        public static MusicianProfileDto PerformersTromboneMusicianProfile
+        {
+            get
+            {
+                return new MusicianProfileDto
+                {
+                    Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
+                    PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
+                    InstrumentId = SectionSeedData.Trombone.Id,
+                    LevelAssessmentPerformer = 1,
+                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[1].Id,
+                    BackgroundPerformer = "Background Trombonist",
+                    ProfilePreferencePerformer = 3,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    IsMainProfile = false,
+                    QualificationId = Guid.Parse("6304b935-633d-4bba-a90f-9bd864c867c6")
+                };
+            }
+        }
+
+        public static MusicianProfileDto PerformersDeactivatedTubaProfile
+        {
+            get
+            {
+                return new MusicianProfileDto
+                {
+                    Id = Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"),
+                    PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
+                    InstrumentId = SectionSeedData.Tuba.Id,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    IsMainProfile = false,
+                    IsDeactivated = true,
+                };
+            }
+        }
+
         public static MusicianProfileDto StaffProfile1
         {
             get

@@ -105,6 +105,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <summary>
         /// Gets all my musicianProfiles
         /// </summary>
+        /// <param name="includeDeactivated">Default: false</param>
         /// <returns>All musicianProfiles of the current user</returns>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
@@ -112,9 +113,9 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet("profiles/musician")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<MyMusicianProfileDto>>> GetMyMusicianProfiles()
+        public async Task<ActionResult<IEnumerable<MyMusicianProfileDto>>> GetMyMusicianProfiles([FromQuery] bool includeDeactivated = false)
         {
-            return Ok(await _meService.GetMyMusicianProfilesAsync());
+            return Ok(await _meService.GetMyMusicianProfilesAsync(includeDeactivated));
         }
 
         /// <summary>

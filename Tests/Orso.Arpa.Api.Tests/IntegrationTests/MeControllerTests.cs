@@ -100,26 +100,36 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
-        [Test, Order(10)]
-        public async Task Should_Get_My_MusicianProfiles()
+        private static IEnumerable<TestCaseData> s_musicianProfileData
         {
-            // Arrange
-            IList<MyMusicianProfileDto> expectedDto = new List<MyMusicianProfileDto> {
-                MyMusicianProfileDtoData.PerformerProfile,
-                MyMusicianProfileDtoData.PerformersTromboneMusicianProfile,
-                MyMusicianProfileDtoData.PerformersDeactivatedTubaProfile,
-            };
+            get
+            {
+                yield return new TestCaseData(false, new List<MyMusicianProfileDto> {
+                    MyMusicianProfileDtoData.PerformerProfile,
+                    MyMusicianProfileDtoData.PerformersTromboneMusicianProfile,
+                    });
+                yield return new TestCaseData(true, new List<MyMusicianProfileDto> {
+                    MyMusicianProfileDtoData.PerformerProfile,
+                    MyMusicianProfileDtoData.PerformersDeactivatedTubaProfile,
+                    MyMusicianProfileDtoData.PerformersTromboneMusicianProfile
+                    });
+            }
+        }
 
+        [Test, Order(10)]
+        [TestCaseSource(nameof(s_musicianProfileData))]
+        public async Task Should_Get_My_MusicianProfiles(bool includeDeactivated, IList<MyMusicianProfileDto> expectedDtos)
+        {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetMusicianProfiles());
+                .GetAsync(ApiEndpoints.MeController.GetMusicianProfiles(includeDeactivated));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IList<MyMusicianProfileDto> result = await DeserializeResponseMessageAsync<IList<MyMusicianProfileDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
         }
 
         [Test, Order(11)]

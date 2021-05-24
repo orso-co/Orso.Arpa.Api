@@ -125,7 +125,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string AddMusicianProfile() => $"{Me}/profiles/musician";
 
-            public static string GetMusicianProfiles() => $"{Me}/profiles/musician";
+            public static string GetMusicianProfiles(bool includeDeactivated) => $"{Me}/profiles/musician?includeDeactivated={includeDeactivated}";
 
             public static string GetMusicianProfile(Guid id) => $"{Me}/profiles/musician/{id}";
         }
@@ -203,6 +203,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Delete(Guid id) => $"{Persons}/{id}";
 
             public static string AddMusicianProfile(Guid id) => $"{Persons}/{id}/profiles/musician";
+            public static string GetMusicianProfiles(Guid id, bool includeDeactivated) => $"{Persons}/{id}/profiles/musician?includeDeactivated={includeDeactivated}";
         }
     }
 }

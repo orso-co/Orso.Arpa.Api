@@ -51,6 +51,38 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto);
         }
 
+        private static IEnumerable<TestCaseData> s_musicianProfileData
+        {
+            get
+            {
+                yield return new TestCaseData(false, new List<MusicianProfileDto> {
+                    MusicianProfileDtoData.PerformerProfile,
+                    MusicianProfileDtoData.PerformersTromboneMusicianProfile,
+                    });
+                yield return new TestCaseData(true, new List<MusicianProfileDto> {
+                    MusicianProfileDtoData.PerformerProfile,
+                    MusicianProfileDtoData.PerformersDeactivatedTubaProfile,
+                    MusicianProfileDtoData.PerformersTromboneMusicianProfile
+                    });
+            }
+        }
+
+        [Test, Order(2)]
+        [TestCaseSource(nameof(s_musicianProfileData))]
+        public async Task Should_Get_All_Profiles_Of_A_Person(bool includeDeactivated, IList<MusicianProfileDto> expectedDtos)
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.PersonsController.GetMusicianProfiles(_performer.PersonId, includeDeactivated));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<MusicianProfileDto> result = await DeserializeResponseMessageAsync<IEnumerable<MusicianProfileDto>>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
+        }
+
         [Test, Order(100)]
         public async Task Should_Modify()
         {

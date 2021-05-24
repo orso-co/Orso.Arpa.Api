@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
@@ -18,6 +20,11 @@ namespace Orso.Arpa.Application.Services
     {
         public PersonService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
+        }
+
+        public Task<IEnumerable<PersonDto>> GetAsync()
+        {
+            return base.GetAsync();
         }
     }
 }

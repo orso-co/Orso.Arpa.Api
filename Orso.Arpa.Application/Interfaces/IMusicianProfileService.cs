@@ -7,8 +7,8 @@ namespace Orso.Arpa.Application.Interfaces
 {
     public interface IMusicianProfileService
     {
-        Task<IEnumerable<MusicianProfileDto>> GetAsync(Guid personId);
         Task<MusicianProfileDto> GetByIdAsync(Guid id);
         Task<MusicianProfileDto> CreateAsync(MusicianProfileCreateDto musicianProfileCreateDto);
+        Task<IEnumerable<MusicianProfileDto>> GetByPersonAsync(Guid personId, bool includeDeactivated);
     }
 }

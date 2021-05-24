@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -25,9 +27,11 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<MusicianProfileDto>(createdEntity);
         }
 
-        public Task<IEnumerable<MusicianProfileDto>> GetAsync(Guid personId)
+        public Task<IEnumerable<MusicianProfileDto>> GetByPersonAsync(Guid personId, bool includeDeactivated)
         {
-            return GetAsync(profile => profile.PersonId == personId);
+            Expression<Func<MusicianProfile, bool>> predicate = includeDeactivated ? mp => mp.PersonId == personId : mp => mp.PersonId == personId && !mp.IsDeactivated;
+
+            return GetAsync(predicate, orderBy: profile => profile.OrderByDescending(p => p.IsMainProfile));
         }
     }
 }

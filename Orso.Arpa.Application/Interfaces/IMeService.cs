@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task SetMyAppointmentParticipationPredictionAsync(SetMyProjectAppointmentPredictionDto setParticipationPredictionDto);
         Task<MyMusicianProfileDto> CreateAsync(MyMusicianProfileCreateDto musicianProfileCreateDto);
         Task<MyMusicianProfileDto> GetMyMusicianProfileAsync(Guid id);
-        Task<IEnumerable<MyMusicianProfileDto>> GetMyMusicianProfilesAsync();
+        Task<IEnumerable<MyMusicianProfileDto>> GetMyMusicianProfilesAsync(bool includeDeactivated);
 
     }
 }
