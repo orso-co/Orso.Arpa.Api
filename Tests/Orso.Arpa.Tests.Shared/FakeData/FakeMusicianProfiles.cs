@@ -1,3 +1,4 @@
+using System.Linq;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -15,6 +16,21 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 profile.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
                 profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
                 profile.ProjectParticipations.Add(FakeProjectParticipations.PerformerProjectParticipation);
+                return profile;
+            }
+        }
+
+        public static MusicianProfile PerformerTromboneMusicianProfile
+        {
+            get
+            {
+                MusicianProfile profile = MusicianProfileSeedData.PerformersTromboneMusicianProfile;
+                MusicianProfileSection doublingInstrument = profile.DoublingInstruments.First();
+                doublingInstrument.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
+                doublingInstrument.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
+                profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Performer);
+                profile.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
+                profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
                 return profile;
             }
         }

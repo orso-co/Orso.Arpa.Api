@@ -8,14 +8,14 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [TestFixture]
     public class MusicianProfileCreateDtoValidatorTests
     {
-        private MusicianProfileCreateDtoValidator _validator;
         private MusicianProfileCreateBodyDtoValidator _bodyValidator;
+        private DoublingInstrumentCreateDtoValidator _doublingInstrumentValidator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new MusicianProfileCreateDtoValidator();
             _bodyValidator = new MusicianProfileCreateBodyDtoValidator();
+            _doublingInstrumentValidator = new DoublingInstrumentCreateDtoValidator();
         }
 
         [Test]
@@ -54,5 +54,52 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.InstrumentId, Guid.NewGuid());
         }
 
+        [Test]
+        public void Should_Have_Validation_Error_If_Comment_Exceeds_Max_Length()
+        {
+            _doublingInstrumentValidator.ShouldHaveValidationErrorFor(command => command.Comment, new string('#', 501));
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_Comment_Is_Supplied()
+        {
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(command => command.Comment, new string('#', 500));
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Empty_DoublingInstrumentId_Is_Supplied()
+        {
+            _doublingInstrumentValidator.ShouldHaveValidationErrorFor(command => command.InstrumentId, Guid.Empty);
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied()
+        {
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(command => command.InstrumentId, Guid.NewGuid());
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentPerformer_Is_Out_Of_Range()
+        {
+            _doublingInstrumentValidator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentPerformer, (byte)6);
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentPerformer_Is_In_Range([Values(0, 1, 5)] byte x)
+        {
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(command => command.LevelAssessmentPerformer, x);
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentStaff_Is_Out_Of_Range()
+        {
+            _doublingInstrumentValidator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentStaff, (byte)6);
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentStaff_Is_In_Range([Values(0, 1, 5)] byte x)
+        {
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(command => command.LevelAssessmentStaff, x);
+        }
     }
 }

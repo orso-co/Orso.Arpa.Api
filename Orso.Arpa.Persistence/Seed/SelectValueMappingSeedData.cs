@@ -30,6 +30,7 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(AuditionStatusMappings);
                 list.AddRange(AuditionRepetitorStatusMappings);
                 list.AddRange(MusicianProfileAvailableDocumentsMappings);
+                list.AddRange(MusicianProfileSectionInstrumentAvailabilityMappings);
                 return list;
             }
         }
@@ -314,6 +315,20 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("f1626a63-6bf1-442a-86ad-8a86242bde94"), SelectValueCategorySeedData.MusicianProfileAvailableDocuments.Id, SelectValueSeedData.Video.Id),
                     new SelectValueMapping(Guid.Parse("887e7e2e-0c90-4c4c-9504-3f2a5af7fbcb"), SelectValueCategorySeedData.MusicianProfileAvailableDocuments.Id, SelectValueSeedData.Photo.Id),
                     new SelectValueMapping(Guid.Parse("4298e1f5-ea1d-4a83-9b32-e5dc3a7cbca9"), SelectValueCategorySeedData.MusicianProfileAvailableDocuments.Id, SelectValueSeedData.Other.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> MusicianProfileSectionInstrumentAvailabilityMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("d33ea034-0c5f-458d-bef5-26d2c12b6b03"), SelectValueCategorySeedData.MusicianProfileSectionInstrumentAvailability.Id, SelectValueSeedData.PrivateOwnership.Id),
+                    new SelectValueMapping(Guid.Parse("c6b28eb5-e9d6-4250-bc79-6fa9bfbdbc5a"), SelectValueCategorySeedData.MusicianProfileSectionInstrumentAvailability.Id, SelectValueSeedData.NeedToBorrow.Id),
+                    new SelectValueMapping(Guid.Parse("7869a9b0-fb13-4c00-ac7c-2fa1b27a00af"), SelectValueCategorySeedData.MusicianProfileSectionInstrumentAvailability.Id, SelectValueSeedData.ProvisionByStaff.Id),
+                    new SelectValueMapping(Guid.Parse("0298c0d1-57e2-415a-9d6c-3f47e9ab6f22"), SelectValueCategorySeedData.MusicianProfileSectionInstrumentAvailability.Id, SelectValueSeedData.Unknown.Id),
                 };
             }
         }

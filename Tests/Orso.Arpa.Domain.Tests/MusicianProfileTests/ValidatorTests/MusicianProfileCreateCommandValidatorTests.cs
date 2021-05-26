@@ -24,6 +24,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
     public class MusicianProfileCreatecValidatorTests
     {
         private Validator _validator;
+        private DoublingInstrumentValidator _doublingInstrumentValidator;
         private IArpaContext _arpaContext;
         private DbSet<SelectValueCategory> _mockSelectValueCategoryDbSet;
         private DbSet<Section> _mockSectionDbSet;
@@ -33,6 +34,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new Validator(_arpaContext);
+            _doublingInstrumentValidator = new DoublingInstrumentValidator(_arpaContext);
             DbSet<MusicianProfile> mockMusicianProfiles = MockDbSets.MusicianProfiles;
             _arpaContext.MusicianProfiles.Returns(mockMusicianProfiles);
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
@@ -213,6 +215,75 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldNotHaveValidationErrorFor(c => c.InquiryStatusStaffId, (Guid?)null);
         }
+        #endregion
+
+        #region AvailabilityId
+
+        [Test]
+        public void Should_Have_Validation_Error_If_AvailabilityId_Does_Not_Exist()
+        {
+            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
+            _doublingInstrumentValidator.MainInstrumentId = Guid.Empty;
+            _doublingInstrumentValidator.ShouldThrowNotFoundExceptionFor(c => c.AvailabilityId, Guid.NewGuid(), nameof(SelectValueMapping));
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Invalid_AvailabilityId_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
+            _doublingInstrumentValidator.MainInstrumentId = Guid.Empty;
+            _doublingInstrumentValidator.ShouldThrowNotFoundExceptionFor(c => c.AvailabilityId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_AvailabilityId_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
+            _doublingInstrumentValidator.MainInstrumentId = Guid.Empty;
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(c => c.AvailabilityId, SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id);
+        }
+
+        #endregion
+
+        #region InstrumentId
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied_Case_1()
+        {
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
+            _doublingInstrumentValidator.MainInstrumentId = FakeSections.Flute.Id;
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(c => c.InstrumentId, FakeSections.Flute.Children.First().Id);
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied_Case_2()
+        {
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute.Children.First());
+            _doublingInstrumentValidator.MainInstrumentId = FakeSections.Flute.Children.First().Id;
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(c => c.InstrumentId, FakeSections.Flute.Id);
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_DoublingInstrumentId_Is_MainInstrumentId()
+        {
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
+            _doublingInstrumentValidator.MainInstrumentId = FakeSections.Flute.Id;
+            _doublingInstrumentValidator.ShouldHaveValidationErrorFor(c => c.InstrumentId, FakeSections.Flute.Id)
+                .WithErrorMessage("The doubling instrument may not be the main instrument");
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Invalid_DoublingInstrumentId_Is_Supplied()
+        {
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
+            _doublingInstrumentValidator.MainInstrumentId = FakeSections.Flute.Id;
+            _doublingInstrumentValidator.ShouldHaveValidationErrorFor(c => c.InstrumentId, SectionSeedData.Piano.Id)
+                .WithErrorMessage("This instrument is no valid doubling instrument for the selected main instrument");
+        }
+
         #endregion
     }
 }

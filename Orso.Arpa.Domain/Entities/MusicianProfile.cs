@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Domain.Entities
@@ -16,7 +17,7 @@ namespace Orso.Arpa.Domain.Entities
             InquiryStatusPerformerId = command.InquiryStatusPerformerId;
             InquiryStatusStaffId = command.InquiryStatusStaffId;
             IsMainProfile = isMainProfile;
-            //DoublingInstruments = command.DoublingInstruments;
+            DoublingInstruments = command.DoublingInstruments.Select(i => new MusicianProfileSection(i)).ToList();
             //PreferredPositionsPerformer = command.PreferredPositionsPerformer;
             //PreferredPositionsStaff = command.PreferredPositionsStaff;
             //PreferredPartsPerformer = command.PreferredPartsPerformer;

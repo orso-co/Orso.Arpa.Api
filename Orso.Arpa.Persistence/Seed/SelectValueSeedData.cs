@@ -92,7 +92,10 @@ namespace Orso.Arpa.Persistence.Seed
                     Diploma,
                     Photo,
                     Video,
-                    Audio
+                    Audio,
+                    PrivateOwnership,
+                    NeedToBorrow,
+                    ProvisionByStaff
                 };
             }
         }
@@ -399,5 +402,8 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue Audio => new(Guid.Parse("3550443d-5acf-4159-bd59-d7da04dd9434"), "Audio", string.Empty);
         public static SelectValue Video => new(Guid.Parse("d075dda3-ba29-472b-a699-1f92c1af13a9"), "Video", string.Empty);
         public static SelectValue Photo => new(Guid.Parse("e340f76d-074b-40e8-85b0-1bb66a596a06"), "Photo", string.Empty);
+        public static SelectValue PrivateOwnership => new(Guid.Parse("6fbab698-993f-4268-a28e-b1f1599771c5"), "Private ownership", string.Empty);
+        public static SelectValue NeedToBorrow => new(Guid.Parse("e7442e9b-8c54-41ed-8607-accba2d04f61"), "Need to borrow", string.Empty);
+        public static SelectValue ProvisionByStaff => new(Guid.Parse("28927b59-a999-4f84-abca-4f146888457f"), "Provision by staff", string.Empty);
     }
 }

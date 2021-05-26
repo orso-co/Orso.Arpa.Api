@@ -1,6 +1,5 @@
 using System;
 using AutoMapper;
-using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.MusicianProfileApplication;
@@ -25,21 +24,27 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            MusicianProfileCreateDto dto = new Faker<MusicianProfileCreateDto>()
-                .RuleFor(dto => dto.Id, Guid.NewGuid())
-
-                .Generate();
-
-            dto.Body = new Faker<MusicianProfileCreateBodyDto>()
-                .RuleFor(body => body.LevelAssessmentPerformer, (byte)1)
-                .Generate();
-
-            dto.Body.LevelAssessmentPerformer = (byte)1;
-            dto.Body.LevelAssessmentStaff = (byte)2;
-            dto.Body.InstrumentId = Guid.NewGuid();
-            dto.Body.QualificationId = Guid.NewGuid();
-            dto.Body.InquiryStatusPerformerId = Guid.NewGuid();
-            dto.Body.InquiryStatusStaffId = Guid.NewGuid();
+            var dto = new MusicianProfileCreateDto
+            {
+                Id = Guid.NewGuid(),
+                Body = new MusicianProfileCreateBodyDto
+                {
+                    LevelAssessmentPerformer = 1,
+                    LevelAssessmentStaff = 2,
+                    InstrumentId = Guid.NewGuid(),
+                    QualificationId = Guid.NewGuid(),
+                    InquiryStatusPerformerId = Guid.NewGuid(),
+                    InquiryStatusStaffId = Guid.NewGuid(),
+                }
+            };
+            dto.Body.DoublingInstruments.Add(new DoublingInstrumentCreateDto
+            {
+                AvailabilityId = Guid.NewGuid(),
+                Comment = "Comment",
+                InstrumentId = Guid.NewGuid(),
+                LevelAssessmentPerformer = 2,
+                LevelAssessmentStaff = 3
+            });
 
             // ToDo collections
 

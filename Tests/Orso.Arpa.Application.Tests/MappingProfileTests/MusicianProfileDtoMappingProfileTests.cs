@@ -19,6 +19,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             {
                 cfg.AddProfile<MusicianProfileDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
+                cfg.AddProfile<DoublingInstrumentDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);
@@ -30,8 +31,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            MusicianProfile musicianProfile = FakeMusicianProfiles.PerformerMusicianProfile;
-            MusicianProfileDto expectedDto = MusicianProfileDtoData.PerformerProfile;
+            MusicianProfile musicianProfile = FakeMusicianProfiles.PerformerTromboneMusicianProfile;
+            MusicianProfileDto expectedDto = MusicianProfileDtoData.PerformersTromboneMusicianProfile;
 
             // Act
             MusicianProfileDto mappedDto = _mapper.Map<MusicianProfileDto>(musicianProfile);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -174,6 +175,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InstrumentId = SectionSeedData.Euphonium.Id,
                 QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
             };
+            var createDoublingInstrumentDto = new DoublingInstrumentCreateDto
+            {
+                InstrumentId = SectionSeedData.TenorHorn.Id,
+                AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
+                LevelAssessmentStaff = 3,
+                LevelAssessmentPerformer = 4,
+                Comment = "my comment"
+            };
+            createDto.DoublingInstruments.Add(createDoublingInstrumentDto);
 
             var expectedDto = new MusicianProfileDto
             {
@@ -183,6 +193,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
             };
+            expectedDto.DoublingInstruments.Add(new DoublingInstrumentDto
+            {
+                AvailabilityId = createDoublingInstrumentDto.AvailabilityId,
+                Comment = createDoublingInstrumentDto.Comment,
+                InstrumentId = createDoublingInstrumentDto.InstrumentId,
+                LevelAssessmentStaff = createDoublingInstrumentDto.LevelAssessmentStaff,
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = _staff.DisplayName,
+                LevelAssessmentPerformer = createDoublingInstrumentDto.LevelAssessmentPerformer
+            });
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -194,8 +214,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.DoublingInstruments));
             result.Id.Should().NotBeEmpty();
+            result.DoublingInstruments.Count.Should().Be(1);
+            result.DoublingInstruments.First().Should().BeEquivalentTo(expectedDto.DoublingInstruments.First(), opt => opt.Excluding(dto => dto.Id));
+            result.DoublingInstruments.First().Id.Should().NotBeEmpty();
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
 

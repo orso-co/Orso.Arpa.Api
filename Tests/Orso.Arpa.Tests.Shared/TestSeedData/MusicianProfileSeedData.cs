@@ -55,6 +55,14 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 }, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
                 profile.SetProperty(nameof(MusicianProfile.BackgroundPerformer), "Background Trombonist");
                 profile.SetProperty(nameof(MusicianProfile.ProfilePreferencePerformer), (byte)3);
+                profile.DoublingInstruments.Add(new MusicianProfileSection(new Create.DoublingInstrumentCommand
+                {
+                    AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
+                    Comment = "Brass rocks",
+                    InstrumentId = SectionSeedData.BassTrombone.Id,
+                    LevelAssessmentPerformer = 3,
+                    LevelAssessmentStaff = 2,
+                }, Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d")));
                 return profile;
             }
         }

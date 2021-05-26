@@ -28,13 +28,13 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new MusicianProfileDto
+                var dto = new MusicianProfileDto
                 {
                     Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
-                    InstrumentId = SectionSeedData.Trombone.Id,
+                    InstrumentId = Guid.Parse("e20ce055-5715-42f4-97e6-4025559b15f7"),
                     LevelAssessmentPerformer = 1,
-                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[1].Id,
+                    InquiryStatusPerformerId = Guid.Parse("60c1a391-59b4-4cea-ba83-59e09f7512b6"),
                     BackgroundPerformer = "Background Trombonist",
                     ProfilePreferencePerformer = 3,
                     CreatedAt = FakeDateTime.UtcNow,
@@ -42,6 +42,18 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     IsMainProfile = false,
                     QualificationId = Guid.Parse("6304b935-633d-4bba-a90f-9bd864c867c6")
                 };
+                dto.DoublingInstruments.Add(new DoublingInstrumentDto
+                {
+                    AvailabilityId = Guid.Parse("d33ea034-0c5f-458d-bef5-26d2c12b6b03"),
+                    Comment = "Brass rocks",
+                    LevelAssessmentPerformer = 3,
+                    LevelAssessmentStaff = 2,
+                    Id = Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d"),
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    InstrumentId = Guid.Parse("da660c21-0151-4255-a81b-4d25fede199b")
+                });
+                return dto;
             }
         }
 
