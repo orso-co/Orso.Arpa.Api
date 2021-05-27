@@ -94,7 +94,7 @@ namespace Orso.Arpa.Application.Services
             return await _mediator.Send(command);
         }
 
-        public async Task<MyMusicianProfileDto> CreateAsync(MyMusicianProfileCreateDto createDto)
+        public async Task<MyMusicianProfileDto> CreateMusicianProfileAsync(MyMusicianProfileCreateDto createDto)
         {
             Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfiles.Create.Command>(createDto);
             command.PersonId = _userAccessor.PersonId;
@@ -116,8 +116,11 @@ namespace Orso.Arpa.Application.Services
 
             var query = new List.Query<MusicianProfile>(predicate, orderBy: mp => mp.OrderByDescending(m => m.IsMainProfile));
 
-            IQueryable<MusicianProfile> musicialProfile = await _mediator.Send(query);
-            return _mapper.Map<IEnumerable<MyMusicianProfileDto>>(musicialProfile);
+            IQueryable<MusicianProfile> musicianProfiles = await _mediator.Send(query);
+
+            return await musicianProfiles
+                .ProjectTo<MyMusicianProfileDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
     }
 }

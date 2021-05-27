@@ -27,7 +27,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new MyMusicianProfileDto
+                var dto = new MyMusicianProfileDto
                 {
                     Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
@@ -40,6 +40,19 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     IsMainProfile = false,
                 };
+                dto.DoublingInstruments.Add(new MyDoublingInstrumentDto
+                {
+                    AvailabilityId = Guid.Parse("d33ea034-0c5f-458d-bef5-26d2c12b6b03"),
+                    Comment = "Brass rocks",
+                    LevelAssessmentPerformer = 3,
+                    Id = Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d"),
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    InstrumentId = Guid.Parse("B525E539-7FA4-49D7-AE93-EC0748022D4D")
+                });
+                dto.PreferredPositionsPerformerIds.Add(Guid.Parse("b43fc897-ebcf-4d2a-8682-33b6337b5ab2"));
+                dto.PreferredPartsPerformer.Add(2);
+                return dto;
             }
         }
 

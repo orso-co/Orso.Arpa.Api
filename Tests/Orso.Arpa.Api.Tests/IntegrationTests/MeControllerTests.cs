@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -212,19 +213,42 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var createDto = new MyMusicianProfileCreateDto
             {
-                InstrumentId = SectionSeedData.Euphonium.Id,
+                InstrumentId = SectionSeedData.Clarinet.Id,
                 LevelAssessmentPerformer = 1,
             };
+            createDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            createDto.PreferredPartsPerformer.Add(2);
+            createDto.PreferredPartsPerformer.Add(4);
+
+            var createDoublingInstrumentDto = new MyDoublingInstrumentCreateDto
+            {
+                InstrumentId = SectionSeedData.EbClarinet.Id,
+                AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
+                LevelAssessmentPerformer = 4,
+                Comment = "my comment"
+            };
+            createDto.DoublingInstruments.Add(createDoublingInstrumentDto);
 
             var expectedDto = new MyMusicianProfileDto
             {
                 InstrumentId = createDto.InstrumentId,
                 LevelAssessmentPerformer = createDto.LevelAssessmentPerformer,
-
                 CreatedBy = _performer.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
                 PersonId = _performer.PersonId
             };
+            expectedDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            expectedDto.PreferredPartsPerformer.Add(2);
+            expectedDto.PreferredPartsPerformer.Add(4);
+            expectedDto.DoublingInstruments.Add(new MyDoublingInstrumentDto
+            {
+                AvailabilityId = createDoublingInstrumentDto.AvailabilityId,
+                Comment = createDoublingInstrumentDto.Comment,
+                InstrumentId = createDoublingInstrumentDto.InstrumentId,
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = _performer.DisplayName,
+                LevelAssessmentPerformer = createDoublingInstrumentDto.LevelAssessmentPerformer
+            });
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -234,10 +258,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
-            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+            MyMusicianProfileDto result = await DeserializeResponseMessageAsync<MyMusicianProfileDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.DoublingInstruments));
             result.Id.Should().NotBeEmpty();
+            result.DoublingInstruments.Count.Should().Be(1);
+            result.DoublingInstruments.First().Should().BeEquivalentTo(expectedDto.DoublingInstruments.First(), opt => opt.Excluding(dto => dto.Id));
+            result.DoublingInstruments.First().Id.Should().NotBeEmpty();
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
     }

@@ -115,5 +115,4 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .FiveStarRating();
         }
     }
-
 }
