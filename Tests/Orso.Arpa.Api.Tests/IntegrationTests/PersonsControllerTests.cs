@@ -195,9 +195,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 InstrumentId = createDto.InstrumentId,
                 QualificationId = createDto.QualificationId,
-                PersonId = PersonDtoData.Performer.Id,
+                PersonId = PersonDtoData.LockedOutUser.Id,
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
+                IsMainProfile = true
             };
             expectedDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
             expectedDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
@@ -219,7 +220,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonDtoData.Performer.Id), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonDtoData.LockedOutUser.Id), BuildStringContent(createDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
