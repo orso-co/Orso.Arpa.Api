@@ -47,8 +47,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 LevelAssessmentPerformer = 2,
                 LevelAssessmentStaff = 3
             });
-
-            // ToDo collections
+            dto.Body.PreferredPartsPerformer.Add(4);
+            dto.Body.PreferredPartsStaff.Add(2);
 
             // Act
             Create.Command command = _mapper.Map<Create.Command>(dto);

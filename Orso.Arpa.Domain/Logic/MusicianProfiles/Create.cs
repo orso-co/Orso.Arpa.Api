@@ -14,7 +14,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 {
     public static class Create
     {
-        public class Command : IRequest<MusicianProfile>
+        public class Command : IRequest<MusicianProfile>, IHasInstrumentRequest
         {
             public byte LevelAssessmentPerformer { get; set; }
             public byte LevelAssessmentStaff { get; set; }
@@ -26,8 +26,8 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public IList<DoublingInstrumentCommand> DoublingInstruments { get; set; } = new List<DoublingInstrumentCommand>();
             public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
             public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
-            //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-            //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
+            public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
+            public IList<byte> PreferredPartsStaff { get; set; } = new List<byte>();
         }
 
         public class DoublingInstrumentCommand
@@ -65,12 +65,16 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .SetValidator(c => new DoublingInstrumentValidator(arpaContext) { MainInstrumentId = c.InstrumentId });
 
                 RuleForEach(c => c.PreferredPositionsPerformerIds)
-                    .SelectValueSection(arpaContext, nameof(Command.PreferredPositionsPerformerIds));
+                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsPerformerIds));
 
                 RuleForEach(c => c.PreferredPositionsStaffIds)
-                    .SelectValueSection(arpaContext, nameof(Command.PreferredPositionsStaffIds));
+                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsStaffIds));
 
-                //ToDo Validation for Collections
+                RuleForEach(c => c.PreferredPartsPerformer)
+                    .InstrumentPart(arpaContext);
+
+                RuleForEach(c => c.PreferredPartsStaff)
+                    .InstrumentPart(arpaContext);
             }
         }
 

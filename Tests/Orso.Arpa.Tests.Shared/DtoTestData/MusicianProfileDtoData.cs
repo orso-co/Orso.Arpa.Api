@@ -55,6 +55,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 });
                 dto.PreferredPositionsStaffIds.Add(Guid.Parse("2e43c349-0a3b-4860-94fc-34e87a306845"));
                 dto.PreferredPositionsPerformerIds.Add(Guid.Parse("b43fc897-ebcf-4d2a-8682-33b6337b5ab2"));
+                dto.PreferredPartsStaff.Add(1);
+                dto.PreferredPartsPerformer.Add(2);
                 return dto;
             }
         }

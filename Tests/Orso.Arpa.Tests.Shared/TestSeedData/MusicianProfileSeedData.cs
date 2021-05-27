@@ -55,6 +55,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 };
                 command.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.HornCoach.Id);
                 command.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.HornHigh.Id);
+                command.PreferredPartsStaff.Add(1);
+                command.PreferredPartsPerformer.Add(2);
                 var profile = new MusicianProfile(command, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
                 profile.SetProperty(nameof(MusicianProfile.BackgroundPerformer), "Background Trombonist");
                 profile.SetProperty(nameof(MusicianProfile.ProfilePreferencePerformer), (byte)3);

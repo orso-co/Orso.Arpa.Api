@@ -27,11 +27,10 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public Guid? InquiryStatusPerformerId { get; set; }
         public Guid? InquiryStatusStaffId { get; set; }
         public IList<DoublingInstrumentDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentDto>();
-        //public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
         public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
         public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
-        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-        //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
+        public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
+        public IList<byte> PreferredPartsStaff { get; set; } = new List<byte>();
     }
 
     public class DoublingInstrumentDto : BaseEntityDto
@@ -68,11 +67,10 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.InquiryStatusStaffId, opt => opt.MapFrom(src => src.InquiryStatusStaffId))
 
                 .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
-                //.ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.MusicianProfileEducations))
                 .ForMember(dest => dest.PreferredPositionsPerformerIds, opt => opt.MapFrom(src => src.PreferredPositionsPerformer.Select(p => p.SelectValueSectionId)))
                 .ForMember(dest => dest.PreferredPositionsStaffIds, opt => opt.MapFrom(src => src.PreferredPositionsStaff.Select(p => p.SelectValueSectionId)))
-                //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer))
-                //.ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.PreferredPartsStaff))
+                .ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer))
+                .ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.PreferredPartsStaff))
 
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }

@@ -23,8 +23,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public IList<DoublingInstrumentCreateDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentCreateDto>();
         public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
         public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
-        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-        //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new HasListhSet<PreferredPart>();
+        public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
+        public IList<byte> PreferredPartsStaff { get; set; } = new List<byte>();
     }
 
     public class DoublingInstrumentCreateDto
@@ -53,9 +53,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
                 .ForMember(dest => dest.PreferredPositionsPerformerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformerIds))
                 .ForMember(dest => dest.PreferredPositionsStaffIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsStaffIds))
-                //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
-                //.ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.Body.PreferredPartsStaff))
-                ;
+                .ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
+                .ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.Body.PreferredPartsStaff));
 
             CreateMap<DoublingInstrumentCreateDto, DoublingInstrumentCommand>();
         }
@@ -96,8 +95,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 
             RuleForEach(p => p.PreferredPositionsPerformerIds)
                 .NotEmpty();
-
-            //ToDo Validation for Collections
         }
     }
 

@@ -177,6 +177,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
             createDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
             createDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
+            createDto.PreferredPartsPerformer.Add(2);
+            createDto.PreferredPartsPerformer.Add(4);
+            createDto.PreferredPartsStaff.Add(1);
 
             var createDoublingInstrumentDto = new DoublingInstrumentCreateDto
             {
@@ -198,6 +201,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
             expectedDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
             expectedDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
+            expectedDto.PreferredPartsPerformer.Add(2);
+            expectedDto.PreferredPartsPerformer.Add(4);
+            expectedDto.PreferredPartsStaff.Add(1);
             expectedDto.DoublingInstruments.Add(new DoublingInstrumentDto
             {
                 AvailabilityId = createDoublingInstrumentDto.AvailabilityId,

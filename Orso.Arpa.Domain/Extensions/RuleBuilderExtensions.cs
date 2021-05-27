@@ -57,10 +57,10 @@ namespace Orso.Arpa.Domain.Extensions
                 .WithMessage("The selected value is not valid for this field");
         }
 
-        public static IRuleBuilderOptions<TRequest, Guid> SelectValueSection<TRequest>(
+        public static IRuleBuilderOptions<TRequest, Guid> MusicianProfilePosition<TRequest>(
             this IRuleBuilderInitialCollection<TRequest, Guid> ruleBuilderInitial,
             IArpaContext arpaContext,
-            string propertyName) where TRequest : Create.Command
+            string propertyName) where TRequest : IHasInstrumentRequest
         {
             return ruleBuilderInitial
                 .EntityExists<TRequest, SelectValueSection>(arpaContext, propertyName)
@@ -68,6 +68,17 @@ namespace Orso.Arpa.Domain.Extensions
                     .FindAsync<Section>(new object[] { request.InstrumentId }, cancellation))
                     .SelectValueSections.Any(item => item.Id.Equals(selectValueSectionId)))
                 .WithMessage("The selected position is not valid for this instrument");
+        }
+
+        public static IRuleBuilderOptions<TRequest, byte> InstrumentPart<TRequest>(
+            this IRuleBuilderInitialCollection<TRequest, byte> ruleBuilderInitial,
+            IArpaContext arpaContext) where TRequest : IHasInstrumentRequest
+        {
+            return ruleBuilderInitial
+                .MustAsync(async (request, preferredPart, cancellation) => (await arpaContext
+                    .FindAsync<Section>(new object[] { request.InstrumentId }, cancellation))
+                    .InstrumentPartCount >= preferredPart)
+                .WithMessage("The selected part is not valid for this instrument");
         }
 
         private static string GetPropertyNameFromExpression(Expression expression)

@@ -5,11 +5,12 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Section : BaseEntity
     {
-        public Section(Guid? id, string name, Guid? parentId, bool isInstrument) : base(id)
+        public Section(Guid? id, string name, Guid? parentId, bool isInstrument, byte instrumentPartCount = 0) : base(id)
         {
             Name = name;
             ParentId = parentId;
             IsInstrument = isInstrument;
+            InstrumentPartCount = instrumentPartCount;
         }
 
         protected Section()
@@ -17,7 +18,8 @@ namespace Orso.Arpa.Domain.Entities
         }
 
         public string Name { get; private set; }
-        public bool IsInstrument { get; set; }
+        public bool IsInstrument { get; private set; }
+        public byte InstrumentPartCount { get; private set; }
         public Guid? ParentId { get; private set; }
         public virtual Section Parent { get; private set; }
         public virtual ICollection<Section> Children { get; private set; } = new HashSet<Section>();
