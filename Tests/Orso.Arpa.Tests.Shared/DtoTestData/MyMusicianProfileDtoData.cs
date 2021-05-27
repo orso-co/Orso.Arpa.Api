@@ -23,7 +23,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static MyMusicianProfileDto PerformersTromboneMusicianProfile
+        public static MyMusicianProfileDto PerformersHornMusicianProfile
         {
             get
             {
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
-                    InstrumentId = SectionSeedData.Trombone.Id,
+                    InstrumentId = Guid.Parse("b9532add-efec-4510-831c-902c32ef7dbb"),
                     LevelAssessmentPerformer = 1,
                     InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[1].Id,
                     BackgroundPerformer = "Background Trombonist",

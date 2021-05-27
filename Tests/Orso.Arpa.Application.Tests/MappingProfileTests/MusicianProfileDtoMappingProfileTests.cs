@@ -31,8 +31,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            MusicianProfile musicianProfile = FakeMusicianProfiles.PerformerTromboneMusicianProfile;
-            MusicianProfileDto expectedDto = MusicianProfileDtoData.PerformersTromboneMusicianProfile;
+            MusicianProfile musicianProfile = FakeMusicianProfiles.PerformerHornMusicianProfile;
+            MusicianProfileDto expectedDto = MusicianProfileDtoData.PerformersHornMusicianProfile;
 
             // Act
             MusicianProfileDto mappedDto = _mapper.Map<MusicianProfileDto>(musicianProfile);

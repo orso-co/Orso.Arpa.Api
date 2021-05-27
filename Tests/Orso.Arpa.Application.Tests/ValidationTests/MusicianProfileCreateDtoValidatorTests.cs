@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.MusicianProfileApplication;
@@ -100,6 +101,30 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         public void Should_Not_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentStaff_Is_In_Range([Values(0, 1, 5)] byte x)
         {
             _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(command => command.LevelAssessmentStaff, x);
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_PreferredPositionsPerformer_Contains_Empty_Guid()
+        {
+            _bodyValidator.ShouldHaveValidationErrorFor(dto => dto.PreferredPositionsPerformerIds, new List<Guid>() { Guid.Empty });
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_PreferredPositionsPerformer_Contains_Valid_Guid()
+        {
+            _bodyValidator.ShouldNotHaveValidationErrorFor(dto => dto.PreferredPositionsPerformerIds, new List<Guid>() { Guid.NewGuid() });
+        }
+
+        [Test]
+        public void Should_Have_Validation_Error_If_PreferredPositionsStaff_Contains_Empty_Guid()
+        {
+            _bodyValidator.ShouldHaveValidationErrorFor(dto => dto.PreferredPositionsStaffIds, new List<Guid>() { Guid.Empty });
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_PreferredPositionsStaff_Contains_Valid_Guid()
+        {
+            _bodyValidator.ShouldNotHaveValidationErrorFor(dto => dto.PreferredPositionsStaffIds, new List<Guid>() { Guid.NewGuid() });
         }
     }
 }

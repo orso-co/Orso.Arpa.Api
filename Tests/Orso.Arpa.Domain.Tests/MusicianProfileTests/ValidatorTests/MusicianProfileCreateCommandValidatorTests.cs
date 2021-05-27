@@ -285,5 +285,97 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         #endregion
+
+        #region PreferredPositionsStaff
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Invalid_Preferred_Position_Staff_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
+            _validator.ShouldHaveValidationErrorFor(cmd => cmd.PreferredPositionsStaffIds, new Command
+            {
+                InstrumentId = SectionSeedData.Accordion.Id,
+                PreferredPositionsStaffIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
+            }).WithErrorMessage("The selected position is not valid for this instrument");
+        }
+
+        [Test]
+        public void Should_Throw_NotFoundException_If_Preferred_Position_Staff_Does_Not_Exist()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
+            _validator.ShouldThrowNotFoundExceptionFor(cmd => cmd.PreferredPositionsStaffIds, new Command
+            {
+                InstrumentId = SectionSeedData.Accordion.Id,
+                PreferredPositionsStaffIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
+            }, nameof(SelectValueSection));
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_Preferred_Position_Staff_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Horn);
+            _validator.ShouldNotHaveValidationErrorFor(cmd => cmd.PreferredPositionsStaffIds, new Command
+            {
+                InstrumentId = SectionSeedData.Horn.Id,
+                PreferredPositionsStaffIds = new List<Guid> { SelectValueSectionSeedData.HornLow.Id }
+            });
+        }
+
+        #endregion
+
+        #region PreferredPositionsPerformer
+
+        [Test]
+        public void Should_Have_Validation_Error_If_Invalid_Preferred_Position_Performer_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
+            _validator.ShouldHaveValidationErrorFor(cmd => cmd.PreferredPositionsPerformerIds, new Command
+            {
+                InstrumentId = SectionSeedData.Accordion.Id,
+                PreferredPositionsPerformerIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
+            }).WithErrorMessage("The selected position is not valid for this instrument");
+        }
+
+        [Test]
+        public void Should_Throw_NotFoundException_If_Preferred_Position_Performer_Does_Not_Exist()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
+            _validator.ShouldThrowNotFoundExceptionFor(cmd => cmd.PreferredPositionsPerformerIds, new Command
+            {
+                InstrumentId = SectionSeedData.Accordion.Id,
+                PreferredPositionsPerformerIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
+            }, nameof(SelectValueSection));
+        }
+
+        [Test]
+        public void Should_Not_Have_Validation_Error_If_Valid_Preferred_Position_Performer_Is_Supplied()
+        {
+            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Horn);
+            _validator.ShouldNotHaveValidationErrorFor(cmd => cmd.PreferredPositionsPerformerIds, new Command
+            {
+                InstrumentId = SectionSeedData.Horn.Id,
+                PreferredPositionsPerformerIds = new List<Guid> { SelectValueSectionSeedData.HornLow.Id }
+            });
+        }
+
+        #endregion
     }
 }

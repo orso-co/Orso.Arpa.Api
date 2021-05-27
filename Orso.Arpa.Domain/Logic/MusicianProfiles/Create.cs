@@ -24,8 +24,8 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public Guid? InquiryStatusPerformerId { get; set; }
             public Guid? InquiryStatusStaffId { get; set; }
             public IList<DoublingInstrumentCommand> DoublingInstruments { get; set; } = new List<DoublingInstrumentCommand>();
-            //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-            //public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
+            public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
+            public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
             //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
             //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
         }
@@ -63,6 +63,12 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 
                 RuleForEach(c => c.DoublingInstruments)
                     .SetValidator(c => new DoublingInstrumentValidator(arpaContext) { MainInstrumentId = c.InstrumentId });
+
+                RuleForEach(c => c.PreferredPositionsPerformerIds)
+                    .SelectValueSection(arpaContext, nameof(Command.PreferredPositionsPerformerIds));
+
+                RuleForEach(c => c.PreferredPositionsStaffIds)
+                    .SelectValueSection(arpaContext, nameof(Command.PreferredPositionsStaffIds));
 
                 //ToDo Validation for Collections
             }

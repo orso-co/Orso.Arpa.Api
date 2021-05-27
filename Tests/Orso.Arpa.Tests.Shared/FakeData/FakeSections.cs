@@ -17,5 +17,18 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 return flute;
             }
         }
+
+        public static Section Horn
+        {
+            get
+            {
+                Section horn = SectionSeedData.Horn;
+                horn.SelectValueSections.Add(SelectValueSectionSeedData.HornCoach);
+                horn.SelectValueSections.Add(SelectValueSectionSeedData.HornHigh);
+                horn.SelectValueSections.Add(SelectValueSectionSeedData.HornLow);
+                horn.SelectValueSections.Add(SelectValueSectionSeedData.HornSolo);
+                return horn;
+            }
+        }
     }
 }

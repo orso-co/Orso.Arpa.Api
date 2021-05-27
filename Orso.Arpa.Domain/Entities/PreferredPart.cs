@@ -4,7 +4,7 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class PreferredPart : BaseEntity
     {
-        public PreferredPart(Guid? id, MusicianProfile musicianProfile, InstrumentPart part) : base(id)
+        public PreferredPart(Guid? id, MusicianProfile musicianProfile, SelectValueSection part) : base(id)
         {
             MusicianProfile = musicianProfile;
             Part = part;
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Domain.Entities
 
 
         public Guid? PartId { get; private set; }
-        public virtual InstrumentPart Part { get; private set; }
+        public virtual SelectValueSection Part { get; private set; }
 
         public Guid MusicianProfileId { get; private set; }
         public virtual MusicianProfile MusicianProfile { get; private set; }

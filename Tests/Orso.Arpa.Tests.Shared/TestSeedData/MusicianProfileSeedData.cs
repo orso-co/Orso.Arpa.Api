@@ -16,7 +16,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new List<MusicianProfile>
                 {
                     PerformerMusicianProfile,
-                    PerformersTromboneMusicianProfile,
+                    PerformersHornMusicianProfile,
                     PerformersDeactivatedTubaProfile,
                     StaffMusicianProfile1,
                     StaffMusicianProfile2,
@@ -41,25 +41,28 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static MusicianProfile PerformersTromboneMusicianProfile
+        public static MusicianProfile PerformersHornMusicianProfile
         {
             get
             {
-                var profile = new MusicianProfile(new Create.Command
+                var command = new Create.Command
                 {
                     PersonId = PersonTestSeedData.Performer.Id,
-                    InstrumentId = SectionSeedData.Trombone.Id,
+                    InstrumentId = SectionSeedData.Horn.Id,
                     LevelAssessmentPerformer = 1,
                     InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[1].Id,
-                    QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[1].Id,
-                }, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
+                    QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[1].Id
+                };
+                command.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.HornCoach.Id);
+                command.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.HornHigh.Id);
+                var profile = new MusicianProfile(command, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
                 profile.SetProperty(nameof(MusicianProfile.BackgroundPerformer), "Background Trombonist");
                 profile.SetProperty(nameof(MusicianProfile.ProfilePreferencePerformer), (byte)3);
                 profile.DoublingInstruments.Add(new MusicianProfileSection(new Create.DoublingInstrumentCommand
                 {
                     AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
                     Comment = "Brass rocks",
-                    InstrumentId = SectionSeedData.BassTrombone.Id,
+                    InstrumentId = SectionSeedData.BaritoneHorn.Id,
                     LevelAssessmentPerformer = 3,
                     LevelAssessmentStaff = 2,
                 }, Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d")));

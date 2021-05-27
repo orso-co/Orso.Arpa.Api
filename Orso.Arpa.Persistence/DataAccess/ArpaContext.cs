@@ -38,34 +38,39 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<AvailableDocument> AvailableDocuments { get; set; }
         public DbSet<CurriculumVitaeReference> CurriculumVitaeReference { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
         public DbSet<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; }
         public DbSet<MusicianProfileEducation> MusicianProfileEducations { get; set; }
+        public DbSet<MusicianProfilePositionPerformer> MusicianProfilePositionsPerformer { get; set; }
+        public DbSet<MusicianProfilePositionStaff> MusicianProfilePositionsStaff { get; set; }
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonAddress> PersonAddresses { get; set; }
         public DbSet<PersonSection> PersonSections { get; set; }
-        public DbSet<Position> Positions { get; set; }
+        public DbSet<PreferredGenre> PreferredGenres { get; set; }
+        public DbSet<PreferredPart> PreferredParts { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectAppointment> ProjectAppointments { get; set; }
         public DbSet<ProjectParticipation> ProjectParticipations { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Region> Regions { get; set; }
+        public DbSet<RegionPreferencePerformance> RegionPreferencesPerformance { get; set; }
+        public DbSet<RegionPreferenceRehearsal> RegionPreferencesRehearsal { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<SectionAppointment> SectionAppointments { get; set; }
         public DbSet<SelectValue> SelectValues { get; set; }
         public DbSet<SelectValueCategory> SelectValueCategories { get; set; }
         public DbSet<SelectValueMapping> SelectValueMappings { get; set; }
-        public DbSet<RegionPreferencePerformance> RegionPreferencePerformances { get; set; }
-        public DbSet<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; set; }
+        public DbSet<SelectValueSection> SelectValueSections { get; set; }
         public DbSet<Url> Urls { get; set; }
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
-        public DbSet<AuditLog> AuditLogs { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

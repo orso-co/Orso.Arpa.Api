@@ -20,11 +20,11 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             }
         }
 
-        public static MusicianProfile PerformerTromboneMusicianProfile
+        public static MusicianProfile PerformerHornMusicianProfile
         {
             get
             {
-                MusicianProfile profile = MusicianProfileSeedData.PerformersTromboneMusicianProfile;
+                MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
                 MusicianProfileSection doublingInstrument = profile.DoublingInstruments.First();
                 doublingInstrument.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
                 doublingInstrument.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);

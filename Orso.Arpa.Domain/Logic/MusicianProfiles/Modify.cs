@@ -46,7 +46,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             #region Collection
             public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
             public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
-            public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
+            public IList<MusicianProfilePositionStaff> PreferredPositionsPerformer { get; set; } = new List<MusicianProfilePositionStaff>();
             //public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
             public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
             //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();

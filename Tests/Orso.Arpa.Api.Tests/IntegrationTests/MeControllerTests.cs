@@ -106,12 +106,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 yield return new TestCaseData(false, new List<MyMusicianProfileDto> {
                     MyMusicianProfileDtoData.PerformerProfile,
-                    MyMusicianProfileDtoData.PerformersTromboneMusicianProfile,
+                    MyMusicianProfileDtoData.PerformersHornMusicianProfile,
                     });
                 yield return new TestCaseData(true, new List<MyMusicianProfileDto> {
                     MyMusicianProfileDtoData.PerformerProfile,
                     MyMusicianProfileDtoData.PerformersDeactivatedTubaProfile,
-                    MyMusicianProfileDtoData.PerformersTromboneMusicianProfile
+                    MyMusicianProfileDtoData.PerformersHornMusicianProfile
                     });
             }
         }

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Orso.Arpa.Domain.Entities;
 
-namespace Orso.Arpa.Persistence.Configurations
+namespace Orso.Arpa.Persistence.EntityConfigurations
 {
     public class MusicianProfileCurriculumVitaeReferenceConfiguration : IEntityTypeConfiguration<MusicianProfileCurriculumVitaeReference>
     {

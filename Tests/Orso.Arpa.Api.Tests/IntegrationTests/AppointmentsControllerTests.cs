@@ -399,7 +399,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
             AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
-            performerParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Trombone", Qualification = "Student" });
+            performerParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Horn", Qualification = "Student" });
             performerParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Tuba" });
             performerParticipation.Participation = null;
             expectedDto.Participations.Add(performerParticipation);

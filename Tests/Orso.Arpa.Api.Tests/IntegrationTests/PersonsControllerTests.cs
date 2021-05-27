@@ -58,12 +58,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 yield return new TestCaseData(false, new List<MusicianProfileDto> {
                     MusicianProfileDtoData.PerformerProfile,
-                    MusicianProfileDtoData.PerformersTromboneMusicianProfile,
+                    MusicianProfileDtoData.PerformersHornMusicianProfile,
                     });
                 yield return new TestCaseData(true, new List<MusicianProfileDto> {
                     MusicianProfileDtoData.PerformerProfile,
                     MusicianProfileDtoData.PerformersDeactivatedTubaProfile,
-                    MusicianProfileDtoData.PerformersTromboneMusicianProfile
+                    MusicianProfileDtoData.PerformersHornMusicianProfile
                     });
             }
         }
@@ -172,12 +172,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var createDto = new MusicianProfileCreateBodyDto
             {
-                InstrumentId = SectionSeedData.Euphonium.Id,
+                InstrumentId = SectionSeedData.Clarinet.Id,
                 QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
             };
+            createDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            createDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
+
             var createDoublingInstrumentDto = new DoublingInstrumentCreateDto
             {
-                InstrumentId = SectionSeedData.TenorHorn.Id,
+                InstrumentId = SectionSeedData.EbClarinet.Id,
                 AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
                 LevelAssessmentStaff = 3,
                 LevelAssessmentPerformer = 4,
@@ -193,6 +196,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
             };
+            expectedDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            expectedDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
             expectedDto.DoublingInstruments.Add(new DoublingInstrumentDto
             {
                 AvailabilityId = createDoublingInstrumentDto.AvailabilityId,

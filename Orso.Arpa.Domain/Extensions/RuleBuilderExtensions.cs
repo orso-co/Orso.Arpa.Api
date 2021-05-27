@@ -6,6 +6,7 @@ using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Domain.Extensions
 {
@@ -54,6 +55,19 @@ namespace Orso.Arpa.Domain.Extensions
                     .SingleAsync(category => category.Table == typeof(TEntity).Name && category.Property == propertyName, cancellation))
                     .SelectValueMappings.Any(mapping => mapping.Id == selectValueMappingId.Value))
                 .WithMessage("The selected value is not valid for this field");
+        }
+
+        public static IRuleBuilderOptions<TRequest, Guid> SelectValueSection<TRequest>(
+            this IRuleBuilderInitialCollection<TRequest, Guid> ruleBuilderInitial,
+            IArpaContext arpaContext,
+            string propertyName) where TRequest : Create.Command
+        {
+            return ruleBuilderInitial
+                .EntityExists<TRequest, SelectValueSection>(arpaContext, propertyName)
+                .MustAsync(async (request, selectValueSectionId, cancellation) => (await arpaContext
+                    .FindAsync<Section>(new object[] { request.InstrumentId }, cancellation))
+                    .SelectValueSections.Any(item => item.Id.Equals(selectValueSectionId)))
+                .WithMessage("The selected position is not valid for this instrument");
         }
 
         private static string GetPropertyNameFromExpression(Expression expression)

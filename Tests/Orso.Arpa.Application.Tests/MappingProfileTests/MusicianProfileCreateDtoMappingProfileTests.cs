@@ -37,6 +37,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     InquiryStatusStaffId = Guid.NewGuid(),
                 }
             };
+            dto.Body.PreferredPositionsPerformerIds.Add(Guid.NewGuid());
+            dto.Body.PreferredPositionsStaffIds.Add(Guid.NewGuid());
             dto.Body.DoublingInstruments.Add(new DoublingInstrumentCreateDto
             {
                 AvailabilityId = Guid.NewGuid(),

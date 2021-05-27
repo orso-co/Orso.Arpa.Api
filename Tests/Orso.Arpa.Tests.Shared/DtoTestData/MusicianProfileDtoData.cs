@@ -24,7 +24,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static MusicianProfileDto PerformersTromboneMusicianProfile
+        public static MusicianProfileDto PerformersHornMusicianProfile
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
-                    InstrumentId = Guid.Parse("e20ce055-5715-42f4-97e6-4025559b15f7"),
+                    InstrumentId = Guid.Parse("b9532add-efec-4510-831c-902c32ef7dbb"),
                     LevelAssessmentPerformer = 1,
                     InquiryStatusPerformerId = Guid.Parse("60c1a391-59b4-4cea-ba83-59e09f7512b6"),
                     BackgroundPerformer = "Background Trombonist",
@@ -51,8 +51,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Id = Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d"),
                     CreatedAt = FakeDateTime.UtcNow,
                     CreatedBy = "anonymous",
-                    InstrumentId = Guid.Parse("da660c21-0151-4255-a81b-4d25fede199b")
+                    InstrumentId = Guid.Parse("B525E539-7FA4-49D7-AE93-EC0748022D4D")
                 });
+                dto.PreferredPositionsStaffIds.Add(Guid.Parse("2e43c349-0a3b-4860-94fc-34e87a306845"));
+                dto.PreferredPositionsPerformerIds.Add(Guid.Parse("b43fc897-ebcf-4d2a-8682-33b6337b5ab2"));
                 return dto;
             }
         }
