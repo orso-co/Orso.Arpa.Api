@@ -22,10 +22,10 @@ namespace Orso.Arpa.Application.Services
             _mediator = mediator;
         }
 
-        public async Task<IEnumerable<AuditLogDto>> GetAsync(Guid entityId, int? skip, int? take)
+        public async Task<IEnumerable<AuditLogDto>> GetAsync(Guid? entityId, int? skip, int? take)
         {
             IQueryable<AuditLog> entities = await _mediator.Send(new List.Query<AuditLog>(
-                predicate: v => v.KeyValues.Contains(entityId.ToString()),
+                predicate: entityId == null ? null : v => v.KeyValues.Contains(entityId.ToString()),
                 orderBy: v => v.OrderByDescending(v => v.CreatedAt),
                 skip: skip ?? 0,
                 take: take ?? 25));
