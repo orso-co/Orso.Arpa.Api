@@ -92,7 +92,22 @@ namespace Orso.Arpa.Persistence.Seed
                     Diploma,
                     Photo,
                     Video,
-                    Audio
+                    Audio,
+                    PrivateOwnership,
+                    NeedToBorrow,
+                    ProvisionByStaff,
+                    Solo,
+                    High,
+                    Low,
+                    Coach,
+                    Tutti,
+                    FirstSection,
+                    SecondSection,
+                    SectionLead,
+                    ConcertMaster,
+                    SecondConcertMaster,
+                    OrchestraPiano,
+                    Accompaniment
                 };
             }
         }
@@ -399,5 +414,20 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue Audio => new(Guid.Parse("3550443d-5acf-4159-bd59-d7da04dd9434"), "Audio", string.Empty);
         public static SelectValue Video => new(Guid.Parse("d075dda3-ba29-472b-a699-1f92c1af13a9"), "Video", string.Empty);
         public static SelectValue Photo => new(Guid.Parse("e340f76d-074b-40e8-85b0-1bb66a596a06"), "Photo", string.Empty);
+        public static SelectValue PrivateOwnership => new(Guid.Parse("6fbab698-993f-4268-a28e-b1f1599771c5"), "Private ownership", string.Empty);
+        public static SelectValue NeedToBorrow => new(Guid.Parse("e7442e9b-8c54-41ed-8607-accba2d04f61"), "Need to borrow", string.Empty);
+        public static SelectValue ProvisionByStaff => new(Guid.Parse("28927b59-a999-4f84-abca-4f146888457f"), "Provision by staff", string.Empty);
+        public static SelectValue Solo => new(Guid.Parse("9353f2ee-f074-488b-a359-f2fc6f66da51"), "Solo", string.Empty);
+        public static SelectValue High => new(Guid.Parse("a0e02d9f-03b5-49e0-9ae8-b34a419bc203"), "High", string.Empty);
+        public static SelectValue Low => new(Guid.Parse("959e5b30-6ad1-4102-8dce-f1395b8ae73e"), "Low", string.Empty);
+        public static SelectValue Coach => new(Guid.Parse("a89a8323-4c82-4e55-8ef1-6d7150f564e9"), "Coach", string.Empty);
+        public static SelectValue Tutti => new(Guid.Parse("5a4a1318-2f23-45b0-8329-3eec0f446389"), "Tutti", string.Empty);
+        public static SelectValue FirstSection => new(Guid.Parse("b85984d6-4390-44f9-bd92-5d1000cb4d3f"), "1st section", string.Empty);
+        public static SelectValue SecondSection => new(Guid.Parse("4a9de438-ccce-4a95-873a-c8befb933067"), "2nd section", string.Empty);
+        public static SelectValue SectionLead => new(Guid.Parse("36c6963d-a08c-4394-823a-1d24ba8330b4"), "Section lead", string.Empty);
+        public static SelectValue ConcertMaster => new(Guid.Parse("fc2c8cf2-3189-44de-a124-2debe1d7b057"), "Concert master", string.Empty);
+        public static SelectValue SecondConcertMaster => new(Guid.Parse("9ed94828-9deb-49a9-9a65-ecb83620c82e"), "2nd concert master", string.Empty);
+        public static SelectValue OrchestraPiano => new(Guid.Parse("ebae975b-d9a3-4d2f-b0a3-beff554e7041"), "Orchestra piano", string.Empty);
+        public static SelectValue Accompaniment => new(Guid.Parse("61dab188-a07d-4a58-8ec9-c54050e914ac"), "Accompaniment", string.Empty);
     }
 }

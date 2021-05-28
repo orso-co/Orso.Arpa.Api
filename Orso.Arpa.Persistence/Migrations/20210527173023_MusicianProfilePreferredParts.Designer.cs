@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -9,9 +10,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20210527173023_MusicianProfilePreferredParts")]
+    partial class MusicianProfilePreferredParts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1256,6 +1258,55 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasDatabaseName("ix_preferred_genres_select_value_mapping_id");
 
                     b.ToTable("preferred_genres");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredPart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
+
+                    b.Property<Guid?>("PartId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("part_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_preferred_parts");
+
+                    b.HasIndex("MusicianProfileId")
+                        .HasDatabaseName("ix_preferred_parts_musician_profile_id");
+
+                    b.HasIndex("PartId")
+                        .HasDatabaseName("ix_preferred_parts_part_id");
+
+                    b.ToTable("preferred_parts");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Project", b =>
@@ -5823,6 +5874,25 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("MusicianProfile");
 
                     b.Navigation("SelectValueMapping");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PreferredPart", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany()
+                        .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_preferred_parts_musician_profiles_musician_profile_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueSection", "Part")
+                        .WithMany()
+                        .HasForeignKey("PartId")
+                        .HasConstraintName("fk_preferred_parts_select_value_sections_part_id");
+
+                    b.Navigation("MusicianProfile");
+
+                    b.Navigation("Part");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Project", b =>

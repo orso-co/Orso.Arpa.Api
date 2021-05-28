@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Domain.Entities
@@ -16,11 +17,11 @@ namespace Orso.Arpa.Domain.Entities
             InquiryStatusPerformerId = command.InquiryStatusPerformerId;
             InquiryStatusStaffId = command.InquiryStatusStaffId;
             IsMainProfile = isMainProfile;
-            //DoublingInstruments = command.DoublingInstruments;
-            //PreferredPositionsPerformer = command.PreferredPositionsPerformer;
-            //PreferredPositionsStaff = command.PreferredPositionsStaff;
-            //PreferredPartsPerformer = command.PreferredPartsPerformer;
-            //PreferredPartsStaff = command.PreferredPartsStaff;
+            DoublingInstruments = command.DoublingInstruments.Select(i => new MusicianProfileSection(i)).ToList();
+            PreferredPositionsPerformer = command.PreferredPositionsPerformerIds.Select(i => new MusicianProfilePositionPerformer(i, Id)).ToList();
+            PreferredPositionsStaff = command.PreferredPositionsStaffIds.Select(i => new MusicianProfilePositionStaff(i, Id)).ToList();
+            PreferredPartsPerformer = command.PreferredPartsPerformer.ToArray();
+            PreferredPartsStaff = command.PreferredPartsStaff.ToArray();
         }
 
         public MusicianProfile()
@@ -39,6 +40,10 @@ namespace Orso.Arpa.Domain.Entities
         public string BackgroundPerformer { get; private set; }
         public string BackgroundStaff { get; private set; }
         public string SalaryComment { get; private set; }
+
+        public byte[] PreferredPartsPerformer { get; private set; } = Array.Empty<byte>();
+        public byte[] PreferredPartsStaff { get; private set; } = Array.Empty<byte>();
+
         #endregion
 
         #region Reference
@@ -64,11 +69,8 @@ namespace Orso.Arpa.Domain.Entities
         #region Collection
         public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; private set; } = new HashSet<MusicianProfileSection>();
         public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; private set; } = new HashSet<MusicianProfileEducation>();
-        public virtual ICollection<PreferredPosition> PreferredPositionsPerformer { get; private set; } = new HashSet<PreferredPosition>();
-        //public virtual ICollection<PreferredPosition> PreferredPositionsStaff { get; private set; } = new HashSet<PreferredPosition>();
-        public virtual ICollection<PreferredPart> PreferredPartsPerformer { get; private set; } = new HashSet<PreferredPart>();
-        //ToDo: oder hier direkt: public virtual ICollection<InstrumentPart> PreferredPartsPerformer { get; private set; } = new HashSet<InstrumentPart>();
-        //public virtual ICollection<PreferredPart> PreferredPartsStaff { get; private set; } = new HashSet<PreferredPart>();
+        public virtual ICollection<MusicianProfilePositionPerformer> PreferredPositionsPerformer { get; private set; } = new HashSet<MusicianProfilePositionPerformer>();
+        public virtual ICollection<MusicianProfilePositionStaff> PreferredPositionsStaff { get; private set; } = new HashSet<MusicianProfilePositionStaff>();
 
         //Todo: ARPA-325
         public virtual ICollection<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; private set; } = new HashSet<MusicianProfileCurriculumVitaeReference>();

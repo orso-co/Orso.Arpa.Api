@@ -29,7 +29,8 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     MusicianProfileInquiryStatusStaff,
                     MusicianProfileAvailableDocuments,
                     AuditionStatus,
-                    AuditionRepetitorStatus
+                    AuditionRepetitorStatus,
+                    MusicianProfileSectionInstrumentAvailability
                 };
             }
         }
@@ -141,5 +142,11 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(Audition),
             nameof(Audition.RepetitorStatus),
             "Repetitor status");
+
+        public static SelectValueCategory MusicianProfileSectionInstrumentAvailability => new(
+            Guid.Parse("e3756ad6-de58-4c22-9a7c-363bc33c613c"),
+            nameof(MusicianProfileSection),
+            nameof(MusicianProfileSection.InstrumentAvailability),
+            "Instrument Availability");
     }
 }

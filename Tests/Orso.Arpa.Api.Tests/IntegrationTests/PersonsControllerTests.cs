@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -57,12 +58,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 yield return new TestCaseData(false, new List<MusicianProfileDto> {
                     MusicianProfileDtoData.PerformerProfile,
-                    MusicianProfileDtoData.PerformersTromboneMusicianProfile,
+                    MusicianProfileDtoData.PerformersHornMusicianProfile,
                     });
                 yield return new TestCaseData(true, new List<MusicianProfileDto> {
                     MusicianProfileDtoData.PerformerProfile,
                     MusicianProfileDtoData.PerformersDeactivatedTubaProfile,
-                    MusicianProfileDtoData.PerformersTromboneMusicianProfile
+                    MusicianProfileDtoData.PerformersHornMusicianProfile
                     });
             }
         }
@@ -171,31 +172,65 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var createDto = new MusicianProfileCreateBodyDto
             {
-                InstrumentId = SectionSeedData.Euphonium.Id,
+                InstrumentId = SectionSeedData.Clarinet.Id,
                 QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
             };
+            createDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            createDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
+            createDto.PreferredPartsPerformer.Add(2);
+            createDto.PreferredPartsPerformer.Add(4);
+            createDto.PreferredPartsStaff.Add(1);
+
+            var createDoublingInstrumentDto = new DoublingInstrumentCreateDto
+            {
+                InstrumentId = SectionSeedData.EbClarinet.Id,
+                AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
+                LevelAssessmentStaff = 3,
+                LevelAssessmentPerformer = 4,
+                Comment = "my comment"
+            };
+            createDto.DoublingInstruments.Add(createDoublingInstrumentDto);
 
             var expectedDto = new MusicianProfileDto
             {
                 InstrumentId = createDto.InstrumentId,
                 QualificationId = createDto.QualificationId,
-                PersonId = PersonDtoData.Performer.Id,
+                PersonId = PersonDtoData.LockedOutUser.Id,
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
+                IsMainProfile = true
             };
+            expectedDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            expectedDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
+            expectedDto.PreferredPartsPerformer.Add(2);
+            expectedDto.PreferredPartsPerformer.Add(4);
+            expectedDto.PreferredPartsStaff.Add(1);
+            expectedDto.DoublingInstruments.Add(new DoublingInstrumentDto
+            {
+                AvailabilityId = createDoublingInstrumentDto.AvailabilityId,
+                Comment = createDoublingInstrumentDto.Comment,
+                InstrumentId = createDoublingInstrumentDto.InstrumentId,
+                LevelAssessmentStaff = createDoublingInstrumentDto.LevelAssessmentStaff,
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = _staff.DisplayName,
+                LevelAssessmentPerformer = createDoublingInstrumentDto.LevelAssessmentPerformer
+            });
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonDtoData.Performer.Id), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonDtoData.LockedOutUser.Id), BuildStringContent(createDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.DoublingInstruments));
             result.Id.Should().NotBeEmpty();
+            result.DoublingInstruments.Count.Should().Be(1);
+            result.DoublingInstruments.First().Should().BeEquivalentTo(expectedDto.DoublingInstruments.First(), opt => opt.Excluding(dto => dto.Id));
+            result.DoublingInstruments.First().Id.Should().NotBeEmpty();
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
 

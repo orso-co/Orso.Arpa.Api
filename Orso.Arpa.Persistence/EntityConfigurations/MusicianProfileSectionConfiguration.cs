@@ -23,6 +23,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasForeignKey(e => e.MusicianProfileId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
+
+            builder
+                .HasOne(a => a.InstrumentAvailability)
+                .WithMany(r => r.MusicianProfileSections)
+                .HasForeignKey(a => a.InstrumentAvailabilityId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -2,7 +2,7 @@ using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -10,16 +10,16 @@ using Orso.Arpa.Tests.Shared.FakeData;
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
     [TestFixture]
-    public class MusicianProfileDtoMappingProfileTests
+    public class MyMusicianProfileDtoMappingProfileTests
     {
         [SetUp]
         public void Setup()
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<MusicianProfileDtoMappingProfile>();
+                cfg.AddProfile<MyMusicianProfileDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
-                cfg.AddProfile<DoublingInstrumentDtoMappingProfile>();
+                cfg.AddProfile<MyDoublingInstrumentDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);
@@ -32,10 +32,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             MusicianProfile musicianProfile = FakeMusicianProfiles.PerformerHornMusicianProfile;
-            MusicianProfileDto expectedDto = MusicianProfileDtoData.PerformersHornMusicianProfile;
+            MyMusicianProfileDto expectedDto = MyMusicianProfileDtoData.PerformersHornMusicianProfile;
 
             // Act
-            MusicianProfileDto mappedDto = _mapper.Map<MusicianProfileDto>(musicianProfile);
+            MyMusicianProfileDto mappedDto = _mapper.Map<MyMusicianProfileDto>(musicianProfile);
 
             // Assert
             mappedDto.Should().BeEquivalentTo(expectedDto);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
@@ -19,11 +20,20 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public Guid QualificationId { get; set; }
         public Guid? InquiryStatusPerformerId { get; set; }
         public Guid? InquiryStatusStaffId { get; set; }
-        //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-        //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-        ////public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
-        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-        //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new HasListhSet<PreferredPart>();
+        public IList<DoublingInstrumentCreateDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentCreateDto>();
+        public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
+        public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
+        public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
+        public IList<byte> PreferredPartsStaff { get; set; } = new List<byte>();
+    }
+
+    public class DoublingInstrumentCreateDto
+    {
+        public Guid InstrumentId { get; set; }
+        public byte LevelAssessmentPerformer { get; set; }
+        public byte LevelAssessmentStaff { get; set; }
+        public Guid? AvailabilityId { get; set; }
+        public string Comment { get; set; }
     }
 
     public class MusicianProfileCreateDtoMappingProfile : Profile
@@ -40,12 +50,13 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.Body.InquiryStatusPerformerId))
                 .ForMember(dest => dest.InquiryStatusStaffId, opt => opt.MapFrom(src => src.Body.InquiryStatusStaffId))
 
-                //.ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
-                //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformer))
-                //.ForMember(dest => dest.PreferredPositionsStaff, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
-                //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
-                //.ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.Body.PreferredPartsStaff))
-                ;
+                .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
+                .ForMember(dest => dest.PreferredPositionsPerformerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformerIds))
+                .ForMember(dest => dest.PreferredPositionsStaffIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsStaffIds))
+                .ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
+                .ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.Body.PreferredPartsStaff));
+
+            CreateMap<DoublingInstrumentCreateDto, DoublingInstrumentCommand>();
         }
     }
 
@@ -76,8 +87,32 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleFor(p => p.QualificationId)
                .NotEmpty();
 
-            //ToDo Validation for Collections
+            RuleForEach(p => p.DoublingInstruments)
+                .SetValidator(new DoublingInstrumentCreateDtoValidator());
+
+            RuleForEach(p => p.PreferredPositionsStaffIds)
+                .NotEmpty();
+
+            RuleForEach(p => p.PreferredPositionsPerformerIds)
+                .NotEmpty();
         }
     }
 
+    public class DoublingInstrumentCreateDtoValidator : AbstractValidator<DoublingInstrumentCreateDto>
+    {
+        public DoublingInstrumentCreateDtoValidator()
+        {
+            RuleFor(dto => dto.Comment)
+                .MaximumLength(500);
+
+            RuleFor(dto => dto.InstrumentId)
+                .NotEmpty();
+
+            RuleFor(dto => dto.LevelAssessmentPerformer)
+                .FiveStarRating();
+
+            RuleFor(dto => dto.LevelAssessmentStaff)
+                .FiveStarRating();
+        }
+    }
 }

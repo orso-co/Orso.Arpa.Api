@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
@@ -11,9 +12,17 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public byte LevelAssessmentPerformer { get; set; }
         public Guid InstrumentId { get; set; }
         public Guid? InquiryStatusPerformerId { get; set; }
-        //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-        //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
+        public IList<MyDoublingInstrumentCreateDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentCreateDto>();
+        public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
+        public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
+    }
+
+    public class MyDoublingInstrumentCreateDto
+    {
+        public Guid InstrumentId { get; set; }
+        public byte LevelAssessmentPerformer { get; set; }
+        public Guid? AvailabilityId { get; set; }
+        public string Comment { get; set; }
     }
 
     public class MyMusicianProfileCreateDtoMappingProfile : Profile
@@ -26,10 +35,11 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
                 .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.InquiryStatusPerformerId))
 
-                //.ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
-                //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformer))
-                //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
-                ;
+                .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
+                .ForMember(dest => dest.PreferredPositionsPerformerIds, opt => opt.MapFrom(src => src.PreferredPositionsPerformerIds))
+                .ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer));
+
+            CreateMap<MyDoublingInstrumentCreateDto, DoublingInstrumentCommand>();
         }
     }
 
@@ -47,8 +57,26 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleFor(p => p.InstrumentId)
                .NotEmpty();
 
-            //ToDo Validation for Collections
+            RuleForEach(p => p.DoublingInstruments)
+                .SetValidator(new MyDoublingInstrumentCreateDtoValidator());
+
+            RuleForEach(p => p.PreferredPositionsPerformerIds)
+              .NotEmpty();
         }
     }
 
+    public class MyDoublingInstrumentCreateDtoValidator : AbstractValidator<MyDoublingInstrumentCreateDto>
+    {
+        public MyDoublingInstrumentCreateDtoValidator()
+        {
+            RuleFor(dto => dto.Comment)
+                .MaximumLength(500);
+
+            RuleFor(dto => dto.InstrumentId)
+                .NotEmpty();
+
+            RuleFor(dto => dto.LevelAssessmentPerformer)
+                .FiveStarRating();
+        }
+    }
 }

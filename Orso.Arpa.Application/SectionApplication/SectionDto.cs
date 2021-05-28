@@ -8,6 +8,7 @@ namespace Orso.Arpa.Application.SectionApplication
     {
         public string Name { get; set; }
         public Guid Id { get; set; }
+        public byte InstrumentPartCount { get; set; }
     }
 
     public class SectionDtoMappingProfile : Profile

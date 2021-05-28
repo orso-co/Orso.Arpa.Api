@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -12,7 +14,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 {
     public static class Create
     {
-        public class Command : IRequest<MusicianProfile>
+        public class Command : IRequest<MusicianProfile>, IHasInstrumentRequest
         {
             public byte LevelAssessmentPerformer { get; set; }
             public byte LevelAssessmentStaff { get; set; }
@@ -21,11 +23,20 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public Guid? QualificationId { get; set; }
             public Guid? InquiryStatusPerformerId { get; set; }
             public Guid? InquiryStatusStaffId { get; set; }
-            //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-            //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-            //public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
-            //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-            //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
+            public IList<DoublingInstrumentCommand> DoublingInstruments { get; set; } = new List<DoublingInstrumentCommand>();
+            public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
+            public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
+            public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
+            public IList<byte> PreferredPartsStaff { get; set; } = new List<byte>();
+        }
+
+        public class DoublingInstrumentCommand
+        {
+            public Guid InstrumentId { get; set; }
+            public byte LevelAssessmentPerformer { get; set; }
+            public byte LevelAssessmentStaff { get; set; }
+            public Guid? AvailabilityId { get; set; }
+            public string Comment { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -50,7 +61,50 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 RuleFor(c => c.InquiryStatusStaffId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusStaff);
 
-                //ToDo Validation for Collections
+                RuleForEach(c => c.DoublingInstruments)
+                    .SetValidator(c => new DoublingInstrumentValidator(arpaContext) { MainInstrumentId = c.InstrumentId });
+
+                RuleForEach(c => c.PreferredPositionsPerformerIds)
+                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsPerformerIds));
+
+                RuleForEach(c => c.PreferredPositionsStaffIds)
+                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsStaffIds));
+
+                RuleForEach(c => c.PreferredPartsPerformer)
+                    .InstrumentPart(arpaContext);
+
+                RuleForEach(c => c.PreferredPartsStaff)
+                    .InstrumentPart(arpaContext);
+            }
+        }
+
+        public class DoublingInstrumentValidator : AbstractValidator<DoublingInstrumentCommand>
+        {
+            public Guid MainInstrumentId { get; set; }
+            public DoublingInstrumentValidator(IArpaContext arpaContext)
+            {
+                RuleFor(c => c.AvailabilityId)
+                    .SelectValueMapping<DoublingInstrumentCommand, MusicianProfileSection>(arpaContext, a => a.InstrumentAvailability);
+
+                RuleFor(c => c.InstrumentId)
+                    .Must(instrumentId => instrumentId != MainInstrumentId)
+                    .WithMessage("The doubling instrument may not be the main instrument")
+                    .MustAsync(async (command, instrumentId, cancellation) => await IsValidDoublingInstrumentAsync(MainInstrumentId, instrumentId, arpaContext, cancellation))
+                    .WithMessage("This instrument is no valid doubling instrument for the selected main instrument");
+            }
+
+            private async Task<bool> IsValidDoublingInstrumentAsync(Guid mainInstrumentId, Guid doublingInstrumentId, IArpaContext arpaContext, CancellationToken cancellationToken)
+            {
+                Section mainInstrument = await arpaContext.FindAsync<Section>(new object[] { mainInstrumentId }, cancellationToken);
+                if (mainInstrument.IsInstrument)
+                {
+                    return mainInstrument.Children.Select(c => c.Id).Contains(doublingInstrumentId);
+                }
+                if (mainInstrument.ParentId == doublingInstrumentId)
+                {
+                    return true;
+                }
+                return mainInstrument.Parent.Children.Select(c => c.Id).Contains(doublingInstrumentId);
             }
         }
 

@@ -75,5 +75,8 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<Audition> AuditionsAsRepetitorStatus { get; private set; }
             = new HashSet<Audition>();
+
+        public virtual ICollection<MusicianProfileSection> MusicianProfileSections { get; private set; }
+            = new HashSet<MusicianProfileSection>();
     }
 }

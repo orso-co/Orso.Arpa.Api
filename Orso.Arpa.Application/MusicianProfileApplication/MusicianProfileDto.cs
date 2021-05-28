@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
@@ -24,13 +26,20 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public Guid? SalaryId { get; set; }
         public Guid? InquiryStatusPerformerId { get; set; }
         public Guid? InquiryStatusStaffId { get; set; }
-        //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-        //public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
-        //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-        ////public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
-        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-        //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
+        public IList<DoublingInstrumentDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentDto>();
+        public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
+        public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
+        public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
+        public IList<byte> PreferredPartsStaff { get; set; } = new List<byte>();
+    }
 
+    public class DoublingInstrumentDto : BaseEntityDto
+    {
+        public Guid InstrumentId { get; set; }
+        public byte LevelAssessmentPerformer { get; set; }
+        public byte LevelAssessmentStaff { get; set; }
+        public Guid? AvailabilityId { get; set; }
+        public string Comment { get; set; }
     }
 
     public class MusicianProfileDtoMappingProfile : Profile
@@ -57,13 +66,26 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.InquiryStatusPerformerId))
                 .ForMember(dest => dest.InquiryStatusStaffId, opt => opt.MapFrom(src => src.InquiryStatusStaffId))
 
-                //.ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
-                //.ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.MusicianProfileEducations))
-                //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.PreferredPositionsPerformer))
-                //.ForMember(dest => dest.PreferredPositionsStaff, opt => opt.MapFrom(src => src.PreferredPositionsStaff))
-                //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer))
-                //.ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.PreferredPartsStaff))
+                .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
+                .ForMember(dest => dest.PreferredPositionsPerformerIds, opt => opt.MapFrom(src => src.PreferredPositionsPerformer.Select(p => p.SelectValueSectionId)))
+                .ForMember(dest => dest.PreferredPositionsStaffIds, opt => opt.MapFrom(src => src.PreferredPositionsStaff.Select(p => p.SelectValueSectionId)))
+                .ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer))
+                .ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.PreferredPartsStaff))
 
+                .IncludeBase<BaseEntity, BaseEntityDto>();
+        }
+    }
+
+    public class DoublingInstrumentDtoMappingProfile : Profile
+    {
+        public DoublingInstrumentDtoMappingProfile()
+        {
+            CreateMap<MusicianProfileSection, DoublingInstrumentDto>()
+                .ForMember(dest => dest.AvailabilityId, opt => opt.MapFrom(src => src.InstrumentAvailabilityId))
+                .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.SectionId))
+                .ForMember(dest => dest.LevelAssessmentPerformer, opt => opt.MapFrom(src => src.LevelAssessmentPerformer))
+                .ForMember(dest => dest.LevelAssessmentStaff, opt => opt.MapFrom(src => src.LevelAssessmentStaff))
+                .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Comment))
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
