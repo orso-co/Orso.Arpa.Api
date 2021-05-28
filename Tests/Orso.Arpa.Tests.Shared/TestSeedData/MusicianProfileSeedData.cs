@@ -63,8 +63,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 profile.DoublingInstruments.Add(new MusicianProfileSection(new Create.DoublingInstrumentCommand
                 {
                     AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
-                    Comment = "Brass rocks",
-                    InstrumentId = SectionSeedData.BaritoneHorn.Id,
+                    Comment = "Wagner rocks",
+                    InstrumentId = SectionSeedData.WagnerTuba.Id,
                     LevelAssessmentPerformer = 3,
                     LevelAssessmentStaff = 2,
                 }, Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d")));

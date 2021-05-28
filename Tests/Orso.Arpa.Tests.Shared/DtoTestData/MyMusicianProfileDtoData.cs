@@ -43,12 +43,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.DoublingInstruments.Add(new MyDoublingInstrumentDto
                 {
                     AvailabilityId = Guid.Parse("d33ea034-0c5f-458d-bef5-26d2c12b6b03"),
-                    Comment = "Brass rocks",
+                    Comment = "Wagner rocks",
                     LevelAssessmentPerformer = 3,
                     Id = Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d"),
                     CreatedAt = FakeDateTime.UtcNow,
                     CreatedBy = "anonymous",
-                    InstrumentId = Guid.Parse("B525E539-7FA4-49D7-AE93-EC0748022D4D")
+                    InstrumentId = Guid.Parse("c42591db-4e41-413f-8b98-6607e2f12e39")
                 });
                 dto.PreferredPositionsPerformerIds.Add(Guid.Parse("b43fc897-ebcf-4d2a-8682-33b6337b5ab2"));
                 dto.PreferredPartsPerformer.Add(2);
