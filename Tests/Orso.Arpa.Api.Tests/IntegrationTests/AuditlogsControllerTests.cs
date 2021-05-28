@@ -26,6 +26,23 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_All()
         {
             // Arrange
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.AuditLogsController.Get(null, null, 9999));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<AuditLogDto> result = await DeserializeResponseMessageAsync<IEnumerable<AuditLogDto>>(responseMessage);
+            result.Count().Should().Be(82);
+        }
+
+        [Test, Order(2)]
+        public async Task Should_Get_All_ByEntryId()
+        {
+            // Arrange
             Guid entityId = GetEntryId();
 
             // Act
@@ -44,7 +61,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             auditLog.NewValues.Count.Should().BeGreaterThan(0); // prove that mapping dictionaries work
         }
 
-        [Test, Order(2)]
+        [Test, Order(3)]
         public async Task Should_Get_Page()
         {
             // Arrange
@@ -62,7 +79,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Count().Should().Be(2);
         }
 
-        [Test, Order(3)]
+        [Test, Order(4)]
         public async Task Should_Get_Last_Page()
         {
             // Arrange
@@ -80,7 +97,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Count().Should().Be(1);
         }
 
-        [Test, Order(3)]
+        [Test, Order(5)]
         public async Task Should_Get_Empty_List()
         {
             // Arrange

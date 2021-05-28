@@ -31,7 +31,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<AuditLogDto>>> Get([FromQuery] Guid entityId, [FromQuery] int? skip, [FromQuery] int? take)
+        public async Task<ActionResult<IEnumerable<AuditLogDto>>> Get([FromQuery] Guid? entityId, [FromQuery] int? skip, [FromQuery] int? take)
         {
             return Ok(await _auditLogService.GetAsync(entityId, skip, take));
         }
