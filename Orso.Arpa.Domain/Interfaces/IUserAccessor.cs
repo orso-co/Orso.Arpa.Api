@@ -6,5 +6,6 @@ namespace Orso.Arpa.Domain.Interfaces
     public interface IUserAccessor : ITokenAccessor
     {
         Task<User> GetCurrentUserAsync();
+        Task<Person> GetCurrentPersonAsync();
     }
 }
