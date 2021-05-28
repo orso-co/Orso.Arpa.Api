@@ -20,8 +20,9 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Queries a list of auditLogs for a given entityId. The list is sorted decending by DateTime. In order to control
+        /// Queries a list of audit logs for a given entityId. The list is sorted decending by DateTime. In order to control
         /// the number of items to be returned, you can skip the first n entries and take m entries starting at this position.
+        /// In case the entityId is not specified, all audit logs are returned.
         /// </summary>
         /// <param name="entityId"></param>
         /// <param name="skip"></param>
