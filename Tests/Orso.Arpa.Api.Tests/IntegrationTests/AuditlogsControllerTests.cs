@@ -31,12 +31,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AuditLogsController.Get(null, null, 9999));
+                .GetAsync(ApiEndpoints.AuditLogsController.Get(null, null, 70));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<AuditLogDto> result = await DeserializeResponseMessageAsync<IEnumerable<AuditLogDto>>(responseMessage);
-            result.Count().Should().BeGreaterThan(70);
+            result.Count().Should().Be(70);
         }
 
         [Test, Order(2)]
