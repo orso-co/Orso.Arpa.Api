@@ -7,7 +7,7 @@ using static Orso.Arpa.Domain.Logic.Projects.Modify;
 
 namespace Orso.Arpa.Application.ProjectApplication
 {
-    public class ProjectModifyDto : BaseModifyDto<ProjectModifyBodyDto>
+    public class ProjectModifyDto : IdFromRouteDto<ProjectModifyBodyDto>
     {
     }
 

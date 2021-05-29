@@ -8,7 +8,7 @@ using static Orso.Arpa.Domain.Logic.MusicianProfiles.Create;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
 {
-    public class MusicianProfileCreateDto : BaseModifyDto<MusicianProfileCreateBodyDto>
+    public class MusicianProfileCreateDto : IdFromRouteDto<MusicianProfileCreateBodyDto>
     {
     }
 

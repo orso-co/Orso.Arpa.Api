@@ -10,6 +10,11 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         {
             public Guid ProjectId { get; set; }
             public Guid MusicianProfileId { get; set; }
+            public string CommentByStaffInner { get; set; }
+            public Guid? ParticipationStatusInnerId { get; set; }
+            public Guid? ParticipationStatusInternalId { get; set; }
+            public Guid? InvitationStatusId { get; set; }
+            public string CommentTeam { get; set; }
         }
     }
 }

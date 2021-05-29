@@ -7,31 +7,25 @@ using static Orso.Arpa.Domain.Logic.MusicianProfiles.Modify;
 
 namespace Orso.Arpa.Application.MyMusicianProfileApplication
 {
-    public class MyMusicianProfileModifyDto : BaseModifyDto<MyMusicianProfileModifyBodyDto>
+    public class MyMusicianProfileModifyDto : IdFromRouteDto<MyMusicianProfileModifyBodyDto>
     {
     }
 
     public class MyMusicianProfileModifyBodyDto
     {
-        #region Native
         public bool IsMainProfile { get; set; }
         public bool IsDeactivated { get; set; }
 
         public byte LevelAssessmentPerformer { get; set; }
         public byte ProfilePreferencePerformer { get; set; }
         public string BackgroundPerformer { get; set; }
-        #endregion
 
-        #region Reference
         public Guid? InquiryStatusPerformerId { get; set; }
-        #endregion
 
-        #region Collection
         //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
         //public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
         //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
         //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-        #endregion
     }
 
     public class MyMusicianProfileModifyDtoMappingProfile : Profile

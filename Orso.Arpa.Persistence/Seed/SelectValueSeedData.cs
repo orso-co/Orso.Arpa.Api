@@ -107,7 +107,14 @@ namespace Orso.Arpa.Persistence.Seed
                     ConcertMaster,
                     SecondConcertMaster,
                     OrchestraPiano,
-                    Accompaniment
+                    Accompaniment,
+                    Interested,
+                    Acceptance,
+                    Refusal,
+                    Unclear,
+                    Candidate,
+                    Invited,
+                    NotInvited
                 };
             }
         }
@@ -429,5 +436,33 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue SecondConcertMaster => new(Guid.Parse("9ed94828-9deb-49a9-9a65-ecb83620c82e"), "2nd concert master", string.Empty);
         public static SelectValue OrchestraPiano => new(Guid.Parse("ebae975b-d9a3-4d2f-b0a3-beff554e7041"), "Orchestra piano", string.Empty);
         public static SelectValue Accompaniment => new(Guid.Parse("61dab188-a07d-4a58-8ec9-c54050e914ac"), "Accompaniment", string.Empty);
+        /// <summary>
+        /// Interessiert
+        /// </summary>
+        public static SelectValue Interested => new(Guid.Parse("1c1bec30-91d2-4699-8753-67f4feb53df3"), "Interested", string.Empty);
+        /// <summary>
+        /// Zusage
+        /// </summary>
+        public static SelectValue Acceptance => new(Guid.Parse("26686d6e-853e-4d57-b10d-35444ae824be"), "Acceptance", string.Empty);
+        /// <summary>
+        /// Absage
+        /// </summary>
+        public static SelectValue Refusal => new(Guid.Parse("78d6ce19-ac32-444f-94a6-aa4262340fa1"), "Refusal", string.Empty);
+        /// <summary>
+        /// Kandidat
+        /// </summary>
+        public static SelectValue Candidate => new(Guid.Parse("b3bd7011-2cda-49d9-8fea-46fa02db9c4b"), "Candidate", string.Empty);
+        /// <summary>
+        /// Eingeladen
+        /// </summary>
+        public static SelectValue Invited => new(Guid.Parse("d2236889-d7d1-4896-b449-69f273c6b514"), "Invited", string.Empty);
+        /// <summary>
+        /// Nicht eingeladen
+        /// </summary>
+        public static SelectValue NotInvited => new(Guid.Parse("77c68dbb-a627-4053-829e-86c555754f60"), "Not invited", string.Empty);
+        /// <summary>
+        /// Unklar
+        /// </summary>
+        public static SelectValue Unclear => new(Guid.Parse("a80c8892-7cba-4b19-b84d-937da70c8af3"), "Unclear", string.Empty);
     }
 }

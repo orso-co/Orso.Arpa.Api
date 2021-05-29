@@ -3,7 +3,7 @@ using Orso.Arpa.Application.General;
 
 namespace Orso.Arpa.Application.SelectValueApplication
 {
-    public class SelectValueModifyDto : BaseModifyDto<SelectValueModifyBodyDto>
+    public class SelectValueModifyDto : IdFromRouteDto<SelectValueModifyBodyDto>
     {
     }
 

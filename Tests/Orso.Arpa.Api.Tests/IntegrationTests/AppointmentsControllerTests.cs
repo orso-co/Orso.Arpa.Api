@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.MusicianProfileForAppointmentApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
@@ -340,7 +340,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             staffParticipation.Participation = null;
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
-            adminParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = SectionSeedData.Soprano2.Name });
+            adminParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
+            {
+                Id = Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"),
+                InstrumentName = SectionSeedData.Soprano2.Name
+            });
             expectedDto.Participations.Add(adminParticipation);
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
@@ -399,8 +403,17 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
             AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
-            performerParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Horn", Qualification = "Student" });
-            performerParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Tuba" });
+            performerParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
+            {
+                Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
+                InstrumentName = "Horn",
+                Qualification = "Student"
+            });
+            performerParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
+            {
+                Id = Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"),
+                InstrumentName = "Tuba"
+            });
             performerParticipation.Participation = null;
             expectedDto.Participations.Add(performerParticipation);
             AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;
@@ -408,7 +421,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
             expectedDto.Participations.Add(adminParticipation);
-            adminParticipation.MusicianProfiles.Add(new MusicianProfileForAppointmentDto { InstrumentName = "Soprano 2" });
+            adminParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
+            {
+                Id = Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"),
+                InstrumentName = "Soprano 2"
+            });
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act

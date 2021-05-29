@@ -5,7 +5,7 @@ using static Orso.Arpa.Domain.Logic.Regions.Modify;
 
 namespace Orso.Arpa.Application.RegionApplication
 {
-    public class RegionModifyDto : BaseModifyDto<RegionModifyBodyDto>
+    public class RegionModifyDto : IdFromRouteDto<RegionModifyBodyDto>
     {
     }
 

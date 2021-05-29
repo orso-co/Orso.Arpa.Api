@@ -16,7 +16,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .HasOne(e => e.Type)
-                .WithMany(s => s.PersonAddresses)
+                .WithMany()
                 .HasForeignKey(e => e.TypeId)
                 .OnDelete(DeleteBehavior.NoAction);
         }

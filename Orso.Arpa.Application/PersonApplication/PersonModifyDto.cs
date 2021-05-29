@@ -5,7 +5,7 @@ using static Orso.Arpa.Domain.Logic.Persons.Modify;
 
 namespace Orso.Arpa.Application.PersonApplication
 {
-    public class PersonModifyDto : BaseModifyDto<PersonModifyBodyDto>
+    public class PersonModifyDto : IdFromRouteDto<PersonModifyBodyDto>
     {
     }
 

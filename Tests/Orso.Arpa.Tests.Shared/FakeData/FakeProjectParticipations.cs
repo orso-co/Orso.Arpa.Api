@@ -10,7 +10,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         {
             get
             {
-                ProjectParticipation participation = ProjectParticipationSeedData.PerformerParticipation;
+                ProjectParticipation participation = ProjectParticipationSeedData.PerformerSchneeköniginParticipation;
                 participation.SetProperty(nameof(ProjectParticipation.Project), FakeProjects.RockingXMas);
                 return participation;
             }

@@ -31,6 +31,9 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(AuditionRepetitorStatusMappings);
                 list.AddRange(MusicianProfileAvailableDocumentsMappings);
                 list.AddRange(MusicianProfileSectionInstrumentAvailabilityMappings);
+                list.AddRange(ProjectParticipationInvitationStatusMappings);
+                list.AddRange(ProjectParticipationStatusInnerMappings);
+                list.AddRange(ProjectParticipationStatusInternalMappings);
                 return list;
             }
         }
@@ -329,6 +332,48 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("c6b28eb5-e9d6-4250-bc79-6fa9bfbdbc5a"), SelectValueCategorySeedData.MusicianProfileSectionInstrumentAvailability.Id, SelectValueSeedData.NeedToBorrow.Id),
                     new SelectValueMapping(Guid.Parse("7869a9b0-fb13-4c00-ac7c-2fa1b27a00af"), SelectValueCategorySeedData.MusicianProfileSectionInstrumentAvailability.Id, SelectValueSeedData.ProvisionByStaff.Id),
                     new SelectValueMapping(Guid.Parse("0298c0d1-57e2-415a-9d6c-3f47e9ab6f22"), SelectValueCategorySeedData.MusicianProfileSectionInstrumentAvailability.Id, SelectValueSeedData.Unknown.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> ProjectParticipationStatusInnerMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("e0abe26f-27da-4396-b80c-d1ceb836a8b2"), SelectValueCategorySeedData.ProjectParticipationStatusInner.Id, SelectValueSeedData.Interested.Id),
+                    new SelectValueMapping(Guid.Parse("eef4a4d1-796b-4b37-96f6-f31dbccf0aeb"), SelectValueCategorySeedData.ProjectParticipationStatusInner.Id, SelectValueSeedData.Acceptance.Id),
+                    new SelectValueMapping(Guid.Parse("1d402f12-816d-4994-a94d-28d52cb2d199"), SelectValueCategorySeedData.ProjectParticipationStatusInner.Id, SelectValueSeedData.Refusal.Id),
+                    new SelectValueMapping(Guid.Parse("8168cfbf-7e53-41c5-8bc4-f5392d9a3b57"), SelectValueCategorySeedData.ProjectParticipationStatusInner.Id, SelectValueSeedData.Pending.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> ProjectParticipationStatusInternalMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("b0dcb5e9-bbc6-4004-b9d7-0f6723416b9b"), SelectValueCategorySeedData.ProjectParticipationStatusInternal.Id, SelectValueSeedData.Candidate.Id),
+                    new SelectValueMapping(Guid.Parse("f1c2c792-f11f-43ab-8cf6-d6ff905894fc"), SelectValueCategorySeedData.ProjectParticipationStatusInternal.Id, SelectValueSeedData.Acceptance.Id),
+                    new SelectValueMapping(Guid.Parse("0096f414-50c9-4d45-9a85-4af30641b7fa"), SelectValueCategorySeedData.ProjectParticipationStatusInternal.Id, SelectValueSeedData.Refusal.Id),
+                    new SelectValueMapping(Guid.Parse("03bdcf0a-2638-4b8f-a093-4084b9969162"), SelectValueCategorySeedData.ProjectParticipationStatusInternal.Id, SelectValueSeedData.Pending.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> ProjectParticipationInvitationStatusMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("625a9195-2380-4762-8dc6-13163e354ef6"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.Invited.Id),
+                    new SelectValueMapping(Guid.Parse("2ad77626-e0b3-45a6-9d24-e4677181ee7e"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.NotInvited.Id),
+                    new SelectValueMapping(Guid.Parse("2a5f85e6-a7ed-48eb-852c-0b191d7ba949"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.Candidate.Id),
+                    new SelectValueMapping(Guid.Parse("c6b0b06f-a915-4087-9827-34e76ab6895f"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.Unclear.Id),
                 };
             }
         }

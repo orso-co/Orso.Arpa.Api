@@ -13,7 +13,7 @@ namespace Orso.Arpa.Application.Services
     public abstract class BaseService<TGetDto, TEntity, TCreateDto, TCreateCommand, TModifyDto, TModifyBodyDto, TModifyCommand> : BaseReadOnlyService<TGetDto, TEntity>
         where TEntity : BaseEntity
         where TCreateCommand : ICreateCommand<TEntity>
-        where TModifyDto : BaseModifyDto<TModifyBodyDto>
+        where TModifyDto : IdFromRouteDto<TModifyBodyDto>
         where TModifyCommand : IModifyCommand<TEntity>
     {
 

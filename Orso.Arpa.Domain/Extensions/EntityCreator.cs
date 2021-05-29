@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.Extensions
     /// creates entities faster than Activator.CreateInstance
     /// </summary>
     /// <see cref="https://rogerjohansson.blog/2008/02/28/linq-expressions-creating-objects/"/>
-    public class EntityCreator
+    public static class EntityCreator
     {
         public delegate T ObjectActivator<T>(params object[] args);
 

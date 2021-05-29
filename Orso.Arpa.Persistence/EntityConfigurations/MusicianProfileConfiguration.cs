@@ -22,25 +22,25 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .HasOne(e => e.Qualification)
-                .WithMany(c => c.MusicianProfilesAsQualification)
+                .WithMany()
                 .HasForeignKey(e => e.QualificationId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Salary)
-                .WithMany(c => c.MusicianProfilesAsSalary)
+                .WithMany()
                 .HasForeignKey(e => e.SalaryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.InquiryStatusPerformer)
-                .WithMany(c => c.MusicianProfilesAsInquiryStatusPerformer)
+                .WithMany()
                 .HasForeignKey(e => e.InquiryStatusPerformerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.InquiryStatusStaff)
-                .WithMany(c => c.MusicianProfilesAsInquiryStatusStaff)
+                .WithMany()
                 .HasForeignKey(e => e.InquiryStatusStaffId)
                 .OnDelete(DeleteBehavior.NoAction);
 

@@ -128,6 +128,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string GetMusicianProfiles(bool includeDeactivated) => $"{Me}/profiles/musician?includeDeactivated={includeDeactivated}";
 
             public static string GetMusicianProfile(Guid id) => $"{Me}/profiles/musician/{id}";
+
+            public static string SetProjectParticipation(Guid musicianProfileId, Guid projectId) => $"{AddMusicianProfile()}/{musicianProfileId}/projects/{projectId}/participation";
         }
 
         public static class RegionsController

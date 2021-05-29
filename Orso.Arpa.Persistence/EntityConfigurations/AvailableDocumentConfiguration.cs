@@ -12,7 +12,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .HasOne(e => e.SelectValueMapping)
-                .WithMany(r => r.AvailableDocuments)
+                .WithMany()
                 .HasForeignKey(e => e.SelectValueMappingId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);

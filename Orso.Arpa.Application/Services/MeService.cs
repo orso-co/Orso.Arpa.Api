@@ -11,6 +11,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
+using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.GenericHandlers;
@@ -119,6 +120,16 @@ namespace Orso.Arpa.Application.Services
             return await musicianProfiles
                 .ProjectTo<MyMusicianProfileDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+        }
+
+        public async Task<ProjectParticipationDto> SetMyProjectParticipationAsync(SetMyProjectParticipationDto myProjectParticipationDto)
+        {
+            Domain.Logic.ProjectParticipations.Set.Command command = _mapper
+                .Map<Domain.Logic.ProjectParticipations.Set.Command>(myProjectParticipationDto);
+
+            command.PersonId = _userAccessor.PersonId;
+            ProjectParticipation projectParticipation = await _mediator.Send(command);
+            return _mapper.Map<ProjectParticipationDto>(projectParticipation);
         }
     }
 }

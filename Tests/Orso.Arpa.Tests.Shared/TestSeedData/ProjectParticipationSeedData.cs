@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -13,7 +14,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new List<ProjectParticipation>
                 {
-                    PerformerParticipation,
+                    PerformerSchneeköniginParticipation,
+                    PerformerRockingXMasParticipation,
                     StaffParticipation1,
                     StaffParticipation2,
                     AdminParticipation
@@ -21,7 +23,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static ProjectParticipation PerformerParticipation
+        public static ProjectParticipation PerformerRockingXMasParticipation
         {
             get
             {
@@ -29,6 +31,23 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     ProjectId = ProjectSeedData.RockingXMas.Id,
                     MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id
+                });
+            }
+        }
+
+        public static ProjectParticipation PerformerSchneeköniginParticipation
+        {
+            get
+            {
+                return new ProjectParticipation(Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"), new Create.Command
+                {
+                    ProjectId = ProjectSeedData.Schneekönigin.Id,
+                    MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    InvitationStatusId = SelectValueMappingSeedData.ProjectParticipationInvitationStatusMappings[0].Id,
+                    ParticipationStatusInternalId = SelectValueMappingSeedData.ProjectParticipationStatusInternalMappings[0].Id,
+                    ParticipationStatusInnerId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[1].Id,
+                    CommentByStaffInner = "Comment by staff",
+                    CommentTeam = "Comment by team"
                 });
             }
         }
