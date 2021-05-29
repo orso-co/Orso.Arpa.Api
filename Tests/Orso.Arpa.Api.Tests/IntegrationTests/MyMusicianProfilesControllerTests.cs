@@ -131,7 +131,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
 
-
         [Test, Order(1001)]
         public async Task Should_Set_New_Project_Participation()
         {
