@@ -7,6 +7,7 @@ namespace Orso.Arpa.Domain.Roles
         public const string Performer = "Performer";
         public const string Staff = "Staff";
         public const string Admin = "Admin";
+        public const string PerformerOrStaff = "Performer,Staff";
 
         public static IList<string> Roles
         {

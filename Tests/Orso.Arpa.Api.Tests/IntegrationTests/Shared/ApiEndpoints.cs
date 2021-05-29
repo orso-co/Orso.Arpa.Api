@@ -122,14 +122,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 => $"{Me}/appointments/{appointmentId}/participation/prediction/{predictionId}";
 
             public static string SendQrCode() => $"{Me}/qrcode";
+        }
 
-            public static string AddMusicianProfile() => $"{Me}/profiles/musician";
+        public static class MyMusicianProfilesController
+        {
+            private static string MyMusicianProfiles => $"{Base}/me/profiles/musician";
 
-            public static string GetMusicianProfiles(bool includeDeactivated) => $"{Me}/profiles/musician?includeDeactivated={includeDeactivated}";
+            public static string Post() => $"{MyMusicianProfiles}";
 
-            public static string GetMusicianProfile(Guid id) => $"{Me}/profiles/musician/{id}";
+            public static string Get(bool includeDeactivated) => $"{MyMusicianProfiles}?includeDeactivated={includeDeactivated}";
 
-            public static string SetProjectParticipation(Guid musicianProfileId, Guid projectId) => $"{AddMusicianProfile()}/{musicianProfileId}/projects/{projectId}/participation";
+            public static string GetById(Guid id) => $"{MyMusicianProfiles}/{id}";
+
+            public static string SetProjectParticipation(Guid musicianProfileId, Guid projectId) => $"{MyMusicianProfiles}/{musicianProfileId}/projects/{projectId}/participation";
         }
 
         public static class RegionsController
@@ -182,13 +187,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         }
         public static class MusicianProfilesController
         {
-            private static string MusiciansProfiles => $"{Base}/profiles/musicians";
+            private static string MusicianProfiles => $"{Base}/profiles/musicians";
 
-            public static string Put(Guid id) => $"{MusiciansProfiles}/{id}";
+            public static string Put(Guid id) => $"{MusicianProfiles}/{id}";
 
-            public static string Get(Guid id) => $"{MusiciansProfiles}/{id}";
+            public static string Get(Guid id) => $"{MusicianProfiles}/{id}";
 
-            public static string Delete(Guid id) => $"{MusiciansProfiles}/{id}";
+            public static string Delete(Guid id) => $"{MusicianProfiles}/{id}";
+            public static string GetProjectParticipations(Guid id, bool includeCompleted) => $"{MusicianProfiles}/{id}/projectparticipations?includeCompleted={includeCompleted}";
         }
         public static class PersonsController
         {

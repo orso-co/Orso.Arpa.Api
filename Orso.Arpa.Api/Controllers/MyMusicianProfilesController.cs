@@ -14,6 +14,7 @@ using Orso.Arpa.Domain.Roles;
 namespace Orso.Arpa.Api.Controllers
 {
     [Route("api/me/profiles/musician")]
+    [Authorize(Roles = RoleNames.Performer)]
     public class MyMusicianProfilesController : BaseController
     {
         private readonly IMeService _meService;
@@ -24,32 +25,13 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Sets the project participation for a musician profile of the current user
-        /// </summary>
-        /// <param name="myProjectParticipationDto"></param>
-        /// <returns>Project participation</returns>
-        /// <response code="200"></response>
-        /// <response code="404">If entity could not be found</response>
-        /// <response code="422">If validation fails</response>
-        [Authorize(Roles = RoleNames.Performer)]
-        [HttpPut("{id}/projects/{projectId}/participation")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<ProjectParticipationDto>> SetProjectParticipation(SetMyProjectParticipationDto myProjectParticipationDto)
-        {
-            return Ok(await _meService.SetMyProjectParticipationAsync(myProjectParticipationDto));
-        }
-
-        /// <summary>
         /// Gets all my musicianProfiles
         /// </summary>
         /// <param name="includeDeactivated">Default: false</param>
         /// <returns>All musicianProfiles of the current user</returns>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
-        [Authorize(Roles = RoleNames.Performer)]
-        [HttpGet()]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<MyMusicianProfileDto>>> Get([FromQuery] bool includeDeactivated = false)
@@ -64,7 +46,6 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>Requested musicianProfile of the current user</returns>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
-        [Authorize(Roles = RoleNames.Performer)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -81,8 +62,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="201">Returns the created musicianProfile</response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Roles = RoleNames.Performer)]
-        [HttpPost()]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -90,6 +70,23 @@ namespace Orso.Arpa.Api.Controllers
         {
             MyMusicianProfileDto createdMusicianProfile = await _meService.CreateMusicianProfileAsync(myMusicianProfileCreateDto);
             return CreatedAtAction(nameof(MusicianProfilesController.GetById), "MusicianProfiles", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
+        }
+
+        /// <summary>
+        /// Sets the project participation for a musician profile of the current user
+        /// </summary>
+        /// <param name="myProjectParticipationDto"></param>
+        /// <returns>Project participation</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [HttpPut("{id}/projects/{projectId}/participation")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<ProjectParticipationDto>> SetProjectParticipation(SetMyProjectParticipationDto myProjectParticipationDto)
+        {
+            return Ok(await _meService.SetMyProjectParticipationAsync(myProjectParticipationDto));
         }
     }
 }

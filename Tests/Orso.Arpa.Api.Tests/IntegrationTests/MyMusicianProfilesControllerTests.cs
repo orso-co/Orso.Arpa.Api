@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -45,7 +44,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetMusicianProfiles(includeDeactivated));
+                .GetAsync(ApiEndpoints.MyMusicianProfilesController.Get(includeDeactivated));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -63,7 +62,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetMusicianProfile(expectedDto.Id));
+                .GetAsync(ApiEndpoints.MyMusicianProfilesController.GetById(expectedDto.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -118,7 +117,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.MeController.AddMusicianProfile(), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.MyMusicianProfilesController.Post(), BuildStringContent(createDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -171,7 +170,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MeController.SetProjectParticipation(
+                .PutAsync(ApiEndpoints.MyMusicianProfilesController.SetProjectParticipation(
                     musicianProfile.Id,
                     project.Id), BuildStringContent(dto));
 
@@ -188,47 +187,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             MusicianProfile musicianProfile = MusicianProfileSeedData.PerformerMusicianProfile;
             Project project = ProjectSeedData.Schneekönigin;
-            ProjectParticipation existingParticipation = ProjectParticipationSeedData.PerformerSchneeköniginParticipation;
 
             var dto = new SetMyProjectParticipationBodyDto
             {
                 Comment = "Comment",
                 StatusId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[0].Id
             };
-            var expectedDto = new ProjectParticipationDto
-            {
-                Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
-                CreatedAt = FakeDateTime.UtcNow,
-                CreatedBy = "anonymous",
-                ModifiedAt = FakeDateTime.UtcNow,
-                ModifiedBy = "Per Former",
-                CommentByPerformerInner = dto.Comment,
-                CommentByStaffInner = existingParticipation.CommentByStaffInner,
-                ParticipationStatusInnerId = dto.StatusId,
-                ParticipationStatusInner = "Interested",
-                ParticipationStatusInternalId = existingParticipation.ParticipationStatusInternalId,
-                ParticipationStatusInternal = "Candidate",
-                MusicianProfile = new ReducedMusicianProfileDto
-                {
-                    Id = musicianProfile.Id,
-                    InstrumentName = "Alto 1",
-                    Qualification = "Amateur"
-                },
-                Project = new ReducedProjectDto
-                {
-                    Id = project.Id,
-                    Description = project.Description,
-                    Code = project.Code,
-                    ShortTitle = project.ShortTitle,
-                    Title = project.Title
-                }
-            };
+            ProjectParticipationDto expectedDto = ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer;
+            expectedDto.CommentByPerformerInner = dto.Comment;
+            expectedDto.ParticipationStatusInnerId = dto.StatusId;
+            expectedDto.ParticipationStatusInner = "Interested";
+            expectedDto.ModifiedAt = FakeDateTime.UtcNow;
+            expectedDto.ModifiedBy = "Per Former";
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MeController.SetProjectParticipation(
+                .PutAsync(ApiEndpoints.MyMusicianProfilesController.SetProjectParticipation(
                     musicianProfile.Id,
                     project.Id), BuildStringContent(dto));
 

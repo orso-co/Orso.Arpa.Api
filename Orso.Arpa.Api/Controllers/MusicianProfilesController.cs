@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Api.Controllers
@@ -53,5 +55,22 @@ namespace Orso.Arpa.Api.Controllers
 
         //    return NoContent();
         //}
+
+        /// <summary>
+        /// Gets all project participations of the given musician profile
+        /// </summary>
+        /// <param name="id">The id of the musician profile</param>
+        /// <param name="includeCompleted">Default: false</param>
+        /// <returns>All project participations of the given musician profile</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        [Authorize(Roles = RoleNames.PerformerOrStaff)]
+        [HttpGet("{id}/projectparticipations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<ProjectParticipationDto>>> GetProjectParticipations([FromRoute] Guid id, [FromQuery] bool includeCompleted = false)
+        {
+            return Ok(await _musicianProfileService.GetProjectParticipationsAsync(id, includeCompleted));
+        }
     }
 }
