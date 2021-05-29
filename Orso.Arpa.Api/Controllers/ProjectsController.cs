@@ -126,5 +126,21 @@ namespace Orso.Arpa.Api.Controllers
             await _projectService.DeleteAsync(id);
             return NoContent();
         }
+
+        /// <summary>
+        /// Gets all participations for a given project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The project participations</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpGet("{id}/participations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<ProjectParticipationDto>>> GetParticipationsById([FromRoute] Guid id)
+        {
+            return Ok(await _projectService.GetParticipationsByIdAsync(id));
+        }
     }
 }

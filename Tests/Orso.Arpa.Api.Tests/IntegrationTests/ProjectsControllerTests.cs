@@ -78,6 +78,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(4)]
         public async Task Should_Get_By_Id()
         {
+            // Arrange
             ProjectDto expectedProject = ProjectDtoData.HoorayForHollywood;
 
             // Act
@@ -90,6 +91,30 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedProject);
+        }
+
+        [Test, Order(5)]
+        public async Task Should_Get_Participations_By_Id()
+        {
+            // Arrange
+            Project project = ProjectSeedData.RockingXMas;
+            IEnumerable<ProjectParticipationDto> expectedResult = new List<ProjectParticipationDto> {
+                ProjectParticipationDtoData.AdminRockingXMasParticipation,
+                ProjectParticipationDtoData.PerformerRockingXMasParticipationForStaff,
+                ProjectParticipationDtoData.StaffRockingXMasTenor2Participation,
+                ProjectParticipationDtoData.StaffRockingXMasTenor1Participation
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.ProjectsController.GetParticipations(project.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<ProjectParticipationDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectParticipationDto>>(responseMessage);
+            result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
         }
 
         [Test, Order(100)]
