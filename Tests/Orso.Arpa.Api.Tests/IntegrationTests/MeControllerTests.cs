@@ -37,23 +37,34 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(2)]
-        public async Task Should_Get_My_Appointments()
+        private static IEnumerable<TestCaseData> s_appointmentTestData
         {
-            // Arrange
-            IList<MyAppointmentDto> expectedUserAppointments = UserAppointmentDtoTestData.PerformerUserAppointments;
+            get
+            {
+                yield return new TestCaseData(null, null, UserAppointmentDtoTestData.PerformerUserAppointments);
+                yield return new TestCaseData(1, 2, new List<MyAppointmentDto>
+                {
+                    UserAppointmentDtoTestData.RockingXMasAfterShowParty,
+                    UserAppointmentDtoTestData.RockingXMasConcert,
+                });
+            }
+        }
 
+        [Test, Order(2)]
+        [TestCaseSource(nameof(s_appointmentTestData))]
+        public async Task Should_Get_My_Appointments(int? skip, int? take, IEnumerable<MyAppointmentDto> expectedResult)
+        {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetAppointments());
+                .GetAsync(ApiEndpoints.MeController.GetAppointments(take, skip));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyAppointmentListDto result = await DeserializeResponseMessageAsync<MyAppointmentListDto>(responseMessage);
 
-            result.UserAppointments.Should().BeEquivalentTo(expectedUserAppointments, opt => opt.WithStrictOrderingFor(d => d.Id));
+            result.UserAppointments.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(d => d.Id));
             result.TotalRecordsCount.Should().Be(4);
         }
 

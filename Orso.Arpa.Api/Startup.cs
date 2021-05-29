@@ -301,8 +301,7 @@ namespace Orso.Arpa.Api
             services.AddDbContext<ArpaContext>(opt =>
             {
                 opt
-                    .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"),
-                        opt => opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+                    .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
                     .UseSnakeCaseNamingConvention();
 
                 if (_hostingEnvironment.IsDevelopment())
