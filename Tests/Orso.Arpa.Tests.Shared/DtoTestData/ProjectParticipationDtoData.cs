@@ -15,6 +15,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.CommentTeam = "Comment by team";
                 dto.InvitationStatus = "Invited";
                 dto.InvitationStatusId = Guid.Parse("625a9195-2380-4762-8dc6-13163e354ef6");
+                dto.Person = ReducedPersonDtoData.Performer;
                 return dto;
             }
         }
@@ -39,19 +40,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     ParticipationStatusInnerId = Guid.Parse("eef4a4d1-796b-4b37-96f6-f31dbccf0aeb"),
                     ParticipationStatusInternal = "Candidate",
                     ParticipationStatusInternalId = Guid.Parse("b0dcb5e9-bbc6-4004-b9d7-0f6723416b9b"),
-                    Project = new ReducedProjectDto
-                    {
-                        Code = "1007",
-                        Description = "Let it snow",
-                        Id = Guid.Parse("b781c54d-8115-4561-b01e-9836fa05175e"),
-                        ShortTitle = "Schnee",
-                        Title = "Die Schneekönigin"
-                    }
+                    Project = ReducedProjectDtoData.Schneekönigin
                 };
             }
         }
 
-        public static ProjectParticipationDto PerformerRockingXMasParticipation
+        public static ProjectParticipationDto PerformerRockingXMasParticipationForStaff
+        {
+            get
+            {
+                ProjectParticipationDto dto = PerformerRockingXMasParticipationForPerformer;
+                dto.Person = ReducedPersonDtoData.Performer;
+                return dto;
+            }
+        }
+
+        public static ProjectParticipationDto PerformerRockingXMasParticipationForPerformer
         {
             get
             {
@@ -67,16 +71,71 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                         InstrumentName = "Alto 1",
                         Qualification = "Amateur"
                     },
-                    Project = new ReducedProjectDto
-                    {
-                        Code = "1005",
-                        Description = "Rocking around the christmas tree",
-                        Id = Guid.Parse("a19d84f1-4ac1-49c3-abfe-527092b80b6d"),
-                        ShortTitle = "RockXmas",
-                        Title = "Rocking X-mas Freiburg"
-                    }
+                    Project = ReducedProjectDtoData.RockingXMas
                 };
             }
+        }
+
+        public static ProjectParticipationDto AdminRockingXMasParticipation
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("55cb5f7d-2fd7-4328-9d27-413dab753e62"),
+                    MusicianProfile = new ReducedMusicianProfileDto
+                    {
+                        Id = Guid.Parse("7c215684-ee09-424f-9955-9b427494eaeb"),
+                        InstrumentName = "Soprano 1"
+                    },
+                    Person = ReducedPersonDtoData.Admin,
+                    Project = ReducedProjectDtoData.RockingXMas
+                };
+            }
+        }
+
+        public static ProjectParticipationDto StaffRockingXMasTenor2Participation
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("4b9666cf-2d06-43cc-bd9f-f2d665562471"),
+                    MusicianProfile = new ReducedMusicianProfileDto
+                    {
+                        Id = Guid.Parse("c2b727eb-16f7-440d-a003-aab073532bbf"),
+                        InstrumentName = "Tenor 2"
+                    },
+                    Person = ReducedPersonDtoData.Staff,
+                    Project = ReducedProjectDtoData.RockingXMas
+                };
+            }
+
+        }
+
+        public static ProjectParticipationDto StaffRockingXMasTenor1Participation
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("da5eb778-b907-45ce-955a-2af2e6c0b60f"),
+                    MusicianProfile = new ReducedMusicianProfileDto
+                    {
+                        Id = Guid.Parse("f9d85f58-9156-4d5d-988b-3a3d0cb67205"),
+                        InstrumentName = "Tenor 1"
+                    },
+                    Person = ReducedPersonDtoData.Staff,
+                    Project = ReducedProjectDtoData.RockingXMas
+                };
+            }
+
         }
     }
 }

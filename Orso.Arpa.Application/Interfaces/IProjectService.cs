@@ -13,5 +13,6 @@ namespace Orso.Arpa.Application.Interfaces
         Task<ProjectDto> CreateAsync(ProjectCreateDto projectCreateDto);
         Task ModifyAsync(ProjectModifyDto projectModifyDto);
         Task DeleteAsync(Guid id);
+        Task<IEnumerable<ProjectParticipationDto>> GetParticipationsByIdAsync(Guid id);
     }
 }

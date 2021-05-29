@@ -91,6 +91,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Put(Guid id) => $"{Projects}/{id}";
 
             public static string Delete(Guid id) => $"{Projects}/{id}";
+
+            public static string GetParticipations(Guid id) => $"{Get(id)}/participations";
         }
 
         public static class UrlsController
