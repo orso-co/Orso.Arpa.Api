@@ -30,7 +30,10 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     MusicianProfileAvailableDocuments,
                     AuditionStatus,
                     AuditionRepetitorStatus,
-                    MusicianProfileSectionInstrumentAvailability
+                    MusicianProfileSectionInstrumentAvailability,
+                    ProjectParticipationInvitationStatus,
+                    ProjectParticipationStatusInner,
+                    ProjectParticipationStatusInternal
                 };
             }
         }
@@ -148,5 +151,23 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(MusicianProfileSection),
             nameof(MusicianProfileSection.InstrumentAvailability),
             "Instrument Availability");
+
+        public static SelectValueCategory ProjectParticipationStatusInner => new(
+            Guid.Parse("1bae5715-8363-4221-8735-8def3d2546e1"),
+            nameof(ProjectParticipation),
+            nameof(ProjectParticipation.ParticipationStatusInner),
+            "Participation status inner");
+
+        public static SelectValueCategory ProjectParticipationStatusInternal => new(
+            Guid.Parse("13376e1d-2378-4e30-a6d2-808da4a4ba4d"),
+            nameof(ProjectParticipation),
+            nameof(ProjectParticipation.ParticipationStatusInternal),
+            "Participation status internal");
+
+        public static SelectValueCategory ProjectParticipationInvitationStatus => new(
+            Guid.Parse("474775e9-f08a-4043-8474-e84f42bf3948"),
+            nameof(ProjectParticipation),
+            nameof(ProjectParticipation.InvitationStatus),
+            "Participation invitation status");
     }
 }

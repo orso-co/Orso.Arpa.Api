@@ -3,7 +3,7 @@ using Orso.Arpa.Application.General;
 
 namespace Orso.Arpa.Application.SectionApplication
 {
-    public class SectionModifyDto : BaseModifyDto<SectionModifyBodyDto>
+    public class SectionModifyDto : IdFromRouteDto<SectionModifyBodyDto>
     {
     }
 

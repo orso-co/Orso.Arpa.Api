@@ -11,6 +11,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -21,6 +22,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
     public class UserAccessorTests
     {
         private IHttpContextAccessor _httpContextAccessor;
+        private IArpaContext _arpaContext;
         private ArpaUserManager _userManager;
         private UserAccessor _userAccessor;
 
@@ -29,7 +31,8 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         {
             _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
             _userManager = new FakeUserManager();
-            _userAccessor = new UserAccessor(_httpContextAccessor, _userManager);
+            _arpaContext = Substitute.For<IArpaContext>();
+            _userAccessor = new UserAccessor(_httpContextAccessor, _userManager, _arpaContext);
         }
 
         [Test]
@@ -102,6 +105,25 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
                 .Excluding(u => u.Person));
             user.RefreshTokens.Count.Should().Be(expectedUser.RefreshTokens.Count);
             user.RefreshTokens.First().Should().BeEquivalentTo(expectedUser.RefreshTokens.First(), opt => opt.Excluding(t => t.Id));
+        }
+
+        [Test]
+        public async Task Should_Get_Current_Person()
+        {
+            // Arrange
+            Person expectedPerson = FakePersons.Performer;
+            var claims = new List<Claim>
+            {
+                new Claim("/person_id", expectedPerson.Id.ToString())
+            };
+            _httpContextAccessor.HttpContext.User.Claims.Returns(claims);
+            _arpaContext.FindAsync<Person>(expectedPerson.Id).Returns(expectedPerson);
+
+            // Act
+            Person person = await _userAccessor.GetCurrentPersonAsync();
+
+            // Assert
+            person.Should().Be(expectedPerson);
         }
     }
 }

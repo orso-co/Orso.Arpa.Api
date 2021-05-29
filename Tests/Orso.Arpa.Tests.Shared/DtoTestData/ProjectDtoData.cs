@@ -16,7 +16,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new List<ProjectDto>
                 {
                     RockingXMasForPerformer,
-                    HoorayForHollywood
+                    HoorayForHollywood,
+                    Schneekönigin
                 };
             }
         }
@@ -28,7 +29,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new List<ProjectDto>
                 {
                     RockingXMasForStaff,
-                    HoorayForHollywood
+                    HoorayForHollywood,
+                    Schneekönigin
                 };
             }
         }
@@ -101,6 +103,28 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("8f8c500f-71f5-49be-92c8-150ac9e88219"),
                     CreatedAt = FakeDateTime.UtcNow,
+                };
+            }
+        }
+
+        public static ProjectDto Schneekönigin
+        {
+            get
+            {
+                return new ProjectDto
+                {
+                    Code = "1007",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Description = "Let it snow",
+                    EndDate = new DateTime(2020, 12, 10),
+                    GenreId = Guid.Parse("d733e38d-1d80-4054-b654-4ea4a128b0a8"),
+                    Id = Guid.Parse("b781c54d-8115-4561-b01e-9836fa05175e"),
+                    ShortTitle = "Schnee",
+                    StartDate = new DateTime(2020, 12, 1),
+                    StateId = Guid.Parse("725a4f4a-37cb-46ba-93a3-7b9cc2b015cb"),
+                    Title = "Die Schneekönigin",
+                    TypeId = Guid.Parse("34f05f05-ef23-4f36-94e7-73b917530c51")
                 };
             }
         }

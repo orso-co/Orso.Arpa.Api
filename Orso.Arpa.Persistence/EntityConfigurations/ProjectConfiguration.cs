@@ -32,19 +32,19 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .HasOne(e => e.Type)
-                .WithMany(g => g.ProjectsAsType)
+                .WithMany()
                 .HasForeignKey(e => e.TypeId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Genre)
-                .WithMany(g => g.ProjectsAsGenre)
+                .WithMany()
                 .HasForeignKey(e => e.GenreId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.State)
-                .WithMany(g => g.ProjectsAsState)
+                .WithMany()
                 .HasForeignKey(e => e.StateId)
                 .OnDelete(DeleteBehavior.NoAction);
 

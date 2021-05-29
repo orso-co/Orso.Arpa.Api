@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 using static Orso.Arpa.Domain.Logic.Me.SendQRCode;
@@ -17,12 +13,10 @@ namespace Orso.Arpa.Api.Controllers
     public class MeController : BaseController
     {
         private readonly IMeService _meService;
-        private readonly IMusicianProfileService _musicianProfileService;
 
-        public MeController(IMeService meService, IMusicianProfileService musicianProfileService)
+        public MeController(IMeService meService)
         {
             _meService = meService;
-            _musicianProfileService = musicianProfileService;
         }
 
         /// <summary>
@@ -96,61 +90,10 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> SetParticipationPrediction([FromRoute] SetMyProjectAppointmentPredictionDto setParticipationPrediction)
+        public async Task<ActionResult> SetAppointmentParticipationPrediction([FromRoute] SetMyProjectAppointmentPredictionDto setParticipationPrediction)
         {
             await _meService.SetMyAppointmentParticipationPredictionAsync(setParticipationPrediction);
             return NoContent();
-        }
-
-        /// <summary>
-        /// Gets all my musicianProfiles
-        /// </summary>
-        /// <param name="includeDeactivated">Default: false</param>
-        /// <returns>All musicianProfiles of the current user</returns>
-        /// <response code="200"></response>
-        /// <response code="404">If entity could not be found</response>
-        [Authorize(Roles = RoleNames.Performer)]
-        [HttpGet("profiles/musician")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<MyMusicianProfileDto>>> GetMyMusicianProfiles([FromQuery] bool includeDeactivated = false)
-        {
-            return Ok(await _meService.GetMyMusicianProfilesAsync(includeDeactivated));
-        }
-
-        /// <summary>
-        /// Gets my musicianProfile by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>Requested musicianProfile of the current user</returns>
-        /// <response code="200"></response>
-        /// <response code="404">If entity could not be found</response>
-        [Authorize(Roles = RoleNames.Performer)]
-        [HttpGet("profiles/musician/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MyMusicianProfileDto>> GetMyMusicianProfile([FromRoute] Guid id)
-        {
-            return Ok(await _meService.GetMyMusicianProfileAsync(id));
-        }
-
-        /// <summary>
-        /// Adds a new musicianProfile
-        /// </summary>
-        /// <param name="myMusicianProfileCreateDto"></param>
-        /// <returns>The created musicianProfile</returns>
-        /// <response code="201">Returns the created musicianProfile</response>
-        /// <response code="404">If entity could not be found</response>
-        /// <response code="422">If validation fails</response>
-        [Authorize(Roles = RoleNames.Performer)]
-        [HttpPost("profiles/musician")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<MyMusicianProfileDto>> AddMusicianProfile([FromBody] MyMusicianProfileCreateDto myMusicianProfileCreateDto)
-        {
-            MyMusicianProfileDto createdMusicianProfile = await _meService.CreateMusicianProfileAsync(myMusicianProfileCreateDto);
-            return CreatedAtAction(nameof(MusicianProfilesController.GetById), "MusicianProfiles", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
         }
     }
 }

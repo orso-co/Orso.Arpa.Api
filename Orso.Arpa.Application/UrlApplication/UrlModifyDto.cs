@@ -6,7 +6,7 @@ using static Orso.Arpa.Domain.Logic.Urls.Modify;
 
 namespace Orso.Arpa.Application.UrlApplication
 {
-    public class UrlModifyDto : BaseModifyDto<UrlModifyBodyDto>
+    public class UrlModifyDto : IdFromRouteDto<UrlModifyBodyDto>
     {
     }
 

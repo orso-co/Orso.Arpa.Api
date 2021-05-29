@@ -15,7 +15,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new List<Project>
                 {
                     RockingXMas,
-                    HoorayForHollywood
+                    HoorayForHollywood,
+                    Schneekönigin
                 };
             }
         }
@@ -62,6 +63,29 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
                         ParentId = null,
                         IsCompleted = false
+                    });
+            }
+        }
+
+        public static Project Schneekönigin
+        {
+            get
+            {
+                return new Project(
+                    Guid.Parse("b781c54d-8115-4561-b01e-9836fa05175e"),
+                    new Create.Command
+                    {
+                        Title = "Die Schneekönigin",
+                        ShortTitle = "Schnee",
+                        Description = "Let it snow",
+                        Code = "1007",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
+                        StartDate = new DateTime(2020, 12, 1),
+                        EndDate = new DateTime(2020, 12, 10),
+                        StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                        ParentId = null,
+                        IsCompleted = false,
                     });
             }
         }

@@ -6,7 +6,7 @@ using static Orso.Arpa.Domain.Logic.Appointments.SetDates;
 
 namespace Orso.Arpa.Application.AppointmentApplication
 {
-    public class AppointmentSetDatesDto : BaseModifyDto<AppointmentSetDatesBodyDto>
+    public class AppointmentSetDatesDto : IdFromRouteDto<AppointmentSetDatesBodyDto>
     {
     }
 

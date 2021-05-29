@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Orso.Arpa.Application.MusicianProfileForAppointmentApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.PersonApplication;
 using static Orso.Arpa.Domain.Logic.MusicianProfiles.GetForAppointment;
 
@@ -10,7 +10,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public PersonDto Person { get; set; }
         public AppointmentParticipationDto Participation { get; set; }
-        public IList<MusicianProfileForAppointmentDto> MusicianProfiles { get; set; } = new List<MusicianProfileForAppointmentDto>();
+        public IList<ReducedMusicianProfileDto> MusicianProfiles { get; set; } = new List<ReducedMusicianProfileDto>();
     }
 
     public class AppointmentParticipationListItemDtoProfile : Profile

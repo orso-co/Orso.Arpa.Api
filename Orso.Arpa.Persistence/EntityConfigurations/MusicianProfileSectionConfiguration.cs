@@ -26,7 +26,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .HasOne(a => a.InstrumentAvailability)
-                .WithMany(r => r.MusicianProfileSections)
+                .WithMany()
                 .HasForeignKey(a => a.InstrumentAvailabilityId)
                 .OnDelete(DeleteBehavior.NoAction);
         }

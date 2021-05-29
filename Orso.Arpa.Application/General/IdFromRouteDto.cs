@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Orso.Arpa.Application.General
 {
-    public abstract class BaseModifyDto<T>
+    public abstract class IdFromRouteDto<T>
     {
         [FromRoute]
         public Guid Id { get; set; }
@@ -12,7 +12,7 @@ namespace Orso.Arpa.Application.General
         public T Body { get; set; }
     }
 
-    public class BaseModifyDtoValidator<T, TBody> : AbstractValidator<T> where T : BaseModifyDto<TBody>
+    public class BaseModifyDtoValidator<T, TBody> : AbstractValidator<T> where T : IdFromRouteDto<TBody>
     {
         public BaseModifyDtoValidator()
         {

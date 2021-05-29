@@ -10,31 +10,31 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         {
             builder
                 .HasOne(e => e.Category)
-                .WithMany(c => c.AppointmentsAsCategory)
+                .WithMany()
                 .HasForeignKey(e => e.CategoryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Status)
-                .WithMany(c => c.AppointmentsAsStatus)
+                .WithMany()
                 .HasForeignKey(e => e.StatusId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Salary)
-                .WithMany(c => c.AppointmentsAsSalary)
+                .WithMany()
                 .HasForeignKey(e => e.SalaryId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.SalaryPattern)
-                .WithMany(c => c.AppointmentsAsSalaryPattern)
+                .WithMany()
                 .HasForeignKey(e => e.SalaryPatternId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Expectation)
-                .WithMany(c => c.AppointmentsAsExpectation)
+                .WithMany()
                 .HasForeignKey(e => e.ExpectationId)
                 .OnDelete(DeleteBehavior.NoAction);
 

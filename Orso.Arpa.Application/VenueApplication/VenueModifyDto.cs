@@ -3,7 +3,7 @@ using Orso.Arpa.Application.General;
 
 namespace Orso.Arpa.Application.VenueApplication
 {
-    public class VenueModifyDto : BaseModifyDto<VenueModifyBodyDto>
+    public class VenueModifyDto : IdFromRouteDto<VenueModifyBodyDto>
     {
     }
 

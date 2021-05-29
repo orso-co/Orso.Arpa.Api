@@ -7,7 +7,7 @@ using static Orso.Arpa.Domain.Logic.MusicianProfiles.Modify;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
 {
-    public class MusicianProfileModifyDto : BaseModifyDto<MusicianProfileModifyBodyDto>
+    public class MusicianProfileModifyDto : IdFromRouteDto<MusicianProfileModifyBodyDto>
     {
     }
 

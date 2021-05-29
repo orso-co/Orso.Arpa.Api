@@ -10,13 +10,13 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         {
             builder
                 .HasOne(e => e.Status)
-                .WithMany(c => c.AuditionsAsStatus)
+                .WithMany()
                 .HasForeignKey(e => e.StatusId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.RepetitorStatus)
-                .WithMany(c => c.AuditionsAsRepetitorStatus)
+                .WithMany()
                 .HasForeignKey(e => e.RepetitorStatusId)
                 .OnDelete(DeleteBehavior.NoAction);
 

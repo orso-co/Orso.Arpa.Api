@@ -22,13 +22,13 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .HasOne(e => e.Result)
-                .WithMany(c => c.AppointmentParticipationsAsResult)
+                .WithMany()
                 .HasForeignKey(e => e.ResultId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Prediction)
-                .WithMany(c => c.AppointmentParticipationsAsPrediction)
+                .WithMany()
                 .HasForeignKey(e => e.PredictionId)
                 .OnDelete(DeleteBehavior.NoAction);
         }

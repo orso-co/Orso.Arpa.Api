@@ -11,6 +11,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
+using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.GenericHandlers;
@@ -51,10 +52,10 @@ namespace Orso.Arpa.Application.Services
         {
             var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
             IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
-            User currentUser = await _userAccessor.GetCurrentUserAsync();
+            Person currentPerson = await _userAccessor.GetCurrentPersonAsync();
 
             Tuple<IQueryable<Appointment>, int> appointmentTuple = await _mediator.Send(
-                new AppointmentList.Query(limit, offset, flattenedTree, currentUser.Person));
+                new AppointmentList.Query(limit, offset, flattenedTree, currentPerson));
 
             IList<MyAppointmentDto> myAppointmentDtos = await appointmentTuple.Item1
                 .ProjectTo<MyAppointmentDto>(_mapper.ConfigurationProvider)
@@ -63,7 +64,7 @@ namespace Orso.Arpa.Application.Services
             foreach (MyAppointmentDto dto in myAppointmentDtos)
             {
                 AppointmentParticipation participation = await _mediator.Send(new Domain.Logic.AppointmentParticipations.Details.Query(
-                    dto.Id, currentUser.PersonId));
+                    dto.Id, currentPerson.Id));
                 if (participation != null)
                 {
                     _mapper.Map(participation, dto);
@@ -82,9 +83,7 @@ namespace Orso.Arpa.Application.Services
             Domain.Logic.AppointmentParticipations.SetPrediction.Command command = _mapper
                 .Map<Domain.Logic.AppointmentParticipations.SetPrediction.Command>(setParticipationPredictionDto);
 
-            User currentUser = await _userAccessor.GetCurrentUserAsync();
-            command.PersonId = currentUser.PersonId;
-
+            command.PersonId = _userAccessor.PersonId;
             await _mediator.Send(command);
         }
 
@@ -121,6 +120,16 @@ namespace Orso.Arpa.Application.Services
             return await musicianProfiles
                 .ProjectTo<MyMusicianProfileDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+        }
+
+        public async Task<ProjectParticipationDto> SetMyProjectParticipationAsync(SetMyProjectParticipationDto myProjectParticipationDto)
+        {
+            Domain.Logic.ProjectParticipations.Set.Command command = _mapper
+                .Map<Domain.Logic.ProjectParticipations.Set.Command>(myProjectParticipationDto);
+
+            command.PersonId = _userAccessor.PersonId;
+            ProjectParticipation projectParticipation = await _mediator.Send(command);
+            return _mapper.Map<ProjectParticipationDto>(projectParticipation);
         }
     }
 }
