@@ -142,5 +142,25 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _projectService.GetParticipationsByIdAsync(id));
         }
+
+
+
+        /// <summary>
+        /// Sets the project participation for the given musician profile
+        /// </summary>
+        /// <param name="myProjectParticipationDto"></param>
+        /// <returns>Project participation</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPut("{id}/participations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<ProjectParticipationDto>> SetProjectParticipation(SetProjectParticipationDto myProjectParticipationDto)
+        {
+            return Ok(await _projectService.SetProjectParticipationAsync(myProjectParticipationDto));
+        }
     }
 }

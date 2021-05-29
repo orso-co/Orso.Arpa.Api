@@ -3,7 +3,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Domain.Logic.Me;
 
 namespace Orso.Arpa.Application.MeApplication
 {
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Application.MeApplication
     {
         public MyProjectParticipationDtoMappingProfile()
         {
-            CreateMap<SetMyProjectParticipationDto, Set.Command>()
+            CreateMap<SetMyProjectParticipationDto, SetProjectParticipation.Command>()
                 .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))
                 .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Body.Comment))
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id))

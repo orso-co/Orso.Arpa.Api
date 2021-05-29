@@ -124,8 +124,8 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<ProjectParticipationDto> SetMyProjectParticipationAsync(SetMyProjectParticipationDto myProjectParticipationDto)
         {
-            Domain.Logic.ProjectParticipations.Set.Command command = _mapper
-                .Map<Domain.Logic.ProjectParticipations.Set.Command>(myProjectParticipationDto);
+            SetProjectParticipation.Command command = _mapper
+                .Map<SetProjectParticipation.Command>(myProjectParticipationDto);
 
             command.PersonId = _userAccessor.PersonId;
             ProjectParticipation projectParticipation = await _mediator.Send(command);

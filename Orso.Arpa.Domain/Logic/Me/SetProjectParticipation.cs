@@ -10,9 +10,9 @@ using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
-namespace Orso.Arpa.Domain.Logic.ProjectParticipations
+namespace Orso.Arpa.Domain.Logic.Me
 {
-    public static class Set
+    public static class SetProjectParticipation
     {
         public class Command : IRequest<ProjectParticipation>
         {
@@ -90,7 +90,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                     return participation;
                 }
 
-                throw new Exception("Problem updating project participation");
+                throw new Exception("Problem setting project participation");
             }
         }
     }

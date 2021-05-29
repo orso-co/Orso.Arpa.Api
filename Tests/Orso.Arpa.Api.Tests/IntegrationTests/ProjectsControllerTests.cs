@@ -8,6 +8,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
@@ -117,7 +118,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
         }
 
-        [Test, Order(100)]
+        [Test, Order(10000)]
         public async Task Should_Modify()
         {
             // Arrange
@@ -137,8 +138,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 StartDate = new DateTime(2021, 02, 02),
                 EndDate = new DateTime(2021, 02, 28),
                 StateId = SelectValueMappingSeedData.ProjectStateMappings[2].Id,
-                ParentId = ProjectSeedData.RockingXMas.Id,
-                IsCompleted = true,
+                ParentId = ProjectSeedData.RockingXMas.Id
             };
 
             // Act
@@ -163,7 +163,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.ModifiedAt.Should().Be(FakeDateTime.UtcNow);
         }
 
-        [Test, Order(1000)]
+        [Test, Order(100)]
         public async Task Should_Create_With_Minimum_Fields_Defined()
         {
             // Arrange
@@ -199,7 +199,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.ProjectsController.Get(result.Id)}");
         }
 
-        [Test, Order(1001)]
+        [Test, Order(101)]
         public async Task Should_Create_With_All_Fields_Defined()
         {
             // Arrange
@@ -249,7 +249,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.ProjectsController.Get(result.Id)}");
         }
 
-        [Test, Order(1002)]
+        [Test, Order(102)]
         public async Task Should_Not_Create_Due_To_Non_Unique_ProjectCode()
         {
             // Arrange
@@ -274,7 +274,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Code", new[] { "The specified project code is already in use. The project code needs to be unique." } } });
         }
 
-        [Test, Order(1003)]
+        [Test, Order(103)]
         public async Task Should_Not_Create_Due_To_Missing_Mandatory_Field()
         {
             // Arrange
@@ -300,7 +300,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             validationProblemDetails.Errors["Code"].Should().NotBeEmpty();
         }
 
-        [Test, Order(1004)]
+        [Test, Order(104)]
         public async Task Should_Not_Create_Due_Wrong_Dates()
         {
             // Arrange
@@ -328,7 +328,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "EndDate", new[] { "'EndDate' must be greater than 'StartDate'" } } });
         }
 
-        [Test, Order(1010)]
+        [Test, Order(105)]
         public async Task Should_Add_Url()
         {
             // Arrange
@@ -359,7 +359,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.UrlsController.Get(result.Id)}");
         }
 
-        [Test, Order(1011)]
+        [Test, Order(106)]
         public async Task Should_Not_Add_Url_Due_To_Project_Not_Found()
         {
             // Arrange
@@ -381,6 +381,97 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Status.Should().Be(404);
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "ProjectId", new[] { "Project could not be found." } } });
         }
+
+        [Test, Order(107)]
+        public async Task Should_Set_New_Project_Participation()
+        {
+            // Arrange
+            MusicianProfile musicianProfile = MusicianProfileSeedData.PerformersHornMusicianProfile;
+            Project project = ProjectSeedData.HoorayForHollywood;
+            var dto = new SetProjectParticipationBodyDto
+            {
+                MusicianProfileId = musicianProfile.Id,
+                CommentByStaffInner = "Staff comment",
+                CommentTeam = "Team comment",
+                InvitationStatusId = SelectValueMappingSeedData.ProjectParticipationInvitationStatusMappings[0].Id,
+                ParticipationStatusInnerId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[0].Id,
+                ParticipationStatusInternalId = SelectValueMappingSeedData.ProjectParticipationStatusInternalMappings[0].Id,
+            };
+            var expectedDto = new ProjectParticipationDto
+            {
+                ParticipationStatusInnerId = dto.ParticipationStatusInnerId,
+                ParticipationStatusInner = "Interested",
+                ParticipationStatusInternalId = dto.ParticipationStatusInternalId,
+                ParticipationStatusInternal = "Candidate",
+                InvitationStatusId = dto.InvitationStatusId,
+                InvitationStatus = "Invited",
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = "Staff Member",
+                CommentByStaffInner = "Staff comment",
+                CommentTeam = "Team comment",
+                MusicianProfile = new ReducedMusicianProfileDto
+                {
+                    Id = musicianProfile.Id,
+                    InstrumentName = "Horn",
+                    Qualification = "Student"
+                },
+                Project = ReducedProjectDtoData.HoorayForHollywood,
+                Person = ReducedPersonDtoData.Performer
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PutAsync(ApiEndpoints.ProjectsController.SetParticipation(project.Id), BuildStringContent(dto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+            result.Id.Should().NotBeEmpty();
+        }
+
+        [Test, Order(108)]
+        public async Task Should_Set_Existing_Project_Participation()
+        {
+            // Arrange
+            MusicianProfile musicianProfile = MusicianProfileSeedData.PerformerMusicianProfile;
+            Project project = ProjectSeedData.Schneekönigin;
+
+            var dto = new SetProjectParticipationBodyDto
+            {
+                MusicianProfileId = musicianProfile.Id,
+                CommentByStaffInner = "Staff comment",
+                CommentTeam = "Team comment",
+                InvitationStatusId = SelectValueMappingSeedData.ProjectParticipationInvitationStatusMappings[1].Id,
+                ParticipationStatusInnerId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[0].Id,
+                ParticipationStatusInternalId = SelectValueMappingSeedData.ProjectParticipationStatusInternalMappings[1].Id,
+            };
+            ProjectParticipationDto expectedDto = ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff;
+            expectedDto.CommentByStaffInner = dto.CommentByStaffInner;
+            expectedDto.CommentTeam = dto.CommentTeam;
+            expectedDto.InvitationStatusId = dto.InvitationStatusId;
+            expectedDto.InvitationStatus = "Not invited";
+            expectedDto.ParticipationStatusInnerId = dto.ParticipationStatusInnerId;
+            expectedDto.ParticipationStatusInner = "Interested";
+            expectedDto.ParticipationStatusInternalId = dto.ParticipationStatusInternalId;
+            expectedDto.ParticipationStatusInternal = "Acceptance";
+            expectedDto.ModifiedAt = FakeDateTime.UtcNow;
+            expectedDto.ModifiedBy = "Staff Member";
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PutAsync(ApiEndpoints.ProjectsController.SetParticipation(project.Id), BuildStringContent(dto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
+        }
+
         [Test, Order(10000)]
         public async Task Should_Delete()
         {

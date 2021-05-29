@@ -11,6 +11,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -42,6 +43,15 @@ namespace Orso.Arpa.Application.Services
             return await projectParticipations
                 .ProjectTo<ProjectParticipationDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+        }
+
+        public async Task<ProjectParticipationDto> SetProjectParticipationAsync(SetProjectParticipationDto myProjectParticipationDto)
+        {
+            SetProjectParticipation.Command command = _mapper
+                .Map<SetProjectParticipation.Command>(myProjectParticipationDto);
+
+            ProjectParticipation projectParticipation = await _mediator.Send(command);
+            return _mapper.Map<ProjectParticipationDto>(projectParticipation);
         }
     }
 }

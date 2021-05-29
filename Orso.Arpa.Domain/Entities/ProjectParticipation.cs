@@ -1,11 +1,10 @@
 using System;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class ProjectParticipation : BaseEntity
     {
-        public ProjectParticipation(Guid? id, Create.Command command) : base(id)
+        public ProjectParticipation(Logic.Projects.SetProjectParticipation.Command command, Guid? id = null) : base(id)
         {
             ProjectId = command.ProjectId;
             MusicianProfileId = command.MusicianProfileId;
@@ -16,7 +15,7 @@ namespace Orso.Arpa.Domain.Entities
             ParticipationStatusInternalId = command.ParticipationStatusInternalId;
         }
 
-        public ProjectParticipation(Set.Command command, Guid? id = null) : base(id)
+        public ProjectParticipation(Logic.Me.SetProjectParticipation.Command command, Guid? id = null) : base(id)
         {
             ProjectId = command.ProjectId;
             MusicianProfileId = command.MusicianProfileId;
