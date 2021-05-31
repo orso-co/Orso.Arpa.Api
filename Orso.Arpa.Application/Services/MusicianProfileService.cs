@@ -9,6 +9,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.MusicianProfiles;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Application.Services
@@ -44,6 +45,12 @@ namespace Orso.Arpa.Application.Services
 
             // Cannot use .ProjectTo here because .ProjectTo does not suppert After Mapping Actions
             return _mapper.Map<IEnumerable<ProjectParticipationDto>>(participations);
+        }
+
+        public Task SetActiveStatusAsync(Guid id, bool active)
+        {
+            var command = new SetActiveStatus.Command { Id = id, Active = active };
+            return _mediator.Send(command);
         }
     }
 }

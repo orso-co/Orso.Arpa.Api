@@ -77,6 +77,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
+        [Test, Order(1000)]
+        public async Task Should_Set_Active_Status_Of_Musician_Profile()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .PutAsync(ApiEndpoints.MusicianProfilesController.Put(MusicianProfileSeedData.PerformersDeactivatedTubaProfile.Id, true), null);
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
         //[Test, Order(100)]
         //public async Task Should_Modify()
         //{

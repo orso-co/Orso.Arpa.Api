@@ -193,7 +193,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             private static string MusicianProfiles => $"{Base}/profiles/musicians";
 
-            public static string Put(Guid id) => $"{MusicianProfiles}/{id}";
+            public static string Put(Guid id, bool active) => $"{MusicianProfiles}/{id}?active={active}";
 
             public static string Get(Guid id) => $"{MusicianProfiles}/{id}";
 

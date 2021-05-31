@@ -52,9 +52,11 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="id">The id of the section</param>
         /// <returns>A tree of sections</returns>
         /// <response code="200"></response>
-        [AllowAnonymous]
+        /// <response code="404">If entity could not be found</response>
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet("{id}/doublinginstruments")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<SectionDto>>> GetDoublingInstruments([FromRoute] Guid id)
         {
             return Ok(await _sectionService.GetDoublingInstrumentsAsync(id));

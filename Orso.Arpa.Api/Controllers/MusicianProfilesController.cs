@@ -72,5 +72,24 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _musicianProfileService.GetProjectParticipationsAsync(id, includeCompleted));
         }
+
+        /// <summary>
+        /// Sets the musician profile to active or deactivated
+        /// </summary>
+        /// <param name="active"></param>
+        /// <param name="id">The id of the musician profile</param>
+        /// <returns>All project participations of the given musician profile</returns>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.PerformerOrStaff)]
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Put([FromRoute] Guid id, [FromQuery] bool active = false)
+        {
+            await _musicianProfileService.SetActiveStatusAsync(id, active);
+            return NoContent();
+        }
     }
 }
