@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.SectionApplication;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -56,6 +58,43 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<SectionDto> result = await DeserializeResponseMessageAsync<IEnumerable<SectionDto>>(responseMessage);
             result.Should().BeEquivalentTo(SectionDtoData.Instruments);
+        }
+
+        private static IEnumerable<TestCaseData> s_doublingInstrumentsData
+        {
+            get
+            {
+                yield return new TestCaseData(SectionSeedData.Flute.Id, new List<SectionDto>
+                {
+                    SectionDtoData.PiccoloFlute,
+                    SectionDtoData.AltoFlute,
+                    SectionDtoData.BassFlute,
+                    SectionDtoData.TenorFlute
+                });
+                yield return new TestCaseData(SectionSeedData.PiccoloFlute.Id, new List<SectionDto>
+                {
+                    SectionDtoData.Flute,
+                    SectionDtoData.AltoFlute,
+                    SectionDtoData.BassFlute,
+                    SectionDtoData.TenorFlute
+                });
+            }
+        }
+
+        [Test, Order(4)]
+        [TestCaseSource(nameof(s_doublingInstrumentsData))]
+        public async Task Should_Get_DoublingInstruments(Guid sectionId, IEnumerable<SectionDto> expectedResult)
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.SectionsController.GetDoublingInstruments(sectionId));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<SectionDto> result = await DeserializeResponseMessageAsync<IEnumerable<SectionDto>>(responseMessage);
+            result.Should().BeEquivalentTo(expectedResult);
         }
     }
 }

@@ -25,6 +25,13 @@ namespace Orso.Arpa.Application.Services
             return await base.GetAsync(orderBy: s => s.OrderBy(s => s.Name), predicate: instrumentsOnly ? predicate : null);
         }
 
+        public async Task<IEnumerable<SectionDto>> GetDoublingInstrumentsAsync(Guid id)
+        {
+            var query = new DoublingInstruments.Query { Id = id };
+            IEnumerable<Section> doublingInstruments = await _mediator.Send(query);
+            return _mapper.Map<IEnumerable<SectionDto>>(doublingInstruments);
+        }
+
         public async Task<SectionTreeDto> GetTreeAsync(int? maxLevel)
         {
             var query = new Tree.Query() { MaxLevel = maxLevel };

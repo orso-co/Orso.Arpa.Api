@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +27,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<SectionDto>>> Get([FromQuery]bool instrumentsOnly = false)
+        public async Task<ActionResult<IEnumerable<SectionDto>>> Get([FromQuery] bool instrumentsOnly = false)
         {
             return Ok(await _sectionService.GetAsync(instrumentsOnly));
         }
@@ -43,6 +44,20 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<SectionTreeDto>> GetTree([FromQuery] int? maxLevel = null)
         {
             return Ok(await _sectionService.GetTreeAsync(maxLevel));
+        }
+
+        /// <summary>
+        /// Gets all possible doubling instruments of the given section
+        /// </summary>
+        /// <param name="id">The id of the section</param>
+        /// <returns>A tree of sections</returns>
+        /// <response code="200"></response>
+        [AllowAnonymous]
+        [HttpGet("{id}/doublinginstruments")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<SectionDto>>> GetDoublingInstruments([FromRoute] Guid id)
+        {
+            return Ok(await _sectionService.GetDoublingInstrumentsAsync(id));
         }
     }
 }
