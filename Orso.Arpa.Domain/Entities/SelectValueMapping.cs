@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.Entities
         {
             SelectValueCategoryId = selectValueCategoryId;
             SelectValueId = selectValueId;
-            SortOrder = sortOrder ?? int.MaxValue;
+            SortOrder = sortOrder;
         }
 
         protected SelectValueMapping()
@@ -19,6 +19,6 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValue SelectValue { get; private set; }
         public Guid SelectValueCategoryId { get; private set; }
         public virtual SelectValueCategory SelectValueCategory { get; private set; }
-        public int SortOrder { get; private set; }
+        public int? SortOrder { get; private set; }
     }
 }
