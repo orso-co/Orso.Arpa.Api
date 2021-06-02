@@ -191,11 +191,11 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 return new List<SelectValueMapping>
                 {
-                    new SelectValueMapping(Guid.Parse("d733e38d-1d80-4054-b654-4ea4a128b0a8"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ClassicalMusic.Id),
+                    new SelectValueMapping(Guid.Parse("d733e38d-1d80-4054-b654-4ea4a128b0a8"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ClassicalMusic.Id,10),
                     new SelectValueMapping(Guid.Parse("e7e78e76-3850-4eb5-892f-d90be6c256a4"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.Crossover.Id),
-                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ChamberMusic.Id),
-                    new SelectValueMapping(Guid.Parse("5578f637-14b7-4c11-85a8-0b94d83da678"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.FilmMusic.Id),
-                    new SelectValueMapping(Guid.Parse("8daa5ae4-3885-4739-803a-693c7cfdf314"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.DancePerformance.Id),
+                    new SelectValueMapping(Guid.Parse("29e1142f-aa9e-4b94-ae21-9a63f7b65c15"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ChamberMusic.Id,30),
+                    new SelectValueMapping(Guid.Parse("5578f637-14b7-4c11-85a8-0b94d83da678"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.FilmMusic.Id,30),
+                    new SelectValueMapping(Guid.Parse("8daa5ae4-3885-4739-803a-693c7cfdf314"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.DancePerformance.Id,30),
                     new SelectValueMapping(Guid.Parse("4ef47024-d8a5-4b2d-8584-aeb29263dddb"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ContemporaryMusic.Id),
                 };
             }
