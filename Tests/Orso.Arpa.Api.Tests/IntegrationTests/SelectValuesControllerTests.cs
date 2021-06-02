@@ -26,7 +26,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<SelectValueDto> result = await DeserializeResponseMessageAsync<IEnumerable<SelectValueDto>>(responseMessage);
-            result.Should().BeEquivalentTo(SelectValueDtoData.ProjectGenres);
+            result.Should().BeEquivalentTo(SelectValueDtoData.ProjectGenres, options => options.WithStrictOrdering());
         }
     }
 }
