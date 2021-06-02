@@ -32,19 +32,19 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     IsMainProfile = true,
                     IsDeactivated = false,
 
-                    LevelAssessmentPerformer = 1,
-                    LevelAssessmentStaff = 2,
-                    ProfilePreferencePerformer = 3,
-                    ProfilePreferenceStaff = 4,
+                    LevelAssessmentInner = 1,
+                    LevelAssessmentTeam = 2,
+                    ProfilePreferenceInner = 3,
+                    ProfilePreferenceTeam = 4,
 
-                    BackgroundPerformer = "Performer gave some background",
-                    BackgroundStaff = "Staff gave some background",
+                    BackgroundInner = "Performer gave some background",
+                    BackgroundTeam = "Staff gave some background",
                     SalaryComment = "Perfomer only accepty PayPal",
 
                     QualificationId = Guid.NewGuid(),
                     SalaryId = Guid.NewGuid(),
-                    InquiryStatusPerformerId = Guid.NewGuid(),
-                    InquiryStatusStaffId = Guid.NewGuid(),
+                    InquiryStatusInnerId = Guid.NewGuid(),
+                    InquiryStatusTeamId = Guid.NewGuid(),
 
                     // ToDo for collections
                 }
@@ -55,19 +55,19 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 IsMainProfile = dto.Body.IsMainProfile,
                 IsDeactivated = dto.Body.IsDeactivated,
 
-                LevelAssessmentPerformer = dto.Body.LevelAssessmentPerformer,
-                LevelAssessmentStaff = dto.Body.LevelAssessmentStaff,
-                ProfilePreferencePerformer = dto.Body.ProfilePreferencePerformer,
-                ProfilePreferenceStaff = dto.Body.ProfilePreferenceStaff,
+                LevelAssessmentInner = dto.Body.LevelAssessmentInner,
+                LevelAssessmentTeam = dto.Body.LevelAssessmentTeam,
+                ProfilePreferenceInner = dto.Body.ProfilePreferenceInner,
+                ProfilePreferenceTeam = dto.Body.ProfilePreferenceTeam,
 
-                BackgroundPerformer = dto.Body.BackgroundPerformer,
-                BackgroundStaff = dto.Body.BackgroundStaff,
+                BackgroundInner = dto.Body.BackgroundInner,
+                BackgroundTeam = dto.Body.BackgroundTeam,
                 SalaryComment = dto.Body.SalaryComment,
 
                 QualificationId = dto.Body.QualificationId,
                 SalaryId = dto.Body.SalaryId,
-                InquiryStatusPerformerId = dto.Body.InquiryStatusPerformerId,
-                InquiryStatusStaffId = dto.Body.InquiryStatusStaffId,
+                InquiryStatusInnerId = dto.Body.InquiryStatusInnerId,
+                InquiryStatusTeamId = dto.Body.InquiryStatusTeamId,
 
                 // ToDo for collections
             };

@@ -29,26 +29,26 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 Id = Guid.NewGuid(),
                 Body = new MusicianProfileCreateBodyDto
                 {
-                    LevelAssessmentPerformer = 1,
-                    LevelAssessmentStaff = 2,
+                    LevelAssessmentInner = 1,
+                    LevelAssessmentTeam = 2,
                     InstrumentId = Guid.NewGuid(),
                     QualificationId = Guid.NewGuid(),
-                    InquiryStatusPerformerId = Guid.NewGuid(),
-                    InquiryStatusStaffId = Guid.NewGuid(),
+                    InquiryStatusInnerId = Guid.NewGuid(),
+                    InquiryStatusTeamId = Guid.NewGuid(),
                 }
             };
-            dto.Body.PreferredPositionsPerformerIds.Add(Guid.NewGuid());
-            dto.Body.PreferredPositionsStaffIds.Add(Guid.NewGuid());
+            dto.Body.PreferredPositionsInnerIds.Add(Guid.NewGuid());
+            dto.Body.PreferredPositionsTeamIds.Add(Guid.NewGuid());
             dto.Body.DoublingInstruments.Add(new DoublingInstrumentCreateDto
             {
                 AvailabilityId = Guid.NewGuid(),
                 Comment = "Comment",
                 InstrumentId = Guid.NewGuid(),
-                LevelAssessmentPerformer = 2,
-                LevelAssessmentStaff = 3
+                LevelAssessmentInner = 2,
+                LevelAssessmentTeam = 3
             });
-            dto.Body.PreferredPartsPerformer.Add(4);
-            dto.Body.PreferredPartsStaff.Add(2);
+            dto.Body.PreferredPartsInner.Add(4);
+            dto.Body.PreferredPartsTeam.Add(2);
 
             // Act
             Create.Command command = _mapper.Map<Create.Command>(dto);

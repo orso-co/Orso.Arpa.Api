@@ -11,21 +11,21 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
     {
         public bool IsMainProfile { get; set; }
         public bool IsDeactivated { get; set; }
-        public byte LevelAssessmentPerformer { get; set; }
-        public byte ProfilePreferencePerformer { get; set; }
-        public string BackgroundPerformer { get; set; }
+        public byte LevelAssessmentInner { get; set; }
+        public byte ProfilePreferenceInner { get; set; }
+        public string BackgroundInner { get; set; }
         public Guid PersonId { get; set; }
         public Guid InstrumentId { get; set; }
-        public Guid? InquiryStatusPerformerId { get; set; }
+        public Guid? InquiryStatusInnerId { get; set; }
         public IList<MyDoublingInstrumentDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentDto>();
-        public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
-        public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
+        public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
+        public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
     }
 
     public class MyDoublingInstrumentDto : BaseEntityDto
     {
         public Guid InstrumentId { get; set; }
-        public byte LevelAssessmentPerformer { get; set; }
+        public byte LevelAssessmentInner { get; set; }
         public Guid? AvailabilityId { get; set; }
         public string Comment { get; set; }
     }
@@ -38,18 +38,18 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.IsMainProfile))
                 .ForMember(dest => dest.IsDeactivated, opt => opt.MapFrom(src => src.IsDeactivated))
 
-                .ForMember(dest => dest.LevelAssessmentPerformer, opt => opt.MapFrom(src => src.LevelAssessmentPerformer))
-                .ForMember(dest => dest.ProfilePreferencePerformer, opt => opt.MapFrom(src => src.ProfilePreferencePerformer))
-                .ForMember(dest => dest.BackgroundPerformer, opt => opt.MapFrom(src => src.BackgroundPerformer))
+                .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
+                .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.ProfilePreferenceInner))
+                .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.BackgroundInner))
 
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
-                .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.InquiryStatusPerformerId))
+                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.InquiryStatusInnerId))
 
                 .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
-                .ForMember(dest => dest.PreferredPositionsPerformerIds, opt => opt.MapFrom(src => src.PreferredPositionsPerformer
+                .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.PreferredPositionsInner
                     .Select(p => p.SelectValueSectionId)))
-                .ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer))
+                .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
 
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
             CreateMap<MusicianProfileSection, MyDoublingInstrumentDto>()
                 .ForMember(dest => dest.AvailabilityId, opt => opt.MapFrom(src => src.InstrumentAvailabilityId))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.SectionId))
-                .ForMember(dest => dest.LevelAssessmentPerformer, opt => opt.MapFrom(src => src.LevelAssessmentPerformer))
+                .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
                 .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Comment))
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }

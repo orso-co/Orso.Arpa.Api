@@ -4,20 +4,20 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {
-    public class MusicianProfilePositionStaffConfiguration : IEntityTypeConfiguration<MusicianProfilePositionStaff>
+    public class MusicianProfilePositionTeamConfiguration : IEntityTypeConfiguration<MusicianProfilePositionTeam>
     {
-        public void Configure(EntityTypeBuilder<MusicianProfilePositionStaff> builder)
+        public void Configure(EntityTypeBuilder<MusicianProfilePositionTeam> builder)
         {
             builder
                 .HasOne(e => e.SelectValueSection)
-                .WithMany(r => r.MusicianProfilePositionsAsStaff)
+                .WithMany(r => r.MusicianProfilePositionsAsTeam)
                 .HasForeignKey(e => e.SelectValueSectionId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
 
             builder
                 .HasOne(e => e.MusicianProfile)
-                .WithMany(r => r.PreferredPositionsStaff)
+                .WithMany(r => r.PreferredPositionsTeam)
                 .HasForeignKey(e => e.MusicianProfileId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);

@@ -17,13 +17,13 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public bool IsMainProfile { get; set; }
         public bool IsDeactivated { get; set; }
 
-        public byte LevelAssessmentPerformer { get; set; }
-        public byte LevelAssessmentStaff { get; set; }
-        public byte ProfilePreferencePerformer { get; set; }
-        public byte ProfilePreferenceStaff { get; set; }
+        public byte LevelAssessmentInner { get; set; }
+        public byte LevelAssessmentTeam { get; set; }
+        public byte ProfilePreferenceInner { get; set; }
+        public byte ProfilePreferenceTeam { get; set; }
 
-        public string BackgroundPerformer { get; set; }
-        public string BackgroundStaff { get; set; }
+        public string BackgroundInner { get; set; }
+        public string BackgroundTeam { get; set; }
         public string SalaryComment { get; set; }
         #endregion
 
@@ -32,18 +32,18 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 
         public Guid? SalaryId { get; set; }
 
-        public Guid? InquiryStatusPerformerId { get; set; }
+        public Guid? InquiryStatusInnerId { get; set; }
 
-        public Guid? InquiryStatusStaffId { get; set; }
+        public Guid? InquiryStatusTeamId { get; set; }
         #endregion
 
         #region Collection
         //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
         //public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
-        //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-        //public List<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
-        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-        //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
+        //public IList<PreferredPosition> PreferredPositionsInner { get; set; } = new List<PreferredPosition>();
+        //public List<PreferredPosition> PreferredPositionsTeam { get; set; } = new List<PreferredPosition>();
+        //public IList<PreferredPart> PreferredPartsInner { get; set; } = new List<PreferredPart>();
+        //public IList<PreferredPart> PreferredPartsTeam { get; set; } = new List<PreferredPart>();
 
         #endregion
     }
@@ -58,25 +58,25 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.Body.IsMainProfile))
                 .ForMember(dest => dest.IsDeactivated, opt => opt.MapFrom(src => src.Body.IsDeactivated))
 
-                .ForMember(dest => dest.LevelAssessmentPerformer, opt => opt.MapFrom(src => src.Body.LevelAssessmentPerformer))
-                .ForMember(dest => dest.LevelAssessmentStaff, opt => opt.MapFrom(src => src.Body.LevelAssessmentStaff))
-                .ForMember(dest => dest.ProfilePreferencePerformer, opt => opt.MapFrom(src => src.Body.ProfilePreferencePerformer))
-                .ForMember(dest => dest.ProfilePreferenceStaff, opt => opt.MapFrom(src => src.Body.ProfilePreferenceStaff))
-                .ForMember(dest => dest.BackgroundPerformer, opt => opt.MapFrom(src => src.Body.BackgroundPerformer))
-                .ForMember(dest => dest.BackgroundStaff, opt => opt.MapFrom(src => src.Body.BackgroundStaff))
+                .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
+                .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
+                .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.Body.ProfilePreferenceInner))
+                .ForMember(dest => dest.ProfilePreferenceTeam, opt => opt.MapFrom(src => src.Body.ProfilePreferenceTeam))
+                .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.Body.BackgroundInner))
+                .ForMember(dest => dest.BackgroundTeam, opt => opt.MapFrom(src => src.Body.BackgroundTeam))
                 .ForMember(dest => dest.SalaryComment, opt => opt.MapFrom(src => src.Body.SalaryComment))
 
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.Body.QualificationId))
                 .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.Body.SalaryId))
-                .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.Body.InquiryStatusPerformerId))
-                .ForMember(dest => dest.InquiryStatusStaffId, opt => opt.MapFrom(src => src.Body.InquiryStatusStaffId))
+                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
+                .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.Body.InquiryStatusTeamId))
 
                 //.ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
                 //.ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.Body.MusicianProfileEducations))
-                //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformer))
-                //.ForMember(dest => dest.PreferredPositionsStaff, opt => opt.MapFrom(src => src.Body.PreferredPositionsStaff))
-                //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
-                //.ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.Body.PreferredPartsStaff))
+                //.ForMember(dest => dest.PreferredPositionsInner, opt => opt.MapFrom(src => src.Body.PreferredPositionsInner))
+                //.ForMember(dest => dest.PreferredPositionsTeam, opt => opt.MapFrom(src => src.Body.PreferredPositionsTeam))
+                //.ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner))
+                //.ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.Body.PreferredPartsTeam))
                 ;
         }
     }
@@ -94,18 +94,18 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileModifyBodyDtoValidator()
         {
-            RuleFor(p => p.LevelAssessmentPerformer)
+            RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
-            RuleFor(p => p.LevelAssessmentStaff)
+            RuleFor(p => p.LevelAssessmentTeam)
                 .FiveStarRating();
-            RuleFor(p => p.ProfilePreferencePerformer)
+            RuleFor(p => p.ProfilePreferenceInner)
                 .FiveStarRating();
-            RuleFor(p => p.ProfilePreferenceStaff)
+            RuleFor(p => p.ProfilePreferenceTeam)
                 .FiveStarRating();
 
-            RuleFor(p => p.BackgroundPerformer)
+            RuleFor(p => p.BackgroundInner)
                 .MaximumLength(1000);
-            RuleFor(p => p.BackgroundStaff)
+            RuleFor(p => p.BackgroundTeam)
                 .MaximumLength(1000);
             RuleFor(p => p.SalaryComment)
                 .MaximumLength(500);

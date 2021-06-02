@@ -22,13 +22,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_LevelAssessmentPerformer_Is_Out_Of_Range([Values(0, 6)] byte x)
         {
-            _bodyValidator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentPerformer, x);
+            _bodyValidator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentInner, x);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_LevelAssessmentPerformer_Is_In_Range([Values(1, 5)] byte x)
         {
-            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.LevelAssessmentPerformer, x);
+            _bodyValidator.ShouldNotHaveValidationErrorFor(command => command.LevelAssessmentInner, x);
         }
 
         [Test]
@@ -70,25 +70,25 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentPerformer_Is_Out_Of_Range()
         {
-            _doublingInstrumentValidator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentPerformer, (byte)6);
+            _doublingInstrumentValidator.ShouldHaveValidationErrorFor(command => command.LevelAssessmentInner, (byte)6);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentPerformer_Is_In_Range([Values(0, 1, 5)] byte x)
         {
-            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(command => command.LevelAssessmentPerformer, x);
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorFor(command => command.LevelAssessmentInner, x);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_PreferredPositionsPerformer_Contains_Empty_Guid()
+        public void Should_Have_Validation_Error_If_PreferredPositionsInner_Contains_Empty_Guid()
         {
-            _bodyValidator.ShouldHaveValidationErrorFor(dto => dto.PreferredPositionsPerformerIds, new List<Guid>() { Guid.Empty });
+            _bodyValidator.ShouldHaveValidationErrorFor(dto => dto.PreferredPositionsInnerIds, new List<Guid>() { Guid.Empty });
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_PreferredPositionsPerformer_Contains_Valid_Guid()
+        public void Should_Not_Have_Validation_Error_If_PreferredPositionsInner_Contains_Valid_Guid()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorFor(dto => dto.PreferredPositionsPerformerIds, new List<Guid>() { Guid.NewGuid() });
+            _bodyValidator.ShouldNotHaveValidationErrorFor(dto => dto.PreferredPositionsInnerIds, new List<Guid>() { Guid.NewGuid() });
         }
     }
 }

@@ -33,23 +33,23 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasOne(e => e.InquiryStatusPerformer)
+                .HasOne(e => e.InquiryStatusInner)
                 .WithMany()
-                .HasForeignKey(e => e.InquiryStatusPerformerId)
+                .HasForeignKey(e => e.InquiryStatusInnerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasOne(e => e.InquiryStatusStaff)
+                .HasOne(e => e.InquiryStatusTeam)
                 .WithMany()
-                .HasForeignKey(e => e.InquiryStatusStaffId)
+                .HasForeignKey(e => e.InquiryStatusTeamId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .Property(e => e.BackgroundPerformer)
+                .Property(e => e.BackgroundInner)
                 .HasMaxLength(1000);
 
             builder
-                .Property(e => e.BackgroundStaff)
+                .Property(e => e.BackgroundTeam)
                 .HasMaxLength(1000);
 
             builder

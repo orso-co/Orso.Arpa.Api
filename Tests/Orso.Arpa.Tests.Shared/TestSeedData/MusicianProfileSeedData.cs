@@ -49,24 +49,24 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     PersonId = PersonTestSeedData.Performer.Id,
                     InstrumentId = SectionSeedData.Horn.Id,
-                    LevelAssessmentPerformer = 1,
-                    InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[1].Id,
+                    LevelAssessmentInner = 1,
+                    InquiryStatusInnerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusInnerMappings[1].Id,
                     QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[1].Id
                 };
-                command.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.HornCoach.Id);
-                command.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.HornHigh.Id);
-                command.PreferredPartsStaff.Add(1);
-                command.PreferredPartsPerformer.Add(2);
+                command.PreferredPositionsTeamIds.Add(SelectValueSectionSeedData.HornCoach.Id);
+                command.PreferredPositionsInnerIds.Add(SelectValueSectionSeedData.HornHigh.Id);
+                command.PreferredPartsTeam.Add(1);
+                command.PreferredPartsInner.Add(2);
                 var profile = new MusicianProfile(command, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
-                profile.SetProperty(nameof(MusicianProfile.BackgroundPerformer), "Background Trombonist");
-                profile.SetProperty(nameof(MusicianProfile.ProfilePreferencePerformer), (byte)3);
+                profile.SetProperty(nameof(MusicianProfile.BackgroundInner), "Background Trombonist");
+                profile.SetProperty(nameof(MusicianProfile.ProfilePreferenceInner), (byte)3);
                 profile.DoublingInstruments.Add(new MusicianProfileSection(new Create.DoublingInstrumentCommand
                 {
                     AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
                     Comment = "Wagner rocks",
                     InstrumentId = SectionSeedData.WagnerTuba.Id,
-                    LevelAssessmentPerformer = 3,
-                    LevelAssessmentStaff = 2,
+                    LevelAssessmentInner = 3,
+                    LevelAssessmentTeam = 2,
                 }, Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d")));
                 return profile;
             }

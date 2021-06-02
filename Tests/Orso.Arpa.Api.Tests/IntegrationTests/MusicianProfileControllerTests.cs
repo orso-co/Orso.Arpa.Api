@@ -100,19 +100,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         //        IsMainProfile = false,
         //        IsDeactivated = false,
 
-        //        LevelAssessmentPerformer = 1,
-        //        LevelAssessmentStaff = 2,
-        //        ProfilePreferencePerformer = 3,
-        //        ProfilePreferenceStaff = 4,
+        //        LevelAssessmentInner = 1,
+        //        LevelAssessmentTeam = 2,
+        //        ProfilePreferenceInner = 3,
+        //        ProfilePreferenceTeam = 4,
 
-        //        BackgroundPerformer = "revised: Background description",
-        //        BackgroundStaff = "revised: Staff-Background description",
+        //        BackgroundInner = "revised: Background description",
+        //        BackgroundTeam = "revised: Staff-Background description",
         //        SalaryComment = "revised: Salary only via PayPal, other payments not accepted!",
 
         //        QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
         //        SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
-        //        InquiryStatusPerformerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusPerformerMappings[0].Id,
-        //        InquiryStatusStaffId = SelectValueMappingSeedData.MusicianProfileInquiryStatusStaffMappings[2].Id,
+        //        InquiryStatusInnerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusInnerMappings[0].Id,
+        //        InquiryStatusTeamId = SelectValueMappingSeedData.MusicianProfileInquiryStatusTeamMappings[2].Id,
 
         //        // ToDo Collections
         //    };

@@ -23,15 +23,15 @@ namespace Orso.Arpa.Domain.Entities
 
         public MusicianProfileSection(Create.DoublingInstrumentCommand command, Guid? id = null) : base(id)
         {
-            LevelAssessmentPerformer = command.LevelAssessmentPerformer;
-            LevelAssessmentStaff = command.LevelAssessmentStaff;
+            LevelAssessmentInner = command.LevelAssessmentInner;
+            LevelAssessmentTeam = command.LevelAssessmentTeam;
             InstrumentAvailabilityId = command.AvailabilityId;
             Comment = command.Comment;
             SectionId = command.InstrumentId;
         }
 
-        public byte LevelAssessmentPerformer { get; private set; }
-        public byte LevelAssessmentStaff { get; private set; }
+        public byte LevelAssessmentInner { get; private set; }
+        public byte LevelAssessmentTeam { get; private set; }
         public Guid? InstrumentAvailabilityId { get; private set; }
         public virtual SelectValueMapping InstrumentAvailability { get; private set; }
         public string Comment { get; private set; }

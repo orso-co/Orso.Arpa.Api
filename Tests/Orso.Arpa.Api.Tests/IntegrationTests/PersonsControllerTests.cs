@@ -175,18 +175,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InstrumentId = SectionSeedData.Clarinet.Id,
                 QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
             };
-            createDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
-            createDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
-            createDto.PreferredPartsPerformer.Add(2);
-            createDto.PreferredPartsPerformer.Add(4);
-            createDto.PreferredPartsStaff.Add(1);
+            createDto.PreferredPositionsInnerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            createDto.PreferredPositionsTeamIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
+            createDto.PreferredPartsInner.Add(2);
+            createDto.PreferredPartsInner.Add(4);
+            createDto.PreferredPartsTeam.Add(1);
 
             var createDoublingInstrumentDto = new DoublingInstrumentCreateDto
             {
                 InstrumentId = SectionSeedData.EbClarinet.Id,
                 AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
-                LevelAssessmentStaff = 3,
-                LevelAssessmentPerformer = 4,
+                LevelAssessmentTeam = 3,
+                LevelAssessmentInner = 4,
                 Comment = "my comment"
             };
             createDto.DoublingInstruments.Add(createDoublingInstrumentDto);
@@ -200,20 +200,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedAt = FakeDateTime.UtcNow,
                 IsMainProfile = true
             };
-            expectedDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
-            expectedDto.PreferredPositionsStaffIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
-            expectedDto.PreferredPartsPerformer.Add(2);
-            expectedDto.PreferredPartsPerformer.Add(4);
-            expectedDto.PreferredPartsStaff.Add(1);
+            expectedDto.PreferredPositionsInnerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            expectedDto.PreferredPositionsTeamIds.Add(SelectValueSectionSeedData.ClarinetSolo.Id);
+            expectedDto.PreferredPartsInner.Add(2);
+            expectedDto.PreferredPartsInner.Add(4);
+            expectedDto.PreferredPartsTeam.Add(1);
             expectedDto.DoublingInstruments.Add(new DoublingInstrumentDto
             {
                 AvailabilityId = createDoublingInstrumentDto.AvailabilityId,
                 Comment = createDoublingInstrumentDto.Comment,
                 InstrumentId = createDoublingInstrumentDto.InstrumentId,
-                LevelAssessmentStaff = createDoublingInstrumentDto.LevelAssessmentStaff,
+                LevelAssessmentTeam = createDoublingInstrumentDto.LevelAssessmentTeam,
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = _staff.DisplayName,
-                LevelAssessmentPerformer = createDoublingInstrumentDto.LevelAssessmentPerformer
+                LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner
             });
 
             // Act

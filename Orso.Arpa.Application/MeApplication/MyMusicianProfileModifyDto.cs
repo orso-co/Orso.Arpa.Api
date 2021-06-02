@@ -16,16 +16,16 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
         public bool IsMainProfile { get; set; }
         public bool IsDeactivated { get; set; }
 
-        public byte LevelAssessmentPerformer { get; set; }
-        public byte ProfilePreferencePerformer { get; set; }
-        public string BackgroundPerformer { get; set; }
+        public byte LevelAssessmentInner { get; set; }
+        public byte ProfilePreferenceInner { get; set; }
+        public string BackgroundInner { get; set; }
 
-        public Guid? InquiryStatusPerformerId { get; set; }
+        public Guid? InquiryStatusInnerId { get; set; }
 
         //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
         //public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
-        //public IList<PreferredPosition> PreferredPositionsPerformer { get; set; } = new List<PreferredPosition>();
-        //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
+        //public IList<PreferredPosition> PreferredPositionsInner { get; set; } = new List<PreferredPosition>();
+        //public IList<PreferredPart> PreferredPartsInner { get; set; } = new List<PreferredPart>();
     }
 
     public class MyMusicianProfileModifyDtoMappingProfile : Profile
@@ -38,16 +38,16 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.Body.IsMainProfile))
                 .ForMember(dest => dest.IsDeactivated, opt => opt.MapFrom(src => src.Body.IsDeactivated))
 
-                .ForMember(dest => dest.LevelAssessmentPerformer, opt => opt.MapFrom(src => src.Body.LevelAssessmentPerformer))
-                .ForMember(dest => dest.ProfilePreferencePerformer, opt => opt.MapFrom(src => src.Body.ProfilePreferencePerformer))
-                .ForMember(dest => dest.BackgroundPerformer, opt => opt.MapFrom(src => src.Body.BackgroundPerformer))
+                .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
+                .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.Body.ProfilePreferenceInner))
+                .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.Body.BackgroundInner))
 
-                .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.Body.InquiryStatusPerformerId))
+                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
 
                 //.ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
                 //.ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.Body.MusicianProfileEducations))
-                //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformer))
-                //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
+                //.ForMember(dest => dest.PreferredPositionsInner, opt => opt.MapFrom(src => src.Body.PreferredPositionsInner))
+                //.ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner))
                 ;
         }
     }
@@ -66,12 +66,12 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
     {
         public MyMusicianProfileModifyBodyDtoValidator()
         {
-            RuleFor(p => p.LevelAssessmentPerformer)
+            RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
-            RuleFor(p => p.ProfilePreferencePerformer)
+            RuleFor(p => p.ProfilePreferenceInner)
                 .FiveStarRating();
 
-            RuleFor(p => p.BackgroundPerformer)
+            RuleFor(p => p.BackgroundInner)
                 .MaximumLength(1000);
 
             //ToDo Validation for Collections

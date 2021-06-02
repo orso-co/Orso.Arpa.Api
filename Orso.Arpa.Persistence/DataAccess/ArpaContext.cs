@@ -45,8 +45,8 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
         public DbSet<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; }
         public DbSet<MusicianProfileEducation> MusicianProfileEducations { get; set; }
-        public DbSet<MusicianProfilePositionPerformer> MusicianProfilePositionsPerformer { get; set; }
-        public DbSet<MusicianProfilePositionStaff> MusicianProfilePositionsStaff { get; set; }
+        public DbSet<MusicianProfilePositionInner> MusicianProfilePositionsInner { get; set; }
+        public DbSet<MusicianProfilePositionTeam> MusicianProfilePositionsTeam { get; set; }
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonAddress> PersonAddresses { get; set; }

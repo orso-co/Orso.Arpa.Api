@@ -16,25 +16,25 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
     {
         public class Command : IRequest<MusicianProfile>, IHasInstrumentRequest
         {
-            public byte LevelAssessmentPerformer { get; set; }
-            public byte LevelAssessmentStaff { get; set; }
+            public byte LevelAssessmentInner { get; set; }
+            public byte LevelAssessmentTeam { get; set; }
             public Guid PersonId { get; set; }
             public Guid InstrumentId { get; set; }
             public Guid? QualificationId { get; set; }
-            public Guid? InquiryStatusPerformerId { get; set; }
-            public Guid? InquiryStatusStaffId { get; set; }
+            public Guid? InquiryStatusInnerId { get; set; }
+            public Guid? InquiryStatusTeamId { get; set; }
             public IList<DoublingInstrumentCommand> DoublingInstruments { get; set; } = new List<DoublingInstrumentCommand>();
-            public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
-            public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
-            public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
-            public IList<byte> PreferredPartsStaff { get; set; } = new List<byte>();
+            public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
+            public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
+            public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
+            public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
         }
 
         public class DoublingInstrumentCommand
         {
             public Guid InstrumentId { get; set; }
-            public byte LevelAssessmentPerformer { get; set; }
-            public byte LevelAssessmentStaff { get; set; }
+            public byte LevelAssessmentInner { get; set; }
+            public byte LevelAssessmentTeam { get; set; }
             public Guid? AvailabilityId { get; set; }
             public string Comment { get; set; }
         }
@@ -55,25 +55,25 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 RuleFor(c => c.QualificationId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Qualification);
 
-                RuleFor(c => c.InquiryStatusPerformerId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusPerformer);
+                RuleFor(c => c.InquiryStatusInnerId)
+                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusInner);
 
-                RuleFor(c => c.InquiryStatusStaffId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusStaff);
+                RuleFor(c => c.InquiryStatusTeamId)
+                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusTeam);
 
                 RuleForEach(c => c.DoublingInstruments)
                     .SetValidator(c => new DoublingInstrumentValidator(arpaContext) { MainInstrumentId = c.InstrumentId });
 
-                RuleForEach(c => c.PreferredPositionsPerformerIds)
-                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsPerformerIds));
+                RuleForEach(c => c.PreferredPositionsInnerIds)
+                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsInnerIds));
 
-                RuleForEach(c => c.PreferredPositionsStaffIds)
-                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsStaffIds));
+                RuleForEach(c => c.PreferredPositionsTeamIds)
+                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsTeamIds));
 
-                RuleForEach(c => c.PreferredPartsPerformer)
+                RuleForEach(c => c.PreferredPartsInner)
                     .InstrumentPart(arpaContext);
 
-                RuleForEach(c => c.PreferredPartsStaff)
+                RuleForEach(c => c.PreferredPartsTeam)
                     .InstrumentPart(arpaContext);
             }
         }
