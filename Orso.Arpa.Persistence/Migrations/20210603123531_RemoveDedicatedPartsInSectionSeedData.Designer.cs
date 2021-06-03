@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -9,9 +10,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20210603123531_RemoveDedicatedPartsInSectionSeedData")]
+    partial class RemoveDedicatedPartsInSectionSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2178,7 +2180,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8c0a80d1-5889-4794-89b6-b80a3828aa5b"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = false,
                             Name = "Basset Horn",
                             ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
@@ -2188,7 +2190,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("5109e464-7b01-40bd-a5e0-398ac3d1bb83"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = false,
                             Name = "Bass Clarinet",
                             ParentId = new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512")
@@ -2218,7 +2220,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8d01524c-7c22-4a20-8f26-711d11addbfd"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = false,
                             Name = "Contra Bassoon",
                             ParentId = new Guid("5c14f673-13f2-488f-8c21-7286d3ee10c3")
@@ -2258,7 +2260,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("4a31447d-63c2-4e28-ab39-255a956fbe18"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)3,
+                            InstrumentPartCount = (byte)2,
                             IsInstrument = false,
                             Name = "Alto Saxophone",
                             ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
@@ -2268,7 +2270,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("da998fcb-92b9-4828-976e-826e97e05cb3"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)3,
+                            InstrumentPartCount = (byte)2,
                             IsInstrument = false,
                             Name = "Tenor Saxophone",
                             ParentId = new Guid("566260fb-b6be-41dc-956d-4070d30fa88d")
@@ -2328,7 +2330,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("c42591db-4e41-413f-8b98-6607e2f12e39"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = false,
                             Name = "Wagner Tuba",
                             ParentId = new Guid("b9532add-efec-4510-831c-902c32ef7dbb")
@@ -2588,7 +2590,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("0cf93477-f42f-46c3-8e3d-45ccdc54ad8c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = true,
                             Name = "Harp",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
@@ -2608,7 +2610,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("8ed82e0e-0354-4192-8f26-5a2437e9208d"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = false,
                             Name = "Piano",
                             ParentId = new Guid("614a8fd0-acfa-4268-b716-3b35a6a17b7a")
@@ -2688,7 +2690,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("1d0ed0b3-b87b-439f-932e-616d7e03a0d6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = false,
                             Name = "Acoustic Guitar (Orchestra)",
                             ParentId = new Guid("a22b6f19-3e9c-4389-824b-22db7b8cf8fd")
@@ -2698,7 +2700,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("ed0829d0-d978-430e-96ec-b93cf75f3fd6"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = false,
                             Name = "Electric Guitar (Orchestra)",
                             ParentId = new Guid("a22b6f19-3e9c-4389-824b-22db7b8cf8fd")
@@ -2718,7 +2720,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("08bc313b-d0dd-4b78-bdbf-d976682d965e"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = true,
                             Name = "GlassHarp",
                             ParentId = new Guid("c9403ca4-6b75-44c3-b567-e53bbd78fb75")
@@ -2828,7 +2830,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("48833c1b-cbc1-43b2-a4c5-f1fa4289f5ab"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            InstrumentPartCount = (byte)2,
+                            InstrumentPartCount = (byte)0,
                             IsInstrument = true,
                             Name = "Electric Guitar (Band)",
                             ParentId = new Guid("1994cb6c-877e-4d7c-aeca-26e68967c2ab")
