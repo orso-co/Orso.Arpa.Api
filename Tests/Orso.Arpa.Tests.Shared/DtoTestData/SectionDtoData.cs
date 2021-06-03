@@ -18,23 +18,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     FemaleVoices,
                         HighFemaleVoices,
                             Soprano,
-                                Soprano1,
-                                Soprano2,
                             MezzoSoprano,
                         LowFemaleVoices,
                             Alto,
-                                Alto1,
-                                Alto2,
                     MaleVoices,
                         HighMaleVoices,
                                 Tenor,
-                                Tenor1,
-                                Tenor2,
                         LowMaleVoices,
                             Baritone,
                             Bass,
-                                Bass1,
-                                Bass2,
 
                 Orchestra,
                     Winds,
@@ -114,9 +106,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
                         Strings,
                             HighStrings,
-                                Violins,
-                                    ViolinI,
-                                    ViolinII,
+                                Violin,
                                 Viola,
                             LowStrings,
                                 Violoncello,
@@ -207,7 +197,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             GlassHarp,
             Bagpipes,
             Didgeridoo,
-            Violins,
+            Violin,
             Viola,
             Violoncello,
             DoubleBass,
@@ -229,24 +219,16 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         public static SectionDto Choir => new() { Id = Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"), Name = "Choir", };
         public static SectionDto FemaleVoices => new() { Id = Guid.Parse("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6"), Name = "Female Voices", };
         public static SectionDto HighFemaleVoices => new() { Id = Guid.Parse("5d469fc5-b3e6-40b8-9fa9-542981083ce3"), Name = "High Female Voices", };
-        public static SectionDto Soprano => new() { Id = Guid.Parse("7daa1394-a70d-4a24-88a6-ccf511d75c4d"), Name = "Soprano", };
-        public static SectionDto Soprano1 => new() { Id = Guid.Parse("8470ddf0-43ab-477e-b3bc-47ede014b359"), Name = "Soprano 1", };
-        public static SectionDto Soprano2 => new() { Id = Guid.Parse("22d7cf92-7b29-4cf1-a6fa-2954377589b4"), Name = "Soprano 2", };
+        public static SectionDto Soprano => new() { Id = Guid.Parse("7daa1394-a70d-4a24-88a6-ccf511d75c4d"), Name = "Soprano", InstrumentPartCount = 2 };
         public static SectionDto MezzoSoprano => new() { Id = Guid.Parse("eb42b2f7-413e-4c1a-ab79-23c74b02d054"), Name = "Mezzo Soprano", };
         public static SectionDto LowFemaleVoices => new() { Id = Guid.Parse("48337b78-70f0-493e-911b-296632b06ef8"), Name = "Low Female Voices", };
-        public static SectionDto Alto => new() { Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), Name = "Alto", };
-        public static SectionDto Alto1 => new() { Id = Guid.Parse("e809ee90-23f9-44de-b80e-2fddd5ee3683"), Name = "Alto 1", };
-        public static SectionDto Alto2 => new() { Id = Guid.Parse("50dfa2be-85e2-4638-aa53-22dadc97a844"), Name = "Alto 2", };
+        public static SectionDto Alto => new() { Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), Name = "Alto", InstrumentPartCount = 2 };
         public static SectionDto MaleVoices => new() { Id = Guid.Parse("4599103d-f220-4744-92d1-7c6993e9bda4"), Name = "Male Voices", };
         public static SectionDto HighMaleVoices => new() { Id = Guid.Parse("7924daef-2542-4648-a42f-4c4374ee09db"), Name = "High Male Voices", };
-        public static SectionDto Tenor => new() { Id = Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"), Name = "Tenor", };
-        public static SectionDto Tenor1 => new() { Id = Guid.Parse("3db46ff0-9165-46cc-8f28-6a1d52dee518"), Name = "Tenor 1", };
-        public static SectionDto Tenor2 => new() { Id = Guid.Parse("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"), Name = "Tenor 2", };
+        public static SectionDto Tenor => new() { Id = Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"), Name = "Tenor", InstrumentPartCount = 2 };
         public static SectionDto LowMaleVoices => new() { Id = Guid.Parse("b9673cfd-7cdb-472c-86e0-1304cbb3840a"), Name = "Low Male Voices", };
         public static SectionDto Baritone => new() { Id = Guid.Parse("bb647161-8394-47d3-9f43-825762a70fc2"), Name = "Baritone", };
-        public static SectionDto Bass => new() { Id = Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), Name = "Basso", };
-        public static SectionDto Bass1 => new() { Id = Guid.Parse("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"), Name = "Basso 1", };
-        public static SectionDto Bass2 => new() { Id = Guid.Parse("61fa66ec-3103-43fe-800c-930547dff82c"), Name = "Basso 2", };
+        public static SectionDto Bass => new() { Id = Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), Name = "Basso", InstrumentPartCount = 2 };
 
 
         public static SectionDto Orchestra => new() { Id = Guid.Parse("308659d6-6014-4d2c-a62a-be75bf202e62"), Name = "Orchestra", };
@@ -334,9 +316,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
         public static SectionDto Strings => new() { Id = Guid.Parse("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb"), Name = "Strings", };
         public static SectionDto HighStrings => new() { Id = Guid.Parse("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8"), Name = "High Strings", };
-        public static SectionDto Violins => new() { Id = Guid.Parse("fab9a49a-9fa4-4af3-9e40-e13bdc930513"), Name = "Violins", };
-        public static SectionDto ViolinI => new() { Id = Guid.Parse("eb5728b5-b1fd-4a70-8894-7bb152087837"), Name = "Violin I", };
-        public static SectionDto ViolinII => new() { Id = Guid.Parse("f3ee3c42-4e4e-411d-a839-6e0420bc35a3"), Name = "Violin II", };
+        public static SectionDto Violin => new() { Id = Guid.Parse("fab9a49a-9fa4-4af3-9e40-e13bdc930513"), Name = "Violin", InstrumentPartCount = 2 };
         public static SectionDto Viola => new() { Id = Guid.Parse("df541ea1-a5fd-4975-b6fd-7cd652a79073"), Name = "Viola", };
         public static SectionDto LowStrings => new() { Id = Guid.Parse("fdd5d68c-2620-47a3-80e4-64fda6dc7e3f"), Name = "Low Strings", };
         public static SectionDto Violoncello => new() { Id = Guid.Parse("d8686f68-78da-4022-b0b8-97e0c263d694"), Name = "Violoncello", };

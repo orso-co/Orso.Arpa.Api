@@ -68,13 +68,13 @@ namespace Orso.Arpa.Domain.Tests.Extensions
             // Arrange
             ITree<Section> virtualRootNode = _sections.ToTree((parent, child) => child.ParentId == parent.Id);
             IEnumerable<ITree<Section>> flattenedTree = virtualRootNode.Children.Flatten(node => node.Children);
-            ITree<Section> node = flattenedTree.First(node => node.Data.Name == "Alto 2");
+            ITree<Section> node = flattenedTree.First(node => node.Data.Name == "Alto");
 
             // Act
             List<Section> parents = node.GetParents();
 
             // Assert
-            parents.Select(p => p.Name).Should().Equal("Alto", "Low Female Voices", "Female Voices", "Choir", "Performers");
+            parents.Select(p => p.Name).Should().Equal("Low Female Voices", "Female Voices", "Choir", "Performers");
         }
     }
 }
