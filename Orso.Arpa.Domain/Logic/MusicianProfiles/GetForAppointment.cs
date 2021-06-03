@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -74,6 +75,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 return sectionTree.FirstOrDefault(st => st.Data.Id == musicianProfile.InstrumentId)
                     .GetParents()
                     .Select(section => section.Id)
+                    .Union(new Guid[] { musicianProfile.InstrumentId })
                     .Intersect(appointment.SectionAppointments.Select(sa => sa.SectionId))
                     .Any();
             }

@@ -157,7 +157,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForStaff;
             expectedDto.Participations.RemoveAt(1);
-            expectedDto.Participations.RemoveAt(1);
+            expectedDto.Participations.RemoveAt(1); // the second item has already been removed so the third item is on index pos. 1 now
             expectedDto.Sections.Add(SectionDtoData.Alto);
 
             // Act
