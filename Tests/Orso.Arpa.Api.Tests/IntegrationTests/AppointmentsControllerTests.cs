@@ -10,7 +10,6 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
@@ -159,7 +158,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForStaff;
             expectedDto.Participations.RemoveAt(1);
             expectedDto.Participations.RemoveAt(1);
-            expectedDto.Sections.Add(new SectionDto() { Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), Name = "Alto" });
+            expectedDto.Sections.Add(SectionDtoData.Alto);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

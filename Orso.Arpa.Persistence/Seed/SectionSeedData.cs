@@ -190,22 +190,22 @@ namespace Orso.Arpa.Persistence.Seed
         public static Section Choir => new(Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"), "Choir", Performers.Id, false);
         public static Section FemaleVoices => new(Guid.Parse("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6"), "Female Voices", Choir.Id, false);
         public static Section HighFemaleVoices => new(Guid.Parse("5d469fc5-b3e6-40b8-9fa9-542981083ce3"), "High Female Voices", FemaleVoices.Id, false);
-        public static Section Soprano => new(Guid.Parse("7daa1394-a70d-4a24-88a6-ccf511d75c4d"), "Soprano", HighFemaleVoices.Id, true);
+        public static Section Soprano => new(Guid.Parse("7daa1394-a70d-4a24-88a6-ccf511d75c4d"), "Soprano", HighFemaleVoices.Id, true, 2);
         public static Section Soprano1 => new(Guid.Parse("8470ddf0-43ab-477e-b3bc-47ede014b359"), "Soprano 1", Soprano.Id, false);
         public static Section Soprano2 => new(Guid.Parse("22d7cf92-7b29-4cf1-a6fa-2954377589b4"), "Soprano 2", Soprano.Id, false);
         public static Section MezzoSoprano => new(Guid.Parse("eb42b2f7-413e-4c1a-ab79-23c74b02d054"), "Mezzo Soprano", HighFemaleVoices.Id, true);
         public static Section LowFemaleVoices => new(Guid.Parse("48337b78-70f0-493e-911b-296632b06ef8"), "Low Female Voices", FemaleVoices.Id, false);
-        public static Section Alto => new(Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), "Alto", LowFemaleVoices.Id, true);
+        public static Section Alto => new(Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), "Alto", LowFemaleVoices.Id, true, 2);
         public static Section Alto1 => new(Guid.Parse("e809ee90-23f9-44de-b80e-2fddd5ee3683"), "Alto 1", Alto.Id, false);
         public static Section Alto2 => new(Guid.Parse("50dfa2be-85e2-4638-aa53-22dadc97a844"), "Alto 2", Alto.Id, false);
         public static Section MaleVoices => new(Guid.Parse("4599103d-f220-4744-92d1-7c6993e9bda4"), "Male Voices", Choir.Id, false);
         public static Section HighMaleVoices => new(Guid.Parse("7924daef-2542-4648-a42f-4c4374ee09db"), "High Male Voices", MaleVoices.Id, false);
-        public static Section Tenor => new(Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"), "Tenor", HighMaleVoices.Id, true);
+        public static Section Tenor => new(Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"), "Tenor", HighMaleVoices.Id, true, 2);
         public static Section Tenor1 => new(Guid.Parse("3db46ff0-9165-46cc-8f28-6a1d52dee518"), "Tenor 1", Tenor.Id, false);
         public static Section Tenor2 => new(Guid.Parse("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"), "Tenor 2", Tenor.Id, false);
         public static Section LowMaleVoices => new(Guid.Parse("b9673cfd-7cdb-472c-86e0-1304cbb3840a"), "Low Male Voices", MaleVoices.Id, false);
         public static Section Baritone => new(Guid.Parse("bb647161-8394-47d3-9f43-825762a70fc2"), "Baritone", LowMaleVoices.Id, true);
-        public static Section Bass => new(Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), "Basso", LowMaleVoices.Id, true);
+        public static Section Bass => new(Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), "Basso", LowMaleVoices.Id, true, 2);
         public static Section Bass1 => new(Guid.Parse("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"), "Basso 1", Bass.Id, false);
         public static Section Bass2 => new(Guid.Parse("61fa66ec-3103-43fe-800c-930547dff82c"), "Basso 2", Bass.Id, false);
 
@@ -227,16 +227,16 @@ namespace Orso.Arpa.Persistence.Seed
         public static Section Clarinet => new(Guid.Parse("cdc390d5-0649-441d-a086-df2e3b9d3512"), "Clarinet", Woodwinds.Id, true, 4);
         public static Section EbClarinet => new(Guid.Parse("d2551427-d727-42d9-be0e-dea2ae82f2d6"), "Eb Clarinet", Clarinet.Id, false, 2);
         public static Section AltoClarinet => new(Guid.Parse("BE75913A-9703-4A8D-9E07-7A8D32C459F8"), "Alto Clarinet", Clarinet.Id, false);
-        public static Section Bassetthorn => new(Guid.Parse("8c0a80d1-5889-4794-89b6-b80a3828aa5b"), "Basset Horn", Clarinet.Id, false);
-        public static Section BassClarinet => new(Guid.Parse("5109e464-7b01-40bd-a5e0-398ac3d1bb83"), "Bass Clarinet", Clarinet.Id, false);
+        public static Section Bassetthorn => new(Guid.Parse("8c0a80d1-5889-4794-89b6-b80a3828aa5b"), "Basset Horn", Clarinet.Id, false, 2);
+        public static Section BassClarinet => new(Guid.Parse("5109e464-7b01-40bd-a5e0-398ac3d1bb83"), "Bass Clarinet", Clarinet.Id, false, 2);
         public static Section DoubleBassClarinet => new(Guid.Parse("a5cc5e9d-b318-4edc-af84-ff3d701d0bcb"), "Double Bass Clarinet", Clarinet.Id, false);
         public static Section Bassoon => new(Guid.Parse("5c14f673-13f2-488f-8c21-7286d3ee10c3"), "Bassoon", Woodwinds.Id, true, 4);
-        public static Section ContraBassoon => new(Guid.Parse("8d01524c-7c22-4a20-8f26-711d11addbfd"), "Contra Bassoon", Bassoon.Id, false);
+        public static Section ContraBassoon => new(Guid.Parse("8d01524c-7c22-4a20-8f26-711d11addbfd"), "Contra Bassoon", Bassoon.Id, false, 2);
         public static Section ContraForte => new(Guid.Parse("7cb00d2e-5a98-4b68-b775-3b5d1f267d96"), "Contraforte", Bassoon.Id, false);
         public static Section Saxophone => new(Guid.Parse("566260fb-b6be-41dc-956d-4070d30fa88d"), "Saxophone", Woodwinds.Id, true);
         public static Section SopranoSaxophone => new(Guid.Parse("b5d01e60-af61-4d29-bfb3-2f0dbac1e2fb"), "Soprano Saxophone", Saxophone.Id, false);
-        public static Section AltoSaxophone => new(Guid.Parse("4a31447d-63c2-4e28-ab39-255a956fbe18"), "Alto Saxophone", Saxophone.Id, false, 2);
-        public static Section TenorSaxophone => new(Guid.Parse("da998fcb-92b9-4828-976e-826e97e05cb3"), "Tenor Saxophone", Saxophone.Id, false, 2);
+        public static Section AltoSaxophone => new(Guid.Parse("4a31447d-63c2-4e28-ab39-255a956fbe18"), "Alto Saxophone", Saxophone.Id, false, 3);
+        public static Section TenorSaxophone => new(Guid.Parse("da998fcb-92b9-4828-976e-826e97e05cb3"), "Tenor Saxophone", Saxophone.Id, false, 3);
         public static Section BaritoneSaxophone => new(Guid.Parse("e4622ea3-f6a0-40b2-ac80-a2c9df099aeb"), "Baritone Saxophone", Saxophone.Id, false);
         public static Section BassSaxophone => new(Guid.Parse("fb4f9841-294a-4b6c-bfec-02d3735b1ea0"), "Bass Saxophone", Saxophone.Id, false);
 
@@ -244,7 +244,7 @@ namespace Orso.Arpa.Persistence.Seed
         public static Section Brass => new(Guid.Parse("f4c70178-d069-44dc-8956-7160c5fef52e"), "Brass", Winds.Id, false);
         public static Section HighBrass => new(Guid.Parse("7d0d2295-df8a-4cfa-9f43-87dbf9fc133f"), "High Brass", Brass.Id, false);
         public static Section Horn => new(Guid.Parse("b9532add-efec-4510-831c-902c32ef7dbb"), "Horn", HighBrass.Id, true, 8);
-        public static Section WagnerTuba => new(Guid.Parse("c42591db-4e41-413f-8b98-6607e2f12e39"), "Wagner Tuba", Horn.Id, false);
+        public static Section WagnerTuba => new(Guid.Parse("c42591db-4e41-413f-8b98-6607e2f12e39"), "Wagner Tuba", Horn.Id, false, 2);
         public static Section Trumpet => new(Guid.Parse("205b0a0e-1a36-48e9-8b45-df37dc5effa5"), "Trumpet", HighBrass.Id, true, 8);
         public static Section Flugelhorn => new(Guid.Parse("69e64d64-419f-4f9c-9948-a117b02ff198"), "Flugelhorn", Trumpet.Id, false, 3);
         public static Section PiccoloTrumpet => new(Guid.Parse("2393549e-5b16-4414-a896-3cebb7bcc9df"), "Piccolo Trumpet", Trumpet.Id, false);
@@ -274,9 +274,9 @@ namespace Orso.Arpa.Persistence.Seed
 
         // OTHERS
         public static Section Others => new(Guid.Parse("c9403ca4-6b75-44c3-b567-e53bbd78fb75"), "Others", Orchestra.Id, false);
-        public static Section Harp => new(Guid.Parse("0cf93477-f42f-46c3-8e3d-45ccdc54ad8c"), "Harp", Others.Id, true);
+        public static Section Harp => new(Guid.Parse("0cf93477-f42f-46c3-8e3d-45ccdc54ad8c"), "Harp", Others.Id, true, 2);
         public static Section Keyboards => new(Guid.Parse("614a8fd0-acfa-4268-b716-3b35a6a17b7a"), "Keyboards", Others.Id, true);
-        public static Section Piano => new(Guid.Parse("8ed82e0e-0354-4192-8f26-5a2437e9208d"), "Piano", Keyboards.Id, false);
+        public static Section Piano => new(Guid.Parse("8ed82e0e-0354-4192-8f26-5a2437e9208d"), "Piano", Keyboards.Id, false, 2);
         public static Section Celesta => new(Guid.Parse("bc6cfeb7-569d-4c22-8e80-647aed560bf0"), "Celesta", Keyboards.Id, false);
         public static Section Cembalo => new(Guid.Parse("f6af00f5-e81c-4d85-aadd-1e33748e9a64"), "Cembalo", Keyboards.Id, false);
         public static Section Organ => new(Guid.Parse("182019da-bde2-44d7-8c77-88cfb0ce428c"), "Organ", Keyboards.Id, false);
@@ -284,10 +284,10 @@ namespace Orso.Arpa.Persistence.Seed
         public static Section Accordion => new(Guid.Parse("76891771-b5f2-4666-8972-ba7f494fc9de"), "Accordion", Others.Id, true);
         public static Section Bandoneon => new(Guid.Parse("d7ff1f62-e5c5-4662-823b-f77ff7706b4e"), "Bandoneon", Others.Id, true);
         public static Section Guitars => new(Guid.Parse("a22b6f19-3e9c-4389-824b-22db7b8cf8fd"), "Guitars", Others.Id, true);
-        public static Section AcousticGuitar => new(Guid.Parse("1d0ed0b3-b87b-439f-932e-616d7e03a0d6"), "Acoustic Guitar (Orchestra)", Guitars.Id, false);
-        public static Section ElectricGuitar => new(Guid.Parse("ed0829d0-d978-430e-96ec-b93cf75f3fd6"), "Electric Guitar (Orchestra)", Guitars.Id, false);
+        public static Section AcousticGuitar => new(Guid.Parse("1d0ed0b3-b87b-439f-932e-616d7e03a0d6"), "Acoustic Guitar (Orchestra)", Guitars.Id, false, 2);
+        public static Section ElectricGuitar => new(Guid.Parse("ed0829d0-d978-430e-96ec-b93cf75f3fd6"), "Electric Guitar (Orchestra)", Guitars.Id, false, 2);
         public static Section ElectricBass => new(Guid.Parse("9cd74865-f82a-4be9-afc1-384fb25b7fe4"), "Electric Bass (Orchestra)", Guitars.Id, false);
-        public static Section GlassHarp => new(Guid.Parse("08bc313b-d0dd-4b78-bdbf-d976682d965e"), "GlassHarp", Others.Id, true);
+        public static Section GlassHarp => new(Guid.Parse("08bc313b-d0dd-4b78-bdbf-d976682d965e"), "GlassHarp", Others.Id, true, 2);
         public static Section Bagpipes => new(Guid.Parse("0031e6f5-2d51-4e88-9e82-7bd2c8340cac"), "Bagpipes", Others.Id, true);
         public static Section Didgeridoo => new(Guid.Parse("8903B8C5-0EF8-48FD-9C2B-71FBAE827965"), "Didgeridoo", Others.Id, true);
 
@@ -295,7 +295,7 @@ namespace Orso.Arpa.Persistence.Seed
         // STRINGS
         public static Section Strings => new(Guid.Parse("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb"), "Strings", Orchestra.Id, false);
         public static Section HighStrings => new(Guid.Parse("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8"), "High Strings", Strings.Id, false);
-        public static Section Violins => new(Guid.Parse("fab9a49a-9fa4-4af3-9e40-e13bdc930513"), "Violins", HighStrings.Id, true);
+        public static Section Violins => new(Guid.Parse("fab9a49a-9fa4-4af3-9e40-e13bdc930513"), "Violins", HighStrings.Id, true, 2);
         public static Section ViolinI => new(Guid.Parse("eb5728b5-b1fd-4a70-8894-7bb152087837"), "Violin I", Violins.Id, false);
         public static Section ViolinII => new(Guid.Parse("f3ee3c42-4e4e-411d-a839-6e0420bc35a3"), "Violin II", Violins.Id, false);
         public static Section Viola => new(Guid.Parse("df541ea1-a5fd-4975-b6fd-7cd652a79073"), "Viola", HighStrings.Id, true);
@@ -305,7 +305,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         // BAND
         public static Section Band => new(Guid.Parse("1994cb6c-877e-4d7c-aeca-26e68967c2ab"), "Band", Performers.Id, false);
-        public static Section ElectricGuitarBand => new(Guid.Parse("48833c1b-cbc1-43b2-a4c5-f1fa4289f5ab"), "Electric Guitar (Band)", Band.Id, true);
+        public static Section ElectricGuitarBand => new(Guid.Parse("48833c1b-cbc1-43b2-a4c5-f1fa4289f5ab"), "Electric Guitar (Band)", Band.Id, true, 2);
         public static Section ElectricBassBand => new(Guid.Parse("454c2ad6-e3c8-428a-b74e-c73873159c0e"), "Electric Bass (Band)", Band.Id, true);
         public static Section DrumSetBand => new(Guid.Parse("d787fe9a-2283-43f6-bbc8-8a098e1f1c81"), "Drum Set (Band)", Band.Id, true);
         public static Section KeyboardsBand => new(Guid.Parse("7f811b88-e7db-461a-af5d-e249b1ce9e7d"), "Keyboards (Band)", Band.Id, true);
