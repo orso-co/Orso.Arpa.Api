@@ -112,7 +112,7 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValueSection AltoLow => new(Guid.Parse("f85ecc0c-f793-49ee-a7e1-780edde12ec5"), SectionSeedData.Alto.Id, SelectValueSeedData.Low.Id);
         public static SelectValueSection AltoCoach => new(Guid.Parse("6993ab28-3a79-4941-8a14-f07bdae5a3ba"), SectionSeedData.Alto.Id, SelectValueSeedData.Coach.Id);
         public static SelectValueSection TenorSolo => new(Guid.Parse("9e5d6525-4916-4294-8ace-a2b698925c7f"), SectionSeedData.Tenor.Id, SelectValueSeedData.Solo.Id);
-        ublic static SelectValueSection TenorSectionLead => new(Guid.Parse("e0eadd53-5de4-4d3a-82ad-3551b9a22766"), SectionSeedData.Tenor.Id, SelectValueSeedData.SectionLead.Id);
+        public static SelectValueSection TenorSectionLead => new(Guid.Parse("e0eadd53-5de4-4d3a-82ad-3551b9a22766"), SectionSeedData.Tenor.Id, SelectValueSeedData.SectionLead.Id);
         public static SelectValueSection TenorHigh => new(Guid.Parse("c1e830ce-77c9-4253-af52-e6f350bfe479"), SectionSeedData.Tenor.Id, SelectValueSeedData.High.Id);
         public static SelectValueSection TenorLow => new(Guid.Parse("abc02ea8-8785-49b4-b519-07cb02a10e06"), SectionSeedData.Tenor.Id, SelectValueSeedData.Low.Id);
         public static SelectValueSection TenorCoach => new(Guid.Parse("d5aa0e4e-ae90-4924-96be-05fb5459abe4"), SectionSeedData.Tenor.Id, SelectValueSeedData.Coach.Id);
