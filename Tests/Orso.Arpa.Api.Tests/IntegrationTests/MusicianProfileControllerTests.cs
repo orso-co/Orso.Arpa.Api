@@ -9,7 +9,6 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -77,24 +76,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
-
-        [Test, Order(4)]
-        public async Task Should_Get_With_Migrated_Section()
-        {
-            // Arrange
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.MusicianProfilesController.Get(MusicianProfileSeedData.AdminMusicianProfile1.Id));
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
-            result.InstrumentId.Should().Be(SectionSeedData.Alto.Id);
-        }
-
 
         [Test, Order(1000)]
         public async Task Should_Set_Active_Status_Of_Musician_Profile()
