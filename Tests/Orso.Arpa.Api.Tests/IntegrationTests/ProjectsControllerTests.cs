@@ -102,8 +102,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             IEnumerable<ProjectParticipationDto> expectedResult = new List<ProjectParticipationDto> {
                 ProjectParticipationDtoData.AdminRockingXMasParticipation,
                 ProjectParticipationDtoData.PerformerRockingXMasParticipationForStaff,
-                ProjectParticipationDtoData.StaffRockingXMasTenor2Participation,
-                ProjectParticipationDtoData.StaffRockingXMasTenor1Participation
+                ProjectParticipationDtoData.StaffRockingXMasBassParticipation,
+                ProjectParticipationDtoData.StaffRockingXMasTenorParticipation,
             };
 
             // Act

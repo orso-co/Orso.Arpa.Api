@@ -18,23 +18,15 @@ namespace Orso.Arpa.Persistence.Seed
                     FemaleVoices,
                         HighFemaleVoices,
                             Soprano,
-                                Soprano1,
-                                Soprano2,
                             MezzoSoprano,
                         LowFemaleVoices,
                             Alto,
-                                Alto1,
-                                Alto2,
                     MaleVoices,
                         HighMaleVoices,
                                 Tenor,
-                                Tenor1,
-                                Tenor2,
                         LowMaleVoices,
                             Baritone,
-                            Bass,
-                                Bass1,
-                                Bass2,
+                            Basso,
 
                 Orchestra,
                     Winds,
@@ -114,9 +106,7 @@ namespace Orso.Arpa.Persistence.Seed
 
                         Strings,
                             HighStrings,
-                                Violins,
-                                    ViolinI,
-                                    ViolinII,
+                                Violin,
                                 Viola,
                             LowStrings,
                                 Violoncello,
@@ -191,23 +181,15 @@ namespace Orso.Arpa.Persistence.Seed
         public static Section FemaleVoices => new(Guid.Parse("3ed0960c-1eed-4a45-a1ef-343aa8e7b2d6"), "Female Voices", Choir.Id, false);
         public static Section HighFemaleVoices => new(Guid.Parse("5d469fc5-b3e6-40b8-9fa9-542981083ce3"), "High Female Voices", FemaleVoices.Id, false);
         public static Section Soprano => new(Guid.Parse("7daa1394-a70d-4a24-88a6-ccf511d75c4d"), "Soprano", HighFemaleVoices.Id, true, 2);
-        public static Section Soprano1 => new(Guid.Parse("8470ddf0-43ab-477e-b3bc-47ede014b359"), "Soprano 1", Soprano.Id, false);
-        public static Section Soprano2 => new(Guid.Parse("22d7cf92-7b29-4cf1-a6fa-2954377589b4"), "Soprano 2", Soprano.Id, false);
         public static Section MezzoSoprano => new(Guid.Parse("eb42b2f7-413e-4c1a-ab79-23c74b02d054"), "Mezzo Soprano", HighFemaleVoices.Id, true);
         public static Section LowFemaleVoices => new(Guid.Parse("48337b78-70f0-493e-911b-296632b06ef8"), "Low Female Voices", FemaleVoices.Id, false);
         public static Section Alto => new(Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), "Alto", LowFemaleVoices.Id, true, 2);
-        public static Section Alto1 => new(Guid.Parse("e809ee90-23f9-44de-b80e-2fddd5ee3683"), "Alto 1", Alto.Id, false);
-        public static Section Alto2 => new(Guid.Parse("50dfa2be-85e2-4638-aa53-22dadc97a844"), "Alto 2", Alto.Id, false);
         public static Section MaleVoices => new(Guid.Parse("4599103d-f220-4744-92d1-7c6993e9bda4"), "Male Voices", Choir.Id, false);
         public static Section HighMaleVoices => new(Guid.Parse("7924daef-2542-4648-a42f-4c4374ee09db"), "High Male Voices", MaleVoices.Id, false);
         public static Section Tenor => new(Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"), "Tenor", HighMaleVoices.Id, true, 2);
-        public static Section Tenor1 => new(Guid.Parse("3db46ff0-9165-46cc-8f28-6a1d52dee518"), "Tenor 1", Tenor.Id, false);
-        public static Section Tenor2 => new(Guid.Parse("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"), "Tenor 2", Tenor.Id, false);
         public static Section LowMaleVoices => new(Guid.Parse("b9673cfd-7cdb-472c-86e0-1304cbb3840a"), "Low Male Voices", MaleVoices.Id, false);
         public static Section Baritone => new(Guid.Parse("bb647161-8394-47d3-9f43-825762a70fc2"), "Baritone", LowMaleVoices.Id, true);
-        public static Section Bass => new(Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), "Basso", LowMaleVoices.Id, true, 2);
-        public static Section Bass1 => new(Guid.Parse("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"), "Basso 1", Bass.Id, false);
-        public static Section Bass2 => new(Guid.Parse("61fa66ec-3103-43fe-800c-930547dff82c"), "Basso 2", Bass.Id, false);
+        public static Section Basso => new(Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), "Basso", LowMaleVoices.Id, true, 2);
 
         // ORCHESTRAL INSTRUMENTS
         public static Section Orchestra => new(Guid.Parse("308659d6-6014-4d2c-a62a-be75bf202e62"), "Orchestra", Performers.Id, false);
@@ -295,9 +277,7 @@ namespace Orso.Arpa.Persistence.Seed
         // STRINGS
         public static Section Strings => new(Guid.Parse("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb"), "Strings", Orchestra.Id, false);
         public static Section HighStrings => new(Guid.Parse("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8"), "High Strings", Strings.Id, false);
-        public static Section Violins => new(Guid.Parse("fab9a49a-9fa4-4af3-9e40-e13bdc930513"), "Violins", HighStrings.Id, true, 2);
-        public static Section ViolinI => new(Guid.Parse("eb5728b5-b1fd-4a70-8894-7bb152087837"), "Violin I", Violins.Id, false);
-        public static Section ViolinII => new(Guid.Parse("f3ee3c42-4e4e-411d-a839-6e0420bc35a3"), "Violin II", Violins.Id, false);
+        public static Section Violin => new(Guid.Parse("fab9a49a-9fa4-4af3-9e40-e13bdc930513"), "Violin", HighStrings.Id, true, 2);
         public static Section Viola => new(Guid.Parse("df541ea1-a5fd-4975-b6fd-7cd652a79073"), "Viola", HighStrings.Id, true);
         public static Section LowStrings => new(Guid.Parse("fdd5d68c-2620-47a3-80e4-64fda6dc7e3f"), "Low Strings", Strings.Id, false);
         public static Section Violoncello => new(Guid.Parse("d8686f68-78da-4022-b0b8-97e0c263d694"), "Violoncello", LowStrings.Id, true);
