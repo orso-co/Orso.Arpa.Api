@@ -104,7 +104,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonTestSeedData.Staff.Id,
-                    InstrumentId = SectionSeedData.Bass.Id
+                    InstrumentId = SectionSeedData.Basso.Id
                 }, true, Guid.Parse("c2b727eb-16f7-440d-a003-aab073532bbf"));
             }
         }
@@ -140,7 +140,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonTestSeedData.UserWithoutRole.Id,
-                    InstrumentId = SectionSeedData.Bass.Id
+                    InstrumentId = SectionSeedData.Basso.Id
                 }, true, Guid.Parse("1a7a62f2-1ca0-4eed-9053-b59bc6db34d6"));
             }
         }

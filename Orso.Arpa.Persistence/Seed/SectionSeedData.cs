@@ -26,7 +26,7 @@ namespace Orso.Arpa.Persistence.Seed
                                 Tenor,
                         LowMaleVoices,
                             Baritone,
-                            Bass,
+                            Basso,
 
                 Orchestra,
                     Winds,
@@ -189,7 +189,7 @@ namespace Orso.Arpa.Persistence.Seed
         public static Section Tenor => new(Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"), "Tenor", HighMaleVoices.Id, true, 2);
         public static Section LowMaleVoices => new(Guid.Parse("b9673cfd-7cdb-472c-86e0-1304cbb3840a"), "Low Male Voices", MaleVoices.Id, false);
         public static Section Baritone => new(Guid.Parse("bb647161-8394-47d3-9f43-825762a70fc2"), "Baritone", LowMaleVoices.Id, true);
-        public static Section Bass => new(Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), "Basso", LowMaleVoices.Id, true, 2);
+        public static Section Basso => new(Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), "Basso", LowMaleVoices.Id, true, 2);
 
         // ORCHESTRAL INSTRUMENTS
         public static Section Orchestra => new(Guid.Parse("308659d6-6014-4d2c-a62a-be75bf202e62"), "Orchestra", Performers.Id, false);
