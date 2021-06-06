@@ -7,7 +7,8 @@ namespace Orso.Arpa.Persistence.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Variante 1 - geschickte Schleife und separate sql-Datei
+            // Data migration: section values will be deleted by this migration. Therefore, migrate affected data to valid new
+            // data (here: the section value above in the section tree), before the values get deleted by the migration
             string[] tableName = { "musician_profiles", "section_appointments", "person_sections", "musician_profile_sections" };
             string[] columnName = { "instrument_id", "section_id", "section_id", "section_id" };
 
