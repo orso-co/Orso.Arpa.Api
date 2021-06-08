@@ -95,8 +95,6 @@ namespace Orso.Arpa.Persistence.Seed
                     DoublebassSectionLead,
                     DoublebassTutti,
                     DoublebassCoach,
-
-
                 };
             }
         }
@@ -124,8 +122,8 @@ namespace Orso.Arpa.Persistence.Seed
 
 
         // Orchestra
-            //Winds
-                //Woodwinds
+        //Winds
+        //Woodwinds
 
         public static SelectValueSection FluteSolo => new(Guid.Parse("1dee84b7-5cd3-4a6d-9819-2d507606398b"), SectionSeedData.Flute.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection FluteTutti => new(Guid.Parse("8da412fa-830e-4f16-a387-8e0e5a8bc5a9"), SectionSeedData.Flute.Id, SelectValueSeedData.Tutti.Id);
@@ -137,7 +135,7 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValueSection ClarinetCoach => new(Guid.Parse("d3b924d1-68ad-429f-a6e4-fab48b251470"), SectionSeedData.Clarinet.Id, SelectValueSeedData.Coach.Id);
         public static SelectValueSection BassoonSolo => new(Guid.Parse("1886d75e-26cd-49f1-8ad9-a35d6c1786fd"), SectionSeedData.Bassoon.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection BassoonCoach => new(Guid.Parse("7676806b-2f80-47f1-991f-b731b89182f0"), SectionSeedData.Bassoon.Id, SelectValueSeedData.Coach.Id);
-        public static SelectValueSection ContraBassoonSolo => new(Guid.Parse("7676806b-2f80-47f1-991f-b731b89182f0"), SectionSeedData.ContraBassoon.Id, SelectValueSeedData.Solo.Id);
+        public static SelectValueSection ContraBassoonSolo => new(Guid.Parse("50da7fa5-8d15-475c-8ebf-154aeac181d5"), SectionSeedData.ContraBassoon.Id, SelectValueSeedData.Solo.Id);
 
         public static SelectValueSection SopranoSaxophoneSolo => new(Guid.Parse("eec68681-b8d1-4142-9a82-c38cf342101d"), SectionSeedData.SopranoSaxophone.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection AltoSaxophoneSolo => new(Guid.Parse("024c5961-9f0d-4b1e-a695-39b3222635f9"), SectionSeedData.AltoSaxophone.Id, SelectValueSeedData.Solo.Id);
@@ -148,7 +146,7 @@ namespace Orso.Arpa.Persistence.Seed
 
 
 
-                //Brass
+        //Brass
         public static SelectValueSection HornSolo => new(Guid.Parse("4abea964-f83c-4973-a376-6e7782da6e7e"), SectionSeedData.Horn.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection HornHigh => new(Guid.Parse("b43fc897-ebcf-4d2a-8682-33b6337b5ab2"), SectionSeedData.Horn.Id, SelectValueSeedData.High.Id);
         public static SelectValueSection HornLow => new(Guid.Parse("42525d3a-e158-44ee-88b5-1a4332a77862"), SectionSeedData.Horn.Id, SelectValueSeedData.Low.Id);
@@ -164,14 +162,14 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValueSection TubaSolo => new(Guid.Parse("3fdaad51-200d-4578-b9bb-bc3a00480fef"), SectionSeedData.Tuba.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection TubaCoach => new(Guid.Parse("4027a00d-4370-46f9-82b3-8618d572a117"), SectionSeedData.Tuba.Id, SelectValueSeedData.Coach.Id);
 
-            //Strings
+        //Strings
         public static SelectValueSection ViolinSolo => new(Guid.Parse("602609d7-2f1a-4a3b-90f1-390515c531f9"), SectionSeedData.Violins.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection ViolinConcertmaster => new(Guid.Parse("c810b38a-d80a-4f16-9c01-3f9183507804"), SectionSeedData.Violins.Id, SelectValueSeedData.ConcertMaster.Id);
         public static SelectValueSection ViolinSecondConcertmaster => new(Guid.Parse("be79168e-620e-46c2-862c-efaffbeb82ee"), SectionSeedData.Violins.Id, SelectValueSeedData.SecondConcertMaster.Id);
         public static SelectValueSection ViolinSectionLead => new(Guid.Parse("a4365301-bea0-40c9-b6a6-626c4cf00f74"), SectionSeedData.Violins.Id, SelectValueSeedData.SectionLead.Id);
         public static SelectValueSection ViolinTutti => new(Guid.Parse("776c3d50-0958-490e-98b0-6043cf580c3f"), SectionSeedData.Violins.Id, SelectValueSeedData.Tutti.Id);
 
-        public static SelectValueSection ViolinCoach => new(Guid.Parse("776c3d50-0958-490e-98b0-6043cf580c3f"), SectionSeedData.Violins.Id, SelectValueSeedData.Coach.Id);
+        public static SelectValueSection ViolinCoach => new(Guid.Parse("12f2912a-139d-42af-99b4-61eb02a73701"), SectionSeedData.Violins.Id, SelectValueSeedData.Coach.Id);
 
 
         public static SelectValueSection ViolaSolo => new(Guid.Parse("c883b3ea-6522-499d-aebc-0e2937d7a09e"), SectionSeedData.Viola.Id, SelectValueSeedData.Solo.Id);
@@ -189,10 +187,10 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValueSection DoublebassTutti => new(Guid.Parse("097923c1-e85e-4afc-af85-8af01ae27655"), SectionSeedData.DoubleBass.Id, SelectValueSeedData.Tutti.Id);
         public static SelectValueSection DoublebassCoach => new(Guid.Parse("ad3014d9-336f-4ca0-9f37-1937b8da8bff"), SectionSeedData.DoubleBass.Id, SelectValueSeedData.Coach.Id);
 
-            //Percussion
+        //Percussion
         public static SelectValueSection PercussionSolo => new(Guid.Parse("069141f0-9ba3-4e10-822e-8f83d5282bda"), SectionSeedData.Percussion.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection PercussionCoach => new(Guid.Parse("040cbf2a-e70b-4dcf-98d0-45a7a4592093"), SectionSeedData.Percussion.Id, SelectValueSeedData.Coach.Id);
-        public static SelectValueSection PercussionSectionLead => new(Guid.Parse("040cbf2a-e70b-4dcf-98d0-45a7a4592093"), SectionSeedData.Percussion.Id, SelectValueSeedData.SectionLead.Id);
+        public static SelectValueSection PercussionSectionLead => new(Guid.Parse("3a9c04d8-ec63-4b46-b01e-fc1729ed529c"), SectionSeedData.Percussion.Id, SelectValueSeedData.SectionLead.Id);
         public static SelectValueSection TimpaniSolo => new(Guid.Parse("f3e64014-b6c6-46ca-8334-c744fb2b07cc"), SectionSeedData.Timpani.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection TimpaniCoach => new(Guid.Parse("706fc83a-fbe8-4446-bc89-d42c6d4b5c76"), SectionSeedData.Timpani.Id, SelectValueSeedData.Coach.Id);
         public static SelectValueSection MalletsSolo => new(Guid.Parse("281aa638-cc0c-45a1-a3d7-ae5a07644933"), SectionSeedData.Mallets.Id, SelectValueSeedData.Solo.Id);
@@ -201,10 +199,5 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValueSection HarpCoach => new(Guid.Parse("4199dbe4-9544-46c9-96af-3f1bb8488230"), SectionSeedData.Harp.Id, SelectValueSeedData.Coach.Id);
         public static SelectValueSection PianoSolo => new(Guid.Parse("b27010dd-82dd-4f2a-af3e-d18c73fc4a31"), SectionSeedData.Piano.Id, SelectValueSeedData.Solo.Id);
         public static SelectValueSection PianoOrchestra => new(Guid.Parse("63e9c074-df8c-4d68-9c69-3e61bb5518ad"), SectionSeedData.Piano.Id, SelectValueSeedData.OrchestraPiano.Id);
-
-
-
-
-
     }
 }
