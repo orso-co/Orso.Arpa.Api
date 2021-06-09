@@ -24,13 +24,13 @@ namespace Orso.Arpa.Persistence.DataAccess
         private readonly ITokenAccessor _tokenAccessor;
         private readonly IDateTimeProvider _dateTimeProvider;
         public delegate Task CallBack<T>() where T : BaseEntity;
-        private readonly CallBack<Translation> _translationCallBack;
+        private readonly CallBack<Localization> _translationCallBack;
 
         public ArpaContext(
             DbContextOptions options,
             ITokenAccessor tokenAccessor,
             IDateTimeProvider dateTimeProvider,
-            CallBack<Translation> translationCallBack) : base(options)
+            CallBack<Localization> translationCallBack) : base(options)
         {
             _tokenAccessor = tokenAccessor;
             _dateTimeProvider = dateTimeProvider;
@@ -70,7 +70,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
-        public DbSet<Translation> Translations { get; set; }
+        public DbSet<Localization> Localizations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -122,7 +122,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             int task = await base.SaveChangesAsync(cancellationToken);
 
-            if(!ChangeTracker.Entries<Translation>().IsNullOrEmpty())
+            if(!ChangeTracker.Entries<Localization>().IsNullOrEmpty())
                 await _translationCallBack();
 
             return task;

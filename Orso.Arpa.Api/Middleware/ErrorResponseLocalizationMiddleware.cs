@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace Orso.Arpa.Api.Middleware
         }
 
         /// <summary>
-        /// If the Response is an error message (StatusCode >= 400) than
+        /// If the Response is an error message (StatusCode >= 400) then
         /// dependent on the culture information the <see cref="ValidationProblemDetails"/> is manipulated.
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/>.</param>
@@ -53,13 +54,11 @@ namespace Orso.Arpa.Api.Middleware
                             JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
 
                         deserializedErrorMessage!.Detail =
-                            deserializedErrorMessage.Detail != null
-                                ? localizer[deserializedErrorMessage.Detail]
-                                : null;
+                            deserializedErrorMessage.Detail.IsNullOrEmpty()
+                                ? null: localizer[deserializedErrorMessage.Detail];
 
-                        deserializedErrorMessage.Title = deserializedErrorMessage.Title != null
-                            ? localizer[deserializedErrorMessage.Title]
-                            : null;
+                        deserializedErrorMessage.Title = deserializedErrorMessage.Title.IsNullOrEmpty()
+                            ? null : localizer[deserializedErrorMessage.Title];
 
                         await using var streamWrite = new StreamWriter(originalBody);
 

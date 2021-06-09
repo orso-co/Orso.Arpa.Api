@@ -14,16 +14,16 @@ using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Localization;
 
 
-namespace Orso.Arpa.Application.Localization
+namespace Orso.Arpa.Infrastructure.Localization
 {
     public class LocationResultFilter : IResultFilter
     {
-        private readonly LocalizerCache _localizerCache;
+        private readonly ILocalizerCache _localizerCache;
         private readonly string _uiCulture;
         private readonly ILogger<LocationResultFilter> _logger;
 
 
-        public LocationResultFilter(LocalizerCache localizerCache,
+        public LocationResultFilter(ILocalizerCache localizerCache,
         ILogger<LocationResultFilter> logger)
         {
             _localizerCache = localizerCache;

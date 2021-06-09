@@ -25,7 +25,6 @@ using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Localization;
 using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
@@ -38,6 +37,7 @@ using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Mail.Interfaces;
@@ -121,8 +121,8 @@ namespace Orso.Arpa.Api
             if (services == null)
                 throw new ArgumentNullException(nameof (services));
             var lz = new LocalizerCache(services);
-            services.AddSingleton(_ => lz);
-            services.AddSingleton<ArpaContext.CallBack<Translation>>(_ => lz.CallBack);
+            services.AddSingleton<ILocalizerCache>(_ => lz);
+            services.AddSingleton<ArpaContext.CallBack<Localization>>(_ => lz.LoadTranslations);
             services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
             services.AddLocalization();
@@ -236,6 +236,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IVenueService, VenueService>();
             services.AddScoped<IAuditLogService, AuditLogService>();
             services.AddScoped<IMeService, MeService>();
+            services.AddScoped<ITranslationService, TranslationService>();
             services.AddGenericListHandler(typeof(AuditLog));
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
@@ -407,8 +408,8 @@ namespace Orso.Arpa.Api
             IServiceProvider services = scope.ServiceProvider;
             try
             {
-                LocalizerCache localizerCache = services.GetRequiredService<LocalizerCache>();
-                localizerCache.CallBack();
+                ILocalizerCache localizerCache = services.GetRequiredService<ILocalizerCache>();
+                localizerCache.LoadTranslations();
             }
             catch (Exception ex)
             {

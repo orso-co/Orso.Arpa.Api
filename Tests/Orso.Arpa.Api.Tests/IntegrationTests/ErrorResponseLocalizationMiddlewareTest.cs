@@ -13,9 +13,9 @@ using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.Localization;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Infrastructure.Localization;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -142,15 +142,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public void Should_Return_All_Requested_LocalizedStrings()
         {
             LocalizerCache localizerCache = Substitute.For<LocalizerCache>(FormatterServices.GetUninitializedObject(typeof(ServiceCollection)));
-            localizerCache.GetAllTranslations("de-DE", "RegionDto").Returns(
-                new List<Translation>
+            localizerCache.GetAllTranslations("RegionDto","de-DE").Returns(
+                new List<Localization>
                 {
                     new(new Guid(), "source", "quelle", "de-DE", "RegionDto"),
                     new(new Guid(), "target", "ziel", "de-DE", "RegionDto")
                 }
             );
-            localizerCache.GetAllTranslations("de", "RegionDto").Returns(
-                new List<Translation>
+            localizerCache.GetAllTranslations("RegionDto", "de").Returns(
+                new List<Localization>
                 {
                     new(new Guid(), "german", "deutsch", "de", "RegionDto"),
                     new(new Guid(), "hallo", "hello", "de", "RegionDto")

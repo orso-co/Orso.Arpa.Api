@@ -2,7 +2,7 @@
   {
     "Key": "This request requires a valid JWT access token to be provided",
     "Text": "Diese Anfrage erfordert einen gültigen JWT Token",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "b9e1803f-b76d-4e8f-a437-c5753f2085e9",
     "CreatedBy": "TranslationSeedData",
@@ -14,7 +14,7 @@
   {
     "Key": "Invalid token supplied",
     "Text": "Ungültiges Token agegeben",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "7e7d0d27-affb-4772-b506-596a0cfc6be6",
     "CreatedBy": "TranslationSeedData",
@@ -26,7 +26,7 @@
   {
     "Key": "EndTime must be later than StartTime",
     "Text": "Endzeit muss später Startzeit sein",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "b6ffb704-b60b-4b64-a586-d78a8a8d2f23",
     "CreatedBy": "TranslationSeedData",
@@ -38,7 +38,7 @@
   {
     "Key": "Password must be at least 6 characters",
     "Text": "Das Passwort muss mindestens 6 Zeichen enthalten",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "87c25e29-e0bb-4f58-a0cb-db0a33df62ae",
     "CreatedBy": "TranslationSeedData",
@@ -50,7 +50,7 @@
   {
     "Key": "Password must contain at least one uppercase letter",
     "Text": "Das Passwort muss mindestens einen Großbuchstaben enthalten",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "3dd56653-ea29-4bb3-8c4b-191464a33ca1",
     "CreatedBy": "TranslationSeedData",
@@ -62,7 +62,7 @@
   {
     "Key": "Password must contain at least one lowercase letter",
     "Text": "Das Passwort muss mindestens einen Kleinbuchstaben enthalten",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "d0fcfee7-6968-4ed6-a99f-ae159639c1d2",
     "CreatedBy": "TranslationSeedData",
@@ -74,7 +74,7 @@
   {
     "Key": "Password must contain at least one digit",
     "Text": "Das Passwort muss mindestens eine Zahl enthalten",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "dcadedaf-5e0c-4592-8b2f-5142375b46ba",
     "CreatedBy": "TranslationSeedData",
@@ -86,7 +86,7 @@
   {
     "Key": "Password must contain at least one special character",
     "Text": "Das Passwort muss mindestens ein Sonderzeichen enthalten",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "f2d78706-7324-48e3-b225-b0d905747b10",
     "CreatedBy": "TranslationSeedData",
@@ -98,7 +98,7 @@
   {
     "Key": "Username may only contain alphanumeric characters",
     "Text": "Der Benutzername darf nur alphanumerische Zeichen enthalten",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "aaf187e0-6469-4dfd-bdd1-add3498efe08",
     "CreatedBy": "TranslationSeedData",
@@ -110,7 +110,7 @@
   {
     "Key": "The project is already linked to the appointment",
     "Text": "Das Projekt ist bereits dem Termin zugeordnet",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "762f8376-c10d-403c-913d-58b240739247",
     "CreatedBy": "TranslationSeedData",
@@ -122,7 +122,7 @@
   {
     "Key": "The room is already linked to the appointment",
     "Text": "Der Raum ist bereits dem Termin zugeordnet",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "8070c0d9-64c4-443d-81e0-edc1a1b3d438",
     "CreatedBy": "TranslationSeedData",
@@ -134,7 +134,7 @@
   {
     "Key": "The section is already linked to the Appointment",
     "Text": "Die Sektion ist bereits dem Termin zugeordnet",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "8020fde1-b9c5-4bef-9002-8ac47cc1829c",
     "CreatedBy": "TranslationSeedData",
@@ -146,7 +146,7 @@
   {
     "Key": "The project is not linked to the appointment",
     "Text": "Das Projekt ist dem Termin nicht zugeordnet",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "d188ff99-d683-4b2a-9557-a78c5967474c",
     "CreatedBy": "TranslationSeedData",
@@ -158,7 +158,7 @@
   {
     "Key": "The room is not linked to the appointment",
     "Text": "Der Raum ist dem Termin nicht zugeordnet",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "ba1cbe3a-328a-40c1-936d-7458debe56f4",
     "CreatedBy": "TranslationSeedData",
@@ -170,7 +170,7 @@
   {
     "Key": "The section is not linked to the Appointment",
     "Text": "Die Sektion ist dem Termin nicht zugeordnet",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "397ed7cd-c9dc-40a4-8a6e-525af4ab7f8c",
     "CreatedBy": "TranslationSeedData",
@@ -182,7 +182,7 @@
   {
     "Key": "Incorrect password supplied",
     "Text": "Inkorrektes Passwort angegeben",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "b4bc79da-0ced-4cc9-9c4f-25a715d45e5c",
     "CreatedBy": "TranslationSeedData",
@@ -194,7 +194,7 @@
   {
     "Key": "The user could not be found",
     "Text": "Der Benutzer konnte nicht gefunden werden",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "59f303b2-5046-45ae-bf8a-41d18528be5a",
     "CreatedBy": "TranslationSeedData",
@@ -206,7 +206,7 @@
   {
     "Key": "Your email address is not confirmed. Please confirm your email address first",
     "Text": "Deine Email wurde noch nicht bestätigt. Bitte bestätige zuerst deine Email",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "86353d87-ca62-48c5-9500-3069b7fc6395",
     "CreatedBy": "TranslationSeedData",
@@ -218,7 +218,7 @@
   {
     "Key": "Your account is locked. Kindly wait for 10 minutes and try again",
     "Text": "Dein Konto wurde gesperrt. Bitte warte 10 Minuten und versuche es anschließend erneut",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "62e4fe21-6d12-4a02-9846-f79505928cd4",
     "CreatedBy": "TranslationSeedData",
@@ -230,7 +230,7 @@
   {
     "Key": "Username already exists",
     "Text": "Der Benutzername existiert bereits",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "915f3d94-c98e-47fc-a60c-9f41031a30d0",
     "CreatedBy": "TranslationSeedData",
@@ -242,7 +242,7 @@
   {
     "Key": "Email already exists",
     "Text": "Die Email existiert bereits",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "7ff6230d-1f53-48e2-a682-501e246591bf",
     "CreatedBy": "TranslationSeedData",
@@ -254,7 +254,7 @@
   {
     "Key": "A region with the requested name does already exist",
     "Text": "Eine Region mit diesem Namen existiert bereits",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "Validator",
     "Id": "225710c5-bca2-4454-b6d0-bc00709ac6f2",
     "CreatedBy": "TranslationSeedData",
@@ -266,7 +266,7 @@
   {
     "Key": "Performers",
     "Text": "Künstler",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "SectionDto",
     "Id": "8ef2ae60-54e0-4d7f-a835-956fbf3ed85e",
     "CreatedBy": "TranslationSeedData",
@@ -278,7 +278,7 @@
   {
     "Key": "Orchestra",
     "Text": "Orchester",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "SectionDto",
     "Id": "8ed22d22-6fe2-4b5b-9ebf-23a230b10723",
     "CreatedBy": "TranslationSeedData",
@@ -290,7 +290,7 @@
   {
     "Key": "Members",
     "Text": "Mitglieder",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "SectionDto",
     "Id": "4199d3b9-4551-4b01-9dbd-830da8c991e1",
     "CreatedBy": "TranslationSeedData",
@@ -302,7 +302,7 @@
   {
     "Key": "Visitors",
     "Text": "Besucher",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "SectionDto",
     "Id": "9044f388-ea9c-4922-9f83-ad70fe82194f",
     "CreatedBy": "TranslationSeedData",
@@ -314,7 +314,7 @@
   {
     "Key": "Volunteers",
     "Text": "Freiwillige",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "SectionDto",
     "Id": "84d57eff-c66a-4de0-bbf6-b5e3cc58cee4",
     "CreatedBy": "TranslationSeedData",
@@ -326,11 +326,23 @@
   {
     "Key": "Suppliers",
     "Text": "Zulieferer",
-    "LocalizationCulture": "de,de-DE",
+    "LocalizationCulture": "de-DE",
     "ResourceKey": "SectionDto",
     "Id": "579803cf-6d21-43a6-b8ce-c7a3a07607cc",
     "CreatedBy": "TranslationSeedData",
     "CreatedAt": "2021-05-05T17:36:00.4495111+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Hello",
+    "Text": "Hallo",
+    "LocalizationCulture": "de-DE",
+    "ResourceKey": "Test",
+    "Id": "a2879a5f-7117-4a46-a559-9f7b7ad39adb",
+    "CreatedBy": "TranslationSeedData",
+    "CreatedAt": "2021-05-06T19:22:20.67962+02:00",
     "ModifiedBy": null,
     "ModifiedAt": null,
     "Deleted": false

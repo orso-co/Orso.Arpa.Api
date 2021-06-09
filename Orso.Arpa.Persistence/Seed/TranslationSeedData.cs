@@ -10,29 +10,29 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.Seed
 {
-    public static class TranslationSeedData
+    public static class LocalizationSeedData
     {
-        public static IList<Translation> Translations
+        public static IList<Localization> Localizations
         {
             get
             {
-                IList<Translation> result = new List<Translation>();
+                IList<Localization> result = new List<Localization>();
 
                 try
                 {
                     // English
                     string babelEnGbPath = Directory.GetCurrentDirectory() +
-                                         "/../Orso.Arpa.Persistence/Seed/Translations/Babel/en-GB.json";
+                                         "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en-GB.json";
                     string arpaEnGbPath = Directory.GetCurrentDirectory() +
-                                        "/../Orso.Arpa.Persistence/Seed/Translations/Arpa/en-GB.json";
+                                        "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en-GB.json";
 
                     string babelEnGbJson = File.ReadAllText(babelEnGbPath);
-                    IList<Translation> enBabel = ParseBabelTranslations(babelEnGbJson, "en,en-GB");
+                    IList<Localization> enBabel = ParseBabelTranslations(babelEnGbJson, "en-GB");
 
                     string arpaEnGbJson= File.ReadAllText(arpaEnGbPath);
-                    IList<Translation> enGbArpa = ParseArpaTranslations(arpaEnGbJson);
+                    IList<Localization> enGbArpa = ParseArpaTranslations(arpaEnGbJson);
 
-                    IList<Translation> enGbMerge = MergeBabelToArpa(enBabel, enGbArpa);
+                    IList<Localization> enGbMerge = MergeBabelToArpa(enBabel, enGbArpa);
                     string mergeEnJson = JsonSerializer.Serialize(enGbMerge,
                         new JsonSerializerOptions {WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping});
                     File.WriteAllText(arpaEnGbPath, mergeEnJson);
@@ -41,17 +41,17 @@ namespace Orso.Arpa.Persistence.Seed
 
                     // German
                     string babelDeDePath = Directory.GetCurrentDirectory() +
-                                         "/../Orso.Arpa.Persistence/Seed/Translations/Babel/de-DE.json";
+                                         "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de-DE.json";
                     string arpaDeDePath = Directory.GetCurrentDirectory() +
-                                        "/../Orso.Arpa.Persistence/Seed/Translations/Arpa/de-DE.json";
+                                        "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de-DE.json";
 
                     string babelDeDeJson = File.ReadAllText(babelDeDePath);
-                    IList<Translation> deDeBabel = ParseBabelTranslations(babelDeDeJson, "de,de-DE");
+                    IList<Localization> deDeBabel = ParseBabelTranslations(babelDeDeJson, "de-DE");
 
                     string arpaDeDeJson= File.ReadAllText(arpaDeDePath);
-                    IList<Translation> deDeArpa = ParseArpaTranslations(arpaDeDeJson);
+                    IList<Localization> deDeArpa = ParseArpaTranslations(arpaDeDeJson);
 
-                    IList<Translation> deDeMerge = MergeBabelToArpa(deDeBabel, deDeArpa);
+                    IList<Localization> deDeMerge = MergeBabelToArpa(deDeBabel, deDeArpa);
                     string mergeDeDeJson = JsonSerializer.Serialize(deDeMerge,
                         new JsonSerializerOptions {WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping});
                     File.WriteAllText(arpaDeDePath, mergeDeDeJson);
@@ -67,9 +67,9 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        private static IList<Translation> ParseBabelTranslations(string json, string culture)
+        private static IList<Localization> ParseBabelTranslations(string json, string culture)
         {
-            IList<Translation> translations = new List<Translation>();
+            IList<Localization> translations = new List<Localization>();
 
             var jsonDocument = JsonDocument.Parse(json);
             JsonElement rootElement = jsonDocument.RootElement;
@@ -77,17 +77,17 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 resourceKey.Value.EnumerateObject().ForAll(e =>
                 {
-                    translations.Add(new Translation(null, e.Name, e.Value.GetString(), culture, resourceKey.Name));
+                    translations.Add(new Localization(null, e.Name, e.Value.GetString(), culture, resourceKey.Name));
                 });
             });
 
             return translations;
         }
 
-        private static IList<Translation> ParseArpaTranslations(string json)
+        private static IList<Localization> ParseArpaTranslations(string json)
         {
             // Don't even try this: >> JsonSerializer.Deserialize<List<Translation>>(json) <<
-            IList<Translation> translations = new List<Translation>();
+            IList<Localization> translations = new List<Localization>();
 
             var jsonDocument = JsonDocument.Parse(json);
             JsonElement rootElement = jsonDocument.RootElement;
@@ -115,61 +115,61 @@ namespace Orso.Arpa.Persistence.Seed
                     : null;
                 bool deleted = t.TryGetProperty("Deleted", out element) && element.GetBoolean();
 
-                translations.Add(new Translation(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted));
+                translations.Add(new Localization(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted));
             });
             return translations;
         }
 
-        private static IList<Translation> MergeBabelToArpa(IList<Translation> babel,
-            IList<Translation> arpa)
+        private static IList<Localization> MergeBabelToArpa(IList<Localization> babel,
+            IList<Localization> arpa)
         {
-            IList<Translation> result = new List<Translation>();
+            IList<Localization> result = new List<Localization>();
 
             // Check already existing arpa translations and update
             arpa.AsQueryable().Where(a => a.Deleted == false).ForAll(a =>
             {
-                IQueryable<Translation> query = babel.AsQueryable().Where(b =>
+                IQueryable<Localization> query = babel.AsQueryable().Where(b =>
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key));
 
                 if (query.IsNullOrEmpty())  // if entry was removed.
                 {
                     if (a.Deleted == false)
-                        a.Delete(nameof(TranslationSeedData), DateTime.Now);
+                        a.Delete(nameof(LocalizationSeedData), DateTime.Now);
                     result.Add(a);
                 }
                 else
                 {   // if entry can be found in babel json
-                    Translation babelTranslate = query.First();
-                    Translation updatedTranslation = new Translation(a.Id, babelTranslate.Key,
+                    Localization babelTranslate = query.First();
+                    Localization updatedLocalization = new Localization(a.Id, babelTranslate.Key,
                         babelTranslate.Text, babelTranslate.LocalizationCulture,
                         babelTranslate.ResourceKey);
-                    updatedTranslation.Create(a.CreatedBy, a.CreatedAt);
+                    updatedLocalization.Create(a.CreatedBy, a.CreatedAt);
 
                     // then check whether text changed.
                     if (!a.Text.Equals(babelTranslate.Text))
                     {
-                        updatedTranslation.Modify(nameof(TranslationSeedData), DateTime.Now);
+                        updatedLocalization.Modify(nameof(LocalizationSeedData), DateTime.Now);
                     }
 
-                    result.Add(updatedTranslation);
+                    result.Add(updatedLocalization);
                 }
             });
 
             // Check for new entries
             babel.ForAll(b =>
             {
-                IQueryable<Translation> query = arpa.AsQueryable().Where(a =>
+                IQueryable<Localization> query = arpa.AsQueryable().Where(a =>
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key) &&
                     a.Deleted == false);
 
                 if (query.IsNullOrEmpty())
                 {
-                    Translation newTranslation = new Translation(b.Id, b.Key, b.Text,
+                    Localization newLocalization = new Localization(b.Id, b.Key, b.Text,
                         b.LocalizationCulture, b.ResourceKey);
 
-                    newTranslation.Create(nameof(TranslationSeedData), DateTime.Now);
+                    newLocalization.Create(nameof(LocalizationSeedData), DateTime.Now);
 
-                    result.Add(newTranslation);
+                    result.Add(newLocalization);
                 }
             });
 

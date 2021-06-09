@@ -6,11 +6,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
     public static class TranslationSeedData
     {
-        public static IList<Translation> Translations
+        public static IList<Localization> Translations
         {
             get
             {
-                return new List<Translation>
+                return new List<Localization>
                 {
                     new(new Guid("9703B67C-66F6-4F1E-9D14-9242FDA61DB1"), "Invalid token supplied", "Please try to login again", "en,en-GB", "Validator"),
                     new(new Guid("EA805337-5D56-45ED-8959-2C80B7AEDE49"), "Invalid token supplied", "Bitte melde dich erneut an", "de,de-DE", "Validator"),
