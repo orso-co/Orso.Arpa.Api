@@ -20,5 +20,16 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 return project;
             }
         }
+
+        public static Project Schneekönigin
+        {
+            get
+            {
+                Project project = ProjectSeedData.Schneekönigin;
+                project.SetProperty(nameof(Project.CreatedBy), "anonymous");
+                project.SetProperty(nameof(Project.CreatedAt), FakeDateTime.UtcNow);
+                return project;
+            }
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace Orso.Arpa.Domain.Extensions
         {
             return ruleBuilderInitial
                 .MustAsync(async (id, cancellation) => (await arpaContext.EntityExistsAsync<TEntity>(id, cancellation)))
-                .OnFailure((request) => throw new NotFoundException(typeof(TEntity).Name, propertyName));
+                .OnFailure((_) => throw new NotFoundException(typeof(TEntity).Name, propertyName));
         }
 
         public static IRuleBuilderOptions<TRequest, Guid?> SelectValueMapping<TRequest, TEntity>(
@@ -50,9 +50,10 @@ namespace Orso.Arpa.Domain.Extensions
             var propertyName = GetPropertyNameFromExpression(propertyPath.Body);
 
             return ruleBuilderInitial
+                .Cascade(CascadeMode.Stop)
                 .EntityExists<TRequest, SelectValueMapping>(arpaContext, propertyName)
                 .MustAsync(async (selectValueMappingId, cancellation) => !selectValueMappingId.HasValue || (await arpaContext.SelectValueCategories
-                    .SingleAsync(category => category.Table == typeof(TEntity).Name && category.Property == propertyName, cancellation))
+                    .SingleAsync(category => category.Table == typeof(TEntity).Name && category.Property.Equals(propertyName), cancellation))
                     .SelectValueMappings.Any(mapping => mapping.Id == selectValueMappingId.Value))
                 .WithMessage("The selected value is not valid for this field");
         }
@@ -65,9 +66,10 @@ namespace Orso.Arpa.Domain.Extensions
             var propertyName = GetPropertyNameFromExpression(propertyPath.Body);
 
             return ruleBuilderInitial
+                .Cascade(CascadeMode.Stop)
                 .EntityExists<TRequest, SelectValueMapping>(arpaContext, propertyName)
                 .MustAsync(async (selectValueMappingId, cancellation) => (await arpaContext.SelectValueCategories
-                    .SingleAsync(category => category.Table == typeof(TEntity).Name && category.Property == propertyName, cancellation))
+                    .SingleAsync(category => category.Table == typeof(TEntity).Name && category.Property.Equals(propertyName), cancellation))
                     .SelectValueMappings.Any(mapping => mapping.Id == selectValueMappingId))
                 .WithMessage("The selected value is not valid for this field");
         }
@@ -78,6 +80,7 @@ namespace Orso.Arpa.Domain.Extensions
             string propertyName) where TRequest : IHasInstrumentRequest
         {
             return ruleBuilderInitial
+                .Cascade(CascadeMode.Stop)
                 .EntityExists<TRequest, SelectValueSection>(arpaContext, propertyName)
                 .MustAsync(async (request, selectValueSectionId, cancellation) => (await arpaContext
                     .FindAsync<Section>(new object[] { request.InstrumentId }, cancellation))

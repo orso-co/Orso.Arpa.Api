@@ -103,7 +103,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
-                        MusicianProfileForAppointmentDtoData.PerformerProfile,
+                        ReducedMusicianProfileDtoData.PerformerProfile,
                     }
                 };
             }
@@ -119,8 +119,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Participation = AppointmentParticipationDtoData.StaffParticipation,
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
-                        MusicianProfileForAppointmentDtoData.StaffProfile1,
-                        MusicianProfileForAppointmentDtoData.StaffProfile2,
+                        ReducedMusicianProfileDtoData.StaffProfile1,
+                        ReducedMusicianProfileDtoData.StaffProfile2,
                     }
                 };
             }
@@ -136,7 +136,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Participation = null,
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
-                        MusicianProfileForAppointmentDtoData.AdminProfile1,
+                        ReducedMusicianProfileDtoData.AdminProfile1,
                     }
                 };
             }
@@ -152,7 +152,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Participation = null,
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
-                        MusicianProfileForAppointmentDtoData.WithoutRoleProfile,
+                        ReducedMusicianProfileDtoData.WithoutRoleProfile,
                     }
                 };
             }
