@@ -30,5 +30,8 @@
         "Visitors": "Besucher",
         "Volunteers": "Freiwillige",
         "Suppliers": "Zulieferer"
+    },
+    "Test": {
+        "Hello": "Hallo"
     }
 }

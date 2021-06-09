@@ -272,7 +272,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IMeService, MeService>();
             services.AddScoped<ITemplateParser, TemplateParser>();
             services.AddScoped<IEmailSender, EmailSender>();
-
+            services.AddScoped<ITranslationService, TranslationService>();
             services.AddGenericListHandler(typeof(AuditLog));
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));

@@ -3,16 +3,17 @@ using System.Globalization;
 using System.Linq;
 using AutoMapper.Internal;
 using Microsoft.Extensions.Localization;
+using Orso.Arpa.Domain.Entities;
 
-namespace Orso.Arpa.Application.Localization
+namespace Orso.Arpa.Infrastructure.Localization
 {
     public class StringLocalizer : IStringLocalizer
     {
         private readonly string _resourceKey;
         private readonly string _location;
-        private readonly LocalizerCache _cache;
+        private readonly ILocalizerCache _cache;
 
-        public StringLocalizer(string resourceKey, string location, LocalizerCache cache)
+        public StringLocalizer(string resourceKey, string location, ILocalizerCache cache)
         {
             _resourceKey = resourceKey;
             _location = location;
@@ -23,15 +24,13 @@ namespace Orso.Arpa.Application.Localization
         {
             IList<LocalizedString> localizedStrings = new List<LocalizedString>();
 
-            CultureInfo culture = CultureInfo.GetCultures(CultureTypes.AllCultures).AsQueryable()
-                .First(q => q.Name.Equals(_location));
-            _cache.GetAllTranslations(culture.ToString(), _resourceKey).ForAll(ls =>
+            IList<Domain.Entities.Localization> translations = _cache.GetAllTranslations(_resourceKey, _location);
+            _cache.GetAllTranslations(_resourceKey, _location).ForAll(ls =>
                 localizedStrings.Add(new LocalizedString(ls.Key, ls.Text)));
 
             if (includeParentCultures)
             {
-                var parentCulture = culture.Parent;
-                _cache.GetAllTranslations(parentCulture.ToString(), _resourceKey).ForAll(ls =>
+                _cache.GetAllTranslations(_resourceKey, CultureInfo.GetCultureInfo(_location).Parent.ToString()).ForAll(ls =>
                     localizedStrings.Add(new LocalizedString(ls.Key, ls.Text)));
             }
 

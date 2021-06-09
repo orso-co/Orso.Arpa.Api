@@ -2,13 +2,13 @@ using System;
 using System.Globalization;
 using Microsoft.Extensions.Localization;
 
-namespace Orso.Arpa.Application.Localization
+namespace Orso.Arpa.Infrastructure.Localization
 {
     public class ArpaLocalizerFactory : IStringLocalizerFactory
     {
-        private readonly LocalizerCache _cache;
+        private readonly ILocalizerCache _cache;
 
-        public ArpaLocalizerFactory (LocalizerCache cache)
+        public ArpaLocalizerFactory (ILocalizerCache cache)
         {
             _cache = cache;
         }

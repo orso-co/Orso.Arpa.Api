@@ -116,7 +116,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         private static async Task SeedTranslationData(IArpaContext arpaContext)
         {
-            await arpaContext.Translations.AddRangeAsync(Orso.Arpa.Tests.Shared.TestSeedData.TranslationSeedData.Translations);
+            await arpaContext.Localizations.AddRangeAsync(Orso.Arpa.Tests.Shared.TestSeedData.TranslationSeedData.Translations);
         }
     }
 }
