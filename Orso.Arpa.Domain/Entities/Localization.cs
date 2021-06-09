@@ -2,9 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class Translation : BaseEntity
+    public class Localization : BaseEntity
     {
-        public Translation(Guid? id, string key, string text, string localizationCulture, string resourceKey) : base(id)
+        public Localization(Guid? id, string key, string text, string localizationCulture, string resourceKey) : base(id)
         {
             Key = key;
             Text = text;
@@ -12,12 +12,8 @@ namespace Orso.Arpa.Domain.Entities
             ResourceKey = resourceKey;
         }
 
-        public Translation() : base(null)
-        {
 
-        }
-
-        public Translation(Guid id, string key, string text, string localizationCulture,
+        public Localization(Guid id, string key, string text, string localizationCulture,
             string resourceKey, string createdBy, DateTime createdAt, string modifiedBy,
             DateTime? modifiedAt, bool deleted) : base(id)
         {
