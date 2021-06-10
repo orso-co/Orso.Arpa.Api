@@ -6,6 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
@@ -23,11 +24,13 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             _signInManager = new FakeSignInManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
-            _handler = new Login.Handler(_signInManager, _jwtGenerator);
+            _identityConfiguration = new IdentityConfiguration() { LockoutExpiryInMinutes = 10 };
+            _handler = new Login.Handler(_signInManager, _jwtGenerator, _identityConfiguration);
         }
 
         private SignInManager<User> _signInManager;
         private IJwtGenerator _jwtGenerator;
+        private IdentityConfiguration _identityConfiguration;
         private Login.Handler _handler;
 
         [Test]

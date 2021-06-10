@@ -237,6 +237,8 @@ namespace Orso.Arpa.Api
 
         private void ConfigureAuthentication(IServiceCollection services)
         {
+
+
             IdentityBuilder builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             identityBuilder
@@ -249,23 +251,29 @@ namespace Orso.Arpa.Api
                 .AddRoleManager<RoleManager<Role>>()
                 .AddUserManager<ArpaUserManager>();
 
+            IdentityConfiguration identityConfig = Configuration
+                .GetSection(nameof(IdentityConfiguration))
+                .Get<IdentityConfiguration>();
+
+            services.AddSingleton(identityConfig);
+
             services.Configure<IdentityOptions>(opts =>
             {
                 opts.Lockout.AllowedForNewUsers = true;
-                opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-                opts.Lockout.MaxFailedAccessAttempts = 3;
+                opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(identityConfig.LockoutExpiryInMinutes);
+                opts.Lockout.MaxFailedAccessAttempts = identityConfig.MaxFailedLoginAttempts;
                 opts.SignIn.RequireConfirmedEmail = true;
                 opts.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             });
 
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromHours(2));
+                opt.TokenLifespan = TimeSpan.FromHours(identityConfig.DataProtectionTokenExpiryInHours));
 
             services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromDays(3));
+                opt.TokenLifespan = TimeSpan.FromDays(identityConfig.EmailConfirmationTokenExpiryInDays));
 
             JwtConfiguration jwtConfig = Configuration
-                .GetSection("JwtConfiguration")
+                .GetSection(nameof(JwtConfiguration))
                 .Get<JwtConfiguration>();
 
             services.AddSingleton(jwtConfig);
