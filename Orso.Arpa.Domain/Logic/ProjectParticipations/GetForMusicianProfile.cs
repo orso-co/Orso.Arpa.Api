@@ -29,16 +29,17 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
             {
                 CascadeMode = CascadeMode.Stop;
 
-                RuleFor(c => c.MusicianProfileId)
+                When(_ => tokenAccessor.UserRoles.Contains(RoleNames.Staff), () =>
+                {
+                    RuleFor(c => c.MusicianProfileId)
                     .EntityExists<Query, MusicianProfile>(arpaContext, nameof(Query.MusicianProfileId));
-
-                if (!tokenAccessor.UserRoles.Contains(RoleNames.Staff))
+                }).Otherwise(() =>
                 {
                     RuleFor(c => c.MusicianProfileId)
                         .MustAsync(async (musicianProfileId, cancellation) => await arpaContext
                             .EntityExistsAsync<MusicianProfile>(mp => mp.Id == musicianProfileId && mp.PersonId == tokenAccessor.PersonId, cancellation))
                         .OnFailure(_ => throw new AuthorizationException("This musician profile is not yours. You don't have access to this musician profile."));
-                }
+                });
             }
         }
 
