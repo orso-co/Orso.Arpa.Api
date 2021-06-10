@@ -21,8 +21,6 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         {
             public Validator(IArpaContext arpaContext)
             {
-                CascadeMode = CascadeMode.Stop;
-
                 RuleFor(c => c.ProjectId)
                     .EntityExists<Query, Project>(arpaContext, nameof(Query.ProjectId));
             }

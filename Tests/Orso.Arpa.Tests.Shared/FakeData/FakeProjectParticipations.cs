@@ -47,6 +47,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 ProjectParticipation participation = ProjectParticipationSeedData.PerformerRockingXMasParticipation;
                 participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
+                MusicianProfile profile = MusicianProfileSeedData.PerformerMusicianProfile;
+                profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Performer);
+                participation.SetProperty(nameof(ProjectParticipation.MusicianProfile), profile);
                 return participation;
             }
         }
@@ -57,6 +60,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 ProjectParticipation participation = ProjectParticipationSeedData.StaffParticipation1;
                 participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
+                MusicianProfile profile = MusicianProfileSeedData.StaffMusicianProfile1;
+                profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Staff);
+                participation.SetProperty(nameof(ProjectParticipation.MusicianProfile), profile);
                 return participation;
             }
         }
@@ -67,6 +73,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 ProjectParticipation participation = ProjectParticipationSeedData.StaffParticipation2;
                 participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
+                MusicianProfile profile = MusicianProfileSeedData.StaffMusicianProfile2;
+                profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Staff);
+                participation.SetProperty(nameof(ProjectParticipation.MusicianProfile), profile);
                 return participation;
             }
         }
@@ -77,6 +86,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 ProjectParticipation participation = ProjectParticipationSeedData.AdminParticipation;
                 participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
+                MusicianProfile profile = MusicianProfileSeedData.AdminMusicianProfile1;
+                profile.SetProperty(nameof(MusicianProfile.Person), PersonSeedData.Admin);
+                participation.SetProperty(nameof(ProjectParticipation.MusicianProfile), profile);
                 return participation;
             }
         }
