@@ -4,7 +4,7 @@ using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
-    public static class MusicianProfileForAppointmentDtoData
+    public static class ReducedMusicianProfileDtoData
     {
         public static ReducedMusicianProfileDto PerformerProfile
         {

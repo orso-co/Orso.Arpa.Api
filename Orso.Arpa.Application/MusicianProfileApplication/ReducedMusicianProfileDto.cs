@@ -11,9 +11,9 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public string Qualification { get; set; }
     }
 
-    public class MusicianProfileForAppointmentDtoMappingProfile : Profile
+    public class ReducedMusicianProfileDtoMappingProfile : Profile
     {
-        public MusicianProfileForAppointmentDtoMappingProfile()
+        public ReducedMusicianProfileDtoMappingProfile()
         {
             CreateMap<MusicianProfile, ReducedMusicianProfileDto>()
                 .ForMember(dest => dest.Qualification, opt => opt.MapFrom(src => src.Qualification.SelectValue.Name))
