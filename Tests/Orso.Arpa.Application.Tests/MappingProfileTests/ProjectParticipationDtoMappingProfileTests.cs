@@ -45,7 +45,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map_For_Staff()
         {
             // Arrange
-            ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerProjectParticipation;
+            ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerSchneeköniginParticipation;
             _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Staff });
             var expectedDto = new ProjectParticipationDto
             {
@@ -75,7 +75,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map_For_Performer()
         {
             // Arrange
-            ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerProjectParticipation;
+            ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerSchneeköniginParticipation;
             _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Performer });
             var expectedDto = new ProjectParticipationDto
             {
