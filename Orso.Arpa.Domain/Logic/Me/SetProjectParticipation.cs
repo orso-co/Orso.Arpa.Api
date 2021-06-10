@@ -31,6 +31,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
 
                 RuleFor(c => c.ProjectId)
+                    .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, Project>(arpaContext, nameof(Command.ProjectId))
                     .MustAsync(async (projectId, cancellation) => !(await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation)).IsCompleted)
                     .WithMessage("The project is completed. You may not set the participation of a completed project");
@@ -39,11 +40,12 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .SelectValueMapping<Command, ProjectParticipation>(arpaContext, p => p.ParticipationStatusInner);
 
                 RuleFor(c => c.MusicianProfileId)
-                    .MustAsync(async (command, musicianProfileId, cancellation) => await arpaContext
-                        .EntityExistsAsync<MusicianProfile>(mp => mp.Id == musicianProfileId && mp.PersonId == command.PersonId, cancellation))
+                    .Cascade(CascadeMode.Stop)
+                    .MustAsync(async (command, musicianProfileId, cancellation) => (await arpaContext
+                        .EntityExistsAsync<MusicianProfile>(mp => mp.Id == musicianProfileId && mp.PersonId == command.PersonId, cancellation)))
                     .OnFailure(_ => throw new NotFoundException(nameof(MusicianProfile), nameof(Command.MusicianProfileId)))
                     .MustAsync(async (musicianProfileId, cancellation) => !(await arpaContext.FindAsync<MusicianProfile>(new object[] { musicianProfileId }, cancellation)).IsDeactivated)
-                    .WithMessage("You musician profile is deactivated. A deactivated musician profile may not participate in a project");
+                    .WithMessage("Your musician profile is deactivated. A deactivated musician profile may not participate in a project");
             }
         }
 

@@ -4,7 +4,7 @@ using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
-    public static class MusicianProfileForAppointmentDtoData
+    public static class ReducedMusicianProfileDtoData
     {
         public static ReducedMusicianProfileDto PerformerProfile
         {
@@ -12,7 +12,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ReducedMusicianProfileDto
                 {
-                    InstrumentName = SectionSeedData.Alto1.Name,
+                    InstrumentName = SectionSeedData.Alto.Name,
                     Qualification = SelectValueSeedData.Amateur.Name,
                     Id = Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13")
                 };
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ReducedMusicianProfileDto
                 {
-                    InstrumentName = SectionSeedData.Tenor1.Name,
+                    InstrumentName = SectionSeedData.Tenor.Name,
                     Id = Guid.Parse("f9d85f58-9156-4d5d-988b-3a3d0cb67205")
                 };
             }
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ReducedMusicianProfileDto
                 {
-                    InstrumentName = SectionSeedData.Tenor2.Name,
+                    InstrumentName = SectionSeedData.Basso.Name,
                     Id = Guid.Parse("c2b727eb-16f7-440d-a003-aab073532bbf")
                 };
             }
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ReducedMusicianProfileDto
                 {
-                    InstrumentName = SectionSeedData.Soprano1.Name,
+                    InstrumentName = SectionSeedData.Soprano.Name,
                     Id = Guid.Parse("7c215684-ee09-424f-9955-9b427494eaeb")
                 };
             }
@@ -61,7 +61,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ReducedMusicianProfileDto
                 {
-                    InstrumentName = SectionSeedData.Bass1.Name,
+                    InstrumentName = SectionSeedData.Basso.Name,
                     Id = Guid.Parse("1a7a62f2-1ca0-4eed-9053-b59bc6db34d6")
                 };
             }

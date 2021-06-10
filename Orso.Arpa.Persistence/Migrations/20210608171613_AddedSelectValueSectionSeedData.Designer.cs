@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -9,9 +10,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20210608171613_AddedSelectValueSectionSeedData")]
+    partial class AddedSelectValueSectionSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -729,15 +731,15 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("BackgroundInner")
+                    b.Property<string>("BackgroundPerformer")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")
-                        .HasColumnName("background_inner");
+                        .HasColumnName("background_performer");
 
-                    b.Property<string>("BackgroundTeam")
+                    b.Property<string>("BackgroundStaff")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")
-                        .HasColumnName("background_team");
+                        .HasColumnName("background_staff");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
@@ -752,13 +754,13 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("deleted");
 
-                    b.Property<Guid?>("InquiryStatusInnerId")
+                    b.Property<Guid?>("InquiryStatusPerformerId")
                         .HasColumnType("uuid")
-                        .HasColumnName("inquiry_status_inner_id");
+                        .HasColumnName("inquiry_status_performer_id");
 
-                    b.Property<Guid?>("InquiryStatusTeamId")
+                    b.Property<Guid?>("InquiryStatusStaffId")
                         .HasColumnType("uuid")
-                        .HasColumnName("inquiry_status_team_id");
+                        .HasColumnName("inquiry_status_staff_id");
 
                     b.Property<Guid>("InstrumentId")
                         .HasColumnType("uuid")
@@ -772,13 +774,13 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_main_profile");
 
-                    b.Property<byte>("LevelAssessmentInner")
+                    b.Property<byte>("LevelAssessmentPerformer")
                         .HasColumnType("smallint")
-                        .HasColumnName("level_assessment_inner");
+                        .HasColumnName("level_assessment_performer");
 
-                    b.Property<byte>("LevelAssessmentTeam")
+                    b.Property<byte>("LevelAssessmentStaff")
                         .HasColumnType("smallint")
-                        .HasColumnName("level_assessment_team");
+                        .HasColumnName("level_assessment_staff");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone")
@@ -793,21 +795,21 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("person_id");
 
-                    b.Property<byte[]>("PreferredPartsInner")
+                    b.Property<byte[]>("PreferredPartsPerformer")
                         .HasColumnType("bytea")
-                        .HasColumnName("preferred_parts_inner");
+                        .HasColumnName("preferred_parts_performer");
 
-                    b.Property<byte[]>("PreferredPartsTeam")
+                    b.Property<byte[]>("PreferredPartsStaff")
                         .HasColumnType("bytea")
-                        .HasColumnName("preferred_parts_team");
+                        .HasColumnName("preferred_parts_staff");
 
-                    b.Property<byte>("ProfilePreferenceInner")
+                    b.Property<byte>("ProfilePreferencePerformer")
                         .HasColumnType("smallint")
-                        .HasColumnName("profile_preference_inner");
+                        .HasColumnName("profile_preference_performer");
 
-                    b.Property<byte>("ProfilePreferenceTeam")
+                    b.Property<byte>("ProfilePreferenceStaff")
                         .HasColumnType("smallint")
-                        .HasColumnName("profile_preference_team");
+                        .HasColumnName("profile_preference_staff");
 
                     b.Property<Guid?>("QualificationId")
                         .HasColumnType("uuid")
@@ -825,11 +827,11 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("pk_musician_profiles");
 
-                    b.HasIndex("InquiryStatusInnerId")
-                        .HasDatabaseName("ix_musician_profiles_inquiry_status_inner_id");
+                    b.HasIndex("InquiryStatusPerformerId")
+                        .HasDatabaseName("ix_musician_profiles_inquiry_status_performer_id");
 
-                    b.HasIndex("InquiryStatusTeamId")
-                        .HasDatabaseName("ix_musician_profiles_inquiry_status_team_id");
+                    b.HasIndex("InquiryStatusStaffId")
+                        .HasDatabaseName("ix_musician_profiles_inquiry_status_staff_id");
 
                     b.HasIndex("InstrumentId")
                         .HasDatabaseName("ix_musician_profiles_instrument_id");
@@ -936,7 +938,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.ToTable("musician_profile_educations");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionInner", b =>
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionPerformer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -974,18 +976,18 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("select_value_section_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_musician_profile_positions_inner");
+                        .HasName("pk_musician_profile_positions_performer");
 
                     b.HasIndex("MusicianProfileId")
-                        .HasDatabaseName("ix_musician_profile_positions_inner_musician_profile_id");
+                        .HasDatabaseName("ix_musician_profile_positions_performer_musician_profile_id");
 
                     b.HasIndex("SelectValueSectionId")
-                        .HasDatabaseName("ix_musician_profile_positions_inner_select_value_section_id");
+                        .HasDatabaseName("ix_musician_profile_positions_performer_select_value_section_id");
 
-                    b.ToTable("musician_profile_positions_inner");
+                    b.ToTable("musician_profile_positions_performer");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionTeam", b =>
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionStaff", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1023,15 +1025,15 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("select_value_section_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_musician_profile_positions_team");
+                        .HasName("pk_musician_profile_positions_staff");
 
                     b.HasIndex("MusicianProfileId")
-                        .HasDatabaseName("ix_musician_profile_positions_team_musician_profile_id");
+                        .HasDatabaseName("ix_musician_profile_positions_staff_musician_profile_id");
 
                     b.HasIndex("SelectValueSectionId")
-                        .HasDatabaseName("ix_musician_profile_positions_team_select_value_section_id");
+                        .HasDatabaseName("ix_musician_profile_positions_staff_select_value_section_id");
 
-                    b.ToTable("musician_profile_positions_team");
+                    b.ToTable("musician_profile_positions_staff");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileSection", b =>
@@ -1069,13 +1071,13 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("instrument_availability_id");
 
-                    b.Property<byte>("LevelAssessmentInner")
+                    b.Property<byte>("LevelAssessmentPerformer")
                         .HasColumnType("smallint")
-                        .HasColumnName("level_assessment_inner");
+                        .HasColumnName("level_assessment_performer");
 
-                    b.Property<byte>("LevelAssessmentTeam")
+                    b.Property<byte>("LevelAssessmentStaff")
                         .HasColumnType("smallint")
-                        .HasColumnName("level_assessment_team");
+                        .HasColumnName("level_assessment_staff");
 
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone")
@@ -1935,6 +1937,26 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("8470ddf0-43ab-477e-b3bc-47ede014b359"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Soprano 1",
+                            ParentId = new Guid("7daa1394-a70d-4a24-88a6-ccf511d75c4d")
+                        },
+                        new
+                        {
+                            Id = new Guid("22d7cf92-7b29-4cf1-a6fa-2954377589b4"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Soprano 2",
+                            ParentId = new Guid("7daa1394-a70d-4a24-88a6-ccf511d75c4d")
+                        },
+                        new
+                        {
                             Id = new Guid("eb42b2f7-413e-4c1a-ab79-23c74b02d054"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -1962,6 +1984,26 @@ namespace Orso.Arpa.Persistence.Migrations
                             IsInstrument = true,
                             Name = "Alto",
                             ParentId = new Guid("48337b78-70f0-493e-911b-296632b06ef8")
+                        },
+                        new
+                        {
+                            Id = new Guid("e809ee90-23f9-44de-b80e-2fddd5ee3683"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Alto 1",
+                            ParentId = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940")
+                        },
+                        new
+                        {
+                            Id = new Guid("50dfa2be-85e2-4638-aa53-22dadc97a844"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Alto 2",
+                            ParentId = new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940")
                         },
                         new
                         {
@@ -1995,6 +2037,26 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
+                            Id = new Guid("3db46ff0-9165-46cc-8f28-6a1d52dee518"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Tenor 1",
+                            ParentId = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da")
+                        },
+                        new
+                        {
+                            Id = new Guid("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Tenor 2",
+                            ParentId = new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da")
+                        },
+                        new
+                        {
                             Id = new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -2022,6 +2084,26 @@ namespace Orso.Arpa.Persistence.Migrations
                             IsInstrument = true,
                             Name = "Basso",
                             ParentId = new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a")
+                        },
+                        new
+                        {
+                            Id = new Guid("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Basso 1",
+                            ParentId = new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca")
+                        },
+                        new
+                        {
+                            Id = new Guid("61fa66ec-3103-43fe-800c-930547dff82c"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Basso 2",
+                            ParentId = new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca")
                         },
                         new
                         {
@@ -2770,8 +2852,28 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             InstrumentPartCount = (byte)2,
                             IsInstrument = true,
-                            Name = "Violin",
+                            Name = "Violins",
                             ParentId = new Guid("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8")
+                        },
+                        new
+                        {
+                            Id = new Guid("eb5728b5-b1fd-4a70-8894-7bb152087837"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Violin I",
+                            ParentId = new Guid("fab9a49a-9fa4-4af3-9e40-e13bdc930513")
+                        },
+                        new
+                        {
+                            Id = new Guid("f3ee3c42-4e4e-411d-a839-6e0420bc35a3"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            InstrumentPartCount = (byte)0,
+                            IsInstrument = false,
+                            Name = "Violin II",
+                            ParentId = new Guid("fab9a49a-9fa4-4af3-9e40-e13bdc930513")
                         },
                         new
                         {
@@ -4015,7 +4117,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Inquiry status performer",
-                            Property = "InquiryStatusInner",
+                            Property = "InquiryStatusPerformer",
                             Table = "MusicianProfile"
                         },
                         new
@@ -4024,7 +4126,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Name = "Inquiry status staff",
-                            Property = "InquiryStatusTeam",
+                            Property = "InquiryStatusStaff",
                             Table = "MusicianProfile"
                         },
                         new
@@ -6291,16 +6393,16 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "InquiryStatusInner")
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "InquiryStatusPerformer")
                         .WithMany()
-                        .HasForeignKey("InquiryStatusInnerId")
-                        .HasConstraintName("fk_musician_profiles_select_value_mappings_inquiry_status_inne")
+                        .HasForeignKey("InquiryStatusPerformerId")
+                        .HasConstraintName("fk_musician_profiles_select_value_mappings_inquiry_status_perf")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "InquiryStatusTeam")
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "InquiryStatusStaff")
                         .WithMany()
-                        .HasForeignKey("InquiryStatusTeamId")
-                        .HasConstraintName("fk_musician_profiles_select_value_mappings_inquiry_status_team")
+                        .HasForeignKey("InquiryStatusStaffId")
+                        .HasConstraintName("fk_musician_profiles_select_value_mappings_inquiry_status_staf")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.Section", "Instrument")
@@ -6329,9 +6431,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasConstraintName("fk_musician_profiles_select_value_mappings_salary_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("InquiryStatusInner");
+                    b.Navigation("InquiryStatusPerformer");
 
-                    b.Navigation("InquiryStatusTeam");
+                    b.Navigation("InquiryStatusStaff");
 
                     b.Navigation("Instrument");
 
@@ -6380,18 +6482,18 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("MusicianProfile");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionInner", b =>
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionPerformer", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
-                        .WithMany("PreferredPositionsInner")
+                        .WithMany("PreferredPositionsPerformer")
                         .HasForeignKey("MusicianProfileId")
-                        .HasConstraintName("fk_musician_profile_positions_inner_musician_profiles_musician")
+                        .HasConstraintName("fk_musician_profile_positions_performer_musician_profiles_musi")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueSection", "SelectValueSection")
-                        .WithMany("MusicianProfilePositionsAsInner")
+                        .WithMany("MusicianProfilePositionsAsPerformer")
                         .HasForeignKey("SelectValueSectionId")
-                        .HasConstraintName("fk_musician_profile_positions_inner_select_value_sections_sele")
+                        .HasConstraintName("fk_musician_profile_positions_performer_select_value_sections_")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
@@ -6399,18 +6501,18 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("SelectValueSection");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionTeam", b =>
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionStaff", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
-                        .WithMany("PreferredPositionsTeam")
+                        .WithMany("PreferredPositionsStaff")
                         .HasForeignKey("MusicianProfileId")
-                        .HasConstraintName("fk_musician_profile_positions_team_musician_profiles_musician_")
+                        .HasConstraintName("fk_musician_profile_positions_staff_musician_profiles_musician")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueSection", "SelectValueSection")
-                        .WithMany("MusicianProfilePositionsAsTeam")
+                        .WithMany("MusicianProfilePositionsAsStaff")
                         .HasForeignKey("SelectValueSectionId")
-                        .HasConstraintName("fk_musician_profile_positions_team_select_value_sections_selec")
+                        .HasConstraintName("fk_musician_profile_positions_staff_select_value_sections_sele")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("MusicianProfile");
@@ -6830,9 +6932,9 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("PreferredGenres");
 
-                    b.Navigation("PreferredPositionsInner");
+                    b.Navigation("PreferredPositionsPerformer");
 
-                    b.Navigation("PreferredPositionsTeam");
+                    b.Navigation("PreferredPositionsStaff");
 
                     b.Navigation("ProjectParticipations");
 
@@ -6909,9 +7011,9 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.SelectValueSection", b =>
                 {
-                    b.Navigation("MusicianProfilePositionsAsInner");
+                    b.Navigation("MusicianProfilePositionsAsPerformer");
 
-                    b.Navigation("MusicianProfilePositionsAsTeam");
+                    b.Navigation("MusicianProfilePositionsAsStaff");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Url", b =>

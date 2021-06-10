@@ -10,7 +10,6 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
@@ -158,8 +157,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForStaff;
             expectedDto.Participations.RemoveAt(1);
-            expectedDto.Participations.RemoveAt(1);
-            expectedDto.Sections.Add(new SectionDto() { Id = Guid.Parse("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), Name = "Alto" });
+            expectedDto.Participations.RemoveAt(1); // the second item has already been removed so the third item is on index pos. 1 now
+            expectedDto.Sections.Add(SectionDtoData.Alto);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -343,7 +342,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             adminParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
             {
                 Id = Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"),
-                InstrumentName = SectionSeedData.Soprano2.Name
+                InstrumentName = SectionSeedData.Soprano.Name
             });
             expectedDto.Participations.Add(adminParticipation);
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
@@ -424,7 +423,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             adminParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
             {
                 Id = Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"),
-                InstrumentName = "Soprano 2"
+                InstrumentName = "Soprano"
             });
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 

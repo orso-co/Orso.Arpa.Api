@@ -263,7 +263,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         SalaryPatternId = null,
                         StartTime = new DateTime(2021, 12, 29, 8, 00, 00),
                         EndTime = new DateTime(2021, 12, 29, 17, 00, 00),
-                        PublicDetails = "Hooray for Hollywood rehearsal for high alto voices only",
+                        PublicDetails = "Hooray for Hollywood rehearsal for alto voices only",
                         InternalDetails = null,
                         Name = "Alto rehearsal",
                         ExpectationId = SelectValueMappingSeedData.AppointmentExpectationMappings[1].Id
@@ -271,7 +271,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 );
                 appointment.SectionAppointments.Add(new SectionAppointment(
                     Guid.Parse("d91dd589-f253-44b5-8f4f-1cf7b9386fc7"),
-                    SectionSeedData.Alto1.Id,
+                    SectionSeedData.Alto.Id,
                     id));
                 appointment.ProjectAppointments.Add(new ProjectAppointment(
                     Guid.Parse("ef191717-1461-457d-a966-efec14401a3a"),

@@ -19,21 +19,21 @@ namespace Orso.Arpa.Application.MeApplication
         public string Comment { get; set; }
     }
 
-    public class MyProjectParticipationDtoValidator : BaseModifyDtoValidator<SetMyProjectParticipationDto, SetMyProjectParticipationBodyDto>
+    public class SetMyProjectParticipationDtoValidator : BaseModifyDtoValidator<SetMyProjectParticipationDto, SetMyProjectParticipationBodyDto>
     {
-        public MyProjectParticipationDtoValidator()
+        public SetMyProjectParticipationDtoValidator()
         {
             RuleFor(d => d.ProjectId)
                 .NotEmpty();
 
             RuleFor(d => d.Body)
-                .SetValidator(new MyProjectParticipationBodyDtoValidator());
+                .SetValidator(new SetMyProjectParticipationBodyDtoValidator());
         }
     }
 
-    public class MyProjectParticipationBodyDtoValidator : AbstractValidator<SetMyProjectParticipationBodyDto>
+    public class SetMyProjectParticipationBodyDtoValidator : AbstractValidator<SetMyProjectParticipationBodyDto>
     {
-        public MyProjectParticipationBodyDtoValidator()
+        public SetMyProjectParticipationBodyDtoValidator()
         {
             RuleFor(d => d.StatusId)
                 .NotEmpty();
@@ -43,9 +43,9 @@ namespace Orso.Arpa.Application.MeApplication
         }
     }
 
-    public class MyProjectParticipationDtoMappingProfile : Profile
+    public class SetMyProjectParticipationDtoMappingProfile : Profile
     {
-        public MyProjectParticipationDtoMappingProfile()
+        public SetMyProjectParticipationDtoMappingProfile()
         {
             CreateMap<SetMyProjectParticipationDto, SetProjectParticipation.Command>()
                 .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))

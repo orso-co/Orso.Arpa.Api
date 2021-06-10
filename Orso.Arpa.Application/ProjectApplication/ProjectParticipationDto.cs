@@ -52,8 +52,6 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .ForMember(dest => dest.CommentTeam, opt => opt.MapFrom(src => src.CommentTeam))
                 .ForMember(dest => dest.CommentByStaffInner, opt => opt.MapFrom(src => src.CommentByStaffInner))
                 .ForMember(dest => dest.CommentByPerformerInner, opt => opt.MapFrom(src => src.CommentByPerformerInner))
-                .ForMember(dest => dest.InvitationStatus, opt => opt.MapFrom(src => src.InvitationStatus))
-                .ForMember(dest => dest.InvitationStatusId, opt => opt.MapFrom(src => src.InvitationStatusId))
                 .ForMember(dest => dest.ParticipationStatusInternal, opt => opt.MapFrom(src => src.ParticipationStatusInternal != null ? src.ParticipationStatusInternal.SelectValue.Name : null))
                 .ForMember(dest => dest.ParticipationStatusInternalId, opt => opt.MapFrom(src => src.ParticipationStatusInternalId))
                 .ForMember(dest => dest.ParticipationStatusInnerId, opt => opt.MapFrom(src => src.ParticipationStatusInnerId))
