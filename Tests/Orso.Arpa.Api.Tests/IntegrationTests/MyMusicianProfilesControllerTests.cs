@@ -77,17 +77,17 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var createDto = new MyMusicianProfileCreateDto
             {
                 InstrumentId = SectionSeedData.Clarinet.Id,
-                LevelAssessmentPerformer = 1,
+                LevelAssessmentInner = 1,
             };
-            createDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
-            createDto.PreferredPartsPerformer.Add(2);
-            createDto.PreferredPartsPerformer.Add(4);
+            createDto.PreferredPositionsInnerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            createDto.PreferredPartsInner.Add(2);
+            createDto.PreferredPartsInner.Add(4);
 
             var createDoublingInstrumentDto = new MyDoublingInstrumentCreateDto
             {
                 InstrumentId = SectionSeedData.EbClarinet.Id,
                 AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
-                LevelAssessmentPerformer = 4,
+                LevelAssessmentInner = 4,
                 Comment = "my comment"
             };
             createDto.DoublingInstruments.Add(createDoublingInstrumentDto);
@@ -95,14 +95,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new MyMusicianProfileDto
             {
                 InstrumentId = createDto.InstrumentId,
-                LevelAssessmentPerformer = createDto.LevelAssessmentPerformer,
+                LevelAssessmentInner = createDto.LevelAssessmentInner,
                 CreatedBy = _performer.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
                 PersonId = _performer.PersonId
             };
-            expectedDto.PreferredPositionsPerformerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
-            expectedDto.PreferredPartsPerformer.Add(2);
-            expectedDto.PreferredPartsPerformer.Add(4);
+            expectedDto.PreferredPositionsInnerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
+            expectedDto.PreferredPartsInner.Add(2);
+            expectedDto.PreferredPartsInner.Add(4);
             expectedDto.DoublingInstruments.Add(new MyDoublingInstrumentDto
             {
                 AvailabilityId = createDoublingInstrumentDto.AvailabilityId,
@@ -110,7 +110,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InstrumentId = createDoublingInstrumentDto.InstrumentId,
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = _performer.DisplayName,
-                LevelAssessmentPerformer = createDoublingInstrumentDto.LevelAssessmentPerformer
+                LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner
             });
 
             // Act

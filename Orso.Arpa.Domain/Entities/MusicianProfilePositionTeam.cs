@@ -2,15 +2,15 @@ using System;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class MusicianProfilePositionPerformer : BaseEntity
+    public class MusicianProfilePositionTeam : BaseEntity
     {
-        public MusicianProfilePositionPerformer(Guid selectValueSectionId, Guid musicianProfileId, Guid? id = null) : base(id)
+        public MusicianProfilePositionTeam(Guid selectValueSectionId, Guid musicianProfileId, Guid? id = null) : base(id)
         {
             SelectValueSectionId = selectValueSectionId;
             MusicianProfileId = musicianProfileId;
         }
 
-        protected MusicianProfilePositionPerformer()
+        protected MusicianProfilePositionTeam()
         {
 
         }

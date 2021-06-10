@@ -14,24 +14,24 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 
     public class MusicianProfileCreateBodyDto
     {
-        public byte LevelAssessmentPerformer { get; set; }
-        public byte LevelAssessmentStaff { get; set; }
+        public byte LevelAssessmentInner { get; set; }
+        public byte LevelAssessmentTeam { get; set; }
         public Guid InstrumentId { get; set; }
         public Guid QualificationId { get; set; }
-        public Guid? InquiryStatusPerformerId { get; set; }
-        public Guid? InquiryStatusStaffId { get; set; }
+        public Guid? InquiryStatusInnerId { get; set; }
+        public Guid? InquiryStatusTeamId { get; set; }
         public IList<DoublingInstrumentCreateDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentCreateDto>();
-        public IList<Guid> PreferredPositionsPerformerIds { get; set; } = new List<Guid>();
-        public IList<Guid> PreferredPositionsStaffIds { get; set; } = new List<Guid>();
-        public IList<byte> PreferredPartsPerformer { get; set; } = new List<byte>();
-        public IList<byte> PreferredPartsStaff { get; set; } = new List<byte>();
+        public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
+        public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
+        public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
+        public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
     }
 
     public class DoublingInstrumentCreateDto
     {
         public Guid InstrumentId { get; set; }
-        public byte LevelAssessmentPerformer { get; set; }
-        public byte LevelAssessmentStaff { get; set; }
+        public byte LevelAssessmentInner { get; set; }
+        public byte LevelAssessmentTeam { get; set; }
         public Guid? AvailabilityId { get; set; }
         public string Comment { get; set; }
     }
@@ -41,20 +41,20 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public MusicianProfileCreateDtoMappingProfile()
         {
             CreateMap<MusicianProfileCreateDto, Command>()
-                .ForMember(dest => dest.LevelAssessmentPerformer, opt => opt.MapFrom(src => src.Body.LevelAssessmentPerformer))
-                .ForMember(dest => dest.LevelAssessmentStaff, opt => opt.MapFrom(src => src.Body.LevelAssessmentStaff))
+                .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
+                .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
 
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.Body.InstrumentId))
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.Body.QualificationId))
-                .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.Body.InquiryStatusPerformerId))
-                .ForMember(dest => dest.InquiryStatusStaffId, opt => opt.MapFrom(src => src.Body.InquiryStatusStaffId))
+                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
+                .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.Body.InquiryStatusTeamId))
 
                 .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
-                .ForMember(dest => dest.PreferredPositionsPerformerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsPerformerIds))
-                .ForMember(dest => dest.PreferredPositionsStaffIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsStaffIds))
-                .ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.Body.PreferredPartsPerformer))
-                .ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.Body.PreferredPartsStaff));
+                .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsInnerIds))
+                .ForMember(dest => dest.PreferredPositionsTeamIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsTeamIds))
+                .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner))
+                .ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.Body.PreferredPartsTeam));
 
             CreateMap<DoublingInstrumentCreateDto, DoublingInstrumentCommand>();
         }
@@ -76,9 +76,9 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleFor(p => p)
                 .NotNull();
 
-            RuleFor(p => p.LevelAssessmentPerformer)
+            RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
-            RuleFor(p => p.LevelAssessmentStaff)
+            RuleFor(p => p.LevelAssessmentTeam)
                 .FiveStarRating();
 
             RuleFor(p => p.InstrumentId)
@@ -90,10 +90,10 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleForEach(p => p.DoublingInstruments)
                 .SetValidator(new DoublingInstrumentCreateDtoValidator());
 
-            RuleForEach(p => p.PreferredPositionsStaffIds)
+            RuleForEach(p => p.PreferredPositionsTeamIds)
                 .NotEmpty();
 
-            RuleForEach(p => p.PreferredPositionsPerformerIds)
+            RuleForEach(p => p.PreferredPositionsInnerIds)
                 .NotEmpty();
         }
     }
@@ -108,10 +108,10 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleFor(dto => dto.InstrumentId)
                 .NotEmpty();
 
-            RuleFor(dto => dto.LevelAssessmentPerformer)
+            RuleFor(dto => dto.LevelAssessmentInner)
                 .FiveStarRating();
 
-            RuleFor(dto => dto.LevelAssessmentStaff)
+            RuleFor(dto => dto.LevelAssessmentTeam)
                 .FiveStarRating();
         }
     }

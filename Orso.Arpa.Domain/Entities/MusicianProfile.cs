@@ -9,19 +9,19 @@ namespace Orso.Arpa.Domain.Entities
     {
         public MusicianProfile(Create.Command command, bool isMainProfile, Guid? id = null) : base(id)
         {
-            LevelAssessmentPerformer = command.LevelAssessmentPerformer;
-            LevelAssessmentStaff = command.LevelAssessmentStaff;
+            LevelAssessmentInner = command.LevelAssessmentInner;
+            LevelAssessmentTeam = command.LevelAssessmentTeam;
             PersonId = command.PersonId;
             InstrumentId = command.InstrumentId;
             QualificationId = command.QualificationId;
-            InquiryStatusPerformerId = command.InquiryStatusPerformerId;
-            InquiryStatusStaffId = command.InquiryStatusStaffId;
+            InquiryStatusInnerId = command.InquiryStatusInnerId;
+            InquiryStatusTeamId = command.InquiryStatusTeamId;
             IsMainProfile = isMainProfile;
             DoublingInstruments = command.DoublingInstruments.Select(i => new MusicianProfileSection(i)).ToList();
-            PreferredPositionsPerformer = command.PreferredPositionsPerformerIds.Select(i => new MusicianProfilePositionPerformer(i, Id)).ToList();
-            PreferredPositionsStaff = command.PreferredPositionsStaffIds.Select(i => new MusicianProfilePositionStaff(i, Id)).ToList();
-            PreferredPartsPerformer = command.PreferredPartsPerformer.ToArray();
-            PreferredPartsStaff = command.PreferredPartsStaff.ToArray();
+            PreferredPositionsInner = command.PreferredPositionsInnerIds.Select(i => new MusicianProfilePositionInner(i, Id)).ToList();
+            PreferredPositionsTeam = command.PreferredPositionsTeamIds.Select(i => new MusicianProfilePositionTeam(i, Id)).ToList();
+            PreferredPartsInner = command.PreferredPartsInner.ToArray();
+            PreferredPartsTeam = command.PreferredPartsTeam.ToArray();
         }
 
         public MusicianProfile()
@@ -32,17 +32,17 @@ namespace Orso.Arpa.Domain.Entities
         public bool IsMainProfile { get; private set; }
         public bool IsDeactivated { get; private set; }
 
-        public byte LevelAssessmentPerformer { get; private set; }
-        public byte LevelAssessmentStaff { get; private set; }
-        public byte ProfilePreferencePerformer { get; private set; }
-        public byte ProfilePreferenceStaff { get; private set; }
+        public byte LevelAssessmentInner { get; private set; }
+        public byte LevelAssessmentTeam { get; private set; }
+        public byte ProfilePreferenceInner { get; private set; }
+        public byte ProfilePreferenceTeam { get; private set; }
 
-        public string BackgroundPerformer { get; private set; }
-        public string BackgroundStaff { get; private set; }
+        public string BackgroundInner { get; private set; }
+        public string BackgroundTeam { get; private set; }
         public string SalaryComment { get; private set; }
 
-        public byte[] PreferredPartsPerformer { get; private set; } = Array.Empty<byte>();
-        public byte[] PreferredPartsStaff { get; private set; } = Array.Empty<byte>();
+        public byte[] PreferredPartsInner { get; private set; } = Array.Empty<byte>();
+        public byte[] PreferredPartsTeam { get; private set; } = Array.Empty<byte>();
 
         #endregion
 
@@ -59,18 +59,18 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
 
-        public Guid? InquiryStatusPerformerId { get; private set; }
-        public virtual SelectValueMapping InquiryStatusPerformer { get; private set; }
+        public Guid? InquiryStatusInnerId { get; private set; }
+        public virtual SelectValueMapping InquiryStatusInner { get; private set; }
 
-        public Guid? InquiryStatusStaffId { get; private set; }
-        public virtual SelectValueMapping InquiryStatusStaff { get; private set; }
+        public Guid? InquiryStatusTeamId { get; private set; }
+        public virtual SelectValueMapping InquiryStatusTeam { get; private set; }
         #endregion
 
         #region Collection
         public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; private set; } = new HashSet<MusicianProfileSection>();
         public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; private set; } = new HashSet<MusicianProfileEducation>();
-        public virtual ICollection<MusicianProfilePositionPerformer> PreferredPositionsPerformer { get; private set; } = new HashSet<MusicianProfilePositionPerformer>();
-        public virtual ICollection<MusicianProfilePositionStaff> PreferredPositionsStaff { get; private set; } = new HashSet<MusicianProfilePositionStaff>();
+        public virtual ICollection<MusicianProfilePositionInner> PreferredPositionsInner { get; private set; } = new HashSet<MusicianProfilePositionInner>();
+        public virtual ICollection<MusicianProfilePositionTeam> PreferredPositionsTeam { get; private set; } = new HashSet<MusicianProfilePositionTeam>();
 
         //Todo: ARPA-325
         public virtual ICollection<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; private set; } = new HashSet<MusicianProfileCurriculumVitaeReference>();

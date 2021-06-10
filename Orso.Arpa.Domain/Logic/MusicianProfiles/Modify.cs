@@ -19,13 +19,13 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public bool IsMainProfile { get; set; }
             public bool IsDeactivated { get; set; }
 
-            public byte LevelAssessmentPerformer { get; set; }
-            public byte LevelAssessmentStaff { get; set; }
-            public byte ProfilePreferencePerformer { get; set; }
-            public byte ProfilePreferenceStaff { get; set; }
+            public byte LevelAssessmentInner { get; set; }
+            public byte LevelAssessmentTeam { get; set; }
+            public byte ProfilePreferenceInner { get; set; }
+            public byte ProfilePreferenceTeam { get; set; }
 
-            public string BackgroundPerformer { get; set; }
-            public string BackgroundStaff { get; set; }
+            public string BackgroundInner { get; set; }
+            public string BackgroundTeam { get; set; }
             public string SalaryComment { get; set; }
             #endregion
 
@@ -36,20 +36,20 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public Guid? SalaryId { get; set; }
             public virtual SelectValueMapping Salary { get; set; }
 
-            public Guid? InquiryStatusPerformerId { get; set; }
-            public virtual SelectValueMapping InquiryStatusPerformer { get; set; }
+            public Guid? InquiryStatusInnerId { get; set; }
+            public virtual SelectValueMapping InquiryStatusInner { get; set; }
 
-            public Guid? InquiryStatusStaffId { get; set; }
-            public virtual SelectValueMapping InquiryStatusStaff { get; set; }
+            public Guid? InquiryStatusTeamId { get; set; }
+            public virtual SelectValueMapping InquiryStatusTeam { get; set; }
             #endregion
 
             #region Collection
             public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
             public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
-            public IList<MusicianProfilePositionStaff> PreferredPositionsPerformer { get; set; } = new List<MusicianProfilePositionStaff>();
-            //public IList<PreferredPosition> PreferredPositionsStaff { get; set; } = new List<PreferredPosition>();
-            //public IList<PreferredPart> PreferredPartsPerformer { get; set; } = new List<PreferredPart>();
-            //public IList<PreferredPart> PreferredPartsStaff { get; set; } = new List<PreferredPart>();
+            public IList<MusicianProfilePositionInner> PreferredPositionsInner { get; set; } = new List<MusicianProfilePositionInner>();
+            //public IList<PreferredPosition> PreferredPositionsTeam { get; set; } = new List<PreferredPosition>();
+            //public IList<PreferredPart> PreferredPartsInner { get; set; } = new List<PreferredPart>();
+            //public IList<PreferredPart> PreferredPartsTeam { get; set; } = new List<PreferredPart>();
 
             public IList<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; } = new List<MusicianProfileCurriculumVitaeReference>();
             public IList<PreferredGenre> PreferredGenres { get; set; } = new List<PreferredGenre>();
@@ -70,26 +70,26 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.IsMainProfile))
                     .ForMember(dest => dest.IsDeactivated, opt => opt.MapFrom(src => src.IsDeactivated))
 
-                    .ForMember(dest => dest.LevelAssessmentPerformer, opt => opt.MapFrom(src => src.LevelAssessmentPerformer))
-                    .ForMember(dest => dest.LevelAssessmentStaff, opt => opt.MapFrom(src => src.LevelAssessmentStaff))
-                    .ForMember(dest => dest.ProfilePreferencePerformer, opt => opt.MapFrom(src => src.ProfilePreferencePerformer))
-                    .ForMember(dest => dest.ProfilePreferenceStaff, opt => opt.MapFrom(src => src.ProfilePreferenceStaff))
+                    .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
+                    .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.LevelAssessmentTeam))
+                    .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.ProfilePreferenceInner))
+                    .ForMember(dest => dest.ProfilePreferenceTeam, opt => opt.MapFrom(src => src.ProfilePreferenceTeam))
 
-                    .ForMember(dest => dest.BackgroundPerformer, opt => opt.MapFrom(src => src.BackgroundPerformer))
-                    .ForMember(dest => dest.BackgroundStaff, opt => opt.MapFrom(src => src.BackgroundStaff))
+                    .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.BackgroundInner))
+                    .ForMember(dest => dest.BackgroundTeam, opt => opt.MapFrom(src => src.BackgroundTeam))
                     .ForMember(dest => dest.SalaryComment, opt => opt.MapFrom(src => src.SalaryComment))
 
                     .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.QualificationId))
                     .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.SalaryId))
-                    .ForMember(dest => dest.InquiryStatusPerformerId, opt => opt.MapFrom(src => src.InquiryStatusPerformerId))
-                    .ForMember(dest => dest.InquiryStatusStaffId, opt => opt.MapFrom(src => src.InquiryStatusStaffId))
+                    .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.InquiryStatusInnerId))
+                    .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.InquiryStatusTeamId))
 
                     .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
                     .ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.MusicianProfileEducations))
-                    //.ForMember(dest => dest.PreferredPositionsPerformer, opt => opt.MapFrom(src => src.PreferredPositionsPerformer))
-                    //.ForMember(dest => dest.PreferredPositionsStaff, opt => opt.MapFrom(src => src.PreferredPositionsStaff))
-                    //.ForMember(dest => dest.PreferredPartsPerformer, opt => opt.MapFrom(src => src.PreferredPartsPerformer))
-                    //.ForMember(dest => dest.PreferredPartsStaff, opt => opt.MapFrom(src => src.PreferredPartsStaff))
+                    //.ForMember(dest => dest.PreferredPositionsInner, opt => opt.MapFrom(src => src.PreferredPositionsInner))
+                    //.ForMember(dest => dest.PreferredPositionsTeam, opt => opt.MapFrom(src => src.PreferredPositionsTeam))
+                    //.ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
+                    //.ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.PreferredPartsTeam))
 
                     // TODO da muss Senf rein mit neuen Einträgen hinzufügen, fehlende Löschen u.v.a.m
 
@@ -110,11 +110,11 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 RuleFor(c => c.SalaryId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Salary);
 
-                RuleFor(c => c.InquiryStatusPerformerId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusPerformer);
+                RuleFor(c => c.InquiryStatusInnerId)
+                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusInner);
 
-                RuleFor(c => c.InquiryStatusStaffId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusStaff);
+                RuleFor(c => c.InquiryStatusTeamId)
+                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusTeam);
 
                 //ToDo Validation for Collections
             }
