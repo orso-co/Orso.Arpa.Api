@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -7,7 +8,22 @@ namespace Orso.Arpa.Tests.Shared.FakeData
 {
     public static class FakeProjectParticipations
     {
-        public static ProjectParticipation PerformerProjectParticipation
+        public static IList<ProjectParticipation> ProjectParticipations
+        {
+            get
+            {
+                return new List<ProjectParticipation>
+                {
+                    PerformerSchneeköniginParticipation,
+                    PerformerRockingXMasParticipation,
+                    StaffParticipation1,
+                    StaffParticipation2,
+                    AdminParticipation
+                };
+            }
+        }
+
+        public static ProjectParticipation PerformerSchneeköniginParticipation
         {
             get
             {
@@ -21,6 +37,46 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 participation.SetProperty(nameof(ProjectParticipation.InvitationStatus), FakeSelectValueMappings.Invited);
                 participation.SetProperty(nameof(ProjectParticipation.ParticipationStatusInternal), FakeSelectValueMappings.Candidate);
                 participation.SetProperty(nameof(ProjectParticipation.ParticipationStatusInner), FakeSelectValueMappings.Acceptance);
+                return participation;
+            }
+        }
+
+        public static ProjectParticipation PerformerRockingXMasParticipation
+        {
+            get
+            {
+                ProjectParticipation participation = ProjectParticipationSeedData.PerformerRockingXMasParticipation;
+                participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
+                return participation;
+            }
+        }
+
+        public static ProjectParticipation StaffParticipation1
+        {
+            get
+            {
+                ProjectParticipation participation = ProjectParticipationSeedData.StaffParticipation1;
+                participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
+                return participation;
+            }
+        }
+
+        public static ProjectParticipation StaffParticipation2
+        {
+            get
+            {
+                ProjectParticipation participation = ProjectParticipationSeedData.StaffParticipation2;
+                participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
+                return participation;
+            }
+        }
+
+        public static ProjectParticipation AdminParticipation
+        {
+            get
+            {
+                ProjectParticipation participation = ProjectParticipationSeedData.AdminParticipation;
+                participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
                 return participation;
             }
         }
