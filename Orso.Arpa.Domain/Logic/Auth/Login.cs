@@ -6,6 +6,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
@@ -38,13 +39,16 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
+            private readonly IdentityConfiguration _identityConfiguration;
 
             public Handler(
                 SignInManager<User> signInManager,
-                IJwtGenerator jwtGenerator)
+                IJwtGenerator jwtGenerator,
+                IdentityConfiguration identityConfiguration)
             {
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
+                _identityConfiguration = identityConfiguration;
             }
 
             public async Task<string> Handle(Command request, CancellationToken cancellationToken)
@@ -70,7 +74,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (result.IsLockedOut)
                 {
-                    throw new AuthorizationException("Your account is locked out. Kindly wait for 10 minutes and try again");
+                    throw new AuthorizationException($"Your account is locked out. Kindly wait for {_identityConfiguration.LockoutExpiryInMinutes} minutes and try again");
                 }
 
                 throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password");
