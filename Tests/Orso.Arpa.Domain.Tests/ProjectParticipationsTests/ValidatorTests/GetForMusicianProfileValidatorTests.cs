@@ -54,7 +54,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
             _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Performer });
             _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
 
-            Func<TestValidationResult<GetForMusicianProfile.Query>> testValidationResultFunction = () => _validator.TestValidate(new GetForMusicianProfile.Query { MusicianProfileId = Guid.NewGuid() }, (string)null);
+            Func<TestValidationResult<GetForMusicianProfile.Query>> testValidationResultFunction = () => _validator.TestValidate(new GetForMusicianProfile.Query { MusicianProfileId = Guid.NewGuid() });
             testValidationResultFunction.Should().ThrowExactly<AuthorizationException>()
                 .WithMessage("This musician profile is not yours. You don't have access to this musician profile.");
         }

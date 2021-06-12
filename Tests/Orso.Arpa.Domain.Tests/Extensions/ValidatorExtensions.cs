@@ -11,21 +11,21 @@ namespace Orso.Arpa.Domain.Tests.Extensions
     public static class ValidatorExtensions
     {
         public static void ShouldThrowNotFoundExceptionFor<T, TValue>(this IValidator<T> validator,
-            Expression<Func<T, TValue>> expression, TValue value, string typeName, string ruleSet = null) where T : class, new()
+            Expression<Func<T, TValue>> expression, TValue value, string typeName) where T : class, new()
         {
             var instanceToValidate = new T();
 
             var memberAccessor = new MemberAccessor<T, TValue>(expression, true);
             memberAccessor.Set(instanceToValidate, value);
 
-            Func<TestValidationResult<T>> testValidationResultFunction = () => validator.TestValidate(instanceToValidate, ruleSet);
+            Func<TestValidationResult<T>> testValidationResultFunction = () => validator.TestValidate(instanceToValidate);
             testValidationResultFunction.Should().ThrowExactly<NotFoundException>().WithMessage(typeName + " could not be found.");
         }
 
-        public static void ShouldThrowNotFoundExceptionFor<T, TValue>(this IValidator<T> validator, Expression<Func<T, TValue>> expression, T objectToTest, string typeName, string ruleSet = null) where T : class
+        public static void ShouldThrowNotFoundExceptionFor<T, TValue>(this IValidator<T> validator, Expression<Func<T, TValue>> expression, T objectToTest, string typeName) where T : class
         {
             TValue value = expression.Compile()(objectToTest);
-            Func<TestValidationResult<T>> testValidationResultFunction = () => validator.TestValidate(objectToTest, ruleSet);
+            Func<TestValidationResult<T>> testValidationResultFunction = () => validator.TestValidate(objectToTest);
             testValidationResultFunction.Should().ThrowExactly<NotFoundException>().WithMessage(typeName + " could not be found.");
         }
     }
