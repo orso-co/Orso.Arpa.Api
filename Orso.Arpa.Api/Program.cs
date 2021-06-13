@@ -29,6 +29,7 @@ namespace Orso.Arpa.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseDefaultServiceProvider(options => options.ValidateScopes = false) // Workaround https://github.com/micro-elements/MicroElements.Swashbuckle.FluentValidation#error-systeminvalidoperationexception-cannot-resolve-ivalidatort-from-root-provider-because-it-requires-scoped-service-tdependency
                 .ConfigureWebHostDefaults(webBuilder => webBuilder
                     .UseStartup<Startup>()
                     .ConfigureLogging(logging =>
