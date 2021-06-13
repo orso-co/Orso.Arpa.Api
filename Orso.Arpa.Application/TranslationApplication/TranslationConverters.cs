@@ -6,7 +6,7 @@ using Orso.Arpa.Domain.Entities;
 namespace Orso.Arpa.Application.TranslationApplication
 {
 
-    public abstract class TranslationToLocalizationConverter : ITypeConverter<TranslationDto, IList<Localization>>
+    public class TranslationToLocalizationConverter : ITypeConverter<TranslationDto, IList<Localization>>
     {
         public IList<Localization> Convert(TranslationDto source, IList<Localization> destination, ResolutionContext context)
         {
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.TranslationApplication
         }
     }
 
-    public abstract class LocalizationToTranslationConverter : ITypeConverter<IList<Localization>, TranslationDto>
+    public class LocalizationToTranslationConverter : ITypeConverter<IList<Localization>, TranslationDto>
     {
         public TranslationDto Convert(IList<Localization> source, TranslationDto destination, ResolutionContext context)
         {
