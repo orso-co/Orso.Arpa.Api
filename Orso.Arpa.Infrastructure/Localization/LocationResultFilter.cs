@@ -11,7 +11,7 @@ using AutoMapper.Internal;
 using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Orso.Arpa.Domain.Localization;
+using Orso.Arpa.Domain.Translation;
 
 
 namespace Orso.Arpa.Infrastructure.Localization

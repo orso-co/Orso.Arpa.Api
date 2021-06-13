@@ -172,5 +172,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Get(Guid entityId, int? skip, int? take) => $"{AuditLogs}?entityid={entityId}&skip={skip}&take={take}";
         }
+
+        public static class TranslationController
+        {
+            private static string Translations = $"{Base}/translation";
+
+            public static string Get(string culture) => $"{Translations}/?culture={culture}";
+
+            public static string Put(string culture) => $"{Translations}?culture={culture}";
+        }
     }
 }
