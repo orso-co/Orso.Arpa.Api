@@ -1,181 +1,179 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using AutoMapper.Internal;
+using Castle.Core.Internal;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.Seed
 {
-    public static class TranslationSeedData
+    public static class LocalizationSeedData
     {
-        public static IList<Translation> Translations
+        public static IList<Localization> Localizations
         {
             get
             {
-                return new List<Translation>
+                IList<Localization> result = new List<Localization>();
+
+                try
                 {
-                    NotEndTimeLaterStartTime_de_DE,
-                    PasswordMinLenght_de_DE,
-                    PasswordUpperCase_de_DE,
-                    PasswordLowerCase_de_DE,
-                    PasswordDigitCase_de_DE,
-                    PasswordSpecialCharacterCase_de_DE,
-                    UsernameAlphanumericCase_de_DE,
-                    ProjectAlreadyLinkedToAppointment_de_DE,
-                    RoomAlreadyLinkedToAppointment_de_DE,
-                    SectionAlreadyLinkedToAppointment_de_DE,
-                    ProjectNotLinkedToAppointment_de_DE,
-                    RoomNotLinkedToAppointment_de_DE,
-                    SectionNotLinkedToAppointment_de_DE,
-                    IncorrectPassword_de_DE,
-                    UserNotFound_de_DE,
-                    EmailNotConfirmed_de_DE,
-                    AccountLocked_de_DE,
-                    UsernameAlreadyExists_de_DE,
-                    EmailAlreadyExists_de_DE,
-                    RegionAlreadyExists_de_DE
-                };
+                    // English
+                    string babelEnGbPath = Directory.GetCurrentDirectory() +
+                                         "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en-GB.json";
+                    string arpaEnGbPath = Directory.GetCurrentDirectory() +
+                                        "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en-GB.json";
+
+                    string babelEnGbJson = File.ReadAllText(babelEnGbPath);
+                    IList<Localization> enBabel = ParseBabelTranslations(babelEnGbJson, "en-GB");
+
+                    string arpaEnGbJson= File.ReadAllText(arpaEnGbPath);
+                    IList<Localization> enGbArpa = ParseArpaTranslations(arpaEnGbJson);
+
+                    IList<Localization> enGbMerge = MergeBabelToArpa(enBabel, enGbArpa);
+                    string mergeEnJson = JsonSerializer.Serialize(enGbMerge,
+                        new JsonSerializerOptions {WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping});
+                    File.WriteAllText(arpaEnGbPath, mergeEnJson);
+
+                    enGbMerge.ForAll(e => result.Add(e));
+
+                    // German
+                    string babelDeDePath = Directory.GetCurrentDirectory() +
+                                         "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de-DE.json";
+                    string arpaDeDePath = Directory.GetCurrentDirectory() +
+                                        "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de-DE.json";
+
+                    string babelDeDeJson = File.ReadAllText(babelDeDePath);
+                    IList<Localization> deDeBabel = ParseBabelTranslations(babelDeDeJson, "de-DE");
+
+                    string arpaDeDeJson= File.ReadAllText(arpaDeDePath);
+                    IList<Localization> deDeArpa = ParseArpaTranslations(arpaDeDeJson);
+
+                    IList<Localization> deDeMerge = MergeBabelToArpa(deDeBabel, deDeArpa);
+                    string mergeDeDeJson = JsonSerializer.Serialize(deDeMerge,
+                        new JsonSerializerOptions {WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping});
+                    File.WriteAllText(arpaDeDePath, mergeDeDeJson);
+
+                    deDeMerge.ForAll(e => result.Add(e));
+
+                } catch (DirectoryNotFoundException)
+                {
+                    Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
+                }
+
+                return result;
             }
         }
 
-        private static Translation NotEndTimeLaterStartTime_de_DE = new(
-            "EndTime must be later than StartTime",
-            "Endzeit muss später Startzeit sein",
-            "de,de-DE",
-            "Validator"
-        );
+        private static IList<Localization> ParseBabelTranslations(string json, string culture)
+        {
+            IList<Localization> translations = new List<Localization>();
 
-        private static Translation PasswordMinLenght_de_DE = new(
-            "Password must be at least 6 characters",
-            "Das Passwort muss mindestens 6 Zeichen enthalten",
-            "de,de-DE",
-            "Validator"
-        );
+            var jsonDocument = JsonDocument.Parse(json);
+            JsonElement rootElement = jsonDocument.RootElement;
+            rootElement.EnumerateObject().ForAll(resourceKey =>
+            {
+                resourceKey.Value.EnumerateObject().ForAll(e =>
+                {
+                    translations.Add(new Localization(null, e.Name, e.Value.GetString(), culture, resourceKey.Name));
+                });
+            });
 
-        private static Translation PasswordUpperCase_de_DE = new(
-            "Password must contain at least one uppercase letter",
-            "Das Passwort muss mindestens einen Großbuchstaben enthalten",
-            "de,de-DE",
-            "Validator"
-        );
+            return translations;
+        }
 
-        private static Translation PasswordLowerCase_de_DE = new(
-            "Password must contain at least one lowercase letter",
-            "Das Passwort muss mindestens einen Kleinbuchstaben enthalten",
-            "de,de-DE",
-            "Validator"
-        );
+        private static IList<Localization> ParseArpaTranslations(string json)
+        {
+            // Don't even try this: >> JsonSerializer.Deserialize<List<Translation>>(json) <<
+            IList<Localization> translations = new List<Localization>();
 
-        private static Translation PasswordDigitCase_de_DE = new(
-            "Password must contain at least one digit",
-            "Das Passwort muss mindestens eine Zahl enthalten",
-            "de,de-DE",
-            "Validator"
-        );
+            var jsonDocument = JsonDocument.Parse(json);
+            JsonElement rootElement = jsonDocument.RootElement;
+            rootElement.EnumerateArray().ForAll(t =>
+            {
+                string key = t.TryGetProperty("Key", out JsonElement element) ? element.GetString() : null;
+                string text = t.TryGetProperty("Text", out element) ? element.GetString() : null;
+                string localizationCulture = t.TryGetProperty("LocalizationCulture", out element)
+                    ? element.GetString()
+                    : null;
+                string resourceKey = t.TryGetProperty("ResourceKey", out element)
+                    ? element.GetString()
+                    : null;
+                Guid id = t.TryGetProperty("Id", out element) ? element.GetGuid() : Guid.Empty;
+                string createdBy = t.TryGetProperty("CreatedBy", out element) ? element.GetString() : null;
+                DateTime createdAt = t.TryGetProperty("CreatedAt", out element)
+                    ? (element.TryGetDateTime(out DateTime cdt) ? cdt : DateTime.Now)
+                    : DateTime.Now;
+                string modifiedBy = t.TryGetProperty("ModifiedBy", out element)
+                    ? element.GetString()
+                    : null;
+                DateTime? modifiedAt = t.TryGetProperty("ModifiedAt", out element)
+                        ? (element.GetString() == null ? null
+                    : element.TryGetDateTime(out DateTime mdt) ? mdt : null)
+                    : null;
+                bool deleted = t.TryGetProperty("Deleted", out element) && element.GetBoolean();
 
-        private static Translation PasswordSpecialCharacterCase_de_DE = new(
-            "Password must contain at least one special character",
-            "Das Passwort muss mindestens ein Sonderzeichen enthalten",
-            "de,de-DE",
-            "Validator"
-        );
+                translations.Add(new Localization(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted));
+            });
+            return translations;
+        }
 
-        private static Translation UsernameAlphanumericCase_de_DE = new(
-            "Username may only contain alphanumeric characters",
-            "Der Benutzername darf nur alphanumerische Zeichen enthalten",
-            "de,de-DE",
-            "Validator"
-        );
+        private static IList<Localization> MergeBabelToArpa(IList<Localization> babel,
+            IList<Localization> arpa)
+        {
+            IList<Localization> result = new List<Localization>();
 
-        private static Translation ProjectAlreadyLinkedToAppointment_de_DE = new(
-            "The project is already linked to the appointment",
-            "Das Projekt ist bereits dem Termin zugeordnet",
-            "de,de-DE",
-            "Validator"
-        );
+            // Check already existing arpa translations and update
+            arpa.AsQueryable().Where(a => a.Deleted == false).ForAll(a =>
+            {
+                IQueryable<Localization> query = babel.AsQueryable().Where(b =>
+                    a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key));
 
-        private static Translation RoomAlreadyLinkedToAppointment_de_DE = new(
-            "The room is already linked to the appointment",
-            "Der Raum ist bereits dem Termin zugeordnet",
-            "de,de-DE",
-            "Validator"
-        );
+                if (query.IsNullOrEmpty())  // if entry was removed.
+                {
+                    if (a.Deleted == false)
+                        a.Delete(nameof(LocalizationSeedData), DateTime.Now);
+                    result.Add(a);
+                }
+                else
+                {   // if entry can be found in babel json
+                    Localization babelTranslate = query.First();
+                    Localization updatedLocalization = new Localization(a.Id, babelTranslate.Key,
+                        babelTranslate.Text, babelTranslate.LocalizationCulture,
+                        babelTranslate.ResourceKey);
+                    updatedLocalization.Create(a.CreatedBy, a.CreatedAt);
 
-        private static Translation SectionAlreadyLinkedToAppointment_de_DE = new(
-            "The section is already linked to the Appointment",
-            "Die Sektion ist bereits dem Termin zugeordnet",
-            "de,de-DE",
-            "Validator"
-        );
+                    // then check whether text changed.
+                    if (!a.Text.Equals(babelTranslate.Text))
+                    {
+                        updatedLocalization.Modify(nameof(LocalizationSeedData), DateTime.Now);
+                    }
 
-        private static Translation ProjectNotLinkedToAppointment_de_DE = new(
-            "The project is not linked to the appointment",
-            "Das Projekt ist dem Termin nicht zugeordnet",
-            "de,de-DE",
-            "Validator"
-        );
+                    result.Add(updatedLocalization);
+                }
+            });
 
-        private static Translation RoomNotLinkedToAppointment_de_DE = new(
-            "The room is not linked to the appointment",
-            "Der Raum ist dem Termin nicht zugeordnet",
-            "de,de-DE",
-            "Validator"
-        );
+            // Check for new entries
+            babel.ForAll(b =>
+            {
+                IQueryable<Localization> query = arpa.AsQueryable().Where(a =>
+                    a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key) &&
+                    a.Deleted == false);
 
-        private static Translation SectionNotLinkedToAppointment_de_DE = new(
-            "The section is not linked to the Appointment",
-            "Die Sektion ist dem Termin nicht zugeordnet",
-            "de,de-DE",
-            "Validator"
-        );
+                if (query.IsNullOrEmpty())
+                {
+                    Localization newLocalization = new Localization(b.Id, b.Key, b.Text,
+                        b.LocalizationCulture, b.ResourceKey);
 
-        private static Translation IncorrectPassword_de_DE = new(
-            "Incorrect password supplied",
-            "Inkorrektes Passwort angegeben",
-            "de,de-DE",
-            "Validator"
-        );
+                    newLocalization.Create(nameof(LocalizationSeedData), DateTime.Now);
 
-        private static Translation UserNotFound_de_DE = new(
-            "The user could not be found",
-            "Der Benutzer konnte nicht gefunden werden",
-            "de,de-DE",
-            "Validator"
-        );
+                    result.Add(newLocalization);
+                }
+            });
 
-
-        private static Translation EmailNotConfirmed_de_DE = new(
-            "Your email address is not confirmed. Please confirm your email address first",
-            "Deine Email wurde noch nicht bestätigt. Bitte bestätige zuerst deine Email",
-            "de,de-DE",
-            "Validator"
-        );
-
-
-        private static Translation AccountLocked_de_DE = new(
-            Guid.Parse("ebc99220-9b0b-4e8f-b6b8-ea6dde34f3f4"),
-            "Your account is locked. Kindly wait for 10 minutes and try again",
-            "Dein Konto wurde gesperrt. Bitte warte 10 Minuten und versuche es anschließend erneut",
-            "de,de-DE",
-            "Validator"
-        );
-
-        private static Translation UsernameAlreadyExists_de_DE = new(
-            "Username already exists",
-            "Der Benutzername existiert bereits",
-            "de,de-DE",
-            "Validator"
-        );
-
-        private static Translation EmailAlreadyExists_de_DE = new(
-            "Email already exists",
-            "Die Email existiert bereits",
-            "de,de-DE",
-            "Validator"
-        );
-
-        private static Translation RegionAlreadyExists_de_DE = new(
-            "A region with the requested name does already exist",
-            "Eine Region mit diesem Namen existiert bereits",
-            "de,de-DE",
-            "Validator"
-        );
+            return result;
+        }
     }
 }

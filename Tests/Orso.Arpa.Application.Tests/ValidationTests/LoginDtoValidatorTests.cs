@@ -1,7 +1,6 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Application.Resources.Cultures;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
