@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.Logic.Localizations
 {
     public class Modify
     {
-        private static readonly object _dbLock = new();
+        private static readonly object DbLock = new();
 
         public class Query : IRequest
         {
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Logic.Localizations
             public Task<Unit> Handle(Query request,
                 CancellationToken cancellationToken)
             {
-                lock (_dbLock)
+                lock (DbLock)
                 {
                     var dbEntries = _arpaContext.Localizations.AsQueryable().Where(q => q.LocalizationCulture.Equals(request.Culture)).ToList();
                     dbEntries.ForAll(dbEntry =>

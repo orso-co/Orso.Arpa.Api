@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Security.Claims;
 using FluentValidation.AspNetCore;
 using MediatR;
+using MicroElements.Swashbuckle.FluentValidation;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -45,7 +47,6 @@ using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
-using Swashbuckle.AspNetCore.Swagger;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
 
 namespace Orso.Arpa.Api
@@ -96,6 +97,7 @@ namespace Orso.Arpa.Api
                 {
                     config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
                     config.RegisterValidatorsFromAssemblyContaining<Validator>();
+                    config.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory); // Workaround https://github.com/micro-elements/MicroElements.Swashbuckle.FluentValidation#error-systeminvalidoperationexception-cannot-resolve-ivalidatort-from-root-provider-because-it-requires-scoped-service-tdependency
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -181,8 +183,6 @@ namespace Orso.Arpa.Api
                     }
                 });
 
-                options.AddFluentValidationRules();
-
                 options.DocumentFilter<LowerCaseDocumentFilter>();
 
                 options.OperationFilter<SwaggerAuthorizeOperationFilter>();
@@ -217,6 +217,8 @@ namespace Orso.Arpa.Api
                     }
                 });
             });
+
+            services.AddFluentValidationRulesToSwagger();
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -240,22 +242,25 @@ namespace Orso.Arpa.Api
             services.AddScoped<IMusicianProfileService, MusicianProfileService>();
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IMeService, MeService>();
+            services.AddScoped<ITemplateParser, TemplateParser>();
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<ITranslationService, TranslationService>();
             services.AddGenericListHandler(typeof(AuditLog));
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
+
             services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
+
             EmailConfiguration emailConfig = Configuration
                 .GetSection("EmailConfiguration")
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
-            services.AddScoped<IEmailSender, EmailSender>();
+
             ClubConfiguration clubConfig = Configuration
                 .GetSection("ClubConfiguration")
                 .Get<ClubConfiguration>();
             services.AddSingleton(clubConfig);
-            services.AddScoped<ITemplateParser, TemplateParser>();
         }
 
         protected virtual void RegisterDateTimeProvider(IServiceCollection services)
@@ -387,7 +392,7 @@ namespace Orso.Arpa.Api
 
         private static void AddSwagger(IApplicationBuilder app)
         {
-            app.UseSwagger();
+            app.UseScopedSwagger(); // Workaround https://github.com/micro-elements/MicroElements.Swashbuckle.FluentValidation#error-systeminvalidoperationexception-cannot-resolve-ivalidatort-from-root-provider-because-it-requires-scoped-service-tdependency
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
