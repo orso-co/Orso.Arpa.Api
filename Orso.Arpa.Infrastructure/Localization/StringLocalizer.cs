@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using AutoMapper.Internal;
 using Microsoft.Extensions.Localization;
-using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Infrastructure.Localization
 {
@@ -24,7 +22,6 @@ namespace Orso.Arpa.Infrastructure.Localization
         {
             IList<LocalizedString> localizedStrings = new List<LocalizedString>();
 
-            IList<Domain.Entities.Localization> translations = _cache.GetAllTranslations(_resourceKey, _location);
             _cache.GetAllTranslations(_resourceKey, _location).ForAll(ls =>
                 localizedStrings.Add(new LocalizedString(ls.Key, ls.Text)));
 

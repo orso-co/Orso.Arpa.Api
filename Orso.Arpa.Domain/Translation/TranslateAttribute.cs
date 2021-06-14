@@ -2,7 +2,7 @@ using System;
 
 namespace Orso.Arpa.Domain.Translation
 {
-    [System.AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class TranslateAttribute : Attribute
     {
         private readonly string _resourceKey;
@@ -14,7 +14,6 @@ namespace Orso.Arpa.Domain.Translation
         public string ResourceKey
         {
             get => _resourceKey;
-            private set => throw new NotSupportedException();
         }
     }
 }

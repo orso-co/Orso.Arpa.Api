@@ -17,5 +17,4 @@ namespace Orso.Arpa.Application.TranslationApplication
             CreateMap<IList<Localization>, TranslationDto>().ConvertUsing<LocalizationToTranslationConverter>();
         }
     }
-
 }
