@@ -241,14 +241,5 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Put(string culture) => $"{Translations}?culture={culture}";
         }
-
-        public static class TranslationController
-        {
-            private static string Translations = $"{Base}/translation";
-
-            public static string Get(string culture) => $"{Translations}/?culture={culture}";
-
-            public static string Put(string culture) => $"{Translations}?culture={culture}";
-        }
     }
 }
