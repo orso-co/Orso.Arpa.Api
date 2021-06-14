@@ -1,20 +1,19 @@
 using System;
 using FluentValidation;
-using Microsoft.Extensions.Localization;
 
 namespace Orso.Arpa.Application.Extensions
 {
     public static class RuleBuilderExtensions
     {
-        public static IRuleBuilder<T, string> Password<T>(this IRuleBuilder<T, string> ruleBuilder, IStringLocalizer localizer)
+        public static IRuleBuilder<T, string> Password<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder
                     .NotEmpty()
-                    .MinimumLength(6).WithMessage(localizer["Password must be at least 6 characters"])
-                    .Matches("[A-Z]").WithMessage(localizer["Password must contain at least one uppercase letter"])
-                    .Matches("[a-z]").WithMessage(localizer["Password must contain at least one lowercase letter"])
-                    .Matches("[0-9]").WithMessage(localizer["Password must contain at least one digit"])
-                    .Matches("[^a-zA-Z0-9]").WithMessage(localizer["Password must contain at least one special character"]);
+                    .MinimumLength(6).WithMessage("Password must be at least 6 characters")
+                    .Matches("[A-Z]").WithMessage("Password must contain one uppercase letter")
+                    .Matches("[a-z]").WithMessage("Password must have at least one lowercase character")
+                    .Matches("[0-9]").WithMessage("Password must contain a nunber")
+                    .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain non alphanumeric");
         }
 
         public static IRuleBuilder<T, string> ValidUri<T>(this IRuleBuilder<T, string> ruleBuilder)
@@ -31,7 +30,7 @@ namespace Orso.Arpa.Application.Extensions
                 .ValidUri();
         }
 
-        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder, IStringLocalizer localizer)
+        public static IRuleBuilder<T, string> Username<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder
                 .MaximumLength(256)
@@ -61,18 +60,6 @@ namespace Orso.Arpa.Application.Extensions
         {
             return ruleBuilder
                 .InclusiveBetween<T, byte>(0, 5);
-        }
-
-        /// <summary>
-        /// valid SEPA characters in DFÜ Abkommen (Deutsche Kreditwirtschaft)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="ruleBuilder"></param>
-        public static IRuleBuilder<T, string> Sepa<T>(this IRuleBuilder<T, string> ruleBuilder)
-        {
-            return ruleBuilder
-                .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
-                .WithMessage("A valid SEPA string may only contain alphanumeric, space and the following speacial characters: / ? : ( ) . , ' + -");
         }
     }
 }

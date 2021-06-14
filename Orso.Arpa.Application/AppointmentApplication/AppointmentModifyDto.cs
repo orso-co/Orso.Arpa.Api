@@ -1,8 +1,6 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Resources.Cultures;
 using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Appointments.Modify;
 
@@ -55,7 +53,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
 
     public class AppointmentModifyBodyDtoValidator : AbstractValidator<AppointmentModifyBodyDto>
     {
-        public AppointmentModifyBodyDtoValidator(IStringLocalizer<ApplicationResource> localizer)
+        public AppointmentModifyBodyDtoValidator()
         {
             RuleFor(d => d.StartTime)
                .NotEmpty();

@@ -137,17 +137,5 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
             }
         }
-
-        public static MusicianProfileDto WithoutRoleProfile
-        {
-            get
-            {
-                return new MusicianProfileDto
-                {
-                    IsProfessional = MusicianProfileSeedData.UserWithoutRoleMusicianProfile.IsProfessional,
-                    SectionName = SectionSeedData.Bass1.Name
-                };
-            }
-        }
     }
 }

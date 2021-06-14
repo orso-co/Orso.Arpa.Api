@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 
-namespace Orso.Arpa.Persistence.Configurations
+namespace Orso.Arpa.Persistence.EntityConfigurations
 {
     public class LocalizationConfiguration : IEntityTypeConfiguration<Localization>
     {

@@ -6,11 +6,13 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Views;
 using Orso.Arpa.Misc;
@@ -23,13 +25,13 @@ namespace Orso.Arpa.Persistence.DataAccess
         private readonly ITokenAccessor _tokenAccessor;
         private readonly IDateTimeProvider _dateTimeProvider;
         public delegate Task CallBack<T>() where T : BaseEntity;
-        private readonly CallBack<Translation> _translationCallBack;
+        private readonly CallBack<Localization> _translationCallBack;
 
         public ArpaContext(
             DbContextOptions options,
             ITokenAccessor tokenAccessor,
             IDateTimeProvider dateTimeProvider,
-            CallBack<Translation> translationCallBack) : base(options)
+            CallBack<Localization> translationCallBack) : base(options)
         {
             _tokenAccessor = tokenAccessor;
             _dateTimeProvider = dateTimeProvider;
@@ -72,10 +74,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Url> Urls { get; set; }
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
-        public DbSet<Translation> Translations { get; set; }
-
-
-        public DbSet<Translation> Translations { get; set; }
+        public DbSet<Localization> Localizations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -130,7 +129,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             int task = await base.SaveChangesAsync(cancellationToken);
 
-            if(!ChangeTracker.Entries<Translation>().IsNullOrEmpty())
+            if(!ChangeTracker.Entries<Localization>().IsNullOrEmpty())
                 await _translationCallBack();
 
             return task;
@@ -231,6 +230,12 @@ namespace Orso.Arpa.Persistence.DataAccess
             ChangeTracker.Clear();
         }
 
+        public async Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
+        {
+            return await Set<TEntity>()
+                .AsQueryable()
+                .AnyAsync(entity => entity.Id == id, cancellationToken);
+        }
 
         public async Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class
         {

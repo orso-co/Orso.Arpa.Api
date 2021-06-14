@@ -37,7 +37,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.AsQueryable().Where(s => s.Id == SectionDtoData.Flute.Id).Select(s => s.Name)
                 .All(s => s.Equals("Flöte")).Should().BeTrue();
 
-            result.AsQueryable().Where(s => s.Id == SectionDtoData.Violins.Id).Select(s => s.Name)
+            result.AsQueryable().Where(s => s.Id == SectionDtoData.Violin.Id).Select(s => s.Name)
                 .All(s => s.Equals("Violinen")).Should().BeTrue();
         }
 
