@@ -14,10 +14,16 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .Property(a => a.Institution)
-                .HasMaxLength(50);
+                .HasMaxLength(255);
 
             builder
-                .Property(a => a.Comment)
+                 .HasOne(a => a.Type)
+                 .WithMany()
+                 .HasForeignKey(a => a.TypeId)
+                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .Property(a => a.Description)
                 .HasMaxLength(500);
         }
     }

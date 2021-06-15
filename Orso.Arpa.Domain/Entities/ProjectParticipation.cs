@@ -39,6 +39,5 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping ParticipationStatusInternal { get; set; }
         public Guid? InvitationStatusId { get; set; }
         public virtual SelectValueMapping InvitationStatus { get; set; }
-
     }
 }

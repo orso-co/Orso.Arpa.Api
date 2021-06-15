@@ -13,12 +13,18 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(50);
 
             builder
-                .Property(a => a.Keyword)
-                .HasMaxLength(50);
+                .Property(a => a.Institution)
+                .HasMaxLength(255);
 
             builder
-                .Property(a => a.Details)
-                .HasMaxLength(250);
+                 .HasOne(a => a.Type)
+                 .WithMany()
+                 .HasForeignKey(a => a.TypeId)
+                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .Property(a => a.Description)
+                .HasMaxLength(500);
         }
     }
 }
