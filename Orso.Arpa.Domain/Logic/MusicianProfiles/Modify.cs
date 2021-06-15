@@ -1,21 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
-using static Orso.Arpa.Domain.GenericHandlers.Modify;
 
 namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 {
     public static class Modify
     {
-        public class Command : IModifyCommand<MusicianProfile>
+        public class Command : IRequest<MusicianProfile>, IHasInstrumentRequest
         {
-            public Guid Id { get; set; }
+            public Guid Id { get; set; }//
+            public Guid InstrumentId { get; set; }//
 
-            #region Native
             public bool IsMainProfile { get; set; }
             public bool IsDeactivated { get; set; }
 
@@ -23,41 +27,65 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public byte LevelAssessmentTeam { get; set; }
             public byte ProfilePreferenceInner { get; set; }
             public byte ProfilePreferenceTeam { get; set; }
+            public byte ExperienceLevel { get; set; }
 
             public string BackgroundInner { get; set; }
             public string BackgroundTeam { get; set; }
             public string SalaryComment { get; set; }
-            #endregion
-
-            #region Reference
-            public Guid? QualificationId { get; set; }
-            public virtual SelectValueMapping Qualification { get; set; }
+            public Guid QualificationId { get; set; }
 
             public Guid? SalaryId { get; set; }
-            public virtual SelectValueMapping Salary { get; set; }
 
             public Guid? InquiryStatusInnerId { get; set; }
-            public virtual SelectValueMapping InquiryStatusInner { get; set; }
 
             public Guid? InquiryStatusTeamId { get; set; }
-            public virtual SelectValueMapping InquiryStatusTeam { get; set; }
-            #endregion
 
-            #region Collection
-            public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-            public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
-            public IList<MusicianProfilePositionInner> PreferredPositionsInner { get; set; } = new List<MusicianProfilePositionInner>();
-            //public IList<PreferredPosition> PreferredPositionsTeam { get; set; } = new List<PreferredPosition>();
-            //public IList<PreferredPart> PreferredPartsInner { get; set; } = new List<PreferredPart>();
-            //public IList<PreferredPart> PreferredPartsTeam { get; set; } = new List<PreferredPart>();
+            public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
+            public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
+            public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
+            public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
+            public MusicianProfile ExistingMusicianProfile { get; set; }
+        }
 
-            public IList<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; } = new List<MusicianProfileCurriculumVitaeReference>();
-            public IList<PreferredGenre> PreferredGenres { get; set; } = new List<PreferredGenre>();
-            public IList<AvailableDocument> AvailableDocuments { get; set; } = new List<AvailableDocument>();
-            public IList<RegionPreferencePerformance> RegionPreferencePerformances { get; set; } = new List<RegionPreferencePerformance>();
-            public IList<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; set; } = new List<RegionPreferenceRehearsal>();
-            public IList<Audition> Auditions { get; set; } = new List<Audition>();
-            #endregion
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IArpaContext arpaContext)
+            {
+                RuleFor(c => c.ExistingMusicianProfile)
+                    .NotEmpty();
+
+                RuleFor(c => c.IsMainProfile)
+                    .Must((command, isMainProfile) => isMainProfile || (!isMainProfile && !command.ExistingMusicianProfile.IsMainProfile))
+                    .WithMessage("You may not turn off the IsMainProfile flag");
+
+                RuleFor(c => c.QualificationId)
+                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Qualification);
+
+                RuleFor(c => c.InquiryStatusInnerId)
+                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusInner);
+
+                RuleFor(c => c.InquiryStatusTeamId)
+                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusTeam);
+
+                RuleFor(c => c.SalaryId)
+                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Salary);
+
+                RuleForEach(c => c.PreferredPositionsInnerIds)
+                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsInnerIds));
+
+                RuleForEach(c => c.PreferredPositionsTeamIds)
+                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsTeamIds));
+
+                RuleForEach(c => c.PreferredPartsInner)
+                    .InstrumentPart(arpaContext);
+
+                RuleForEach(c => c.PreferredPartsTeam)
+                    .InstrumentPart(arpaContext);
+
+                RuleFor(c => c.IsDeactivated)
+                    .Must((command, isDeactivated, context) => !isDeactivated || !command.ExistingMusicianProfile.ProjectParticipations.Select(pp => pp.Project).All(p => p.IsCompleted))
+                    .WithMessage("You may not deactivate a musician profile which is participating in an active project");
+            }
         }
 
         public class MappingProfile : Profile
@@ -65,8 +93,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public MappingProfile()
             {
                 CreateMap<Command, MusicianProfile>()
-                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-
                     .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.IsMainProfile))
                     .ForMember(dest => dest.IsDeactivated, opt => opt.MapFrom(src => src.IsDeactivated))
 
@@ -84,39 +110,100 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.InquiryStatusInnerId))
                     .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.InquiryStatusTeamId))
 
-                    .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
-                    .ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.MusicianProfileEducations))
-                    //.ForMember(dest => dest.PreferredPositionsInner, opt => opt.MapFrom(src => src.PreferredPositionsInner))
-                    //.ForMember(dest => dest.PreferredPositionsTeam, opt => opt.MapFrom(src => src.PreferredPositionsTeam))
-                    //.ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
-                    //.ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.PreferredPartsTeam))
-
-                    // TODO da muss Senf rein mit neuen Einträgen hinzufügen, fehlende Löschen u.v.a.m
+                    .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
+                    .ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.PreferredPartsTeam))
 
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }
 
-        public class Validator : AbstractValidator<Command>
+        public class Handler : IRequestHandler<Command, MusicianProfile>
         {
-            public Validator(IArpaContext arpaContext)
+            private readonly IArpaContext _arpaContext;
+            private readonly IMapper _mapper;
+
+            public Handler(IArpaContext arpaContext, IMapper mapper)
             {
-                RuleFor(c => c.Id)
-                    .EntityExists<Command, MusicianProfile>(arpaContext, nameof(Command.Id));
+                _arpaContext = arpaContext;
+                _mapper = mapper;
+            }
 
-                RuleFor(c => c.QualificationId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Qualification);
+            public async Task<MusicianProfile> Handle(Command request, CancellationToken cancellationToken)
+            {
+                MusicianProfile existingMusicianProfile = request.ExistingMusicianProfile;
 
-                RuleFor(c => c.SalaryId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Salary);
+                if (request.IsMainProfile && !existingMusicianProfile.IsMainProfile)
+                {
+                    MusicianProfile mainProfile = await _arpaContext.MusicianProfiles.AsQueryable().SingleOrDefaultAsync(mp => mp.PersonId == existingMusicianProfile.PersonId && mp.IsMainProfile, cancellationToken);
+                    mainProfile.TurnOffIsMainProfileFlag();
+                    _arpaContext.MusicianProfiles.Update(mainProfile);
+                }
 
-                RuleFor(c => c.InquiryStatusInnerId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusInner);
+                MusicianProfile modifiedEntity = _mapper.Map(request, existingMusicianProfile);
+                _arpaContext.Entry(existingMusicianProfile)?.CurrentValues?.SetValues(modifiedEntity);
 
-                RuleFor(c => c.InquiryStatusTeamId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusTeam);
+                UpdatePreferredPositionsInner(modifiedEntity.PreferredPositionsInner, request.PreferredPositionsInnerIds, modifiedEntity.Id);
+                UpdatePreferredPositionsTeam(modifiedEntity.PreferredPositionsTeam, request.PreferredPositionsTeamIds, modifiedEntity.Id);
 
-                //ToDo Validation for Collections
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
+                {
+                    _arpaContext.ClearChangeTracker();
+                    return await _arpaContext.MusicianProfiles.FindAsync(new object[] { request.Id }, cancellationToken);
+                }
+
+                throw new Exception("Problem updating musician profile");
+            }
+
+            private void UpdatePreferredPositionsInner(ICollection<MusicianProfilePositionInner> collectionToUpdate, IList<Guid> updateList, Guid musicianProfileId)
+            {
+                if (updateList.Count == 0)
+                {
+                    collectionToUpdate.Clear();
+                    return;
+                }
+
+                foreach (MusicianProfilePositionInner position in collectionToUpdate)
+                {
+                    if (!updateList.Contains(position.SelectValueSectionId))
+                    {
+                        _arpaContext.Remove(position);
+                    }
+                }
+
+                IEnumerable<Guid> existingSelectValueSectionIds = collectionToUpdate.Select(p => p.SelectValueSectionId);
+                foreach (Guid selectValueSectionId in updateList)
+                {
+                    if (!existingSelectValueSectionIds.Contains(selectValueSectionId))
+                    {
+                        _arpaContext.Add(new MusicianProfilePositionInner(selectValueSectionId, musicianProfileId));
+                    }
+                }
+            }
+
+            private void UpdatePreferredPositionsTeam(ICollection<MusicianProfilePositionTeam> collectionToUpdate, IList<Guid> updateList, Guid musicianProfileId)
+            {
+                if (updateList.Count == 0)
+                {
+                    collectionToUpdate.Clear();
+                    return;
+                }
+
+                foreach (MusicianProfilePositionTeam position in collectionToUpdate)
+                {
+                    if (!updateList.Contains(position.SelectValueSectionId))
+                    {
+                        _arpaContext.Remove(position);
+                    }
+                }
+
+                IEnumerable<Guid> existingSelectValueSectionIds = collectionToUpdate.Select(p => p.SelectValueSectionId);
+                foreach (Guid selectValueSectionId in updateList)
+                {
+                    if (!existingSelectValueSectionIds.Contains(selectValueSectionId))
+                    {
+                        _arpaContext.Add(new MusicianProfilePositionTeam(selectValueSectionId, musicianProfileId));
+                    }
+                }
             }
         }
     }

@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Errors;
@@ -99,6 +101,18 @@ namespace Orso.Arpa.Domain.Extensions
                 .WithMessage("The selected part is not valid for this instrument");
         }
 
+        public static IRuleBuilderOptions<TRequest, Guid> DoublingInstrument<TRequest>(
+            this IRuleBuilderInitial<TRequest, Guid> ruleBuilderInitial,
+            IArpaContext arpaContext,
+            Guid mainInstrumentId)
+        {
+            return ruleBuilderInitial
+                .Must(instrumentId => instrumentId != mainInstrumentId)
+                .WithMessage("The doubling instrument may not be the main instrument")
+                .MustAsync(async (command, instrumentId, cancellation) => await IsValidDoublingInstrumentAsync(mainInstrumentId, instrumentId, arpaContext, cancellation))
+                .WithMessage("This instrument is no valid doubling instrument for the selected main instrument");
+        }
+
         private static string GetPropertyNameFromExpression(Expression expression)
         {
             var memberExpression = expression as MemberExpression;
@@ -106,5 +120,18 @@ namespace Orso.Arpa.Domain.Extensions
             return propInfo.Name;
         }
 
+        private static async Task<bool> IsValidDoublingInstrumentAsync(Guid mainInstrumentId, Guid doublingInstrumentId, IArpaContext arpaContext, CancellationToken cancellationToken)
+        {
+            Section mainInstrument = await arpaContext.FindAsync<Section>(new object[] { mainInstrumentId }, cancellationToken);
+            if (mainInstrument.IsInstrument)
+            {
+                return mainInstrument.Children.Select(c => c.Id).Contains(doublingInstrumentId);
+            }
+            if (mainInstrument.ParentId == doublingInstrumentId)
+            {
+                return true;
+            }
+            return mainInstrument.Parent.Children.Select(c => c.Id).Contains(doublingInstrumentId);
+        }
     }
 }
