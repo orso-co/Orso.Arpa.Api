@@ -105,7 +105,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.MusicianProfilesController.AddEducation(ProjectDtoData.HoorayForHollywood.Id), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.MusicianProfilesController.AddEducation(MusicianProfileDtoData.PerformersHornMusicianProfile.Id), BuildStringContent(createDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);

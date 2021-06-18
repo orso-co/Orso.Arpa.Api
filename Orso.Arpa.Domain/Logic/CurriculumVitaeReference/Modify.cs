@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.Logic.CurriculumVitaeReferences
 {
     public static class Modify
     {
-        public class Command : IModifyCommand<Education>
+        public class Command : IModifyCommand<CurriculumVitaeReference>
         {
             public Guid Id { get; set; }
             public string TimeSpan { get; set; }

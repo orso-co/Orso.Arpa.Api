@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.Logic.CurriculumVitaeReferences
 {
     public static class Create
     {
-        public class Command : ICreateCommand<Education>
+        public class Command : ICreateCommand<CurriculumVitaeReference>
         {
             public Command(string timeSpan, string institution, Guid typeId,
                 string description, byte sortOrder, Guid musicianProfileId)

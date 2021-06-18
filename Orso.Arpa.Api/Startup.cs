@@ -244,6 +244,8 @@ namespace Orso.Arpa.Api
             services.AddScoped<IVenueService, VenueService>();
             services.AddScoped<IAuditLogService, AuditLogService>();
             services.AddScoped<IMusicianProfileService, MusicianProfileService>();
+            services.AddScoped<IEducationService, EducationService>();
+            services.AddScoped<ICurriculumVitaeReferenceService, CurriculumVitaeReferenceService>();
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IDoublingInstrumentService, DoublingInstrumentService>();
             services.AddScoped<IMeService, MeService>();
