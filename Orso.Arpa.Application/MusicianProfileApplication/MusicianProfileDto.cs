@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
 
@@ -27,6 +29,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public Guid? InquiryStatusInnerId { get; set; }
         public Guid? InquiryStatusTeamId { get; set; }
         public IList<DoublingInstrumentDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentDto>();
+        public IList<EducationDto> Educations { get; set; } = new List<EducationDto>();
+        public IList<CurriculumVitaeReferenceDto> CurriculumVitaeReferences { get; set; } = new List<CurriculumVitaeReferenceDto>();
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
         public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
         public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();

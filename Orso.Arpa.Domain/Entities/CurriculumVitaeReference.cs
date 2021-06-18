@@ -15,7 +15,7 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        public string Timespan { get; private set; }
+        public string TimeSpan { get; private set; }
         public string Institution { get; private set; }
         public Guid TypeId { get; private set; }
         public virtual SelectValueMapping Type { get; private set; }

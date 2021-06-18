@@ -17,6 +17,8 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         DbSet<MusicianProfile> MusicianProfiles { get; set; }
+        DbSet<Education> Educations { get; set; }
+        DbSet<CurriculumVitaeReference> CurriculumVitaeReferences { get; set; }
         DbSet<Person> Persons { get; set; }
         DbSet<PersonAddress> PersonAddresses { get; set; }
         DbSet<Project> Projects { get; set; }

@@ -9,7 +9,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<CurriculumVitaeReference> builder)
         {
             builder
-                .Property(a => a.Timespan)
+                .Property(a => a.TimeSpan)
                 .HasMaxLength(50);
 
             builder

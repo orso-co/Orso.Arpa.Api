@@ -207,7 +207,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Get(Guid id) => $"{MusicianProfiles}/{id}";
 
             public static string Delete(Guid id) => $"{MusicianProfiles}/{id}";
+
             public static string GetProjectParticipations(Guid id, bool includeCompleted) => $"{MusicianProfiles}/{id}/projectparticipations?includeCompleted={includeCompleted}";
+
+            public static string AddEducation(Guid id) => $"{MusicianProfiles}/{id}/educations";
+            public static string AddCurriculumVitaeReference(Guid id) => $"{MusicianProfiles}/{id}/curriculumVitaeReferences";
         }
 
         public static class MusicianProfileDoublingInstrumentsController
@@ -216,6 +220,23 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Post(Guid id) => BaseUrl(id);
             public static string Put(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
             public static string Delete(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
+        }
+
+
+        public static class EducationsController
+        {
+            private static string Educations => $"{Base}/educations";
+            public static string Get(Guid id) => $"{Educations}/{id}";
+            public static string Put(Guid id) => $"{Educations}/{id}";
+            public static string Delete(Guid id) => $"{Educations}/{id}";
+        }
+
+        public static class CurriculumVitaeReferencesController
+        {
+            private static string CurriculumVitaeReferences => $"{Base}/curriculumvitaereferences";
+            public static string Get(Guid id) => $"{CurriculumVitaeReferences}/{id}";
+            public static string Put(Guid id) => $"{CurriculumVitaeReferences}/{id}";
+            public static string Delete(Guid id) => $"{CurriculumVitaeReferences}/{id}";
         }
 
         public static class PersonsController
