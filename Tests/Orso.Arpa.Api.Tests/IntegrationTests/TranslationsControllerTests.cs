@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -7,20 +7,15 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.TranslationApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class TranslationsControllerTests : IntegrationTestBase
     {
-
-        private LocalizationToTranslationConverter _localizationToTranslationConverter;
-
         [SetUp]
         public void SetUp()
         {
-            _localizationToTranslationConverter = new LocalizationToTranslationConverter();
+
         }
 
 
@@ -29,43 +24,51 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
+                .AuthenticateWith(_staff)
                 .SendAsync(new HttpRequestMessage(HttpMethod.Get,ApiEndpoints.TranslationController.Get("de-DE")));
-
-            TranslationDto expectedDto =
-                _localizationToTranslationConverter.Convert(TranslationSeedData.Translations,
-                    null, null);
 
             TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto);
+            Dictionary<string, string> roles = result.First(f => f.Key.Equals("RoleDto")).Value;
+
+            roles.TryGetValue("Performer", out string kuenstler);
+            kuenstler.Should().BeEquivalentTo("Künstler");
+
+            roles.TryGetValue("Staff", out string mitarbeiter);
+            mitarbeiter.Should().BeEquivalentTo("Mitarbeiter");
+
+            roles.TryGetValue("Admin", out string administrator);
+            administrator.Should().BeEquivalentTo("Administrator");
         }
 
         [Test, Order(2)]
         public async Task Should_Change_Translations()
         {
-            IList<Localization> localizations = TranslationSeedData.Translations;
-            localizations.Add(new(new Guid("19E0484C-9BBC-40F5-8A42-52563205CF54"), "Trumpet",
-                "Trompete", "de-DE", "SectionDto"));
-            TranslationDto expectedDto =
-                _localizationToTranslationConverter.Convert(localizations, null, null);
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get,ApiEndpoints.TranslationController.Get("de-DE")));
+
+            TranslationDto expected = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
+            Dictionary<string, string> roles = expected.First(f => f.Key.Equals("RoleDto")).Value;
+            roles.Add("TheOneAndOnly", "DerEinzigWahre");
 
             HttpResponseMessage postResponseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.TranslationController.Put("de-DE"), BuildStringContent(expectedDto));
+                .AuthenticateWith(_staff)
+                .PutAsync(ApiEndpoints.TranslationController.Put("de-DE"), BuildStringContent(expected));
 
             postResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             // Get and check values.
-            HttpResponseMessage responseMessage = await _authenticatedServer
+            responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
+                .AuthenticateWith(_staff)
                 .SendAsync(new HttpRequestMessage(HttpMethod.Get,ApiEndpoints.TranslationController.Get("de-DE")));
 
             TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto);
+            result.Should().BeEquivalentTo(expected);
         }
     }
 }

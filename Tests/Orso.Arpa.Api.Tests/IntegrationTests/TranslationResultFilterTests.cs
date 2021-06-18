@@ -32,13 +32,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_performer)
                 .SendAsync(requestMessage);
 
-            IEnumerable<SectionDto> result = await DeserializeResponseMessageAsync<IEnumerable<SectionDto>>(responseMessage);
+            IList<SectionDto> result = await DeserializeResponseMessageAsync<IList<SectionDto>>(responseMessage);
 
-            result.AsQueryable().Where(s => s.Id == SectionDtoData.Flute.Id).Select(s => s.Name)
-                .All(s => s.Equals("Flöte")).Should().BeTrue();
+            result.AsQueryable().Where(s => s.Id == SectionDtoData.Performers.Id).Select(s => s.Name)
+                .All(s => s.Equals("Künstler")).Should().BeTrue();
 
-            result.AsQueryable().Where(s => s.Id == SectionDtoData.Violin.Id).Select(s => s.Name)
-                .All(s => s.Equals("Violinen")).Should().BeTrue();
+            result.AsQueryable().Where(s => s.Id == SectionDtoData.Orchestra.Id).Select(s => s.Name)
+                .All(s => s.Equals("Orchester")).Should().BeTrue();
         }
 
         [Test, Order(2)]
@@ -52,7 +52,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_staff)
                 .SendAsync(requestMessage);
 
-            IEnumerable<RoleDto> result = await DeserializeResponseMessageAsync<IEnumerable<RoleDto>>(responseMessage);
+            IList<RoleDto> result = await DeserializeResponseMessageAsync<IList<RoleDto>>(responseMessage);
 
             result.AsQueryable().Where(s => s.Id == RoleDtoData.Performer.Id)
                 .Select(s => s.RoleName).First().Should().Be("Künstler");

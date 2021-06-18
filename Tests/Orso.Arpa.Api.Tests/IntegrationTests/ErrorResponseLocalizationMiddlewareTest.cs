@@ -27,7 +27,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
 
         [Test, Order(2)]
@@ -42,7 +42,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Description.Should().Be("Bitte melde dich erneut an");
+            errorMessage.Title.Should().Be("Ungültiges Token angegeben");
         }
 
         [Test, Order(3)]
@@ -57,7 +57,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
 
         [Test, Order(4)]
@@ -75,7 +75,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Description.Should().Be("Bitte melde dich erneut an");
+            errorMessage.Title.Should().Be("Ungültiges Token angegeben");
         }
 
         [Test, Order(5)]
@@ -93,7 +93,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
 
         [Test, Order(6)]
@@ -111,7 +111,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
 
         [Test, Order(7)]
@@ -129,7 +129,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Description.Should().Be("Please try to login again");
+            errorMessage.Title.Should().Be("Please try to login again");
         }
     }
 

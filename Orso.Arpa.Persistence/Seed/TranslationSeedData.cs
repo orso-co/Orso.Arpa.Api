@@ -20,43 +20,21 @@ namespace Orso.Arpa.Persistence.Seed
 
                 try
                 {
+                    // Default English
+                    ApplyTranslation(Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
+                        "en").ForAll(e => result.Add(e));
+
                     // English
-                    string babelEnGbPath = Directory.GetCurrentDirectory() +
-                                         "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en-GB.json";
-                    string arpaEnGbPath = Directory.GetCurrentDirectory() +
-                                        "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en-GB.json";
-
-                    string babelEnGbJson = File.ReadAllText(babelEnGbPath);
-                    IList<Localization> enBabel = ParseBabelTranslations(babelEnGbJson, "en-GB");
-
-                    string arpaEnGbJson= File.ReadAllText(arpaEnGbPath);
-                    IList<Localization> enGbArpa = ParseArpaTranslations(arpaEnGbJson);
-
-                    IList<Localization> enGbMerge = MergeBabelToArpa(enBabel, enGbArpa);
-                    string mergeEnJson = JsonSerializer.Serialize(enGbMerge,
-                        new JsonSerializerOptions {WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping});
-                    File.WriteAllText(arpaEnGbPath, mergeEnJson);
-
-                    enGbMerge.ForAll(e => result.Add(e));
+                    ApplyTranslation(Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en-GB.json",
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en-GB.json",
+                        "en-GB").ForAll(e => result.Add(e));
 
                     // German
-                    string babelDeDePath = Directory.GetCurrentDirectory() +
-                                         "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de-DE.json";
-                    string arpaDeDePath = Directory.GetCurrentDirectory() +
-                                        "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de-DE.json";
+                    ApplyTranslation(Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de-DE.json",
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de-DE.json",
+                        "de-DE").ForAll(e => result.Add(e));
 
-                    string babelDeDeJson = File.ReadAllText(babelDeDePath);
-                    IList<Localization> deDeBabel = ParseBabelTranslations(babelDeDeJson, "de-DE");
-
-                    string arpaDeDeJson= File.ReadAllText(arpaDeDePath);
-                    IList<Localization> deDeArpa = ParseArpaTranslations(arpaDeDeJson);
-
-                    IList<Localization> deDeMerge = MergeBabelToArpa(deDeBabel, deDeArpa);
-                    string mergeDeDeJson = JsonSerializer.Serialize(deDeMerge,
-                        new JsonSerializerOptions {WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping});
-                    File.WriteAllText(arpaDeDePath, mergeDeDeJson);
-
-                    deDeMerge.ForAll(e => result.Add(e));
 
                 } catch (DirectoryNotFoundException)
                 {
@@ -67,7 +45,29 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        private static IList<Localization> ParseBabelTranslations(string json, string culture)
+        private static IList<Localization> ApplyTranslation(string translationPath,
+            string localizationPath, string culture)
+        {
+
+            string translationsJson = File.ReadAllText(translationPath);
+            IList<Localization> translationsList = ParseTranslations(translationsJson, culture);
+
+            string localizationsJson= File.ReadAllText(localizationPath);
+            IList<Localization> localizationsList = ParseLocalications(localizationsJson);
+
+            IList<Localization> merge = MergeTranslationToLocalication(translationsList, localizationsList);
+            string mergeJson = JsonSerializer.Serialize(merge,
+                new ()
+                {
+                    WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                });
+
+            File.WriteAllText(localizationPath, mergeJson);
+
+            return merge;
+        }
+
+        private static IList<Localization> ParseTranslations(string json, string culture)
         {
             IList<Localization> translations = new List<Localization>();
 
@@ -84,7 +84,7 @@ namespace Orso.Arpa.Persistence.Seed
             return translations;
         }
 
-        private static IList<Localization> ParseArpaTranslations(string json)
+        private static IList<Localization> ParseLocalications(string json)
         {
             // Don't even try this: >> JsonSerializer.Deserialize<List<Translation>>(json) <<
             IList<Localization> translations = new List<Localization>();
@@ -120,15 +120,15 @@ namespace Orso.Arpa.Persistence.Seed
             return translations;
         }
 
-        private static IList<Localization> MergeBabelToArpa(IList<Localization> babel,
-            IList<Localization> arpa)
+        private static IList<Localization> MergeTranslationToLocalication(IList<Localization> translations,
+            IList<Localization> localizations)
         {
             IList<Localization> result = new List<Localization>();
 
             // Check already existing arpa translations and update
-            arpa.AsQueryable().Where(a => a.Deleted == false).ForAll(a =>
+            localizations.AsQueryable().Where(a => a.Deleted == false).ForAll(a =>
             {
-                IQueryable<Localization> query = babel.AsQueryable().Where(b =>
+                IQueryable<Localization> query = translations.AsQueryable().Where(b =>
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key));
 
                 if (query.IsNullOrEmpty())  // if entry was removed.
@@ -139,14 +139,14 @@ namespace Orso.Arpa.Persistence.Seed
                 }
                 else
                 {   // if entry can be found in babel json
-                    Localization babelTranslate = query.First();
-                    Localization updatedLocalization = new Localization(a.Id, babelTranslate.Key,
-                        babelTranslate.Text, babelTranslate.LocalizationCulture,
-                        babelTranslate.ResourceKey);
+                    Localization translate = query.First();
+                    Localization updatedLocalization = new Localization(a.Id, translate.Key,
+                        translate.Text, translate.LocalizationCulture,
+                        translate.ResourceKey);
                     updatedLocalization.Create(a.CreatedBy, a.CreatedAt);
 
                     // then check whether text changed.
-                    if (!a.Text.Equals(babelTranslate.Text))
+                    if (!a.Text.Equals(translate.Text))
                     {
                         updatedLocalization.Modify(nameof(LocalizationSeedData), DateTime.Now);
                     }
@@ -156,9 +156,9 @@ namespace Orso.Arpa.Persistence.Seed
             });
 
             // Check for new entries
-            babel.ForAll(b =>
+            translations.ForAll(b =>
             {
-                IQueryable<Localization> query = arpa.AsQueryable().Where(a =>
+                IQueryable<Localization> query = localizations.AsQueryable().Where(a =>
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key) &&
                     a.Deleted == false);
 

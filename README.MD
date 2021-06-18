@@ -48,8 +48,6 @@ Rebuilding the API on source updates.
 >
 > *It's also possible to use "localhost". Adjust the environment settings for ConnectionStrings and SmtpServer.*
 >
-> *It's also possible to use "localhost". Adjust the environment settings for ConnectionStrings and SmtpServer.*
->
 > Stop the docker api service - *docker-compose stop api*
 > - Use your IDE or the dotnet cli to run it on your local machine
 > - You might need to set some environment variables or edit *appsettings.Development.json*:
@@ -58,17 +56,6 @@ Rebuilding the API on source updates.
 >    - EmailConfiguration__SmtpServer=mail
 >    - EmailConfiguration__Port=1025
 >    - EmailConfiguration__From=test@localhost
-
-
-#### Using Docker
-Use [docker-compose.yml](./docker-compose.yml) to spin up the api, mssql and mailhog (receives all emails).
-1. API: http://localhost:5000
-2. MSSQL: localhost:1433 (USerId: SA, Password: Local@Dev!)
-3. MailHog:  localhost:8025
-
-```shell
-docker-compose up
-```
 
 
 ### Login

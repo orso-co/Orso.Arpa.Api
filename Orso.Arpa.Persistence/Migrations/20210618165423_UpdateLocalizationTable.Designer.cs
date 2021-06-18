@@ -2,22 +2,23 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Orso.Arpa.Domain.Entities;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
 
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20210618165423_UpdateLocalizationTable")]
+    partial class UpdateLocalizationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.6")
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -789,20 +790,31 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a3cdee11-efb1-49c1-bba4-20e6119eb47f"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 389, DateTimeKind.Local).AddTicks(7031),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("97fde212-3305-4fb9-b0a8-a12a8efb2872"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 324, DateTimeKind.Local).AddTicks(7866),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "Invalid Token supplied",
-                            LocalizationCulture = "en-GB",
+                            Key = "Invalid token supplied",
+                            LocalizationCulture = "en",
                             ResourceKey = "Validator",
-                            Text = "Invalid Token supplied"
+                            Text = "Please try to login again"
                         },
                         new
                         {
-                            Id = new Guid("b9e1803f-b76d-4e8f-a437-c5753f2085e9"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 440, DateTimeKind.Local).AddTicks(4496),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("1cc1999c-eec3-4891-a833-798a8ec6baae"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 386, DateTimeKind.Local).AddTicks(6960),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Invalid token supplied",
+                            LocalizationCulture = "en-GB",
+                            ResourceKey = "Validator",
+                            Text = "Please try to login again"
+                        },
+                        new
+                        {
+                            Id = new Guid("4899a356-74c0-4f48-9ca5-2a716f7718ab"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 389, DateTimeKind.Local).AddTicks(7493),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "This request requires a valid JWT access token to be provided",
                             LocalizationCulture = "de-DE",
@@ -811,20 +823,20 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7e7d0d27-affb-4772-b506-596a0cfc6be6"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 440, DateTimeKind.Local).AddTicks(7957),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("39e5d409-aa17-4bcc-94dc-dc5b576fd910"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 390, DateTimeKind.Local).AddTicks(1201),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Invalid token supplied",
                             LocalizationCulture = "de-DE",
                             ResourceKey = "Validator",
-                            Text = "Ungültiges Token agegeben"
+                            Text = "Ungültiges Token angegeben"
                         },
                         new
                         {
-                            Id = new Guid("b6ffb704-b60b-4b64-a586-d78a8a8d2f23"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 441, DateTimeKind.Local).AddTicks(1526),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("c9f96e9b-5829-48d9-a58c-c3fc3cb284a1"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 390, DateTimeKind.Local).AddTicks(5458),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "EndTime must be later than StartTime",
                             LocalizationCulture = "de-DE",
@@ -833,9 +845,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("87c25e29-e0bb-4f58-a0cb-db0a33df62ae"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 441, DateTimeKind.Local).AddTicks(4669),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("da208786-f55a-4b32-92c2-365184ffe604"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 390, DateTimeKind.Local).AddTicks(9011),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Password must be at least 6 characters",
                             LocalizationCulture = "de-DE",
@@ -844,9 +856,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3dd56653-ea29-4bb3-8c4b-191464a33ca1"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 441, DateTimeKind.Local).AddTicks(7779),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("f067cffe-e377-4fec-b96a-da9ff784e761"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 391, DateTimeKind.Local).AddTicks(2502),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Password must contain at least one uppercase letter",
                             LocalizationCulture = "de-DE",
@@ -855,9 +867,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d0fcfee7-6968-4ed6-a99f-ae159639c1d2"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 442, DateTimeKind.Local).AddTicks(1152),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("a40cae79-a99d-41db-a198-2bb396ca2c0f"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 391, DateTimeKind.Local).AddTicks(7030),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Password must contain at least one lowercase letter",
                             LocalizationCulture = "de-DE",
@@ -866,9 +878,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dcadedaf-5e0c-4592-8b2f-5142375b46ba"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 442, DateTimeKind.Local).AddTicks(4428),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("fbe724f3-3ddb-4010-a15e-e9dfafa99c2d"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 392, DateTimeKind.Local).AddTicks(748),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Password must contain at least one digit",
                             LocalizationCulture = "de-DE",
@@ -877,9 +889,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f2d78706-7324-48e3-b225-b0d905747b10"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 442, DateTimeKind.Local).AddTicks(7536),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("68df3bbc-f974-4a90-866c-d324fa513a5e"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 392, DateTimeKind.Local).AddTicks(6917),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Password must contain at least one special character",
                             LocalizationCulture = "de-DE",
@@ -888,9 +900,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aaf187e0-6469-4dfd-bdd1-add3498efe08"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 443, DateTimeKind.Local).AddTicks(1599),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("89cf4e82-589a-4349-a61e-5c0958de1712"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 393, DateTimeKind.Local).AddTicks(1208),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Username may only contain alphanumeric characters",
                             LocalizationCulture = "de-DE",
@@ -899,9 +911,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("762f8376-c10d-403c-913d-58b240739247"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 443, DateTimeKind.Local).AddTicks(5183),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("2c875289-6ce9-44a5-aa51-06a3e60aa32c"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 393, DateTimeKind.Local).AddTicks(4642),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "The project is already linked to the appointment",
                             LocalizationCulture = "de-DE",
@@ -910,9 +922,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8070c0d9-64c4-443d-81e0-edc1a1b3d438"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 443, DateTimeKind.Local).AddTicks(9010),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("afeaddef-bc32-4fd5-8292-bdeafd0a8c2a"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 393, DateTimeKind.Local).AddTicks(8104),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "The room is already linked to the appointment",
                             LocalizationCulture = "de-DE",
@@ -921,9 +933,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8020fde1-b9c5-4bef-9002-8ac47cc1829c"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 444, DateTimeKind.Local).AddTicks(2167),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("af9fe89a-d491-409f-af60-4be1421b0569"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 394, DateTimeKind.Local).AddTicks(1976),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "The section is already linked to the Appointment",
                             LocalizationCulture = "de-DE",
@@ -932,9 +944,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d188ff99-d683-4b2a-9557-a78c5967474c"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 444, DateTimeKind.Local).AddTicks(6101),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("0cf37641-d3c0-4120-ad1b-d76e14507a57"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 394, DateTimeKind.Local).AddTicks(5913),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "The project is not linked to the appointment",
                             LocalizationCulture = "de-DE",
@@ -943,9 +955,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ba1cbe3a-328a-40c1-936d-7458debe56f4"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 444, DateTimeKind.Local).AddTicks(9260),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("cd15676c-3cfd-4578-a0a9-65e0844e8e21"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 394, DateTimeKind.Local).AddTicks(9976),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "The room is not linked to the appointment",
                             LocalizationCulture = "de-DE",
@@ -954,9 +966,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("397ed7cd-c9dc-40a4-8a6e-525af4ab7f8c"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 445, DateTimeKind.Local).AddTicks(2661),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("6918a90d-0582-4991-937a-60a6c006e538"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 395, DateTimeKind.Local).AddTicks(3734),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "The section is not linked to the Appointment",
                             LocalizationCulture = "de-DE",
@@ -965,9 +977,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b4bc79da-0ced-4cc9-9c4f-25a715d45e5c"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 445, DateTimeKind.Local).AddTicks(6065),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("1365f7af-a435-484e-8f4c-a1f3e00d8a8d"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 395, DateTimeKind.Local).AddTicks(7653),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Incorrect password supplied",
                             LocalizationCulture = "de-DE",
@@ -976,9 +988,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("59f303b2-5046-45ae-bf8a-41d18528be5a"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 445, DateTimeKind.Local).AddTicks(9354),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("f39d1e82-ed27-4afe-8f43-19ed4eee917a"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 396, DateTimeKind.Local).AddTicks(1240),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "The user could not be found",
                             LocalizationCulture = "de-DE",
@@ -987,9 +999,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("86353d87-ca62-48c5-9500-3069b7fc6395"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 446, DateTimeKind.Local).AddTicks(2996),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("c5a807e4-9698-4d35-83d8-e23898d2557e"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 396, DateTimeKind.Local).AddTicks(4978),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Your email address is not confirmed. Please confirm your email address first",
                             LocalizationCulture = "de-DE",
@@ -998,9 +1010,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("62e4fe21-6d12-4a02-9846-f79505928cd4"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 446, DateTimeKind.Local).AddTicks(5919),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("20712e04-5fcc-478f-9f3f-f32a91595344"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 396, DateTimeKind.Local).AddTicks(8890),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Your account is locked. Kindly wait for 10 minutes and try again",
                             LocalizationCulture = "de-DE",
@@ -1009,9 +1021,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("915f3d94-c98e-47fc-a60c-9f41031a30d0"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 446, DateTimeKind.Local).AddTicks(8963),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("906c9e51-590b-4142-a527-c868fb21d861"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 397, DateTimeKind.Local).AddTicks(2433),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Username already exists",
                             LocalizationCulture = "de-DE",
@@ -1020,9 +1032,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7ff6230d-1f53-48e2-a682-501e246591bf"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 447, DateTimeKind.Local).AddTicks(2496),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("b70c6131-2413-4da3-97c1-1a319b725db1"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 397, DateTimeKind.Local).AddTicks(6316),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Email already exists",
                             LocalizationCulture = "de-DE",
@@ -1031,9 +1043,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("225710c5-bca2-4454-b6d0-bc00709ac6f2"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 447, DateTimeKind.Local).AddTicks(5626),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("5b0f922b-28be-4e7a-8954-24a022cc32cd"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 398, DateTimeKind.Local).AddTicks(74),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "A region with the requested name does already exist",
                             LocalizationCulture = "de-DE",
@@ -1042,9 +1054,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8ef2ae60-54e0-4d7f-a835-956fbf3ed85e"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 447, DateTimeKind.Local).AddTicks(8737),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("631a8511-ae67-43c2-acfe-c8938e81e105"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 398, DateTimeKind.Local).AddTicks(3894),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Performers",
                             LocalizationCulture = "de-DE",
@@ -1053,9 +1065,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8ed22d22-6fe2-4b5b-9ebf-23a230b10723"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 448, DateTimeKind.Local).AddTicks(2046),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("8c6c4e59-8396-4975-b311-8c865cc48bb3"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 398, DateTimeKind.Local).AddTicks(7809),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Orchestra",
                             LocalizationCulture = "de-DE",
@@ -1064,9 +1076,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4199d3b9-4551-4b01-9dbd-830da8c991e1"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 448, DateTimeKind.Local).AddTicks(5395),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("b2d699b8-e3ab-4cb9-8a1e-cd671e2fac02"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 399, DateTimeKind.Local).AddTicks(2187),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Members",
                             LocalizationCulture = "de-DE",
@@ -1075,9 +1087,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9044f388-ea9c-4922-9f83-ad70fe82194f"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 448, DateTimeKind.Local).AddTicks(8645),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("6aed06d4-2c86-414d-bf15-bce230d4d0e3"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 399, DateTimeKind.Local).AddTicks(5924),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Visitors",
                             LocalizationCulture = "de-DE",
@@ -1086,9 +1098,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("84d57eff-c66a-4de0-bbf6-b5e3cc58cee4"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 449, DateTimeKind.Local).AddTicks(1912),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("fd5dba23-9685-4821-9237-e182dafbcb52"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 399, DateTimeKind.Local).AddTicks(9816),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Volunteers",
                             LocalizationCulture = "de-DE",
@@ -1097,9 +1109,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("579803cf-6d21-43a6-b8ce-c7a3a07607cc"),
-                            CreatedAt = new DateTime(2021, 5, 5, 17, 36, 0, 449, DateTimeKind.Local).AddTicks(5111),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("563c7c31-3976-43e0-ac08-e8251004d647"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 400, DateTimeKind.Local).AddTicks(3657),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
                             Key = "Suppliers",
                             LocalizationCulture = "de-DE",
@@ -1108,14 +1120,36 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a2879a5f-7117-4a46-a559-9f7b7ad39adb"),
-                            CreatedAt = new DateTime(2021, 5, 6, 19, 22, 20, 679, DateTimeKind.Local).AddTicks(6200),
-                            CreatedBy = "TranslationSeedData",
+                            Id = new Guid("676b04c8-4256-4008-9fc4-be62ea8f5dd0"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 400, DateTimeKind.Local).AddTicks(7391),
+                            CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "Hello",
+                            Key = "Performer",
                             LocalizationCulture = "de-DE",
-                            ResourceKey = "Test",
-                            Text = "Hallo"
+                            ResourceKey = "RoleDto",
+                            Text = "Künstler"
+                        },
+                        new
+                        {
+                            Id = new Guid("9860c80a-fa54-49e6-b314-ba895bd31348"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 401, DateTimeKind.Local).AddTicks(1189),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Staff",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "RoleDto",
+                            Text = "Mitarbeiter"
+                        },
+                        new
+                        {
+                            Id = new Guid("cc54cb2a-30b5-473b-8d31-7788410bbc58"),
+                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 401, DateTimeKind.Local).AddTicks(4545),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Admin",
+                            LocalizationCulture = "de-DE",
+                            ResourceKey = "RoleDto",
+                            Text = "Administrator"
                         });
                 });
 
@@ -7330,45 +7364,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("RegionPreferenceRehearsals");
 
                     b.Navigation("Rooms");
-                });
-
-            modelBuilder.Entity("", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LocalizationCulture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(6)");
-
-                    b.Property<string>("ResourceKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("Translations");
                 });
 #pragma warning restore 612, 618
         }
