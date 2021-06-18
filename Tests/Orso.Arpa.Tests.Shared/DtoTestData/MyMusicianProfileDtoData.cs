@@ -1,4 +1,6 @@
 using System;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -52,6 +54,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 });
                 dto.PreferredPositionsInnerIds.Add(Guid.Parse("b43fc897-ebcf-4d2a-8682-33b6337b5ab2"));
                 dto.PreferredPartsInner.Add(2);
+                dto.Educations.Add(new EducationDto
+                {
+                    TimeSpan = "1990-1996",
+                    Institution = "Hochschule für Musik und Darstellende Kunst Stuttgart",
+                    TypeId = SelectValueMappingSeedData.EducationTypeMappings[2].Id,
+                    Description = "Was für eine geniale Zeit an der HMDK!",
+                    SortOrder = 1,
+                });
+                dto.CurriculumVitaeReferences.Add(new CurriculumVitaeReferenceDto
+                {
+                    TimeSpan = "1998-2000",
+                    Institution = "Kornwestheimer Symphoniker",
+                    TypeId = SelectValueMappingSeedData.CurriculumVitaeReferenceTypeMappings[1].Id,
+                    Description = "Mozart, Strauss Solokonzerte",
+                    SortOrder = 1,
+                });
                 return dto;
             }
         }

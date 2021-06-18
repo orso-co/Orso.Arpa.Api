@@ -56,7 +56,7 @@ namespace Orso.Arpa.Domain.Logic.CurriculumVitaeReferences
                 RuleFor(c => c.MusicianProfileId)
                     .EntityExists<Command, MusicianProfile>(arpaContext, nameof(Command.MusicianProfileId));
                 RuleFor(c => c.TypeId)
-                    .SelectValueMapping<Command, Education>(arpaContext, a => a.Type);
+                    .SelectValueMapping<Command, CurriculumVitaeReference>(arpaContext, a => a.Type);
             }
         }
     }

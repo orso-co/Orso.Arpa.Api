@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
@@ -113,6 +114,43 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
             result.Id.Should().NotBeEmpty();
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.EducationsController.Get(result.Id)}");
+        }
+
+        [Test, Order(101)]
+        public async Task Should_Add_CurriculumVitaeReference()
+        {
+            // Arrange
+            var createDto = new CurriculumVitaeReferenceCreateBodyDto
+            {
+                TimeSpan = "1998-2000",
+                Institution = "Kornwestheimer Symphoniker",
+                TypeId = SelectValueMappingSeedData.CurriculumVitaeReferenceTypeMappings[1].Id,
+                Description = "Mozart, Strauss Solokonzerte",
+                SortOrder = 1,
+            };
+            var expectedDto = new CurriculumVitaeReferenceDto()
+            {
+                TimeSpan = createDto.TimeSpan,
+                Institution = createDto.Institution,
+                TypeId = createDto.TypeId,
+                Description = createDto.Description,
+                SortOrder = createDto.SortOrder,
+                CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.MusicianProfilesController.AddCurriculumVitaeReference(MyMusicianProfileDtoData.PerformersHornMusicianProfile.Id), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            CurriculumVitaeReferenceDto result = await DeserializeResponseMessageAsync<CurriculumVitaeReferenceDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.CurriculumVitaeReferencesController.Get(result.Id)}");
         }
 
         [Test, Order(1000)]

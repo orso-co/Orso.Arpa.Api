@@ -8,7 +8,7 @@ namespace Orso.Arpa.Application.Interfaces
     {
         Task<CurriculumVitaeReferenceDto> GetByIdAsync(Guid id);
         Task<CurriculumVitaeReferenceDto> CreateAsync(CurriculumVitaeReferenceCreateDto createCurriculumVitaeReferenceDto);
-        Task ModifyAsync(CurriculumVitaeReferenceModifyDto CurriculumVitaeReferenceModifyDto);
+        Task ModifyAsync(CurriculumVitaeReferenceModifyDto curriculumVitaeReferenceModifyDto);
         Task DeleteAsync(Guid id);
     }
 }
