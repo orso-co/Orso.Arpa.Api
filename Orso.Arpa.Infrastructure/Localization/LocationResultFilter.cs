@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -40,7 +41,7 @@ namespace Orso.Arpa.Infrastructure.Localization
             object obj;
 
             if (context.HttpContext.Response.ContentType.IsNullOrEmpty() ||
-                !context.HttpContext.Response.ContentType.Contains("application/json"))
+                !context.HttpContext.Response.ContentType.Contains(MediaTypeNames.Application.Json))
             {
                 return;
             }
