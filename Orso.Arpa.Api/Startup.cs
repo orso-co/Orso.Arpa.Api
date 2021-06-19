@@ -130,11 +130,15 @@ namespace Orso.Arpa.Api
 
             services.AddLocalization();
 
+            LocalizationConfiguration localizationConfiguration = Configuration
+                .GetSection("LocalizationConfiguration")
+                .Get<LocalizationConfiguration>();
+
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.SetDefaultCulture("en-GB");
-                options.AddSupportedUICultures("en", "en-GB", "de", "de-DE");
-                options.FallBackToParentCultures = true;
+                options.SetDefaultCulture(localizationConfiguration.DefaultCulture);
+                options.AddSupportedUICultures(localizationConfiguration.SupportedUiCultures.ToArray());
+                options.FallBackToParentCultures = localizationConfiguration.FallbackToParentCulture;
             });
         }
 

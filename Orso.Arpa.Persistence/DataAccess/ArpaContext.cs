@@ -128,12 +128,12 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             SaveAuditTrail(currentUserDisplayName);
 
-            int task = await base.SaveChangesAsync(cancellationToken);
+            int saveResult = await base.SaveChangesAsync(cancellationToken);
 
             if(!ChangeTracker.Entries<Localization>().IsNullOrEmpty())
                 await _translationCallBack();
 
-            return task;
+            return saveResult;
         }
 
         private async Task DeleteWithNavigationsAsync(string currentUserDisplayName, EntityEntry entry, CancellationToken cancellationToken)
