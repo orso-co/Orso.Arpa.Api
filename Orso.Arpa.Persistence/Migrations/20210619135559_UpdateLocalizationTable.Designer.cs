@@ -10,7 +10,7 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20210618165423_UpdateLocalizationTable")]
+    [Migration("20210619135559_UpdateLocalizationTable")]
     partial class UpdateLocalizationTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

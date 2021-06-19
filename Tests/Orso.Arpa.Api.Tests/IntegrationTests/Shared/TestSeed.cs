@@ -27,7 +27,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await SeedAppointmentParticipationsAsync(arpaContext);
             await SeedUrlAsync(arpaContext);
             await SeedAuditLogAsync(arpaContext);
-            await SeedTranslationData(arpaContext);
 
             if (await arpaContext.SaveChangesAsync(default) <= 0)
             {
@@ -112,11 +111,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             {
                 await signInManager.CheckPasswordSignInAsync(lockedOutUser, "wrongPassword", true);
             }
-        }
-
-        private static async Task SeedTranslationData(IArpaContext arpaContext)
-        {
-            await arpaContext.Localizations.AddRangeAsync(Orso.Arpa.Tests.Shared.TestSeedData.TranslationSeedData.Translations);
         }
     }
 }
