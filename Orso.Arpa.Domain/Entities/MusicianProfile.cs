@@ -90,6 +90,7 @@ namespace Orso.Arpa.Domain.Entities
 
         #region cross reference
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
+        public object CurriculumVitaeReferences { get; set; }
         #endregion
 
         public void SetActiveStatus(bool active)

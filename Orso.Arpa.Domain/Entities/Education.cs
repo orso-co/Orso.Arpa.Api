@@ -1,11 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Logic.Educations;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Education : BaseEntity
     {
+        public Education(Guid? id, Create.Command command) : base(id)
+        {
+            TimeSpan = command.TimeSpan;
+            Institution = command.Institution;
+            TypeId = command.TypeId;
+            Description = command.Description;
+            SortOrder = command.SortOrder;
+        }
+
         internal Education(Guid? id) : base(id)
         {
         }
