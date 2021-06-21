@@ -131,5 +131,18 @@ namespace Orso.Arpa.Application.Services
             ProjectParticipation projectParticipation = await _mediator.Send(command);
             return _mapper.Map<ProjectParticipationDto>(projectParticipation);
         }
+
+        public async Task<MyMusicianProfileDto> UpdateMusicianProfileAsync(MyMusicianProfileModifyDto musicianProfileModifyDto)
+        {
+            MusicianProfile existingMusicianProfile = await _mediator.Send(new MusicianProfileById.Query { Id = musicianProfileModifyDto.Id, PersonId = _userAccessor.PersonId });
+
+            ModifyMusicianProfile.Command command = _mapper.Map<ModifyMusicianProfile.Command>(musicianProfileModifyDto);
+
+            command.InstrumentId = existingMusicianProfile.InstrumentId;
+            command.ExistingMusicianProfile = existingMusicianProfile;
+
+            await _mediator.Send(command);
+            return await GetMyMusicianProfileAsync(command.Id);
+        }
     }
 }

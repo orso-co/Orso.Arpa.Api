@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using AutoMapper;
+using FluentAssertions;
+using NUnit.Framework;
+using Orso.Arpa.Application.MyMusicianProfileApplication;
+using Orso.Arpa.Domain.Logic.Me;
+
+namespace Orso.Arpa.Application.Tests.MappingProfileTests
+{
+    [TestFixture]
+    public class MyMusicianProfileModifyDtoMappingProfileTests
+    {
+        [SetUp]
+        public void Setup()
+        {
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<MyMusicianProfileModifyDtoMappingProfile>());
+
+            _mapper = new Mapper(config);
+        }
+
+        private IMapper _mapper;
+
+        [Test]
+        public void Should_Map()
+        {
+            // Arrange
+            var dto = new MyMusicianProfileModifyDto
+            {
+                Id = Guid.NewGuid(),
+                Body = new MyMusicianProfileModifyBodyDto
+                {
+                    IsMainProfile = true,
+                    IsDeactivated = false,
+
+                    LevelAssessmentInner = 1,
+                    ProfilePreferenceInner = 3,
+
+                    BackgroundInner = "Performer gave some background",
+
+                    InquiryStatusInnerId = Guid.NewGuid(),
+
+                    PreferredPartsInner = new List<byte> { 1, 4 },
+                    PreferredPositionsInnerIds = new List<Guid> { Guid.NewGuid() },
+                }
+            };
+            var expectedCommand = new ModifyMusicianProfile.Command
+            {
+                Id = dto.Id,
+                IsMainProfile = dto.Body.IsMainProfile,
+                IsDeactivated = dto.Body.IsDeactivated,
+
+                LevelAssessmentInner = dto.Body.LevelAssessmentInner,
+                ProfilePreferenceInner = dto.Body.ProfilePreferenceInner,
+
+                BackgroundInner = dto.Body.BackgroundInner,
+
+                InquiryStatusInnerId = dto.Body.InquiryStatusInnerId,
+
+                PreferredPartsInner = dto.Body.PreferredPartsInner,
+                PreferredPositionsInnerIds = dto.Body.PreferredPositionsInnerIds
+            };
+
+            // Act
+            ModifyMusicianProfile.Command command = _mapper.Map<ModifyMusicianProfile.Command>(dto);
+
+            // Assert
+            command.Should().BeEquivalentTo(expectedCommand);
+        }
+    }
+}
