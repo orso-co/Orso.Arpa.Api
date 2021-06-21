@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Security.Claims;
 using FluentValidation.AspNetCore;
 using MediatR;
-using MicroElements.Swashbuckle.FluentValidation;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -90,7 +89,6 @@ namespace Orso.Arpa.Api
                 {
                     config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
                     config.RegisterValidatorsFromAssemblyContaining<Validator>();
-                    config.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory); // Workaround https://github.com/micro-elements/MicroElements.Swashbuckle.FluentValidation#error-systeminvalidoperationexception-cannot-resolve-ivalidatort-from-root-provider-because-it-requires-scoped-service-tdependency
                 })
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -357,7 +355,7 @@ namespace Orso.Arpa.Api
 
         private static void AddSwagger(IApplicationBuilder app)
         {
-            app.UseScopedSwagger(); // Workaround https://github.com/micro-elements/MicroElements.Swashbuckle.FluentValidation#error-systeminvalidoperationexception-cannot-resolve-ivalidatort-from-root-provider-because-it-requires-scoped-service-tdependency
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
