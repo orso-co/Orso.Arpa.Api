@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.MusicianProfiles.Modify;
+using Orso.Arpa.Domain.Logic.Me;
 
 namespace Orso.Arpa.Application.MyMusicianProfileApplication
 {
@@ -22,17 +23,15 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
 
         public Guid? InquiryStatusInnerId { get; set; }
 
-        //public IList<MusicianProfileSection> DoublingInstruments { get; set; } = new List<MusicianProfileSection>();
-        //public IList<MusicianProfileEducation> MusicianProfileEducations { get; set; } = new List<MusicianProfileEducation>();
-        //public IList<PreferredPosition> PreferredPositionsInner { get; set; } = new List<PreferredPosition>();
-        //public IList<PreferredPart> PreferredPartsInner { get; set; } = new List<PreferredPart>();
+        public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
+        public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
     }
 
     public class MyMusicianProfileModifyDtoMappingProfile : Profile
     {
         public MyMusicianProfileModifyDtoMappingProfile()
         {
-            CreateMap<MyMusicianProfileModifyDto, Command>()
+            CreateMap<MyMusicianProfileModifyDto, ModifyMusicianProfile.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
 
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.Body.IsMainProfile))
@@ -44,11 +43,9 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
 
                 .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
 
-                //.ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
-                //.ForMember(dest => dest.MusicianProfileEducations, opt => opt.MapFrom(src => src.Body.MusicianProfileEducations))
-                //.ForMember(dest => dest.PreferredPositionsInner, opt => opt.MapFrom(src => src.Body.PreferredPositionsInner))
-                //.ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner))
-                ;
+                .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsInnerIds))
+                .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner))
+            ;
         }
     }
 
@@ -74,7 +71,8 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
             RuleFor(p => p.BackgroundInner)
                 .MaximumLength(1000);
 
-            //ToDo Validation for Collections
+            RuleForEach(p => p.PreferredPositionsInnerIds)
+                .NotEmpty();
         }
     }
 }

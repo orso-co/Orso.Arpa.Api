@@ -16,7 +16,7 @@ using static Orso.Arpa.Domain.Logic.MusicianProfiles.Modify;
 namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
 {
     [TestFixture]
-    public class MusicianProfileModifycValidatorTests
+    public class MusicianProfileModifyValidatorTests
     {
         private Validator _validator;
         private IArpaContext _arpaContext;
@@ -248,10 +248,6 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
                 PreferredPartsInner = new List<byte> { 2 }
             });
         }
-
-        //RuleFor(c => c.IsDeactivated)
-        //            .Must((command, isDeactivated, context) => !isDeactivated || !command.ExistingMusicianProfile.ProjectParticipations.Select(pp => pp.Project).All(p => p.IsCompleted))
-        //            .WithMessage("You may not deactivate a musician profile which is participating in an active project");
 
         [Test]
         public void Should_Have_Validation_Error_If_MusicianProfile_With_Active_ProjectParticipation_Shall_Be_Deactivated()

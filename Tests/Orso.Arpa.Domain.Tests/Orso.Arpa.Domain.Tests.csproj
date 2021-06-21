@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MusicianProfileTests\MappingProfileTests\**" />
+    <EmbeddedResource Remove="MusicianProfileTests\MappingProfileTests\**" />
+    <None Remove="MusicianProfileTests\MappingProfileTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="nunit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
@@ -20,7 +26,6 @@
   <ItemGroup>
     <Folder Include="AppointmentTests\QueryHandlerTests\" />
     <Folder Include="AuthTests\QueryHandlerTests\" />
-    <Folder Include="MusicianProfileTests\MappingProfileTests\" />
     <Folder Include="ProjectsTests\QueryHandlerTests\" />
     <Folder Include="RolesTests\ValidatorTests\" />
     <Folder Include="SelectValuesTests\ValidatorTests\" />

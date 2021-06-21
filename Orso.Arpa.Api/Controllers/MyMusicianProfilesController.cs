@@ -91,5 +91,21 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _meService.SetMyProjectParticipationAsync(myProjectParticipationDto));
         }
+
+        /// <summary>
+        /// Updates the musician profile
+        /// </summary>
+        /// <returns>The updated musician profile</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Performer)]
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<MyMusicianProfileDto>> Put(MyMusicianProfileModifyDto musicianProfileModifyDto)
+        {
+            return Ok(await _meService.UpdateMusicianProfileAsync(musicianProfileModifyDto));
+        }
     }
 }

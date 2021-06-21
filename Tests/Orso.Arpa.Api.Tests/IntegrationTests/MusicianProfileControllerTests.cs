@@ -113,7 +113,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 BackgroundTeam = modifyDto.BackgroundTeam,
                 CreatedAt = musicianProfileToModify.CreatedAt,
                 CreatedBy = musicianProfileToModify.CreatedBy,
-                ExperienceLevel = 0,
                 SalaryComment = modifyDto.SalaryComment,
                 SalaryId = modifyDto.SalaryId,
                 InquiryStatusInnerId = modifyDto.InquiryStatusInnerId,
