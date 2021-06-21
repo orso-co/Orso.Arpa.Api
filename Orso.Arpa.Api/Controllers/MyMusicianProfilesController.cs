@@ -14,7 +14,6 @@ using Orso.Arpa.Domain.Roles;
 namespace Orso.Arpa.Api.Controllers
 {
     [Route("api/me/profiles/musician")]
-    [Authorize(Roles = RoleNames.Performer)]
     public class MyMusicianProfilesController : BaseController
     {
         private readonly IMeService _meService;
@@ -32,6 +31,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         [HttpGet]
+        [Authorize(Roles = RoleNames.Performer)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<MyMusicianProfileDto>>> Get([FromQuery] bool includeDeactivated = false)
@@ -47,6 +47,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         [HttpGet("{id}")]
+        [Authorize(Roles = RoleNames.Performer)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MyMusicianProfileDto>> GetById([FromRoute] Guid id)
@@ -63,6 +64,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [HttpPost]
+        [Authorize(Roles = RoleNames.Performer)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -81,6 +83,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [HttpPut("{id}/projects/{projectId}/participation")]
+        [Authorize(Roles = RoleNames.Performer)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]

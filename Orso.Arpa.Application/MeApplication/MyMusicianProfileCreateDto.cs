@@ -39,7 +39,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner));
 
-            CreateMap<MyDoublingInstrumentCreateDto, DoublingInstrumentCommand>();
+            CreateMap<MyDoublingInstrumentCreateDto, DoublingInstrumentCreateCommand>();
         }
     }
 

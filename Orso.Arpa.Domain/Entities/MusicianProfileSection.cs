@@ -21,7 +21,7 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
-        public MusicianProfileSection(Create.DoublingInstrumentCommand command, Guid? id = null) : base(id)
+        public MusicianProfileSection(Create.DoublingInstrumentCreateCommand command, Guid? id = null) : base(id)
         {
             LevelAssessmentInner = command.LevelAssessmentInner;
             LevelAssessmentTeam = command.LevelAssessmentTeam;

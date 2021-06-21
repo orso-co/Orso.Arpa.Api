@@ -9,6 +9,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -44,7 +45,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 yield return new TestCaseData(FakeUsers.Performer, MusicianProfileSeedData.PerformerMusicianProfile.Id, true, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerRockingXMasParticipationForPerformer, ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer });
                 yield return new TestCaseData(FakeUsers.Staff, MusicianProfileSeedData.PerformerMusicianProfile.Id, false, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff });
                 yield return new TestCaseData(FakeUsers.Staff, MusicianProfileSeedData.PerformerMusicianProfile.Id, true, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerRockingXMasParticipationForStaff, ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff });
-
             }
         }
 
@@ -78,56 +78,84 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(1000)]
-        public async Task Should_Set_Active_Status_Of_Musician_Profile()
+        public async Task Should_Modify()
         {
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
+            // Arrange
+            MusicianProfileDto musicianProfileToModify = MusicianProfileDtoData.PerformersHornMusicianProfile;
+            var modifyDto = new MusicianProfileModifyBodyDto
+            {
+                IsMainProfile = true,
+                IsDeactivated = false,
+
+                LevelAssessmentInner = 1,
+                LevelAssessmentTeam = 2,
+                ProfilePreferenceInner = 3,
+                ProfilePreferenceTeam = 4,
+
+                BackgroundInner = "revised: Background description",
+                BackgroundTeam = "revised: Staff-Background description",
+                SalaryComment = "revised: Salary only via PayPal, other payments not accepted!",
+
+                QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
+                SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
+                InquiryStatusInnerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusInnerMappings[0].Id,
+                InquiryStatusTeamId = SelectValueMappingSeedData.MusicianProfileInquiryStatusTeamMappings[2].Id,
+            };
+            modifyDto.PreferredPositionsTeamIds.Add(SelectValueSectionSeedData.HornSolo.Id);
+            modifyDto.PreferredPositionsInnerIds.Add(SelectValueSectionSeedData.HornLow.Id);
+            modifyDto.PreferredPartsTeam.Add(2);
+            modifyDto.PreferredPartsInner.Add(3);
+            var expectedDto = new MusicianProfileDto
+            {
+                DoublingInstruments = musicianProfileToModify.DoublingInstruments,
+                IsDeactivated = false,
+                BackgroundInner = modifyDto.BackgroundInner,
+                BackgroundTeam = modifyDto.BackgroundTeam,
+                CreatedAt = musicianProfileToModify.CreatedAt,
+                CreatedBy = musicianProfileToModify.CreatedBy,
+                ExperienceLevel = 0,
+                SalaryComment = modifyDto.SalaryComment,
+                SalaryId = modifyDto.SalaryId,
+                InquiryStatusInnerId = modifyDto.InquiryStatusInnerId,
+                Id = musicianProfileToModify.Id,
+                InquiryStatusTeamId = modifyDto.InquiryStatusTeamId,
+                InstrumentId = musicianProfileToModify.InstrumentId,
+                IsMainProfile = true,
+                LevelAssessmentInner = modifyDto.LevelAssessmentInner,
+                LevelAssessmentTeam = modifyDto.LevelAssessmentTeam,
+                ModifiedAt = FakeDateTime.UtcNow,
+                ModifiedBy = "Staff Member",
+                PersonId = musicianProfileToModify.PersonId,
+                PreferredPartsInner = modifyDto.PreferredPartsInner,
+                PreferredPartsTeam = modifyDto.PreferredPartsTeam,
+                PreferredPositionsInnerIds = modifyDto.PreferredPositionsInnerIds,
+                PreferredPositionsTeamIds = modifyDto.PreferredPositionsTeamIds,
+                ProfilePreferenceInner = modifyDto.ProfilePreferenceInner,
+                ProfilePreferenceTeam = modifyDto.ProfilePreferenceTeam,
+                QualificationId = modifyDto.QualificationId
+            };
+
+            HttpClient client = _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MusicianProfilesController.Put(MusicianProfileSeedData.PerformersDeactivatedTubaProfile.Id, true), null);
+                .AuthenticateWith(_staff);
+
+            // Act
+            HttpResponseMessage responseMessage = await client
+                .PutAsync(ApiEndpoints.MusicianProfilesController.Put(musicianProfileToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
+
+            // check if former main profile is not main profile anymore
+            HttpResponseMessage getResponseMessage = await client
+                .GetAsync(ApiEndpoints.MusicianProfilesController.Get(MusicianProfileSeedData.PerformerMusicianProfile.Id));
+
+            getResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            MusicianProfileDto getResult = await DeserializeResponseMessageAsync<MusicianProfileDto>(getResponseMessage);
+            getResult.IsMainProfile.Should().BeFalse();
         }
-
-        //[Test, Order(100)]
-        //public async Task Should_Modify()
-        //{
-        //    // Arrange
-        //    MusicianProfileDto musicianProfileToModify = MusicianProfileDtoData.PerformerProfile;
-        //    var modifyDto = new MusicianProfileModifyBodyDto
-        //    {
-        //        IsMainProfile = false,
-        //        IsDeactivated = false,
-
-        //        LevelAssessmentInner = 1,
-        //        LevelAssessmentTeam = 2,
-        //        ProfilePreferenceInner = 3,
-        //        ProfilePreferenceTeam = 4,
-
-        //        BackgroundInner = "revised: Background description",
-        //        BackgroundTeam = "revised: Staff-Background description",
-        //        SalaryComment = "revised: Salary only via PayPal, other payments not accepted!",
-
-        //        QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
-        //        SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
-        //        InquiryStatusInnerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusInnerMappings[0].Id,
-        //        InquiryStatusTeamId = SelectValueMappingSeedData.MusicianProfileInquiryStatusTeamMappings[2].Id,
-
-        //        // ToDo Collections
-        //    };
-
-        //    // Act
-        //    HttpClient client = _authenticatedServer
-        //        .CreateClient()
-        //        .AuthenticateWith(_staff);
-
-        //    HttpResponseMessage responseMessage = await client
-        //        .PutAsync(ApiEndpoints.MusicianProfilesController.Put(musicianProfileToModify.Id), BuildStringContent(modifyDto));
-
-        //    // Assert
-        //    responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        //}
 
         //[Test, Order(10000)]
         //public async Task Should_Delete()

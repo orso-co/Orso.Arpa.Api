@@ -105,6 +105,5 @@ namespace Orso.Arpa.Domain.Extensions
             var propInfo = memberExpression.Member as PropertyInfo;
             return propInfo.Name;
         }
-
     }
 }

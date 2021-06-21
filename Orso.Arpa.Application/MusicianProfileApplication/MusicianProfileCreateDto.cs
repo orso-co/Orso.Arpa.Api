@@ -56,7 +56,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner))
                 .ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.Body.PreferredPartsTeam));
 
-            CreateMap<DoublingInstrumentCreateDto, DoublingInstrumentCommand>();
+            CreateMap<DoublingInstrumentCreateDto, DoublingInstrumentCreateCommand>();
         }
     }
 

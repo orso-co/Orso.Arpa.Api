@@ -17,11 +17,11 @@ namespace Orso.Arpa.Domain.Entities
             InquiryStatusInnerId = command.InquiryStatusInnerId;
             InquiryStatusTeamId = command.InquiryStatusTeamId;
             IsMainProfile = isMainProfile;
-            DoublingInstruments = command.DoublingInstruments.Select(i => new MusicianProfileSection(i)).ToList();
-            PreferredPositionsInner = command.PreferredPositionsInnerIds.Select(i => new MusicianProfilePositionInner(i, Id)).ToList();
-            PreferredPositionsTeam = command.PreferredPositionsTeamIds.Select(i => new MusicianProfilePositionTeam(i, Id)).ToList();
-            PreferredPartsInner = command.PreferredPartsInner.ToArray();
-            PreferredPartsTeam = command.PreferredPartsTeam.ToArray();
+            PreferredPositionsInner = command.PreferredPositionsInnerIds.Distinct().Select(i => new MusicianProfilePositionInner(i, Id)).ToList();
+            PreferredPositionsTeam = command.PreferredPositionsTeamIds.Distinct().Select(i => new MusicianProfilePositionTeam(i, Id)).ToList();
+            PreferredPartsInner = command.PreferredPartsInner.Distinct().ToArray();
+            PreferredPartsTeam = command.PreferredPartsTeam.Distinct().ToArray();
+            DoublingInstruments = command.DoublingInstruments.Select(c => new MusicianProfileSection(c)).ToList();
         }
 
         public MusicianProfile()
@@ -98,6 +98,11 @@ namespace Orso.Arpa.Domain.Entities
         public void SetActiveStatus(bool active)
         {
             IsDeactivated = !active;
+        }
+
+        public void TurnOffIsMainProfileFlag()
+        {
+            IsMainProfile = false;
         }
     }
 }

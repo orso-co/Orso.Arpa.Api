@@ -102,7 +102,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         {
             var currentUserDisplayName = _tokenAccessor.DisplayName;
 
-            foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>())
+            foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>().Where(e => e.State != EntityState.Unchanged))
             {
                 switch (entry.State)
                 {

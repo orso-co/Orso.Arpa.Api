@@ -408,7 +408,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
 
         #endregion
 
-        #region PreferredPartsTeam
+        #region PreferredPartsInner
 
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_Preferred_Part_Performer_Is_Supplied()

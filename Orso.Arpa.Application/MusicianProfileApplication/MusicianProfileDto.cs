@@ -16,6 +16,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public byte LevelAssessmentTeam { get; set; }
         public byte ProfilePreferenceInner { get; set; }
         public byte ProfilePreferenceTeam { get; set; }
+        public byte ExperienceLevel { get; set; }
 
         public string BackgroundInner { get; set; }
         public string BackgroundTeam { get; set; }

@@ -24,7 +24,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<MusicianProfileDto> CreateAsync(MusicianProfileCreateDto createDto)
         {
-            Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfiles.Create.Command>(createDto);
+            Create.Command command = _mapper.Map<Create.Command>(createDto);
             MusicianProfile createdEntity = await _mediator.Send(command);
             return _mapper.Map<MusicianProfileDto>(createdEntity);
         }
@@ -51,6 +51,19 @@ namespace Orso.Arpa.Application.Services
         {
             var command = new SetActiveStatus.Command { Id = id, Active = active };
             return _mediator.Send(command);
+        }
+
+        public async Task<MusicianProfileDto> UpdateAsync(MusicianProfileModifyDto musicianProfileModifyDto)
+        {
+            MusicianProfile existingMusicianProfile = await _mediator.Send(new Domain.GenericHandlers.Details.Query<MusicianProfile>(musicianProfileModifyDto.Id));
+
+            Modify.Command command = _mapper.Map<Modify.Command>(musicianProfileModifyDto);
+
+            command.InstrumentId = existingMusicianProfile.InstrumentId;
+            command.ExistingMusicianProfile = existingMusicianProfile;
+
+            await _mediator.Send(command);
+            return await GetByIdAsync(command.Id);
         }
     }
 }

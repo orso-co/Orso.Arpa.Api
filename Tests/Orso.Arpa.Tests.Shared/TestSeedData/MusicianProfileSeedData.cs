@@ -60,7 +60,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var profile = new MusicianProfile(command, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
                 profile.SetProperty(nameof(MusicianProfile.BackgroundInner), "Background Trombonist");
                 profile.SetProperty(nameof(MusicianProfile.ProfilePreferenceInner), (byte)3);
-                profile.DoublingInstruments.Add(new MusicianProfileSection(new Create.DoublingInstrumentCommand
+                profile.DoublingInstruments.Add(new MusicianProfileSection(new Create.DoublingInstrumentCreateCommand
                 {
                     AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
                     Comment = "Wagner rocks",
