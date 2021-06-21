@@ -21,7 +21,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public byte LevelAssessmentTeam { get; set; }
         public byte ProfilePreferenceInner { get; set; }
         public byte ProfilePreferenceTeam { get; set; }
-        public byte ExperienceLevel { get; set; }
 
         public string BackgroundInner { get; set; }
         public string BackgroundTeam { get; set; }
@@ -57,7 +56,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.Body.BackgroundInner))
                 .ForMember(dest => dest.BackgroundTeam, opt => opt.MapFrom(src => src.Body.BackgroundTeam))
                 .ForMember(dest => dest.SalaryComment, opt => opt.MapFrom(src => src.Body.SalaryComment))
-                .ForMember(dest => dest.ExperienceLevel, opt => opt.MapFrom(src => src.Body.ExperienceLevel))
 
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.Body.QualificationId))
                 .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.Body.SalaryId))
@@ -91,8 +89,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleFor(p => p.ProfilePreferenceInner)
                 .FiveStarRating();
             RuleFor(p => p.ProfilePreferenceTeam)
-                .FiveStarRating();
-            RuleFor(p => p.ExperienceLevel)
                 .FiveStarRating();
 
             RuleFor(p => p.BackgroundInner)

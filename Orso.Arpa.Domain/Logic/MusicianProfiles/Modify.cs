@@ -17,8 +17,8 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
     {
         public class Command : IRequest<MusicianProfile>, IHasInstrumentRequest
         {
-            public Guid Id { get; set; }//
-            public Guid InstrumentId { get; set; }//
+            public Guid Id { get; set; }
+            public Guid InstrumentId { get; set; }
 
             public bool IsMainProfile { get; set; }
             public bool IsDeactivated { get; set; }
@@ -27,7 +27,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public byte LevelAssessmentTeam { get; set; }
             public byte ProfilePreferenceInner { get; set; }
             public byte ProfilePreferenceTeam { get; set; }
-            public byte ExperienceLevel { get; set; }
 
             public string BackgroundInner { get; set; }
             public string BackgroundTeam { get; set; }

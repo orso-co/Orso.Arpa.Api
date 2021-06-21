@@ -91,7 +91,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 LevelAssessmentTeam = 2,
                 ProfilePreferenceInner = 3,
                 ProfilePreferenceTeam = 4,
-                ExperienceLevel = 0,
 
                 BackgroundInner = "revised: Background description",
                 BackgroundTeam = "revised: Staff-Background description",
