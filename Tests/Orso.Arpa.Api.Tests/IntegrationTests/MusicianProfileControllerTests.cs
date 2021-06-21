@@ -153,7 +153,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MusicianProfilesController.Get(MusicianProfileSeedData.PerformerMusicianProfile.Id));
 
             getResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            MusicianProfileDto getResult = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+            MusicianProfileDto getResult = await DeserializeResponseMessageAsync<MusicianProfileDto>(getResponseMessage);
             getResult.IsMainProfile.Should().BeFalse();
         }
 
