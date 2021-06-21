@@ -1,5 +1,8 @@
 # Orso Arpa 2.0 Backend
 
+Digital development in the cultural sector
+ORSO Berlin develops choir and orchestra management software
+
 ## Deployment
 [![Build Status](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_apis/build/status/orso-arpa%20-%201%20-%20CI?branchName=master)](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_build/latest?definitionId=2&branchName=master)
 
