@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
@@ -46,7 +47,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     InquiryStatusInnerId = Guid.NewGuid(),
                     InquiryStatusTeamId = Guid.NewGuid(),
 
-                    // ToDo for collections
+                    PreferredPartsInner = new List<byte> { 1, 4 },
+                    PreferredPartsTeam = new List<byte> { 2, 3 },
+                    PreferredPositionsInnerIds = new List<Guid> { Guid.NewGuid() },
+                    PreferredPositionsTeamIds = new List<Guid> { Guid.NewGuid() }
                 }
             };
             var expectedCommand = new Modify.Command
@@ -69,7 +73,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 InquiryStatusInnerId = dto.Body.InquiryStatusInnerId,
                 InquiryStatusTeamId = dto.Body.InquiryStatusTeamId,
 
-                // ToDo for collections
+                PreferredPartsInner = dto.Body.PreferredPartsInner,
+                PreferredPartsTeam = dto.Body.PreferredPartsTeam,
+                PreferredPositionsTeamIds = dto.Body.PreferredPositionsTeamIds,
+                PreferredPositionsInnerIds = dto.Body.PreferredPositionsInnerIds
             };
 
             // Act

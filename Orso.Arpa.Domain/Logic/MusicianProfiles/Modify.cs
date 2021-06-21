@@ -15,7 +15,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 {
     public static class Modify
     {
-        public class Command : IRequest<MusicianProfile>, IHasInstrumentRequest
+        public class Command : IRequest, IHasInstrumentRequest
         {
             public Guid Id { get; set; }
             public Guid InstrumentId { get; set; }
@@ -82,7 +82,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .InstrumentPart(arpaContext);
 
                 RuleFor(c => c.IsDeactivated)
-                    .Must((command, isDeactivated, context) => !isDeactivated || !command.ExistingMusicianProfile.ProjectParticipations.Select(pp => pp.Project).All(p => p.IsCompleted))
+                    .Must((command, isDeactivated, context) => !isDeactivated || command.ExistingMusicianProfile.ProjectParticipations.Select(pp => pp.Project).All(p => p.IsCompleted))
                     .WithMessage("You may not deactivate a musician profile which is participating in an active project");
             }
         }
@@ -116,7 +116,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             }
         }
 
-        public class Handler : IRequestHandler<Command, MusicianProfile>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
@@ -127,7 +127,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 _mapper = mapper;
             }
 
-            public async Task<MusicianProfile> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 MusicianProfile existingMusicianProfile = request.ExistingMusicianProfile;
 
@@ -147,7 +147,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     _arpaContext.ClearChangeTracker();
-                    return await _arpaContext.MusicianProfiles.FindAsync(new object[] { request.Id }, cancellationToken);
+                    return Unit.Value;
                 }
 
                 throw new Exception("Problem updating musician profile");

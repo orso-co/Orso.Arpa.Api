@@ -157,19 +157,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             getResult.IsMainProfile.Should().BeFalse();
         }
 
-        [Test, Order(10000)]
-        public async Task Should_Delete()
-        {
-            // Arrange
+        //[Test, Order(10000)]
+        //public async Task Should_Delete()
+        //{
+        //    // Arrange
 
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.MusicianProfilesController.Delete(MusicianProfileDtoData.PerformerProfile.Id));
+        //    // Act
+        //    HttpResponseMessage responseMessage = await _authenticatedServer
+        //        .CreateClient()
+        //        .AuthenticateWith(_staff)
+        //        .DeleteAsync(ApiEndpoints.MusicianProfilesController.Delete(MusicianProfileDtoData.PerformerProfile.Id));
 
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
+        //    // Assert
+        //    responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        //}
     }
 }

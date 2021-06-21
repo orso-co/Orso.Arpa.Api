@@ -62,8 +62,8 @@ namespace Orso.Arpa.Application.Services
             command.InstrumentId = existingMusicianProfile.InstrumentId;
             command.ExistingMusicianProfile = existingMusicianProfile;
 
-            MusicianProfile updatedEntity = await _mediator.Send(command);
-            return _mapper.Map<MusicianProfileDto>(updatedEntity);
+            await _mediator.Send(command);
+            return await GetByIdAsync(command.Id);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -86,8 +87,26 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .SelectValueMapping<DoublingInstrumentCreateCommand, MusicianProfileSection>(arpaContext, a => a.InstrumentAvailability);
 
                 RuleFor(c => c.InstrumentId)
-                    .DoublingInstrument(arpaContext, MainInstrumentId);
+                    .Cascade(CascadeMode.Stop)
+                .Must(instrumentId => instrumentId != MainInstrumentId)
+                .WithMessage("The doubling instrument may not be the main instrument")
+                .MustAsync(async (command, instrumentId, cancellation) => await IsValidDoublingInstrumentAsync(MainInstrumentId, instrumentId, arpaContext, cancellation))
+                .WithMessage("This instrument is no valid doubling instrument for the selected main instrument");
             }
+        }
+
+        private static async Task<bool> IsValidDoublingInstrumentAsync(Guid mainInstrumentId, Guid doublingInstrumentId, IArpaContext arpaContext, CancellationToken cancellationToken)
+        {
+            Section mainInstrument = await arpaContext.FindAsync<Section>(new object[] { mainInstrumentId }, cancellationToken);
+            if (mainInstrument.IsInstrument)
+            {
+                return mainInstrument.Children.Select(c => c.Id).Contains(doublingInstrumentId);
+            }
+            if (mainInstrument.ParentId == doublingInstrumentId)
+            {
+                return true;
+            }
+            return mainInstrument.Parent.Children.Select(c => c.Id).Contains(doublingInstrumentId);
         }
 
         public class Handler : IRequestHandler<Command, MusicianProfile>
