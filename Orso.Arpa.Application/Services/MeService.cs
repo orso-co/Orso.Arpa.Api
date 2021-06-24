@@ -96,9 +96,16 @@ namespace Orso.Arpa.Application.Services
         public async Task<MyMusicianProfileDto> CreateMusicianProfileAsync(MyMusicianProfileCreateDto createDto)
         {
             Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfiles.Create.Command>(createDto);
+
             command.PersonId = _userAccessor.PersonId;
 
             MusicianProfile createdEntity = await _mediator.Send(command);
+            foreach (MyDoublingInstrumentCreateDto doublingInstrument in createDto.DoublingInstruments)
+            {
+                Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
+                doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
+                createdEntity.DoublingInstruments.Add(await _mediator.Send(doublingInstrumentCommand));
+            }
             return _mapper.Map<MyMusicianProfileDto>(createdEntity);
         }
 

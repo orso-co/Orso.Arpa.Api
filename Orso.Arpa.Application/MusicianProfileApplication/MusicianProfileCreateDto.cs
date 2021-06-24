@@ -4,7 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.MusicianProfiles.Create;
+using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
 {
@@ -20,27 +20,18 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public Guid QualificationId { get; set; }
         public Guid? InquiryStatusInnerId { get; set; }
         public Guid? InquiryStatusTeamId { get; set; }
-        public IList<DoublingInstrumentCreateDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentCreateDto>();
+        public IList<DoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentCreateBodyDto>();
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
         public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
         public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
         public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
     }
 
-    public class DoublingInstrumentCreateDto
-    {
-        public Guid InstrumentId { get; set; }
-        public byte LevelAssessmentInner { get; set; }
-        public byte LevelAssessmentTeam { get; set; }
-        public Guid? AvailabilityId { get; set; }
-        public string Comment { get; set; }
-    }
-
     public class MusicianProfileCreateDtoMappingProfile : Profile
     {
         public MusicianProfileCreateDtoMappingProfile()
         {
-            CreateMap<MusicianProfileCreateDto, Command>()
+            CreateMap<MusicianProfileCreateDto, Create.Command>()
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
 
@@ -50,13 +41,10 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
                 .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.Body.InquiryStatusTeamId))
 
-                .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.Body.DoublingInstruments))
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPositionsTeamIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsTeamIds))
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner))
                 .ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.Body.PreferredPartsTeam));
-
-            CreateMap<DoublingInstrumentCreateDto, DoublingInstrumentCreateCommand>();
         }
     }
 
@@ -88,31 +76,13 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                .NotEmpty();
 
             RuleForEach(p => p.DoublingInstruments)
-                .SetValidator(new DoublingInstrumentCreateDtoValidator());
+                .SetValidator(new DoublingInstrumentCreateBodyDtoValidator());
 
             RuleForEach(p => p.PreferredPositionsTeamIds)
                 .NotEmpty();
 
             RuleForEach(p => p.PreferredPositionsInnerIds)
                 .NotEmpty();
-        }
-    }
-
-    public class DoublingInstrumentCreateDtoValidator : AbstractValidator<DoublingInstrumentCreateDto>
-    {
-        public DoublingInstrumentCreateDtoValidator()
-        {
-            RuleFor(dto => dto.Comment)
-                .MaximumLength(500);
-
-            RuleFor(dto => dto.InstrumentId)
-                .NotEmpty();
-
-            RuleFor(dto => dto.LevelAssessmentInner)
-                .FiveStarRating();
-
-            RuleFor(dto => dto.LevelAssessmentTeam)
-                .FiveStarRating();
         }
     }
 }

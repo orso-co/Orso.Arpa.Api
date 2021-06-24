@@ -44,7 +44,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Create.Command command = _mapper.Map<Create.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            command.Should().BeEquivalentTo(dto, opt => opt.Excluding(dto => dto.DoublingInstruments));
         }
     }
 }

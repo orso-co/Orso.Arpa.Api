@@ -21,7 +21,6 @@ namespace Orso.Arpa.Domain.Entities
             PreferredPositionsTeam = command.PreferredPositionsTeamIds.Distinct().Select(i => new MusicianProfilePositionTeam(i, Id)).ToList();
             PreferredPartsInner = command.PreferredPartsInner.Distinct().ToArray();
             PreferredPartsTeam = command.PreferredPartsTeam.Distinct().ToArray();
-            DoublingInstruments = command.DoublingInstruments.Select(c => new MusicianProfileSection(c)).ToList();
         }
 
         public MusicianProfile()

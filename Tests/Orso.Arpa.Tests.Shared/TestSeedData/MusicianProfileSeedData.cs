@@ -20,8 +20,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     PerformersDeactivatedTubaProfile,
                     StaffMusicianProfile1,
                     StaffMusicianProfile2,
-                    AdminMusicianProfile1,
-                    AdminMusicianProfile2,
+                    AdminMusicianSopranoProfile,
+                    AdminMusicianFluteProfile,
                     UserWithoutRoleMusicianProfile,
                 };
             }
@@ -60,14 +60,15 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var profile = new MusicianProfile(command, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
                 profile.SetProperty(nameof(MusicianProfile.BackgroundInner), "Background Trombonist");
                 profile.SetProperty(nameof(MusicianProfile.ProfilePreferenceInner), (byte)3);
-                profile.DoublingInstruments.Add(new MusicianProfileSection(new Create.DoublingInstrumentCreateCommand
+                profile.DoublingInstruments.Add(new MusicianProfileSection(Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d"), new Domain.Logic.MusicianProfileSections.Create.Command
                 {
                     AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
                     Comment = "Wagner rocks",
                     InstrumentId = SectionSeedData.WagnerTuba.Id,
                     LevelAssessmentInner = 3,
                     LevelAssessmentTeam = 2,
-                }, Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d")));
+                    MusicianProfileId = profile.Id
+                }));
                 return profile;
             }
         }
@@ -109,7 +110,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static MusicianProfile AdminMusicianProfile1
+        public static MusicianProfile AdminMusicianSopranoProfile
         {
             get
             {
@@ -121,14 +122,14 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static MusicianProfile AdminMusicianProfile2
+        public static MusicianProfile AdminMusicianFluteProfile
         {
             get
             {
                 return new MusicianProfile(new Create.Command
                 {
                     PersonId = PersonSeedData.Admin.Id,
-                    InstrumentId = SectionSeedData.Soprano.Id
+                    InstrumentId = SectionSeedData.Flute.Id
                 }, false, Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"));
             }
         }

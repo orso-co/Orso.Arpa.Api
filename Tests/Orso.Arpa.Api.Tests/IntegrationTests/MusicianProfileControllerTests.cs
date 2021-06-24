@@ -71,7 +71,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MusicianProfilesController.GetProjectParticipations(MusicianProfileSeedData.AdminMusicianProfile1.Id, true));
+                .GetAsync(ApiEndpoints.MusicianProfilesController.GetProjectParticipations(MusicianProfileSeedData.AdminMusicianSopranoProfile.Id, true));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -23,22 +22,11 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public Guid? QualificationId { get; set; }
             public Guid? InquiryStatusInnerId { get; set; }
             public Guid? InquiryStatusTeamId { get; set; }
-            public IList<DoublingInstrumentCreateCommand> DoublingInstruments { get; set; } = new List<DoublingInstrumentCreateCommand>();
             public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
             public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
             public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
             public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
         }
-
-        public class DoublingInstrumentCreateCommand
-        {
-            public Guid InstrumentId { get; set; }
-            public byte LevelAssessmentInner { get; set; }
-            public byte LevelAssessmentTeam { get; set; }
-            public Guid? AvailabilityId { get; set; }
-            public string Comment { get; set; }
-        }
-
         public class Validator : AbstractValidator<Command>
         {
             public Validator(IArpaContext arpaContext)
@@ -61,9 +49,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 RuleFor(c => c.InquiryStatusTeamId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusTeam);
 
-                RuleForEach(c => c.DoublingInstruments)
-                    .SetValidator(c => new DoublingInstrumentValidator(arpaContext) { MainInstrumentId = c.InstrumentId });
-
                 RuleForEach(c => c.PreferredPositionsInnerIds)
                     .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsInnerIds));
 
@@ -76,37 +61,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 RuleForEach(c => c.PreferredPartsTeam)
                     .InstrumentPart(arpaContext);
             }
-        }
-
-        public class DoublingInstrumentValidator : AbstractValidator<DoublingInstrumentCreateCommand>
-        {
-            public Guid MainInstrumentId { get; set; }
-            public DoublingInstrumentValidator(IArpaContext arpaContext)
-            {
-                RuleFor(c => c.AvailabilityId)
-                    .SelectValueMapping<DoublingInstrumentCreateCommand, MusicianProfileSection>(arpaContext, a => a.InstrumentAvailability);
-
-                RuleFor(c => c.InstrumentId)
-                    .Cascade(CascadeMode.Stop)
-                .Must(instrumentId => instrumentId != MainInstrumentId)
-                .WithMessage("The doubling instrument may not be the main instrument")
-                .MustAsync(async (command, instrumentId, cancellation) => await IsValidDoublingInstrumentAsync(MainInstrumentId, instrumentId, arpaContext, cancellation))
-                .WithMessage("This instrument is no valid doubling instrument for the selected main instrument");
-            }
-        }
-
-        private static async Task<bool> IsValidDoublingInstrumentAsync(Guid mainInstrumentId, Guid doublingInstrumentId, IArpaContext arpaContext, CancellationToken cancellationToken)
-        {
-            Section mainInstrument = await arpaContext.FindAsync<Section>(new object[] { mainInstrumentId }, cancellationToken);
-            if (mainInstrument.IsInstrument)
-            {
-                return mainInstrument.Children.Select(c => c.Id).Contains(doublingInstrumentId);
-            }
-            if (mainInstrument.ParentId == doublingInstrumentId)
-            {
-                return true;
-            }
-            return mainInstrument.Parent.Children.Select(c => c.Id).Contains(doublingInstrumentId);
         }
 
         public class Handler : IRequestHandler<Command, MusicianProfile>

@@ -49,5 +49,6 @@ namespace Orso.Arpa.Domain.Interfaces
 
         EntityEntry Entry(object entity);
         IQueryable<AppointmentForPerson> GetAppointmentIdsForPerson(Guid personId);
+        Task<TEntity> GetByIdAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity;
     }
 }

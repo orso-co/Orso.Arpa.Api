@@ -10,13 +10,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     public class MusicianProfileCreateDtoValidatorTests
     {
         private MusicianProfileCreateBodyDtoValidator _bodyValidator;
-        private DoublingInstrumentCreateDtoValidator _doublingInstrumentValidator;
+        private DoublingInstrumentCreateBodyDtoValidator _doublingInstrumentValidator;
 
         [SetUp]
         public void Setup()
         {
             _bodyValidator = new MusicianProfileCreateBodyDtoValidator();
-            _doublingInstrumentValidator = new DoublingInstrumentCreateDtoValidator();
+            _doublingInstrumentValidator = new DoublingInstrumentCreateBodyDtoValidator();
         }
 
         [Test]

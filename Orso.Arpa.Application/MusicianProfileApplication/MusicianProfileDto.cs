@@ -33,15 +33,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
     }
 
-    public class DoublingInstrumentDto : BaseEntityDto
-    {
-        public Guid InstrumentId { get; set; }
-        public byte LevelAssessmentInner { get; set; }
-        public byte LevelAssessmentTeam { get; set; }
-        public Guid? AvailabilityId { get; set; }
-        public string Comment { get; set; }
-    }
-
     public class MusicianProfileDtoMappingProfile : Profile
     {
         public MusicianProfileDtoMappingProfile()
@@ -72,20 +63,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
                 .ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.PreferredPartsTeam))
 
-                .IncludeBase<BaseEntity, BaseEntityDto>();
-        }
-    }
-
-    public class DoublingInstrumentDtoMappingProfile : Profile
-    {
-        public DoublingInstrumentDtoMappingProfile()
-        {
-            CreateMap<MusicianProfileSection, DoublingInstrumentDto>()
-                .ForMember(dest => dest.AvailabilityId, opt => opt.MapFrom(src => src.InstrumentAvailabilityId))
-                .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.SectionId))
-                .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
-                .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.LevelAssessmentTeam))
-                .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Comment))
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }

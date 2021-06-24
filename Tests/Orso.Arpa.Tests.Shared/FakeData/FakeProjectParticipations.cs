@@ -86,7 +86,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 ProjectParticipation participation = ProjectParticipationSeedData.AdminParticipation;
                 participation.SetProperty(nameof(ProjectParticipation.Project), ProjectSeedData.RockingXMas);
-                MusicianProfile profile = MusicianProfileSeedData.AdminMusicianProfile1;
+                MusicianProfile profile = MusicianProfileSeedData.AdminMusicianSopranoProfile;
                 profile.SetProperty(nameof(MusicianProfile.Person), PersonSeedData.Admin);
                 participation.SetProperty(nameof(ProjectParticipation.MusicianProfile), profile);
                 return participation;

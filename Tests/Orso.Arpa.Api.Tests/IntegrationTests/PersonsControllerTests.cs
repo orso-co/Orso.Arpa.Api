@@ -181,7 +181,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             createDto.PreferredPartsInner.Add(4);
             createDto.PreferredPartsTeam.Add(1);
 
-            var createDoublingInstrumentDto = new DoublingInstrumentCreateDto
+            var createDoublingInstrumentDto = new DoublingInstrumentCreateBodyDto
             {
                 InstrumentId = SectionSeedData.EbClarinet.Id,
                 AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,

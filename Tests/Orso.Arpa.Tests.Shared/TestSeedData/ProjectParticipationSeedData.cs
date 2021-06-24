@@ -83,7 +83,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new ProjectParticipation(new SetProjectParticipation.Command
                 {
                     ProjectId = ProjectSeedData.RockingXMas.Id,
-                    MusicianProfileId = MusicianProfileSeedData.AdminMusicianProfile1.Id
+                    MusicianProfileId = MusicianProfileSeedData.AdminMusicianSopranoProfile.Id
                 }, Guid.Parse("55cb5f7d-2fd7-4328-9d27-413dab753e62"));
             }
         }
