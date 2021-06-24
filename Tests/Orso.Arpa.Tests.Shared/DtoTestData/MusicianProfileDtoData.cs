@@ -108,7 +108,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static MusicianProfileDto AdminProfile1
+        public static MusicianProfileDto AdminSopranoProfile
         {
             get
             {

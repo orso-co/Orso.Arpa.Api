@@ -84,6 +84,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<MusicianProfileDto>> Put(MusicianProfileModifyDto musicianProfileModifyDto)
         {
             return Ok(await _musicianProfileService.UpdateAsync(musicianProfileModifyDto));

@@ -202,6 +202,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Delete(Guid id) => $"{MusicianProfiles}/{id}";
             public static string GetProjectParticipations(Guid id, bool includeCompleted) => $"{MusicianProfiles}/{id}/projectparticipations?includeCompleted={includeCompleted}";
         }
+
+        public static class MusicianProfileDoublingInstrumentsController
+        {
+            private static string BaseUrl(Guid id) => $"{Base}/profiles/musicians/{id}/doublinginstruments";
+            public static string Post(Guid id) => BaseUrl(id);
+            public static string Put(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
+            public static string Delete(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
+        }
+
         public static class PersonsController
         {
             private static string Persons => $"{Base}/Persons";

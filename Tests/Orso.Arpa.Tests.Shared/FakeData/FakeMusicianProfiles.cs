@@ -15,7 +15,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Performer);
                 profile.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
                 profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
-                profile.ProjectParticipations.Add(FakeProjectParticipations.PerformerSchneeköniginParticipation);
+                profile.ProjectParticipations.Add(FakeProjectParticipations.PerformerSchneekÃ¶niginParticipation);
                 return profile;
             }
         }
@@ -31,6 +31,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Performer);
                 profile.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
                 profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
+                profile.SetProperty(nameof(MusicianProfile.Instrument), FakeSections.Horn);
                 return profile;
             }
         }

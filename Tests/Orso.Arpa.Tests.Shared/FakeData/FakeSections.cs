@@ -27,6 +27,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 horn.SelectValueSections.Add(SelectValueSectionSeedData.HornHigh);
                 horn.SelectValueSections.Add(SelectValueSectionSeedData.HornLow);
                 horn.SelectValueSections.Add(SelectValueSectionSeedData.HornSolo);
+                horn.Children.Add(SectionSeedData.WagnerTuba);
                 return horn;
             }
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
-using static Orso.Arpa.Domain.Logic.MusicianProfiles.Create;
+using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
 {
@@ -29,17 +29,16 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MyMusicianProfileCreateDtoMappingProfile()
         {
-            CreateMap<MyMusicianProfileCreateDto, Command>()
+            CreateMap<MyMusicianProfileCreateDto, Create.Command>()
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
 
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
                 .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.InquiryStatusInnerId))
 
-                .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner));
 
-            CreateMap<MyDoublingInstrumentCreateDto, DoublingInstrumentCreateCommand>();
+            CreateMap<MyDoublingInstrumentCreateDto, Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command>();
         }
     }
 

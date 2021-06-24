@@ -212,6 +212,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IAuditLogService, AuditLogService>();
             services.AddScoped<IMusicianProfileService, MusicianProfileService>();
             services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IDoublingInstrumentService, DoublingInstrumentService>();
             services.AddScoped<IMeService, MeService>();
             services.AddScoped<ITemplateParser, TemplateParser>();
             services.AddScoped<IEmailSender, EmailSender>();

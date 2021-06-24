@@ -1,33 +1,21 @@
 using System;
-using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class MusicianProfileSection : BaseEntity
     {
-        public MusicianProfileSection(Guid? id, MusicianProfile musicianProfile, Section section) : base(id)
-        {
-            MusicianProfile = musicianProfile;
-            Section = section;
-        }
-
-        public MusicianProfileSection(Guid musicianProfileId, Guid sectionId)
-        {
-            MusicianProfileId = musicianProfileId;
-            SectionId = sectionId;
-        }
-
-        public MusicianProfileSection()
+        protected MusicianProfileSection()
         {
         }
 
-        public MusicianProfileSection(Create.DoublingInstrumentCreateCommand command, Guid? id = null) : base(id)
+        public MusicianProfileSection(Guid? id, Logic.MusicianProfileSections.Create.Command command) : base(id)
         {
             LevelAssessmentInner = command.LevelAssessmentInner;
             LevelAssessmentTeam = command.LevelAssessmentTeam;
             InstrumentAvailabilityId = command.AvailabilityId;
             Comment = command.Comment;
             SectionId = command.InstrumentId;
+            MusicianProfileId = command.MusicianProfileId;
         }
 
         public byte LevelAssessmentInner { get; private set; }

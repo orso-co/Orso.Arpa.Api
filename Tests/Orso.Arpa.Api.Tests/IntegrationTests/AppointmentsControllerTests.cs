@@ -339,11 +339,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             staffParticipation.Participation = null;
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
-            adminParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
-            {
-                Id = Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"),
-                InstrumentName = SectionSeedData.Soprano.Name
-            });
             expectedDto.Participations.Add(adminParticipation);
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
@@ -423,7 +418,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             adminParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
             {
                 Id = Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"),
-                InstrumentName = "Soprano"
+                InstrumentName = "Flute"
             });
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 

@@ -55,7 +55,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         {
             _validator.ShouldHaveValidationErrorForExact(
                 c => c.IsMainProfile,
-                new ModifyMusicianProfile.Command { IsMainProfile = false, ExistingMusicianProfile = MusicianProfileSeedData.AdminMusicianProfile1 })
+                new ModifyMusicianProfile.Command { IsMainProfile = false, ExistingMusicianProfile = MusicianProfileSeedData.AdminMusicianSopranoProfile })
                 .WithErrorMessage("You may not turn off the IsMainProfile flag");
         }
 

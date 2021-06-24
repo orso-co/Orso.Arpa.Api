@@ -13,7 +13,11 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<MusicianProfileCreateDtoMappingProfile>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MusicianProfileCreateDtoMappingProfile>();
+                cfg.AddProfile<DoublingInstrumentCreateDtoMappingProfile>();
+            });
 
             _mapper = new Mapper(config);
         }
@@ -39,7 +43,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
             dto.Body.PreferredPositionsInnerIds.Add(Guid.NewGuid());
             dto.Body.PreferredPositionsTeamIds.Add(Guid.NewGuid());
-            dto.Body.DoublingInstruments.Add(new DoublingInstrumentCreateDto
+            dto.Body.DoublingInstruments.Add(new DoublingInstrumentCreateBodyDto
             {
                 AvailabilityId = Guid.NewGuid(),
                 Comment = "Comment",
@@ -54,7 +58,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Create.Command command = _mapper.Map<Create.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto.Body);
+            command.Should().BeEquivalentTo(dto.Body, opt => opt.Excluding(c => c.DoublingInstruments));
             command.PersonId.Should().Be(dto.Id);
         }
     }

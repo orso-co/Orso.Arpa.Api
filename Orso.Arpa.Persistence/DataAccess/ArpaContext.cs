@@ -233,6 +233,11 @@ namespace Orso.Arpa.Persistence.DataAccess
                 .AnyAsync(predicate, cancellationToken);
         }
 
+        public async Task<TEntity> GetByIdAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
+        {
+            return await FindAsync<TEntity>(new object[] { id }, cancellationToken);
+        }
+
         /// <summary>
         /// Method body for database function
         /// </summary>
