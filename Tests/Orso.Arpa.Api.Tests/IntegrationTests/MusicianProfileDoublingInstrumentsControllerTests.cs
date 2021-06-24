@@ -72,5 +72,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
+
+        [Test, Order(10000)]
+        public async Task Should_Delete_Doubling_Instrument()
+        {
+            Domain.Entities.MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
+
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .DeleteAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
+                    .Delete(profile.Id, profile.DoublingInstruments.First().Id));
+
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }
