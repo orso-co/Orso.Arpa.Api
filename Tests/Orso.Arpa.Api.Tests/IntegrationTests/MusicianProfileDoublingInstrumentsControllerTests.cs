@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -41,12 +42,35 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController.Post(profile.Id), BuildStringContent(dto));
+                .PostAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
+                    .Post(profile.Id), BuildStringContent(dto));
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             DoublingInstrumentDto result = await DeserializeResponseMessageAsync<DoublingInstrumentDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
             result.Id.Should().NotBeEmpty();
+        }
+
+        [Test, Order(1000)]
+        public async Task Should_Modify_Doubling_Instrument()
+        {
+            Domain.Entities.MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
+
+            var dto = new DoublingInstrumentModifyBodyDto
+            {
+                AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[1].Id,
+                Comment = "Wagner would be proud to hear that",
+                LevelAssessmentInner = 5,
+                LevelAssessmentTeam = 5
+            };
+
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PutAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
+                    .Put(profile.Id, profile.DoublingInstruments.First().Id), BuildStringContent(dto));
+
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

@@ -207,6 +207,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             private static string BaseUrl(Guid id) => $"{Base}/profiles/musicians/{id}/doublinginstruments";
             public static string Post(Guid id) => BaseUrl(id);
+            public static string Put(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
         }
 
         public static class PersonsController
