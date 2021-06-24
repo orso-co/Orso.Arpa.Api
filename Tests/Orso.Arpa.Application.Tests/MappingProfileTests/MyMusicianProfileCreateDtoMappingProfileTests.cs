@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 InquiryStatusInnerId = Guid.NewGuid(),
             };
             dto.PreferredPositionsInnerIds.Add(Guid.NewGuid());
-            dto.DoublingInstruments.Add(new MyDoublingInstrumentCreateDto
+            dto.DoublingInstruments.Add(new MyDoublingInstrumentCreateBodyDto
             {
                 AvailabilityId = Guid.NewGuid(),
                 Comment = "Comment",

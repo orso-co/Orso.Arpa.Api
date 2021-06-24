@@ -40,7 +40,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 RuleFor(c => c.Active)
                     .MustAsync(async (command, active, cancellation) => active ? true : !(await arpaContext.FindAsync<MusicianProfile>(new object[] { command.Id }, cancellation)).ProjectParticipations.Select(pp => pp.Project).All(p => p.IsCompleted))
                     .WithMessage("You may not deactivate a musician profile which is participating in an active project");
-                // ToDo: Add additional validation rules if appropriate
             }
         }
 

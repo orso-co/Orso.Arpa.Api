@@ -44,7 +44,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task ModifyMyUserProfileAsync(MyUserProfileModifyDto userProfileModifyDto)
         {
-            Orso.Arpa.Domain.Logic.Me.Modify.Command command = _mapper.Map<Orso.Arpa.Domain.Logic.Me.Modify.Command>(userProfileModifyDto);
+            Orso.Arpa.Domain.Logic.Me.Modify.Command command = _mapper.Map<Domain.Logic.Me.Modify.Command>(userProfileModifyDto);
             await _mediator.Send(command);
         }
 
@@ -100,7 +100,7 @@ namespace Orso.Arpa.Application.Services
             command.PersonId = _userAccessor.PersonId;
 
             MusicianProfile createdEntity = await _mediator.Send(command);
-            foreach (MyDoublingInstrumentCreateDto doublingInstrument in createDto.DoublingInstruments)
+            foreach (MyDoublingInstrumentCreateBodyDto doublingInstrument in createDto.DoublingInstruments)
             {
                 Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
@@ -150,6 +150,19 @@ namespace Orso.Arpa.Application.Services
 
             await _mediator.Send(command);
             return await GetMyMusicianProfileAsync(command.Id);
+        }
+
+        public async Task<MyDoublingInstrumentDto> CreateDoublingInstrumentAsync(MyDoublingInstrumentCreateDto myDoublingInstrumentCreateDto)
+        {
+            Domain.Logic.MusicianProfileSections.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(myDoublingInstrumentCreateDto);
+            MusicianProfileSection doublingInstrument = await _mediator.Send(command);
+            return _mapper.Map<MyDoublingInstrumentDto>(doublingInstrument);
+        }
+
+        public async Task ModifyDoublingInstrumentAsync(MyDoublingInstrumentModifyDto myDoublingInstrumentModifyDto)
+        {
+            ModifyDoublingInstrument.Command command = _mapper.Map<ModifyDoublingInstrument.Command>(myDoublingInstrumentModifyDto);
+            await _mediator.Send(command);
         }
     }
 }

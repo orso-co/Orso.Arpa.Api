@@ -20,6 +20,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
     {
         private Create.Validator _validator;
         private IArpaContext _arpaContext;
+        private ITokenAccessor _tokenAccessor;
         private DbSet<SelectValueCategory> _mockSelectValueCategoryDbSet;
         private DbSet<Section> _mockSectionDbSet;
 
@@ -27,7 +28,8 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Create.Validator(_arpaContext);
+            _tokenAccessor = Substitute.For<ITokenAccessor>();
+            _validator = new Create.Validator(_arpaContext, _tokenAccessor);
             DbSet<MusicianProfile> mockMusicianProfiles = MockDbSets.MusicianProfiles;
             _arpaContext.MusicianProfiles.Returns(mockMusicianProfiles);
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
