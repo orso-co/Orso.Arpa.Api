@@ -67,7 +67,6 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{doublingInstrumentId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Delete([FromRoute] Guid id, [FromRoute] Guid doublingInstrumentId)
         {
             await _doublingInstrumentService.DeleteAsync(doublingInstrumentId);

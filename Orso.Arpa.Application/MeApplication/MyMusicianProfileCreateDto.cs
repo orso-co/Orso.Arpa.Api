@@ -12,17 +12,9 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public byte LevelAssessmentInner { get; set; }
         public Guid InstrumentId { get; set; }
         public Guid? InquiryStatusInnerId { get; set; }
-        public IList<MyDoublingInstrumentCreateDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentCreateDto>();
+        public IList<MyDoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentCreateBodyDto>();
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
         public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
-    }
-
-    public class MyDoublingInstrumentCreateDto
-    {
-        public Guid InstrumentId { get; set; }
-        public byte LevelAssessmentInner { get; set; }
-        public Guid? AvailabilityId { get; set; }
-        public string Comment { get; set; }
     }
 
     public class MyMusicianProfileCreateDtoMappingProfile : Profile
@@ -37,8 +29,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner));
-
-            CreateMap<MyDoublingInstrumentCreateDto, Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command>();
         }
     }
 
@@ -57,25 +47,10 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                .NotEmpty();
 
             RuleForEach(p => p.DoublingInstruments)
-                .SetValidator(new MyDoublingInstrumentCreateDtoValidator());
+                .SetValidator(new MyDoublingInstrumentCreateBodyDtoValidator());
 
             RuleForEach(p => p.PreferredPositionsInnerIds)
               .NotEmpty();
-        }
-    }
-
-    public class MyDoublingInstrumentCreateDtoValidator : AbstractValidator<MyDoublingInstrumentCreateDto>
-    {
-        public MyDoublingInstrumentCreateDtoValidator()
-        {
-            RuleFor(dto => dto.Comment)
-                .MaximumLength(500);
-
-            RuleFor(dto => dto.InstrumentId)
-                .NotEmpty();
-
-            RuleFor(dto => dto.LevelAssessmentInner)
-                .FiveStarRating();
         }
     }
 }

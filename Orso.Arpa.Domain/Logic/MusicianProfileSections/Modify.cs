@@ -26,7 +26,8 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfileSections
             {
                 RuleFor(c => c.Id)
                     .MustAsync(async (command, id, cancellation) => await arpaContext
-                        .EntityExistsAsync<MusicianProfileSection>(s => s.Id == id && s.MusicianProfileId == command.MusicianProfileId, cancellation));
+                        .EntityExistsAsync<MusicianProfileSection>(s => s.Id == id && s.MusicianProfileId == command.MusicianProfileId, cancellation))
+                    .WithMessage("Doubling instrument with this id and the supplied musician profile does not exist");
 
                 RuleFor(c => c.AvailabilityId)
                     .SelectValueMapping<Command, MusicianProfileSection>(arpaContext, a => a.InstrumentAvailability);
