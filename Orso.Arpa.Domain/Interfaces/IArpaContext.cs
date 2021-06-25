@@ -33,6 +33,7 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<Venue> Venues { get; set; }
         DbSet<Room> Rooms { get; set; }
         DbSet<AuditLog> AuditLogs { get; set; }
+        DbSet<Localization> Localizations { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

@@ -1,0 +1,14 @@
+[
+  {
+    "Key": "Invalid token supplied",
+    "Text": "Please try to login again",
+    "LocalizationCulture": "en-GB",
+    "ResourceKey": "Validator",
+    "Id": "1cc1999c-eec3-4891-a833-798a8ec6baae",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2021-06-16T15:30:19.386696+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  }
+]
