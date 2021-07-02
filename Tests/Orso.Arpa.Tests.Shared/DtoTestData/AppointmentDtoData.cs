@@ -71,7 +71,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("41579f23-d545-4b10-96ab-842f9893a2d3"),
-                    CategoryId = Guid.Parse("c1b6d08b-f31e-4f38-a8c0-761e42fbd2b7"),
+                    CategoryId = Guid.Parse("86672779-5e70-4965-b59c-032086d00914"),
                     SalaryId = Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b"),
                     SalaryPatternId = Guid.Parse("8b51c75f-d597-48ef-8451-5f5fc32d57d1"),
                     EndTime = new DateTime(2019, 12, 21, 18, 30, 0),
@@ -165,7 +165,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new AppointmentDto
                 {
                     Id = Guid.Parse("bcf930c0-18d5-48b4-ab10-d477a8cb822f"),
-                    CategoryId = Guid.Parse("dd4556b3-d8b3-4002-8bde-68e327945916"),
+                    CategoryId = Guid.Parse("2634c0cc-31d2-4f61-813d-7ec60fc8ab34"),
                     SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
                     SalaryPatternId = Guid.Parse("104fc525-bb0b-49dc-b2b2-9a8f63e45c92"),
                     EndTime = new DateTime(2019, 12, 22, 23, 30, 00),
@@ -219,7 +219,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("2aeb552b-81db-4989-9578-35e1616a4345"),
-                    CategoryId = Guid.Parse("ac1ccdd4-39aa-4767-95ea-099a829f275b"),
+                    CategoryId = Guid.Parse("5b89cf6e-0194-4e01-bb32-8b1813a51e16"),
                     SalaryId = Guid.Parse("5b936e5f-3743-4cc3-91af-0cc8742c846e"),
                     SalaryPatternId = Guid.Parse("f15b88b2-395d-4195-af25-8b8879640baf"),
                     EndTime = new DateTime(2019, 12, 24, 06, 00, 00),
@@ -255,7 +255,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("cab05507-489c-4f18-aad5-f1c393626860"),
-                    CategoryId = Guid.Parse("c1b6d08b-f31e-4f38-a8c0-761e42fbd2b7"),
+                    CategoryId = Guid.Parse("86672779-5e70-4965-b59c-032086d00914"),
                     SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
                     SalaryPatternId = null,
                     EndTime = new DateTime(2020, 12, 22, 23, 30, 00),
@@ -291,7 +291,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("6197d4ae-cb53-48db-b407-937b3857c621"),
-                    CategoryId = Guid.Parse("e9c79ae9-5498-459d-8852-9f135da7afae"),
+                    CategoryId = Guid.Parse("694de886-8566-45d0-afc7-6ded18a2b6e6"),
                     SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
                     SalaryPatternId = null,
                     EndTime = new DateTime(2020, 12, 22, 16, 00, 00),
@@ -317,7 +317,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("f14e47d8-110f-4346-87d2-9a9bc0e2120c"),
-                    CategoryId = Guid.Parse("e9c79ae9-5498-459d-8852-9f135da7afae"),
+                    CategoryId = Guid.Parse("694de886-8566-45d0-afc7-6ded18a2b6e6"),
                     SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
                     SalaryPatternId = null,
                     EndTime = new DateTime(2019, 12, 24, 16, 00, 00),
@@ -343,7 +343,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("51d24e3b-d258-4855-bc5a-3c05fb661636"),
-                    CategoryId = Guid.Parse("e9c79ae9-5498-459d-8852-9f135da7afae"),
+                    CategoryId = Guid.Parse("694de886-8566-45d0-afc7-6ded18a2b6e6"),
                     SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
                     SalaryPatternId = null,
                     StartTime = new DateTime(2020, 11, 29, 8, 00, 00),

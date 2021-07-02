@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Castle.Core.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -12,7 +11,7 @@ namespace Orso.Arpa.Infrastructure.Localization
     {
         private static IServiceCollection _services;
         private static readonly object _syncLock = new();
-        private static List<Domain.Entities.Localization> _localizations;
+        private static List<Domain.Entities.Localization> _localizations = new List<Domain.Entities.Localization>();
 
         public LocalizerCache(IServiceCollection services)
         {
@@ -27,7 +26,7 @@ namespace Orso.Arpa.Infrastructure.Localization
         public string GetTranslation(string key, string resourceKey, string culture)
         {
 
-            if (_localizations.IsNullOrEmpty())
+            if (_localizations.Count == 0)
             {
                 _localizations = GetDbLocalizationList();
                 return key;
@@ -41,7 +40,7 @@ namespace Orso.Arpa.Infrastructure.Localization
 
         public virtual IList<Domain.Entities.Localization> GetAllTranslations(string resourceKey, string culture)
         {
-            if (_localizations.IsNullOrEmpty())
+            if (_localizations.Count == 0)
             {
                 return new List<Domain.Entities.Localization>();
             }
@@ -49,7 +48,7 @@ namespace Orso.Arpa.Infrastructure.Localization
             IQueryable<Domain.Entities.Localization> query = _localizations.AsQueryable().Where(d =>
                 d.ResourceKey.Equals(resourceKey) && d.LocalizationCulture.Equals(culture, StringComparison.InvariantCultureIgnoreCase));
 
-            return query.IsNullOrEmpty() ? new List<Domain.Entities.Localization>() : query.ToList();
+            return query.Count() == 0 ? new List<Domain.Entities.Localization>() : query.ToList();
         }
 
         private List<Domain.Entities.Localization> GetDbLocalizationList()

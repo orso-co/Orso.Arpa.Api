@@ -9,10 +9,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using AutoMapper.Internal;
-using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Orso.Arpa.Domain.Translation;
 
 
 namespace Orso.Arpa.Infrastructure.Localization
@@ -40,7 +38,7 @@ namespace Orso.Arpa.Infrastructure.Localization
         {
             object obj;
 
-            if (context.HttpContext.Response.ContentType.IsNullOrEmpty() ||
+            if (string.IsNullOrEmpty(context.HttpContext.Response.ContentType) ||
                 !context.HttpContext.Response.ContentType.Contains(MediaTypeNames.Application.Json))
             {
                 return;
@@ -60,15 +58,15 @@ namespace Orso.Arpa.Infrastructure.Localization
                 "Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable"))
             {
 
-                obj = (object)JsonSerializer.Deserialize(json,
+                obj = JsonSerializer.Deserialize(json,
                     typeof(List<>).MakeGenericType(contentValueType.GetGenericArguments()), jsonSerializerOptions);
             }
             else
             {
-                obj = (object)JsonSerializer.Deserialize(json, contentValueType, jsonSerializerOptions);
+                obj = JsonSerializer.Deserialize(json, contentValueType, jsonSerializerOptions);
             }
 
-            TranslateObject(obj,8);
+            TranslateObject(obj, 8);
 
             context.HttpContext.Response.Body.Position = 0;
             context.HttpContext.Response.Body.SetLength(0);
@@ -98,7 +96,7 @@ namespace Orso.Arpa.Infrastructure.Localization
                 {
                     if (p.GetIndexParameters().Length == 0 && p.GetValue(obj) != null)
                     {
-                        if (!p.GetCustomAttributes<TranslateAttribute>().IsNullOrEmpty() &&
+                        if (p.GetCustomAttributes<TranslateAttribute>().Any() &&
                             p.GetValue(obj) is string)
                         {
                             p.SetValue(obj,
@@ -106,7 +104,7 @@ namespace Orso.Arpa.Infrastructure.Localization
                                     p.GetCustomAttributes<TranslateAttribute>().First().ResourceKey, _uiCulture));
 
                         }
-                        else if (!p.GetCustomAttributes<TranslateAttribute>().IsNullOrEmpty() &&
+                        else if (p.GetCustomAttributes<TranslateAttribute>().Any() &&
                                  p.GetValue(obj) is string[])
                         {
                             var translatableArray = (string[])p.GetValue(obj);
@@ -132,8 +130,10 @@ namespace Orso.Arpa.Infrastructure.Localization
             }
             catch (Exception e)
             {
-                if (!e.Message.IsNullOrEmpty())
+                if (!string.IsNullOrEmpty(e.Message))
+                {
                     _logger.LogError($"Error during translation: {e.Message}");
+                }
             }
         }
     }

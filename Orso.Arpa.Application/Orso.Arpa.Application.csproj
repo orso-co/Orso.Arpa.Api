@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
+    <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj" />
   </ItemGroup>
 </Project>

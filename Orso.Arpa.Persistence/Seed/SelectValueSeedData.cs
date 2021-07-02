@@ -36,6 +36,8 @@ namespace Orso.Arpa.Persistence.Seed
                     AwaitingPoll,
                     Meeting,
                     StageBriefing,
+                    WarmUpRehearsal,
+                    Soundcheck,
                     ChoreographyRehearsal,
                     PhotoSession,
                     Concert,
@@ -46,7 +48,7 @@ namespace Orso.Arpa.Persistence.Seed
                     Show,
                     WatchShow,
                     SeeComment,
-                    VoiceFormation,
+                    VocalCoaching,
                     SectionalRehearsal,
                     Transfer,
                     Assembly,
@@ -196,20 +198,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue Optional => new(Guid.Parse("9c0295b7-1b16-4fd6-a7de-ecd724c823b3"), "Optional", string.Empty);
 
-        /// <summary>
-        /// Klassik
-        /// </summary>
-        public static SelectValue ClassicalMusic => new(Guid.Parse("87a541e7-706a-47f3-99b3-8b2d6de7a134"), "Classical Music", string.Empty);
-
-        /// <summary>
-        /// Crossover
-        /// </summary>
-        public static SelectValue Crossover => new(Guid.Parse("5b57a267-f331-41df-995a-93b60fc206ff"), "Crossover", string.Empty);
-
-        /// <summary>
-        /// Kammermusik
-        /// </summary>
-        public static SelectValue ChamberMusic => new(Guid.Parse("43d8eafa-ef3f-4034-8c88-9a0b68c33ab1"), "Chamber Music", string.Empty);
 
         /// <summary>
         /// Geplant
@@ -226,6 +214,82 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue AwaitingPoll => new(Guid.Parse("5e3edcf4-863b-433b-ae72-b6bb7e4dfc95"), "Awaiting Poll", string.Empty);
 
+
+
+        // TERMINTYPUS (PROBEN)
+
+        /// <summary>
+        /// Probe
+        /// </summary>
+        public static SelectValue Rehearsal => new(Guid.Parse("130f63c3-9d2f-4301-b062-236c78663e3b"), "Rehearsal", string.Empty);
+
+        /// <summary>
+        /// Stimmprobe
+        /// </summary>
+        public static SelectValue SectionalRehearsal => new(Guid.Parse("4418bfea-0e79-4f76-9e20-527644f654e0"), "Sectional Rehearsal", string.Empty);
+
+
+        /// <summary>
+        /// Probewochenende allgemein
+        /// </summary>
+        public static SelectValue RehearsalWeekend => new(Guid.Parse("63a6b9a9-30a8-4cdb-983b-336b587069cb"), "Rehearsal weekend", string.Empty);
+
+
+        /// <summary>
+        /// Probewochenende Chor
+        /// </summary>
+        public static SelectValue RehearsalWeekendChoir => new(Guid.Parse("efb2b680-c904-481a-ba7c-9e6a64a998c3"), "Rehearsal Weekend Choir", string.Empty);
+
+        /// <summary>
+        /// Stimmbildung
+        /// </summary>
+        public static SelectValue VocalCoaching => new(Guid.Parse("a0b98a79-7c74-4093-8f5f-79003cad219a"), "Vocal Coaching", string.Empty);
+
+        /// <summary>
+        /// Choreoprobe
+        /// </summary>
+        public static SelectValue ChoreographyRehearsal => new(Guid.Parse("8f64e072-6523-4158-b92e-5c38c8ebca59"), "Choreography Rehearsal", string.Empty);
+
+
+        /// <summary>
+        /// Soundcheck
+        /// </summary>
+        public static SelectValue Soundcheck => new(Guid.Parse("b83d5412-65c1-49fe-a53c-d13a01063438"), "Soundcheck", string.Empty);
+
+        /// <summary>
+        /// Anspielprobe
+        /// </summary>
+        public static SelectValue WarmUpRehearsal => new(Guid.Parse("3f89bf0b-f17d-4439-b64f-ae7eee660ac4"), "Warm-Up Rehearsal", string.Empty);
+
+
+        /// <summary>
+        /// Konzert
+        /// </summary>
+        public static SelectValue Concert => new(Guid.Parse("71779748-6d3c-496a-9842-8dc508de6676"), "Concert", string.Empty);
+
+
+        /// <summary>
+        /// Konzertreise (Tour)
+        /// </summary>
+        public static SelectValue ConcertTour => new(Guid.Parse("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"), "Concert tour", string.Empty);
+
+
+        /// <summary>
+        /// Sonderprojekt
+        /// </summary>
+        public static SelectValue SpecialProject => new(Guid.Parse("f2a6ef3d-bb32-4505-83a5-2cb9f611ce0f"), "Special project", string.Empty);
+
+        /// <summary>
+        /// CD-Aufnahme
+        /// </summary>
+        public static SelectValue CDRecording => new(Guid.Parse("52fad37d-23a7-4515-9b77-3ee3bda03b9a"), "CD recording", string.Empty);
+
+        /// <summary>
+        /// Wettbewerb
+        /// </summary>
+        public static SelectValue Contest => new(Guid.Parse("95de5380-4027-4b73-b4db-3697aba5ba38"), "Contest", string.Empty);
+
+
         /// <summary>
         /// Besprechung
         /// </summary>
@@ -236,20 +300,12 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue StageBriefing => new(Guid.Parse("61dd102e-d449-40e1-8c6b-4ead99403ac1"), "Stage Briefing", string.Empty);
 
-        /// <summary>
-        /// Choreoprobe
-        /// </summary>
-        public static SelectValue ChoreographyRehearsal => new(Guid.Parse("8f64e072-6523-4158-b92e-5c38c8ebca59"), "Choreography Rehearsal", string.Empty);
 
         /// <summary>
         /// Fototermin
         /// </summary>
         public static SelectValue PhotoSession => new(Guid.Parse("404f1bfd-2819-47c2-a78b-f3dbd4bc8953"), "Photo Session", string.Empty);
 
-        /// <summary>
-        /// Konzert
-        /// </summary>
-        public static SelectValue Concert => new(Guid.Parse("71779748-6d3c-496a-9842-8dc508de6676"), "Concert", string.Empty);
 
         /// <summary>
         /// Kurs
@@ -261,15 +317,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue Party => new(Guid.Parse("79de43be-57cc-484f-bff2-57f3ba78dbe9"), "Photo Session", string.Empty);
 
-        /// <summary>
-        /// Probe
-        /// </summary>
-        public static SelectValue Rehearsal => new(Guid.Parse("130f63c3-9d2f-4301-b062-236c78663e3b"), "Rehearsal", string.Empty);
-
-        /// <summary>
-        /// Probewochenende Chor
-        /// </summary>
-        public static SelectValue RehearsalWeekendChoir => new(Guid.Parse("efb2b680-c904-481a-ba7c-9e6a64a998c3"), "Rehearsal Weekend Choir", string.Empty);
 
         /// <summary>
         /// Show
@@ -286,15 +333,7 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue SeeComment => new(Guid.Parse("dfe6e73e-9a15-4094-80a5-151a64f3b4db"), "See Comment", string.Empty);
 
-        /// <summary>
-        /// Stimmbildung
-        /// </summary>
-        public static SelectValue VoiceFormation => new(Guid.Parse("a0b98a79-7c74-4093-8f5f-79003cad219a"), "Voice Formation", string.Empty);
 
-        /// <summary>
-        /// Stimmprobe
-        /// </summary>
-        public static SelectValue SectionalRehearsal => new(Guid.Parse("4418bfea-0e79-4f76-9e20-527644f654e0"), "Sectional Rehearsal", string.Empty);
 
         /// <summary>
         /// Transfer
@@ -315,6 +354,8 @@ namespace Orso.Arpa.Persistence.Seed
         /// Sonstiges
         /// </summary>
         public static SelectValue Other => new(Guid.Parse("e030b53e-3615-4cd6-9fe6-0d818632a4b0"), "Other", string.Empty);
+
+        // VERGÜTUNGSSÄTZE
 
         /// <summary>
         /// Sonderfall
@@ -346,6 +387,8 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue OrchestraRehearsalHourlyRate => new(Guid.Parse("717a27d5-2ef3-4266-92a8-84b3600115eb"), "Orchestra Rehearsal Hourly Rate 9/11", string.Empty);
 
+        // KONTAKTKONTEXT
+
         /// <summary>
         /// Privat
         /// </summary>
@@ -356,58 +399,47 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue Work => new(Guid.Parse("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), "Work", string.Empty);
 
-        /// <summary>
-        /// Konzertreise (Tour)
-        /// </summary>
-        public static SelectValue ConcertTour => new(Guid.Parse("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"), "Concert tour", string.Empty);
 
-        /// <summary>
-        /// Probewochenende
-        /// </summary>
-        public static SelectValue RehearsalWeekend => new(Guid.Parse("63a6b9a9-30a8-4cdb-983b-336b587069cb"), "Rehearsal weekend", string.Empty);
-
-        /// <summary>
-        /// Sonderprojekt
-        /// </summary>
-        public static SelectValue SpecialProject => new(Guid.Parse("f2a6ef3d-bb32-4505-83a5-2cb9f611ce0f"), "Special project", string.Empty);
-
-        /// <summary>
-        /// CD-Aufnahme
-        /// </summary>
-        public static SelectValue CDRecording => new(Guid.Parse("52fad37d-23a7-4515-9b77-3ee3bda03b9a"), "CD recording", string.Empty);
-
-        /// <summary>
-        /// Wettbewerb
-        /// </summary>
-        public static SelectValue Contest => new(Guid.Parse("95de5380-4027-4b73-b4db-3697aba5ba38"), "Contest", string.Empty);
-
+        // QUALIFIKATION
         public static SelectValue Amateur => new(Guid.Parse("3f93768e-ac24-4741-9eb8-49d1e8e4a6e1"), "Amateur", string.Empty);
-
         public static SelectValue Student => new(Guid.Parse("e20ff004-aafc-4e28-87f9-0d9c6372951c"), "Student", string.Empty);
-
         public static SelectValue SemiProfessional => new(Guid.Parse("35d63f30-8704-47d5-865a-ee713a082433"), "Semi-Professional", string.Empty);
-
         public static SelectValue Professional => new(Guid.Parse("f52b9170-c6f6-4828-b96c-df5dfbe9bd73"), "Professional", string.Empty);
-
         public static SelectValue Unknown => new(Guid.Parse("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"), "Unknown", string.Empty);
 
+        // VERGÜTUNGSANSPRUCH
         public static SelectValue Without => new(Guid.Parse("3c014654-b4c9-4c7a-a251-ae88ad504c8a"), "Without", string.Empty);
-
         public static SelectValue WithStrict => new(Guid.Parse("dec26aef-f0de-4c9f-a164-e23e2543c987"), "With - strict", string.Empty);
-
         public static SelectValue WithNegotiable => new(Guid.Parse("d53b4a35-f472-42a1-ab22-c7afb1e7d77e"), "With - negotiable", string.Empty);
 
+        // EINLADUNGSSTATUS
         public static SelectValue Gladly => new(Guid.Parse("1f0e9a86-4641-4d7e-8413-a1beba0e8afb"), "Gladly", string.Empty);
-
         public static SelectValue EmergencyOnly => new(Guid.Parse("5850e103-4ac9-472e-85f2-cddc08732ccc"), "Emergency only", string.Empty);
-
         public static SelectValue NeverAgain => new(Guid.Parse("5db547d6-c115-4409-8db7-59374ca2af83"), "Never again", string.Empty);
-
         public static SelectValue ForContactsOnly => new(Guid.Parse("0d1073cd-f6d5-4572-87ac-98ab6f15c05a"), "For contacts only", string.Empty);
+
+        // GENRES
+
+        /// <summary>
+        /// Klassik
+        /// </summary>
+        public static SelectValue ClassicalMusic => new(Guid.Parse("87a541e7-706a-47f3-99b3-8b2d6de7a134"), "Classical Music", string.Empty);
+
+        /// <summary>
+        /// Crossover
+        /// </summary>
+        public static SelectValue Crossover => new(Guid.Parse("5b57a267-f331-41df-995a-93b60fc206ff"), "Crossover", string.Empty);
+
+        /// <summary>
+        /// Kammermusik
+        /// </summary>
+        public static SelectValue ChamberMusic => new(Guid.Parse("43d8eafa-ef3f-4034-8c88-9a0b68c33ab1"), "Chamber Music", string.Empty);
 
         public static SelectValue FilmMusic => new(Guid.Parse("a3be7b91-7548-492e-99dc-2788497f2930"), "Film Music", string.Empty);
         public static SelectValue DancePerformance => new(Guid.Parse("982a9947-c6f8-4c9a-b96f-2a4825a11496"), "Dance Performance", string.Empty);
         public static SelectValue ContemporaryMusic => new(Guid.Parse("2ecfb104-feb3-406a-b741-0ac9fdd3e8d7"), "Contemporary Music", string.Empty);
+
+        // AUDITION
         public static SelectValue Passed => new(Guid.Parse("166edc65-9915-4836-b0a3-3c60ad0bcc04"), "Passed", string.Empty);
         public static SelectValue Failed => new(Guid.Parse("33e57595-2166-4cce-aa34-60d7148ae9f7"), "Failed", string.Empty);
         public static SelectValue Awaiting => new(Guid.Parse("42f546ab-1b96-4eab-88a4-753cad8392c1"), "Awaiting", string.Empty);
@@ -421,9 +453,13 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue Audio => new(Guid.Parse("3550443d-5acf-4159-bd59-d7da04dd9434"), "Audio", string.Empty);
         public static SelectValue Video => new(Guid.Parse("d075dda3-ba29-472b-a699-1f92c1af13a9"), "Video", string.Empty);
         public static SelectValue Photo => new(Guid.Parse("e340f76d-074b-40e8-85b0-1bb66a596a06"), "Photo", string.Empty);
+
+        // WECHSELINSTRUMENT VERFÜGBARKEITSSTATUS
         public static SelectValue PrivateOwnership => new(Guid.Parse("6fbab698-993f-4268-a28e-b1f1599771c5"), "Private ownership", string.Empty);
         public static SelectValue NeedToBorrow => new(Guid.Parse("e7442e9b-8c54-41ed-8607-accba2d04f61"), "Need to borrow", string.Empty);
         public static SelectValue ProvisionByStaff => new(Guid.Parse("28927b59-a999-4f84-abca-4f146888457f"), "Provision by staff", string.Empty);
+
+        // POSITIONSPRÄFERENZEN
         public static SelectValue Solo => new(Guid.Parse("9353f2ee-f074-488b-a359-f2fc6f66da51"), "Solo", string.Empty);
         public static SelectValue High => new(Guid.Parse("a0e02d9f-03b5-49e0-9ae8-b34a419bc203"), "High", string.Empty);
         public static SelectValue Low => new(Guid.Parse("959e5b30-6ad1-4102-8dce-f1395b8ae73e"), "Low", string.Empty);
@@ -436,6 +472,8 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue SecondConcertMaster => new(Guid.Parse("9ed94828-9deb-49a9-9a65-ecb83620c82e"), "2nd concert master", string.Empty);
         public static SelectValue OrchestraPiano => new(Guid.Parse("ebae975b-d9a3-4d2f-b0a3-beff554e7041"), "Orchestra piano", string.Empty);
         public static SelectValue Accompaniment => new(Guid.Parse("61dab188-a07d-4a58-8ec9-c54050e914ac"), "Accompaniment", string.Empty);
+
+        // TEILNAHMESTATUS
         /// <summary>
         /// Interessiert
         /// </summary>

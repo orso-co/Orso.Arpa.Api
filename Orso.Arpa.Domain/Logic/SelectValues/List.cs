@@ -36,7 +36,8 @@ namespace Orso.Arpa.Domain.Logic.SelectValues
                         && c.Property.ToLower() == request.PropertyName.ToLower())
 #pragma warning restore RCS1155 // Use StringComparison when comparing strings.
                     .SelectMany(c => c.SelectValueMappings)
-                    .OrderBy(s => s.SelectValue.Name)
+                    .OrderBy(s => s.SortOrder ?? int.MaxValue)
+                    .ThenBy(s => s.SelectValue.Name)
                     .ToImmutableList() as IImmutableList<SelectValueMapping>);
             }
         }

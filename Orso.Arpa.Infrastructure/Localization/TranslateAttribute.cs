@@ -1,6 +1,6 @@
 using System;
 
-namespace Orso.Arpa.Domain.Translation
+namespace Orso.Arpa.Infrastructure.Localization
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class TranslateAttribute : Attribute
