@@ -37,7 +37,6 @@ using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
-using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
@@ -120,7 +119,10 @@ namespace Orso.Arpa.Api
         protected virtual void ConfigureLocalization(IServiceCollection services)
         {
             if (services == null)
-                throw new ArgumentNullException(nameof (services));
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
             var lz = new LocalizerCache(services);
             services.AddSingleton<ILocalizerCache>(_ => lz);
             services.AddSingleton<ArpaContext.CallBack<Localization>>(_ => lz.LoadTranslations);

@@ -1,7 +1,7 @@
 using AutoMapper;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Translation;
+using Orso.Arpa.Infrastructure.Localization;
 
 namespace Orso.Arpa.Application.RegionApplication
 {

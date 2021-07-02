@@ -10,7 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Authorization\AuthorizationHandlers\" />
   </ItemGroup>
 </Project>
