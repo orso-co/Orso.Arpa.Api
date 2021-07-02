@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
@@ -38,6 +39,7 @@ using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationHandlers;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Mail.Interfaces;
@@ -66,7 +68,10 @@ namespace Orso.Arpa.Api
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterServices(services);
+
             RegisterDateTimeProvider(services);
+
+            ConfigureLocalization(services);
 
             ConfigureDatabase(services);
 
@@ -80,8 +85,10 @@ namespace Orso.Arpa.Api
             services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
             services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
-            services
-                .AddControllers()
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(LocationResultFilter));
+                })
                 .AddJsonOptions(options => options.JsonSerializerOptions.Converters
                     .Add(new DateTimeJsonConverter()))
                 .AddApplicationPart(typeof(Startup).Assembly)
@@ -109,6 +116,30 @@ namespace Orso.Arpa.Api
 
             ConfigureAuthorization(services);
         }
+
+        protected virtual void ConfigureLocalization(IServiceCollection services)
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof (services));
+            var lz = new LocalizerCache(services);
+            services.AddSingleton<ILocalizerCache>(_ => lz);
+            services.AddSingleton<ArpaContext.CallBack<Localization>>(_ => lz.LoadTranslations);
+            services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
+
+            services.AddLocalization();
+
+            LocalizationConfiguration localizationConfiguration = Configuration
+                .GetSection("LocalizationConfiguration")
+                .Get<LocalizationConfiguration>();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture(localizationConfiguration.DefaultCulture);
+                options.AddSupportedUICultures(localizationConfiguration.SupportedUiCultures.ToArray());
+                options.FallBackToParentCultures = localizationConfiguration.FallbackToParentCulture;
+            });
+        }
+
 
         private static void ConfigureAuthorization(IServiceCollection services)
         {
@@ -216,7 +247,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IMeService, MeService>();
             services.AddScoped<ITemplateParser, TemplateParser>();
             services.AddScoped<IEmailSender, EmailSender>();
-
+            services.AddScoped<ITranslationService, TranslationService>();
             services.AddGenericListHandler(typeof(AuditLog));
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
@@ -327,7 +358,13 @@ namespace Orso.Arpa.Api
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseRequestLocalization();
+
+            app.UseErrorResponseLocalizationMiddleware();
+
             app.UseMiddleware<ErrorHandlingMiddleware>();
+
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
             app.UseStaticFiles();
@@ -352,6 +389,8 @@ namespace Orso.Arpa.Api
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             EnsureDatabaseMigrations(app);
+
+            PreloadTranslationsFromDb(app);
         }
 
         private static void AddSwagger(IApplicationBuilder app)
@@ -379,6 +418,23 @@ namespace Orso.Arpa.Api
             {
                 ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
                 logger.LogError(ex, "An error occured during database migration");
+                throw;
+            }
+        }
+
+        protected void PreloadTranslationsFromDb(IApplicationBuilder app)
+        {
+            using IServiceScope scope = app.ApplicationServices.CreateScope();
+            IServiceProvider services = scope.ServiceProvider;
+            try
+            {
+                ILocalizerCache localizerCache = services.GetRequiredService<ILocalizerCache>();
+                localizerCache.LoadTranslations();
+            }
+            catch (Exception ex)
+            {
+                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                logger.LogError(ex, "Error during localization of data");
                 throw;
             }
         }

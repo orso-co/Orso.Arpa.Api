@@ -32,7 +32,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 };
                 auditLog.SetProperty(nameof(AuditLog.Id), Guid.Parse("2b3023cf-d5d6-49e2-b45d-69614164e31c"));
                 auditLog.SetProperty(nameof(AuditLog.CreatedBy), "Staff member");
-                auditLog.SetProperty(nameof(AuditLog.CreatedAt), new DateTime(2030, 02, 02));
+                auditLog.SetProperty(nameof(AuditLog.CreatedAt), new DateTime(2030, 02, 01));
 
                 auditLog.NewValues.Add("CreatedAt", "2030-02-02T17:58:39.6445856");
                 auditLog.NewValues.Add("CreatedBy", "Staff Member");
@@ -87,7 +87,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 };
                 auditLog.SetProperty(nameof(AuditLog.Id), Guid.Parse("67671b83-3b61-4e70-b6ae-4bd46ff0f64e"));
                 auditLog.SetProperty(nameof(AuditLog.CreatedBy), "Staff member");
-                auditLog.SetProperty(nameof(AuditLog.CreatedAt), new DateTime(2030, 02, 02));
+                auditLog.SetProperty(nameof(AuditLog.CreatedAt), new DateTime(2030, 02, 03));
 
                 auditLog.OldValues.Add("CreatedAt", "2030-02-02T17:58:39.644585");
                 auditLog.OldValues.Add("CreatedBy", "Staff Member");

@@ -1,12 +1,14 @@
 using System;
 using AutoMapper;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Translation;
 
 namespace Orso.Arpa.Application.RoleApplication
 {
     public class RoleDto
     {
         public Guid Id { get; set; }
+        [Translate(nameof(RoleDto))]
         public string RoleName { get; set; }
         public short RoleLevel { get; set; }
     }
