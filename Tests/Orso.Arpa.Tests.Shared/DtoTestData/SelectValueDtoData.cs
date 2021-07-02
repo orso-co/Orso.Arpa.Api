@@ -13,11 +13,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new List<SelectValueDto>
                 {
                     ClassicalMusic,
-                    ChamberMusic,
-                    DancePerformance,
-                    FilmMusic,
-                    ContemporaryMusic,
                     Crossover,
+                    ChamberMusic,
+                    FilmMusic,
+                    DancePerformance,
+                    ContemporaryMusic,
                 };
             }
         }
