@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
+using Orso.Arpa.Domain.ChangeLog;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -16,5 +17,14 @@ namespace Orso.Arpa.Domain.Entities
 
         [JsonInclude]
         public DateTime CreatedAt { get; set; }
+
+        [AuditLogIgnore]
+        public override string PasswordHash { get => base.PasswordHash; set => base.PasswordHash = value; }
+
+        [AuditLogIgnore]
+        public override string SecurityStamp { get => base.SecurityStamp; set => base.SecurityStamp = value; }
+
+        [AuditLogIgnore]
+        public override string ConcurrencyStamp { get => base.ConcurrencyStamp; set => base.ConcurrencyStamp = value; }
     }
 }
