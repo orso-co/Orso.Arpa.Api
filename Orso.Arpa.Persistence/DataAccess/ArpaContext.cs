@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Orso.Arpa.Domain.ChangeLog;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
@@ -108,7 +109,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         {
             var currentUserDisplayName = _tokenAccessor.DisplayName;
 
-            foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>().Where(e => e.State != EntityState.Unchanged))
+            foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>())
             {
                 switch (entry.State)
                 {
@@ -168,61 +169,73 @@ namespace Orso.Arpa.Persistence.DataAccess
             }
         }
 
+        private const string SHADOW_VALUE = "**********";
         private void SaveAuditTrail(string currentUserDisplayName)
         {
             ChangeTracker.DetectChanges();
-            var auditEntries = new List<AuditLog>();
+            var auditLogs = new List<AuditLog>();
+
             foreach (EntityEntry entry in ChangeTracker.Entries())
             {
-                if (entry.Entity is AuditLog || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
+                Type entityType = entry.Entity.GetType();
+
+                if (entry.State == EntityState.Detached
+                    || entry.State == EntityState.Unchanged
+                    || entityType.GetCustomAttribute<AuditLogIgnoreAttribute>() != null)
                 {
                     continue;
                 }
 
                 var auditEntry = new AuditLog()
                 {
-                    TableName = entry.Entity.GetType().Name,
+                    TableName = entityType.Name,
                     CreatedBy = currentUserDisplayName,
                     CreatedAt = _dateTimeProvider.GetUtcNow()
                 };
-
-                auditEntries.Add(auditEntry);
 
                 foreach (PropertyEntry property in entry.Properties)
                 {
                     string propertyName = property.Metadata.Name;
                     if (property.Metadata.IsPrimaryKey())
                     {
-                        Dictionary<string, Guid> foo = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, null);
-                        foo[propertyName] = (Guid)property.CurrentValue;
-                        auditEntry.KeyValues = JsonSerializer.Serialize(foo);
+                        Dictionary<string, Guid> keyValues = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, null);
+                        keyValues[propertyName] = (Guid)property.CurrentValue;
+                        auditEntry.KeyValues = JsonSerializer.Serialize(keyValues);
                         continue;
                     }
+
+                    var isShadowed =
+                        property.Metadata.ClrType == typeof(string)
+                        && property.Metadata.PropertyInfo?.GetCustomAttribute<AuditLogIgnoreAttribute>() != null;
+
                     switch (entry.State)
                     {
                         case EntityState.Added:
                             auditEntry.Type = AuditLogType.Create;
-                            auditEntry.NewValues[propertyName] = property.CurrentValue;
+                            auditEntry.NewValues[propertyName] = isShadowed ? SHADOW_VALUE : property.CurrentValue;
                             break;
                         case EntityState.Deleted:
                             auditEntry.Type = AuditLogType.Delete;
-                            auditEntry.OldValues[propertyName] = property.OriginalValue;
+                            auditEntry.OldValues[propertyName] = isShadowed ? SHADOW_VALUE : property.OriginalValue;
                             break;
                         case EntityState.Modified:
                             if (property.IsModified)
                             {
                                 auditEntry.ChangedColumns.Add(propertyName);
                                 auditEntry.Type = AuditLogType.Update;
-                                auditEntry.OldValues[propertyName] = property.OriginalValue;
-                                auditEntry.NewValues[propertyName] = property.CurrentValue;
+                                auditEntry.OldValues[propertyName] = isShadowed ? SHADOW_VALUE : property.OriginalValue;
+                                auditEntry.NewValues[propertyName] = isShadowed ? SHADOW_VALUE : property.CurrentValue;
                             }
                             break;
                     }
+
+                    auditLogs.Add(auditEntry);
                 }
             }
-            foreach (AuditLog auditEntry in auditEntries)
+            // Das kann nicht direkt in der oberen foreach Schleife erfolgen, weil sonst der Changetracker während der Iteration verändert wird und eine Exception schmeißt
+            foreach (AuditLog log in auditLogs)
             {
-                AuditLogs.Add(auditEntry);
+                AuditLogs.Add(log);
             }
         }
 

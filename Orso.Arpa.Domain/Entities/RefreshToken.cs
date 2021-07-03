@@ -1,9 +1,11 @@
 using System;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.ChangeLog;
 using Orso.Arpa.Domain.Logic.Auth;
 
 namespace Orso.Arpa.Domain.Entities
 {
+    [AuditLogIgnore]
     public class RefreshToken
     {
         public RefreshToken(string token, DateTime expiryOn, string createdByIp, Guid userId, DateTime createdAt)

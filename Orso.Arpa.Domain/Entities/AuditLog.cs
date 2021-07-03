@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Orso.Arpa.Domain.ChangeLog;
 using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Domain.Entities
 {
+    [AuditLogIgnore]
     public class AuditLog
     {
         public Guid Id { get; set; }
