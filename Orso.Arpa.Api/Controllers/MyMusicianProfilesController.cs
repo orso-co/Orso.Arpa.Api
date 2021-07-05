@@ -127,7 +127,7 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<EducationDto>> AddEducation(EducationCreateDto educationCreateDto)
         {
             EducationDto createdDto = await _educationService.CreateAsync(educationCreateDto);
-            return CreatedAtAction(nameof(EducationsController.GetById), "Education", new { id = createdDto.Id }, createdDto);
+            return CreatedAtAction(nameof(EducationsController.GetById), "Educations", new { id = createdDto.Id }, createdDto);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<CurriculumVitaeReferenceDto>> AddCurriculumVitaeReference(CurriculumVitaeReferenceCreateDto curriculumVitaeReferenceCreateDto)
         {
             CurriculumVitaeReferenceDto createdDto = await _curriculumVitaeReferenceService.CreateAsync(curriculumVitaeReferenceCreateDto);
-            return CreatedAtAction(nameof(CurriculumVitaeReferencesController.GetById), "CurriculumVitaeReference", new { id = createdDto.Id }, createdDto);
+            return CreatedAtAction(nameof(CurriculumVitaeReferencesController.GetById), "CurriculumVitaeReferences", new { id = createdDto.Id }, createdDto);
         }
     }
 }

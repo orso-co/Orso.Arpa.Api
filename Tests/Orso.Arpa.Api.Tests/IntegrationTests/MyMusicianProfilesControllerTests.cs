@@ -252,6 +252,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PreferredPositionsInnerIds = modifyDto.PreferredPositionsInnerIds,
                 ProfilePreferenceInner = modifyDto.ProfilePreferenceInner,
             };
+            expectedDto.Educations = musicianProfileToModify.Educations;
+            expectedDto.CurriculumVitaeReferences = musicianProfileToModify.CurriculumVitaeReferences;
 
             HttpClient client = _authenticatedServer
                 .CreateClient()

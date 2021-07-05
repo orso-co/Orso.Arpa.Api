@@ -1,6 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Domain.Entities;
@@ -20,6 +22,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<MusicianProfileDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
                 cfg.AddProfile<DoublingInstrumentDtoMappingProfile>();
+                cfg.AddProfile<CurriculumVitaeReferenceDtoMappingProfile>();
+                cfg.AddProfile<EducationDtoMappingProfile>();
             });
 
             _mapper = new Mapper(config);

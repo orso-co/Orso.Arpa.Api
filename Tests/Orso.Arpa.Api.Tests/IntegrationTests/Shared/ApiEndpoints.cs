@@ -225,7 +225,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class EducationsController
         {
-            private static string Educations => $"{Base}/educations";
+            private static string Educations => $"{Base}/Educations";
             public static string Get(Guid id) => $"{Educations}/{id}";
             public static string Put(Guid id) => $"{Educations}/{id}";
             public static string Delete(Guid id) => $"{Educations}/{id}";
@@ -233,7 +233,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class CurriculumVitaeReferencesController
         {
-            private static string CurriculumVitaeReferences => $"{Base}/curriculumvitaereferences";
+            private static string CurriculumVitaeReferences => $"{Base}/CurriculumVitaeReferences";
             public static string Get(Guid id) => $"{CurriculumVitaeReferences}/{id}";
             public static string Put(Guid id) => $"{CurriculumVitaeReferences}/{id}";
             public static string Delete(Guid id) => $"{CurriculumVitaeReferences}/{id}";
@@ -259,7 +259,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class TranslationController
         {
-            private static string Translations = $"{Base}/translations";
+            private static readonly string Translations = $"{Base}/translations";
 
             public static string Get(string culture) => $"{Translations}/?culture={culture}";
 

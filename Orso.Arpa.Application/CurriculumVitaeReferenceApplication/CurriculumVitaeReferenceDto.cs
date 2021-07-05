@@ -7,7 +7,7 @@ namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication
 {
     public class CurriculumVitaeReferenceDto : BaseEntityDto
     {
-        public CurriculumVitaeReferenceDto(Guid id, string timeSpan, string institution, Guid typeId, string description, byte sortOrder, string createdBy, DateTime createdAt)
+        public CurriculumVitaeReferenceDto(Guid id, string timeSpan, string institution, Guid? typeId, string description, byte? sortOrder, string createdBy, DateTime createdAt)
         {
             Id = id;
             TimeSpan = timeSpan;
@@ -22,9 +22,9 @@ namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication
 
         public string TimeSpan { get; set; }
         public string Institution { get; set; }
-        public Guid TypeId { get; set; }
+        public Guid? TypeId { get; set; }
         public string Description { get; set; }
-        public byte SortOrder { get; set; }
+        public byte? SortOrder { get; set; }
     }
 
     public class CurriculumVitaeReferenceDtoMappingProfile : Profile

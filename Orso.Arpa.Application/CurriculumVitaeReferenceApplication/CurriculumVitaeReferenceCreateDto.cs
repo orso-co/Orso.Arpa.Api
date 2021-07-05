@@ -14,9 +14,9 @@ namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication
     {
         public string TimeSpan { get; set; }
         public string Institution { get; set; }
-        public Guid TypeId { get; set; }
+        public Guid? TypeId { get; set; }
         public string Description { get; set; }
-        public byte SortOrder { get; set; }
+        public byte? SortOrder { get; set; }
 
     }
 
@@ -47,10 +47,15 @@ namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication
     {
         public CurriculumVitaeReferenceCreateBodyDtoValidator()
         {
-            RuleFor(p => p.TimeSpan).MaximumLength(50);
-            RuleFor(p => p.Institution).MaximumLength(255);
-            RuleFor(p => p.TypeId).NotEmpty();
-            RuleFor(p => p.Description).MaximumLength(500);
+            RuleFor(p => p.TimeSpan)
+                .NotEmpty()
+                .MaximumLength(50);
+
+            RuleFor(p => p.Institution)
+                .MaximumLength(255);
+
+            RuleFor(p => p.Description)
+                .MaximumLength(500);
         }
     }
 }

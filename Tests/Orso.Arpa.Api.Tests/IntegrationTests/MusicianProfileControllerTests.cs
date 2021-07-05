@@ -106,7 +106,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.MusicianProfilesController.AddEducation(MusicianProfileDtoData.PerformersHornMusicianProfile.Id), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.MusicianProfilesController.AddEducation(MusicianProfileSeedData.AdminMusicianSopranoProfile.Id), BuildStringContent(createDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -143,7 +143,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.MusicianProfilesController.AddCurriculumVitaeReference(MyMusicianProfileDtoData.PerformersHornMusicianProfile.Id), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.MusicianProfilesController.AddCurriculumVitaeReference(MusicianProfileSeedData.PerformerMusicianProfile.Id), BuildStringContent(createDto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -209,10 +209,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ProfilePreferenceTeam = modifyDto.ProfilePreferenceTeam,
                 QualificationId = modifyDto.QualificationId
             };
+            expectedDto.Educations = musicianProfileToModify.Educations;
+            expectedDto.CurriculumVitaeReferences = musicianProfileToModify.CurriculumVitaeReferences;
 
             HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff);
+                            .CreateClient()
+                            .AuthenticateWith(_staff);
 
             // Act
             HttpResponseMessage responseMessage = await client

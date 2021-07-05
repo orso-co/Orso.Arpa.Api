@@ -25,6 +25,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(a => a.Description)
                 .HasMaxLength(500);
+
+            builder
+                .HasOne(e => e.MusicianProfile)
+                .WithMany(m => m.CurriculumVitaeReferences)
+                .HasForeignKey(e => e.MusicianProfileId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

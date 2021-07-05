@@ -49,8 +49,6 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Education> Educations { get; set; }
         public DbSet<CurriculumVitaeReference> CurriculumVitaeReferences { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
-        public DbSet<MusicianProfileEducation> MusicianProfileEducations { get; set; }
-        public DbSet<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; set; }
         public DbSet<MusicianProfilePositionInner> MusicianProfilePositionsInner { get; set; }
         public DbSet<MusicianProfilePositionTeam> MusicianProfilePositionsTeam { get; set; }
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
@@ -130,8 +128,10 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             int saveResult = await base.SaveChangesAsync(cancellationToken);
 
-            if(!ChangeTracker.Entries<Localization>().IsNullOrEmpty())
+            if (!ChangeTracker.Entries<Localization>().IsNullOrEmpty())
+            {
                 await _translationCallBack();
+            }
 
             return saveResult;
         }

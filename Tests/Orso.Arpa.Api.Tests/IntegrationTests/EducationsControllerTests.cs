@@ -17,10 +17,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             EducationDto expectedDto = EducationDtoData.University;
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             // Act
-            HttpResponseMessage responseMessage = await client
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.EducationsController.Get(expectedDto.Id));
 
             // Assert
@@ -38,11 +39,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 TimeSpan = "2099",
                 Description = "CHANGED " + dtoToModify.Description,
+                Institution = dtoToModify.Institution,
+                SortOrder = dtoToModify.SortOrder,
+                TypeId = dtoToModify.TypeId
             };
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             // Act
-            HttpResponseMessage responseMessage = await client
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.EducationsController.Put(dtoToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
@@ -54,7 +59,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             EducationDto dtoToDelete = EducationDtoData.University;
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
+            HttpClient client = _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff);
 
             // Act
             HttpResponseMessage responseMessage = await client

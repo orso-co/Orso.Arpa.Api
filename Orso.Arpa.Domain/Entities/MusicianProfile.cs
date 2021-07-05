@@ -67,8 +67,8 @@ namespace Orso.Arpa.Domain.Entities
 
         #region Collection
         public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; private set; } = new HashSet<MusicianProfileSection>();
-        public virtual ICollection<MusicianProfileEducation> MusicianProfileEducations { get; private set; } = new HashSet<MusicianProfileEducation>();
-        public virtual ICollection<MusicianProfileCurriculumVitaeReference> MusicianProfileCurriculumVitaeReferences { get; private set; } = new HashSet<MusicianProfileCurriculumVitaeReference>();
+        public virtual ICollection<Education> Educations { get; private set; } = new HashSet<Education>();
+        public virtual ICollection<CurriculumVitaeReference> CurriculumVitaeReferences { get; private set; } = new HashSet<CurriculumVitaeReference>();
         public virtual ICollection<MusicianProfilePositionInner> PreferredPositionsInner { get; private set; } = new HashSet<MusicianProfilePositionInner>();
         public virtual ICollection<MusicianProfilePositionTeam> PreferredPositionsTeam { get; private set; } = new HashSet<MusicianProfilePositionTeam>();
 
@@ -86,11 +86,8 @@ namespace Orso.Arpa.Domain.Entities
 
         //Todo: ARPA-328
         public virtual ICollection<Audition> Auditions { get; private set; } = new HashSet<Audition>();
-        #endregion
 
-        #region cross reference
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
-        public object CurriculumVitaeReferences { get; set; }
         #endregion
 
         public void SetActiveStatus(bool active)

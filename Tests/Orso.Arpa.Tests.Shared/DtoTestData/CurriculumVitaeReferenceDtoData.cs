@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -18,14 +19,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static CurriculumVitaeReferenceDto Mozarteum => new(
-            Guid.Parse("da2c71a4-3c9d-4532-b845-edbe81540b60"),
-            "2020",
-            "Mozarteum Salzburg",
-            Guid.Parse("674abb4f-89d1-4802-bfee-8eb0d61bed80"),
-            "Preis für außergewöhnliche Leistung bei der Interpretation der Werke von Mozart",
-            2,
-            "anonymous",
-            FakeDateTime.UtcNow);
+        public static CurriculumVitaeReferenceDto Mozarteum
+        {
+            get
+            {
+                return new CurriculumVitaeReferenceDto
+                {
+                    TimeSpan = "1998-2000",
+                    Institution = "Mozarteum Salzburg",
+                    TypeId = SelectValueMappingSeedData.CurriculumVitaeReferenceTypeMappings[0].Id,
+                    Description = "Preis für außergewöhnliche Leistung bei der Interpretation der Werke von Mozart",
+                    SortOrder = 1,
+                    Id = Guid.Parse("ea0ad4a1-9351-457f-ab82-24e593e062a1"),
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous"
+                };
+            }
+        }
     }
 }
