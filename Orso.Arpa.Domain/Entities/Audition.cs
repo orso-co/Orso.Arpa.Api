@@ -13,6 +13,5 @@ namespace Orso.Arpa.Domain.Entities
         public string InnerComment { get; private set; }
         public string InternalComment { get; private set; }
         public string Repertoire { get; private set; }
-
     }
 }

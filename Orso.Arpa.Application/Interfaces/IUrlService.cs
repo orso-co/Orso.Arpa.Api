@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.UrlApplication;
 
 namespace Orso.Arpa.Application.Interfaces

@@ -23,7 +23,7 @@ namespace Orso.Arpa.Api.Controllers
         /// Gets an url by id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>The queried appointment</returns>
+        /// <returns>The queried url</returns>
         /// <response code="200"></response>
         /// <response code="404">If no url could be found for the supplied id</response>
         [Authorize(Roles = RoleNames.Staff)]
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Modifies an existing Url (of an existing project)
+        /// Modifies an existing url
         /// </summary>
         /// <param name="urlModifyDto"></param>
         /// <response code="204"></response>
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Deletes an existing url by id (from an existing project)
+        /// Deletes an existing url by id 
         /// </summary>
         /// <param name="id"></param>
         /// <response code="204"></response>
@@ -72,7 +72,7 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Adds a role to an existing urlId (from an existing project)
+        /// Adds a role to an existing url id
         /// </summary>
         /// <param name="addRoleDto"></param>
         /// <response code="204"></response>
@@ -89,7 +89,7 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Remove an existing role from an existing urlId (from an existing projectId)
+        /// Removes an existing role from an existing url id
         /// </summary>
         /// <param name="removeRoleDto"></param>
         /// <response code="204"></response>

@@ -207,7 +207,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Get(Guid id) => $"{MusicianProfiles}/{id}";
 
             public static string Delete(Guid id) => $"{MusicianProfiles}/{id}";
+
             public static string GetProjectParticipations(Guid id, bool includeCompleted) => $"{MusicianProfiles}/{id}/projectparticipations?includeCompleted={includeCompleted}";
+
+            public static string AddEducation(Guid id) => $"{MusicianProfiles}/{id}/educations";
+            public static string AddCurriculumVitaeReference(Guid id) => $"{MusicianProfiles}/{id}/curriculumVitaeReferences";
         }
 
         public static class MusicianProfileDoublingInstrumentsController
@@ -216,6 +220,23 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Post(Guid id) => BaseUrl(id);
             public static string Put(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
             public static string Delete(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
+        }
+
+
+        public static class EducationsController
+        {
+            private static string Educations => $"{Base}/Educations";
+            public static string Get(Guid id) => $"{Educations}/{id}";
+            public static string Put(Guid id) => $"{Educations}/{id}";
+            public static string Delete(Guid id) => $"{Educations}/{id}";
+        }
+
+        public static class CurriculumVitaeReferencesController
+        {
+            private static string CurriculumVitaeReferences => $"{Base}/CurriculumVitaeReferences";
+            public static string Get(Guid id) => $"{CurriculumVitaeReferences}/{id}";
+            public static string Put(Guid id) => $"{CurriculumVitaeReferences}/{id}";
+            public static string Delete(Guid id) => $"{CurriculumVitaeReferences}/{id}";
         }
 
         public static class PersonsController
@@ -238,7 +259,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class TranslationController
         {
-            private static string Translations = $"{Base}/translations";
+            private static readonly string Translations = $"{Base}/translations";
 
             public static string Get(string culture) => $"{Translations}/?culture={culture}";
 

@@ -23,6 +23,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await SeedRoomsAsync(arpaContext);
             await SeedProjectsAsync(arpaContext);
             await SeedMusicianProfilesAsync(arpaContext);
+            await SeedEducationsAsync(arpaContext);
+            await SeedCurriculumVitaeReferencesAsync(arpaContext);
             await SeedProjectParticipationsAsync(arpaContext);
             await SeedAppointmentParticipationsAsync(arpaContext);
             await SeedUrlAsync(arpaContext);
@@ -62,6 +64,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         private static async Task SeedMusicianProfilesAsync(IArpaContext arpaContext)
         {
             await arpaContext.MusicianProfiles.AddRangeAsync(MusicianProfileSeedData.MusicianProfiles);
+        }
+
+        private static async Task SeedEducationsAsync(IArpaContext arpaContext)
+        {
+            await arpaContext.Educations.AddRangeAsync(EducationSeedData.Educations);
+        }
+
+        private static async Task SeedCurriculumVitaeReferencesAsync(IArpaContext arpaContext)
+        {
+            await arpaContext.CurriculumVitaeReferences.AddRangeAsync(CurriculumVitaeReferenceSeedData.CurriculumVitaeReferences);
         }
 
         private static async Task SeedProjectParticipationsAsync(IArpaContext arpaContext)

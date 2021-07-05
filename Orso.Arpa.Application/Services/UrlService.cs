@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;

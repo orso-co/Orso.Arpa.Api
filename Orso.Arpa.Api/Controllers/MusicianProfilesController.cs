@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
@@ -15,10 +17,14 @@ namespace Orso.Arpa.Api.Controllers
     public class MusicianProfilesController : BaseController
     {
         private readonly IMusicianProfileService _musicianProfileService;
+        private readonly IEducationService _educationService;
+        private readonly ICurriculumVitaeReferenceService _curriculumVitaeReferenceService;
 
-        public MusicianProfilesController(IMusicianProfileService musicianProfileService)
+        public MusicianProfilesController(IMusicianProfileService musicianProfileService, IEducationService educationService, ICurriculumVitaeReferenceService curriculumVitaeReferenceService)
         {
             _musicianProfileService = musicianProfileService;
+            _educationService = educationService;
+            _curriculumVitaeReferenceService = curriculumVitaeReferenceService;
         }
 
         /// <summary>
@@ -88,6 +94,42 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<MusicianProfileDto>> Put(MusicianProfileModifyDto musicianProfileModifyDto)
         {
             return Ok(await _musicianProfileService.UpdateAsync(musicianProfileModifyDto));
+        }
+
+        /// <summary>
+        /// Adds a new education to an existing musician profile
+        /// </summary>
+        /// <param name="educationCreateDto"></param>
+        /// <response code="201"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("{id}/educations")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<EducationDto>> AddEducation(EducationCreateDto educationCreateDto)
+        {
+            EducationDto createdDto = await _educationService.CreateAsync(educationCreateDto);
+            return CreatedAtAction(nameof(EducationsController.GetById), "Educations", new { id = createdDto.Id }, createdDto);
+        }
+
+        /// <summary>
+        /// Adds a new curriculum vitae reference to an existing musician profile
+        /// </summary>
+        /// <param name="curriculumVitaeReferenceCreateDto"></param>
+        /// <response code="201"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("{id}/curriculumvitaereferences")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<CurriculumVitaeReferenceDto>> AddCurriculumVitaeReference(CurriculumVitaeReferenceCreateDto curriculumVitaeReferenceCreateDto)
+        {
+            CurriculumVitaeReferenceDto createdDto = await _curriculumVitaeReferenceService.CreateAsync(curriculumVitaeReferenceCreateDto);
+            return CreatedAtAction(nameof(CurriculumVitaeReferencesController.GetById), "CurriculumVitaeReferences", new { id = createdDto.Id }, createdDto);
         }
     }
 }

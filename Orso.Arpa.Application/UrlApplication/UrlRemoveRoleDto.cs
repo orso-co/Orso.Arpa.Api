@@ -3,7 +3,7 @@ using AutoMapper;
 using FluentValidation;
 using static Orso.Arpa.Domain.Logic.Urls.RemoveRole;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.UrlApplication
 {
     public class UrlRemoveRoleDto
     {

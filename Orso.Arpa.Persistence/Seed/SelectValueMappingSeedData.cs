@@ -34,6 +34,8 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(ProjectParticipationInvitationStatusMappings);
                 list.AddRange(ProjectParticipationStatusInnerMappings);
                 list.AddRange(ProjectParticipationStatusInternalMappings);
+                list.AddRange(EducationTypeMappings);
+                list.AddRange(CurriculumVitaeReferenceTypeMappings);
                 return list;
             }
         }
@@ -385,6 +387,35 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("2ad77626-e0b3-45a6-9d24-e4677181ee7e"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.NotInvited.Id, 30),
                     new SelectValueMapping(Guid.Parse("2a5f85e6-a7ed-48eb-852c-0b191d7ba949"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.Candidate.Id, 10),
                     new SelectValueMapping(Guid.Parse("c6b0b06f-a915-4087-9827-34e76ab6895f"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.Unclear.Id, 40),
+                };
+            }
+        }
+        public static IList<SelectValueMapping> EducationTypeMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("99251f16-deca-437e-84e2-a747e1a8ad7f"), SelectValueCategorySeedData.EducationType.Id, SelectValueSeedData.PrivateLesson.Id),
+                    new SelectValueMapping(Guid.Parse("d259e4bc-9302-4b42-9b0c-2087fc1680e7"), SelectValueCategorySeedData.EducationType.Id, SelectValueSeedData.MusicSchool.Id),
+                    new SelectValueMapping(Guid.Parse("5f071c88-813b-47c2-85a3-1d89321b7302"), SelectValueCategorySeedData.EducationType.Id, SelectValueSeedData.University.Id),
+                    new SelectValueMapping(Guid.Parse("574e8627-14fa-4a76-b05a-b80305994f98"), SelectValueCategorySeedData.EducationType.Id, SelectValueSeedData.Conservatory.Id),
+                    new SelectValueMapping(Guid.Parse("025a7a5c-3c61-4527-8ae0-769ad546bf1a"), SelectValueCategorySeedData.EducationType.Id, SelectValueSeedData.MasterClass.Id),
+                    new SelectValueMapping(Guid.Parse("149d5e63-a800-423a-b893-f1b763989d04"), SelectValueCategorySeedData.EducationType.Id, SelectValueSeedData.Other.Id),
+                };
+            }
+        }
+        public static IList<SelectValueMapping> CurriculumVitaeReferenceTypeMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("dead0ae2-bb2b-4584-992e-dddeb7f23d53"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.EnsemblePosition.Id),
+                    new SelectValueMapping(Guid.Parse("3245182e-7985-4c07-828e-d69287ff2a2d"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.SoloPerformance.Id),
+                    new SelectValueMapping(Guid.Parse("d30083ca-235f-43fa-9cba-3acdacf52b93"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.CompetitionPrize.Id),
+                    new SelectValueMapping(Guid.Parse("28d79b43-18be-48b2-a6c9-776ddea0bdb2"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.Recommendation.Id),
+                    new SelectValueMapping(Guid.Parse("8822614e-3e7c-4224-bb9c-468cec939bbc"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.Other.Id),
                 };
             }
         }

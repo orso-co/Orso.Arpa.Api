@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
@@ -77,6 +79,80 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
+        [Test, Order(100)]
+        public async Task Should_Add_Education()
+        {
+            // Arrange
+            var createDto = new EducationCreateBodyDto
+            {
+                TimeSpan = "1990-1996",
+                Institution = "Hochschule für Musik und Darstellende Kunst Stuttgart",
+                TypeId = SelectValueMappingSeedData.EducationTypeMappings[2].Id,
+                Description = "Was für eine geniale Zeit an der HMDK!",
+                SortOrder = 1,
+            };
+            var expectedDto = new EducationDto()
+            {
+                TimeSpan = createDto.TimeSpan,
+                Institution = createDto.Institution,
+                TypeId = createDto.TypeId,
+                Description = createDto.Description,
+                SortOrder = createDto.SortOrder,
+                CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.MusicianProfilesController.AddEducation(MusicianProfileSeedData.AdminMusicianSopranoProfile.Id), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            EducationDto result = await DeserializeResponseMessageAsync<EducationDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.EducationsController.Get(result.Id)}");
+        }
+
+        [Test, Order(101)]
+        public async Task Should_Add_CurriculumVitaeReference()
+        {
+            // Arrange
+            var createDto = new CurriculumVitaeReferenceCreateBodyDto
+            {
+                TimeSpan = "1998-2000",
+                Institution = "Kornwestheimer Symphoniker",
+                TypeId = SelectValueMappingSeedData.CurriculumVitaeReferenceTypeMappings[1].Id,
+                Description = "Mozart, Strauss Solokonzerte",
+                SortOrder = 1,
+            };
+            var expectedDto = new CurriculumVitaeReferenceDto()
+            {
+                TimeSpan = createDto.TimeSpan,
+                Institution = createDto.Institution,
+                TypeId = createDto.TypeId,
+                Description = createDto.Description,
+                SortOrder = createDto.SortOrder,
+                CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.MusicianProfilesController.AddCurriculumVitaeReference(MusicianProfileSeedData.PerformerMusicianProfile.Id), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            CurriculumVitaeReferenceDto result = await DeserializeResponseMessageAsync<CurriculumVitaeReferenceDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.CurriculumVitaeReferencesController.Get(result.Id)}");
+        }
+
         [Test, Order(1000)]
         public async Task Should_Modify()
         {
@@ -133,10 +209,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ProfilePreferenceTeam = modifyDto.ProfilePreferenceTeam,
                 QualificationId = modifyDto.QualificationId
             };
+            expectedDto.Educations = musicianProfileToModify.Educations;
+            expectedDto.CurriculumVitaeReferences = musicianProfileToModify.CurriculumVitaeReferences;
 
             HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff);
+                            .CreateClient()
+                            .AuthenticateWith(_staff);
 
             // Act
             HttpResponseMessage responseMessage = await client

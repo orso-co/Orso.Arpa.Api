@@ -9,16 +9,28 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<Education> builder)
         {
             builder
-                .Property(a => a.Timespan)
+                .Property(a => a.TimeSpan)
                 .HasMaxLength(50);
 
             builder
                 .Property(a => a.Institution)
-                .HasMaxLength(50);
+                .HasMaxLength(255);
 
             builder
-                .Property(a => a.Comment)
+                 .HasOne(a => a.Type)
+                 .WithMany()
+                 .HasForeignKey(a => a.TypeId)
+                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .Property(a => a.Description)
                 .HasMaxLength(500);
+
+            builder
+                .HasOne(e => e.MusicianProfile)
+                .WithMany(m => m.Educations)
+                .HasForeignKey(e => e.MusicianProfileId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

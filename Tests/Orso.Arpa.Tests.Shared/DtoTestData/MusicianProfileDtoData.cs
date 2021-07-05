@@ -57,6 +57,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.PreferredPositionsInnerIds.Add(Guid.Parse("b43fc897-ebcf-4d2a-8682-33b6337b5ab2"));
                 dto.PreferredPartsTeam.Add(1);
                 dto.PreferredPartsInner.Add(2);
+                dto.Educations.Add(EducationDtoData.University);
+                dto.CurriculumVitaeReferences.Add(CurriculumVitaeReferenceDtoData.Mozarteum);
                 return dto;
             }
         }

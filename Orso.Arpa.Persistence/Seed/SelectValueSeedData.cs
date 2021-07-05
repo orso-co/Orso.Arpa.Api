@@ -116,7 +116,16 @@ namespace Orso.Arpa.Persistence.Seed
                     Unclear,
                     Candidate,
                     Invited,
-                    NotInvited
+                    NotInvited,
+                    PrivateLesson,
+                    MusicSchool,
+                    University,
+                    Conservatory,
+                    MasterClass,
+                    EnsemblePosition,
+                    SoloPerformance,
+                    CompetitionPrize,
+                    Recommendation,
                 };
             }
         }
@@ -502,5 +511,15 @@ namespace Orso.Arpa.Persistence.Seed
         /// Unklar
         /// </summary>
         public static SelectValue Unclear => new(Guid.Parse("a80c8892-7cba-4b19-b84d-937da70c8af3"), "Unclear", string.Empty);
+
+        public static SelectValue PrivateLesson => new(Guid.Parse("d73cba63-f92e-4c17-b416-59f8e021fbf2"), "Private lesson", string.Empty);
+        public static SelectValue MusicSchool => new(Guid.Parse("d45ac8a2-f17c-49ca-9525-99473771a340"), "Music school", string.Empty);
+        public static SelectValue University => new(Guid.Parse("371ee51d-3612-4eb4-b169-25eae26c382f"), "University", string.Empty);
+        public static SelectValue Conservatory => new(Guid.Parse("fcad4595-cea8-4339-bc48-312d43d7d4a0"), "Conservatory", string.Empty);
+        public static SelectValue MasterClass => new(Guid.Parse("bfdf244d-6d85-41e8-a10f-6f309abe9ffe"), "Master class", string.Empty);
+        public static SelectValue EnsemblePosition => new(Guid.Parse("57bf8f44-d6f5-4551-a571-a42565e5861a"), "Ensemble position", string.Empty);
+        public static SelectValue SoloPerformance => new(Guid.Parse("8cf0c997-33bd-431b-a28c-7d22c00d8d87"), "Solo performance", string.Empty);
+        public static SelectValue CompetitionPrize => new(Guid.Parse("674abb4f-89d1-4802-bfee-8eb0d61bed80"), "Competition / Prize", string.Empty);
+        public static SelectValue Recommendation => new(Guid.Parse("64db8d53-128b-4b3d-85ac-23292fad29e9"), "Recommendation", string.Empty);
     }
 }

@@ -33,7 +33,9 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     MusicianProfileSectionInstrumentAvailability,
                     ProjectParticipationInvitationStatus,
                     ProjectParticipationStatusInner,
-                    ProjectParticipationStatusInternal
+                    ProjectParticipationStatusInternal,
+                    EducationType,
+                    CurriculumVitaeReferenceType,
                 };
             }
         }
@@ -169,5 +171,17 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(ProjectParticipation),
             nameof(ProjectParticipation.InvitationStatus),
             "Participation invitation status");
+
+        public static SelectValueCategory EducationType => new(
+            Guid.Parse("502a47d4-6c2f-4729-99db-470f4e0e1a3b"),
+            nameof(Education),
+            nameof(Education.Type),
+            "Education type");
+
+        public static SelectValueCategory CurriculumVitaeReferenceType => new(
+            Guid.Parse("3addf4f6-1904-4944-86f6-434d2660594f"),
+            nameof(CurriculumVitaeReference),
+            nameof(CurriculumVitaeReference.Type),
+            "Curriculum vitae reference type");
     }
 }

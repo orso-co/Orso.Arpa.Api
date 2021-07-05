@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -9,9 +10,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20210615205953_EntitiesEducationAndCurriculumVitaeReferences")]
+    partial class EntitiesEducationAndCurriculumVitaeReferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -653,33 +655,26 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
-                    b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("musician_profile_id");
-
-                    b.Property<byte?>("SortOrder")
+                    b.Property<byte>("SortOrder")
                         .HasColumnType("smallint")
                         .HasColumnName("sort_order");
 
-                    b.Property<string>("TimeSpan")
+                    b.Property<string>("Timespan")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
-                        .HasColumnName("time_span");
+                        .HasColumnName("timespan");
 
-                    b.Property<Guid?>("TypeId")
+                    b.Property<Guid>("TypeId")
                         .HasColumnType("uuid")
                         .HasColumnName("type_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_curriculum_vitae_references");
-
-                    b.HasIndex("MusicianProfileId")
-                        .HasDatabaseName("ix_curriculum_vitae_references_musician_profile_id");
+                        .HasName("pk_curriculum_vitae_reference");
 
                     b.HasIndex("TypeId")
-                        .HasDatabaseName("ix_curriculum_vitae_references_type_id");
+                        .HasDatabaseName("ix_curriculum_vitae_reference_type_id");
 
-                    b.ToTable("curriculum_vitae_references");
+                    b.ToTable("curriculum_vitae_reference");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Education", b =>
@@ -721,462 +716,26 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
-                    b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("musician_profile_id");
-
-                    b.Property<byte?>("SortOrder")
+                    b.Property<byte>("SortOrder")
                         .HasColumnType("smallint")
                         .HasColumnName("sort_order");
 
-                    b.Property<string>("TimeSpan")
+                    b.Property<string>("Timespan")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
-                        .HasColumnName("time_span");
+                        .HasColumnName("timespan");
 
-                    b.Property<Guid?>("TypeId")
+                    b.Property<Guid>("TypeId")
                         .HasColumnType("uuid")
                         .HasColumnName("type_id");
 
                     b.HasKey("Id")
                         .HasName("pk_educations");
 
-                    b.HasIndex("MusicianProfileId")
-                        .HasDatabaseName("ix_educations_musician_profile_id");
-
                     b.HasIndex("TypeId")
                         .HasDatabaseName("ix_educations_type_id");
 
                     b.ToTable("educations");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Localization", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .IsUnicode(true)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("key");
-
-                    b.Property<string>("LocalizationCulture")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)")
-                        .HasColumnName("localization_culture");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<string>("ResourceKey")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("resource_key");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .IsUnicode(true)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("text");
-
-                    b.HasKey("Id")
-                        .HasName("pk_localizations");
-
-                    b.HasAlternateKey("ResourceKey", "LocalizationCulture", "Key")
-                        .HasName("ak_localizations_resource_key_localization_culture_key");
-
-                    b.ToTable("localizations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("97fde212-3305-4fb9-b0a8-a12a8efb2872"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 324, DateTimeKind.Local).AddTicks(7866),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Invalid token supplied",
-                            LocalizationCulture = "en",
-                            ResourceKey = "Validator",
-                            Text = "Please try to login again"
-                        },
-                        new
-                        {
-                            Id = new Guid("1cc1999c-eec3-4891-a833-798a8ec6baae"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 386, DateTimeKind.Local).AddTicks(6960),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Invalid token supplied",
-                            LocalizationCulture = "en-GB",
-                            ResourceKey = "Validator",
-                            Text = "Please try to login again"
-                        },
-                        new
-                        {
-                            Id = new Guid("4899a356-74c0-4f48-9ca5-2a716f7718ab"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 389, DateTimeKind.Local).AddTicks(7493),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "This request requires a valid JWT access token to be provided",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Diese Anfrage erfordert einen gültigen JWT Token"
-                        },
-                        new
-                        {
-                            Id = new Guid("39e5d409-aa17-4bcc-94dc-dc5b576fd910"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 390, DateTimeKind.Local).AddTicks(1201),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Invalid token supplied",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Ungültiges Token angegeben"
-                        },
-                        new
-                        {
-                            Id = new Guid("c9f96e9b-5829-48d9-a58c-c3fc3cb284a1"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 390, DateTimeKind.Local).AddTicks(5458),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "EndTime must be later than StartTime",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Endzeit muss später Startzeit sein"
-                        },
-                        new
-                        {
-                            Id = new Guid("da208786-f55a-4b32-92c2-365184ffe604"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 390, DateTimeKind.Local).AddTicks(9011),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Password must be at least 6 characters",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Das Passwort muss mindestens 6 Zeichen enthalten"
-                        },
-                        new
-                        {
-                            Id = new Guid("f067cffe-e377-4fec-b96a-da9ff784e761"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 391, DateTimeKind.Local).AddTicks(2502),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Password must contain at least one uppercase letter",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Das Passwort muss mindestens einen Großbuchstaben enthalten"
-                        },
-                        new
-                        {
-                            Id = new Guid("a40cae79-a99d-41db-a198-2bb396ca2c0f"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 391, DateTimeKind.Local).AddTicks(7030),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Password must contain at least one lowercase letter",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Das Passwort muss mindestens einen Kleinbuchstaben enthalten"
-                        },
-                        new
-                        {
-                            Id = new Guid("fbe724f3-3ddb-4010-a15e-e9dfafa99c2d"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 392, DateTimeKind.Local).AddTicks(748),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Password must contain at least one digit",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Das Passwort muss mindestens eine Zahl enthalten"
-                        },
-                        new
-                        {
-                            Id = new Guid("68df3bbc-f974-4a90-866c-d324fa513a5e"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 392, DateTimeKind.Local).AddTicks(6917),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Password must contain at least one special character",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Das Passwort muss mindestens ein Sonderzeichen enthalten"
-                        },
-                        new
-                        {
-                            Id = new Guid("89cf4e82-589a-4349-a61e-5c0958de1712"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 393, DateTimeKind.Local).AddTicks(1208),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Username may only contain alphanumeric characters",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Der Benutzername darf nur alphanumerische Zeichen enthalten"
-                        },
-                        new
-                        {
-                            Id = new Guid("2c875289-6ce9-44a5-aa51-06a3e60aa32c"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 393, DateTimeKind.Local).AddTicks(4642),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "The project is already linked to the appointment",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Das Projekt ist bereits dem Termin zugeordnet"
-                        },
-                        new
-                        {
-                            Id = new Guid("afeaddef-bc32-4fd5-8292-bdeafd0a8c2a"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 393, DateTimeKind.Local).AddTicks(8104),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "The room is already linked to the appointment",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Der Raum ist bereits dem Termin zugeordnet"
-                        },
-                        new
-                        {
-                            Id = new Guid("af9fe89a-d491-409f-af60-4be1421b0569"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 394, DateTimeKind.Local).AddTicks(1976),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "The section is already linked to the Appointment",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Die Sektion ist bereits dem Termin zugeordnet"
-                        },
-                        new
-                        {
-                            Id = new Guid("0cf37641-d3c0-4120-ad1b-d76e14507a57"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 394, DateTimeKind.Local).AddTicks(5913),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "The project is not linked to the appointment",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Das Projekt ist dem Termin nicht zugeordnet"
-                        },
-                        new
-                        {
-                            Id = new Guid("cd15676c-3cfd-4578-a0a9-65e0844e8e21"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 394, DateTimeKind.Local).AddTicks(9976),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "The room is not linked to the appointment",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Der Raum ist dem Termin nicht zugeordnet"
-                        },
-                        new
-                        {
-                            Id = new Guid("6918a90d-0582-4991-937a-60a6c006e538"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 395, DateTimeKind.Local).AddTicks(3734),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "The section is not linked to the Appointment",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Die Sektion ist dem Termin nicht zugeordnet"
-                        },
-                        new
-                        {
-                            Id = new Guid("1365f7af-a435-484e-8f4c-a1f3e00d8a8d"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 395, DateTimeKind.Local).AddTicks(7653),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Incorrect password supplied",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Inkorrektes Passwort angegeben"
-                        },
-                        new
-                        {
-                            Id = new Guid("f39d1e82-ed27-4afe-8f43-19ed4eee917a"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 396, DateTimeKind.Local).AddTicks(1240),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "The user could not be found",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Der Benutzer konnte nicht gefunden werden"
-                        },
-                        new
-                        {
-                            Id = new Guid("c5a807e4-9698-4d35-83d8-e23898d2557e"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 396, DateTimeKind.Local).AddTicks(4978),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Your email address is not confirmed. Please confirm your email address first",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Deine Email wurde noch nicht bestätigt. Bitte bestätige zuerst deine Email"
-                        },
-                        new
-                        {
-                            Id = new Guid("20712e04-5fcc-478f-9f3f-f32a91595344"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 396, DateTimeKind.Local).AddTicks(8890),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Your account is locked. Kindly wait for 10 minutes and try again",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Dein Konto wurde gesperrt. Bitte warte 10 Minuten und versuche es anschließend erneut"
-                        },
-                        new
-                        {
-                            Id = new Guid("906c9e51-590b-4142-a527-c868fb21d861"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 397, DateTimeKind.Local).AddTicks(2433),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Username already exists",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Der Benutzername existiert bereits"
-                        },
-                        new
-                        {
-                            Id = new Guid("b70c6131-2413-4da3-97c1-1a319b725db1"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 397, DateTimeKind.Local).AddTicks(6316),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Email already exists",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Die Email existiert bereits"
-                        },
-                        new
-                        {
-                            Id = new Guid("5b0f922b-28be-4e7a-8954-24a022cc32cd"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 398, DateTimeKind.Local).AddTicks(74),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "A region with the requested name does already exist",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "Validator",
-                            Text = "Eine Region mit diesem Namen existiert bereits"
-                        },
-                        new
-                        {
-                            Id = new Guid("631a8511-ae67-43c2-acfe-c8938e81e105"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 398, DateTimeKind.Local).AddTicks(3894),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Performers",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "SectionDto",
-                            Text = "Künstler"
-                        },
-                        new
-                        {
-                            Id = new Guid("8c6c4e59-8396-4975-b311-8c865cc48bb3"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 398, DateTimeKind.Local).AddTicks(7809),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Orchestra",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "SectionDto",
-                            Text = "Orchester"
-                        },
-                        new
-                        {
-                            Id = new Guid("b2d699b8-e3ab-4cb9-8a1e-cd671e2fac02"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 399, DateTimeKind.Local).AddTicks(2187),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Members",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "SectionDto",
-                            Text = "Mitglieder"
-                        },
-                        new
-                        {
-                            Id = new Guid("6aed06d4-2c86-414d-bf15-bce230d4d0e3"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 399, DateTimeKind.Local).AddTicks(5924),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Visitors",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "SectionDto",
-                            Text = "Besucher"
-                        },
-                        new
-                        {
-                            Id = new Guid("fd5dba23-9685-4821-9237-e182dafbcb52"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 399, DateTimeKind.Local).AddTicks(9816),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Volunteers",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "SectionDto",
-                            Text = "Freiwillige"
-                        },
-                        new
-                        {
-                            Id = new Guid("563c7c31-3976-43e0-ac08-e8251004d647"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 400, DateTimeKind.Local).AddTicks(3657),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Suppliers",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "SectionDto",
-                            Text = "Zulieferer"
-                        },
-                        new
-                        {
-                            Id = new Guid("676b04c8-4256-4008-9fc4-be62ea8f5dd0"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 400, DateTimeKind.Local).AddTicks(7391),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Performer",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "RoleDto",
-                            Text = "Künstler"
-                        },
-                        new
-                        {
-                            Id = new Guid("9860c80a-fa54-49e6-b314-ba895bd31348"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 401, DateTimeKind.Local).AddTicks(1189),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Staff",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "RoleDto",
-                            Text = "Mitarbeiter"
-                        },
-                        new
-                        {
-                            Id = new Guid("cc54cb2a-30b5-473b-8d31-7788410bbc58"),
-                            CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 401, DateTimeKind.Local).AddTicks(4545),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Admin",
-                            LocalizationCulture = "de-DE",
-                            ResourceKey = "RoleDto",
-                            Text = "Administrator"
-                        });
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
@@ -1303,6 +862,96 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.ToTable("musician_profiles");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileCurriculumVitaeReference", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
+
+                    b.Property<Guid>("CurriculumVitaeReferenceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("curriculum_vitae_reference_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.HasKey("MusicianProfileId", "CurriculumVitaeReferenceId")
+                        .HasName("pk_musician_profile_curriculum_vitae_references");
+
+                    b.HasIndex("CurriculumVitaeReferenceId")
+                        .HasDatabaseName("ix_musician_profile_curriculum_vitae_references_curriculum_vit");
+
+                    b.ToTable("musician_profile_curriculum_vitae_references");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileEducation", b =>
+                {
+                    b.Property<Guid>("MusicianProfileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("musician_profile_id");
+
+                    b.Property<Guid>("EducationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("education_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("modified_by");
+
+                    b.HasKey("MusicianProfileId", "EducationId")
+                        .HasName("pk_musician_profile_educations");
+
+                    b.HasIndex("EducationId")
+                        .HasDatabaseName("ix_musician_profile_educations_education_id");
+
+                    b.ToTable("musician_profile_educations");
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionInner", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1403,10 +1052,13 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileSection", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("MusicianProfileId")
                         .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnName("musician_profile_id");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
 
                     b.Property<string>("Comment")
                         .HasColumnType("text")
@@ -1424,6 +1076,10 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean")
                         .HasColumnName("deleted");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid?>("InstrumentAvailabilityId")
                         .HasColumnType("uuid")
@@ -1446,22 +1102,11 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
-                    b.Property<Guid>("MusicianProfileId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("musician_profile_id");
-
-                    b.Property<Guid>("SectionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("section_id");
-
-                    b.HasKey("Id")
+                    b.HasKey("MusicianProfileId", "SectionId")
                         .HasName("pk_musician_profile_sections");
 
                     b.HasIndex("InstrumentAvailabilityId")
                         .HasDatabaseName("ix_musician_profile_sections_instrument_availability_id");
-
-                    b.HasIndex("MusicianProfileId")
-                        .HasDatabaseName("ix_musician_profile_sections_musician_profile_id");
 
                     b.HasIndex("SectionId")
                         .HasDatabaseName("ix_musician_profile_sections_section_id");
@@ -3575,22 +3220,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3f89bf0b-f17d-4439-b64f-ae7eee660ac4"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Warm-Up Rehearsal"
-                        },
-                        new
-                        {
-                            Id = new Guid("b83d5412-65c1-49fe-a53c-d13a01063438"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Soundcheck"
-                        },
-                        new
-                        {
                             Id = new Guid("8f64e072-6523-4158-b92e-5c38c8ebca59"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
@@ -3675,7 +3304,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Vocal Coaching"
+                            Name = "Voice Formation"
                         },
                         new
                         {
@@ -4606,10 +4235,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("select_value_id");
 
-                    b.Property<int?>("SortOrder")
-                        .HasColumnType("integer")
-                        .HasColumnName("sort_order");
-
                     b.HasKey("Id")
                         .HasName("pk_select_value_mappings");
 
@@ -4628,8 +4253,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("d438c160-0588-41fa-93c3-cd33c0f97063"),
-                            SelectValueId = new Guid("608b5583-a8dc-48d7-8afa-ef87ca0327f0"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("608b5583-a8dc-48d7-8afa-ef87ca0327f0")
                         },
                         new
                         {
@@ -4637,8 +4261,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("d438c160-0588-41fa-93c3-cd33c0f97063"),
-                            SelectValueId = new Guid("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5")
                         },
                         new
                         {
@@ -4646,107 +4269,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("d438c160-0588-41fa-93c3-cd33c0f97063"),
-                            SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"),
-                            SortOrder = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("86672779-5e70-4965-b59c-032086d00914"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("130f63c3-9d2f-4301-b062-236c78663e3b"),
-                            SortOrder = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("2634c0cc-31d2-4f61-813d-7ec60fc8ab34"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("4418bfea-0e79-4f76-9e20-527644f654e0"),
-                            SortOrder = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("5b89cf6e-0194-4e01-bb32-8b1813a51e16"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("efb2b680-c904-481a-ba7c-9e6a64a998c3"),
-                            SortOrder = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("ac1ccdd4-39aa-4767-95ea-099a829f275b"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("8f64e072-6523-4158-b92e-5c38c8ebca59"),
-                            SortOrder = 25
-                        },
-                        new
-                        {
-                            Id = new Guid("694de886-8566-45d0-afc7-6ded18a2b6e6"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("3f89bf0b-f17d-4439-b64f-ae7eee660ac4"),
-                            SortOrder = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("e1b4cb6e-937e-409a-a86d-7a66c39242dd"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("b83d5412-65c1-49fe-a53c-d13a01063438"),
-                            SortOrder = 35
-                        },
-                        new
-                        {
-                            Id = new Guid("0c8af1d2-ae39-464d-9e03-a1487cfd7321"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("71779748-6d3c-496a-9842-8dc508de6676"),
-                            SortOrder = 50
-                        },
-                        new
-                        {
-                            Id = new Guid("466aa422-0ef2-4e7f-a6a8-d188d80491f6"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("79de43be-57cc-484f-bff2-57f3ba78dbe9"),
-                            SortOrder = 55
-                        },
-                        new
-                        {
-                            Id = new Guid("b62cc155-f1a9-4904-8e6a-95e85339da83"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("a0b98a79-7c74-4093-8f5f-79003cad219a"),
-                            SortOrder = 60
-                        },
-                        new
-                        {
-                            Id = new Guid("9cf090a3-680d-4770-b929-0a0d080576a0"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("a85738d9-e68e-4584-bac8-ccca8d539636"),
-                            SortOrder = 65
-                        },
-                        new
-                        {
-                            Id = new Guid("4e9d4a1b-cae7-4002-93a1-cef3f209146b"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("3a6218de-6dfc-4aa9-a2a7-f1da20fd61cb"),
-                            SortOrder = 68
+                            SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0")
                         },
                         new
                         {
@@ -4754,17 +4277,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("ae6dc389-93eb-4d96-bd66-c61dd81155ea"),
-                            SortOrder = 70
-                        },
-                        new
-                        {
-                            Id = new Guid("547b561e-cea7-4296-9b1d-4dd41e0d5179"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("7c894293-82c2-4320-82f5-f77955feae5a"),
-                            SortOrder = 75
+                            SelectValueId = new Guid("ae6dc389-93eb-4d96-bd66-c61dd81155ea")
                         },
                         new
                         {
@@ -4772,35 +4285,15 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("61dd102e-d449-40e1-8c6b-4ead99403ac1"),
-                            SortOrder = 78
+                            SelectValueId = new Guid("61dd102e-d449-40e1-8c6b-4ead99403ac1")
                         },
                         new
                         {
-                            Id = new Guid("a39a92fe-bea2-40fa-817b-e7272bfc9d4b"),
+                            Id = new Guid("ac1ccdd4-39aa-4767-95ea-099a829f275b"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("dfe6e73e-9a15-4094-80a5-151a64f3b4db"),
-                            SortOrder = 80
-                        },
-                        new
-                        {
-                            Id = new Guid("cfc62012-4d74-4cf6-a06e-7fc3dbacbff8"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("5d50c5c3-e85a-4810-ac46-49572e1ca2f5"),
-                            SortOrder = 85
-                        },
-                        new
-                        {
-                            Id = new Guid("e9c79ae9-5498-459d-8852-9f135da7afae"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("404f1bfd-2819-47c2-a78b-f3dbd4bc8953"),
-                            SortOrder = 87
+                            SelectValueId = new Guid("8f64e072-6523-4158-b92e-5c38c8ebca59")
                         },
                         new
                         {
@@ -4808,8 +4301,55 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("52d67a48-e99f-4c2f-ac9b-0302d5d3e518"),
-                            SortOrder = 89
+                            SelectValueId = new Guid("52d67a48-e99f-4c2f-ac9b-0302d5d3e518")
+                        },
+                        new
+                        {
+                            Id = new Guid("e9c79ae9-5498-459d-8852-9f135da7afae"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("404f1bfd-2819-47c2-a78b-f3dbd4bc8953")
+                        },
+                        new
+                        {
+                            Id = new Guid("0c8af1d2-ae39-464d-9e03-a1487cfd7321"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("71779748-6d3c-496a-9842-8dc508de6676")
+                        },
+                        new
+                        {
+                            Id = new Guid("cfc62012-4d74-4cf6-a06e-7fc3dbacbff8"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("5d50c5c3-e85a-4810-ac46-49572e1ca2f5")
+                        },
+                        new
+                        {
+                            Id = new Guid("466aa422-0ef2-4e7f-a6a8-d188d80491f6"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("79de43be-57cc-484f-bff2-57f3ba78dbe9")
+                        },
+                        new
+                        {
+                            Id = new Guid("86672779-5e70-4965-b59c-032086d00914"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("130f63c3-9d2f-4301-b062-236c78663e3b")
+                        },
+                        new
+                        {
+                            Id = new Guid("5b89cf6e-0194-4e01-bb32-8b1813a51e16"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("efb2b680-c904-481a-ba7c-9e6a64a998c3")
                         },
                         new
                         {
@@ -4817,8 +4357,55 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("d6848ef8-51c6-44e3-bc29-af1df87afcc1"),
-                            SortOrder = 90
+                            SelectValueId = new Guid("d6848ef8-51c6-44e3-bc29-af1df87afcc1")
+                        },
+                        new
+                        {
+                            Id = new Guid("a39a92fe-bea2-40fa-817b-e7272bfc9d4b"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("dfe6e73e-9a15-4094-80a5-151a64f3b4db")
+                        },
+                        new
+                        {
+                            Id = new Guid("b62cc155-f1a9-4904-8e6a-95e85339da83"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("a0b98a79-7c74-4093-8f5f-79003cad219a")
+                        },
+                        new
+                        {
+                            Id = new Guid("2634c0cc-31d2-4f61-813d-7ec60fc8ab34"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("4418bfea-0e79-4f76-9e20-527644f654e0")
+                        },
+                        new
+                        {
+                            Id = new Guid("4e9d4a1b-cae7-4002-93a1-cef3f209146b"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("3a6218de-6dfc-4aa9-a2a7-f1da20fd61cb")
+                        },
+                        new
+                        {
+                            Id = new Guid("547b561e-cea7-4296-9b1d-4dd41e0d5179"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("7c894293-82c2-4320-82f5-f77955feae5a")
+                        },
+                        new
+                        {
+                            Id = new Guid("9cf090a3-680d-4770-b929-0a0d080576a0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
+                            SelectValueId = new Guid("a85738d9-e68e-4584-bac8-ccca8d539636")
                         },
                         new
                         {
@@ -4826,8 +4413,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"),
-                            SortOrder = 95
+                            SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0")
                         },
                         new
                         {
@@ -4835,8 +4421,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("1d62ed51-c99e-4b55-83d7-f9f9a5b8234e"),
-                            SelectValueId = new Guid("75a017d3-dca5-49ec-9bbd-3b01b159ba5b"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("75a017d3-dca5-49ec-9bbd-3b01b159ba5b")
                         },
                         new
                         {
@@ -4844,8 +4429,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("1d62ed51-c99e-4b55-83d7-f9f9a5b8234e"),
-                            SelectValueId = new Guid("88b763ac-8093-4c5d-a881-85be1fb8a24d"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("88b763ac-8093-4c5d-a881-85be1fb8a24d")
                         },
                         new
                         {
@@ -4853,8 +4437,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("1d62ed51-c99e-4b55-83d7-f9f9a5b8234e"),
-                            SelectValueId = new Guid("66a6446a-7191-4f14-9c5d-052891b9c5a2"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("66a6446a-7191-4f14-9c5d-052891b9c5a2")
                         },
                         new
                         {
@@ -4862,8 +4445,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("1d62ed51-c99e-4b55-83d7-f9f9a5b8234e"),
-                            SelectValueId = new Guid("2567e7be-5a5a-4671-b5ad-765c1e80fd41"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("2567e7be-5a5a-4671-b5ad-765c1e80fd41")
                         },
                         new
                         {
@@ -4871,8 +4453,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e4ff93b9-318e-41ed-b067-51ee94f41adf"),
-                            SelectValueId = new Guid("b60d04e0-9841-41c9-9d24-976c8363a33d"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("b60d04e0-9841-41c9-9d24-976c8363a33d")
                         },
                         new
                         {
@@ -4880,8 +4461,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e4ff93b9-318e-41ed-b067-51ee94f41adf"),
-                            SelectValueId = new Guid("d91def3e-4c55-42c7-ac56-147846be6bfa"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("d91def3e-4c55-42c7-ac56-147846be6bfa")
                         },
                         new
                         {
@@ -4889,8 +4469,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e4ff93b9-318e-41ed-b067-51ee94f41adf"),
-                            SelectValueId = new Guid("a10ce98a-b903-4dca-801d-3afb07711877"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("a10ce98a-b903-4dca-801d-3afb07711877")
                         },
                         new
                         {
@@ -4898,8 +4477,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e4ff93b9-318e-41ed-b067-51ee94f41adf"),
-                            SelectValueId = new Guid("ddb23793-af96-4ea6-9b27-5e2dcfc90b65"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("ddb23793-af96-4ea6-9b27-5e2dcfc90b65")
                         },
                         new
                         {
@@ -4907,8 +4485,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e4ff93b9-318e-41ed-b067-51ee94f41adf"),
-                            SelectValueId = new Guid("717a27d5-2ef3-4266-92a8-84b3600115eb"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("717a27d5-2ef3-4266-92a8-84b3600115eb")
                         },
                         new
                         {
@@ -4916,8 +4493,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("0fdb6218-54fa-4e94-a880-2a65fc1cf9d7"),
-                            SelectValueId = new Guid("362efd25-e1d2-496d-b7fa-884371a58682"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("362efd25-e1d2-496d-b7fa-884371a58682")
                         },
                         new
                         {
@@ -4925,8 +4501,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("0fdb6218-54fa-4e94-a880-2a65fc1cf9d7"),
-                            SelectValueId = new Guid("34a52363-4a57-4019-abcf-0c9880246891"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("34a52363-4a57-4019-abcf-0c9880246891")
                         },
                         new
                         {
@@ -4934,8 +4509,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("0fdb6218-54fa-4e94-a880-2a65fc1cf9d7"),
-                            SelectValueId = new Guid("a4734d39-cbb9-4635-b3ae-f4e1192a6bd1"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("a4734d39-cbb9-4635-b3ae-f4e1192a6bd1")
                         },
                         new
                         {
@@ -4943,8 +4517,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("0fdb6218-54fa-4e94-a880-2a65fc1cf9d7"),
-                            SelectValueId = new Guid("9c0295b7-1b16-4fd6-a7de-ecd724c823b3"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("9c0295b7-1b16-4fd6-a7de-ecd724c823b3")
                         },
                         new
                         {
@@ -4952,8 +4525,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("5cf52155-927f-4d64-a482-348f952bab21"),
-                            SelectValueId = new Guid("75a017d3-dca5-49ec-9bbd-3b01b159ba5b"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("75a017d3-dca5-49ec-9bbd-3b01b159ba5b")
                         },
                         new
                         {
@@ -4961,8 +4533,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("5cf52155-927f-4d64-a482-348f952bab21"),
-                            SelectValueId = new Guid("1e60dfdf-e7c9-4378-b1af-dcb53fe20022"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("1e60dfdf-e7c9-4378-b1af-dcb53fe20022")
                         },
                         new
                         {
@@ -4970,8 +4541,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("5cf52155-927f-4d64-a482-348f952bab21"),
-                            SelectValueId = new Guid("88b763ac-8093-4c5d-a881-85be1fb8a24d"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("88b763ac-8093-4c5d-a881-85be1fb8a24d")
                         },
                         new
                         {
@@ -4979,8 +4549,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("5cf52155-927f-4d64-a482-348f952bab21"),
-                            SelectValueId = new Guid("4ee7d317-6d71-4d6e-b45a-954c8c7dcf03"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("4ee7d317-6d71-4d6e-b45a-954c8c7dcf03")
                         },
                         new
                         {
@@ -4988,8 +4557,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("f5d4763e-5862-4b62-ab92-2748ad213b10"),
-                            SelectValueId = new Guid("313445ca-57fa-45f0-8515-325949d60726"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("313445ca-57fa-45f0-8515-325949d60726")
                         },
                         new
                         {
@@ -4997,8 +4565,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("f5d4763e-5862-4b62-ab92-2748ad213b10"),
-                            SelectValueId = new Guid("f0f26735-b796-4a70-a20c-92e0e2910bb4"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("f0f26735-b796-4a70-a20c-92e0e2910bb4")
                         },
                         new
                         {
@@ -5006,8 +4573,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("f5d4763e-5862-4b62-ab92-2748ad213b10"),
-                            SelectValueId = new Guid("86bf6480-787a-4fe0-9d79-0f8d0d36acc4"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("86bf6480-787a-4fe0-9d79-0f8d0d36acc4")
                         },
                         new
                         {
@@ -5015,8 +4581,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("f5d4763e-5862-4b62-ab92-2748ad213b10"),
-                            SelectValueId = new Guid("66a6446a-7191-4f14-9c5d-052891b9c5a2"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("66a6446a-7191-4f14-9c5d-052891b9c5a2")
                         },
                         new
                         {
@@ -5024,8 +4589,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("f5d4763e-5862-4b62-ab92-2748ad213b10"),
-                            SelectValueId = new Guid("5d31f1f7-73fd-42a4-a429-33fab925b15d"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("5d31f1f7-73fd-42a4-a429-33fab925b15d")
                         },
                         new
                         {
@@ -5033,8 +4597,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("09be8eff-72e4-40a8-a1ed-717deb185a69"),
-                            SelectValueId = new Guid("34a52363-4a57-4019-abcf-0c9880246891"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("34a52363-4a57-4019-abcf-0c9880246891")
                         },
                         new
                         {
@@ -5042,8 +4605,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("09be8eff-72e4-40a8-a1ed-717deb185a69"),
-                            SelectValueId = new Guid("c76de830-3746-449a-8f1f-bd5d9233655c"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("c76de830-3746-449a-8f1f-bd5d9233655c")
                         },
                         new
                         {
@@ -5051,8 +4613,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("09be8eff-72e4-40a8-a1ed-717deb185a69"),
-                            SelectValueId = new Guid("99d192e1-332a-494e-b821-075be14211be"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("99d192e1-332a-494e-b821-075be14211be")
                         },
                         new
                         {
@@ -5060,8 +4621,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("09be8eff-72e4-40a8-a1ed-717deb185a69"),
-                            SelectValueId = new Guid("66a6446a-7191-4f14-9c5d-052891b9c5a2"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("66a6446a-7191-4f14-9c5d-052891b9c5a2")
                         },
                         new
                         {
@@ -5069,8 +4629,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("09be8eff-72e4-40a8-a1ed-717deb185a69"),
-                            SelectValueId = new Guid("5e3edcf4-863b-433b-ae72-b6bb7e4dfc95"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("5e3edcf4-863b-433b-ae72-b6bb7e4dfc95")
                         },
                         new
                         {
@@ -5078,8 +4637,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
-                            SelectValueId = new Guid("87a541e7-706a-47f3-99b3-8b2d6de7a134"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("87a541e7-706a-47f3-99b3-8b2d6de7a134")
                         },
                         new
                         {
@@ -5087,8 +4645,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
-                            SelectValueId = new Guid("5b57a267-f331-41df-995a-93b60fc206ff"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("5b57a267-f331-41df-995a-93b60fc206ff")
                         },
                         new
                         {
@@ -5096,8 +4653,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
-                            SelectValueId = new Guid("43d8eafa-ef3f-4034-8c88-9a0b68c33ab1"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("43d8eafa-ef3f-4034-8c88-9a0b68c33ab1")
                         },
                         new
                         {
@@ -5105,8 +4661,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
-                            SelectValueId = new Guid("a3be7b91-7548-492e-99dc-2788497f2930"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("a3be7b91-7548-492e-99dc-2788497f2930")
                         },
                         new
                         {
@@ -5114,8 +4669,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
-                            SelectValueId = new Guid("982a9947-c6f8-4c9a-b96f-2a4825a11496"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("982a9947-c6f8-4c9a-b96f-2a4825a11496")
                         },
                         new
                         {
@@ -5123,8 +4677,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("4649b6b9-1362-41c2-ac5c-884f216dff30"),
-                            SelectValueId = new Guid("2ecfb104-feb3-406a-b741-0ac9fdd3e8d7"),
-                            SortOrder = 60
+                            SelectValueId = new Guid("2ecfb104-feb3-406a-b741-0ac9fdd3e8d7")
                         },
                         new
                         {
@@ -5132,8 +4685,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("71779748-6d3c-496a-9842-8dc508de6676"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("71779748-6d3c-496a-9842-8dc508de6676")
                         },
                         new
                         {
@@ -5141,8 +4693,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("7f6b69f3-4fe8-4b0c-a586-38a661c60af5")
                         },
                         new
                         {
@@ -5150,8 +4701,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("5d50c5c3-e85a-4810-ac46-49572e1ca2f5"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("5d50c5c3-e85a-4810-ac46-49572e1ca2f5")
                         },
                         new
                         {
@@ -5159,8 +4709,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("79de43be-57cc-484f-bff2-57f3ba78dbe9"),
-                            SortOrder = 80
+                            SelectValueId = new Guid("79de43be-57cc-484f-bff2-57f3ba78dbe9")
                         },
                         new
                         {
@@ -5168,8 +4717,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("130f63c3-9d2f-4301-b062-236c78663e3b"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("130f63c3-9d2f-4301-b062-236c78663e3b")
                         },
                         new
                         {
@@ -5177,8 +4725,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("63a6b9a9-30a8-4cdb-983b-336b587069cb"),
-                            SortOrder = 55
+                            SelectValueId = new Guid("63a6b9a9-30a8-4cdb-983b-336b587069cb")
                         },
                         new
                         {
@@ -5186,8 +4733,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("f2a6ef3d-bb32-4505-83a5-2cb9f611ce0f"),
-                            SortOrder = 85
+                            SelectValueId = new Guid("f2a6ef3d-bb32-4505-83a5-2cb9f611ce0f")
                         },
                         new
                         {
@@ -5195,8 +4741,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("52fad37d-23a7-4515-9b77-3ee3bda03b9a"),
-                            SortOrder = 70
+                            SelectValueId = new Guid("52fad37d-23a7-4515-9b77-3ee3bda03b9a")
                         },
                         new
                         {
@@ -5204,8 +4749,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("53ed1791-36d7-4534-867c-15175e6f4584"),
-                            SelectValueId = new Guid("95de5380-4027-4b73-b4db-3697aba5ba38"),
-                            SortOrder = 60
+                            SelectValueId = new Guid("95de5380-4027-4b73-b4db-3697aba5ba38")
                         },
                         new
                         {
@@ -5213,8 +4757,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9804d695-d8c7-40bd-814f-8458b55fb583"),
-                            SelectValueId = new Guid("362efd25-e1d2-496d-b7fa-884371a58682"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("362efd25-e1d2-496d-b7fa-884371a58682")
                         },
                         new
                         {
@@ -5222,8 +4765,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9804d695-d8c7-40bd-814f-8458b55fb583"),
-                            SelectValueId = new Guid("34a52363-4a57-4019-abcf-0c9880246891"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("34a52363-4a57-4019-abcf-0c9880246891")
                         },
                         new
                         {
@@ -5231,8 +4773,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9804d695-d8c7-40bd-814f-8458b55fb583"),
-                            SelectValueId = new Guid("33bbdccf-59a9-4b05-bdac-af50137cecb3"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("33bbdccf-59a9-4b05-bdac-af50137cecb3")
                         },
                         new
                         {
@@ -5240,8 +4781,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9804d695-d8c7-40bd-814f-8458b55fb583"),
-                            SelectValueId = new Guid("bd0f37e1-ec14-4d87-8380-117b4480d7a4"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("bd0f37e1-ec14-4d87-8380-117b4480d7a4")
                         },
                         new
                         {
@@ -5249,8 +4789,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9804d695-d8c7-40bd-814f-8458b55fb583"),
-                            SelectValueId = new Guid("425f1526-0513-4535-bdd8-47632d82956f"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("425f1526-0513-4535-bdd8-47632d82956f")
                         },
                         new
                         {
@@ -5258,8 +4797,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
-                            SelectValueId = new Guid("3f93768e-ac24-4741-9eb8-49d1e8e4a6e1"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("3f93768e-ac24-4741-9eb8-49d1e8e4a6e1")
                         },
                         new
                         {
@@ -5267,8 +4805,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
-                            SelectValueId = new Guid("e20ff004-aafc-4e28-87f9-0d9c6372951c"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("e20ff004-aafc-4e28-87f9-0d9c6372951c")
                         },
                         new
                         {
@@ -5276,8 +4813,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
-                            SelectValueId = new Guid("35d63f30-8704-47d5-865a-ee713a082433"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("35d63f30-8704-47d5-865a-ee713a082433")
                         },
                         new
                         {
@@ -5285,8 +4821,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
-                            SelectValueId = new Guid("f52b9170-c6f6-4828-b96c-df5dfbe9bd73"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("f52b9170-c6f6-4828-b96c-df5dfbe9bd73")
                         },
                         new
                         {
@@ -5294,8 +4829,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9648daa0-c2b2-4b97-912b-7ce30b9534a8"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
                         },
                         new
                         {
@@ -5303,8 +4837,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
-                            SelectValueId = new Guid("3c014654-b4c9-4c7a-a251-ae88ad504c8a"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("3c014654-b4c9-4c7a-a251-ae88ad504c8a")
                         },
                         new
                         {
@@ -5312,8 +4845,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
-                            SelectValueId = new Guid("dec26aef-f0de-4c9f-a164-e23e2543c987"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("dec26aef-f0de-4c9f-a164-e23e2543c987")
                         },
                         new
                         {
@@ -5321,8 +4853,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
-                            SelectValueId = new Guid("d53b4a35-f472-42a1-ab22-c7afb1e7d77e"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("d53b4a35-f472-42a1-ab22-c7afb1e7d77e")
                         },
                         new
                         {
@@ -5330,8 +4861,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("9c6b7ba0-f672-433f-b1e3-a80a2eb0a3ea"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
                         },
                         new
                         {
@@ -5339,8 +4869,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
-                            SelectValueId = new Guid("1f0e9a86-4641-4d7e-8413-a1beba0e8afb"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("1f0e9a86-4641-4d7e-8413-a1beba0e8afb")
                         },
                         new
                         {
@@ -5348,8 +4877,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
-                            SelectValueId = new Guid("5850e103-4ac9-472e-85f2-cddc08732ccc"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("5850e103-4ac9-472e-85f2-cddc08732ccc")
                         },
                         new
                         {
@@ -5357,8 +4885,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
-                            SelectValueId = new Guid("5db547d6-c115-4409-8db7-59374ca2af83"),
-                            SortOrder = 90
+                            SelectValueId = new Guid("5db547d6-c115-4409-8db7-59374ca2af83")
                         },
                         new
                         {
@@ -5366,8 +4893,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
                         },
                         new
                         {
@@ -5375,8 +4901,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("d1ca913c-dee7-46d8-9fd4-ea564af8005f"),
-                            SelectValueId = new Guid("0d1073cd-f6d5-4572-87ac-98ab6f15c05a"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("0d1073cd-f6d5-4572-87ac-98ab6f15c05a")
                         },
                         new
                         {
@@ -5384,8 +4909,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("1f0e9a86-4641-4d7e-8413-a1beba0e8afb"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("1f0e9a86-4641-4d7e-8413-a1beba0e8afb")
                         },
                         new
                         {
@@ -5393,8 +4917,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("5850e103-4ac9-472e-85f2-cddc08732ccc"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("5850e103-4ac9-472e-85f2-cddc08732ccc")
                         },
                         new
                         {
@@ -5402,8 +4925,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("5db547d6-c115-4409-8db7-59374ca2af83"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("5db547d6-c115-4409-8db7-59374ca2af83")
                         },
                         new
                         {
@@ -5411,8 +4933,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 90
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
                         },
                         new
                         {
@@ -5420,8 +4941,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("395ead29-7ecc-4999-b479-dffe97437e3a"),
-                            SelectValueId = new Guid("0d1073cd-f6d5-4572-87ac-98ab6f15c05a"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("0d1073cd-f6d5-4572-87ac-98ab6f15c05a")
                         },
                         new
                         {
@@ -5429,8 +4949,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
-                            SelectValueId = new Guid("166edc65-9915-4836-b0a3-3c60ad0bcc04"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("166edc65-9915-4836-b0a3-3c60ad0bcc04")
                         },
                         new
                         {
@@ -5438,8 +4957,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
-                            SelectValueId = new Guid("33e57595-2166-4cce-aa34-60d7148ae9f7"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("33e57595-2166-4cce-aa34-60d7148ae9f7")
                         },
                         new
                         {
@@ -5447,8 +4965,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
-                            SelectValueId = new Guid("42f546ab-1b96-4eab-88a4-753cad8392c1"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("42f546ab-1b96-4eab-88a4-753cad8392c1")
                         },
                         new
                         {
@@ -5456,8 +4973,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
-                            SelectValueId = new Guid("33bbdccf-59a9-4b05-bdac-af50137cecb3"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("33bbdccf-59a9-4b05-bdac-af50137cecb3")
                         },
                         new
                         {
@@ -5465,8 +4981,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
-                            SelectValueId = new Guid("6307ec0e-482a-4777-8b2e-4e8cd5d1f252"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("6307ec0e-482a-4777-8b2e-4e8cd5d1f252")
                         },
                         new
                         {
@@ -5474,8 +4989,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("072c2a9a-a492-4190-9a49-505ff7056528"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 60
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
                         },
                         new
                         {
@@ -5483,8 +4997,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
-                            SelectValueId = new Guid("45d534e3-6605-42f0-ae57-1a943e18a9cd"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("45d534e3-6605-42f0-ae57-1a943e18a9cd")
                         },
                         new
                         {
@@ -5492,8 +5005,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
-                            SelectValueId = new Guid("0141e712-7080-4e3d-8145-44a3080aa274"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("0141e712-7080-4e3d-8145-44a3080aa274")
                         },
                         new
                         {
@@ -5501,8 +5013,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
-                            SelectValueId = new Guid("6bdf5666-65ef-475a-9c48-9a38f18de041"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("6bdf5666-65ef-475a-9c48-9a38f18de041")
                         },
                         new
                         {
@@ -5510,8 +5021,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("747ef1be-2445-4c3f-8e6c-856ea4aac6b7"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
                         },
                         new
                         {
@@ -5519,8 +5029,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
-                            SelectValueId = new Guid("c0911d95-0c6d-4834-840c-43cddf3c51a0"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("c0911d95-0c6d-4834-840c-43cddf3c51a0")
                         },
                         new
                         {
@@ -5528,8 +5037,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
-                            SelectValueId = new Guid("0cf5b2e2-4f01-441a-adc8-a975c7494fd7"),
-                            SortOrder = 60
+                            SelectValueId = new Guid("0cf5b2e2-4f01-441a-adc8-a975c7494fd7")
                         },
                         new
                         {
@@ -5537,8 +5045,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
-                            SelectValueId = new Guid("c1951202-0e6e-41f7-bf07-5cefe47efade"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("c1951202-0e6e-41f7-bf07-5cefe47efade")
                         },
                         new
                         {
@@ -5546,8 +5053,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
-                            SelectValueId = new Guid("3550443d-5acf-4159-bd59-d7da04dd9434"),
-                            SortOrder = 50
+                            SelectValueId = new Guid("3550443d-5acf-4159-bd59-d7da04dd9434")
                         },
                         new
                         {
@@ -5555,8 +5061,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
-                            SelectValueId = new Guid("d075dda3-ba29-472b-a699-1f92c1af13a9"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("d075dda3-ba29-472b-a699-1f92c1af13a9")
                         },
                         new
                         {
@@ -5564,8 +5069,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
-                            SelectValueId = new Guid("e340f76d-074b-40e8-85b0-1bb66a596a06"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("e340f76d-074b-40e8-85b0-1bb66a596a06")
                         },
                         new
                         {
@@ -5573,8 +5077,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("c4ff62bb-9f40-4499-b237-d7b87b2b36f7"),
-                            SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"),
-                            SortOrder = 70
+                            SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0")
                         },
                         new
                         {
@@ -5582,8 +5085,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e3756ad6-de58-4c22-9a7c-363bc33c613c"),
-                            SelectValueId = new Guid("6fbab698-993f-4268-a28e-b1f1599771c5"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("6fbab698-993f-4268-a28e-b1f1599771c5")
                         },
                         new
                         {
@@ -5591,8 +5093,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e3756ad6-de58-4c22-9a7c-363bc33c613c"),
-                            SelectValueId = new Guid("e7442e9b-8c54-41ed-8607-accba2d04f61"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("e7442e9b-8c54-41ed-8607-accba2d04f61")
                         },
                         new
                         {
@@ -5600,8 +5101,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e3756ad6-de58-4c22-9a7c-363bc33c613c"),
-                            SelectValueId = new Guid("28927b59-a999-4f84-abca-4f146888457f"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("28927b59-a999-4f84-abca-4f146888457f")
                         },
                         new
                         {
@@ -5609,8 +5109,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("e3756ad6-de58-4c22-9a7c-363bc33c613c"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201")
                         },
                         new
                         {
@@ -5618,8 +5117,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("474775e9-f08a-4043-8474-e84f42bf3948"),
-                            SelectValueId = new Guid("d2236889-d7d1-4896-b449-69f273c6b514"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("d2236889-d7d1-4896-b449-69f273c6b514")
                         },
                         new
                         {
@@ -5627,8 +5125,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("474775e9-f08a-4043-8474-e84f42bf3948"),
-                            SelectValueId = new Guid("77c68dbb-a627-4053-829e-86c555754f60"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("77c68dbb-a627-4053-829e-86c555754f60")
                         },
                         new
                         {
@@ -5636,8 +5133,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("474775e9-f08a-4043-8474-e84f42bf3948"),
-                            SelectValueId = new Guid("b3bd7011-2cda-49d9-8fea-46fa02db9c4b"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("b3bd7011-2cda-49d9-8fea-46fa02db9c4b")
                         },
                         new
                         {
@@ -5645,8 +5141,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("474775e9-f08a-4043-8474-e84f42bf3948"),
-                            SelectValueId = new Guid("a80c8892-7cba-4b19-b84d-937da70c8af3"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("a80c8892-7cba-4b19-b84d-937da70c8af3")
                         },
                         new
                         {
@@ -5654,8 +5149,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("1bae5715-8363-4221-8735-8def3d2546e1"),
-                            SelectValueId = new Guid("1c1bec30-91d2-4699-8753-67f4feb53df3"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("1c1bec30-91d2-4699-8753-67f4feb53df3")
                         },
                         new
                         {
@@ -5663,8 +5157,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("1bae5715-8363-4221-8735-8def3d2546e1"),
-                            SelectValueId = new Guid("26686d6e-853e-4d57-b10d-35444ae824be"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("26686d6e-853e-4d57-b10d-35444ae824be")
                         },
                         new
                         {
@@ -5672,8 +5165,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("1bae5715-8363-4221-8735-8def3d2546e1"),
-                            SelectValueId = new Guid("78d6ce19-ac32-444f-94a6-aa4262340fa1"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("78d6ce19-ac32-444f-94a6-aa4262340fa1")
                         },
                         new
                         {
@@ -5681,8 +5173,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("1bae5715-8363-4221-8735-8def3d2546e1"),
-                            SelectValueId = new Guid("362efd25-e1d2-496d-b7fa-884371a58682"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("362efd25-e1d2-496d-b7fa-884371a58682")
                         },
                         new
                         {
@@ -5690,8 +5181,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("13376e1d-2378-4e30-a6d2-808da4a4ba4d"),
-                            SelectValueId = new Guid("b3bd7011-2cda-49d9-8fea-46fa02db9c4b"),
-                            SortOrder = 10
+                            SelectValueId = new Guid("b3bd7011-2cda-49d9-8fea-46fa02db9c4b")
                         },
                         new
                         {
@@ -5699,8 +5189,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("13376e1d-2378-4e30-a6d2-808da4a4ba4d"),
-                            SelectValueId = new Guid("26686d6e-853e-4d57-b10d-35444ae824be"),
-                            SortOrder = 30
+                            SelectValueId = new Guid("26686d6e-853e-4d57-b10d-35444ae824be")
                         },
                         new
                         {
@@ -5708,8 +5197,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("13376e1d-2378-4e30-a6d2-808da4a4ba4d"),
-                            SelectValueId = new Guid("78d6ce19-ac32-444f-94a6-aa4262340fa1"),
-                            SortOrder = 40
+                            SelectValueId = new Guid("78d6ce19-ac32-444f-94a6-aa4262340fa1")
                         },
                         new
                         {
@@ -5717,8 +5205,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             SelectValueCategoryId = new Guid("13376e1d-2378-4e30-a6d2-808da4a4ba4d"),
-                            SelectValueId = new Guid("362efd25-e1d2-496d-b7fa-884371a58682"),
-                            SortOrder = 20
+                            SelectValueId = new Guid("362efd25-e1d2-496d-b7fa-884371a58682")
                         },
                         new
                         {
@@ -6998,40 +6485,24 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.CurriculumVitaeReference", b =>
                 {
-                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
-                        .WithMany("CurriculumVitaeReferences")
-                        .HasForeignKey("MusicianProfileId")
-                        .HasConstraintName("fk_curriculum_vitae_references_musician_profiles_musician_prof")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
-                        .HasConstraintName("fk_curriculum_vitae_references_select_value_mappings_type_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("MusicianProfile");
+                        .HasConstraintName("fk_curriculum_vitae_reference_select_value_mappings_type_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Education", b =>
                 {
-                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
-                        .WithMany("Educations")
-                        .HasForeignKey("MusicianProfileId")
-                        .HasConstraintName("fk_educations_musician_profiles_musician_profile_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .HasConstraintName("fk_educations_select_value_mappings_type_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("MusicianProfile");
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Type");
                 });
@@ -7087,6 +6558,44 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("Qualification");
 
                     b.Navigation("Salary");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileCurriculumVitaeReference", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.CurriculumVitaeReference", "CurriculumVitaeReference")
+                        .WithMany("MusicianProfileCurriculumVitaeReferences")
+                        .HasForeignKey("CurriculumVitaeReferenceId")
+                        .HasConstraintName("fk_musician_profile_curriculum_vitae_references_curriculum_vit")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("MusicianProfileCurriculumVitaeReferences")
+                        .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_musician_profile_curriculum_vitae_references_musician_profi")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CurriculumVitaeReference");
+
+                    b.Navigation("MusicianProfile");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfileEducation", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Education", "Education")
+                        .WithMany("MusicianProfileEducations")
+                        .HasForeignKey("EducationId")
+                        .HasConstraintName("fk_musician_profile_educations_educations_education_id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.MusicianProfile", "MusicianProfile")
+                        .WithMany("MusicianProfileEducations")
+                        .HasForeignKey("MusicianProfileId")
+                        .HasConstraintName("fk_musician_profile_educations_musician_profiles_musician_prof")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Education");
+
+                    b.Navigation("MusicianProfile");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfilePositionInner", b =>
@@ -7515,17 +7024,27 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("SectionAppointments");
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.CurriculumVitaeReference", b =>
+                {
+                    b.Navigation("MusicianProfileCurriculumVitaeReferences");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Education", b =>
+                {
+                    b.Navigation("MusicianProfileEducations");
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.MusicianProfile", b =>
                 {
                     b.Navigation("Auditions");
 
                     b.Navigation("AvailableDocuments");
 
-                    b.Navigation("CurriculumVitaeReferences");
-
                     b.Navigation("DoublingInstruments");
 
-                    b.Navigation("Educations");
+                    b.Navigation("MusicianProfileCurriculumVitaeReferences");
+
+                    b.Navigation("MusicianProfileEducations");
 
                     b.Navigation("PreferredGenres");
 
