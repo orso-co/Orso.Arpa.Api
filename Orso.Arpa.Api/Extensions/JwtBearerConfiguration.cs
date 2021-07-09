@@ -61,12 +61,16 @@ namespace Orso.Arpa.Api.Extensions
                             context.ErrorDescription = $"The token expired on {authenticationException.Expires:o}";
                         }
 
+                        var serializeOptions = new JsonSerializerOptions
+                        {
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        };
                         return context.Response.WriteAsync(JsonSerializer.Serialize(new ValidationProblemDetails()
                         {
                             Title = context.Error,
                             Detail = context.ErrorDescription,
                             Status = 401
-                        }));
+                        }, serializeOptions));
                     }
                 };
             });

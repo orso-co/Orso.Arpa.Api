@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
+using System.Text.Json;
 using FluentValidation.AspNetCore;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -88,8 +89,11 @@ namespace Orso.Arpa.Api
                 {
                     options.Filters.Add(typeof(LocationResultFilter));
                 })
-                .AddJsonOptions(options => options.JsonSerializerOptions.Converters
-                    .Add(new DateTimeJsonConverter()))
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                })
                 .AddApplicationPart(typeof(Startup).Assembly)
                 .AddFluentValidation(config =>
                 {

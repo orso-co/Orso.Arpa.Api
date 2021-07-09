@@ -123,7 +123,11 @@ namespace Orso.Arpa.Api.Middleware
             if (errorMessage != null)
             {
                 context.Response.ContentType = MediaTypeNames.Application.Json;
-                var serializedErrorMessage = JsonSerializer.Serialize(errorMessage);
+                var serializeOptions = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                };
+                var serializedErrorMessage = JsonSerializer.Serialize(errorMessage, serializeOptions);
                 await context.Response.WriteAsync(serializedErrorMessage);
             }
         }

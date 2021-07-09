@@ -33,7 +33,7 @@ namespace Orso.Arpa.Api.Middleware
         public async Task Invoke(HttpContext context)
         {
             var culture = CultureInfo.CurrentUICulture.Name;
-            var localizer = _localizerFactory.Create("Validator", culture);
+            IStringLocalizer localizer = _localizerFactory.Create("Validator", culture);
 
             Stream originalBody = context.Response.Body;
 
@@ -49,21 +49,26 @@ namespace Orso.Arpa.Api.Middleware
                     memStream.Position = 0;
                     string responseBody = await new StreamReader(memStream).ReadToEndAsync();
 
-                    try {
+                    try
+                    {
                         ValidationProblemDetails deserializedErrorMessage =
                             JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
 
                         deserializedErrorMessage!.Detail =
                             deserializedErrorMessage.Detail.IsNullOrEmpty()
-                                ? null: localizer[deserializedErrorMessage.Detail];
+                                ? null : localizer[deserializedErrorMessage.Detail];
 
                         deserializedErrorMessage.Title = deserializedErrorMessage.Title.IsNullOrEmpty()
                             ? null : localizer[deserializedErrorMessage.Title];
 
                         await using var streamWrite = new StreamWriter(originalBody);
 
+                        var serializeOptions = new JsonSerializerOptions
+                        {
+                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        };
                         await streamWrite.WriteAsync(
-                            JsonSerializer.Serialize(deserializedErrorMessage));
+                            JsonSerializer.Serialize(deserializedErrorMessage, serializeOptions));
                     }
                     catch (Exception)
                     {
@@ -76,7 +81,9 @@ namespace Orso.Arpa.Api.Middleware
                     memStream.Position = 0;
                     await memStream.CopyToAsync(originalBody);
                 }
-            } finally {
+            }
+            finally
+            {
                 context.Response.Body = originalBody;
             }
         }

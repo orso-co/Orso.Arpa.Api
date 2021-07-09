@@ -70,7 +70,11 @@ namespace Orso.Arpa.Infrastructure.Localization
 
             context.HttpContext.Response.Body.Position = 0;
             context.HttpContext.Response.Body.SetLength(0);
-            context.HttpContext.Response.Body.Write(JsonSerializer.SerializeToUtf8Bytes(obj));
+            var serializeOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
+            context.HttpContext.Response.Body.Write(JsonSerializer.SerializeToUtf8Bytes(obj, serializeOptions));
         }
 
         public void TranslateObject(object obj, int maxLevels)
