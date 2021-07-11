@@ -1,10 +1,10 @@
 using System;
-using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.RemoveProject;
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, ProjectSeedData.RockingXMas.Id));
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command(_validAppointmentId, ProjectSeedData.RockingXMas.Id));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Project project = ProjectSeedData.HoorayForHollywood;
 
-            _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, new Command(_validAppointmentId, project.Id));
+            _validator.ShouldHaveValidationErrorForExact(command => command.ProjectId, new Command(_validAppointmentId, project.Id));
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Project project = ProjectSeedData.RockingXMas;
 
-            _validator.ShouldNotHaveValidationErrorFor(command => command.ProjectId, new Command(_validAppointmentId, project.Id));
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.ProjectId, new Command(_validAppointmentId, project.Id));
         }
     }
 }

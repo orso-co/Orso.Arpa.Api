@@ -1,12 +1,11 @@
 using System;
 using System.Threading;
-using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Tests.Extensions;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.AddRoom;
@@ -45,7 +44,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, _validRoomId));
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command(_validAppointmentId, _validRoomId));
         }
 
         [Test]
@@ -62,7 +61,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             Guid linkedRoomId = RoomSeedData.AulaWeiherhofSchule.Id;
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(command => command.RoomId, new Command(_validAppointmentId, linkedRoomId));
+            _validator.ShouldHaveValidationErrorForExact(command => command.RoomId, new Command(_validAppointmentId, linkedRoomId));
         }
     }
 }

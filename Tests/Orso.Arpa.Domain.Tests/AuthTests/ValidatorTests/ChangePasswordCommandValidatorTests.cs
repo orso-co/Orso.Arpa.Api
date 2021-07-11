@@ -1,9 +1,9 @@
-using FluentValidation.TestHelper;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
 using static Orso.Arpa.Domain.Logic.Auth.ChangePassword;
 
@@ -28,14 +28,14 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Wrong_Current_Password_Is_Supplied()
         {
             _userAccessor.GetCurrentUserAsync().Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Performer);
-            _validator.ShouldHaveValidationErrorFor(command => command.CurrentPassword, "WrongPassword");
+            _validator.ShouldHaveValidationErrorForExact(command => command.CurrentPassword, "WrongPassword");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Correct_Current_Password_Is_Supplied()
         {
             _userAccessor.GetCurrentUserAsync().Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Performer);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.CurrentPassword, UserSeedData.ValidPassword);
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.CurrentPassword, UserSeedData.ValidPassword);
         }
     }
 }

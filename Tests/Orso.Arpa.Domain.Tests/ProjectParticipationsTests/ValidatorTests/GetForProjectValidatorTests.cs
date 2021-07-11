@@ -1,12 +1,11 @@
 using System;
 using System.Threading;
-using FluentValidation.TestHelper;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
-using Orso.Arpa.Domain.Tests.Extensions;
+using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
 {
@@ -36,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
 
-            _validator.ShouldNotHaveValidationErrorFor(c => c.ProjectId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.ProjectId, Guid.NewGuid());
         }
     }
 }

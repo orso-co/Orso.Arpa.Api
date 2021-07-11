@@ -8,7 +8,7 @@ using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Orso.Arpa.Domain.Errors;
 
-namespace Orso.Arpa.Domain.Tests.Extensions
+namespace Orso.Arpa.Tests.Shared.Extensions
 {
     public static class ValidatorExtensions
     {
@@ -32,8 +32,10 @@ namespace Orso.Arpa.Domain.Tests.Extensions
             testValidationResultFunction.Should().ThrowExactly<NotFoundException>().WithMessage(typeName + " could not be found.");
         }
 
-        public static IEnumerable<ValidationFailure> ShouldHaveValidationErrorForExact<T, TValue>(this IValidator<T> validator,
-            Expression<Func<T, TValue>> expression, TValue value) where T : class, new()
+        public static IEnumerable<ValidationFailure> ShouldHaveValidationErrorForExact<T, TValue>(
+            this IValidator<T> validator,
+            Expression<Func<T, TValue>> expression,
+            TValue value) where T : class, new()
         {
             var instanceToValidate = new T();
 
@@ -44,7 +46,10 @@ namespace Orso.Arpa.Domain.Tests.Extensions
             return testValidationResult.ShouldHaveValidationErrorFor(expression);
         }
 
-        public static IEnumerable<ValidationFailure> ShouldHaveValidationErrorForExact<T, TValue>(this IValidator<T> validator, Expression<Func<T, TValue>> expression, T objectToTest) where T : class
+        public static IEnumerable<ValidationFailure> ShouldHaveValidationErrorForExact<T, TValue>(
+            this IValidator<T> validator,
+            Expression<Func<T, TValue>> expression,
+            T objectToTest) where T : class
         {
             TValue value = expression.Compile()(objectToTest);
             var memberAccessor = new MemberAccessor<T, TValue>(expression, true);
@@ -52,8 +57,10 @@ namespace Orso.Arpa.Domain.Tests.Extensions
             return testValidationResult.ShouldHaveValidationErrorFor(expression);
         }
 
-        public static void ShouldNotHaveValidationErrorForExact<T, TValue>(this IValidator<T> validator,
-            Expression<Func<T, TValue>> expression, TValue value) where T : class, new()
+        public static void ShouldNotHaveValidationErrorForExact<T, TValue>(
+            this IValidator<T> validator,
+            Expression<Func<T, TValue>> expression,
+            TValue value) where T : class, new()
         {
 
             var instanceToValidate = new T();
@@ -65,7 +72,10 @@ namespace Orso.Arpa.Domain.Tests.Extensions
             testValidationResult.ShouldNotHaveValidationErrorFor(expression);
         }
 
-        public static void ShouldNotHaveValidationErrorForExact<T, TValue>(this IValidator<T> validator, Expression<Func<T, TValue>> expression, T objectToTest) where T : class
+        public static void ShouldNotHaveValidationErrorForExact<T, TValue>(
+            this IValidator<T> validator,
+            Expression<Func<T, TValue>> expression,
+            T objectToTest) where T : class
         {
             TValue value = expression.Compile()(objectToTest);
             var memberAccessor = new MemberAccessor<T, TValue>(expression, true);

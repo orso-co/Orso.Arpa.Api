@@ -1,13 +1,12 @@
 using System;
 using System.Threading;
-using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.AddSection;
@@ -46,7 +45,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, _validSectionId));
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command(_validAppointmentId, _validSectionId));
         }
 
         [Test]
@@ -62,7 +61,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(command => command.SectionId, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
+            _validator.ShouldHaveValidationErrorForExact(command => command.SectionId, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
     }
 }

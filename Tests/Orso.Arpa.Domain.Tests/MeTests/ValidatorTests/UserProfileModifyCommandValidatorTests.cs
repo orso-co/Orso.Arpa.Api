@@ -1,8 +1,8 @@
-using FluentValidation.TestHelper;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Me.Modify;
@@ -27,25 +27,25 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Email_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Email, UserTestSeedData.Performer.Email);
+            _validator.ShouldHaveValidationErrorForExact(command => command.Email, UserTestSeedData.Performer.Email);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Email, "ludmilla@test.com");
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Email, "ludmilla@test.com");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_GivenName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.GivenName, "Ludmilla");
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.GivenName, "Ludmilla");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Surname_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Surname, "Schneider");
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Surname, "Schneider");
         }
     }
 }

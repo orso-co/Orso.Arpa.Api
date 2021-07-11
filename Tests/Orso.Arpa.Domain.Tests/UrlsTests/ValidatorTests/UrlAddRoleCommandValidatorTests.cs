@@ -1,13 +1,13 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading;
-using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
 using static Orso.Arpa.Domain.Logic.Urls.AddRole;
 
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(command => command.RoleId, new Command { RoleId = RoleDtoData.Admin.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            _validator.ShouldHaveValidationErrorForExact(command => command.RoleId, new Command { RoleId = RoleDtoData.Admin.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }
 
         [Test]
@@ -41,8 +41,8 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.RoleId, new Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
-            _validator.ShouldNotHaveValidationErrorFor(command => command.RoleId, new Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.RoleId, new Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.RoleId, new Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }
     }
 }

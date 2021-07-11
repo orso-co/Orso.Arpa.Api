@@ -8,7 +8,6 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
-using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -54,7 +53,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             Project project = ProjectSeedData.HoorayForHollywood;
             project.SetProperty(nameof(Project.IsCompleted), true);
             _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(project);
-            _validator.ShouldHaveValidationErrorFor(command => command.ProjectId, Guid.NewGuid())
+            _validator.ShouldHaveValidationErrorForExact(command => command.ProjectId, Guid.NewGuid())
                 .WithErrorMessage("The project is completed. You may not set the participation of a completed project");
         }
 
@@ -77,7 +76,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.HoorayForHollywood);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
 
-            _validator.ShouldHaveValidationErrorFor(command => command.StatusId, Guid.NewGuid())
+            _validator.ShouldHaveValidationErrorForExact(command => command.StatusId, Guid.NewGuid())
                 .WithErrorMessage("The selected value is not valid for this field");
         }
 
@@ -108,7 +107,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.PerformersDeactivatedTubaProfile);
 
-            _validator.ShouldHaveValidationErrorFor(command => command.MusicianProfileId, new SetProjectParticipation.Command
+            _validator.ShouldHaveValidationErrorForExact(command => command.MusicianProfileId, new SetProjectParticipation.Command
             {
                 MusicianProfileId = Guid.NewGuid(),
                 PersonId = Guid.NewGuid(),
@@ -126,7 +125,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
 
-            _validator.ShouldNotHaveValidationErrorFor(command => command.StatusId, new SetProjectParticipation.Command
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.StatusId, new SetProjectParticipation.Command
             {
                 MusicianProfileId = Guid.NewGuid(),
                 PersonId = Guid.NewGuid(),

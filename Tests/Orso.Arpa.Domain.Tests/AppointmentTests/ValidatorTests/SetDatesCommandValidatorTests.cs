@@ -7,7 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Tests.Extensions;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.SetDates;
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command { Id = _existingAppointment.Id });
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command { Id = _existingAppointment.Id });
         }
     }
 }

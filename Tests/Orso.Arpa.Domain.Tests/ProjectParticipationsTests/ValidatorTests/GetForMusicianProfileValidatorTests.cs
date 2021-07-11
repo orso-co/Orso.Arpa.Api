@@ -11,7 +11,7 @@ using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
 using Orso.Arpa.Domain.Roles;
-using Orso.Arpa.Domain.Tests.Extensions;
+using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
 {
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
             _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Staff });
             _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
 
-            _validator.ShouldNotHaveValidationErrorFor(c => c.MusicianProfileId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.MusicianProfileId, Guid.NewGuid());
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
             _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Performer });
             _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
 
-            _validator.ShouldNotHaveValidationErrorFor(c => c.MusicianProfileId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.MusicianProfileId, Guid.NewGuid());
         }
     }
 }
