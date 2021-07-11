@@ -1,7 +1,6 @@
 using System;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
@@ -43,14 +42,15 @@ namespace Orso.Arpa.Domain.Logic.CurriculumVitaeReferences
                 if (tokenAccessor.UserRoles.Contains(RoleNames.Staff))
                 {
                     RuleFor(c => c.MusicianProfileId)
-                        .EntityExists<Command, MusicianProfile>(arpaContext, nameof(Command.MusicianProfileId));
+                        .EntityExists<Command, MusicianProfile>(arpaContext);
                 }
                 else
                 {
                     RuleFor(c => c.MusicianProfileId)
                         .MustAsync(async (musicianProfileId, cancellation) => await arpaContext
                             .EntityExistsAsync<MusicianProfile>(mp => mp.Id == musicianProfileId && mp.PersonId == tokenAccessor.PersonId, cancellation))
-                        .OnFailure(_ => throw new AuthorizationException("This musician profile is not yours. You don't have access to this musician profile."));
+                        .WithErrorCode("403")
+                        .WithMessage("This musician profile is not yours. You don't have access to this musician profile.");
                 }
 
                 RuleFor(c => c.TypeId)

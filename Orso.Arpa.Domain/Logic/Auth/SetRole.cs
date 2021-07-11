@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 
 namespace Orso.Arpa.Domain.Logic.Auth
@@ -27,10 +26,12 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 RuleFor(c => c.Username)
                     .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) != null)
-                    .OnFailure((request) => throw new NotFoundException(typeof(User).Name, nameof(Command.Username)));
+                    .WithErrorCode("404")
+                    .WithMessage("User could not be found.");
                 RuleForEach(c => c.RoleNames)
                     .MustAsync(async (roleName, cancellation) => await roleManager.RoleExistsAsync(roleName))
-                    .OnFailure((request) => throw new NotFoundException(typeof(Role).Name, nameof(Command.RoleNames)));
+                    .WithErrorCode("404")
+                    .WithMessage("Role could not be found.");
             }
         }
 

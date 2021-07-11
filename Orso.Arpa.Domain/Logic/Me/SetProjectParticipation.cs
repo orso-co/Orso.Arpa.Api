@@ -6,7 +6,6 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -28,11 +27,11 @@ namespace Orso.Arpa.Domain.Logic.Me
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.PersonId)
-                    .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
+                    .EntityExists<Command, Person>(arpaContext);
 
                 RuleFor(c => c.ProjectId)
                     .Cascade(CascadeMode.Stop)
-                    .EntityExists<Command, Project>(arpaContext, nameof(Command.ProjectId))
+                    .EntityExists<Command, Project>(arpaContext)
                     .MustAsync(async (projectId, cancellation) => !(await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation)).IsCompleted)
                     .WithMessage("The project is completed. You may not set the participation of a completed project");
 
@@ -43,7 +42,8 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .Cascade(CascadeMode.Stop)
                     .MustAsync(async (command, musicianProfileId, cancellation) => (await arpaContext
                         .EntityExistsAsync<MusicianProfile>(mp => mp.Id == musicianProfileId && mp.PersonId == command.PersonId, cancellation)))
-                    .OnFailure(_ => throw new NotFoundException(nameof(MusicianProfile), nameof(Command.MusicianProfileId)))
+                    .WithErrorCode("404")
+                    .WithMessage($"{typeof(MusicianProfile).Name} could not be found.")
                     .MustAsync(async (musicianProfileId, cancellation) => !(await arpaContext.FindAsync<MusicianProfile>(new object[] { musicianProfileId }, cancellation)).IsDeactivated)
                     .WithMessage("Your musician profile is deactivated. A deactivated musician profile may not participate in a project");
             }

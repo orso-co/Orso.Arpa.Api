@@ -1,7 +1,7 @@
-using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
@@ -19,74 +19,74 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_Email_Is_Supplied([Values(null, "", "test@")] string email)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Email, email);
+            _validator.ShouldHaveValidationErrorForExact(command => command.Email, email);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Email, "ludmilla@test.com");
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Email, "ludmilla@test.com");
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_Password_Is_Supplied(
             [Values(null, "", "1234", "123456", "aaaaaa", "AAAAAA", "aaaAAA", "aaAA11", "%%%%%%")] string password)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Password, password);
+            _validator.ShouldHaveValidationErrorForExact(command => command.Password, password);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Password_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Password, UserSeedData.ValidPassword);
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Password, UserSeedData.ValidPassword);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.UserName, username);
+            _validator.ShouldHaveValidationErrorForExact(command => command.UserName, username);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_GivenName_Is_Supplied([Values(null, "")] string givenName)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.GivenName, givenName);
+            _validator.ShouldHaveValidationErrorForExact(command => command.GivenName, givenName);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Surname_Is_Supplied([Values(null, "")] string surname)
         {
-            _validator.ShouldHaveValidationErrorFor(command => command.Surname, surname);
+            _validator.ShouldHaveValidationErrorForExact(command => command.Surname, surname);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.UserName, "ludmilla");
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.UserName, "ludmilla");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_GivenName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.GivenName, "Ludmilla");
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.GivenName, "Ludmilla");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Surname_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Surname, "Schneider");
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Surname, "Schneider");
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_ClientUri_Is_Supplied([Values(null, "", "http:/mw1.google.com", "foo/bar")] string clientUri)
         {
-            _validator.ShouldHaveValidationErrorFor(query => query.ClientUri, clientUri);
+            _validator.ShouldHaveValidationErrorForExact(query => query.ClientUri, clientUri);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_ClientUri_Is_Supplied([Values("http://localhost:4200", "https://www.google.de")] string clientUri)
         {
-            _validator.ShouldNotHaveValidationErrorFor(query => query.ClientUri, clientUri);
+            _validator.ShouldNotHaveValidationErrorForExact(query => query.ClientUri, clientUri);
         }
     }
 }

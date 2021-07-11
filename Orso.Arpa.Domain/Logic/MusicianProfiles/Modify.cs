@@ -70,10 +70,10 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.Salary);
 
                 RuleForEach(c => c.PreferredPositionsInnerIds)
-                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsInnerIds));
+                    .MusicianProfilePosition(arpaContext);
 
                 RuleForEach(c => c.PreferredPositionsTeamIds)
-                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsTeamIds));
+                    .MusicianProfilePosition(arpaContext);
 
                 RuleForEach(c => c.PreferredPartsInner)
                     .InstrumentPart(arpaContext);
@@ -82,7 +82,8 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .InstrumentPart(arpaContext);
 
                 RuleFor(c => c.IsDeactivated)
-                    .Must((command, isDeactivated, context) => !isDeactivated || command.ExistingMusicianProfile.ProjectParticipations.Select(pp => pp.Project).All(p => p.IsCompleted))
+                    .Must((command, isDeactivated, context) => !isDeactivated || command.ExistingMusicianProfile.ProjectParticipations
+                        .Select(pp => pp.Project).All(p => p.IsCompleted))
                     .WithMessage("You may not deactivate a musician profile which is participating in an active project");
             }
         }

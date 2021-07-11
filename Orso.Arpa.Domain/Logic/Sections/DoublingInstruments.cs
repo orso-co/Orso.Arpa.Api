@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Logic.Sections
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(q => q.Id)
-                    .EntityExists<Query, Section>(arpaContext, nameof(Query.Id));
+                    .EntityExists<Query, Section>(arpaContext);
             }
         }
 

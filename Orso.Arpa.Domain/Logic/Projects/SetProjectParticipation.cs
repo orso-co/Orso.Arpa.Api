@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
             {
                 RuleFor(c => c.ProjectId)
                     .Cascade(CascadeMode.Stop)
-                    .EntityExists<Command, Project>(arpaContext, nameof(Command.ProjectId))
+                    .EntityExists<Command, Project>(arpaContext)
                     .MustAsync(async (projectId, cancellation) => !(await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation)).IsCompleted)
                     .WithMessage("The project is completed. You may not set the participation of a completed project");
 
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
 
                 RuleFor(c => c.MusicianProfileId)
                     .Cascade(CascadeMode.Stop)
-                    .EntityExists<Command, MusicianProfile>(arpaContext, nameof(Command.MusicianProfileId))
+                    .EntityExists<Command, MusicianProfile>(arpaContext)
                     .MustAsync(async (musicianProfileId, cancellation) => !(await arpaContext.FindAsync<MusicianProfile>(new object[] { musicianProfileId }, cancellation)).IsDeactivated)
                     .WithMessage("The musician profile is deactivated. A deactivated musician profile may not participate in a project");
             }

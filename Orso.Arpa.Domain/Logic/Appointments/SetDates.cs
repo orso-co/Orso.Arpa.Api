@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public Validator(IArpaContext arpaContext, IMapper mapper)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
+                    .EntityExists<Command, Appointment>(arpaContext);
 
                 RuleFor(d => d.EndTime)
                     .MustAsync(async (request, endTime, cancellation) =>

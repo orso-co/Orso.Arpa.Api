@@ -53,7 +53,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Project>(arpaContext, nameof(Command.Id));
+                    .EntityExists<Command, Project>(arpaContext);
 
                 RuleFor(d => d.Code)
                     .MustAsync(async (dto, code, cancellation) =>
@@ -63,7 +63,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
                     .WithMessage("The specified project code is already in use. The project code needs to be unique.");
 
                 RuleFor(c => c.ParentId)
-                    .EntityExists<Command, Project>(arpaContext, nameof(Command.ParentId));
+                    .EntityExists<Command, Project>(arpaContext);
 
 
                 RuleFor(d => d.StateId)

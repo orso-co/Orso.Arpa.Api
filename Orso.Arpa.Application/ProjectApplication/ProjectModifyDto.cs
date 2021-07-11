@@ -83,7 +83,7 @@ namespace Orso.Arpa.Application.ProjectApplication
             {
                 RuleFor(p => p.EndDate)
                 .Must((p, endTime) => endTime >= p.StartDate)
-                .WithMessage("EndDate must be greater than StartTime");
+                .WithMessage("EndDate must be greater than EndDate");
             });
         }
     }

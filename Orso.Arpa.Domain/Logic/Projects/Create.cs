@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
                     .WithMessage("The specified project code is already in use. The project code needs to be unique.");
 
                 RuleFor(c => c.ParentId)
-                    .EntityExists<Command, Project>(arpaContext, nameof(Command.ParentId));
+                    .EntityExists<Command, Project>(arpaContext);
 
                 RuleFor(d => d.StateId)
                     .SelectValueMapping<Command, Project>(arpaContext, a => a.State);

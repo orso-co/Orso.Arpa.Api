@@ -1,13 +1,12 @@
 using System;
 using System.Threading;
-using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Tests.Extensions;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.Modify;
@@ -34,14 +33,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.Id, Guid.NewGuid(), nameof(Appointment));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.Id, Guid.NewGuid(), nameof(Appointment));
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, AppointmentSeedData.RockingXMasRehearsal.Id);
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, AppointmentSeedData.RockingXMasRehearsal.Id);
         }
 
         [Test]
@@ -49,7 +48,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.SalaryId, Guid.NewGuid(), nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.SalaryId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
@@ -57,7 +56,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(c => c.SalaryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            _validator.ShouldHaveValidationErrorForExact(c => c.SalaryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
         }
 
         [Test]
@@ -65,7 +64,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryId, SelectValueMappingSeedData.AppointmentSalaryMappings[0].Id);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.SalaryId, SelectValueMappingSeedData.AppointmentSalaryMappings[0].Id);
         }
 
         [Test]
@@ -73,7 +72,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryId, (Guid?)null);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.SalaryId, (Guid?)null);
         }
 
         [Test]
@@ -81,7 +80,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.SalaryPatternId, Guid.NewGuid(), nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.SalaryPatternId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
@@ -89,7 +88,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(c => c.SalaryPatternId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            _validator.ShouldHaveValidationErrorForExact(c => c.SalaryPatternId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
         }
 
         [Test]
@@ -97,7 +96,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryPatternId, SelectValueMappingSeedData.AppointmentSalaryPatternMappings[0].Id);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.SalaryPatternId, SelectValueMappingSeedData.AppointmentSalaryPatternMappings[0].Id);
         }
 
         [Test]
@@ -105,7 +104,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.SalaryPatternId, (Guid?)null);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.SalaryPatternId, (Guid?)null);
         }
 
         [Test]
@@ -113,7 +112,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.ExpectationId, Guid.NewGuid(), nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.ExpectationId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
@@ -121,7 +120,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(c => c.ExpectationId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            _validator.ShouldHaveValidationErrorForExact(c => c.ExpectationId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
         }
 
         [Test]
@@ -129,7 +128,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.ExpectationId, SelectValueMappingSeedData.AppointmentExpectationMappings[0].Id);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.ExpectationId, SelectValueMappingSeedData.AppointmentExpectationMappings[0].Id);
         }
 
         [Test]
@@ -137,7 +136,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.ExpectationId, (Guid?)null);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.ExpectationId, (Guid?)null);
         }
 
         [Test]
@@ -145,7 +144,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.StatusId, Guid.NewGuid(), nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.StatusId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
@@ -153,7 +152,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(c => c.StatusId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            _validator.ShouldHaveValidationErrorForExact(c => c.StatusId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
         }
 
         [Test]
@@ -161,7 +160,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.StatusId, SelectValueMappingSeedData.AppointmentStatusMappings[0].Id);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.StatusId, SelectValueMappingSeedData.AppointmentStatusMappings[0].Id);
         }
 
         [Test]
@@ -169,7 +168,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.StatusId, (Guid?)null);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.StatusId, (Guid?)null);
         }
 
         [Test]
@@ -177,7 +176,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.CategoryId, Guid.NewGuid(), nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.CategoryId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
@@ -185,7 +184,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorFor(c => c.CategoryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            _validator.ShouldHaveValidationErrorForExact(c => c.CategoryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
         }
 
         [Test]
@@ -193,7 +192,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.CategoryId, SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.CategoryId, SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id);
         }
 
         [Test]
@@ -201,7 +200,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorFor(c => c.CategoryId, (Guid?)null);
+            _validator.ShouldNotHaveValidationErrorForExact(c => c.CategoryId, (Guid?)null);
         }
     }
 }

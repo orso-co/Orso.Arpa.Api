@@ -1,11 +1,11 @@
 using System;
-using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.RemoveSection;
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Section section = SectionSeedData.HighFemaleVoices;
 
-            _validator.ShouldHaveValidationErrorFor(command => command.SectionId, new Command(_validAppointmentId, section.Id));
+            _validator.ShouldHaveValidationErrorForExact(command => command.SectionId, new Command(_validAppointmentId, section.Id));
         }
     }
 }

@@ -1,10 +1,10 @@
 using System;
-using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using static Orso.Arpa.Domain.Logic.Appointments.RemoveRoom;
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorFor(command => command.Id, new Command(_validAppointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command(_validAppointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Room room = RoomSeedData.MusikraumWeiherhofSchule;
 
-            _validator.ShouldHaveValidationErrorFor(command => command.RoomId, new Command(_validAppointmentId, room.Id));
+            _validator.ShouldHaveValidationErrorForExact(command => command.RoomId, new Command(_validAppointmentId, room.Id));
         }
     }
 }
