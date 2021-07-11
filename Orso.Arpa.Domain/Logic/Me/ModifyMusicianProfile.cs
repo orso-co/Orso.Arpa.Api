@@ -47,7 +47,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .WithMessage("You may not turn off the IsMainProfile flag");
 
                 RuleForEach(c => c.PreferredPositionsInnerIds)
-                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsInnerIds));
+                    .MusicianProfilePosition(arpaContext);
 
                 RuleForEach(c => c.PreferredPartsInner)
                     .InstrumentPart(arpaContext);

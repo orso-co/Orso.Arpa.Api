@@ -22,7 +22,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.ProjectId)
-                    .EntityExists<Query, Project>(arpaContext, nameof(Query.ProjectId));
+                    .EntityExists<Query, Project>(arpaContext);
             }
         }
 

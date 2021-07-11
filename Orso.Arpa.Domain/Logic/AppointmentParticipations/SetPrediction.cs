@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
                     .ForMember(dest => dest.AppointmentId, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
                     .ForMember(dest => dest.PredictionId, opt => opt.MapFrom(src => src.PredictionId))
-                    .ForMember(dest => dest.ResultId, opt => opt.MapFrom(src => default(Guid?)));
+                    .ForMember(dest => dest.ResultId, opt => opt.MapFrom(_ => default(Guid?)));
             }
         }
 
@@ -41,11 +41,11 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext, nameof(Command.Id));
+                    .EntityExists<Command, Appointment>(arpaContext);
                 RuleFor(d => d.PersonId)
-                    .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
+                    .EntityExists<Command, Person>(arpaContext);
                 RuleFor(d => d.PredictionId)
-                    .EntityExists<Command, SelectValueMapping>(arpaContext, nameof(Command.PredictionId));
+                    .EntityExists<Command, SelectValueMapping>(arpaContext);
             }
         }
 

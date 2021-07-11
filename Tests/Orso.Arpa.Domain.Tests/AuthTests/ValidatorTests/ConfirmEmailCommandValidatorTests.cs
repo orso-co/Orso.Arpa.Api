@@ -24,7 +24,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Email_Does_Not_Exist()
         {
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.Email, "Does@Not.Exist", typeof(User).Name);
+            _validator.ShouldHaveNotFoundErrorFor(c => c.Email, "Does@Not.Exist", typeof(User).Name);
         }
 
         [Test]

@@ -4,7 +4,6 @@ using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Mail.Interfaces;
@@ -26,7 +25,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 RuleFor(c => c.UsernameOrEmail)
                     .MustAsync(async (username, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(username) != null)
-                    .OnFailure((request) => throw new NotFoundException(typeof(User).Name, nameof(Command.UsernameOrEmail)))
+                    .WithErrorCode("404")
+                    .WithMessage("User could not be found.")
                     .When(cmd => !string.IsNullOrEmpty(cmd.UsernameOrEmail));
             }
         }

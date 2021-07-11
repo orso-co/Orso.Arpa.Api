@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Throw_Rest_Exception_If_Role_Does_Not_Exist()
         {
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.RoleNames, new Command()
+            _validator.ShouldHaveNotFoundErrorFor(c => c.RoleNames, new Command()
             {
                 Username = UserTestSeedData.Staff.UserName,
                 RoleNames = new[] { "DoesNotExist" }
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_User_Does_Not_Exist()
         {
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.Username, "DoesNotExist", typeof(User).Name);
+            _validator.ShouldHaveNotFoundErrorFor(c => c.Username, "DoesNotExist", typeof(User).Name);
         }
     }
 }

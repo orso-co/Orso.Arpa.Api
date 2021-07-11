@@ -26,7 +26,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 RuleFor(c => c.Email)
                     .MustAsync(async (email, cancellation) => await userManager.FindByEmailAsync(email) != null)
-                    .OnFailure((request) => throw new NotFoundException(typeof(User).Name, nameof(Command.Email)));
+                    .WithErrorCode("404")
+                    .WithMessage("User could not be found.");
             }
         }
 

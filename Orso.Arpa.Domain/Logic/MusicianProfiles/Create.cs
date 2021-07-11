@@ -32,10 +32,10 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.PersonId)
-                    .EntityExists<Command, Person>(arpaContext, nameof(Command.PersonId));
+                    .EntityExists<Command, Person>(arpaContext);
 
                 RuleFor(c => c.InstrumentId)
-                    .EntityExists<Command, Section>(arpaContext, nameof(Command.InstrumentId))
+                    .EntityExists<Command, Section>(arpaContext)
                     .MustAsync(async (command, instrumentId, cancellation) => !await arpaContext
                         .EntityExistsAsync<MusicianProfile>(mp => mp.InstrumentId == instrumentId && mp.PersonId == command.PersonId, cancellation))
                     .WithMessage("There is already a musician profile for this person with this instrument id");
@@ -50,10 +50,10 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusTeam);
 
                 RuleForEach(c => c.PreferredPositionsInnerIds)
-                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsInnerIds));
+                    .MusicianProfilePosition(arpaContext);
 
                 RuleForEach(c => c.PreferredPositionsTeamIds)
-                    .MusicianProfilePosition(arpaContext, nameof(Command.PreferredPositionsTeamIds));
+                    .MusicianProfilePosition(arpaContext);
 
                 RuleForEach(c => c.PreferredPartsInner)
                     .InstrumentPart(arpaContext);

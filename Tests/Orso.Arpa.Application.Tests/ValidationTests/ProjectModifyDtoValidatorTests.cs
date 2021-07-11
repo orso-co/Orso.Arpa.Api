@@ -105,14 +105,17 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_ParentId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Body.ParentId, new ProjectModifyDto
+            var dto = new ProjectModifyDto
             {
                 Id = ProjectSeedData.HoorayForHollywood.Id,
                 Body = new ProjectModifyBodyDto
                 {
                     ParentId = ProjectSeedData.HoorayForHollywood.Id
                 }
-            });
+            };
+            TestValidationResult<ProjectModifyDto> result = _validator.TestValidate(dto);
+            result.ShouldHaveValidationErrorFor(dto => dto.Body.ParentId)
+                .WithErrorMessage("The project must not be its own parent");
         }
 
         [Test]

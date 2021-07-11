@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.Id)
-                    .EntityExists<Command, Person>(arpaContext, nameof(Command.Id));
+                    .EntityExists<Command, Person>(arpaContext);
             }
         }
     }

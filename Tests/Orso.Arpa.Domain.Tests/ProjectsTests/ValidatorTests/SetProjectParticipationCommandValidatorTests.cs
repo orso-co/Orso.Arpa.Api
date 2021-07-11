@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
 
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.ProjectId, Guid.Empty, nameof(Project));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.ProjectId, Guid.Empty, nameof(Project));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.Schneekönigin);
             _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.ParticipationStatusInnerId, Guid.Empty, nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.ParticipationStatusInnerId, Guid.Empty, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.Schneekönigin);
             _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.ParticipationStatusInternalId, Guid.Empty, nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.ParticipationStatusInternalId, Guid.Empty, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.Schneekönigin);
             _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.InvitationStatusId, Guid.Empty, nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.InvitationStatusId, Guid.Empty, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.Schneekönigin);
             _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.MusicianProfileId, Guid.Empty, nameof(MusicianProfile));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.MusicianProfileId, Guid.Empty, nameof(MusicianProfile));
         }
 
         [Test]

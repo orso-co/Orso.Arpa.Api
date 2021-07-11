@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
-using FluentAssertions;
 using FluentValidation.TestHelper;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
 using Orso.Arpa.Domain.Roles;
@@ -36,7 +34,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
             _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Staff });
             _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
 
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.MusicianProfileId, Guid.NewGuid(), nameof(MusicianProfile));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.MusicianProfileId, Guid.NewGuid(), nameof(MusicianProfile));
         }
 
         [Test]
@@ -54,9 +52,10 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
             _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Performer });
             _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
 
-            Func<TestValidationResult<GetForMusicianProfile.Query>> testValidationResultFunction = () => _validator.TestValidate(new GetForMusicianProfile.Query { MusicianProfileId = Guid.NewGuid() });
-            testValidationResultFunction.Should().ThrowExactly<AuthorizationException>()
-                .WithMessage("This musician profile is not yours. You don't have access to this musician profile.");
+            TestValidationResult<GetForMusicianProfile.Query> result = _validator.TestValidate(new GetForMusicianProfile.Query { MusicianProfileId = Guid.NewGuid() });
+            result.ShouldHaveValidationErrorFor(c => c.MusicianProfileId)
+                .WithErrorCode("403")
+                .WithErrorMessage("This musician profile is not yours. You don't have access to this musician profile.");
         }
 
         [Test]

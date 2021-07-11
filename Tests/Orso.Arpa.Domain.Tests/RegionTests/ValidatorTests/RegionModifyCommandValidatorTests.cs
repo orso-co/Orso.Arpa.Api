@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            _validator.ShouldThrowNotFoundExceptionFor(command => command.Id,
+            _validator.ShouldHaveNotFoundErrorFor(command => command.Id,
                 new Command { Id = Guid.NewGuid(), Name = "Name" }, nameof(Region));
         }
 

@@ -2,7 +2,6 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
@@ -43,13 +42,14 @@ namespace Orso.Arpa.Domain.Logic.CurriculumVitaeReferences
                 if (tokenAccessor.UserRoles.Contains(RoleNames.Staff))
                 {
                     RuleFor(d => d.Id)
-                        .EntityExists<Command, CurriculumVitaeReference>(arpaContext, nameof(Command.Id));
+                        .EntityExists<Command, CurriculumVitaeReference>(arpaContext);
                 }
                 else
                 {
                     RuleFor(d => d.Id)
                         .MustAsync(async (id, cancellation) => await arpaContext.EntityExistsAsync<CurriculumVitaeReference>(e => e.Id == id && e.MusicianProfile.PersonId == tokenAccessor.PersonId, cancellation))
-                        .OnFailure(_ => throw new NotFoundException(nameof(CurriculumVitaeReference), nameof(Command.Id)));
+                        .WithErrorCode("404")
+                        .WithMessage($"{typeof(CurriculumVitaeReference).Name} could not be found.");
                 }
                 RuleFor(c => c.TypeId)
                    .SelectValueMapping<Command, Education>(arpaContext, a => a.Type);

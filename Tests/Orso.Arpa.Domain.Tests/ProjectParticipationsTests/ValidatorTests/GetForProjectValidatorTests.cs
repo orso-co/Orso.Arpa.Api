@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
 
-            _validator.ShouldThrowNotFoundExceptionFor(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
+            _validator.ShouldHaveNotFoundErrorFor(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
         }
 
         [Test]

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -57,16 +58,47 @@ namespace Orso.Arpa.Api.Middleware
                     break;
 
                 case ValidationException ve:
-                    errorMessage = new ValidationProblemDetails
+                    IEnumerable<string> errorCodes = ve.Errors.Select(e => e.ErrorCode);
+                    if (errorCodes.Contains("404"))
                     {
-                        Title = "One or more validation errors occurred.",
-                        Status = (int)HttpStatusCode.UnprocessableEntity
-                    };
+                        errorMessage = new ValidationProblemDetails
+                        {
+                            Title = "Resource not found.",
+                            Status = (int)HttpStatusCode.NotFound
+                        };
+                        _logger.LogError(ve, "NOT FOUND ERROR", errorMessage);
+                    }
+                    else if (errorCodes.Contains("403"))
+                    {
+                        errorMessage = new ValidationProblemDetails
+                        {
+                            Title = ve.Errors.First(e => e.ErrorCode.Equals("403")).ErrorMessage,
+                            Status = (int)HttpStatusCode.Forbidden
+                        };
+                        _logger.LogError(ve, "AUTHORIZATION ERROR", errorMessage);
+                    }
+                    else if (errorCodes.Contains("401"))
+                    {
+                        errorMessage = new ValidationProblemDetails
+                        {
+                            Title = ve.Errors.First(e => e.ErrorCode.Equals("401")).ErrorMessage,
+                            Status = (int)HttpStatusCode.Unauthorized
+                        };
+                        _logger.LogError(ve, "AUTHENTICATION ERROR", errorMessage);
+                    }
+                    else
+                    {
+                        errorMessage = new ValidationProblemDetails
+                        {
+                            Title = "One or more validation errors occurred.",
+                            Status = (int)HttpStatusCode.UnprocessableEntity
+                        };
+                        _logger.LogError(ve, "DOMAIN VALIDATION ERROR", errorMessage);
+                    }
                     foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
                     {
                         errorMessage.Errors.Add(errorGrouping.Key, errorGrouping.Select(g => g.ErrorMessage).ToArray());
                     }
-                    _logger.LogError(ve, "DOMAIN VALIDATION ERROR", errorMessage);
                     break;
 
                 case AuthenticationException ae:
