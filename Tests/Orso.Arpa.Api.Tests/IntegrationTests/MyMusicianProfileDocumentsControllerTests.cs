@@ -40,5 +40,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
+
+        [Test, Order(100)]
+        public async Task Should_Return_Forbidden_If_MusicianProfile_Is_Not_Assigned_To_User()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .PostAsync(ApiEndpoints.MyMusicianProfileDocumentsController.Add(
+                    MusicianProfileSeedData.StaffMusicianProfile1.Id,
+                    SelectValueMappingSeedData.MusicianProfileDocumentsMappings[1].Id), null);
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
     }
 }

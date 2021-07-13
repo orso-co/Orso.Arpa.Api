@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.Services
             MusicianProfile createdEntity = await _mediator.Send(command);
             foreach (DoublingInstrumentCreateBodyDto doublingInstrument in createDto.Body.DoublingInstruments)
             {
-                Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
+                Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
                 createdEntity.DoublingInstruments.Add(await _mediator.Send(doublingInstrumentCommand));
             }
@@ -51,12 +51,6 @@ namespace Orso.Arpa.Application.Services
 
             // Cannot use .ProjectTo here because .ProjectTo does not suppert After Mapping Actions
             return _mapper.Map<IEnumerable<ProjectParticipationDto>>(participations);
-        }
-
-        public Task SetActiveStatusAsync(Guid id, bool active)
-        {
-            var command = new SetActiveStatus.Command { Id = id, Active = active };
-            return _mediator.Send(command);
         }
 
         public async Task<MusicianProfileDto> UpdateAsync(MusicianProfileModifyDto musicianProfileModifyDto)

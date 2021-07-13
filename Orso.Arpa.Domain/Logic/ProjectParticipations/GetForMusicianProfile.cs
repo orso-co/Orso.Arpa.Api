@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 {
@@ -24,22 +23,10 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 
         public class Validator : AbstractValidator<Query>
         {
-            public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor)
+            public Validator(IArpaContext arpaContext)
             {
-                CascadeMode = CascadeMode.Stop;
-
-                When(_ => tokenAccessor.UserRoles.Contains(RoleNames.Staff), () =>
-                {
-                    RuleFor(c => c.MusicianProfileId)
-                    .EntityExists<Query, MusicianProfile>(arpaContext);
-                }).Otherwise(() =>
-                {
-                    RuleFor(c => c.MusicianProfileId)
-                        .MustAsync(async (musicianProfileId, cancellation) => await arpaContext
-                            .EntityExistsAsync<MusicianProfile>(mp => mp.Id == musicianProfileId && mp.PersonId == tokenAccessor.PersonId, cancellation))
-                        .WithErrorCode("403")
-                        .WithMessage("This musician profile is not yours. You don't have access to this musician profile.");
-                });
+                RuleFor(c => c.MusicianProfileId)
+                .EntityExists<Query, MusicianProfile>(arpaContext);
             }
         }
 

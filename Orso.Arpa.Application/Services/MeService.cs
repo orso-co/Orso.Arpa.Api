@@ -102,7 +102,7 @@ namespace Orso.Arpa.Application.Services
             MusicianProfile createdEntity = await _mediator.Send(command);
             foreach (MyDoublingInstrumentCreateBodyDto doublingInstrument in createDto.DoublingInstruments)
             {
-                Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
+                Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
                 createdEntity.DoublingInstruments.Add(await _mediator.Send(doublingInstrumentCommand));
             }

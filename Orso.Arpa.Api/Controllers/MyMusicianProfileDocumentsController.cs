@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -26,6 +27,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Performer)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
         [HttpPost("{documentId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -44,6 +46,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Performer)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
         [HttpDelete("{documentId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
