@@ -1,5 +1,6 @@
 using System;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -11,7 +12,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new MusicianProfileDto
+                var dto = new MusicianProfileDto
                 {
                     Id = Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"),
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
@@ -21,6 +22,13 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     IsMainProfile = true,
                     QualificationId = Guid.Parse("f036bca9-95d4-4526-b845-fff9208ab103")
                 };
+                dto.Documents.Add(new SelectValueDto
+                {
+                    Id = Guid.Parse("f9cc5445-8a6e-480b-bffb-410089f55896"),
+                    Name = "CV",
+                    Description = ""
+                });
+                return dto;
             }
         }
 

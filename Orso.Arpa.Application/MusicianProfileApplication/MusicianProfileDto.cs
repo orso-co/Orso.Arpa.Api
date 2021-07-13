@@ -5,6 +5,7 @@ using AutoMapper;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
@@ -35,6 +36,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
         public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
         public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
+        public IList<SelectValueDto> Documents { get; set; } = new List<SelectValueDto>();
     }
 
     public class MusicianProfileDtoMappingProfile : Profile
@@ -66,6 +68,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.PreferredPositionsTeamIds, opt => opt.MapFrom(src => src.PreferredPositionsTeam.Select(p => p.SelectValueSectionId)))
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
                 .ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.PreferredPartsTeam))
+                .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.Documents.Select(d => d.SelectValueMapping)))
 
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
