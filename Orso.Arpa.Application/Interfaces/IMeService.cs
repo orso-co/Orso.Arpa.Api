@@ -23,5 +23,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task<MyMusicianProfileDto> UpdateMusicianProfileAsync(MyMusicianProfileModifyDto musicianProfileModifyDto);
         Task<MyDoublingInstrumentDto> CreateDoublingInstrumentAsync(MyDoublingInstrumentCreateDto myDoublingInstrumentCreateDto);
         Task ModifyDoublingInstrumentAsync(MyDoublingInstrumentModifyDto myDoublingInstrumentModifyDto);
+        Task AddDocumentToMusicienProfileAsync(MyMusicianProfileAddDocumentDto addDocumentDto);
+        Task RemoveDocumentFromMusicianProfileAsync(MyMusicianProfileRemoveDocumentDto removeDocumentDto);
     }
 }

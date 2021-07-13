@@ -150,6 +150,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Put(Guid musicianProfileId, Guid doublingInstrumentId) => $"{BaseUrl(musicianProfileId)}/{doublingInstrumentId}";
         }
 
+        public static class MyMusicianProfileDocumentsController
+        {
+            private static string BaseUrl(Guid id) => $"{Base}/me/profiles/musician/{id}/documents";
+            public static string Add(Guid musicianProfileId, Guid documentId) => $"{BaseUrl(musicianProfileId)}/{documentId}";
+            public static string Remove(Guid musicianProfileId, Guid documentId) => $"{BaseUrl(musicianProfileId)}/{documentId}";
+        }
+
         public static class RegionsController
         {
             private static string Regions => $"{Base}/Regions";

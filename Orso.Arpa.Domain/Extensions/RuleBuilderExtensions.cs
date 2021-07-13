@@ -44,7 +44,7 @@ namespace Orso.Arpa.Domain.Extensions
         public static IRuleBuilderOptions<TRequest, Guid?> SelectValueMapping<TRequest, TEntity>(
             this IRuleBuilderInitial<TRequest, Guid?> ruleBuilderInitial,
             IArpaContext arpaContext,
-            Expression<Func<TEntity, SelectValueMapping>> propertyPath) where TEntity : BaseEntity
+            Expression<Func<TEntity, object>> propertyPath) where TEntity : BaseEntity
         {
             var propertyName = GetPropertyNameFromExpression(propertyPath.Body);
 
@@ -60,7 +60,7 @@ namespace Orso.Arpa.Domain.Extensions
         public static IRuleBuilderOptions<TRequest, Guid> SelectValueMapping<TRequest, TEntity>(
             this IRuleBuilderInitial<TRequest, Guid> ruleBuilderInitial,
             IArpaContext arpaContext,
-            Expression<Func<TEntity, SelectValueMapping>> propertyPath) where TEntity : BaseEntity
+            Expression<Func<TEntity, object>> propertyPath) where TEntity : BaseEntity
         {
             var propertyName = GetPropertyNameFromExpression(propertyPath.Body);
 

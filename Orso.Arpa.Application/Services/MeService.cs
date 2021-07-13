@@ -164,5 +164,17 @@ namespace Orso.Arpa.Application.Services
             ModifyDoublingInstrument.Command command = _mapper.Map<ModifyDoublingInstrument.Command>(myDoublingInstrumentModifyDto);
             await _mediator.Send(command);
         }
+
+        public async Task AddDocumentToMusicienProfileAsync(MyMusicianProfileAddDocumentDto addDocumentDto)
+        {
+            AddDocumentToMusicianProfile.Command command = _mapper.Map<AddDocumentToMusicianProfile.Command>(addDocumentDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task RemoveDocumentFromMusicianProfileAsync(MyMusicianProfileRemoveDocumentDto removeDocumentDto)
+        {
+            RemoveDocumentFromMusicianProfile.Command command = _mapper.Map<RemoveDocumentFromMusicianProfile.Command>(removeDocumentDto);
+            await _mediator.Send(command);
+        }
     }
 }

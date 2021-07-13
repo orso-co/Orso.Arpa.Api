@@ -45,7 +45,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
-        public DbSet<AvailableDocument> AvailableDocuments { get; set; }
+        public DbSet<MusicianProfileDocument> MusicianProfileDocuments { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<CurriculumVitaeReference> CurriculumVitaeReferences { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }

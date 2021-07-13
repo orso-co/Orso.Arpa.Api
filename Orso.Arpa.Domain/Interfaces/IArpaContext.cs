@@ -37,6 +37,8 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<AuditLog> AuditLogs { get; set; }
         DbSet<Localization> Localizations { get; set; }
 
+        DbSet<MusicianProfileDocument> MusicianProfileDocuments { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;

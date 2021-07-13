@@ -4,12 +4,10 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {
-    public class AvailableDocumentConfiguration : IEntityTypeConfiguration<AvailableDocument>
+    public class MusicianProfileDocumentConfiguration : IEntityTypeConfiguration<MusicianProfileDocument>
     {
-        public void Configure(EntityTypeBuilder<AvailableDocument> builder)
+        public void Configure(EntityTypeBuilder<MusicianProfileDocument> builder)
         {
-            builder.HasKey(e => new { e.MusicianProfileId, e.SelectValueMappingId });
-
             builder
                 .HasOne(e => e.SelectValueMapping)
                 .WithMany()
@@ -19,7 +17,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .HasOne(e => e.MusicianProfile)
-                .WithMany(r => r.AvailableDocuments)
+                .WithMany(r => r.Documents)
                 .HasForeignKey(e => e.MusicianProfileId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);

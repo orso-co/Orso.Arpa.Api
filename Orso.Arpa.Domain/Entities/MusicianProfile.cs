@@ -75,8 +75,7 @@ namespace Orso.Arpa.Domain.Entities
         //Todo: ARPA-326
         public virtual ICollection<PreferredGenre> PreferredGenres { get; private set; } = new HashSet<PreferredGenre>();
 
-        //Todo: ARPA-329
-        public virtual ICollection<AvailableDocument> AvailableDocuments { get; private set; } = new HashSet<AvailableDocument>();
+        public virtual ICollection<MusicianProfileDocument> Documents { get; private set; } = new HashSet<MusicianProfileDocument>();
 
         //Todo: ARPA-327
         public virtual ICollection<RegionPreferencePerformance> RegionPreferencePerformances { get; private set; } = new HashSet<RegionPreferencePerformance>();

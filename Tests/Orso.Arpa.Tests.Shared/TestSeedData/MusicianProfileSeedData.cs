@@ -37,6 +37,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     InstrumentId = SectionSeedData.Alto.Id,
                 }, true, Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"));
                 profile.SetProperty(nameof(MusicianProfile.QualificationId), SelectValueMappingSeedData.MusicianProfileQualificationMappings[0].Id);
+                profile.Documents.Add(new MusicianProfileDocument(
+                    profile.Id,
+                    SelectValueMappingSeedData.MusicianProfileDocumentsMappings[0].Id,
+                    Guid.Parse("b1d10592-4106-46d8-8c78-eedc77c0e3bf")));
                 return profile;
             }
         }
