@@ -12,6 +12,7 @@ using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -53,6 +54,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         [HttpGet("{id}")]
         [Authorize(Roles = RoleNames.Performer)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MyMusicianProfileDto>> GetById([FromRoute] Guid id)
@@ -89,6 +91,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="422">If validation fails</response>
         [HttpPut("{id}/projects/{projectId}/participation")]
         [Authorize(Roles = RoleNames.Performer)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
@@ -105,6 +108,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Performer)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -120,6 +124,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Performer)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
         [HttpPost("{id}/educations")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -138,6 +143,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Performer)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
         [HttpPost("{id}/curriculumvitaereferences")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]

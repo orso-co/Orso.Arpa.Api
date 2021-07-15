@@ -2,21 +2,21 @@ using System;
 
 namespace Orso.Arpa.Domain.Entities
 {
-    public class AvailableDocument : BaseEntity
+    public class MusicianProfileDocument : BaseEntity
     {
-        public AvailableDocument(Guid? id, MusicianProfile musicianProfile, SelectValueMapping selectValueMapping) : base(id)
+        public MusicianProfileDocument(Guid? id, MusicianProfile musicianProfile, SelectValueMapping selectValueMapping) : base(id)
         {
             MusicianProfile = musicianProfile;
             SelectValueMapping = selectValueMapping;
         }
 
-        public AvailableDocument(Guid musicianProfileId, Guid selectValueMappingId)
+        public MusicianProfileDocument(Guid musicianProfileId, Guid selectValueMappingId, Guid? id = null) : base(id)
         {
             MusicianProfileId = musicianProfileId;
             SelectValueMappingId = selectValueMappingId;
         }
 
-        public AvailableDocument()
+        public MusicianProfileDocument()
         {
         }
 

@@ -23,13 +23,10 @@ namespace Orso.Arpa.Domain.Logic.Me
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor)
+            public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.MusicianProfileId)
-                    .MustAsync(async (musicianProfileId, cancellation) => await arpaContext
-                        .EntityExistsAsync<MusicianProfile>(mp => mp.Id == musicianProfileId && mp.PersonId == tokenAccessor.PersonId, cancellation))
-                    .WithErrorCode("403")
-                    .WithMessage("This musician profile is not yours. You don't have access to this musician profile.");
+                    .EntityExists<Command, MusicianProfile>(arpaContext);
 
                 RuleFor(c => c.Id)
                     .MustAsync(async (command, id, cancellation) => await arpaContext

@@ -24,6 +24,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
         public IList<CurriculumVitaeReferenceDto> CurriculumVitaeReferences { get; set; } = new List<CurriculumVitaeReferenceDto>();
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
         public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
+        public IList<Guid> Documents { get; set; } = new List<Guid>();
     }
 
     public class MyDoublingInstrumentDto : BaseEntityDto
@@ -54,6 +55,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.PreferredPositionsInner
                     .Select(p => p.SelectValueSectionId)))
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
+                .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.Documents.Select(d => d.SelectValueMappingId)))
 
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }

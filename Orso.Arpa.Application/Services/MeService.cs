@@ -102,7 +102,7 @@ namespace Orso.Arpa.Application.Services
             MusicianProfile createdEntity = await _mediator.Send(command);
             foreach (MyDoublingInstrumentCreateBodyDto doublingInstrument in createDto.DoublingInstruments)
             {
-                Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
+                Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
                 createdEntity.DoublingInstruments.Add(await _mediator.Send(doublingInstrumentCommand));
             }
@@ -162,6 +162,18 @@ namespace Orso.Arpa.Application.Services
         public async Task ModifyDoublingInstrumentAsync(MyDoublingInstrumentModifyDto myDoublingInstrumentModifyDto)
         {
             ModifyDoublingInstrument.Command command = _mapper.Map<ModifyDoublingInstrument.Command>(myDoublingInstrumentModifyDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task AddDocumentToMusicianProfileAsync(MyMusicianProfileAddDocumentDto addDocumentDto)
+        {
+            AddDocumentToMusicianProfile.Command command = _mapper.Map<AddDocumentToMusicianProfile.Command>(addDocumentDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task RemoveDocumentFromMusicianProfileAsync(MyMusicianProfileRemoveDocumentDto removeDocumentDto)
+        {
+            RemoveDocumentFromMusicianProfile.Command command = _mapper.Map<RemoveDocumentFromMusicianProfile.Command>(removeDocumentDto);
             await _mediator.Send(command);
         }
     }

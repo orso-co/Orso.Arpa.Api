@@ -10,6 +10,7 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -71,6 +72,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         [Authorize(Roles = RoleNames.PerformerOrStaff)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
         [HttpGet("{id}/projectparticipations")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]

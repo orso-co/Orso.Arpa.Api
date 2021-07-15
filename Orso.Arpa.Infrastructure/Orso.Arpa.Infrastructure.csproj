@@ -5,15 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Authorization\AuthorizationHandlers\**" />
+    <EmbeddedResource Remove="Authorization\AuthorizationHandlers\**" />
+    <None Remove="Authorization\AuthorizationHandlers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.7" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Authorization\AuthorizationHandlers\" />
   </ItemGroup>
 </Project>

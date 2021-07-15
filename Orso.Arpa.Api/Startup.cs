@@ -153,6 +153,8 @@ namespace Orso.Arpa.Api
             {
                 options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
                     policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
+                options.AddPolicy(AuthorizationPolicies.IsMyMusicianProfile, policy =>
+                    policy.Requirements.Add(new IsMyMusicianProfileRequirement()));
                 options.AddPolicy(AuthorizationPolicies.HasRolePolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
@@ -236,6 +238,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<ITokenAccessor, TokenAccessor>();
             services.AddScoped<IDataSeeder, DataSeeder>();
             services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, IsMyMusicianProfileHandler>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRegionService, RegionService>();
