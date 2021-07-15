@@ -165,7 +165,7 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task AddDocumentToMusicienProfileAsync(MyMusicianProfileAddDocumentDto addDocumentDto)
+        public async Task AddDocumentToMusicianProfileAsync(MyMusicianProfileAddDocumentDto addDocumentDto)
         {
             AddDocumentToMusicianProfile.Command command = _mapper.Map<AddDocumentToMusicianProfile.Command>(addDocumentDto);
             await _mediator.Send(command);

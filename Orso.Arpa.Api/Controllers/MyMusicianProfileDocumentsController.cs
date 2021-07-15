@@ -34,7 +34,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> AddDocument([FromRoute] MyMusicianProfileAddDocumentDto addDocumentDto)
         {
-            await _meService.AddDocumentToMusicienProfileAsync(addDocumentDto);
+            await _meService.AddDocumentToMusicianProfileAsync(addDocumentDto);
             return NoContent();
         }
 
