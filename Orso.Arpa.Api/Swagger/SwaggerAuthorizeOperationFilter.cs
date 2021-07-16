@@ -28,7 +28,7 @@ namespace Orso.Arpa.Api.Swagger
 
             if (roleAttributes.Any())
             {
-                operation.Responses.Add("403", new OpenApiResponse
+                operation.Responses.Add("403 a", new OpenApiResponse
                 {
                     Description = $"If current user does not have the role of '{roleAttributes.First()}'",
                     Content = new Dictionary<string, OpenApiMediaType>()
@@ -56,7 +56,7 @@ namespace Orso.Arpa.Api.Swagger
 
             if (policyAttributes.Any())
             {
-                operation.Responses.Add("403", new OpenApiResponse
+                operation.Responses.Add("403 b", new OpenApiResponse
                 {
                     Description = $"If current user does not meet policy '{policyAttributes.First()}'",
                     Content = new Dictionary<string, OpenApiMediaType>()
