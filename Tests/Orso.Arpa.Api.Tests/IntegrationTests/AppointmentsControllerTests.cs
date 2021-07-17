@@ -10,6 +10,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
@@ -406,7 +407,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             performerParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
             {
                 Id = Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"),
-                InstrumentName = "Tuba"
+                InstrumentName = "Tuba",
+                Deactivation = new MusicianProfileDeactivationDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    DeactivationStart = FakeDateTime.UtcNow.AddDays(-20),
+                    Id = Guid.Parse("c3bed69d-f880-41e6-8075-ebea53caf816"),
+                    Purpose = "Ich lerne zur Zeit Fagott und hab keine Zeit mehr, Tuba zu spielen."
+                }
             });
             performerParticipation.Participation = null;
             expectedDto.Participations.Add(performerParticipation);
