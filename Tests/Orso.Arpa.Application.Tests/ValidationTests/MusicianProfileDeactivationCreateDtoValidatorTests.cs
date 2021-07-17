@@ -1,5 +1,4 @@
 using System;
-using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -15,22 +14,19 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Fail_If_Empty_DeactivationStart_Is_Supplied()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(dto => dto.DeactivationStart, DateTime.MinValue)
-                .WithErrorMessage("'Deactivation Start' darf nicht leer sein.");
+            _bodyValidator.ShouldHaveValidationErrorForExact(dto => dto.DeactivationStart, DateTime.MinValue);
         }
 
         [Test]
         public void Should_Fail_If_Purpose_Exceeds_Max_Length()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(dto => dto.Purpose, new string('#', 501))
-                .WithErrorMessage("Die Länge von 'Purpose' muss kleiner oder gleich 500 sein. Sie haben 501 Zeichen eingegeben.");
+            _bodyValidator.ShouldHaveValidationErrorForExact(dto => dto.Purpose, new string('#', 501));
         }
 
         [Test]
         public void Should_Fail_If_Empty_Id_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExact(dto => dto.Id, Guid.Empty)
-                .WithErrorMessage("'Id' darf nicht leer sein.");
+            _validator.ShouldHaveValidationErrorForExact(dto => dto.Id, Guid.Empty);
         }
 
         [Test]
