@@ -16,9 +16,9 @@ namespace Orso.Arpa.Application.MusicianProfileDeactivationApplication
         public string Purpose { get; set; }
     }
 
-    public class MusicianProfileDeactivationMappingProfile : Profile
+    public class MusicianProfileDeactivationCreateDtoMappingProfile : Profile
     {
-        public MusicianProfileDeactivationMappingProfile()
+        public MusicianProfileDeactivationCreateDtoMappingProfile()
         {
             CreateMap<MusicianProfileDeactivationCreateDto, Create.Command>()
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id))

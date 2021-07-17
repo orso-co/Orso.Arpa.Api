@@ -154,7 +154,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<EducationDto>> AddDeactivation(MusicianProfileDeactivationCreateDto musicianProfileDeactivationCreateDto)
+        public async Task<ActionResult<MusicianProfileDeactivationDto>> AddDeactivation(MusicianProfileDeactivationCreateDto musicianProfileDeactivationCreateDto)
         {
             MusicianProfileDeactivationDto createdDto = await _musicianProfileDeactivationService.CreateAsync(musicianProfileDeactivationCreateDto);
             return Created("", createdDto);
@@ -172,7 +172,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<EducationDto>> RemoveDeactivation(Guid id)
+        public async Task<ActionResult> RemoveDeactivation(Guid id)
         {
             await _musicianProfileDeactivationService.DeleteByMusicianProfileAsync(id);
             return NoContent();
