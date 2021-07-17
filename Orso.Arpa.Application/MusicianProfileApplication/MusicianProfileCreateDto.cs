@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
@@ -48,7 +49,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         }
     }
 
-    public class MusicianProfileCreateDtoValidator : BaseModifyDtoValidator<MusicianProfileCreateDto, MusicianProfileCreateBodyDto>
+    public class MusicianProfileCreateDtoValidator : IdFromRouteDtoValidator<MusicianProfileCreateDto, MusicianProfileCreateBodyDto>
     {
         public MusicianProfileCreateDtoValidator()
         {

@@ -44,7 +44,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                         .EntityExistsAsync<MusicianProfile>(mp => mp.Id == musicianProfileId && mp.PersonId == command.PersonId, cancellation)))
                     .WithErrorCode("404")
                     .WithMessage($"{typeof(MusicianProfile).Name} could not be found.")
-                    .MustAsync(async (musicianProfileId, cancellation) => !(await arpaContext.FindAsync<MusicianProfile>(new object[] { musicianProfileId }, cancellation)).IsDeactivated)
+                    .MustAsync(async (musicianProfileId, cancellation) => !(await arpaContext.EntityExistsAsync<MusicianProfileDeactivation>(d => d.MusicianProfileId == musicianProfileId, cancellation)))
                     .WithMessage("Your musician profile is deactivated. A deactivated musician profile may not participate in a project");
             }
         }
@@ -73,8 +73,9 @@ namespace Orso.Arpa.Domain.Logic.Me
 
             public async Task<ProjectParticipation> Handle(Command request, CancellationToken cancellationToken)
             {
-                ProjectParticipation participation = await _arpaContext.ProjectParticipations
-                    .SingleOrDefaultAsync(pp => pp.ProjectId == request.ProjectId && pp.MusicianProfileId == request.MusicianProfileId, cancellationToken);
+                // Das MuPro muss einmal geladen werden, weil sonst die Property MusicianProfile des neuen Objekts null ist
+                ProjectParticipation participation = (await _arpaContext.FindAsync<MusicianProfile>(new object[] { request.MusicianProfileId }, cancellationToken))
+                    .ProjectParticipations.FirstOrDefault(pp => pp.ProjectId == request.ProjectId);
 
                 if (participation == null)
                 {

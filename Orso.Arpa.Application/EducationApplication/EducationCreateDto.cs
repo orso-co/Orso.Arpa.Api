@@ -33,7 +33,7 @@ namespace Orso.Arpa.Application.EducationApplication
         }
     }
 
-    public class EducationCreateDtoValidator : BaseModifyDtoValidator<EducationCreateDto, EducationCreateBodyDto>
+    public class EducationCreateDtoValidator : IdFromRouteDtoValidator<EducationCreateDto, EducationCreateBodyDto>
     {
         public EducationCreateDtoValidator()
         {

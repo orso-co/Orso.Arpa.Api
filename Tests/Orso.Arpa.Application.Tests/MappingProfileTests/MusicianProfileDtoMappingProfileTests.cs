@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MusicianProfileApplication;

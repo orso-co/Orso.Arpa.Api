@@ -36,7 +36,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         }
     }
 
-    public class SetProjectParticipationDtoValidator : BaseModifyDtoValidator<SetProjectParticipationDto, SetProjectParticipationBodyDto>
+    public class SetProjectParticipationDtoValidator : IdFromRouteDtoValidator<SetProjectParticipationDto, SetProjectParticipationBodyDto>
     {
         public SetProjectParticipationDtoValidator()
         {

@@ -8,6 +8,7 @@ using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.Projects
 {
@@ -26,7 +27,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext)
+            public Validator(IArpaContext arpaContext, IDateTimeProvider dateTimeProvider)
             {
                 RuleFor(c => c.ProjectId)
                     .Cascade(CascadeMode.Stop)
@@ -46,7 +47,10 @@ namespace Orso.Arpa.Domain.Logic.Projects
                 RuleFor(c => c.MusicianProfileId)
                     .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, MusicianProfile>(arpaContext)
-                    .MustAsync(async (musicianProfileId, cancellation) => !(await arpaContext.FindAsync<MusicianProfile>(new object[] { musicianProfileId }, cancellation)).IsDeactivated)
+                    .MustAsync(async (musicianProfileId, cancellation) =>
+                        !(await arpaContext.EntityExistsAsync<MusicianProfileDeactivation>(
+                            d => d.MusicianProfileId == musicianProfileId && d.DeactivationStart <= dateTimeProvider.GetUtcNow(),
+                            cancellation)))
                     .WithMessage("The musician profile is deactivated. A deactivated musician profile may not participate in a project");
             }
         }
@@ -78,8 +82,9 @@ namespace Orso.Arpa.Domain.Logic.Projects
 
             public async Task<ProjectParticipation> Handle(Command request, CancellationToken cancellationToken)
             {
-                ProjectParticipation participation = await _arpaContext.ProjectParticipations
-                    .SingleOrDefaultAsync(pp => pp.ProjectId == request.ProjectId && pp.MusicianProfileId == request.MusicianProfileId, cancellationToken);
+                // Das MuPro muss einmal geladen werden, weil sonst die Property MusicianProfile des neuen Objekts null ist
+                ProjectParticipation participation = (await _arpaContext.FindAsync<MusicianProfile>(new object[] { request.MusicianProfileId }, cancellationToken))
+                    .ProjectParticipations.FirstOrDefault(pp => pp.ProjectId == request.ProjectId);
 
                 if (participation == null)
                 {

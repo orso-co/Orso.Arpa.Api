@@ -38,6 +38,7 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<Localization> Localizations { get; set; }
 
         DbSet<MusicianProfileDocument> MusicianProfileDocuments { get; set; }
+        DbSet<MusicianProfileDeactivation> MusicianProfileDeactivations { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

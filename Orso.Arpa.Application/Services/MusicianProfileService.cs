@@ -5,12 +5,14 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -18,8 +20,11 @@ namespace Orso.Arpa.Application.Services
         MusicianProfileDto,
         MusicianProfile>, IMusicianProfileService
     {
-        public MusicianProfileService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
+        private readonly IDateTimeProvider _dateTimeProvider;
+
+        public MusicianProfileService(IMediator mediator, IMapper mapper, IDateTimeProvider dateTimeProvider) : base(mediator, mapper)
         {
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task<MusicianProfileDto> CreateAsync(MusicianProfileCreateDto createDto)
@@ -39,7 +44,7 @@ namespace Orso.Arpa.Application.Services
         {
             Expression<Func<MusicianProfile, bool>> predicate = includeDeactivated
                 ? mp => mp.PersonId == personId
-                : mp => mp.PersonId == personId && !mp.IsDeactivated;
+                : mp => mp.PersonId == personId && (mp.Deactivation == null || mp.Deactivation.DeactivationStart > _dateTimeProvider.GetUtcNow());
 
             return GetAsync(predicate, orderBy: profile => profile.OrderByDescending(p => p.IsMainProfile));
         }

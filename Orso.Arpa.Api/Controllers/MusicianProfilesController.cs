@@ -8,6 +8,7 @@ using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
@@ -20,12 +21,18 @@ namespace Orso.Arpa.Api.Controllers
         private readonly IMusicianProfileService _musicianProfileService;
         private readonly IEducationService _educationService;
         private readonly ICurriculumVitaeReferenceService _curriculumVitaeReferenceService;
+        private readonly IMusicianProfileDeactivationService _musicianProfileDeactivationService;
 
-        public MusicianProfilesController(IMusicianProfileService musicianProfileService, IEducationService educationService, ICurriculumVitaeReferenceService curriculumVitaeReferenceService)
+        public MusicianProfilesController(
+            IMusicianProfileService musicianProfileService,
+            IEducationService educationService,
+            ICurriculumVitaeReferenceService curriculumVitaeReferenceService,
+            IMusicianProfileDeactivationService musicianProfileDeactivationService)
         {
             _musicianProfileService = musicianProfileService;
             _educationService = educationService;
             _curriculumVitaeReferenceService = curriculumVitaeReferenceService;
+            _musicianProfileDeactivationService = musicianProfileDeactivationService;
         }
 
         /// <summary>
@@ -132,6 +139,43 @@ namespace Orso.Arpa.Api.Controllers
         {
             CurriculumVitaeReferenceDto createdDto = await _curriculumVitaeReferenceService.CreateAsync(curriculumVitaeReferenceCreateDto);
             return CreatedAtAction(nameof(CurriculumVitaeReferencesController.GetById), "CurriculumVitaeReferences", new { id = createdDto.Id }, createdDto);
+        }
+
+        /// <summary>
+        /// Deactivates an existing musician profile
+        /// </summary>
+        /// <param name="musicianProfileDeactivationCreateDto"></param>
+        /// <response code="201"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.PerformerOrStaff)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
+        [HttpPost("{id}/deactivation")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<EducationDto>> AddDeactivation(MusicianProfileDeactivationCreateDto musicianProfileDeactivationCreateDto)
+        {
+            MusicianProfileDeactivationDto createdDto = await _musicianProfileDeactivationService.CreateAsync(musicianProfileDeactivationCreateDto);
+            return Created("", createdDto);
+        }
+
+        /// <summary>
+        /// Reactivates an existing musician profile
+        /// </summary>
+        /// <response code="201"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.PerformerOrStaff)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
+        [HttpDelete("{id}/deactivation")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<EducationDto>> RemoveDeactivation(Guid id)
+        {
+            await _musicianProfileDeactivationService.DeleteByMusicianProfileAsync(id);
+            return NoContent();
         }
     }
 }

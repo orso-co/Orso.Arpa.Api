@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.SectionApplication
         public string Name { get; set; }
     }
 
-    public class SectionModifyDtoValidator : BaseModifyDtoValidator<SectionModifyDto, SectionModifyBodyDto>
+    public class SectionModifyDtoValidator : IdFromRouteDtoValidator<SectionModifyDto, SectionModifyBodyDto>
     {
         public SectionModifyDtoValidator()
         {

@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
         }
     }
 
-    public class AppointmentSetDatesDtoValidator : BaseModifyDtoValidator<AppointmentSetDatesDto, AppointmentSetDatesBodyDto>
+    public class AppointmentSetDatesDtoValidator : IdFromRouteDtoValidator<AppointmentSetDatesDto, AppointmentSetDatesBodyDto>
     {
         public AppointmentSetDatesDtoValidator()
         {

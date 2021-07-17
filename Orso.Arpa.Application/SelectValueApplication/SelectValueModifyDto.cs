@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.SelectValueApplication
         public string Description { get; set; }
     }
 
-    public class SelectValueModifyDtoValidator : BaseModifyDtoValidator<SelectValueModifyDto, SelectValueModifyBodyDto>
+    public class SelectValueModifyDtoValidator : IdFromRouteDtoValidator<SelectValueModifyDto, SelectValueModifyBodyDto>
     {
         public SelectValueModifyDtoValidator()
         {

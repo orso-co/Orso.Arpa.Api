@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 
@@ -13,8 +15,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     public class MusicianProfileDto : BaseEntityDto
     {
         public bool IsMainProfile { get; set; }
-        public bool IsDeactivated { get; set; }
-
         public byte LevelAssessmentInner { get; set; }
         public byte LevelAssessmentTeam { get; set; }
         public byte ProfilePreferenceInner { get; set; }
@@ -37,6 +37,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
         public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
         public IList<SelectValueDto> Documents { get; set; } = new List<SelectValueDto>();
+        public MusicianProfileDeactivationDto Deactivation { get; set; }
     }
 
     public class MusicianProfileDtoMappingProfile : Profile
@@ -45,7 +46,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         {
             CreateMap<MusicianProfile, MusicianProfileDto>()
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.IsMainProfile))
-                .ForMember(dest => dest.IsDeactivated, opt => opt.MapFrom(src => src.IsDeactivated))
+                .ForMember(dest => dest.Deactivation, opt => opt.MapFrom(src => src.Deactivation))
 
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.LevelAssessmentTeam))

@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.DoublingInstrumentApplication;
 
 namespace Orso.Arpa.Application.Interfaces
 {

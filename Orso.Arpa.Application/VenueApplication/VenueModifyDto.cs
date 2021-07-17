@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.VenueApplication
         public string Description { get; set; }
     }
 
-    public class VenueModifyDtoValidator : BaseModifyDtoValidator<VenueModifyDto, VenueModifyBodyDto>
+    public class VenueModifyDtoValidator : IdFromRouteDtoValidator<VenueModifyDto, VenueModifyBodyDto>
     {
         public VenueModifyDtoValidator()
         {

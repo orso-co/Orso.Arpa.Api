@@ -45,7 +45,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         }
     }
 
-    public class ProjectModifyDtoValidator : BaseModifyDtoValidator<ProjectModifyDto, ProjectModifyBodyDto>
+    public class ProjectModifyDtoValidator : IdFromRouteDtoValidator<ProjectModifyDto, ProjectModifyBodyDto>
     {
         public ProjectModifyDtoValidator()
         {

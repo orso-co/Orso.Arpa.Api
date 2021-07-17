@@ -9,6 +9,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
@@ -153,6 +154,49 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.CurriculumVitaeReferencesController.Get(result.Id)}");
         }
 
+        [Test, Order(102)]
+        public async Task Should_Deactivate_Musician_Profile()
+        {
+            // Arrange
+            var createDto = new MusicianProfileDeactivationCreateBodyDto
+            {
+                DeactivationStart = FakeDateTime.UtcNow.AddDays(20),
+                Purpose = "Ich werde am Handgelenk operiert und werde einige Wochen nicht Klavier spielen können."
+            };
+            var expectedDto = new MusicianProfileDeactivationDto()
+            {
+                DeactivationStart = createDto.DeactivationStart,
+                Purpose = createDto.Purpose,
+                CreatedBy = _performer.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .PostAsync(ApiEndpoints.MusicianProfilesController.AddDeactivation(MusicianProfileSeedData.PerformerMusicianProfile.Id), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            MusicianProfileDeactivationDto result = await DeserializeResponseMessageAsync<MusicianProfileDeactivationDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            result.Id.Should().NotBeEmpty();
+        }
+
+        [Test, Order(103)]
+        public async Task Should_Reactivate_Musician_Profile()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .DeleteAsync(ApiEndpoints.MusicianProfilesController.RemoveDeactivation(MusicianProfileSeedData.PerformersDeactivatedTubaProfile.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
         [Test, Order(1000)]
         public async Task Should_Modify()
         {
@@ -161,7 +205,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var modifyDto = new MusicianProfileModifyBodyDto
             {
                 IsMainProfile = true,
-                IsDeactivated = false,
 
                 LevelAssessmentInner = 1,
                 LevelAssessmentTeam = 2,
@@ -184,7 +227,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new MusicianProfileDto
             {
                 DoublingInstruments = musicianProfileToModify.DoublingInstruments,
-                IsDeactivated = false,
                 BackgroundInner = modifyDto.BackgroundInner,
                 BackgroundTeam = modifyDto.BackgroundTeam,
                 CreatedAt = musicianProfileToModify.CreatedAt,

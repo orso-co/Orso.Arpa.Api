@@ -22,7 +22,6 @@ namespace Orso.Arpa.Domain.Logic.Me
             public Guid InstrumentId { get; set; }
 
             public bool IsMainProfile { get; set; }
-            public bool IsDeactivated { get; set; }
 
             public byte LevelAssessmentInner { get; set; }
             public byte ProfilePreferenceInner { get; set; }
@@ -54,10 +53,6 @@ namespace Orso.Arpa.Domain.Logic.Me
 
                 RuleFor(c => c.InquiryStatusInnerId)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusInner);
-
-                RuleFor(c => c.IsDeactivated)
-                    .Must((command, isDeactivated, context) => !isDeactivated || command.ExistingMusicianProfile.ProjectParticipations.Select(pp => pp.Project).All(p => p.IsCompleted))
-                    .WithMessage("You may not deactivate a musician profile which is participating in an active project");
             }
         }
 
@@ -67,7 +62,6 @@ namespace Orso.Arpa.Domain.Logic.Me
             {
                 CreateMap<Command, MusicianProfile>()
                     .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.IsMainProfile))
-                    .ForMember(dest => dest.IsDeactivated, opt => opt.MapFrom(src => src.IsDeactivated))
 
                     .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
                     .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.ProfilePreferenceInner))

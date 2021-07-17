@@ -17,16 +17,5 @@ namespace Orso.Arpa.Domain.Tests.EntityTests
 
             profile.IsMainProfile.Should().BeFalse();
         }
-
-        [Test]
-        public void Should_Set_Activated_Flag()
-        {
-            Entities.MusicianProfile profile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile;
-            profile.IsDeactivated.Should().BeTrue();
-
-            profile.SetActiveStatus(true);
-
-            profile.IsDeactivated.Should().BeFalse();
-        }
     }
 }

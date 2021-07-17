@@ -81,13 +81,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var profile = new MusicianProfile(new Create.Command
+                return new MusicianProfile(new Create.Command
                 {
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
                     InstrumentId = SectionSeedData.Tuba.Id,
                 }, false, Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"));
-                profile.SetProperty(nameof(MusicianProfile.IsDeactivated), true);
-                return profile;
             }
         }
         public static MusicianProfile StaffMusicianProfile1

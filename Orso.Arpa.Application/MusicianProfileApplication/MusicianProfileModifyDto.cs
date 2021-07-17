@@ -15,8 +15,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     public class MusicianProfileModifyBodyDto
     {
         public bool IsMainProfile { get; set; }
-        public bool IsDeactivated { get; set; }
-
         public byte LevelAssessmentInner { get; set; }
         public byte LevelAssessmentTeam { get; set; }
         public byte ProfilePreferenceInner { get; set; }
@@ -47,7 +45,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
 
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.Body.IsMainProfile))
-                .ForMember(dest => dest.IsDeactivated, opt => opt.MapFrom(src => src.Body.IsDeactivated))
 
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
@@ -69,7 +66,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         }
     }
 
-    public class MusicianProfileModifyDtoValidator : BaseModifyDtoValidator<MusicianProfileModifyDto, MusicianProfileModifyBodyDto>
+    public class MusicianProfileModifyDtoValidator : IdFromRouteDtoValidator<MusicianProfileModifyDto, MusicianProfileModifyBodyDto>
     {
         public MusicianProfileModifyDtoValidator()
         {

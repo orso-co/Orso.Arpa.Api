@@ -100,12 +100,10 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Deativated_MusicianProfileId_Is_Supplied()
         {
-            _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.HoorayForHollywood);
-            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.PerformersDeactivatedTubaProfile);
+            _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfile, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(true);
+            _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfileDeactivation, bool>>>(), Arg.Any<CancellationToken>())
+                .Returns(true);
 
             _validator.ShouldHaveValidationErrorForExact(command => command.MusicianProfileId, new SetProjectParticipation.Command
             {
