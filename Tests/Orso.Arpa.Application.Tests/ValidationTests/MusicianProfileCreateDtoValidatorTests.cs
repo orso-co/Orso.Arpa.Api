@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
 

@@ -248,35 +248,5 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
                 PreferredPartsInner = new List<byte> { 2 }
             });
         }
-
-        [Test]
-        public void Should_Have_Validation_Error_If_MusicianProfile_With_Active_ProjectParticipation_Shall_Be_Deactivated()
-        {
-            _validator.ShouldHaveValidationErrorForExact(c => c.IsDeactivated, new Modify.Command
-            {
-                ExistingMusicianProfile = FakeMusicianProfiles.PerformerMusicianProfile,
-                IsDeactivated = true
-            }).WithErrorMessage("You may not deactivate a musician profile which is participating in an active project");
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_MusicianProfile_Without_ProjectParticipations_Shall_Be_Deactivated()
-        {
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.IsDeactivated, new Modify.Command
-            {
-                ExistingMusicianProfile = MusicianProfileSeedData.PerformerMusicianProfile,
-                IsDeactivated = true
-            });
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_MusicianProfile_Shall_Be_Reactivated()
-        {
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.IsDeactivated, new Modify.Command
-            {
-                ExistingMusicianProfile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile,
-                IsDeactivated = false
-            });
-        }
     }
 }

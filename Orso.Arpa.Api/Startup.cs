@@ -259,6 +259,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<ITemplateParser, TemplateParser>();
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<ITranslationService, TranslationService>();
+            services.AddScoped<IMusicianProfileDeactivationService, MusicianProfileDeactivationService>();
             services.AddGenericListHandler(typeof(AuditLog));
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));

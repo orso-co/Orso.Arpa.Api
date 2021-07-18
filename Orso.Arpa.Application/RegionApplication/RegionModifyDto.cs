@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.RegionApplication
         }
     }
 
-    public class RegionModifyDtoValidator : BaseModifyDtoValidator<RegionModifyDto, RegionModifyBodyDto>
+    public class RegionModifyDtoValidator : IdFromRouteDtoValidator<RegionModifyDto, RegionModifyBodyDto>
     {
         public RegionModifyDtoValidator()
         {

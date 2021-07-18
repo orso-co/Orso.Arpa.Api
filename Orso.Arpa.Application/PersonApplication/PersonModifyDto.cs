@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.PersonApplication
         }
     }
 
-    public class PersonModifyDtoValidator : BaseModifyDtoValidator<PersonModifyDto, PersonModifyBodyDto>
+    public class PersonModifyDtoValidator : IdFromRouteDtoValidator<PersonModifyDto, PersonModifyBodyDto>
     {
         public PersonModifyDtoValidator()
         {

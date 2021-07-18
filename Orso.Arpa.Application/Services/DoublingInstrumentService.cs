@@ -1,5 +1,5 @@
+using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.MusicianProfileSections;
 

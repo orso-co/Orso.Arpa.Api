@@ -3,7 +3,7 @@ using AutoMapper;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
 
-namespace Orso.Arpa.Application.MusicianProfileApplication
+namespace Orso.Arpa.Application.DoublingInstrumentApplication
 {
     public class DoublingInstrumentDto : BaseEntityDto
     {

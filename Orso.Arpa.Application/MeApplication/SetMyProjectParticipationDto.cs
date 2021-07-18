@@ -19,7 +19,7 @@ namespace Orso.Arpa.Application.MeApplication
         public string Comment { get; set; }
     }
 
-    public class SetMyProjectParticipationDtoValidator : BaseModifyDtoValidator<SetMyProjectParticipationDto, SetMyProjectParticipationBodyDto>
+    public class SetMyProjectParticipationDtoValidator : IdFromRouteDtoValidator<SetMyProjectParticipationDto, SetMyProjectParticipationBodyDto>
     {
         public SetMyProjectParticipationDtoValidator()
         {

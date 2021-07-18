@@ -12,9 +12,9 @@ namespace Orso.Arpa.Application.General
         public T Body { get; set; }
     }
 
-    public class BaseModifyDtoValidator<T, TBody> : AbstractValidator<T> where T : IdFromRouteDto<TBody>
+    public class IdFromRouteDtoValidator<T, TBody> : AbstractValidator<T> where T : IdFromRouteDto<TBody>
     {
-        public BaseModifyDtoValidator()
+        public IdFromRouteDtoValidator()
         {
             RuleFor(b => b).NotNull();
             RuleFor(b => b.Id).NotEmpty();

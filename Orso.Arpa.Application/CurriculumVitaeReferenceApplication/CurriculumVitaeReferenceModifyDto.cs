@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication
         }
     }
 
-    public class CurriculumVitaeReferenceModifyDtoValidator : BaseModifyDtoValidator<CurriculumVitaeReferenceModifyDto, CurriculumVitaeReferenceModifyBodyDto>
+    public class CurriculumVitaeReferenceModifyDtoValidator : IdFromRouteDtoValidator<CurriculumVitaeReferenceModifyDto, CurriculumVitaeReferenceModifyBodyDto>
     {
         public CurriculumVitaeReferenceModifyDtoValidator()
         {

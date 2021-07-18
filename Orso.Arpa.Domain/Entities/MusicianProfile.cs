@@ -29,8 +29,6 @@ namespace Orso.Arpa.Domain.Entities
 
         #region Native
         public bool IsMainProfile { get; private set; }
-        public bool IsDeactivated { get; private set; }
-
         public byte LevelAssessmentInner { get; private set; }
         public byte LevelAssessmentTeam { get; private set; }
         public byte ProfilePreferenceInner { get; private set; }
@@ -63,6 +61,10 @@ namespace Orso.Arpa.Domain.Entities
 
         public Guid? InquiryStatusTeamId { get; private set; }
         public virtual SelectValueMapping InquiryStatusTeam { get; private set; }
+
+        public virtual MusicianProfileDeactivation Deactivation { get; private set; }
+        public bool IsDeactivated(DateTime date) => Deactivation != null && Deactivation.DeactivationStart <= date;
+
         #endregion
 
         #region Collection
@@ -88,11 +90,6 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
         #endregion
-
-        public void SetActiveStatus(bool active)
-        {
-            IsDeactivated = !active;
-        }
 
         public void TurnOffIsMainProfileFlag()
         {

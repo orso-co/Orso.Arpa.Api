@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;

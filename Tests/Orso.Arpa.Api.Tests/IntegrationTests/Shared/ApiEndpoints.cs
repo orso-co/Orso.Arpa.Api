@@ -219,6 +219,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string AddEducation(Guid id) => $"{MusicianProfiles}/{id}/educations";
             public static string AddCurriculumVitaeReference(Guid id) => $"{MusicianProfiles}/{id}/curriculumVitaeReferences";
+            public static string AddDeactivation(Guid id) => $"{MusicianProfiles}/{id}/deactivation";
+            public static string RemoveDeactivation(Guid id) => $"{MusicianProfiles}/{id}/deactivation";
         }
 
         public static class MusicianProfileDoublingInstrumentsController

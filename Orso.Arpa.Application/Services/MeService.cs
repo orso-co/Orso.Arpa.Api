@@ -17,6 +17,7 @@ using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -25,15 +26,18 @@ namespace Orso.Arpa.Application.Services
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public MeService(
             IMediator mediator,
             IMapper mapper,
-            IUserAccessor userAccessor)
+            IUserAccessor userAccessor,
+            IDateTimeProvider dateTimeProvider)
         {
             _mediator = mediator;
             _mapper = mapper;
             _userAccessor = userAccessor;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task<MyUserProfileDto> GetMyUserProfileAsync()
@@ -118,7 +122,9 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<MyMusicianProfileDto>> GetMyMusicianProfilesAsync(bool includeDeactivated)
         {
-            Expression<Func<MusicianProfile, bool>> predicate = includeDeactivated ? mp => mp.PersonId == _userAccessor.PersonId : mp => mp.PersonId == _userAccessor.PersonId && !mp.IsDeactivated;
+            Expression<Func<MusicianProfile, bool>> predicate = includeDeactivated
+                ? mp => mp.PersonId == _userAccessor.PersonId
+                : mp => mp.PersonId == _userAccessor.PersonId && (mp.Deactivation == null || mp.Deactivation.DeactivationStart > _dateTimeProvider.GetUtcNow());
 
             var query = new List.Query<MusicianProfile>(predicate, orderBy: mp => mp.OrderByDescending(m => m.IsMainProfile));
 

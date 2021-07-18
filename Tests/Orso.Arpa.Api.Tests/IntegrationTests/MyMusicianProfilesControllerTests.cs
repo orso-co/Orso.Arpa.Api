@@ -221,7 +221,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var modifyDto = new MyMusicianProfileModifyBodyDto
             {
                 IsMainProfile = true,
-                IsDeactivated = false,
 
                 LevelAssessmentInner = 1,
                 ProfilePreferenceInner = 3,
@@ -236,7 +235,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new MyMusicianProfileDto
             {
                 DoublingInstruments = musicianProfileToModify.DoublingInstruments,
-                IsDeactivated = false,
                 BackgroundInner = modifyDto.BackgroundInner,
                 CreatedAt = musicianProfileToModify.CreatedAt,
                 CreatedBy = musicianProfileToModify.CreatedBy,

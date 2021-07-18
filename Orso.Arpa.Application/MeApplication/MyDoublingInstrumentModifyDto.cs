@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         }
     }
 
-    public class MyDoublingInstrumentModifyDtoValidator : BaseModifyDtoValidator<MyDoublingInstrumentModifyDto, MyDoublingInstrumentModifyBodyDto>
+    public class MyDoublingInstrumentModifyDtoValidator : IdFromRouteDtoValidator<MyDoublingInstrumentModifyDto, MyDoublingInstrumentModifyBodyDto>
     {
         public MyDoublingInstrumentModifyDtoValidator()
         {

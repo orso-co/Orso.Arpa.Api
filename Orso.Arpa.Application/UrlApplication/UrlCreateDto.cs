@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.UrlApplication
         }
     }
 
-    public class UrlCreateDtoValidator : BaseModifyDtoValidator<UrlCreateDto, UrlCreateBodyDto>
+    public class UrlCreateDtoValidator : IdFromRouteDtoValidator<UrlCreateDto, UrlCreateBodyDto>
     {
         public UrlCreateDtoValidator()
         {

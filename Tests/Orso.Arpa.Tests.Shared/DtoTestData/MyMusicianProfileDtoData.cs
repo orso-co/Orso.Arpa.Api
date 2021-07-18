@@ -1,4 +1,5 @@
 using System;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -72,7 +73,14 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedAt = FakeDateTime.UtcNow,
                     CreatedBy = "anonymous",
                     IsMainProfile = false,
-                    IsDeactivated = true,
+                    Deactivation = new MusicianProfileDeactivationDto
+                    {
+                        Id = Guid.Parse("c3bed69d-f880-41e6-8075-ebea53caf816"),
+                        DeactivationStart = FakeDateTime.UtcNow.AddDays(-20),
+                        CreatedAt = FakeDateTime.UtcNow,
+                        CreatedBy = "anonymous",
+                        Purpose = "Ich lerne zur Zeit Fagott und hab keine Zeit mehr, Tuba zu spielen."
+                    }
                 };
             }
         }

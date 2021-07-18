@@ -43,5 +43,19 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 return profile;
             }
         }
+
+        public static MusicianProfile PerformerDeactivatedTubaProfile
+        {
+            get
+            {
+                MusicianProfile profile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile;
+                profile.SetProperty(nameof(MusicianProfile.Deactivation), MusicianProfileDeactivationSeedData.PerformerTubaMusicianProfileDeactivation);
+                profile.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
+                profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
+                profile.Deactivation.SetProperty(nameof(MusicianProfileDeactivation.CreatedBy), "anonymous");
+                profile.Deactivation.SetProperty(nameof(MusicianProfileDeactivation.CreatedAt), FakeDateTime.UtcNow);
+                return profile;
+            }
+        }
     }
 }

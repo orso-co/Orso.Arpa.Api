@@ -45,10 +45,12 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
-        public DbSet<MusicianProfileDocument> MusicianProfileDocuments { get; set; }
-        public DbSet<Education> Educations { get; set; }
         public DbSet<CurriculumVitaeReference> CurriculumVitaeReferences { get; set; }
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<Localization> Localizations { get; set; }
         public DbSet<MusicianProfile> MusicianProfiles { get; set; }
+        public DbSet<MusicianProfileDeactivation> MusicianProfileDeactivations { get; set; }
+        public DbSet<MusicianProfileDocument> MusicianProfileDocuments { get; set; }
         public DbSet<MusicianProfilePositionInner> MusicianProfilePositionsInner { get; set; }
         public DbSet<MusicianProfilePositionTeam> MusicianProfilePositionsTeam { get; set; }
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
@@ -73,7 +75,6 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Url> Urls { get; set; }
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
-        public DbSet<Localization> Localizations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

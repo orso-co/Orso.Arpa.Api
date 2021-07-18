@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using System.Threading;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -18,6 +20,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
     public class SetProjectParticipationCommandValidatorTests
     {
         private IArpaContext _arpaContext;
+        private IDateTimeProvider _dateTimeProvider;
         private SetProjectParticipation.Validator _validator;
         private DbSet<Project> _mockProjectDbSet;
         private DbSet<SelectValueCategory> _mockSelectValueCategoryDbSet;
@@ -26,7 +29,8 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new SetProjectParticipation.Validator(_arpaContext);
+            _dateTimeProvider = new FakeDateTimeProvider();
+            _validator = new SetProjectParticipation.Validator(_arpaContext, _dateTimeProvider);
             _mockProjectDbSet = MockDbSets.Projects;
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
             _arpaContext.SelectValueCategories.Returns(_mockSelectValueCategoryDbSet);
@@ -136,11 +140,8 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_MusicianProfile_Is_Deactivated()
         {
-            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.Schneekönigin);
-            _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.PerformersDeactivatedTubaProfile);
+            _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfileDeactivation, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorForExact(c => c.MusicianProfileId, Guid.Empty)
                 .WithErrorMessage("The musician profile is deactivated. A deactivated musician profile may not participate in a project");
         }

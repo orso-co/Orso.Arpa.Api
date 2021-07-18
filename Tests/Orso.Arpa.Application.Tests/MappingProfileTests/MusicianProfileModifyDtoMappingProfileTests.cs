@@ -31,7 +31,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 Body = new MusicianProfileModifyBodyDto
                 {
                     IsMainProfile = true,
-                    IsDeactivated = false,
 
                     LevelAssessmentInner = 1,
                     LevelAssessmentTeam = 2,
@@ -57,7 +56,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             {
                 Id = dto.Id,
                 IsMainProfile = dto.Body.IsMainProfile,
-                IsDeactivated = dto.Body.IsDeactivated,
 
                 LevelAssessmentInner = dto.Body.LevelAssessmentInner,
                 LevelAssessmentTeam = dto.Body.LevelAssessmentTeam,
