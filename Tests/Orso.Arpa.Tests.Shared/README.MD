@@ -13,7 +13,7 @@
 |UserWithoutRoleMusicianProfile|UserWithoutRole|Basso|
 
 ## Appointments
-|Bezeichnung|Projects|Sections|Persons|
+|Bezeichnung|Projects|Sections|Persons (Musician Profiles)|
 |---|---|---|---|
 |RockingXMasRehearsal|RockingXMas||Performer (PerformerMusicianProfile)<br>Staff (StaffMusicianProfile1, StaffMusicianProfile2)<br>Admin (AdminMusicianSopranoProfile)|
 |RockingXMasConcert|||All|
