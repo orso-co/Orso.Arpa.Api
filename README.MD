@@ -89,4 +89,4 @@ The initial database contains a single user with an admin role. You can login us
 * Orso.Arpa.Infrastructure.Tests
 * Orso.Arpa.Mail.Tests
 * Orso.Arpa.Persistence.Tests
-* Orso.Arpa.Tests.Shared
+* [Orso.Arpa.Tests.Shared](Tests/Orso.Arpa.Tests.Shared/README.MD)
