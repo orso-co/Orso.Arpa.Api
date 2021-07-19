@@ -46,14 +46,14 @@ namespace Orso.Arpa.Domain.Interfaces
         ValueTask<TEntity> FindAsync<TEntity>(object[] keyValues, CancellationToken cancellationToken) where TEntity : class;
         ValueTask<TEntity> FindAsync<TEntity>(params object[] keyValues) where TEntity : class;
         EntityEntry Remove(object entity);
-
         EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
         Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity;
-
         Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class;
-
-        EntityEntry Entry(object entity);
-        IQueryable<AppointmentForPerson> GetAppointmentIdsForPerson(Guid personId);
         Task<TEntity> GetByIdAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity;
+        EntityEntry Entry(object entity);
+        IQueryable<SqlFunctionResult> GetAppointmentIdsForPerson(Guid personId);
+        IQueryable<SqlFunctionResult> GetActiveMusicianProfilesForAppointment(Guid appointmentId);
+        IQueryable<SqlFunctionResult> GetMusicianProfilesForAppointment(Guid appointmentId);
+
     }
 }

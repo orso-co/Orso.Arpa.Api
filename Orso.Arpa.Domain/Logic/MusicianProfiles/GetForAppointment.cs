@@ -37,11 +37,13 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 
             public async Task<IEnumerable<PersonGrouping>> Handle(Query request, CancellationToken cancellationToken)
             {
+                IList<Guid> musicianProfileIds = await _arpaContext.GetMusicianProfilesForAppointment(request.Appointment.Id)
+                        .Select(a => a.Id)
+                        .ToListAsync();
+
                 List<MusicianProfile> profiles = await _arpaContext.MusicianProfiles
-                    .AsSplitQuery()
-                    .AsAsyncEnumerable()
-                    .Where(p => IsMusicianProfileInProject(p, request.Appointment)
-                        && IsMusicianProfileInSection(p, request.Appointment, request.SectionTree))
+                    .AsQueryable()
+                    .Where(p => musicianProfileIds.Contains(p.Id))
                     .ToListAsync();
 
                 return from p in profiles
@@ -52,32 +54,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                            Profiles = g,
                            Participation = request.Appointment.AppointmentParticipations.FirstOrDefault(ap => ap.PersonId == g.Key.Id)
                        };
-            }
-
-            private bool IsMusicianProfileInProject(MusicianProfile musicianProfile, Appointment appointment)
-            {
-                if (appointment.ProjectAppointments.Count == 0)
-                {
-                    return true;
-                }
-                return musicianProfile.ProjectParticipations
-                    .Select(pp => pp.ProjectId)
-                    .Intersect(appointment.ProjectAppointments.Select(pa => pa.ProjectId))
-                    .Any();
-            }
-
-            private bool IsMusicianProfileInSection(MusicianProfile musicianProfile, Appointment appointment, IEnumerable<ITree<Section>> sectionTree)
-            {
-                if (appointment.SectionAppointments.Count == 0)
-                {
-                    return true;
-                }
-                return sectionTree.FirstOrDefault(st => st.Data.Id == musicianProfile.InstrumentId)
-                    .GetParents()
-                    .Select(section => section.Id)
-                    .Union(new Guid[] { musicianProfile.InstrumentId })
-                    .Intersect(appointment.SectionAppointments.Select(sa => sa.SectionId))
-                    .Any();
             }
         }
     }
