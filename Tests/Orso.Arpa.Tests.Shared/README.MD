@@ -1,7 +1,7 @@
 # Test Data Overview
 
 ## Musician Profiles
-| Bezeichnung|User|Instrument|Doubling Instrument|DeactivationStart|Projects|
+| Bezeichnung|Person|Instrument|Doubling Instrument|DeactivationStart|Projects|
 |---|---|---|---|---|---|
 |PerformerMusicianProfile|Performer|Alto|||RockingXMas<br>Schneekönigin|
 |PerformersHornMusicianProfile|Performer|Horn|Wagner Tuba|||
