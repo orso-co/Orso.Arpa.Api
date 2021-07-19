@@ -9,7 +9,6 @@ using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Roles;
-using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -29,7 +28,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="range"></param>
         /// <returns>A list of appointments</returns>
         /// <response code="200"></response>
-        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<AppointmentDto>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range)
@@ -44,7 +43,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>The queried appointment</returns>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
-        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]

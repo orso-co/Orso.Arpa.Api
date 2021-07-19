@@ -20,10 +20,34 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="SqlStatements\ActiveMusicianProfilesForAppointmentFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\ActiveUserAppointmentsForProjectView.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\ActiveUserAppointmentsForSectionView.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\IsActiveMusicianProfileInProjectFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\IsActiveMusicianProfileInSectionFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\IsMusicianProfileInProjectFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\IsMusicianProfileInSectionFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="SqlStatements\IsPersonInProjectFunction.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SqlStatements\IsPersonInSectionFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\MusicianProfilesForAppointmentFunction.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SqlStatements\UserAppointmentForSectionView.sql">

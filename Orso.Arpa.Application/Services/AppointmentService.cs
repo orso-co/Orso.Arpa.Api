@@ -85,12 +85,15 @@ namespace Orso.Arpa.Application.Services
             return dto;
         }
 
-        private async Task AddParticipationsAsync(AppointmentDto dto, Appointment appointment, IEnumerable<ITree<Section>> flattenedTree)
+        private async Task AddParticipationsAsync(
+            AppointmentDto dto,
+            Appointment appointment,
+            IEnumerable<ITree<Section>> flattenedTree)
         {
             var query = new Domain.Logic.MusicianProfiles.GetForAppointment.Query
             {
                 Appointment = appointment,
-                SectionTree = flattenedTree
+                SectionTree = flattenedTree,
             };
 
             IEnumerable<Domain.Logic.MusicianProfiles.GetForAppointment.PersonGrouping> personGrouping = await _mediator.Send(query);

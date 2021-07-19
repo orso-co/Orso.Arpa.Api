@@ -10,7 +10,6 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
@@ -28,63 +27,67 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             get
             {
                 yield return new TestCaseData(DateRange.Day, new DateTime(2019, 12, 21), new List<AppointmentDto> {
-                    AppointmentDtoData.RockingXMasRehearsalForPerformer,
+                    AppointmentDtoData.RockingXMasRehearsal,
                     AppointmentDtoData.RehearsalWeekend
-                }, false);
+                });
                 // 16.-22.12.2019
                 yield return new TestCaseData(DateRange.Week, new DateTime(2019, 12, 21), new List<AppointmentDto> {
-                    AppointmentDtoData.RockingXMasRehearsalForPerformer,
-                    AppointmentDtoData.RockingXMasConcertForPerformer,
+                    AppointmentDtoData.RockingXMasRehearsal,
+                    AppointmentDtoData.RockingXMasConcert,
                     AppointmentDtoData.RehearsalWeekend
-                }, true);
+                });
                 yield return new TestCaseData(DateRange.Month, new DateTime(2020, 12, 21), new List<AppointmentDto> {
                     AppointmentDtoData.AuditionDays,
                     AppointmentDtoData.PhotoSession,
-                    AppointmentDtoData.StaffMeetingForPerformer
-                }, true);
+                    AppointmentDtoData.StaffMeeting
+                });
             }
         }
 
         [TestCaseSource(nameof(s_appointmentQueryTestData))]
         [Test, Order(1)]
-        public async Task Should_Get_Appointments(DateRange dateRange, DateTime date, IList<AppointmentDto> expectedDtos, bool excludeParticipations)
+        public async Task Should_Get_Appointments(
+            DateRange dateRange,
+            DateTime date,
+            IList<AppointmentDto> expectedDtos)
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
+                .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(date, dateRange));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
-            if (excludeParticipations)
-            {
-                result.Should().BeEquivalentTo(expectedDtos, opt => opt.Excluding(dto => dto.Participations));
-            }
-            else
-            {
-                result.Should().BeEquivalentTo(expectedDtos);
-            }
+
+            result.Should().BeEquivalentTo(expectedDtos);
         }
 
-        private static IEnumerable<TestCaseData> s_appointmentByIdTestData
+        private static IEnumerable<TestCaseData> s_appointmentByIdQueryTestData
         {
             get
             {
-                yield return new TestCaseData(FakeUsers.Performer, AppointmentDtoData.RockingXMasRehearsalForPerformer);
-                yield return new TestCaseData(FakeUsers.Staff, AppointmentDtoData.RockingXMasRehearsalForStaff);
+                yield return new TestCaseData(AppointmentDtoData.RockingXMasRehearsal);
+                yield return new TestCaseData(AppointmentDtoData.RockingXMasConcert);
+                yield return new TestCaseData(AppointmentDtoData.AfterShowParty);
+                yield return new TestCaseData(AppointmentDtoData.StaffMeeting);
+                yield return new TestCaseData(AppointmentDtoData.PhotoSession);
+                yield return new TestCaseData(AppointmentDtoData.RehearsalWeekend);
+                yield return new TestCaseData(AppointmentDtoData.AuditionDays);
+                yield return new TestCaseData(AppointmentDtoData.AltoRehearsal);
+                yield return new TestCaseData(AppointmentDtoData.SopranoRehearsal);
             }
         }
 
         [Test, Order(2)]
-        [TestCaseSource(nameof(s_appointmentByIdTestData))]
-        public async Task Should_Get_By_Id(User userToLogin, AppointmentDto expectedDto)
+        [TestCaseSource(nameof(s_appointmentByIdQueryTestData))]
+        public async Task Should_Get_By_Id(AppointmentDto expectedDto)
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(userToLogin)
+                .AuthenticateWith(FakeUsers.Staff)
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id));
 
             // Assert
@@ -156,7 +159,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(100)]
         public async Task Should_Add_Section()
         {
-            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForStaff;
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
             expectedDto.Participations.RemoveAt(1);
             expectedDto.Participations.RemoveAt(1); // the second item has already been removed so the third item is on index pos. 1 now
             expectedDto.Sections.Add(SectionDtoData.Alto);
@@ -180,6 +183,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasConcert;
+            expectedDto.Participations.Clear();
             expectedDto.Projects.Add(ProjectDtoData.HoorayForHollywood);
 
             // Act
@@ -374,8 +378,25 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Remove_Section()
         {
             // Arrange
-            AppointmentDto expectedDto = AppointmentDtoData.AfterShowPartyForStaff;
+            AppointmentDto expectedDto = AppointmentDtoData.AfterShowParty;
             expectedDto.Sections.Clear();
+            expectedDto.Participations.Add(new AppointmentParticipationListItemDto
+            {
+                Person = PersonDtoData.Staff,
+                MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.StaffProfile1,
+                        ReducedMusicianProfileDtoData.StaffProfile2
+                    }
+            });
+            expectedDto.Participations.Add(new AppointmentParticipationListItemDto
+            {
+                Person = PersonDtoData.Admin,
+                MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.AdminProfile1
+                    }
+            });
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -398,31 +419,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
             AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
-            performerParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
-            {
-                Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
-                InstrumentName = "Horn",
-                Qualification = "Student"
-            });
-            performerParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
-            {
-                Id = Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"),
-                InstrumentName = "Tuba",
-                Deactivation = new MusicianProfileDeactivationDto
-                {
-                    CreatedAt = FakeDateTime.UtcNow,
-                    CreatedBy = "anonymous",
-                    DeactivationStart = FakeDateTime.UtcNow.AddDays(-20),
-                    Id = Guid.Parse("c3bed69d-f880-41e6-8075-ebea53caf816"),
-                    Purpose = "Ich lerne zur Zeit Fagott und hab keine Zeit mehr, Tuba zu spielen."
-                }
-            });
+            performerParticipation.MusicianProfiles.Add(ReducedMusicianProfileDtoData.PerformerHornProfile);
+            performerParticipation.MusicianProfiles.Add(ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile);
             performerParticipation.Participation = null;
             expectedDto.Participations.Add(performerParticipation);
             AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;
             staffParticipation.Participation = null;
             expectedDto.Participations.Add(staffParticipation);
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
+            adminParticipation.MusicianProfiles.Add(ReducedMusicianProfileDtoData.AdminProfile2);
             expectedDto.Participations.Add(adminParticipation);
             adminParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
             {

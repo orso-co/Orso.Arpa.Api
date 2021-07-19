@@ -9,14 +9,14 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class AppointmentDtoData
     {
-        public static IList<AppointmentDto> AppointmentsForPerformer
+        public static IList<AppointmentDto> Appointments
         {
             get
             {
                 return new List<AppointmentDto>
                 {
-                    RockingXMasRehearsalForPerformer,
-                    AfterShowPartyForPerformer,
+                    RockingXMasRehearsal,
+                    AfterShowParty,
                     RockingXMasConcert,
                     StaffMeeting,
                     PhotoSession,
@@ -26,45 +26,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static IList<AppointmentDto> AppointmentsForStaff
-        {
-            get
-            {
-                return new List<AppointmentDto>
-                {
-                    RockingXMasRehearsalForStaff,
-                    AfterShowPartyForStaff,
-                    RockingXMasConcert,
-                    StaffMeeting,
-                    PhotoSession,
-                    RehearsalWeekend,
-                    AuditionDays
-                };
-            }
-        }
-
-        public static AppointmentDto RockingXMasRehearsalForPerformer
-        {
-            get
-            {
-                AppointmentDto dto = RockingXMasRehearsalBase;
-                dto.InternalDetails = null;
-                dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
-                return dto;
-            }
-        }
-
-        public static AppointmentDto RockingXMasRehearsalForStaff
-        {
-            get
-            {
-                AppointmentDto dto = RockingXMasRehearsalBase;
-                dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
-                return dto;
-            }
-        }
-
-        private static AppointmentDto RockingXMasRehearsalBase
+        public static AppointmentDto RockingXMasRehearsal
         {
             get
             {
@@ -88,6 +50,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.Participations.Add(PerformerParticipation);
                 dto.Participations.Add(StaffParticipation);
                 dto.Participations.Add(AdminParticipation);
+                dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
                 return dto;
             }
         }
@@ -162,7 +125,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new AppointmentDto
+                var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("bcf930c0-18d5-48b4-ab10-d477a8cb822f"),
                     CategoryId = Guid.Parse("2634c0cc-31d2-4f61-813d-7ec60fc8ab34"),
@@ -179,40 +142,48 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
                     CreatedAt = FakeDateTime.UtcNow
                 };
-            }
-        }
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Performer,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.PerformerProfile,
+                        ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
+                        ReducedMusicianProfileDtoData.PerformerHornProfile
+                    }
+                });
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Staff,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.StaffProfile1,
+                        ReducedMusicianProfileDtoData.StaffProfile2
+                    }
+                });
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Admin,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.AdminProfile1,
+                        ReducedMusicianProfileDtoData.AdminProfile2
+                    }
+                });
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.WithoutRole,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.WithoutRoleProfile
+                    }
+                });
 
-        public static AppointmentDto RockingXMasConcertForPerformer
-        {
-            get
-            {
-                AppointmentDto dto = RockingXMasConcert;
-                dto.InternalDetails = null;
                 return dto;
             }
         }
 
-        public static AppointmentDto AfterShowPartyForPerformer
-        {
-            get
-            {
-                AppointmentDto dto = AfterShowPartyBase;
-                dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
-                return dto;
-            }
-        }
-
-        public static AppointmentDto AfterShowPartyForStaff
-        {
-            get
-            {
-                AppointmentDto dto = AfterShowPartyBase;
-                dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
-                return dto;
-            }
-        }
-
-        private static AppointmentDto AfterShowPartyBase
+        public static AppointmentDto AfterShowParty
         {
             get
             {
@@ -238,12 +209,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 AppointmentParticipationListItemDto performerParticipation = PerformerParticipation;
                 performerParticipation.Participation = null;
                 dto.Participations.Add(performerParticipation);
-                AppointmentParticipationListItemDto staffParticipation = StaffParticipation;
-                staffParticipation.Participation = null;
-                dto.Participations.Add(staffParticipation);
-                AppointmentParticipationListItemDto adminParticipation = AdminParticipation;
-                adminParticipation.Participation = null;
-                dto.Participations.Add(adminParticipation);
+                dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
                 return dto;
             }
         }
@@ -274,16 +240,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static AppointmentDto StaffMeetingForPerformer
-        {
-            get
-            {
-                AppointmentDto dto = StaffMeeting;
-                dto.InternalDetails = null;
-                return dto;
-            }
-        }
-
         public static AppointmentDto PhotoSession
         {
             get
@@ -306,6 +262,39 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Sections.Add(SectionDtoData.Choir);
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Performer,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.PerformerProfile
+                    }
+                });
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Staff,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.StaffProfile1,
+                        ReducedMusicianProfileDtoData.StaffProfile2
+                    }
+                });
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Admin,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.AdminProfile1
+                    }
+                });
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.WithoutRole,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.WithoutRoleProfile
+                    }
+                });
                 return dto;
             }
         }
@@ -358,6 +347,62 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Sections.Add(SectionDtoData.PiccoloFlute);
+                dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
+                return dto;
+            }
+        }
+
+        public static AppointmentDto SopranoRehearsal
+        {
+            get
+            {
+                var dto = new AppointmentDto
+                {
+                    Id = Guid.Parse("869cb371-e77e-4ffe-84a9-cdf852e31358"),
+                    SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
+                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    CategoryId = Guid.Parse("694de886-8566-45d0-afc7-6ded18a2b6e6"),
+                    PublicDetails = "Hooray for Hollywood rehearsal for soprano voices only",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Name = "Soprano rehearsal",
+                    ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
+                    StartTime = new DateTime(2021, 12, 30, 8, 00, 00),
+                    EndTime = new DateTime(2021, 12, 30, 17, 00, 00),
+                };
+                dto.Sections.Add(SectionDtoData.Soprano);
+                dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
+                dto.Participations.Add(new AppointmentParticipationListItemDto
+                {
+                    Person = PersonDtoData.Admin,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.AdminProfile1,
+                    }
+                });
+                return dto;
+            }
+        }
+
+        public static AppointmentDto AltoRehearsal
+        {
+            get
+            {
+                var dto = new AppointmentDto
+                {
+                    Id = Guid.Parse("af02e789-fb96-4d69-b252-e1c91c23c2fe"),
+                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
+                    StartTime = new DateTime(2021, 12, 29, 8, 00, 00),
+                    EndTime = new DateTime(2021, 12, 29, 17, 00, 00),
+                    PublicDetails = "Hooray for Hollywood rehearsal for alto voices only",
+                    Name = "Alto rehearsal",
+                    ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
+                    CategoryId = Guid.Parse("694de886-8566-45d0-afc7-6ded18a2b6e6"),
+                    CreatedBy = "anonymous",
+                    CreatedAt = FakeDateTime.UtcNow
+                };
+                dto.Sections.Add(SectionDtoData.Alto);
                 dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
                 return dto;
             }
