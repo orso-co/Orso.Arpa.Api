@@ -1,4 +1,5 @@
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 
 namespace Orso.Arpa.Application.VenueApplication
@@ -30,10 +31,10 @@ namespace Orso.Arpa.Application.VenueApplication
         {
             RuleFor(v => v.Name)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
 
             RuleFor(v => v.Description)
-                .MaximumLength(255);
+                .GeneralText(255);
         }
     }
 }

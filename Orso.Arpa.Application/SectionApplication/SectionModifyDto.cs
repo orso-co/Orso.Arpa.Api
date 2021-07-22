@@ -1,4 +1,5 @@
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 
 namespace Orso.Arpa.Application.SectionApplication
@@ -29,7 +30,7 @@ namespace Orso.Arpa.Application.SectionApplication
         {
             RuleFor(s => s.Name)
                .NotEmpty()
-               .MaximumLength(50);
+               .GeneralText(50);
         }
     }
 }

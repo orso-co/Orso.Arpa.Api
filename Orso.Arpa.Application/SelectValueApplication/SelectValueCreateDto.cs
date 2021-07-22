@@ -1,4 +1,5 @@
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 
 namespace Orso.Arpa.Application.SelectValueApplication
 {
@@ -16,10 +17,10 @@ namespace Orso.Arpa.Application.SelectValueApplication
         {
             RuleFor(s => s.Name)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
 
             RuleFor(s => s.Description)
-                .MaximumLength(255);
+                .GeneralText(255);
         }
     }
 }

@@ -65,14 +65,14 @@ namespace Orso.Arpa.Application.ProjectApplication
         {
             RuleFor(p => p.Title)
                 .NotEmpty()
-                .MaximumLength(100);
+                .GeneralText(100);
 
             RuleFor(p => p.ShortTitle)
                 .NotEmpty()
-                .MaximumLength(30);
+                .GeneralText(30);
 
             RuleFor(p => p.Description)
-                .MaximumLength(1000);
+                .GeneralText(1000);
 
             RuleFor(p => p.Code)
                 .NotEmpty()

@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Appointments.Modify;
 
@@ -63,11 +64,11 @@ namespace Orso.Arpa.Application.AppointmentApplication
                 .WithMessage("EndTime must be greater than StartTime");
             RuleFor(d => d.Name)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
             RuleFor(d => d.InternalDetails)
-                .MaximumLength(1000);
+                .GeneralText(1000);
             RuleFor(d => d.PublicDetails)
-                .MaximumLength(1000);
+                .GeneralText(1000);
         }
     }
 }

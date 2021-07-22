@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Persons.Modify;
 
@@ -42,15 +43,15 @@ namespace Orso.Arpa.Application.PersonApplication
         {
             RuleFor(c => c.GivenName)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
 
             RuleFor(c => c.Surname)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
 
             RuleFor(c => c.AboutMe)
                 .NotEmpty()
-                .MaximumLength(1000);
+                .GeneralText(1000);
         }
     }
 }

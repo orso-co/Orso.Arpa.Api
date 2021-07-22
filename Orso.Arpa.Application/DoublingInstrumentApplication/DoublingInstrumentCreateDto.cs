@@ -50,7 +50,7 @@ namespace Orso.Arpa.Application.DoublingInstrumentApplication
         public DoublingInstrumentCreateBodyDtoValidator()
         {
             RuleFor(dto => dto.Comment)
-                .MaximumLength(500);
+                .GeneralText(500);
 
             RuleFor(dto => dto.InstrumentId)
                 .NotEmpty();

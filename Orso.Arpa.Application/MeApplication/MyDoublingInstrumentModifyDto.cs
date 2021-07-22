@@ -47,7 +47,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public MyDoublingInstrumentModifyBodyDtoValidator()
         {
             RuleFor(dto => dto.Comment)
-                .MaximumLength(500);
+                .GeneralText(500);
 
             RuleFor(dto => dto.LevelAssessmentInner)
                 .FiveStarRating();

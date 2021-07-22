@@ -1,4 +1,5 @@
 using System;
+using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -117,6 +118,14 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
         {
             _validator.ShouldNotHaveValidationErrorForExact(command => command.Name, "appointment");
+        }
+
+        [Test]
+        public void Should_Fail_If_Invalid_Character_Is_Supplied([Values("+", "~", "^", "°", "<", ">", "|", "}", "{", "[", "]", "\\", "=")] string name)
+        {
+            _validator.ShouldHaveValidationErrorForExact(dto => dto.Name, name)
+                .WithErrorMessage("You entered an invalid character. Allowed characters are: a-z, A-Z, 0-9, umlauts, whitespace characters, punctuation marks, " +
+                        "round braces, dashes, line breaks, slashes, hash tags, astersisks, percentage, the Euro and the Dollar sign.");
         }
     }
 }

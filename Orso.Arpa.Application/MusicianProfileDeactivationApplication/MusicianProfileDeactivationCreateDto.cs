@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Logic.MusicianProfileDeactivations;
 
@@ -41,7 +42,7 @@ namespace Orso.Arpa.Application.MusicianProfileDeactivationApplication
         public MusicianProfileDeactivationCreateBodyDtoValidator()
         {
             RuleFor(dto => dto.Purpose)
-                .MaximumLength(500);
+                .GeneralText(500);
 
             RuleFor(dto => dto.DeactivationStart)
                 .NotEmpty();
