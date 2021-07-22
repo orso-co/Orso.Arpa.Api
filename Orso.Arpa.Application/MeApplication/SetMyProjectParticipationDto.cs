@@ -2,6 +2,7 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Logic.Me;
 
@@ -39,7 +40,7 @@ namespace Orso.Arpa.Application.MeApplication
                 .NotEmpty();
 
             RuleFor(d => d.Comment)
-                .MaximumLength(500);
+                .GeneralText(500);
         }
     }
 

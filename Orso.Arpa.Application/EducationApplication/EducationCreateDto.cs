@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Educations.Create;
 
@@ -48,14 +49,14 @@ namespace Orso.Arpa.Application.EducationApplication
         {
             RuleFor(p => p.TimeSpan)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
 
             RuleFor(p => p.Institution)
                 .NotEmpty()
-                .MaximumLength(255);
+                .GeneralText(255);
 
             RuleFor(p => p.Description)
-                .MaximumLength(500);
+                .GeneralText(500);
         }
     }
 }

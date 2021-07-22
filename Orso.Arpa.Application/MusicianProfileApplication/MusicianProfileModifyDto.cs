@@ -89,11 +89,13 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .FiveStarRating();
 
             RuleFor(p => p.BackgroundInner)
-                .MaximumLength(1000);
+                .GeneralText(1000);
+
             RuleFor(p => p.BackgroundTeam)
-                .MaximumLength(1000);
+                .GeneralText(1000);
+
             RuleFor(p => p.SalaryComment)
-                .MaximumLength(500);
+                .GeneralText(500);
 
             RuleFor(p => p.QualificationId)
                .NotEmpty();

@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.Regions.Modify;
 
@@ -38,7 +39,7 @@ namespace Orso.Arpa.Application.RegionApplication
         {
             RuleFor(c => c.Name)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
         }
     }
 }

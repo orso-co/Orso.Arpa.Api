@@ -33,10 +33,10 @@ namespace Orso.Arpa.Application.AuthApplication
                 .EmailAddress();
             RuleFor(c => c.GivenName)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
             RuleFor(c => c.Surname)
                 .NotEmpty()
-                .MaximumLength(50);
+                .GeneralText(50);
             RuleFor(c => c.ClientUri)
                 .ValidUri();
         }

@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Logic.Projects;
 
@@ -59,10 +60,10 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .NotEmpty();
 
             RuleFor(d => d.CommentByStaffInner)
-                .MaximumLength(500);
+                .GeneralText(500);
 
             RuleFor(d => d.CommentTeam)
-                .MaximumLength(500);
+                .GeneralText(500);
         }
     }
 }
