@@ -46,7 +46,7 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
                 }
             }
             ICollection<SelectValueMapping> expectedMappings = categories
-                .FirstOrDefault(c => c.Table == nameof(PersonAddress) && c.Property == nameof(PersonAddress.Type))?
+                .FirstOrDefault(c => c.Table == nameof(Address) && c.Property == nameof(Address.Type))?
                 .SelectValueMappings;
             DbSet<SelectValueCategory> categoriesToReturn = categories.AsQueryable().BuildMockDbSet();
             categoriesToReturn.AsQueryable().Returns(categories.AsQueryable());
@@ -56,8 +56,8 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
             IImmutableList<SelectValueMapping> result = await _handler.Handle(
                 new Logic.SelectValues.List.Query
                 {
-                    TableName = nameof(PersonAddress),
-                    PropertyName = nameof(PersonAddress.Type)
+                    TableName = nameof(Address),
+                    PropertyName = nameof(Address.Type)
                 },
                 new CancellationToken());
 
