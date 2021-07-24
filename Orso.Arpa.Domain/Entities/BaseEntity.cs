@@ -6,10 +6,10 @@ namespace Orso.Arpa.Domain.Entities
     public abstract class BaseEntity
     {
         public Guid Id { get; private set; }
-        [MaxLength(100)]
+        [MaxLength(110)]
         public string CreatedBy { get; private set; }
         public DateTime CreatedAt { get; private set; }
-        [MaxLength(100)]
+        [MaxLength(110)]
         public string ModifiedBy { get; private set; }
         public DateTime? ModifiedAt { get; private set; }
         public bool Deleted { get; private set; }

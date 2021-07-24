@@ -309,7 +309,5 @@ namespace Orso.Arpa.Persistence.Seed
 
         // CONTRACTORS
         public static Section Contractors => new(Guid.Parse("6a107070-daae-41fc-b27d-416d44d36374"), "Contractors", null, false);
-
-
     }
 }

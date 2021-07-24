@@ -36,6 +36,8 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(ProjectParticipationStatusInternalMappings);
                 list.AddRange(EducationTypeMappings);
                 list.AddRange(CurriculumVitaeReferenceTypeMappings);
+                list.AddRange(PersonGenderMappings);
+                list.AddRange(ContactDetailTypeMappings);
                 return list;
             }
         }
@@ -47,8 +49,9 @@ namespace Orso.Arpa.Persistence.Seed
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("fb44b625-7086-48e6-bcc6-a004dd472012"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Private.Id, 10),
-                    new SelectValueMapping(Guid.Parse("63437ce4-b63b-4558-9f91-1474b896bf1c"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Work.Id, 20),
-                    new SelectValueMapping(Guid.Parse("f81c698e-0017-41c0-8ff9-78dbaa3d2676"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Other.Id, 30)
+                    new SelectValueMapping(Guid.Parse("63437ce4-b63b-4558-9f91-1474b896bf1c"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Business.Id, 20),
+                    new SelectValueMapping(Guid.Parse("f81c698e-0017-41c0-8ff9-78dbaa3d2676"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Other.Id, 30),
+                    new SelectValueMapping(Guid.Parse("0cc663ed-67fa-4a34-908c-3120ba9fe8c1"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Unknown.Id, 40),
                 };
             }
         }
@@ -416,6 +419,33 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("d30083ca-235f-43fa-9cba-3acdacf52b93"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.CompetitionPrize.Id),
                     new SelectValueMapping(Guid.Parse("28d79b43-18be-48b2-a6c9-776ddea0bdb2"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.Recommendation.Id),
                     new SelectValueMapping(Guid.Parse("8822614e-3e7c-4224-bb9c-468cec939bbc"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.Other.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> PersonGenderMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("32761c45-e481-4eb9-a23e-d73330482572"), SelectValueCategorySeedData.PersonGender.Id, SelectValueSeedData.Female.Id),
+                    new SelectValueMapping(Guid.Parse("1c16a5fe-6ac6-4e94-be6e-82a0a0fbe1c9"), SelectValueCategorySeedData.PersonGender.Id, SelectValueSeedData.Male.Id),
+                    new SelectValueMapping(Guid.Parse("88d680fe-b6cc-486f-8f79-2525189b8b13"), SelectValueCategorySeedData.PersonGender.Id, SelectValueSeedData.Diverse.Id),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> ContactDetailTypeMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"), SelectValueCategorySeedData.ContactDetailType.Id, SelectValueSeedData.Private.Id, 10),
+                    new SelectValueMapping(Guid.Parse("8205e3e6-8f58-49de-a438-02fce2aa0548"), SelectValueCategorySeedData.ContactDetailType.Id, SelectValueSeedData.Business.Id, 20),
+                    new SelectValueMapping(Guid.Parse("0432acc1-9332-4885-af64-52e37f7637a9"), SelectValueCategorySeedData.ContactDetailType.Id, SelectValueSeedData.Other.Id, 30),
+                    new SelectValueMapping(Guid.Parse("bfb1c88f-1fba-4f83-b17a-479399f53f6d"), SelectValueCategorySeedData.ContactDetailType.Id, SelectValueSeedData.Unknown.Id, 40),
                 };
             }
         }

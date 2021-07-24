@@ -23,6 +23,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
             public string Email { get; set; }
             public string GivenName { get; set; }
             public string Surname { get; set; }
+            public DateTime DateOfBirth { get; set; }
+            public Guid GenderId { get; set; }
             public string ClientUri { get; set; }
 
             public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
@@ -40,6 +42,8 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     .WithMessage("Email aleady exists");
                 RuleForEach(c => c.StakeholderGroupIds)
                     .EntityExists<Command, Section>(context);
+                RuleFor(c => c.GenderId)
+                    .SelectValueMapping<Command, Person>(context, p => p.Gender);
             }
         }
 

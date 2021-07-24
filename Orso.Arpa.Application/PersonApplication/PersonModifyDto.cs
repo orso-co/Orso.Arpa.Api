@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
@@ -15,6 +16,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string AboutMe { get; set; }
+        public Guid GenderId { get; set; }
     }
 
     public class PersonModifyDtoMappingProfile : Profile
@@ -24,6 +26,7 @@ namespace Orso.Arpa.Application.PersonApplication
             CreateMap<PersonModifyDto, Command>()
                 .ForMember(dest => dest.GivenName, opt => opt.MapFrom(src => src.Body.GivenName))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Body.Surname))
+                .ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.Body.GenderId))
                 .ForMember(dest => dest.AboutMe, opt => opt.MapFrom(src => src.Body.AboutMe));
         }
     }

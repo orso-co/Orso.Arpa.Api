@@ -14,6 +14,8 @@ namespace Orso.Arpa.Application.AuthApplication
         public string Email { get; set; }
         public string GivenName { get; set; }
         public string Surname { get; set; }
+
+        public Guid GenderId { get; set; }
         public string ClientUri { get; set; }
         public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
     }
@@ -39,6 +41,8 @@ namespace Orso.Arpa.Application.AuthApplication
                 .GeneralText(50);
             RuleFor(c => c.ClientUri)
                 .ValidUri();
+            RuleFor(c => c.GenderId)
+                .NotEmpty();
         }
     }
 

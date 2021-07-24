@@ -4,13 +4,25 @@ using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {
-    public class PersonAddressConfiguration : IEntityTypeConfiguration<PersonAddress>
+    public class ContactDetailConfiguration : IEntityTypeConfiguration<ContactDetail>
     {
-        public void Configure(EntityTypeBuilder<PersonAddress> builder)
+        public void Configure(EntityTypeBuilder<ContactDetail> builder)
         {
             builder
+                .Property(a => a.Value)
+                .HasMaxLength(1000);
+
+            builder
+                .Property(a => a.CommentInner)
+                .HasMaxLength(500);
+
+            builder
+                .Property(a => a.CommentTeam)
+                .HasMaxLength(500);
+
+            builder
                 .HasOne(e => e.Person)
-                .WithMany(p => p.Addresses)
+                .WithMany(p => p.ContactDetails)
                 .HasForeignKey(e => e.PersonId)
                 .OnDelete(DeleteBehavior.NoAction);
 
