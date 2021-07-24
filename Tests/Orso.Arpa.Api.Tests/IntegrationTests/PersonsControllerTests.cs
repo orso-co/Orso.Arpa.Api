@@ -94,7 +94,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 GivenName = "Tom2",
                 Surname = "Bone2",
-                AboutMe = "This is about me - bone"
+                AboutMe = "This is about me - bone",
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
             };
 
             var expectedDto = new PersonDto
@@ -137,7 +138,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 GivenName = "Per",
                 Surname = "Son",
-                AboutMe = "This is about me"
+                AboutMe = "This is about me",
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
             };
 
             var expectedDto = new PersonDto

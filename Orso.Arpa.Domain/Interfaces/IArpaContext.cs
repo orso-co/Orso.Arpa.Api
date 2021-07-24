@@ -20,7 +20,6 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<Education> Educations { get; set; }
         DbSet<CurriculumVitaeReference> CurriculumVitaeReferences { get; set; }
         DbSet<Person> Persons { get; set; }
-        DbSet<PersonAddress> PersonAddresses { get; set; }
         DbSet<Project> Projects { get; set; }
         DbSet<Url> Urls { get; set; }
         DbSet<UrlRole> UrlRoles { get; set; }

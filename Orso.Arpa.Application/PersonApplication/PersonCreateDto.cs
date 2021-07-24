@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
@@ -10,6 +11,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string AboutMe { get; set; }
+        public Guid GenderId { get; set; }
     }
 
     public class PersonCreateDtoMappingProfile : Profile
@@ -35,6 +37,9 @@ namespace Orso.Arpa.Application.PersonApplication
             RuleFor(c => c.AboutMe)
                 .NotEmpty()
                 .GeneralText(1000);
+
+            RuleFor(c => c.GenderId)
+                .NotEmpty();
         }
     }
 }

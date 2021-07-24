@@ -37,6 +37,26 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(a => a.State)
                 .HasMaxLength(50);
+
+            builder
+                .Property(a => a.Comment)
+                .HasMaxLength(500);
+
+            builder
+                .Property(a => a.AdditionalAddressInformation)
+                .HasMaxLength(500);
+
+            builder
+                .HasOne(e => e.Type)
+                .WithMany()
+                .HasForeignKey(e => e.TypeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(e => e.Person)
+                .WithMany(p => p.Addresses)
+                .HasForeignKey(e => e.PersonId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -18,8 +18,26 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(50);
 
             builder
+                .Property(e => e.BirthName)
+                .HasMaxLength(50);
+
+            builder
                 .Property(e => e.AboutMe)
                 .HasMaxLength(1000);
+
+            builder
+                .Property(e => e.Birthplace)
+                .HasMaxLength(50);
+
+            builder
+                .Property(e => e.MovingBox)
+                .HasMaxLength(10000);
+
+            builder
+                .HasOne(e => e.Gender)
+                .WithMany()
+                .HasForeignKey(e => e.GenderId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasData(PersonSeedData.Persons);

@@ -159,6 +159,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GivenName = "Ludmilla",
                 Surname = "Schneider",
                 ClientUri = "http://localhost:4200",
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
             };
             registerDto.StakeholderGroupIds.Add(SectionSeedData.Volunteers.Id);
 
@@ -204,7 +205,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Email = UserTestSeedData.Performer.Email,
                 UserName = "ludmilla",
                 Password = UserSeedData.ValidPassword,
-                ClientUri = "http://localhost:4200"
+                ClientUri = "http://localhost:4200",
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
             };
 
             // Act
@@ -231,6 +233,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Email = "ludmilla@test.com",
                 UserName = UserTestSeedData.Performer.UserName,
                 Password = UserSeedData.ValidPassword,
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id,
                 ClientUri = "http://localhost:4200"
             };
 

@@ -13,12 +13,18 @@ namespace Orso.Arpa.Domain.Entities
             GivenName = command.GivenName;
             Surname = command.Surname;
             AboutMe = command.AboutMe;
+            BirthName = command.BirthName;
+            DateOfBirth = command.DateOfBirth;
+            Birthplace = command.Birthplace;
+            GenderId = command.GenderId;
         }
 
         public Person(Guid? id, UserRegister.Command command) : base(id)
         {
             GivenName = command.GivenName;
             Surname = command.Surname;
+            GenderId = command.GenderId;
+            DateOfBirth = command.DateOfBirth;
         }
 
         /// <summary>
@@ -35,8 +41,7 @@ namespace Orso.Arpa.Domain.Entities
         [JsonInclude]
         public string Surname { get; private set; }
 
-        [JsonInclude]
-        public virtual User User { get; private set; }
+        public string BirthName { get; private set; }
 
         [JsonInclude]
         public string AboutMe { get; private set; }
@@ -45,10 +50,30 @@ namespace Orso.Arpa.Domain.Entities
         public byte Reliability { get; private set; }
 
         [JsonInclude]
-        public byte Favorization { get; private set; }
+        public byte GeneralPreference { get; private set; }
+
+        public DateTime DateOfBirth { get; private set; }
+
+        public string Birthplace { get; private set; }
+
+        public byte ExperienceLevel { get; private set; }
+
+        /// <summary>
+        /// Contains data from podio and filemaker migration in json format
+        /// </summary>
+        public string MovingBox { get; private set; }
 
         [JsonInclude]
-        public virtual ICollection<PersonAddress> Addresses { get; private set; } = new HashSet<PersonAddress>();
+        public virtual User User { get; private set; }
+
+        public Guid? GenderId { get; private set; }
+
+        public virtual SelectValueMapping Gender { get; private set; }
+
+        [JsonInclude]
+        public virtual ICollection<Address> Addresses { get; private set; } = new HashSet<Address>();
+
+        public virtual ICollection<ContactDetail> ContactDetails { get; private set; } = new HashSet<ContactDetail>();
 
         [JsonInclude]
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();

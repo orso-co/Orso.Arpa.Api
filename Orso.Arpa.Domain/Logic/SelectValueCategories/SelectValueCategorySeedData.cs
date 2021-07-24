@@ -36,14 +36,16 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     ProjectParticipationStatusInternal,
                     EducationType,
                     CurriculumVitaeReferenceType,
+                    PersonGender,
+                    ContactDetailType
                 };
             }
         }
 
         public static SelectValueCategory AddressType => new(
             Guid.Parse("d438c160-0588-41fa-93c3-cd33c0f97063"),
-            nameof(PersonAddress),
-            nameof(PersonAddress.Type),
+            nameof(Address),
+            nameof(Address.Type),
             "Address Type");
 
         public static SelectValueCategory AppointmentParticipationResult => new(
@@ -183,5 +185,17 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(CurriculumVitaeReference),
             nameof(CurriculumVitaeReference.Type),
             "Curriculum vitae reference type");
+
+        public static SelectValueCategory PersonGender => new(
+            Guid.Parse("5d132bf0-5ad9-4a20-b23d-77efbb7acc0c"),
+            nameof(Person),
+            nameof(Person.Gender),
+            "Person gender");
+
+        public static SelectValueCategory ContactDetailType => new(
+            Guid.Parse("3c4dd028-db94-441d-bd3f-ab5b58533407"),
+            nameof(ContactDetail),
+            nameof(ContactDetail.Type),
+            "Contact detail type");
     }
 }

@@ -61,7 +61,7 @@ namespace Orso.Arpa.Persistence.Seed
                     OrchestraConcertLumpSum12h,
                     OrchestraRehearsalHourlyRate,
                     Private,
-                    Work,
+                    Business,
                     ConcertTour,
                     RehearsalWeekend,
                     SpecialProject,
@@ -126,6 +126,9 @@ namespace Orso.Arpa.Persistence.Seed
                     SoloPerformance,
                     CompetitionPrize,
                     Recommendation,
+                    Male,
+                    Female,
+                    Diverse
                 };
             }
         }
@@ -406,7 +409,7 @@ namespace Orso.Arpa.Persistence.Seed
         /// <summary>
         /// Arbeit
         /// </summary>
-        public static SelectValue Work => new(Guid.Parse("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), "Work", string.Empty);
+        public static SelectValue Business => new(Guid.Parse("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), "Business", string.Empty);
 
 
         // QUALIFIKATION
@@ -521,5 +524,8 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue SoloPerformance => new(Guid.Parse("8cf0c997-33bd-431b-a28c-7d22c00d8d87"), "Solo performance", string.Empty);
         public static SelectValue CompetitionPrize => new(Guid.Parse("674abb4f-89d1-4802-bfee-8eb0d61bed80"), "Competition / Prize", string.Empty);
         public static SelectValue Recommendation => new(Guid.Parse("64db8d53-128b-4b3d-85ac-23292fad29e9"), "Recommendation", string.Empty);
+        public static SelectValue Male => new(Guid.Parse("9c0e9810-f177-43af-9915-9ae4bb962a24"), "Male", string.Empty);
+        public static SelectValue Female => new(Guid.Parse("44f40ffd-6afa-4de1-a033-027f59f1bb7e"), "Female", string.Empty);
+        public static SelectValue Diverse => new(Guid.Parse("037d90a2-4819-44ca-9089-e0cd5d01af40"), "Diverse", string.Empty);
     }
 }

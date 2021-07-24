@@ -15,7 +15,11 @@ namespace Orso.Arpa.Domain.Logic.Persons
             public Guid Id { get; set; }
             public string GivenName { get; set; }
             public string Surname { get; set; }
+            public string BirthName { get; set; }
             public string AboutMe { get; set; }
+            public Guid GenderId { get; set; }
+            public DateTime DateOfBirth { get; set; }
+            public string Birthplace { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -25,7 +29,11 @@ namespace Orso.Arpa.Domain.Logic.Persons
                 CreateMap<Command, Person>()
                     .ForMember(dest => dest.GivenName, opt => opt.MapFrom(src => src.GivenName))
                     .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Surname))
+                    .ForMember(dest => dest.BirthName, opt => opt.MapFrom(src => src.BirthName))
                     .ForMember(dest => dest.AboutMe, opt => opt.MapFrom(src => src.AboutMe))
+                    .ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.GenderId))
+                    .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
+                    .ForMember(dest => dest.Birthplace, opt => opt.MapFrom(src => src.Birthplace))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }
@@ -36,6 +44,8 @@ namespace Orso.Arpa.Domain.Logic.Persons
             {
                 RuleFor(c => c.Id)
                     .EntityExists<Command, Person>(arpaContext);
+                RuleFor(c => c.GenderId)
+                    .SelectValueMapping<Command, Person>(arpaContext, p => p.Gender);
             }
         }
     }
