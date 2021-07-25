@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -9,9 +10,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20210718174805_AddAndUpdateViewsAndFunctions")]
+    partial class AddAndUpdateViewsAndFunctions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,11 +156,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("AdditionalAddressInformation")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("additional_address_information");
-
                     b.Property<string>("Address1")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
@@ -174,11 +171,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("city");
 
-                    b.Property<string>("Comment")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("comment");
-
                     b.Property<string>("Country")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
@@ -189,26 +181,27 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean")
                         .HasColumnName("deleted");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("discriminator");
+
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
-
-                    b.Property<Guid?>("PersonId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("person_id");
 
                     b.Property<Guid?>("RegionId")
                         .HasColumnType("uuid")
@@ -218,10 +211,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("state");
-
-                    b.Property<Guid?>("TypeId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("type_id");
 
                     b.Property<string>("UrbanDistrict")
                         .HasColumnType("text")
@@ -235,16 +224,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("pk_addresses");
 
-                    b.HasIndex("PersonId")
-                        .HasDatabaseName("ix_addresses_person_id");
-
                     b.HasIndex("RegionId")
                         .HasDatabaseName("ix_addresses_region_id");
 
-                    b.HasIndex("TypeId")
-                        .HasDatabaseName("ix_addresses_type_id");
-
                     b.ToTable("addresses");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Address");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Appointment", b =>
@@ -267,8 +252,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -293,8 +278,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
@@ -367,8 +352,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -380,8 +365,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("PersonId")
@@ -429,8 +414,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -446,8 +431,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.HasKey("AppointmentId", "RoomId")
@@ -523,8 +508,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -546,8 +531,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid?>("MusicianProfileId")
@@ -586,78 +571,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.ToTable("auditions");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.ContactDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("CommentInner")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("comment_inner");
-
-                    b.Property<string>("CommentTeam")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("comment_team");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<int>("Key")
-                        .HasColumnType("integer")
-                        .HasColumnName("key");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<Guid>("PersonId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("person_id");
-
-                    b.Property<byte>("Preference")
-                        .HasColumnType("smallint")
-                        .HasColumnName("preference");
-
-                    b.Property<Guid?>("TypeId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("type_id");
-
-                    b.Property<string>("Value")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("value");
-
-                    b.HasKey("Id")
-                        .HasName("pk_contact_detail");
-
-                    b.HasIndex("PersonId")
-                        .HasDatabaseName("ix_contact_detail_person_id");
-
-                    b.HasIndex("TypeId")
-                        .HasDatabaseName("ix_contact_detail_type_id");
-
-                    b.ToTable("contact_detail");
-                });
-
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.CurriculumVitaeReference", b =>
                 {
                     b.Property<Guid>("Id")
@@ -670,8 +583,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -693,8 +606,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
@@ -738,8 +651,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -761,8 +674,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
@@ -806,8 +719,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -832,8 +745,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<string>("ResourceKey")
@@ -1245,8 +1158,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1282,8 +1195,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("PersonId")
@@ -1355,8 +1268,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<DateTime>("DeactivationStart")
@@ -1372,8 +1285,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
@@ -1407,8 +1320,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1420,8 +1333,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
@@ -1456,8 +1369,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1469,8 +1382,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
@@ -1505,8 +1418,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1518,8 +1431,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
@@ -1558,8 +1471,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1583,8 +1496,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
@@ -1622,44 +1535,22 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("about_me");
 
-                    b.Property<string>("BirthName")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("birth_name");
-
-                    b.Property<string>("Birthplace")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("birthplace");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("date_of_birth");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("boolean")
                         .HasColumnName("deleted");
 
-                    b.Property<byte>("ExperienceLevel")
+                    b.Property<byte>("Favorization")
                         .HasColumnType("smallint")
-                        .HasColumnName("experience_level");
-
-                    b.Property<Guid?>("GenderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("gender_id");
-
-                    b.Property<byte>("GeneralPreference")
-                        .HasColumnType("smallint")
-                        .HasColumnName("general_preference");
+                        .HasColumnName("favorization");
 
                     b.Property<string>("GivenName")
                         .HasMaxLength(50)
@@ -1671,14 +1562,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
-
-                    b.Property<string>("MovingBox")
-                        .HasMaxLength(10000)
-                        .HasColumnType("character varying(10000)")
-                        .HasColumnName("moving_box");
 
                     b.Property<byte>("Reliability")
                         .HasColumnType("smallint")
@@ -1692,9 +1578,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("pk_persons");
 
-                    b.HasIndex("GenderId")
-                        .HasDatabaseName("ix_persons_gender_id");
-
                     b.ToTable("persons");
 
                     b.HasData(
@@ -1702,11 +1585,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         {
                             Id = new Guid("56ed7c20-ba78-4a02-936e-5e840ef0748c"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
-                            ExperienceLevel = (byte)0,
-                            GenderId = new Guid("88d680fe-b6cc-486f-8f79-2525189b8b13"),
-                            GeneralPreference = (byte)0,
+                            Favorization = (byte)0,
                             GivenName = "Initial",
                             Reliability = (byte)0,
                             Surname = "Admin"
@@ -1728,8 +1608,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1745,8 +1625,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.HasKey("PersonId", "SectionId")
@@ -1773,8 +1653,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1790,8 +1670,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.HasKey("MusicianProfileId", "SelectValueMappingId")
@@ -1821,8 +1701,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1851,8 +1731,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid?>("ParentId")
@@ -1919,8 +1799,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1936,8 +1816,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.HasKey("ProjectId", "AppointmentId")
@@ -1975,8 +1855,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -1992,8 +1872,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("MusicianProfileId")
@@ -2092,8 +1972,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -2105,8 +1985,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
@@ -2158,8 +2038,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -2175,8 +2055,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<byte>("Rating")
@@ -2207,8 +2087,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -2224,8 +2104,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<byte>("Rating")
@@ -2294,8 +2174,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -2312,8 +2192,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
@@ -2346,8 +2226,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -2367,8 +2247,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
@@ -3480,8 +3360,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -3497,8 +3377,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.HasKey("SectionId", "AppointmentId")
@@ -3522,8 +3402,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -3540,8 +3420,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
@@ -3953,7 +3833,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Business"
+                            Name = "Work"
                         },
                         new
                         {
@@ -4466,30 +4346,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Description = "",
                             Name = "Recommendation"
-                        },
-                        new
-                        {
-                            Id = new Guid("9c0e9810-f177-43af-9915-9ae4bb962a24"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Male"
-                        },
-                        new
-                        {
-                            Id = new Guid("44f40ffd-6afa-4de1-a033-027f59f1bb7e"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Female"
-                        },
-                        new
-                        {
-                            Id = new Guid("037d90a2-4819-44ca-9089-e0cd5d01af40"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Diverse"
                         });
                 });
 
@@ -4505,8 +4361,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -4518,8 +4374,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
@@ -4556,7 +4412,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Name = "Address Type",
                             Property = "Type",
-                            Table = "Address"
+                            Table = "PersonAddress"
                         },
                         new
                         {
@@ -4764,24 +4620,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Name = "Curriculum vitae reference type",
                             Property = "Type",
                             Table = "CurriculumVitaeReference"
-                        },
-                        new
-                        {
-                            Id = new Guid("5d132bf0-5ad9-4a20-b23d-77efbb7acc0c"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Person gender",
-                            Property = "Gender",
-                            Table = "Person"
-                        },
-                        new
-                        {
-                            Id = new Guid("3c4dd028-db94-441d-bd3f-ab5b58533407"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Contact detail type",
-                            Property = "Type",
-                            Table = "ContactDetail"
                         });
                 });
 
@@ -4797,8 +4635,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -4810,8 +4648,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("SelectValueCategoryId")
@@ -4864,15 +4702,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             SelectValueCategoryId = new Guid("d438c160-0588-41fa-93c3-cd33c0f97063"),
                             SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"),
                             SortOrder = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("0cc663ed-67fa-4a34-908c-3120ba9fe8c1"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("d438c160-0588-41fa-93c3-cd33c0f97063"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 40
                         },
                         new
                         {
@@ -6032,66 +5861,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             SelectValueCategoryId = new Guid("3addf4f6-1904-4944-86f6-434d2660594f"),
                             SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0")
-                        },
-                        new
-                        {
-                            Id = new Guid("32761c45-e481-4eb9-a23e-d73330482572"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("5d132bf0-5ad9-4a20-b23d-77efbb7acc0c"),
-                            SelectValueId = new Guid("44f40ffd-6afa-4de1-a033-027f59f1bb7e")
-                        },
-                        new
-                        {
-                            Id = new Guid("1c16a5fe-6ac6-4e94-be6e-82a0a0fbe1c9"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("5d132bf0-5ad9-4a20-b23d-77efbb7acc0c"),
-                            SelectValueId = new Guid("9c0e9810-f177-43af-9915-9ae4bb962a24")
-                        },
-                        new
-                        {
-                            Id = new Guid("88d680fe-b6cc-486f-8f79-2525189b8b13"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("5d132bf0-5ad9-4a20-b23d-77efbb7acc0c"),
-                            SelectValueId = new Guid("037d90a2-4819-44ca-9089-e0cd5d01af40")
-                        },
-                        new
-                        {
-                            Id = new Guid("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("3c4dd028-db94-441d-bd3f-ab5b58533407"),
-                            SelectValueId = new Guid("608b5583-a8dc-48d7-8afa-ef87ca0327f0"),
-                            SortOrder = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("8205e3e6-8f58-49de-a438-02fce2aa0548"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("3c4dd028-db94-441d-bd3f-ab5b58533407"),
-                            SelectValueId = new Guid("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"),
-                            SortOrder = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("0432acc1-9332-4885-af64-52e37f7637a9"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("3c4dd028-db94-441d-bd3f-ab5b58533407"),
-                            SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"),
-                            SortOrder = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("bfb1c88f-1fba-4f83-b17a-479399f53f6d"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("3c4dd028-db94-441d-bd3f-ab5b58533407"),
-                            SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 40
                         });
                 });
 
@@ -6107,8 +5876,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -6120,8 +5889,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("SectionId")
@@ -6795,8 +6564,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -6813,8 +6582,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<Guid>("ProjectId")
@@ -6845,8 +6614,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -6862,8 +6631,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.HasKey("UrlId", "RoleId")
@@ -6984,8 +6753,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("created_by");
 
                     b.Property<bool>("Deleted")
@@ -7002,8 +6771,8 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("modified_by");
 
                     b.Property<string>("Name")
@@ -7032,6 +6801,27 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasName("pk_sql_function_results");
 
                     b.ToTable("SqlFunctionResults", t => t.ExcludeFromMigrations());
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PersonAddress", b =>
+                {
+                    b.HasBaseType("Orso.Arpa.Domain.Entities.Address");
+
+                    b.Property<Guid?>("PersonId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("person_id");
+
+                    b.Property<Guid?>("TypeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("type_id");
+
+                    b.HasIndex("PersonId")
+                        .HasDatabaseName("ix_addresses_person_id");
+
+                    b.HasIndex("TypeId")
+                        .HasDatabaseName("ix_addresses_type_id");
+
+                    b.HasDiscriminator().HasValue("PersonAddress");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -7093,29 +6883,13 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Address", b =>
                 {
-                    b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
-                        .WithMany("Addresses")
-                        .HasForeignKey("PersonId")
-                        .HasConstraintName("fk_addresses_persons_person_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("Orso.Arpa.Domain.Entities.Region", "Region")
                         .WithMany("Addresses")
                         .HasForeignKey("RegionId")
                         .HasConstraintName("fk_addresses_regions_region_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId")
-                        .HasConstraintName("fk_addresses_select_value_mappings_type_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Person");
-
                     b.Navigation("Region");
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Appointment", b =>
@@ -7255,26 +7029,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("RepetitorStatus");
 
                     b.Navigation("Status");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.ContactDetail", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("PersonId")
-                        .HasConstraintName("fk_contact_detail_persons_person_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
-                        .WithMany()
-                        .HasForeignKey("TypeId")
-                        .HasConstraintName("fk_contact_detail_select_value_mappings_type_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Person");
-
-                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.CurriculumVitaeReference", b =>
@@ -7463,17 +7217,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("MusicianProfile");
 
                     b.Navigation("Section");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Person", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderId")
-                        .HasConstraintName("fk_persons_select_value_mappings_gender_id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Gender");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.PersonSection", b =>
@@ -7792,12 +7535,36 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Venue", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.Entities.Address", "Address")
-                        .WithOne()
+                        .WithOne("Venue")
                         .HasForeignKey("Orso.Arpa.Domain.Entities.Venue", "AddressId")
                         .HasConstraintName("fk_venues_addresses_address_id")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.PersonAddress", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.Entities.Person", "Person")
+                        .WithMany("Addresses")
+                        .HasForeignKey("PersonId")
+                        .HasConstraintName("fk_addresses_persons_person_id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Orso.Arpa.Domain.Entities.SelectValueMapping", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .HasConstraintName("fk_addresses_select_value_mappings_type_id")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.Entities.Address", b =>
+                {
+                    b.Navigation("Venue");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.Entities.Appointment", b =>
@@ -7845,8 +7612,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("Addresses");
 
                     b.Navigation("AppointmentParticipations");
-
-                    b.Navigation("ContactDetails");
 
                     b.Navigation("MusicianProfiles");
 

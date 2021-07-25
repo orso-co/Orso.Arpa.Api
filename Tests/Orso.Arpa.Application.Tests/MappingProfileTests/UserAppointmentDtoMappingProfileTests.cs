@@ -39,7 +39,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         private IMapper _mapper;
 
         [Test]
-        public void Should_Map()
+        public void Should_Map_Appointment_To_AppointmentDto()
         {
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMasRehearsal;

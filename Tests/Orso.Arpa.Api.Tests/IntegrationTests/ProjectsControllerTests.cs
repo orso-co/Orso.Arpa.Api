@@ -8,7 +8,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
@@ -409,12 +408,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = "Staff Member",
                 CommentByStaffInner = "Staff comment",
                 CommentTeam = "Team comment",
-                MusicianProfile = new ReducedMusicianProfileDto
-                {
-                    Id = musicianProfile.Id,
-                    InstrumentName = "Horn",
-                    Qualification = "Student"
-                },
+                MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
                 Project = ReducedProjectDtoData.HoorayForHollywood,
                 Person = ReducedPersonDtoData.Performer
             };

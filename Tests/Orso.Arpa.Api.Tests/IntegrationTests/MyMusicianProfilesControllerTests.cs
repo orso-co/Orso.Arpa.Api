@@ -149,12 +149,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ParticipationStatusInner = "Interested",
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = "Per Former",
-                MusicianProfile = new ReducedMusicianProfileDto
-                {
-                    Id = musicianProfile.Id,
-                    InstrumentName = "Horn",
-                    Qualification = "Student"
-                },
+                MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
                 Project = new ReducedProjectDto
                 {
                     Id = project.Id,

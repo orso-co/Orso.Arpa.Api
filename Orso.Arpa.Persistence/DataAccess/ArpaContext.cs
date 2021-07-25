@@ -97,6 +97,10 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             builder.HasDbFunction(typeof(ArpaContext).GetMethod(nameof(GetAppointmentIdsForPerson), new[] { typeof(Guid) }))
                 .HasName("fn_appointments_for_person");
+            builder.HasDbFunction(typeof(ArpaContext).GetMethod(nameof(GetMusicianProfilesForAppointment), new[] { typeof(Guid) }))
+                .HasName("fn_mupro_for_appointments");
+            builder.HasDbFunction(typeof(ArpaContext).GetMethod(nameof(GetActiveMusicianProfilesForAppointment), new[] { typeof(Guid) }))
+                .HasName("fn_active_mupro_for_appointments");
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
@@ -263,11 +267,24 @@ namespace Orso.Arpa.Persistence.DataAccess
         }
 
         /// <summary>
-        /// Method body for database function
+        /// Method body for database function fn_appointments_for_person
         /// </summary>
         /// <param name="personId"></param>
-        /// <returns></returns>
         /// <see cref="https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping"/>
-        public IQueryable<AppointmentForPerson> GetAppointmentIdsForPerson(Guid personId) => FromExpression(() => GetAppointmentIdsForPerson(personId));
+        public IQueryable<SqlFunctionResult> GetAppointmentIdsForPerson(Guid personId) => FromExpression(() => GetAppointmentIdsForPerson(personId));
+
+        /// <summary>
+        /// Method body for database function fn_mupro_for_appointments
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <see cref="https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping"/>
+        public IQueryable<SqlFunctionResult> GetMusicianProfilesForAppointment(Guid appointmentId) => FromExpression(() => GetMusicianProfilesForAppointment(appointmentId));
+
+        /// <summary>
+        /// Method body for database function fn_active_mupro_for_appointments
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <see cref="https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping"/>
+        public IQueryable<SqlFunctionResult> GetActiveMusicianProfilesForAppointment(Guid appointmentId) => FromExpression(() => GetActiveMusicianProfilesForAppointment(appointmentId));
     }
 }
