@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FluentAssertions;
@@ -11,6 +12,7 @@ using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -46,8 +48,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMasRehearsal;
-            appointment.ProjectAppointments.First().Project.Urls.Remove(appointment.ProjectAppointments.First().Project.Urls.First());
-            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsalForPerformer;
+            AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
+            appointment.ProjectAppointments.First().Project.Urls.Remove(appointment.ProjectAppointments.First().Project.Urls.Last());
+
+            _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Staff });
 
             // Act
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
