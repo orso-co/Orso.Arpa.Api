@@ -337,15 +337,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.StartTime = setDatesDto.StartTime.Value;
             expectedDto.ModifiedBy = _staff.DisplayName;
             expectedDto.ModifiedAt = FakeDateTime.UtcNow;
-            AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
-            performerParticipation.Participation = null;
-            expectedDto.Participations.Add(performerParticipation);
-            AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;
-            staffParticipation.Participation = null;
-            expectedDto.Participations.Add(staffParticipation);
-            AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
-            expectedDto.Participations.Add(adminParticipation);
-            expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -418,22 +409,21 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
+
             AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
             performerParticipation.MusicianProfiles.Add(ReducedMusicianProfileDtoData.PerformerHornProfile);
             performerParticipation.MusicianProfiles.Add(ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile);
             performerParticipation.Participation = null;
             expectedDto.Participations.Add(performerParticipation);
+
             AppointmentParticipationListItemDto staffParticipation = AppointmentDtoData.StaffParticipation;
             staffParticipation.Participation = null;
             expectedDto.Participations.Add(staffParticipation);
+
             AppointmentParticipationListItemDto adminParticipation = AppointmentDtoData.AdminParticipation;
             adminParticipation.MusicianProfiles.Add(ReducedMusicianProfileDtoData.AdminProfile2);
             expectedDto.Participations.Add(adminParticipation);
-            adminParticipation.MusicianProfiles.Add(new ReducedMusicianProfileDto
-            {
-                Id = Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"),
-                InstrumentName = "Flute"
-            });
+
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act
@@ -455,16 +445,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Appointment appointmentToDelete = AppointmentSeedData.StaffMeeting;
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_admin);
 
             // Act
-            HttpResponseMessage responseMessage = await client
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_admin)
                 .DeleteAsync(ApiEndpoints.AppointmentsController.Delete(appointmentToDelete.Id));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            HttpResponseMessage getResponseMessage = await client
+            HttpResponseMessage getResponseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(appointmentToDelete.Id));
             getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
