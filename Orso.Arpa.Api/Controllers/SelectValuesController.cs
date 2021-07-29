@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -26,7 +25,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="tableName"></param>
         /// <returns>A list of select values</returns>
         /// <response code="200"></response>
-        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<SelectValueDto>>> Get([FromRoute] string tableName, [FromRoute] string propertyName)
