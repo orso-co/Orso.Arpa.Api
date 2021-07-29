@@ -1,4 +1,3 @@
--- IsActivePersonInProject
 create or replace function fn_is_active_person_in_project ( p_appointment_id uuid, p_person_id uuid )
 returns bool as 
 $BODY$
