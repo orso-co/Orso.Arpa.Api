@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -95,11 +96,17 @@ namespace Orso.Arpa.Persistence.DataAccess
                     && (url.UrlRoles.Count == 0
                     || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
 
-            builder.HasDbFunction(typeof(ArpaContext).GetMethod(nameof(GetAppointmentIdsForPerson), new[] { typeof(Guid) }))
+            builder
+                .HasDbFunction(typeof(ArpaContext)
+                .GetMethod(nameof(GetAppointmentIdsForPerson), new[] { typeof(Guid) }))
                 .HasName("fn_appointments_for_person");
-            builder.HasDbFunction(typeof(ArpaContext).GetMethod(nameof(GetMusicianProfilesForAppointment), new[] { typeof(Guid) }))
+            builder
+                .HasDbFunction(typeof(ArpaContext)
+                .GetMethod(nameof(GetMusicianProfilesForAppointment), new[] { typeof(Guid) }))
                 .HasName("fn_mupro_for_appointments");
-            builder.HasDbFunction(typeof(ArpaContext).GetMethod(nameof(GetActiveMusicianProfilesForAppointment), new[] { typeof(Guid) }))
+            builder
+                .HasDbFunction(typeof(ArpaContext)
+                .GetMethod(nameof(GetActiveMusicianProfilesForAppointment), new[] { typeof(Guid) }))
                 .HasName("fn_active_mupro_for_appointments");
 
             base.OnModelCreating(builder);
@@ -267,24 +274,39 @@ namespace Orso.Arpa.Persistence.DataAccess
         }
 
         /// <summary>
-        /// Method body for database function fn_appointments_for_person
+        /// CLR method for database function fn_appointments_for_person
         /// </summary>
         /// <param name="personId"></param>
         /// <see cref="https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping"/>
-        public IQueryable<SqlFunctionResult> GetAppointmentIdsForPerson(Guid personId) => FromExpression(() => GetAppointmentIdsForPerson(personId));
+        public IQueryable<SqlFunctionIdResult> GetAppointmentIdsForPerson(Guid personId) => FromExpression(() => GetAppointmentIdsForPerson(personId));
 
         /// <summary>
-        /// Method body for database function fn_mupro_for_appointments
+        /// CLR method for database function fn_mupro_for_appointments
         /// </summary>
         /// <param name="appointmentId"></param>
         /// <see cref="https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping"/>
-        public IQueryable<SqlFunctionResult> GetMusicianProfilesForAppointment(Guid appointmentId) => FromExpression(() => GetMusicianProfilesForAppointment(appointmentId));
+        public IQueryable<SqlFunctionIdResult> GetMusicianProfilesForAppointment(Guid appointmentId) => FromExpression(() => GetMusicianProfilesForAppointment(appointmentId));
 
         /// <summary>
-        /// Method body for database function fn_active_mupro_for_appointments
+        /// CLR method for database function fn_active_mupro_for_appointments
         /// </summary>
         /// <param name="appointmentId"></param>
         /// <see cref="https://docs.microsoft.com/en-us/ef/core/querying/user-defined-function-mapping"/>
-        public IQueryable<SqlFunctionResult> GetActiveMusicianProfilesForAppointment(Guid appointmentId) => FromExpression(() => GetActiveMusicianProfilesForAppointment(appointmentId));
+        public IQueryable<SqlFunctionIdResult> GetActiveMusicianProfilesForAppointment(Guid appointmentId) => FromExpression(() => GetActiveMusicianProfilesForAppointment(appointmentId));
+
+        /// <summary>
+        /// Calls the fn_is_person_eligible_for_appointment function
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="appointmentId"></param>
+        /// <returns></returns>
+        /// <remarks>Bei DB Functions mit skalarem Rückgabewert funktioniert das CLR Mapping bei EF Core leider (noch) nicht</remarks>
+        public bool IsPersonEligibleForAppointment(Guid personId, Guid appointmentId)
+        {
+            Database.OpenConnection();
+            using DbCommand command = Database.GetDbConnection().CreateCommand();
+            command.CommandText = $"SELECT public.fn_is_person_eligible_for_appointment('{personId}', '{appointmentId}')";
+            return (bool)command.ExecuteScalar();
+        }
     }
 }

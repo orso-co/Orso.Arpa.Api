@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="SqlStatements\ActiveAppointmentsForPersonFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="SqlStatements\ActiveMusicianProfilesForAppointmentFunction.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -35,10 +38,19 @@
     <None Update="SqlStatements\IsActiveMusicianProfileInSectionFunction.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="SqlStatements\IsActivePersonInProjectFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\IsActivePersonInSectionFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="SqlStatements\IsMusicianProfileInProjectFunction.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SqlStatements\IsMusicianProfileInSectionFunction.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SqlStatements\IsPersonEligibleForAppointmentFunction.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SqlStatements\IsPersonInProjectFunction.sql">

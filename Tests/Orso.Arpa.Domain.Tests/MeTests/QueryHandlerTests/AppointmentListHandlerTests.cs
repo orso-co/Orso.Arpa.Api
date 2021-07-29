@@ -43,7 +43,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
             appointmentMockData.AsQueryable().Returns(appointmentMockData);
             _arpaContext.Appointments.Returns(appointmentMockData);
 
-            DbSet<SqlFunctionResult> idList = (new List<SqlFunctionResult>() { new SqlFunctionResult { Id = AppointmentSeedData.RockingXMasRehearsal.Id } }).AsQueryable().BuildMockDbSet();
+            DbSet<SqlFunctionIdResult> idList = (new List<SqlFunctionIdResult>() { new SqlFunctionIdResult { Id = AppointmentSeedData.RockingXMasRehearsal.Id } }).AsQueryable().BuildMockDbSet();
             idList.AsAsyncEnumerable().Returns(GetIds());
             _arpaContext.GetAppointmentIdsForPerson(person.Id).Returns(idList);
 
@@ -64,9 +64,9 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
             await Task.CompletedTask;
         }
 
-        private static async IAsyncEnumerable<SqlFunctionResult> GetIds()
+        private static async IAsyncEnumerable<SqlFunctionIdResult> GetIds()
         {
-            yield return new SqlFunctionResult { Id = AppointmentSeedData.RockingXMasRehearsal.Id };
+            yield return new SqlFunctionIdResult { Id = AppointmentSeedData.RockingXMasRehearsal.Id };
             await Task.CompletedTask;
         }
     }
