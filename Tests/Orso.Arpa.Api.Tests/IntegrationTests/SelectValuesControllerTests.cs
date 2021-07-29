@@ -18,9 +18,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_All()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.SelectValuesController.Get(nameof(Project), nameof(Project.Genre)));
 
             // Assert
