@@ -204,14 +204,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(PersonTestSeedData.Performer);
-                yield return new TestCaseData(PersonSeedData.Admin);
+                yield return new TestCaseData(PersonTestSeedData.Performer, HttpStatusCode.NoContent);
+                yield return new TestCaseData(PersonTestSeedData.LockedOutUser, HttpStatusCode.Forbidden);
             }
         }
 
         [Test, Order(105)]
         [TestCaseSource(nameof(PersonTestData))]
-        public async Task Should_Set_Participation_Result(Person person)
+        public async Task Should_Set_Participation_Result(Person person, HttpStatusCode expectedStatusCode)
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -223,7 +223,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     SelectValueMappingSeedData.AppointmentParticipationResultMappings[0].Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responseMessage.StatusCode.Should().Be(expectedStatusCode);
         }
 
         [Test, Order(106)]

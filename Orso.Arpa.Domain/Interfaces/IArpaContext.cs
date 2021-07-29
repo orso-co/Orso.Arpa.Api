@@ -51,6 +51,7 @@ namespace Orso.Arpa.Domain.Interfaces
         Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class;
         Task<TEntity> GetByIdAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity;
         EntityEntry Entry(object entity);
+
         IQueryable<SqlFunctionIdResult> GetAppointmentIdsForPerson(Guid personId);
         IQueryable<SqlFunctionIdResult> GetActiveMusicianProfilesForAppointment(Guid appointmentId);
         IQueryable<SqlFunctionIdResult> GetMusicianProfilesForAppointment(Guid appointmentId);
