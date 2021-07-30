@@ -42,8 +42,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
                 .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
 
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsInnerIds))
-                .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner))
-            ;
+                .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner));
         }
     }
 
@@ -71,6 +70,12 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
 
             RuleForEach(p => p.PreferredPositionsInnerIds)
                 .NotEmpty();
+
+            RuleFor(p => p.PreferredPartsInner)
+                .NotNull();
+
+            RuleFor(p => p.PreferredPositionsInnerIds)
+                .NotNull();
         }
     }
 }

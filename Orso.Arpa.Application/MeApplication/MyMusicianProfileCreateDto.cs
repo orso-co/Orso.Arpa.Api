@@ -46,6 +46,15 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleFor(p => p.InstrumentId)
                .NotEmpty();
 
+            RuleFor(p => p.DoublingInstruments)
+                .NotNull();
+
+            RuleFor(p => p.PreferredPositionsInnerIds)
+                .NotNull();
+
+            RuleFor(p => p.PreferredPartsInner)
+                .NotNull();
+
             RuleForEach(p => p.DoublingInstruments)
                 .SetValidator(new MyDoublingInstrumentCreateBodyDtoValidator());
 

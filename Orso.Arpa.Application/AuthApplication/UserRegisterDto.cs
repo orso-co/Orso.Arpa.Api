@@ -41,6 +41,8 @@ namespace Orso.Arpa.Application.AuthApplication
                 .GeneralText(50);
             RuleFor(c => c.ClientUri)
                 .ValidUri();
+            RuleFor(c => c.StakeholderGroupIds)
+                .NotNull();
             RuleFor(c => c.GenderId)
                 .NotEmpty();
         }

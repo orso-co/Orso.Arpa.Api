@@ -79,6 +79,14 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileModifyBodyDtoValidator()
         {
+            RuleFor(p => p.PreferredPositionsInnerIds)
+                .NotNull();
+            RuleFor(p => p.PreferredPositionsTeamIds)
+                .NotNull();
+            RuleFor(p => p.PreferredPartsInner)
+                .NotNull();
+            RuleFor(p => p.PreferredPartsTeam)
+                .NotNull();
             RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
             RuleFor(p => p.LevelAssessmentTeam)

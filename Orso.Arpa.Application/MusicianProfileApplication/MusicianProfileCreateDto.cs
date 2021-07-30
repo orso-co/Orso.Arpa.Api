@@ -65,6 +65,21 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
             RuleFor(p => p)
                 .NotNull();
 
+            RuleFor(p => p.DoublingInstruments)
+                .NotNull();
+
+            RuleFor(p => p.PreferredPositionsInnerIds)
+                .NotNull();
+
+            RuleFor(p => p.PreferredPositionsTeamIds)
+                .NotNull();
+
+            RuleFor(p => p.PreferredPartsInner)
+                .NotNull();
+
+            RuleFor(p => p.PreferredPartsTeam)
+                .NotNull();
+
             RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
             RuleFor(p => p.LevelAssessmentTeam)
