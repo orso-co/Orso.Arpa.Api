@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MeApplication;
@@ -68,6 +70,38 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyMusicianProfileDto result = await DeserializeResponseMessageAsync<MyMusicianProfileDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test, Order(999)]
+        public async Task Should_Return_Unprocessable_Entity_If_Collection_Is_Null()
+        {
+            // Arrange
+            var createDto = new MyMusicianProfileCreateDto
+            {
+                InstrumentId = Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"),
+                LevelAssessmentInner = 1,
+                InquiryStatusInnerId = Guid.Parse("90b5cfa9-890b-4b89-a750-646f3a26db23"),
+                PreferredPositionsInnerIds = null,
+                DoublingInstruments = null
+            };
+            var expectedResult = new ValidationProblemDetails
+            {
+                Status = 422,
+                Type = "https://tools.ietf.org/html/rfc4918#section-11.2"
+            };
+            expectedResult.Errors.Add("DoublingInstruments", new string[] { "'Doubling Instruments' must not be empty." });
+            expectedResult.Errors.Add("PreferredPositionsInnerIds", new string[] { "'Preferred Positions Inner Ids' must not be empty." });
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .PostAsync(ApiEndpoints.MyMusicianProfilesController.Post(), BuildStringContent(createDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails result = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            result.Should().BeEquivalentTo(expectedResult, opt => opt.Excluding(r => r.Extensions));
         }
 
         [Test, Order(1000)]
