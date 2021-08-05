@@ -8,6 +8,8 @@ namespace Orso.Arpa.Application.RegionApplication
     public class RegionCreateDto
     {
         public string Name { get; set; }
+        public bool IsForRehearsal { get; set; }
+        public bool IsForPerformance { get; set; }
     }
 
     public class RegionCreateDtoMappingProfile : Profile
@@ -24,7 +26,7 @@ namespace Orso.Arpa.Application.RegionApplication
         {
             RuleFor(c => c.Name)
                 .NotEmpty()
-                .GeneralText(50);
+                .GeneralText(200);
         }
     }
 }

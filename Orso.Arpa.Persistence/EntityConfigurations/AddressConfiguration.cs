@@ -9,12 +9,6 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder
-                .HasOne(a => a.Region)
-                .WithMany(r => r.Addresses)
-                .HasForeignKey(a => a.RegionId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder
                 .Property(a => a.Address1)
                 .HasMaxLength(50);
 

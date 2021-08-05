@@ -15,6 +15,8 @@ namespace Orso.Arpa.Domain.Logic.Regions
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
+            public bool IsForPerformance { get; set; }
+            public bool IsForRehearsal { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -23,6 +25,8 @@ namespace Orso.Arpa.Domain.Logic.Regions
             {
                 CreateMap<Command, Region>()
                     .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                    .ForMember(dest => dest.IsForPerformance, opt => opt.MapFrom(src => src.IsForPerformance))
+                    .ForMember(dest => dest.IsForRehearsal, opt => opt.MapFrom(src => src.IsForRehearsal))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }

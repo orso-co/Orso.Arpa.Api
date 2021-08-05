@@ -63,8 +63,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<ProjectParticipation> ProjectParticipations { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Region> Regions { get; set; }
-        public DbSet<RegionPreferencePerformance> RegionPreferencesPerformance { get; set; }
-        public DbSet<RegionPreferenceRehearsal> RegionPreferencesRehearsal { get; set; }
+        public DbSet<RegionPreference> RegionPreferences { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<SectionAppointment> SectionAppointments { get; set; }

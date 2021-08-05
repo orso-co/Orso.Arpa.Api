@@ -182,5 +182,24 @@ namespace Orso.Arpa.Application.Services
             RemoveDocumentFromMusicianProfile.Command command = _mapper.Map<RemoveDocumentFromMusicianProfile.Command>(removeDocumentDto);
             await _mediator.Send(command);
         }
+
+        public async Task<RegionPreferenceDto> CreateRegionPreferenceAsync(MyRegionPreferenceCreateDto myRegionPreferenceCreateDto)
+        {
+            CreateRegionPreference.Command command = _mapper.Map<CreateRegionPreference.Command>(myRegionPreferenceCreateDto);
+            RegionPreference createdEntity = await _mediator.Send(command);
+            return _mapper.Map<RegionPreferenceDto>(createdEntity);
+        }
+
+        public async Task ModifyRegionPreferenceAsync(MyRegionPreferenceModifyDto myRegionPreferenceModifyDto)
+        {
+            ModifyRegionPreference.Command command = _mapper.Map<ModifyRegionPreference.Command>(myRegionPreferenceModifyDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task RemoveRegionPreferenceAsync(MyRegionPreferenceRemoveDto myRegionPreferenceRemoveDto)
+        {
+            RemoveRegionPreference.Command command = _mapper.Map<RemoveRegionPreference.Command>(myRegionPreferenceRemoveDto);
+            await _mediator.Send(command);
+        }
     }
 }

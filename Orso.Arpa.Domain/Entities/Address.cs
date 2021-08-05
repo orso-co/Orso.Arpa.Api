@@ -15,7 +15,6 @@ namespace Orso.Arpa.Domain.Entities
             UrbanDistrict = command.UrbanDistrict;
             Country = command.Country;
             State = command.State;
-            RegionId = command.RegionId;
             Comment = command.Comment;
             AdditionalAddressInformation = command.AdditionalAddressInformation;
         }
@@ -38,8 +37,6 @@ namespace Orso.Arpa.Domain.Entities
         public string State { get; private set; }
         public string Comment { get; private set; }
         public string AdditionalAddressInformation { get; set; }
-        public Guid? RegionId { get; private set; }
-        public virtual Region Region { get; private set; }
         public Guid? TypeId { get; private set; }
         public virtual SelectValueMapping Type { get; private set; }
         public Guid? PersonId { get; private set; }

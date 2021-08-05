@@ -9,6 +9,7 @@ using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
 {
@@ -38,6 +39,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
         public IList<SelectValueDto> Documents { get; set; } = new List<SelectValueDto>();
         public MusicianProfileDeactivationDto Deactivation { get; set; }
+        public IList<RegionPreferenceDto> RegionPreferencesRehearsal { get; set; } = new List<RegionPreferenceDto>();
+        public IList<RegionPreferenceDto> RegionPreferencesPerformance { get; set; } = new List<RegionPreferenceDto>();
     }
 
     public class MusicianProfileDtoMappingProfile : Profile
@@ -70,6 +73,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
                 .ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.PreferredPartsTeam))
                 .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.Documents.Select(d => d.SelectValueMapping)))
+                .ForMember(dest => dest.RegionPreferencesPerformance, opt => opt.MapFrom(src => src.RegionPreferences.Where(p => p.Type == RegionPreferenceType.Performance)))
+                .ForMember(dest => dest.RegionPreferencesRehearsal, opt => opt.MapFrom(src => src.RegionPreferences.Where(p => p.Type == RegionPreferenceType.Rehearsal)))
 
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }

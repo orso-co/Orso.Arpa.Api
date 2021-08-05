@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Region>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _validator.ShouldHaveValidationErrorForExact(command => command.Name,
-                new Command { Id = RegionSeedData.Freiburg.Id, Name = RegionSeedData.Stuttgart.Name });
+                new Command { Id = RegionSeedData.Freiburg.Id, Name = RegionSeedData.StuttgartCity.Name });
         }
 
         [Test]
