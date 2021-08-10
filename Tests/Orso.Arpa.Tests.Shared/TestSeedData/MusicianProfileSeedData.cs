@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -41,6 +43,14 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     profile.Id,
                     SelectValueMappingSeedData.MusicianProfileDocumentsMappings[0].Id,
                     Guid.Parse("b1d10592-4106-46d8-8c78-eedc77c0e3bf")));
+                profile.RegionPreferences.Add(new RegionPreference(Guid.Parse("0f3de639-a287-4246-b939-24780877030e"), new CreateRegionPreference.Command
+                {
+                    Comment = "Loving Freiburg so much...",
+                    Rating = 5,
+                    MusicianProfileId = profile.Id,
+                    RegionId = RegionSeedData.Freiburg.Id,
+                    Type = RegionPreferenceType.Rehearsal
+                }));
                 return profile;
             }
         }

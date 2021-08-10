@@ -13,6 +13,8 @@ namespace Orso.Arpa.Application.RegionApplication
     public class RegionModifyBodyDto
     {
         public string Name { get; set; }
+        public bool IsForPerformance { get; set; }
+        public bool IsForRehearsal { get; set; }
     }
 
     public class RegionModifyDtoMappingProfile : Profile
@@ -20,7 +22,9 @@ namespace Orso.Arpa.Application.RegionApplication
         public RegionModifyDtoMappingProfile()
         {
             CreateMap<RegionModifyDto, Command>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Body.Name));
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Body.Name))
+                .ForMember(dest => dest.IsForPerformance, opt => opt.MapFrom(src => src.Body.IsForPerformance))
+                .ForMember(dest => dest.IsForRehearsal, opt => opt.MapFrom(src => src.Body.IsForRehearsal));
         }
     }
 
@@ -39,7 +43,7 @@ namespace Orso.Arpa.Application.RegionApplication
         {
             RuleFor(c => c.Name)
                 .NotEmpty()
-                .GeneralText(50);
+                .GeneralText(200);
         }
     }
 }

@@ -30,6 +30,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "CV",
                     Description = ""
                 });
+                dto.RegionPreferencesRehearsal.Add(new RegionPreferenceDto
+                {
+                    Id = Guid.Parse("0f3de639-a287-4246-b939-24780877030e"),
+                    Comment = "Loving Freiburg so much...",
+                    Rating = 5,
+                    Region = RegionDtoData.Freiburg,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                });
                 return dto;
             }
         }

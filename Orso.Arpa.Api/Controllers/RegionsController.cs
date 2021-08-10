@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.RegionApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 
@@ -44,9 +45,9 @@ namespace Orso.Arpa.Api.Controllers
         [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<RegionDto>>> Get()
+        public async Task<ActionResult<IEnumerable<RegionDto>>> Get([FromQuery] RegionPreferenceType regionPreferenceType)
         {
-            return Ok(await _regionService.GetAsync());
+            return Ok(await _regionService.GetAsync(regionPreferenceType));
         }
 
         /// <summary>

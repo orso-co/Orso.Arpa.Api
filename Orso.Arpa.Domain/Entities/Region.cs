@@ -9,6 +9,8 @@ namespace Orso.Arpa.Domain.Entities
         public Region(Guid? id, Create.Command command) : base(id)
         {
             Name = command.Name;
+            IsForPerformance = command.IsForPerformance;
+            IsForRehearsal = command.IsForRehearsal;
         }
 
         protected Region()
@@ -16,8 +18,9 @@ namespace Orso.Arpa.Domain.Entities
         }
 
         public string Name { get; private set; }
+        public bool IsForRehearsal { get; private set; }
+        public bool IsForPerformance { get; private set; }
 
-        public virtual ICollection<Address> Addresses { get; private set; }
-            = new HashSet<Address>();
+        public virtual ICollection<RegionPreference> RegionPreferences { get; private set; } = new HashSet<RegionPreference>();
     }
 }

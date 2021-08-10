@@ -9,6 +9,8 @@ namespace Orso.Arpa.Application.RegionApplication
     {
         [Translate(nameof(RegionDto))]
         public string Name { get; set; }
+        public bool IsForRehearsal { get; set; }
+        public bool IsForPerformance { get; set; }
     }
 
     public class RegionDtoMappingProfile : Profile

@@ -150,6 +150,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Put(Guid musicianProfileId, Guid doublingInstrumentId) => $"{BaseUrl(musicianProfileId)}/{doublingInstrumentId}";
         }
 
+        public static class MyMusicianProfileRegionPreferencesController
+        {
+            private static string BaseUrl(Guid id) => $"{Base}/me/profiles/musician/{id}/regionpreferences";
+            public static string Post(Guid musicianProfileId) => BaseUrl(musicianProfileId);
+
+            public static string Put(Guid musicianProfileId, Guid regionPreferenceId) => $"{BaseUrl(musicianProfileId)}/{regionPreferenceId}";
+
+            public static string Delete(Guid musicianProfileId, Guid regionPreferenceId) => $"{BaseUrl(musicianProfileId)}/{regionPreferenceId}";
+        }
+
         public static class MyMusicianProfileDocumentsController
         {
             private static string BaseUrl(Guid id) => $"{Base}/me/profiles/musician/{id}/documents";
@@ -161,7 +171,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             private static string Regions => $"{Base}/Regions";
 
-            public static string Get() => Regions;
+            public static string Get(RegionPreferenceType regionPreferenceType = RegionPreferenceType.None) => $"{Regions}?regionpreferencetype={regionPreferenceType}";
 
             public static string Post() => Regions;
 

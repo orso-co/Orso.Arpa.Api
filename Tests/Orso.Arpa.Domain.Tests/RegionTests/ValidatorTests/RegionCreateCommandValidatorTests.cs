@@ -28,7 +28,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Name_Does_Already_Exist()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Name, new Command { Name = RegionSeedData.Stuttgart.Name });
+            _validator.ShouldHaveValidationErrorForExact(command => command.Name, new Command { Name = RegionSeedData.StuttgartCity.Name });
         }
 
         [Test]

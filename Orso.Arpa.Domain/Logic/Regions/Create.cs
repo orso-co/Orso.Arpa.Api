@@ -11,6 +11,8 @@ namespace Orso.Arpa.Domain.Logic.Regions
         public class Command : ICreateCommand<Region>
         {
             public string Name { get; set; }
+            public bool IsForRehearsal { get; set; }
+            public bool IsForPerformance { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>

@@ -14,7 +14,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .Property(e => e.Name)
-                .HasMaxLength(50);
+                .HasMaxLength(200);
         }
     }
 }

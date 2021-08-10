@@ -25,5 +25,8 @@ namespace Orso.Arpa.Application.Interfaces
         Task ModifyDoublingInstrumentAsync(MyDoublingInstrumentModifyDto myDoublingInstrumentModifyDto);
         Task AddDocumentToMusicianProfileAsync(MyMusicianProfileAddDocumentDto addDocumentDto);
         Task RemoveDocumentFromMusicianProfileAsync(MyMusicianProfileRemoveDocumentDto removeDocumentDto);
+        Task<RegionPreferenceDto> CreateRegionPreferenceAsync(MyRegionPreferenceCreateDto myRegionPreferenceCreateDto);
+        Task ModifyRegionPreferenceAsync(MyRegionPreferenceModifyDto myRegionPreferenceModifyDto);
+        Task RemoveRegionPreferenceAsync(MyRegionPreferenceRemoveDto myRegionPreferenceRemoveDto);
     }
 }

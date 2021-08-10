@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Venues;
-using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -34,7 +33,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Description = "Proberäume",
                         Country = "Deutschland",
                         UrbanDistrict = "Herdern",
-                        RegionId = RegionSeedData.Freiburg.Id,
                         State = "Baden-Württemberg",
                         AddressId = Guid.Parse("9dfd22c2-41c6-463c-a4cd-334215584d56")
                     });

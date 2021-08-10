@@ -26,9 +26,5 @@ namespace Orso.Arpa.Domain.Entities
         public virtual Address Address { get; private set; }
         public virtual ICollection<Room> Rooms { get; private set; } = new HashSet<Room>();
         public virtual ICollection<Appointment> Appointments { get; private set; } = new HashSet<Appointment>();
-
-        public virtual ICollection<RegionPreferencePerformance> RegionPreferencePerformances { get; private set; } = new HashSet<RegionPreferencePerformance>();
-
-        public virtual ICollection<RegionPreferenceRehearsal> RegionPreferenceRehearsals { get; private set; } = new HashSet<RegionPreferenceRehearsal>();
     }
 }
