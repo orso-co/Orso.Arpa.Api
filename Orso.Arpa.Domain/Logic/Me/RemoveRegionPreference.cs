@@ -13,7 +13,7 @@ namespace Orso.Arpa.Domain.Logic.Me
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public Guid MusicianProfileId { get; set; }
             public Guid RegionPreferenceId { get; set; }
         }
 
@@ -22,9 +22,9 @@ namespace Orso.Arpa.Domain.Logic.Me
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.RegionPreferenceId)
-                    .MustAsync(async (dto, regionPreferenceId, cancellation) => await arpaContext
+                    .MustAsync(async (cmd, regionPreferenceId, cancellation) => await arpaContext
                         .Set<RegionPreference>()
-                        .AnyAsync(ar => ar.Id == regionPreferenceId && ar.MusicianProfileId == dto.Id, cancellation))
+                        .AnyAsync(ar => ar.Id == regionPreferenceId && ar.MusicianProfileId == cmd.MusicianProfileId, cancellation))
                     .WithErrorCode("404")
                     .WithMessage("Region preference could not be found.");
             }
@@ -42,7 +42,7 @@ namespace Orso.Arpa.Domain.Logic.Me
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 RegionPreference regionPreferenceToRemove = await _arpaContext
-                    .GetByIdAsync<RegionPreference>(request.Id, cancellationToken);
+                    .GetByIdAsync<RegionPreference>(request.RegionPreferenceId, cancellationToken);
 
                 _arpaContext.Set<RegionPreference>().Remove(regionPreferenceToRemove);
 

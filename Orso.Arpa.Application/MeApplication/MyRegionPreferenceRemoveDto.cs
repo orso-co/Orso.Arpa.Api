@@ -15,7 +15,8 @@ namespace Orso.Arpa.Application.MeApplication
     {
         public MyRegionPreferenceRemoveDtoMappingProfile()
         {
-            CreateMap<MyRegionPreferenceRemoveDto, RemoveRegionPreference.Command>();
+            CreateMap<MyRegionPreferenceRemoveDto, RemoveRegionPreference.Command>()
+                .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id));
         }
     }
 

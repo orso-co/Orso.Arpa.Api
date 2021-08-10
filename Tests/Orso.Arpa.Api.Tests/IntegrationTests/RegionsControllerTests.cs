@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -90,19 +91,30 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto);
         }
 
+        private static IEnumerable<TestCaseData> _regionTestData
+        {
+            get
+            {
+                yield return new TestCaseData(RegionPreferenceType.None, RegionDtoData.Regions);
+                yield return new TestCaseData(RegionPreferenceType.Performance, RegionDtoData.RegionsForPerformance);
+                yield return new TestCaseData(RegionPreferenceType.Rehearsal, RegionDtoData.RegionsForRehearsal);
+            }
+        }
+
         [Test, Order(1)]
-        public async Task Should_Get_All()
+        [TestCaseSource(nameof(_regionTestData))]
+        public async Task Should_Get_All(RegionPreferenceType regionPreferenceType, IList<RegionDto> expectedResult)
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.RegionsController.Get());
+                .GetAsync(ApiEndpoints.RegionsController.Get(regionPreferenceType));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<RegionDto> result = await DeserializeResponseMessageAsync<IEnumerable<RegionDto>>(responseMessage);
-            result.Should().BeEquivalentTo(RegionDtoData.Regions);
+            result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Test, Order(2)]

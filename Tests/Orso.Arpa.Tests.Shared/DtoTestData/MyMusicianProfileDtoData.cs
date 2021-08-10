@@ -1,4 +1,5 @@
 using System;
+using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Persistence.Seed;
@@ -22,6 +23,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     IsMainProfile = true
                 };
                 dto.Documents.Add(Guid.Parse("f9cc5445-8a6e-480b-bffb-410089f55896"));
+                dto.RegionPreferencesRehearsal.Add(new RegionPreferenceDto
+                {
+                    Id = Guid.Parse("0f3de639-a287-4246-b939-24780877030e"),
+                    Comment = "Loving Freiburg so much...",
+                    Rating = 5,
+                    Region = RegionDtoData.Freiburg,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                });
                 return dto;
             }
         }

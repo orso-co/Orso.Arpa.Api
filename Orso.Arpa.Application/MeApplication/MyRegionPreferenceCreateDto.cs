@@ -26,7 +26,9 @@ namespace Orso.Arpa.Application.MeApplication
                 .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Body.Comment))
                 .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Body.Rating))
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Body.Type));
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Body.Type))
+                .ForMember(dest => dest.RegionId, opt => opt.MapFrom(src => src.Body.RegionId));
+
         }
     }
 

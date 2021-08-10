@@ -35,9 +35,9 @@ namespace Orso.Arpa.Domain.Logic.Me
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
-                    .MustAsync(async (dto, regionPreferenceId, cancellation) => await arpaContext
+                    .MustAsync(async (cmd, regionPreferenceId, cancellation) => await arpaContext
                         .Set<RegionPreference>()
-                        .AnyAsync(ar => ar.Id == regionPreferenceId && ar.MusicianProfileId == dto.Id, cancellation))
+                        .AnyAsync(ar => ar.Id == regionPreferenceId && ar.MusicianProfileId == cmd.MusicianProfileId, cancellation))
                     .WithErrorCode("404")
                     .WithMessage("Region preference could not be found.");
             }

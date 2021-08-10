@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.AddressApplication;
 using Orso.Arpa.Application.VenueApplication;
-using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -41,7 +40,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                         Country = "Deutschland",
                         UrbanDistrict = "Herdern",
                         State = "Baden-Württemberg",
-                        RegionId = RegionSeedData.Freiburg.Id,
                         CreatedBy = "anonymous",
                         CreatedAt = FakeDateTime.UtcNow
                     }

@@ -12,6 +12,7 @@ namespace Orso.Arpa.Domain.Entities
             MusicianProfileId = command.MusicianProfileId;
             Rating = command.Rating;
             Comment = command.Comment;
+            Type = command.Type;
         }
 
         protected RegionPreference()
