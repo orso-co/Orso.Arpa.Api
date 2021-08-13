@@ -36,6 +36,19 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Gets all musician profiles grouped by person
+        /// </summary>
+        /// <returns>The queried musicianProfiles</returns>
+        /// <response code="200"></response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<GroupedMusicianProfileDto>>> Get()
+        {
+            return Ok(await _musicianProfileService.GetGroupedAsync());
+        }
+
+        /// <summary>
         /// Gets a musicianProfile by id
         /// </summary>
         /// <param name="id"></param>

@@ -221,6 +221,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Put(Guid id) => $"{MusicianProfiles}/{id}";
 
+            public static string Get() => $"{MusicianProfiles}";
+
             public static string Get(Guid id) => $"{MusicianProfiles}/{id}";
 
             public static string Delete(Guid id) => $"{MusicianProfiles}/{id}";
