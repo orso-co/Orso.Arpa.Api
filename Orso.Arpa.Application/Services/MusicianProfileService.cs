@@ -4,7 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
@@ -47,6 +49,16 @@ namespace Orso.Arpa.Application.Services
                 : mp => mp.PersonId == personId && (mp.Deactivation == null || mp.Deactivation.DeactivationStart > _dateTimeProvider.GetUtcNow());
 
             return GetAsync(predicate, orderBy: profile => profile.OrderByDescending(p => p.IsMainProfile));
+        }
+
+        public async Task<IEnumerable<GroupedMusicianProfileDto>> GetGroupedAsync()
+        {
+            var query = new GetGrouped.Query();
+            IQueryable<Person> persons = await _mediator.Send(query);
+
+            return await persons
+                .ProjectTo<GroupedMusicianProfileDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<ProjectParticipationDto>> GetProjectParticipationsAsync(Guid id, bool includeCompleted)

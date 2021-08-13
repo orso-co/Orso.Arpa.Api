@@ -80,6 +80,62 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
+        [Test, Order(4)]
+        public async Task Should_Get_Grouped()
+        {
+            // Arrange
+            var expectedDtos = new List<GroupedMusicianProfileDto>
+            {
+                new GroupedMusicianProfileDto
+                {
+                    Person = PersonDtoData.Admin,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.AdminProfile1,
+                        ReducedMusicianProfileDtoData.AdminProfile2
+                    }
+                },
+                new GroupedMusicianProfileDto
+                {
+                    Person = PersonDtoData.Performer,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
+                        ReducedMusicianProfileDtoData.PerformerProfile,
+                        ReducedMusicianProfileDtoData.PerformerHornProfile
+                    }
+                },
+                new GroupedMusicianProfileDto
+                {
+                    Person = PersonDtoData.Staff,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.StaffProfile2,
+                        ReducedMusicianProfileDtoData.StaffProfile1
+                    }
+                },
+                new GroupedMusicianProfileDto
+                {
+                    Person = PersonDtoData.WithoutRole,
+                    MusicianProfiles = new List<ReducedMusicianProfileDto>
+                    {
+                        ReducedMusicianProfileDtoData.WithoutRoleProfile
+                    }
+                }
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.MusicianProfilesController.Get());
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<GroupedMusicianProfileDto> result = await DeserializeResponseMessageAsync<IEnumerable<GroupedMusicianProfileDto>>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
+        }
+
         [Test, Order(100)]
         public async Task Should_Add_Education()
         {
