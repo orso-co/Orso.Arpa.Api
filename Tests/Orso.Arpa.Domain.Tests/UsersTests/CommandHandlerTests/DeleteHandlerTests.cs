@@ -46,7 +46,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.CommandHandlerTests
             Func<Task<Unit>> func = async () => await _handler.Handle(new Delete.Command("deletedusername"), new CancellationToken());
 
             // Assert
-            func.Should().Throw<NotFoundException>();
+            func.Should().ThrowAsync<NotFoundException>();
         }
     }
 }

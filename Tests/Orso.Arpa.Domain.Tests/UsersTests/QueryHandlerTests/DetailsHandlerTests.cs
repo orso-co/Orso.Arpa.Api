@@ -48,7 +48,7 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
             Func<Task<User>> func = async () => await _handler.Handle(query, new CancellationToken());
 
             // Assert
-            func.Should().ThrowExactly<NotFoundException>().WithMessage("User could not be found.");
+            func.Should().ThrowAsync<NotFoundException>().WithMessage("User could not be found.");
         }
     }
 }
