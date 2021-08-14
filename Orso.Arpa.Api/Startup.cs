@@ -23,6 +23,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Orso.Arpa.Api.Extensions;
+using Orso.Arpa.Api.GraphQL;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Api.Swagger;
@@ -46,6 +47,7 @@ using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
+using Orso.Arpa.Persistence.GraphQL;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
 
 namespace Orso.Arpa.Api
@@ -118,6 +120,10 @@ namespace Orso.Arpa.Api
             ConfigureAuthentication(services);
 
             ConfigureAuthorization(services);
+
+            services
+                .AddGraphQLServer()
+                .AddQueryType<Query>();
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
@@ -366,11 +372,23 @@ namespace Orso.Arpa.Api
                     opt.EnableDetailedErrors();
                 }
             });
+            services.AddPooledDbContextFactory<GraphQLContext>(opt =>
+            {
+                opt
+                    .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
+                    .UseSnakeCaseNamingConvention()
+                    .UseLazyLoadingProxies();
+
+                if (_hostingEnvironment.IsDevelopment())
+                {
+                    opt.EnableSensitiveDataLogging();
+                    opt.EnableDetailedErrors();
+                }
+            });
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             app.UseRequestLocalization();
 
             app.UseErrorResponseLocalizationMiddleware();
@@ -398,7 +416,11 @@ namespace Orso.Arpa.Api
 
             AddSwagger(app);
 
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapGraphQL();
+            });
 
             EnsureDatabaseMigrations(app);
 

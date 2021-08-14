@@ -37,7 +37,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 TestDatabase.Create();
             }
 
-            services.AddDbContext<ArpaContext>(options =>
+            services.AddPooledDbContextFactory<ArpaContext>(options =>
             {
                 options.UseNpgsql(TestDatabase.ConnectionString);
                 options.UseSnakeCaseNamingConvention();

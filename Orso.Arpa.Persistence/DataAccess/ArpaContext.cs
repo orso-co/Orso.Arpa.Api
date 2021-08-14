@@ -30,7 +30,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         private readonly CallBack<Localization> _translationCallBack;
 
         public ArpaContext(
-            DbContextOptions options,
+            DbContextOptions<ArpaContext> options,
             ITokenAccessor tokenAccessor,
             IDateTimeProvider dateTimeProvider,
             CallBack<Localization> translationCallBack) : base(options)
