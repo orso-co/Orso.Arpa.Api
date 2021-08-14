@@ -123,7 +123,9 @@ namespace Orso.Arpa.Api
 
             services
                 .AddGraphQLServer()
-                .AddQueryType<Query>();
+                .AddQueryType<Query>()
+                .AddFiltering()
+                .AddSorting();
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
@@ -419,7 +421,7 @@ namespace Orso.Arpa.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGraphQL();
+                endpoints.MapGraphQL().RequireAuthorization(new[] { RoleNames.Staff });
             });
 
             EnsureDatabaseMigrations(app);
