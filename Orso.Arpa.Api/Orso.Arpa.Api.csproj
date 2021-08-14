@@ -26,7 +26,7 @@
   <ItemGroup>
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
