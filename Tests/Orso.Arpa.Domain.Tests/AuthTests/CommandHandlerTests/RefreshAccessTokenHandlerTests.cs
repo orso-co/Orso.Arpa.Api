@@ -65,7 +65,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().Throw<ValidationException>();
+            func.Should().ThrowAsync<ValidationException>();
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().Throw<AuthenticationException>();
+            func.Should().ThrowAsync<AuthenticationException>();
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().Throw<AuthorizationException>();
+            func.Should().ThrowAsync<AuthorizationException>();
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task<Unit>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().Throw<ValidationException>();
+            func.Should().ThrowAsync<ValidationException>();
         }
     }
 }
