@@ -123,6 +123,7 @@ namespace Orso.Arpa.Api
 
             services
                 .AddGraphQLServer()
+                .AddAuthorization()
                 .AddQueryType<Query>()
                 .AddFiltering()
                 .AddSorting();
@@ -421,7 +422,7 @@ namespace Orso.Arpa.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGraphQL().RequireAuthorization(new[] { RoleNames.Staff });
+                endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
             });
 
             EnsureDatabaseMigrations(app);
