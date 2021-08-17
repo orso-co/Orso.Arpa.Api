@@ -79,7 +79,7 @@ namespace Orso.Arpa.Api
 
             ConfigureDatabase(services);
 
-            //ConfigureCors(services);
+            ConfigureCors(services);
 
             services.AddMediatR(typeof(Login.Handler).Assembly);
             services.AddGenericMediatorHandlers();
