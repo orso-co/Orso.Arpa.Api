@@ -43,6 +43,12 @@ namespace Orso.Arpa.Domain.Logic.Sections
                     return section.Children;
                 }
                 Section parent = GetInstrumentParent(section);
+
+                if (parent is null)
+                {
+                    return new List<Section>();
+                }
+
                 var list = new List<Section>
                 {
                     parent
@@ -56,6 +62,10 @@ namespace Orso.Arpa.Domain.Logic.Sections
             private Section GetInstrumentParent(Section section)
             {
                 Section parent = section.Parent;
+                if (parent is null)
+                {
+                    return null;
+                }
                 return parent.IsInstrument ? parent : GetInstrumentParent(parent);
             }
         }
