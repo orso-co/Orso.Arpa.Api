@@ -78,6 +78,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     SectionDtoData.BassFlute,
                     SectionDtoData.TenorFlute
                 });
+                yield return new TestCaseData(SectionSeedData.Band.Id, new List<SectionDto>());
             }
         }
 
