@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfileSections
                     .MustAsync(async (command, instrumentId, cancellation) => !(await arpaContext
                         .EntityExistsAsync<MusicianProfileSection>(s =>
                             s.MusicianProfileId == command.MusicianProfileId
-                            && command.InstrumentId == instrumentId, cancellation)))
+                            && s.SectionId == instrumentId, cancellation)))
                     .WithMessage("A doubling instrument with this instrument does already exist");
             }
         }
