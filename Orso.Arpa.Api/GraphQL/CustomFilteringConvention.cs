@@ -12,7 +12,8 @@ namespace Orso.Arpa.Api.GraphQL
             descriptor.Operation(DefaultFilterOperations.Equals).Name("equals");
             descriptor.AddProviderExtension(
                 new QueryableFilterProviderExtension(x => {
-                x.AddFieldHandler<QueryableStringInvariantEqualsHandler>();
+                x.AddFieldHandler<QueryableStringInvariantEqualsHandler>()
+                    .AddFieldHandler<QueryableStringInvariantContainsHandler>();
             }));
         }
     }
