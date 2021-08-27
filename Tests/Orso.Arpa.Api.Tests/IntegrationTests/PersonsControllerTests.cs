@@ -109,6 +109,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ModifiedAt = FakeDateTime.UtcNow,
                 ModifiedBy = _staff.DisplayName,
             };
+            expectedDto.ContactsRecommended.Add(ReducedPersonDtoData.UnconfirmedUser);
 
             // Act
             HttpClient client = _authenticatedServer
@@ -244,7 +245,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var createDto = new MusicianProfileCreateBodyDto
             {
                 InstrumentId = SectionSeedData.Euphonium.Id,
-                // -> this is the missing mandatory field: QualificationId 
+                // -> this is the missing mandatory field: QualificationId
             };
 
             // Act
