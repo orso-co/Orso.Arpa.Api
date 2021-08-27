@@ -29,7 +29,7 @@ namespace Orso.Arpa.Domain.Logic.BankAccounts
                     .MustAsync(async (command, iban, cancellation) => !(await arpaContext
                         .EntityExistsAsync<BankAccount>(bankAccount =>
                             bankAccount.PersonId == command.PersonId
-                                && bankAccount.IBAN.ToLowerInvariant() == iban.ToLowerInvariant(), cancellation)))
+                                && bankAccount.IBAN.ToLower() == iban.ToLower(), cancellation)))
                     .WithMessage("Bankaccount with this IBAN already taken");
             }
         }

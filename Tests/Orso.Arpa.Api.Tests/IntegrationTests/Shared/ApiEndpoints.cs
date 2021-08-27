@@ -286,5 +286,17 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Put(string culture) => $"{Translations}?culture={culture}";
         }
+
+        public static class PersonBankAccountsController
+        {
+            private static string PersonBankAccounts(Guid id) => $"{Base}/Persons/{id}/bankaccounts";
+
+            public static string Post(Guid personId) => PersonBankAccounts(personId);
+
+            public static string Put(Guid personId, Guid bankAccountId) => $"{PersonBankAccounts(personId)}/{bankAccountId}";
+
+            public static string Delete(Guid personId, Guid bankAccountId) => $"{PersonBankAccounts(personId)}/{bankAccountId}";
+
+        }
     }
 }

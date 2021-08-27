@@ -48,7 +48,7 @@ namespace Orso.Arpa.Domain.Logic.BankAccounts
                         .EntityExistsAsync<BankAccount>(bankAccount =>
                             bankAccount.Id != command.Id
                                 && bankAccount.PersonId == command.PersonId
-                                && bankAccount.IBAN.ToLowerInvariant() == iban.ToLowerInvariant(), cancellation)))
+                                && bankAccount.IBAN.ToLower() == iban.ToLower(), cancellation)))
                     .WithMessage("Bankaccount with this IBAN already taken");
 
                 RuleFor(c => c.StatusId)

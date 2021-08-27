@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.Logic.BankAccounts;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 
@@ -87,8 +88,15 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person =  new Person(
                     Guid.Parse("0bf0bd72-abda-458b-a783-403b8ba51850"),
-                    new UserRegister.Command { GivenName = "Unconfirmed", Surname = "User", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                    new UserRegister.Command
+                    { GivenName = "Unconfirmed", Surname = "User", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id
+                    });
                     person.SetProperty(nameof(Person.ContactViaId), LockedOutUser.Id);
+                    person.BankAccounts.Add(new BankAccount(Guid.Parse("1fa6a1f9-963c-4539-a3d3-e9e9b9430882"),
+                    new Create.Command
+                    {
+                       PersonId = person.Id, IBAN = "DE95680900000037156400", BIC = "GENODE61FR1", CommentInner = "Dieses Konto läuft auf meine Mudda"
+                    }));
                     return person;
             }
         }

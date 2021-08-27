@@ -1,15 +1,21 @@
 using System;
 using Microsoft.Net.Http.Headers;
 using Org.BouncyCastle.Crypto;
+using Orso.Arpa.Domain.Logic.BankAccounts;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class BankAccount : BaseEntity
     {
-        public BankAccount ()
+        public BankAccount(Guid? id, Create.Command command) : base(id)
         {
-
+            IBAN = command.IBAN;
+            BIC = command.BIC;
+            PersonId = command.PersonId;
+            CommentInner = command.CommentInner;
         }
+        protected BankAccount(){}
+
         public string IBAN { get; private set; }
         public string BIC { get; private set; }
         public Guid? StatusId { get; private set; }
