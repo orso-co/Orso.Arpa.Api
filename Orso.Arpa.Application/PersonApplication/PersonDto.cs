@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
+using Orso.Arpa.Application.BankAccountApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
 
@@ -12,6 +13,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public string AboutMe { get; set; }
         public ReducedPersonDto ContactVia { get; set;}
         public IList<ReducedPersonDto> ContactsRecommended { get; set; } = new List<ReducedPersonDto>();
+        public IList<BankAccountDto> BankAccounts { get; set; } = new List<BankAccountDto>();
     }
 
     public class PersonDtoMappingProfile : Profile

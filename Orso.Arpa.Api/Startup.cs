@@ -270,6 +270,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<ITranslationService, TranslationService>();
             services.AddScoped<IMusicianProfileDeactivationService, MusicianProfileDeactivationService>();
             services.AddGenericListHandler(typeof(AuditLog));
+            services.AddScoped<IBankAccountService, BankAccountService>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
