@@ -41,6 +41,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .HasData(PersonSeedData.Persons);
+
+             builder
+                .HasOne(e => e.ContactVia)
+                .WithMany(e => e.ContactsRecommended)
+                .HasForeignKey(e => e.ContactViaId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Orso.Arpa.Domain.Entities
             DateOfBirth = command.DateOfBirth;
             Birthplace = command.Birthplace;
             GenderId = command.GenderId;
+            ContactViaId = command.ContactViaId;
         }
 
         public Person(Guid? id, UserRegister.Command command) : base(id)
@@ -45,6 +46,10 @@ namespace Orso.Arpa.Domain.Entities
 
         [JsonInclude]
         public string AboutMe { get; private set; }
+
+        public Guid? ContactViaId { get; private set; }
+        public virtual Person ContactVia { get; private set; }
+        public virtual ICollection<Person> ContactsRecommended { get; private set; } = new HashSet<Person>();
 
         [JsonInclude]
         public byte Reliability { get; private set; }

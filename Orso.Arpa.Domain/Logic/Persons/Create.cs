@@ -18,6 +18,8 @@ namespace Orso.Arpa.Domain.Logic.Persons
             public Guid GenderId { get; set; }
             public DateTime DateOfBirth { get; set; }
             public string Birthplace { get; set; }
+            public Guid? ContactViaId { get; set; }
+
         }
 
         public class Validator : AbstractValidator<Command>
@@ -26,6 +28,9 @@ namespace Orso.Arpa.Domain.Logic.Persons
             {
                 RuleFor(c => c.GenderId)
                     .SelectValueMapping<Command, Person>(arpaContext, p => p.Gender);
+
+                RuleFor(c => c.ContactViaId)
+                    .EntityExists<Command, Person>(arpaContext);
             }
         }
     }

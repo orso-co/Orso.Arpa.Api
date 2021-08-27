@@ -67,7 +67,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.UnconfirmedUser;
-                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto =  CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.ContactVia=ReducedPersonDtoData.LockedOutUser;
+                return dto;
             }
         }
 
@@ -85,7 +87,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.LockedOutUser;
-                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.ContactsRecommended.Add(ReducedPersonDtoData.UnconfirmedUser);
+                return dto;
             }
         }
 
@@ -99,7 +103,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 ModifiedAt = null,
                 ModifiedBy = person.ModifiedBy,
                 Surname = person.Surname,
-                CreatedAt = createdAt
+                CreatedAt = createdAt,
             };
         }
     }
