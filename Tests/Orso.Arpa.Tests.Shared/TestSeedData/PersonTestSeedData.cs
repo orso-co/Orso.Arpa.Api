@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
+
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -83,9 +85,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new Person(
+                var person =  new Person(
                     Guid.Parse("0bf0bd72-abda-458b-a783-403b8ba51850"),
                     new UserRegister.Command { GivenName = "Unconfirmed", Surname = "User", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                    person.SetProperty(nameof(Person.ContactViaId), LockedOutUser.Id);
+                    return person;
             }
         }
     }

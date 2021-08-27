@@ -12,6 +12,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public string Surname { get; set; }
         public string AboutMe { get; set; }
         public Guid GenderId { get; set; }
+        public Guid? ContactViaId { get; set; }
     }
 
     public class PersonCreateDtoMappingProfile : Profile

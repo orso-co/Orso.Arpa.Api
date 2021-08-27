@@ -20,6 +20,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
             public Guid GenderId { get; set; }
             public DateTime DateOfBirth { get; set; }
             public string Birthplace { get; set; }
+            public Guid? ContactViaId { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -34,6 +35,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
                     .ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.GenderId))
                     .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
                     .ForMember(dest => dest.Birthplace, opt => opt.MapFrom(src => src.Birthplace))
+                    .ForMember(dest => dest.ContactViaId, opt => opt.MapFrom(src => src.ContactViaId))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }
@@ -46,6 +48,11 @@ namespace Orso.Arpa.Domain.Logic.Persons
                     .EntityExists<Command, Person>(arpaContext);
                 RuleFor(c => c.GenderId)
                     .SelectValueMapping<Command, Person>(arpaContext, p => p.Gender);
+                RuleFor(c => c.ContactViaId)
+                    .EntityExists<Command, Person>(arpaContext)
+                    .Must((command, contactViaId, _) => !command.Id.Equals(contactViaId.Value))
+                    .When(command => command.ContactViaId.HasValue)
+                    .WithMessage("Person cannot to be self-referenced");
             }
         }
     }
