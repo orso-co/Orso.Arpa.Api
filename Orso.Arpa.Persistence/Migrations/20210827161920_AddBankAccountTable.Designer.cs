@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -9,9 +10,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20210827161920_AddBankAccountTable")]
+    partial class AddBankAccountTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -586,12 +588,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("AccountOwner")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("account_owner");
-
-                    b.Property<string>("Bic")
+                    b.Property<string>("BIC")
                         .HasMaxLength(11)
                         .HasColumnType("character varying(11)")
                         .HasColumnName("bic");
@@ -614,7 +611,7 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("deleted");
 
-                    b.Property<string>("Iban")
+                    b.Property<string>("IBAN")
                         .HasMaxLength(34)
                         .HasColumnType("character varying(34)")
                         .HasColumnName("iban");
@@ -4627,38 +4624,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Description = "",
                             Name = "Diverse"
-                        },
-                        new
-                        {
-                            Id = new Guid("597bf9bc-4fad-433f-810d-ae4de4ac3bde"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Bank account expired"
-                        },
-                        new
-                        {
-                            Id = new Guid("7efd1bdd-67b5-4706-a1f4-9d67eea05e5d"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Incorrect bank details"
-                        },
-                        new
-                        {
-                            Id = new Guid("c36e8662-2740-49c7-87dd-3c301ef86909"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Return debit received"
-                        },
-                        new
-                        {
-                            Id = new Guid("b0f67138-7488-4c68-ad4c-63fce6f862cc"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Return debit received"
                         });
                 });
 
@@ -4951,15 +4916,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Name = "Contact detail type",
                             Property = "Type",
                             Table = "ContactDetail"
-                        },
-                        new
-                        {
-                            Id = new Guid("d75c2fe5-dba6-475e-a0f1-dd71285c0269"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Name = "Bank account status",
-                            Property = "Status",
-                            Table = "BankAccount"
                         });
                 });
 
@@ -6269,42 +6225,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             SelectValueCategoryId = new Guid("3c4dd028-db94-441d-bd3f-ab5b58533407"),
                             SelectValueId = new Guid("b67d1ac5-80ec-4b7d-bcb8-72e3da55f201"),
-                            SortOrder = 40
-                        },
-                        new
-                        {
-                            Id = new Guid("a24f4ce6-b3c6-4d58-9e31-cb3a83ae2694"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("d75c2fe5-dba6-475e-a0f1-dd71285c0269"),
-                            SelectValueId = new Guid("597bf9bc-4fad-433f-810d-ae4de4ac3bde"),
-                            SortOrder = 10
-                        },
-                        new
-                        {
-                            Id = new Guid("2f03daef-5795-45b6-9535-cf7748f84476"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("d75c2fe5-dba6-475e-a0f1-dd71285c0269"),
-                            SelectValueId = new Guid("c36e8662-2740-49c7-87dd-3c301ef86909"),
-                            SortOrder = 20
-                        },
-                        new
-                        {
-                            Id = new Guid("77164303-d91d-4fa1-9c2c-ae9c05298e30"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("d75c2fe5-dba6-475e-a0f1-dd71285c0269"),
-                            SelectValueId = new Guid("7efd1bdd-67b5-4706-a1f4-9d67eea05e5d"),
-                            SortOrder = 30
-                        },
-                        new
-                        {
-                            Id = new Guid("c59900fa-7dc6-4ca7-8a35-c73c7ea582b9"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("d75c2fe5-dba6-475e-a0f1-dd71285c0269"),
-                            SelectValueId = new Guid("b0f67138-7488-4c68-ad4c-63fce6f862cc"),
                             SortOrder = 40
                         });
                 });

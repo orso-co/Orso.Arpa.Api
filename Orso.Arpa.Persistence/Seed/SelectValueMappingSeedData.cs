@@ -38,6 +38,7 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(CurriculumVitaeReferenceTypeMappings);
                 list.AddRange(PersonGenderMappings);
                 list.AddRange(ContactDetailTypeMappings);
+                list.AddRange(BankAccountStatusMappings);
                 return list;
             }
         }
@@ -446,6 +447,20 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("8205e3e6-8f58-49de-a438-02fce2aa0548"), SelectValueCategorySeedData.ContactDetailType.Id, SelectValueSeedData.Business.Id, 20),
                     new SelectValueMapping(Guid.Parse("0432acc1-9332-4885-af64-52e37f7637a9"), SelectValueCategorySeedData.ContactDetailType.Id, SelectValueSeedData.Other.Id, 30),
                     new SelectValueMapping(Guid.Parse("bfb1c88f-1fba-4f83-b17a-479399f53f6d"), SelectValueCategorySeedData.ContactDetailType.Id, SelectValueSeedData.Unknown.Id, 40),
+                };
+            }
+        }
+
+        public static IList<SelectValueMapping> BankAccountStatusMappings
+        {
+            get
+            {
+                return new List<SelectValueMapping>
+                {
+                    new SelectValueMapping(Guid.Parse("a24f4ce6-b3c6-4d58-9e31-cb3a83ae2694"), SelectValueCategorySeedData.BankAccountStatus.Id, SelectValueSeedData.BankAccountExpired.Id, 10),
+                    new SelectValueMapping(Guid.Parse("2f03daef-5795-45b6-9535-cf7748f84476"), SelectValueCategorySeedData.BankAccountStatus.Id, SelectValueSeedData.ReturnDebitReceived.Id, 20),
+                    new SelectValueMapping(Guid.Parse("77164303-d91d-4fa1-9c2c-ae9c05298e30"), SelectValueCategorySeedData.BankAccountStatus.Id, SelectValueSeedData.IncorrectBankDetails.Id, 30),
+                    new SelectValueMapping(Guid.Parse("c59900fa-7dc6-4ca7-8a35-c73c7ea582b9"), SelectValueCategorySeedData.BankAccountStatus.Id, SelectValueSeedData.OtherSeeCommentField.Id, 40),
                 };
             }
         }

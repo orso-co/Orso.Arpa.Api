@@ -29,11 +29,11 @@ built-in Package Manager Console.
 
 Install globally the dotnet ef tools: `dotnet tool install --global dotnet-ef`
 
-Update toos to the most recent version: `dotnet tool update --global dotnet-ef`
+Update tools to the most recent version: `dotnet tool update --global dotnet-ef`
 
 ### Add New Migration
 ```
-dotnet ef migrations add "<NameOfMigration>" -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/
+dotnet ef migrations add "<NameOfMigration>" -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/ -c ArpaContext
 ```
 
 ### Remove Last Migration

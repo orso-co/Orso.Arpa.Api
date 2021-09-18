@@ -88,5 +88,7 @@ namespace Orso.Arpa.Domain.Entities
 
         [JsonInclude]
         public virtual ICollection<PersonSection> StakeholderGroups { get; private set; } = new HashSet<PersonSection>();
+        public virtual ICollection<BankAccount> BankAccounts { get; private set; } = new HashSet<BankAccount>();
+
     }
 }

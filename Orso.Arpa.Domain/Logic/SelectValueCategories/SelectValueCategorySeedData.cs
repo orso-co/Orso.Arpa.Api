@@ -37,7 +37,8 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
                     EducationType,
                     CurriculumVitaeReferenceType,
                     PersonGender,
-                    ContactDetailType
+                    ContactDetailType,
+                    BankAccountStatus
                 };
             }
         }
@@ -197,5 +198,11 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
             nameof(ContactDetail),
             nameof(ContactDetail.Type),
             "Contact detail type");
+
+        public static SelectValueCategory BankAccountStatus => new(
+            Guid.Parse("d75c2fe5-dba6-475e-a0f1-dd71285c0269"),
+            nameof(BankAccount),
+            nameof(BankAccount.Status),
+            "Bank account status");
     }
 }
