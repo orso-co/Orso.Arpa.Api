@@ -51,9 +51,9 @@ namespace Orso.Arpa.Application.BankAccountApplication
             RuleFor(c => c.Bic)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .When(dto => !dto.Iban.StartsWith("de", StringComparison.InvariantCultureIgnoreCase))
+                .When(dto => !dto.Iban.StartsWith("de", StringComparison.InvariantCultureIgnoreCase), ApplyConditionTo.CurrentValidator)
                 .Bic()
-                .When(dto => !string.IsNullOrWhiteSpace(dto.Bic));
+                .When(dto => !string.IsNullOrWhiteSpace(dto.Bic), ApplyConditionTo.CurrentValidator);
 
             RuleFor(c => c.CommentInner)
                 .GeneralText(500);

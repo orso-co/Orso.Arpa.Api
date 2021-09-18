@@ -19,7 +19,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Fail_If_Iban_Is_Invalid([Values("DE5150010517851475889", "DE515001051785147588963", "12345678901", "DE 515 001 051 785 147 588 96")] string iban)
+        public void Should_Fail_If_Iban_Is_Invalid([Values("DE5150010517851475889", "DEDE500105178514758896345345", "12345678901")] string iban)
         {
             _validator.ShouldHaveValidationErrorForExact(dto => dto.Iban, iban)
                 .WithErrorMessage("The supplied value is not a valid IBAN");
