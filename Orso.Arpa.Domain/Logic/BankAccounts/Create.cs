@@ -11,11 +11,11 @@ namespace Orso.Arpa.Domain.Logic.BankAccounts
     {
         public class Command : ICreateCommand<BankAccount>
         {
-            public string IBAN { get; set; }
-            public string BIC { get; set; }
+            public string Iban { get; set; }
+            public string Bic { get; set; }
             public string CommentInner { get; set; }
             public Guid PersonId { get; set; }
-
+            public string AccountOwner { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -25,12 +25,14 @@ namespace Orso.Arpa.Domain.Logic.BankAccounts
                 RuleFor(c => c.PersonId)
                     .EntityExists<Command, Person>(arpaContext);
 
-                RuleFor(c => c.IBAN)
+                RuleFor(c => c.Iban)
                     .MustAsync(async (command, iban, cancellation) => !(await arpaContext
                         .EntityExistsAsync<BankAccount>(bankAccount =>
                             bankAccount.PersonId == command.PersonId
-                                && bankAccount.IBAN.ToLower() == iban.ToLower(), cancellation)))
-                    .WithMessage("Bankaccount with this IBAN already taken");
+#pragma warning disable RCS1155 // Use StringComparison when comparing strings.
+                                && bankAccount.Iban.ToLower() == iban.ToLower(), cancellation)))
+#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
+                    .WithMessage("Bank account with this IBAN already taken");
             }
         }
     }

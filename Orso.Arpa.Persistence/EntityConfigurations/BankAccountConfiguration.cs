@@ -9,16 +9,16 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<BankAccount> builder)
         {
             builder
-            .Property(e => e.IBAN)
-            .HasMaxLength(34);
+                .Property(e => e.Iban)
+                .HasMaxLength(34);
 
             builder
-            .Property(e => e.BIC)
-            .HasMaxLength(11);
+                .Property(e => e.Bic)
+                .HasMaxLength(11);
 
             builder
-            .Property(e => e.CommentInner)
-            .HasMaxLength(500);
+                .Property(e => e.CommentInner)
+                .HasMaxLength(500);
 
             builder
                 .HasOne(e => e.Person)
@@ -32,6 +32,9 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasForeignKey(e => e.StatusId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder
+                .Property(e => e.AccountOwner)
+                .HasMaxLength(50);
         }
     }
 }

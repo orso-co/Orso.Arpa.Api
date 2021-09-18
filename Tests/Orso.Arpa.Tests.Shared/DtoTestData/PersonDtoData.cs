@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Orso.Arpa.Application.BankAccountApplication;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
@@ -67,8 +68,18 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.UnconfirmedUser;
-                PersonDto dto =  CreateDto(person, "anonymous", FakeDateTime.UtcNow);
-                dto.ContactVia=ReducedPersonDtoData.LockedOutUser;
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.ContactVia = ReducedPersonDtoData.LockedOutUser;
+                dto.BankAccounts.Add(new BankAccountDto
+                {
+                    Bic = "GENODE61FR1",
+                    CommentInner = "Dieses Konto läuft auf meine Mudda",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Iban = "DE95680900000037156400",
+                    Id = Guid.Parse("1fa6a1f9-963c-4539-a3d3-e9e9b9430882"),
+                    AccountOwner = "Muddi Roese"
+                });
                 return dto;
             }
         }

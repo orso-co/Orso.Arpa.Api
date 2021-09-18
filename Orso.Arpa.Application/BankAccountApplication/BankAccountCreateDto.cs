@@ -10,11 +10,13 @@ namespace Orso.Arpa.Application.BankAccountApplication
     public class BankAccountCreateDto : IdFromRouteDto<BankAccountCreateBodyDto>
     {
     }
+
     public class BankAccountCreateBodyDto
     {
-        public string IBAN { get; set; }
-        public string BIC { get; set; }
+        public string Iban { get; set; }
+        public string Bic { get; set; }
         public string CommentInner { get; set; }
+        public string AccountOwner { get; set; }
     }
     public class BankAccountCreateDtoMappingProfile : Profile
     {
@@ -22,13 +24,14 @@ namespace Orso.Arpa.Application.BankAccountApplication
         {
             CreateMap<BankAccountCreateDto, Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.IBAN, opt => opt.MapFrom(src => src.Body.IBAN))
-                .ForMember(dest => dest.BIC, opt => opt.MapFrom(src => src.Body.BIC))
+                .ForMember(dest => dest.Iban, opt => opt.MapFrom(src => src.Body.Iban))
+                .ForMember(dest => dest.Bic, opt => opt.MapFrom(src => src.Body.Bic))
+                .ForMember(dest => dest.AccountOwner, opt => opt.MapFrom(src => src.Body.AccountOwner))
                 .ForMember(dest => dest.CommentInner, opt => opt.MapFrom(src => src.Body.CommentInner));
         }
     }
 
-public class BankAccountCreateDtoValidator : IdFromRouteDtoValidator<BankAccountCreateDto, BankAccountCreateBodyDto>
+    public class BankAccountCreateDtoValidator : IdFromRouteDtoValidator<BankAccountCreateDto, BankAccountCreateBodyDto>
     {
         public BankAccountCreateDtoValidator()
         {
@@ -40,20 +43,23 @@ public class BankAccountCreateDtoValidator : IdFromRouteDtoValidator<BankAccount
     {
         public BankAccountCreateBodyDtoValidator()
         {
-            RuleFor(c => c.IBAN)
-                 .NotEmpty();
-                 // Todo: Validierung IBAN (Regex)
+            RuleFor(c => c.Iban)
+                 .Cascade(CascadeMode.Stop)
+                 .NotEmpty()
+                 .Iban();
 
-
-            RuleFor(c => c.BIC)
+            RuleFor(c => c.Bic)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
-                .When(dto => !dto.IBAN.StartsWith("de", StringComparison.InvariantCultureIgnoreCase));
-                 // Todo: Validierung BIC (Regex)
-
+                .When(dto => !dto.Iban.StartsWith("de", StringComparison.InvariantCultureIgnoreCase))
+                .Bic()
+                .When(dto => !string.IsNullOrWhiteSpace(dto.Bic));
 
             RuleFor(c => c.CommentInner)
                 .GeneralText(500);
 
+            RuleFor(c => c.AccountOwner)
+                .GeneralText(50);
         }
     }
 }

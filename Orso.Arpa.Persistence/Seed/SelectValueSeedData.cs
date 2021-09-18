@@ -128,7 +128,11 @@ namespace Orso.Arpa.Persistence.Seed
                     Recommendation,
                     Male,
                     Female,
-                    Diverse
+                    Diverse,
+                    BankAccountExpired,
+                    IncorrectBankDetails,
+                    ReturnDebitReceived,
+                    OtherSeeCommentField
                 };
             }
         }
@@ -527,5 +531,25 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue Male => new(Guid.Parse("9c0e9810-f177-43af-9915-9ae4bb962a24"), "Male", string.Empty);
         public static SelectValue Female => new(Guid.Parse("44f40ffd-6afa-4de1-a033-027f59f1bb7e"), "Female", string.Empty);
         public static SelectValue Diverse => new(Guid.Parse("037d90a2-4819-44ca-9089-e0cd5d01af40"), "Diverse", string.Empty);
+
+        /// <summary>
+        /// Bankkonto erloschen
+        /// </summary>
+        public static SelectValue BankAccountExpired => new(Guid.Parse("597bf9bc-4fad-433f-810d-ae4de4ac3bde"), "Bank account expired", string.Empty);
+
+        /// <summary>
+        /// Rücklastschrift erhalten
+        /// </summary>
+        public static SelectValue ReturnDebitReceived => new(Guid.Parse("c36e8662-2740-49c7-87dd-3c301ef86909"), "Return debit received", string.Empty);
+
+        /// <summary>
+        /// Fehlerhafte Bankverbindung
+        /// </summary>
+        public static SelectValue IncorrectBankDetails => new(Guid.Parse("7efd1bdd-67b5-4706-a1f4-9d67eea05e5d"), "Incorrect bank details", string.Empty);
+
+        /// <summary>
+        /// Other (see comment field) 
+        /// </summary>
+        public static SelectValue OtherSeeCommentField => new(Guid.Parse("b0f67138-7488-4c68-ad4c-63fce6f862cc"), "Return debit received", string.Empty);
     }
 }

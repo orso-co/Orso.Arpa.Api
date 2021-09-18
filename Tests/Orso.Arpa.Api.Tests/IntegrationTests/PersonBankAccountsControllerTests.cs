@@ -12,6 +12,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
+    [TestFixture]
     public class PersonBankAccountsControllerTests : IntegrationTestBase
     {
         [Test, Order(100)]
@@ -21,19 +22,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var dto = new BankAccountCreateBodyDto
             {
-                IBAN = "DE95680900000037156400",
-                BIC = "GENODE61FR1",
-                CommentInner = "Dieses Konto läuft auf meine Mudda"
+                Iban = "DE95680900000037156400",
+                Bic = "GENODE61FR1",
+                CommentInner = "Dieses Konto läuft auf meine Mudda",
+                AccountOwner = "Muddi Roese"
             };
 
             var expectedDto = new BankAccountDto
             {
-                IBAN = "DE95680900000037156400",
-                BIC = "GENODE61FR1",
+                Iban = "DE95680900000037156400",
+                Bic = "GENODE61FR1",
                 CommentInner = "Dieses Konto läuft auf meine Mudda",
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = "Staff Member",
-
+                AccountOwner = "Muddi Roese"
             };
 
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -55,9 +57,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var dto = new BankAccountModifyBodyDto
             {
-                IBAN = "DE956809000000371564900",
-                BIC = "GENODE61FR2",
-                CommentInner = "Dieses Konto läuft auf meine Vadda"
+                Iban = "DE51500105178514758896",
+                Bic = "GENODE61FR2",
+                CommentInner = "Dieses Konto läuft auf meine Vadda",
+                AccountOwner = "Daddy Roese",
+                StatusId = SelectValueMappingSeedData.BankAccountStatusMappings[0].Id
             };
 
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -73,7 +77,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Delete_Bank_Account()
         {
             Domain.Entities.Person person = PersonTestSeedData.UnconfirmedUser;
-
 
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
