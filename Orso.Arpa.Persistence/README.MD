@@ -27,6 +27,8 @@ file can be found in the Orso.Arpa.Api project.
 Use a command line or terminal window to run these commands. If you are using Visual Studio consider using the
 built-in Package Manager Console.
 
+### Tool Installation
+
 Install globally the dotnet ef tools: `dotnet tool install --global dotnet-ef`
 
 Update tools to the most recent version: `dotnet tool update --global dotnet-ef`

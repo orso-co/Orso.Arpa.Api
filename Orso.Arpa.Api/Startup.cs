@@ -295,8 +295,6 @@ namespace Orso.Arpa.Api
 
         private void ConfigureAuthentication(IServiceCollection services)
         {
-
-
             IdentityBuilder builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             identityBuilder

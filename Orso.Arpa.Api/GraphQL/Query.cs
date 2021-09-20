@@ -17,5 +17,12 @@ namespace Orso.Arpa.Api.GraphQL
         [UseSorting]
         public ValueTask<List<MusicianProfile>> GetMusicianProfiles([ScopedService] GraphQLContext context) =>
             context.MusicianProfiles.ToListAsync();
+
+        [UseApplicationDbContext]
+        [UsePaging]
+        [UseFiltering]
+        [UseSorting]
+        public ValueTask<List<Person>> GetPersons([ScopedService] GraphQLContext context) =>
+            context.Persons.ToListAsync();
     }
 }
