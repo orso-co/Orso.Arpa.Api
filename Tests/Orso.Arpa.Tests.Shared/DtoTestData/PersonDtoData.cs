@@ -23,7 +23,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     WithoutRole,
                     UnconfirmedUser,
                     DeletedUser,
-                    LockedOutUser
+                    LockedOutUser,
+                    PersonWithoutUser,
+                    Person1WithSameEmail,
+                    Person2WithSameEmail
                 };
             }
         }
@@ -101,6 +104,35 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.ContactsRecommended.Add(ReducedPersonDtoData.UnconfirmedUser);
                 return dto;
+            }
+        }
+
+        public static PersonDto PersonWithoutUser
+        {
+            get
+            {
+                Person person = PersonTestSeedData.PersonWithoutUser;
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.AboutMe = "I'm a person without a user";
+                return dto;
+            }
+        }
+
+        public static PersonDto Person1WithSameEmail
+        {
+            get
+            {
+                Person person = PersonTestSeedData.Person1WithSameEmail;
+                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+            }
+        }
+
+        public static PersonDto Person2WithSameEmail
+        {
+            get
+            {
+                Person person = PersonTestSeedData.Person2WithSameEmail;
+                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
             }
         }
 

@@ -16,6 +16,7 @@ namespace Orso.Arpa.Application.AuthApplication
         public string Surname { get; set; }
 
         public Guid GenderId { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string ClientUri { get; set; }
         public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
     }

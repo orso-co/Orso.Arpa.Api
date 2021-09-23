@@ -1,9 +1,12 @@
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using FluentAssertions;
 using MediatR;
+using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -17,11 +20,15 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _handler = new UserRegister.Handler(_userManager, new FakeDateTimeProvider());
+            _arpaContext = Substitute.For<IArpaContext>();
+            _mapper = Substitute.For<IMapper>();
+            _handler = new UserRegister.Handler(_userManager, new FakeDateTimeProvider(), _arpaContext, _mapper);
         }
 
         private ArpaUserManager _userManager;
         private UserRegister.Handler _handler;
+        private IArpaContext _arpaContext;
+        private IMapper _mapper;
 
         [Test]
         public async Task Should_Register_User()

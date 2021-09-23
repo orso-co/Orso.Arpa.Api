@@ -148,6 +148,33 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test]
+        public async Task Should_Register_With_Existing_Person()
+        {
+            var registerDto = new UserRegisterDto
+            {
+                Email = "person@without.user",
+                UserName = "personwithoutuser",
+                Password = UserSeedData.ValidPassword,
+                GivenName = "Person",
+                Surname = "Without",
+                ClientUri = "http://localhost:4200",
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id,
+                DateOfBirth = new DateTime(1950, 8, 9)
+            };
+            registerDto.StakeholderGroupIds.Add(SectionSeedData.Volunteers.Id);
+
+            HttpClient client = _unAuthenticatedServer
+                .CreateClient();
+
+            // Act
+            HttpResponseMessage responseMessage = await client
+                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test]
         public async Task Should_Register_And_Confirm_Email()
         {
             // Arrange
@@ -220,6 +247,34 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", new[] { "Email aleady exists" } } });
+        }
+
+        [Test]
+        public async Task Should_Not_Register_Multiple_Persons_With_Same_Email()
+        {
+            // Arrange
+            var registerDto = new UserRegisterDto
+            {
+                Surname = "Nachname",
+                GivenName = "Vorname",
+                Email = "person@withsame.email",
+                UserName = "personwithsameemail",
+                Password = UserSeedData.ValidPassword,
+                ClientUri = "http://localhost:4200",
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Register(), BuildStringContent(registerDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            errorMessage.Status.Should().Be(422);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", new[] { "Multiple persons found with this email address. Registration aborted. Please contact your system admin." } } });
         }
 
         [Test]

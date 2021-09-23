@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Identity;
@@ -30,6 +34,19 @@ namespace Orso.Arpa.Domain.Logic.Auth
             public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
         }
 
+        public class MappingProfile : Profile
+        {
+            public MappingProfile()
+            {
+                CreateMap<Command, Person>()
+                    .ForMember(p => p.GivenName, opt => opt.MapFrom(src => src.GivenName))
+                    .ForMember(p => p.Surname, opt => opt.MapFrom(src => src.Surname))
+                    .ForMember(p => p.DateOfBirth, opt => opt.MapFrom((src, dest) => src.DateOfBirth > DateTime.MinValue ? src.DateOfBirth : dest.DateOfBirth))
+                    .ForMember(p => p.GenderId, opt => opt.MapFrom(src => src.GenderId))
+                    .ForAllOtherMembers(opt => opt.Ignore());
+            }
+        }
+
         public class Validator : AbstractValidator<Command>
         {
             public Validator(ArpaUserManager userManager, IArpaContext context)
@@ -51,16 +68,42 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             private readonly ArpaUserManager _userManager;
             private readonly IDateTimeProvider _dateTimeProvider;
+            private readonly IArpaContext _arpaContext;
+            private readonly IMapper _mapper;
 
-            public Handler(ArpaUserManager userManager, IDateTimeProvider dateTimeProvider)
+            public Handler(ArpaUserManager userManager, IDateTimeProvider dateTimeProvider, IArpaContext arpaContext, IMapper mapper)
             {
                 _userManager = userManager;
                 _dateTimeProvider = dateTimeProvider;
+                _arpaContext = arpaContext;
+                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var person = new Person(Guid.NewGuid(), request);
+                var existingPersons = _arpaContext.Persons
+                    .AsQueryable()
+#pragma warning disable RCS1155 // Use StringComparison when comparing strings.
+                    .Where(p => p.ContactDetails.Any(detail => detail.Key == ContactDetailKey.EMail && detail.Value.ToLower() == request.Email.ToLower() && p.User == null))
+#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
+                    .ToList();
+
+                Person person;
+
+                switch (existingPersons.Count)
+                {
+                    case 0:
+                        person = new Person(Guid.NewGuid(), request);
+                        break;
+                    case 1:
+                        person = existingPersons.First();
+                        _mapper.Map(request, person);
+                        break;
+                    default:
+                        throw new ValidationException(
+                            new ValidationFailure[] { new ValidationFailure(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.") });
+                }
+
                 foreach (Guid sectionId in request.StakeholderGroupIds)
                 {
                     person.StakeholderGroups.Add(new PersonSection(null, person.Id, sectionId));
