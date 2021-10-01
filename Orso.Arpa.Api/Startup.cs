@@ -124,6 +124,7 @@ namespace Orso.Arpa.Api
             services
                 .AddGraphQLServer()
                 .AddAuthorization()
+                .AddFiltering<CustomFilteringConvention>()
                 .AddQueryType<Query>()
                 .AddFiltering()
                 .AddSorting();
