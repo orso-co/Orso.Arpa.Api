@@ -5,6 +5,7 @@ using System.Reflection;
 using HotChocolate.Data.Filters;
 using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Language;
+using HotChocolate.Types;
 
 namespace Orso.Arpa.Api.GraphQL
 {
@@ -15,6 +16,10 @@ namespace Orso.Arpa.Api.GraphQL
             .Single(
                 x => x.Name == nameof(string.ToLower) &&
                      x.GetParameters().Length == 0);
+
+        public QueryableStringInvariantEqualsHandler(InputParser inputParser) : base(inputParser)
+        {
+        }
 
         protected override int Operation => DefaultFilterOperations.Equals;
 
