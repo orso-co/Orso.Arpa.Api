@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;
 using FluentValidation.AspNetCore;
+using HotChocolate.Types;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -127,7 +128,8 @@ namespace Orso.Arpa.Api
                 .AddFiltering<CustomFilteringConvention>()
                 .AddQueryType<Query>()
                 .AddFiltering()
-                .AddSorting();
+                .AddSorting()
+                .AddType(new UuidType('D'));
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
