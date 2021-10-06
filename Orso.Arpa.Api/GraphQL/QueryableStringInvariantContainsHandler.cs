@@ -5,7 +5,7 @@ using System.Reflection;
 using HotChocolate.Data.Filters;
 using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Language;
-using Microsoft.EntityFrameworkCore;
+using HotChocolate.Types;
 
 namespace Orso.Arpa.Api.GraphQL
 {
@@ -17,13 +17,17 @@ namespace Orso.Arpa.Api.GraphQL
                 x => x.Name == nameof(string.ToLower) &&
                 x.GetParameters().Length == 0);
 
+        public QueryableStringInvariantContainsHandler(InputParser inputParser) : base(inputParser)
+        {
+        }
+
         protected override int Operation => DefaultFilterOperations.Contains;
 
         public override Expression HandleOperation(
             QueryableFilterContext context,
             IFilterOperationField field,
             IValueNode value,
-            object? parsedValue)
+            object parsedValue)
         {
             Expression property = context.GetInstance();
             if (parsedValue is string str)

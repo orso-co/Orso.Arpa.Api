@@ -16,6 +16,10 @@ namespace Orso.Arpa.Api.GraphQL
                 x => x.Name == nameof(string.ToLower) &&
                      x.GetParameters().Length == 0);
 
+        public QueryableStringInvariantEqualsHandler(HotChocolate.Types.InputParser inputParser) : base(inputParser)
+        {
+        }
+
         protected override int Operation => DefaultFilterOperations.Equals;
 
         public override Expression HandleOperation(
