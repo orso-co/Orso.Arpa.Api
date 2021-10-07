@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using FluentValidation.AspNetCore;
 using HotChocolate.Types;
+using HotChocolate.Types.Pagination;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -129,7 +130,12 @@ namespace Orso.Arpa.Api
                 .AddQueryType<Query>()
                 .AddFiltering()
                 .AddSorting()
-                .AddType(new UuidType('D'));
+                .AddType(new UuidType('D'))
+                .SetPagingOptions(new PagingOptions
+                {
+                    MaxPageSize = 100,
+                    IncludeTotalCount = true,
+                });
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
