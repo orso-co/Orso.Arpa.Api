@@ -13,6 +13,7 @@ namespace Orso.Arpa.Api.GraphQL
     {
         [UseApplicationDbContext]
         [UsePaging]
+        [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<MusicianProfile>> GetMusicianProfiles([ScopedService] GraphQLContext context) =>
@@ -20,6 +21,7 @@ namespace Orso.Arpa.Api.GraphQL
 
         [UseApplicationDbContext]
         [UsePaging]
+        [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<Person>> GetPersons([ScopedService] GraphQLContext context) =>
@@ -27,6 +29,7 @@ namespace Orso.Arpa.Api.GraphQL
 
         [UseApplicationDbContext]
         [UsePaging]
+        [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<Project>> GetProjects([ScopedService] GraphQLContext context) =>
@@ -34,6 +37,7 @@ namespace Orso.Arpa.Api.GraphQL
 
         [UseApplicationDbContext]
         [UsePaging]
+        [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<AuditLog>> GetAuditLogs([ScopedService] GraphQLContext context) =>
