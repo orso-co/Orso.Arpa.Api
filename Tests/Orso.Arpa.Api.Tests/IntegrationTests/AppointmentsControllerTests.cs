@@ -373,7 +373,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Sections.Clear();
             expectedDto.Participations.Add(new AppointmentParticipationListItemDto
             {
-                Person = PersonDtoData.Staff,
+                Person = ReducedPersonDtoData.Staff,
                 MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
                         ReducedMusicianProfileDtoData.StaffProfile1,
@@ -382,7 +382,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             });
             expectedDto.Participations.Add(new AppointmentParticipationListItemDto
             {
-                Person = PersonDtoData.Admin,
+                Person = ReducedPersonDtoData.Admin,
                 MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
                         ReducedMusicianProfileDtoData.AdminProfile1

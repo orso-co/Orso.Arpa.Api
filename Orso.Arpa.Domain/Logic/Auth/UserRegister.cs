@@ -83,8 +83,12 @@ namespace Orso.Arpa.Domain.Logic.Auth
             {
                 var existingPersons = _arpaContext.Persons
                     .AsQueryable()
+                    .Where(p =>
+                        p.User == null
+                        && p.ContactDetails.Any(detail =>
+                            detail.Key == ContactDetailKey.EMail
 #pragma warning disable RCS1155 // Use StringComparison when comparing strings.
-                    .Where(p => p.ContactDetails.Any(detail => detail.Key == ContactDetailKey.EMail && detail.Value.ToLower() == request.Email.ToLower() && p.User == null))
+                            && detail.Value.ToLower() == request.Email.ToLower()))
 #pragma warning restore RCS1155 // Use StringComparison when comparing strings.
                     .ToList();
 
@@ -96,7 +100,12 @@ namespace Orso.Arpa.Domain.Logic.Auth
                         person = new Person(Guid.NewGuid(), request);
                         break;
                     case 1:
-                        person = existingPersons.First();
+                        Person existingPerson = existingPersons[0];
+                        if (!(existingPerson.GivenName.Equals(request.GivenName) && existingPerson.Surname.Equals(request.Surname)))
+                        {
+                            throw new AuthorizationException("You are not allowed to register with this e-mail address");
+                        }
+                        person = existingPerson;
                         _mapper.Map(request, person);
                         break;
                     default:

@@ -18,6 +18,8 @@ namespace Orso.Arpa.Domain.Entities
             Birthplace = command.Birthplace;
             GenderId = command.GenderId;
             ContactViaId = command.ContactViaId;
+            ExperienceLevel = command.ExperienceLevel;
+            Reliability = command.Reliability;
         }
 
         public Person(Guid? id, UserRegister.Command command) : base(id)
@@ -57,7 +59,7 @@ namespace Orso.Arpa.Domain.Entities
         [JsonInclude]
         public byte GeneralPreference { get; private set; }
 
-        public DateTime DateOfBirth { get; private set; }
+        public DateTime? DateOfBirth { get; private set; }
 
         public string Birthplace { get; private set; }
 

@@ -37,7 +37,7 @@ namespace Orso.Arpa.Application.Services
             {
                 Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
-                createdEntity.DoublingInstruments.Add(await _mediator.Send(doublingInstrumentCommand));
+                await _mediator.Send(doublingInstrumentCommand);
             }
             return _mapper.Map<MusicianProfileDto>(createdEntity);
         }

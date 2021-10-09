@@ -63,5 +63,26 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Film Music",
             Description = "",
         };
+
+        public static SelectValueDto Female => new()
+        {
+            Id = Guid.Parse("32761c45-e481-4eb9-a23e-d73330482572"),
+            Name = "Female",
+            Description = "",
+        };
+
+        public static SelectValueDto Diverse => new()
+        {
+            Id = Guid.Parse("88d680fe-b6cc-486f-8f79-2525189b8b13"),
+            Name = "Diverse",
+            Description = "",
+        };
+
+        public static SelectValueDto Male => new()
+        {
+            Id = Guid.Parse("1c16a5fe-6ac6-4e94-be6e-82a0a0fbe1c9"),
+            Name = "Male",
+            Description = "",
+        };
     }
 }

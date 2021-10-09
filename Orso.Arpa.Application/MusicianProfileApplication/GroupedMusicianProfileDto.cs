@@ -7,7 +7,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 {
     public class GroupedMusicianProfileDto
     {
-        public PersonDto Person { get; set; }
+        public ReducedPersonDto Person { get; set; }
         public IList<ReducedMusicianProfileDto> MusicianProfiles { get; set; }
     }
 
