@@ -209,12 +209,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string SetParticipationResult(Guid id, Guid personId, Guid resultId) =>
                 $"{Appointments}/{id}/participations/{personId}/result/{resultId}";
         }
+
         public static class AuditLogsController
         {
             private static string AuditLogs => $"{Base}/auditLogs";
 
             public static string Get(Guid? entityId, int? skip, int? take) => $"{AuditLogs}?entityid={entityId}&skip={skip}&take={take}";
         }
+
         public static class MusicianProfilesController
         {
             private static string MusicianProfiles => $"{Base}/profiles/musicians";
@@ -242,7 +244,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Put(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
             public static string Delete(Guid id, Guid doublingId) => $"{BaseUrl(id)}/{doublingId}";
         }
-
 
         public static class EducationsController
         {
@@ -289,14 +290,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         public static class PersonBankAccountsController
         {
-            private static string PersonBankAccounts(Guid id) => $"{Base}/Persons/{id}/bankaccounts";
+            private static string PersonBankAccounts(Guid id) => $"{Base}/persons/{id}/bankaccounts";
 
             public static string Post(Guid personId) => PersonBankAccounts(personId);
 
             public static string Put(Guid personId, Guid bankAccountId) => $"{PersonBankAccounts(personId)}/{bankAccountId}";
 
             public static string Delete(Guid personId, Guid bankAccountId) => $"{PersonBankAccounts(personId)}/{bankAccountId}";
+        }
 
+        public static class PersonContactDetailsController
+        {
+            private static string PersonContactDetails(Guid id) => $"{Base}/persons/{id}/contactdetails";
+
+            public static string Post(Guid personId) => PersonContactDetails(personId);
+
+            public static string Put(Guid personId, Guid contactDetailId) => $"{PersonContactDetails(personId)}/{contactDetailId}";
+
+            public static string Delete(Guid personId, Guid contactDetailId) => $"{PersonContactDetails(personId)}/{contactDetailId}";
         }
     }
 }

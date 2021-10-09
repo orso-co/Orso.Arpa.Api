@@ -102,12 +102,13 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         BirthName = "User",
                         Birthplace = "Wherethepfefferwächst",
                     });
-                var contactDetail = new ContactDetail();
-                contactDetail.SetProperty(nameof(ContactDetail.PersonId), person.Id);
-                contactDetail.SetProperty(nameof(ContactDetail.Id), Guid.Parse("c56fb43d-6500-4cc7-957c-d64baf049df2"));
-                contactDetail.SetProperty(nameof(ContactDetail.TypeId), SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id);
-                contactDetail.SetProperty(nameof(ContactDetail.Key), ContactDetailKey.EMail);
-                contactDetail.SetProperty(nameof(ContactDetail.Value), "person@without.user");
+                var contactDetail = new ContactDetail(Guid.Parse("c56fb43d-6500-4cc7-957c-d64baf049df2"), new Domain.Logic.ContactDetails.Create.Command
+                {
+                    PersonId = person.Id,
+                    TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
+                    Key = ContactDetailKey.EMail,
+                    Value = "person@without.user"
+                });
                 person.ContactDetails.Add(contactDetail);
                 return person;
             }
@@ -155,12 +156,13 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         BirthName = "Same Email",
                         Birthplace = "Cottbus",
                     });
-                var contactDetail = new ContactDetail();
-                contactDetail.SetProperty(nameof(ContactDetail.PersonId), person.Id);
-                contactDetail.SetProperty(nameof(ContactDetail.Id), Guid.Parse("2d81d902-6d5f-4d15-bc20-27e3d54d3484"));
-                contactDetail.SetProperty(nameof(ContactDetail.TypeId), SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id);
-                contactDetail.SetProperty(nameof(ContactDetail.Key), ContactDetailKey.EMail);
-                contactDetail.SetProperty(nameof(ContactDetail.Value), "person@withsame.email");
+                var contactDetail = new ContactDetail(Guid.Parse("2d81d902-6d5f-4d15-bc20-27e3d54d3484"), new Domain.Logic.ContactDetails.Create.Command
+                {
+                    PersonId = person.Id,
+                    TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
+                    Key = ContactDetailKey.EMail,
+                    Value = "person@withsame.email"
+                });
                 person.ContactDetails.Add(contactDetail);
                 return person;
             }
@@ -181,12 +183,13 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         BirthName = "Same Email",
                         Birthplace = "Zwickau",
                     });
-                var contactDetail = new ContactDetail();
-                contactDetail.SetProperty(nameof(ContactDetail.PersonId), person.Id);
-                contactDetail.SetProperty(nameof(ContactDetail.Id), Guid.Parse("6638dcab-d415-4803-930f-ea13ead4e720"));
-                contactDetail.SetProperty(nameof(ContactDetail.TypeId), SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id);
-                contactDetail.SetProperty(nameof(ContactDetail.Key), ContactDetailKey.EMail);
-                contactDetail.SetProperty(nameof(ContactDetail.Value), "person@withsame.email");
+                var contactDetail = new ContactDetail(Guid.Parse("6638dcab-d415-4803-930f-ea13ead4e720"), new Domain.Logic.ContactDetails.Create.Command
+                {
+                    PersonId = person.Id,
+                    TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
+                    Key = ContactDetailKey.EMail,
+                    Value = "person@withsame.email"
+                });
                 person.ContactDetails.Add(contactDetail);
                 return person;
             }

@@ -84,5 +84,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Male",
             Description = "",
         };
+
+        public static SelectValueDto Private => new()
+        {
+            Id = Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
+            Name = "Private",
+            Description = "",
+        };
     }
 }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.BankAccountApplication;
+using Orso.Arpa.Application.ContactDetailApplication;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -130,6 +132,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.BirthName = "User";
                 dto.DateOfBirth = new DateTime(1981, 5, 7);
                 dto.Birthplace = "Wherethepfefferwächst";
+                dto.ContactDetails.Add(new ContactDetailDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("c56fb43d-6500-4cc7-957c-d64baf049df2"),
+                    Key = ContactDetailKey.EMail,
+                    Type = SelectValueDtoData.Private,
+                    Value = "person@without.user"
+                });
                 return dto;
             }
         }
@@ -144,6 +155,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.BirthName = "Same Email";
                 dto.DateOfBirth = new DateTime(1981, 6, 7);
                 dto.Birthplace = "Cottbus";
+                dto.ContactDetails.Add(new ContactDetailDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("2d81d902-6d5f-4d15-bc20-27e3d54d3484"),
+                    Key = ContactDetailKey.EMail,
+                    Type = SelectValueDtoData.Private,
+                    Value = "person@withsame.email"
+                });
                 return dto;
             }
         }
@@ -158,6 +178,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.BirthName = "Same Email";
                 dto.DateOfBirth = new DateTime(1981, 7, 7);
                 dto.Birthplace = "Zwickau";
+                dto.ContactDetails.Add(new ContactDetailDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("6638dcab-d415-4803-930f-ea13ead4e720"),
+                    Key = ContactDetailKey.EMail,
+                    Type = SelectValueDtoData.Private,
+                    Value = "person@withsame.email"
+                });
                 return dto;
             }
         }
