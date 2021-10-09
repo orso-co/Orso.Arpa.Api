@@ -13,13 +13,19 @@ namespace Orso.Arpa.Application.PersonApplication
         public string AboutMe { get; set; }
         public Guid GenderId { get; set; }
         public Guid? ContactViaId { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string Birthplace { get; set; }
+        public byte ExperienceLevel { get; set; }
+        public string BirthName { get; set; }
+        public byte Reliability { get; set; }
     }
 
     public class PersonCreateDtoMappingProfile : Profile
     {
         public PersonCreateDtoMappingProfile()
         {
-            CreateMap<PersonCreateDto, Command>();
+            CreateMap<PersonCreateDto, Command>()
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth.HasValue ? src.DateOfBirth.Value.Date : (DateTime?)null));
         }
     }
 
@@ -41,6 +47,18 @@ namespace Orso.Arpa.Application.PersonApplication
 
             RuleFor(c => c.GenderId)
                 .NotEmpty();
+
+            RuleFor(c => c.Birthplace)
+                .GeneralText(50);
+
+            RuleFor(c => c.ExperienceLevel)
+                .FiveStarRating();
+
+            RuleFor(c => c.BirthName)
+                .GeneralText(50);
+
+            RuleFor(c => c.Reliability)
+                .FiveStarRating();
         }
     }
 }

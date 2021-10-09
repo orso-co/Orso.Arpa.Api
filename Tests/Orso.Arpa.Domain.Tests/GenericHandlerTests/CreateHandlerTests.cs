@@ -28,28 +28,25 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         }
 
         [Test]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "EF1001:Internal EF Core API usage.", Justification = "Necessary to be able to mock EntityEntry.Entity")]
         public async Task Should_Add_Project()
         {
             // Arrange
             Appointment expectedAppointment = AppointmentSeedData.RockingXMasConcert;
-#pragma warning disable EF1001 // Internal EF Core API usage.
             IStateManager iStateManager = Substitute.For<IStateManager>();
             Model model = Substitute.For<Model>();
 
             EntityEntry<Appointment> returnedEntityEntry = Substitute.For<EntityEntry<Appointment>>(
-#pragma warning disable EF1001 // Internal EF Core API usage.
                 new InternalShadowEntityEntry(
-#pragma warning restore EF1001 // Internal EF Core API usage.
                     iStateManager,
-#pragma warning disable EF1001 // Internal EF Core API usage.
                     new EntityType("Appointment", model, ConfigurationSource.Convention)));
-#pragma warning restore EF1001 // Internal EF Core API usage.
             returnedEntityEntry.Entity.Returns(expectedAppointment);
 
             _arpaContext.Add(Arg.Any<Appointment>())
                     .Returns(returnedEntityEntry);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
                 .Returns(1);
+            _arpaContext.Set<Appointment>().Find(Arg.Any<object[]>()).Returns(expectedAppointment);
 
             // Act
             Appointment result = await _handler

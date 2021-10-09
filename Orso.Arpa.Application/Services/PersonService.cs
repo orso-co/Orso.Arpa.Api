@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -24,7 +25,7 @@ namespace Orso.Arpa.Application.Services
 
         public Task<IEnumerable<PersonDto>> GetAsync()
         {
-            return base.GetAsync();
+            return base.GetAsync(orderBy: p => p.OrderBy(person => person.Surname).ThenBy(person => person.GivenName));
         }
     }
 }

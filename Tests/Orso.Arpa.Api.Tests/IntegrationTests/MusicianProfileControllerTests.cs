@@ -88,7 +88,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 new GroupedMusicianProfileDto
                 {
-                    Person = PersonDtoData.Admin,
+                    Person = ReducedPersonDtoData.Admin,
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
                         ReducedMusicianProfileDtoData.AdminProfile1,
@@ -97,7 +97,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 },
                 new GroupedMusicianProfileDto
                 {
-                    Person = PersonDtoData.Performer,
+                    Person = ReducedPersonDtoData.Performer,
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
                         ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
@@ -107,7 +107,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 },
                 new GroupedMusicianProfileDto
                 {
-                    Person = PersonDtoData.Staff,
+                    Person = ReducedPersonDtoData.Staff,
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
                         ReducedMusicianProfileDtoData.StaffProfile2,
@@ -116,7 +116,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 },
                 new GroupedMusicianProfileDto
                 {
-                    Person = PersonDtoData.WithoutRole,
+                    Person = ReducedPersonDtoData.WithoutRole,
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
                         ReducedMusicianProfileDtoData.WithoutRoleProfile

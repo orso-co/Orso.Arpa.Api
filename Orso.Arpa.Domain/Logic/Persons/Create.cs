@@ -16,10 +16,11 @@ namespace Orso.Arpa.Domain.Logic.Persons
             public string BirthName { get; set; }
             public string AboutMe { get; set; }
             public Guid GenderId { get; set; }
-            public DateTime DateOfBirth { get; set; }
+            public DateTime? DateOfBirth { get; set; }
             public string Birthplace { get; set; }
             public Guid? ContactViaId { get; set; }
-
+            public byte ExperienceLevel { get; set; }
+            public byte Reliability { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>

@@ -17,16 +17,16 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new List<PersonDto>
                 {
+                    Admin,
                     Performer,
                     Staff,
-                    Admin,
                     WithoutRole,
-                    UnconfirmedUser,
                     DeletedUser,
                     LockedOutUser,
-                    PersonWithoutUser,
+                    UnconfirmedUser,
                     Person1WithSameEmail,
-                    Person2WithSameEmail
+                    Person2WithSameEmail,
+                    PersonWithoutUser,
                 };
             }
         }
@@ -35,7 +35,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.Performer;
-                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Diverse;
+                return dto;
             }
         }
 
@@ -44,7 +46,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.Staff;
-                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Diverse;
+                return dto;
             }
         }
 
@@ -53,7 +57,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonSeedData.Admin;
-                return CreateDto(person, null, null);
+                PersonDto dto = CreateDto(person, null, null);
+                dto.Gender = SelectValueDtoData.Diverse;
+                return dto;
             }
         }
 
@@ -62,7 +68,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.UserWithoutRole;
-                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Diverse;
+                return dto;
             }
         }
 
@@ -83,6 +91,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Id = Guid.Parse("1fa6a1f9-963c-4539-a3d3-e9e9b9430882"),
                     AccountOwner = "Muddi Roese"
                 });
+                dto.Gender = SelectValueDtoData.Diverse;
                 return dto;
             }
         }
@@ -92,7 +101,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.DeletedUser;
-                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Diverse;
+                return dto;
             }
         }
 
@@ -103,6 +114,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Person person = PersonTestSeedData.LockedOutUser;
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.ContactsRecommended.Add(ReducedPersonDtoData.UnconfirmedUser);
+                dto.Gender = SelectValueDtoData.Diverse;
                 return dto;
             }
         }
@@ -114,6 +126,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Person person = PersonTestSeedData.PersonWithoutUser;
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.AboutMe = "I'm a person without a user";
+                dto.Gender = SelectValueDtoData.Female;
+                dto.BirthName = "User";
+                dto.DateOfBirth = new DateTime(1981, 5, 7);
+                dto.Birthplace = "Wherethepfefferwächst";
                 return dto;
             }
         }
@@ -123,7 +139,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.Person1WithSameEmail;
-                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Male;
+                dto.BirthName = "Same Email";
+                dto.DateOfBirth = new DateTime(1981, 6, 7);
+                dto.Birthplace = "Cottbus";
+                return dto;
             }
         }
 
@@ -132,7 +153,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.Person2WithSameEmail;
-                return CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Diverse;
+                dto.BirthName = "Same Email";
+                dto.DateOfBirth = new DateTime(1981, 7, 7);
+                dto.Birthplace = "Zwickau";
+                return dto;
             }
         }
 

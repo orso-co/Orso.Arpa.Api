@@ -18,9 +18,11 @@ namespace Orso.Arpa.Domain.Logic.Persons
             public string BirthName { get; set; }
             public string AboutMe { get; set; }
             public Guid GenderId { get; set; }
-            public DateTime DateOfBirth { get; set; }
+            public DateTime? DateOfBirth { get; set; }
             public string Birthplace { get; set; }
             public Guid? ContactViaId { get; set; }
+            public byte ExperienceLevel { get; set; }
+            public byte Reliability { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -36,6 +38,8 @@ namespace Orso.Arpa.Domain.Logic.Persons
                     .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
                     .ForMember(dest => dest.Birthplace, opt => opt.MapFrom(src => src.Birthplace))
                     .ForMember(dest => dest.ContactViaId, opt => opt.MapFrom(src => src.ContactViaId))
+                    .ForMember(dest => dest.ExperienceLevel, opt => opt.MapFrom(src => src.ExperienceLevel))
+                    .ForMember(dest => dest.Reliability, opt => opt.MapFrom(src => src.Reliability))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }

@@ -8,7 +8,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
 {
     public class AppointmentParticipationListItemDto
     {
-        public PersonDto Person { get; set; }
+        public ReducedPersonDto Person { get; set; }
         public AppointmentParticipationDto Participation { get; set; }
         public IList<ReducedMusicianProfileDto> MusicianProfiles { get; set; } = new List<ReducedMusicianProfileDto>();
     }

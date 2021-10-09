@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<PersonDto> result = await DeserializeResponseMessageAsync<IEnumerable<PersonDto>>(responseMessage);
-            result.Should().BeEquivalentTo(PersonDtoData.Persons);
+            result.Should().BeEquivalentTo(PersonDtoData.Persons, opt => opt.WithStrictOrdering());
         }
 
         [Test, Order(2)]
@@ -95,7 +96,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GivenName = "Tom2",
                 Surname = "Bone2",
                 AboutMe = "This is about me - bone",
-                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id,
+                DateOfBirth = new DateTime(1960, 6, 6),
+                BirthName = "Bone1",
+                Birthplace = "Honolulu",
+                ContactViaId = PersonTestSeedData.Performer.Id,
+                ExperienceLevel = 3,
+                Reliability = 2
             };
 
             var expectedDto = new PersonDto
@@ -108,6 +115,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedAt = FakeDateTime.UtcNow,
                 ModifiedAt = FakeDateTime.UtcNow,
                 ModifiedBy = _staff.DisplayName,
+                DateOfBirth = modifyDto.DateOfBirth,
+                BirthName = modifyDto.BirthName,
+                Birthplace = modifyDto.Birthplace,
+                ContactVia = ReducedPersonDtoData.Performer,
+                Gender = SelectValueDtoData.Female,
+                ExperienceLevel = modifyDto.ExperienceLevel,
+                Reliability = modifyDto.Reliability
             };
             expectedDto.ContactsRecommended.Add(ReducedPersonDtoData.UnconfirmedUser);
 
@@ -140,7 +154,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GivenName = "Per",
                 Surname = "Son",
                 AboutMe = "This is about me",
-                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id,
+                BirthName = "Daughter",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Birthplace = "Buxdehude",
+                ContactViaId = PersonTestSeedData.DeletedUser.Id,
+                ExperienceLevel = 2,
+                Reliability = 3
             };
 
             var expectedDto = new PersonDto
@@ -152,6 +172,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedAt = FakeDateTime.UtcNow,
                 ModifiedAt = null,
                 ModifiedBy = null,
+                Gender = SelectValueDtoData.Female,
+                BirthName = createDto.BirthName,
+                DateOfBirth = createDto.DateOfBirth.Value,
+                Birthplace = createDto.Birthplace,
+                ContactVia = ReducedPersonDtoData.DeletedUser,
+                ExperienceLevel = createDto.ExperienceLevel,
+                Reliability = createDto.Reliability
             };
 
             // Act
