@@ -54,7 +54,7 @@ namespace Orso.Arpa.Application.Extensions
         public static IRuleBuilderOptions<T, string> PhoneNumber<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder
-                .Matches(@"^[\+|00|0]{1}[1-9]{1,}[\/\-\d\s]*[0-9]{1,}$")
+                .Matches(@"^[\+|0]{1}[0-9]{2,}[\/\-\d\s]*[0-9]{1,}$")
                 .WithMessage("The supplied value is not a valid phone number");
         }
 
