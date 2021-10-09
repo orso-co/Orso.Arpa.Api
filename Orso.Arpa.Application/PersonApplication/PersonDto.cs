@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using Orso.Arpa.Application.BankAccountApplication;
+using Orso.Arpa.Application.ContactDetailApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
@@ -18,6 +19,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public ReducedPersonDto ContactVia { get; set; }
         public IList<ReducedPersonDto> ContactsRecommended { get; set; } = new List<ReducedPersonDto>();
         public IList<BankAccountDto> BankAccounts { get; set; } = new List<BankAccountDto>();
+        public IList<ContactDetailDto> ContactDetails { get; set; } = new List<ContactDetailDto>();
         public SelectValueDto Gender { get; set; }
         public string BirthName { get; set; }
         public DateTime? DateOfBirth { get; set; }

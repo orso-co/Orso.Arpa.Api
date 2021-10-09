@@ -1,10 +1,22 @@
 using System;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Logic.ContactDetails;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class ContactDetail : BaseEntity
     {
+        public ContactDetail(Guid? id, Create.Command command) : base(id)
+        {
+            Key = command.Key;
+            Value = command.Value;
+            TypeId = command.TypeId;
+            CommentTeam = command.CommentTeam;
+            Preference = command.Preference;
+            PersonId = command.PersonId;
+        }
+        protected ContactDetail() { }
+
         public ContactDetailKey Key { get; private set; }
         public string Value { get; private set; }
         public Guid? TypeId { get; private set; }

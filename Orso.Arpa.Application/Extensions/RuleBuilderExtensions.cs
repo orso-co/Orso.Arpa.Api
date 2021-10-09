@@ -16,14 +16,14 @@ namespace Orso.Arpa.Application.Extensions
                     .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character");
         }
 
-        public static IRuleBuilder<T, string> ValidUri<T>(this IRuleBuilder<T, string> ruleBuilder)
+        public static IRuleBuilderOptions<T, string> ValidUri<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder
                 .NotEmpty()
                 .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _));
         }
 
-        public static IRuleBuilder<T, string> ValidUri<T>(this IRuleBuilder<T, string> ruleBuilder, int maximumLength)
+        public static IRuleBuilderOptions<T, string> ValidUri<T>(this IRuleBuilder<T, string> ruleBuilder, int maximumLength)
         {
             return ruleBuilder
                 .MaximumLength(maximumLength)
@@ -49,6 +49,13 @@ namespace Orso.Arpa.Application.Extensions
             return ruleBuilder
                 .Matches(@"^[a-zA-Z0-9\/\-\?:()\.,\+ ]*$")
                 .WithMessage("A valid SEPA string may only contain alphanumeric, space and the following speacial characters: / ? : ( ) . , ' + -");
+        }
+
+        public static IRuleBuilderOptions<T, string> PhoneNumber<T>(this IRuleBuilder<T, string> ruleBuilder)
+        {
+            return ruleBuilder
+                .Matches(@"^[\+|0]{1}[0-9]{2,}[\/\-\d\s]*[0-9]{1,}$")
+                .WithMessage("The supplied value is not a valid phone number");
         }
 
         public static IRuleBuilder<T, string> Iban<T>(this IRuleBuilder<T, string> ruleBuilder)
