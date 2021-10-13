@@ -281,6 +281,7 @@ namespace Orso.Arpa.Api
             services.AddGenericListHandler(typeof(AuditLog));
             services.AddScoped<IBankAccountService, BankAccountService>();
             services.AddScoped<IContactDetailService, ContactDetailService>();
+            services.AddScoped<IAddressService, AddressService>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));

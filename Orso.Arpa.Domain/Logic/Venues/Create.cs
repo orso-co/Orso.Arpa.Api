@@ -1,12 +1,13 @@
 using System;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Logic.Addresses;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
 
 namespace Orso.Arpa.Domain.Logic.Venues
 {
     public static class Create
     {
-        public class Command : ICreateCommand<Venue>
+        public class Command : ICreateCommand<Venue>, IAddressCreateCommand
         {
             public string Name { get; set; }
             public string Description { get; set; }
@@ -18,8 +19,8 @@ namespace Orso.Arpa.Domain.Logic.Venues
             public string Country { get; set; }
             public string State { get; set; }
             public Guid? AddressId { get; set; }
-            public string Comment { get; set; }
-            public string AdditionalAddressInformation { get; set; }
+            public string CommentInner { get; set; }
+            public Guid? TypeId { get; set; }
         }
     }
 }

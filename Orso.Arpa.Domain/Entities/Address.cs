@@ -1,12 +1,12 @@
 using System;
 using System.Text.Json.Serialization;
-using Orso.Arpa.Domain.Logic.Venues;
+using Orso.Arpa.Domain.Logic.Addresses;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class Address : BaseEntity
     {
-        public Address(Guid? id, Create.Command command) : base(id)
+        public Address(Guid? id, IAddressCreateCommand command) : base(id)
         {
             Address1 = command.Address1;
             Address2 = command.Address2;
@@ -15,8 +15,8 @@ namespace Orso.Arpa.Domain.Entities
             UrbanDistrict = command.UrbanDistrict;
             Country = command.Country;
             State = command.State;
-            Comment = command.Comment;
-            AdditionalAddressInformation = command.AdditionalAddressInformation;
+            CommentInner = command.CommentInner;
+            TypeId = command.TypeId;
         }
 
         internal Address(Guid? id) : base(id)
@@ -35,8 +35,7 @@ namespace Orso.Arpa.Domain.Entities
         public string UrbanDistrict { get; private set; }
         public string Country { get; private set; }
         public string State { get; private set; }
-        public string Comment { get; private set; }
-        public string AdditionalAddressInformation { get; set; }
+        public string CommentInner { get; private set; }
         public Guid? TypeId { get; private set; }
         public virtual SelectValueMapping Type { get; private set; }
         public Guid? PersonId { get; private set; }

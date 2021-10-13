@@ -38,7 +38,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CommentTeam = dto.CommentTeam,
                 Key = dto.Key,
                 Preference = dto.Preference,
-                Type = SelectValueDtoData.Private,
+                Type = SelectValueDtoData.PrivateContactDetail,
                 Value = dto.Value
             };
 
