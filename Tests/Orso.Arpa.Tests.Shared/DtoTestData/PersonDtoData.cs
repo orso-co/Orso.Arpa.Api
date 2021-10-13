@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Orso.Arpa.Application.BankAccountApplication;
 using Orso.Arpa.Application.ContactDetailApplication;
 using Orso.Arpa.Application.PersonApplication;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
@@ -72,6 +73,26 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Person person = PersonTestSeedData.UserWithoutRole;
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.Gender = SelectValueDtoData.Diverse;
+                dto.Addresses.Add(new Application.AddressApplication.AddressDto
+                {
+                    Address1 = "Viktualienmarkt 4",
+                    Address2 = "3. Etage rechts",
+                    City = "München",
+                    CommentInner = "Zweitwohnsitz",
+                    Country = "Deutschland",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("df196870-5045-4a1c-b7fe-40473889830d"),
+                    State = "Bayern",
+                    Type = new SelectValueDto
+                    {
+                        Description = "",
+                        Id = Guid.Parse("63437ce4-b63b-4558-9f91-1474b896bf1c"),
+                        Name = "Business"
+                    },
+                    UrbanDistrict = "Altstadt-Lehel",
+                    Zip = "80331"
+                });
                 return dto;
             }
         }
@@ -138,7 +159,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("c56fb43d-6500-4cc7-957c-d64baf049df2"),
                     Key = ContactDetailKey.EMail,
-                    Type = SelectValueDtoData.Private,
+                    Type = SelectValueDtoData.PrivateContactDetail,
                     Value = "person@without.user"
                 });
                 return dto;
@@ -161,7 +182,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("2d81d902-6d5f-4d15-bc20-27e3d54d3484"),
                     Key = ContactDetailKey.EMail,
-                    Type = SelectValueDtoData.Private,
+                    Type = SelectValueDtoData.PrivateContactDetail,
                     Value = "person@withsame.email"
                 });
                 return dto;
@@ -184,7 +205,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("6638dcab-d415-4803-930f-ea13ead4e720"),
                     Key = ContactDetailKey.EMail,
-                    Type = SelectValueDtoData.Private,
+                    Type = SelectValueDtoData.PrivateContactDetail,
                     Value = "person@withsame.email"
                 });
                 return dto;

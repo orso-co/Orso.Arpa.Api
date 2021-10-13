@@ -1,5 +1,6 @@
 using AutoMapper;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.AddressApplication
@@ -13,6 +14,8 @@ namespace Orso.Arpa.Application.AddressApplication
         public string UrbanDistrict { get; set; }
         public string Country { get; set; }
         public string State { get; set; }
+        public string CommentInner { get; set; }
+        public SelectValueDto Type { get; set; }
     }
 
     public class AddressDtoMappingProfile : Profile

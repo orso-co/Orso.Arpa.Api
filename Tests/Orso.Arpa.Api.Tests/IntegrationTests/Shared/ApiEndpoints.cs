@@ -309,5 +309,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Delete(Guid personId, Guid contactDetailId) => $"{PersonContactDetails(personId)}/{contactDetailId}";
         }
+
+        public static class PersonAddressesController
+        {
+            private static string PersonAddresses(Guid id) => $"{Base}/persons/{id}/addresses";
+
+            public static string Post(Guid personId) => PersonAddresses(personId);
+
+            public static string Put(Guid personId, Guid contactDetailId) => $"{PersonAddresses(personId)}/{contactDetailId}";
+
+            public static string Delete(Guid personId, Guid contactDetailId) => $"{PersonAddresses(personId)}/{contactDetailId}";
+        }
     }
 }

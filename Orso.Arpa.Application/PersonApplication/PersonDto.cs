@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using AutoMapper;
+using Orso.Arpa.Application.AddressApplication;
 using Orso.Arpa.Application.BankAccountApplication;
 using Orso.Arpa.Application.ContactDetailApplication;
 using Orso.Arpa.Application.General;
@@ -32,6 +33,8 @@ namespace Orso.Arpa.Application.PersonApplication
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [IncludeForRoles(RoleNames.Staff)]
         public byte Reliability { get; set; }
+
+        public IList<AddressDto> Addresses { get; set; } = new List<AddressDto>();
     }
 
     public class PersonDtoMappingProfile : Profile

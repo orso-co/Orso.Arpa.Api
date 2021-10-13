@@ -10,34 +10,34 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         {
             builder
                 .Property(a => a.Address1)
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             builder
                 .Property(a => a.Address2)
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             builder
                 .Property(a => a.Zip)
-                .HasMaxLength(10);
+                .HasMaxLength(20);
 
             builder
                 .Property(a => a.City)
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             builder
                 .Property(a => a.Country)
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             builder
                 .Property(a => a.State)
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
             builder
-                .Property(a => a.Comment)
-                .HasMaxLength(500);
+                .Property(a => a.UrbanDistrict)
+                .HasMaxLength(100);
 
             builder
-                .Property(a => a.AdditionalAddressInformation)
+                .Property(a => a.CommentInner)
                 .HasMaxLength(500);
 
             builder
