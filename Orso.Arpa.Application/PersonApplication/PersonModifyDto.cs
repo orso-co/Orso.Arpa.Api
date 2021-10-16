@@ -23,6 +23,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public byte ExperienceLevel { get; set; }
         public string BirthName { get; set; }
         public byte Reliability { get; set; }
+        public byte GeneralPreference { get; set; }
     }
 
     public class PersonModifyDtoMappingProfile : Profile
@@ -39,7 +40,8 @@ namespace Orso.Arpa.Application.PersonApplication
                 .ForMember(dest => dest.Birthplace, opt => opt.MapFrom(src => src.Body.Birthplace))
                 .ForMember(dest => dest.ExperienceLevel, opt => opt.MapFrom(src => src.Body.ExperienceLevel))
                 .ForMember(dest => dest.BirthName, opt => opt.MapFrom(src => src.Body.BirthName))
-                .ForMember(dest => dest.Reliability, opt => opt.MapFrom(src => src.Body.Reliability));
+                .ForMember(dest => dest.Reliability, opt => opt.MapFrom(src => src.Body.Reliability))
+                .ForMember(dest => dest.GeneralPreference, opt => opt.MapFrom(src => src.Body.GeneralPreference));
         }
     }
 
@@ -79,6 +81,9 @@ namespace Orso.Arpa.Application.PersonApplication
 
             RuleFor(c => c.BirthName)
                 .GeneralText(50);
+
+            RuleFor(c => c.Reliability)
+                .FiveStarRating();
 
             RuleFor(c => c.Reliability)
                 .FiveStarRating();

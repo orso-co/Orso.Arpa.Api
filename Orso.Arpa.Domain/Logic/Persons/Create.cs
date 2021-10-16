@@ -21,6 +21,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
             public Guid? ContactViaId { get; set; }
             public byte ExperienceLevel { get; set; }
             public byte Reliability { get; set; }
+            public byte GeneralPreference { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>

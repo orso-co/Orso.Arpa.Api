@@ -20,6 +20,7 @@ namespace Orso.Arpa.Domain.Entities
             ContactViaId = command.ContactViaId;
             ExperienceLevel = command.ExperienceLevel;
             Reliability = command.Reliability;
+            GeneralPreference = command.GeneralPreference;
         }
 
         public Person(Guid? id, UserRegister.Command command) : base(id)

@@ -40,6 +40,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Person person = PersonTestSeedData.Performer;
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.Gender = SelectValueDtoData.Diverse;
+                dto.StakeholderGroups.Add(SectionDtoData.Choir);
                 return dto;
             }
         }

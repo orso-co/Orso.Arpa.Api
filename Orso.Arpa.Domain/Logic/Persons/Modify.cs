@@ -23,6 +23,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
             public Guid? ContactViaId { get; set; }
             public byte ExperienceLevel { get; set; }
             public byte Reliability { get; set; }
+            public byte GeneralPreference { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -40,6 +41,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
                     .ForMember(dest => dest.ContactViaId, opt => opt.MapFrom(src => src.ContactViaId))
                     .ForMember(dest => dest.ExperienceLevel, opt => opt.MapFrom(src => src.ExperienceLevel))
                     .ForMember(dest => dest.Reliability, opt => opt.MapFrom(src => src.Reliability))
+                    .ForMember(dest => dest.GeneralPreference, opt => opt.MapFrom(src => src.GeneralPreference))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
         }
