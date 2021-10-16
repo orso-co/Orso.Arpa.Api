@@ -76,6 +76,14 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     TypeId = SelectValueMappingSeedData.AddressTypeMappings[1].Id,
                     Zip = "80331"
                 }));
+                var contactDetail = new ContactDetail(Guid.Parse("252335a7-58ef-431b-ad1e-cc0ca53ebeaf"), new Domain.Logic.ContactDetails.Create.Command
+                {
+                    PersonId = person.Id,
+                    TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
+                    Key = ContactDetailKey.EMail,
+                    Value = "user@without.role"
+                });
+                person.ContactDetails.Add(contactDetail);
                 return person;
             }
         }

@@ -93,6 +93,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     UrbanDistrict = "Altstadt-Lehel",
                     Zip = "80331"
                 });
+                dto.ContactDetails.Add(new ContactDetailDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("252335a7-58ef-431b-ad1e-cc0ca53ebeaf"),
+                    Key = ContactDetailKey.EMail,
+                    Type = SelectValueDtoData.PrivateContactDetail,
+                    Value = "user@without.role"
+                });
                 return dto;
             }
         }

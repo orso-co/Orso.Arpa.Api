@@ -173,6 +173,8 @@ namespace Orso.Arpa.Api
                     policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
                 options.AddPolicy(AuthorizationPolicies.IsMyMusicianProfile, policy =>
                     policy.Requirements.Add(new IsMyMusicianProfileRequirement()));
+                options.AddPolicy(AuthorizationPolicies.IsMyPerson, policy =>
+                    policy.Requirements.Add(new IsMyPersonRequirement()));
                 options.AddPolicy(AuthorizationPolicies.HasRolePolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
@@ -256,7 +258,8 @@ namespace Orso.Arpa.Api
             services.AddScoped<ITokenAccessor, TokenAccessor>();
             services.AddScoped<IDataSeeder, DataSeeder>();
             services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler, IsMyMusicianProfileHandler>();
+            services.AddScoped<IAuthorizationHandler, IsMyMusicianProfileAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, IsMyPersonAuthorizationHandler>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRegionService, RegionService>();
@@ -281,6 +284,7 @@ namespace Orso.Arpa.Api
             services.AddGenericListHandler(typeof(AuditLog));
             services.AddScoped<IBankAccountService, BankAccountService>();
             services.AddScoped<IContactDetailService, ContactDetailService>();
+            services.AddScoped<IMyContactDetailService, MyContactDetailService>();
             services.AddScoped<IAddressService, AddressService>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));

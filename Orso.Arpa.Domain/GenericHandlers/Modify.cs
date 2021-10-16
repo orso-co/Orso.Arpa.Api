@@ -14,7 +14,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
     {
         public interface IModifyCommand<TEntity> : IRequest where TEntity : BaseEntity
         {
-            public Guid Id { get; set; }
+            Guid Id { get; }
         }
 
         public class Handler<TEntity> : IRequestHandler<IModifyCommand<TEntity>> where TEntity : BaseEntity
@@ -36,7 +36,13 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
                 if (existingEntity == null)
                 {
-                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.Id), $"The {typeof(TEntity).Name} could not be found.") });
+                    throw new ValidationException(new[]
+                    {
+                        new ValidationFailure(nameof(request.Id), $"The {typeof(TEntity).Name} could not be found.")
+                        {
+                            ErrorCode = "404"
+                        }
+                    });
                 }
 
                 TEntity modifiedEntity = _mapper.Map(request, existingEntity);
