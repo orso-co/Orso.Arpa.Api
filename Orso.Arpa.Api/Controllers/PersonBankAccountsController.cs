@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.BankAccountApplication;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Roles = RoleNames.Staff)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -44,7 +44,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Roles = RoleNames.Staff)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
         [HttpPut("{bankAccountId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -63,7 +63,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Roles = RoleNames.Staff)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
         [HttpDelete("{bankAccountId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]

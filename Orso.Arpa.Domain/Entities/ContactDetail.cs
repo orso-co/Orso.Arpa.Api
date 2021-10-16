@@ -1,12 +1,11 @@
 using System;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.ContactDetails;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class ContactDetail : BaseEntity
     {
-        public ContactDetail(Guid? id, Create.Command command) : base(id)
+        public ContactDetail(Guid? id, Domain.Logic.ContactDetails.Create.Command command) : base(id)
         {
             Key = command.Key;
             Value = command.Value;
@@ -15,6 +14,17 @@ namespace Orso.Arpa.Domain.Entities
             Preference = command.Preference;
             PersonId = command.PersonId;
         }
+
+        public ContactDetail(Guid? id, Domain.Logic.MyContactDetails.Create.Command command) : base(id)
+        {
+            Key = command.Key;
+            Value = command.Value;
+            TypeId = command.TypeId;
+            CommentInner = command.CommentInner;
+            Preference = command.Preference;
+            PersonId = command.PersonId;
+        }
+
         protected ContactDetail() { }
 
         public ContactDetailKey Key { get; private set; }

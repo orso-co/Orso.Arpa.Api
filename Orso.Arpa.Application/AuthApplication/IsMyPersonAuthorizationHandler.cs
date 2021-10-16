@@ -9,13 +9,13 @@ using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 
 namespace Orso.Arpa.Application.AuthApplication
 {
-    public class IsMyMusicianProfileHandler : AuthorizationHandler<IsMyMusicianProfileRequirement>
+    public class IsMyPersonAuthorizationHandler : AuthorizationHandler<IsMyPersonRequirement>
     {
         private readonly IArpaContext _arpaContext;
         private readonly ITokenAccessor _tokenAccessor;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public IsMyMusicianProfileHandler(
+        public IsMyPersonAuthorizationHandler(
             IHttpContextAccessor httpContextAccessor,
             ITokenAccessor tokenAccessor,
             IArpaContext arpaContext)
@@ -27,10 +27,10 @@ namespace Orso.Arpa.Application.AuthApplication
 
         protected override async Task HandleRequirementAsync(
             AuthorizationHandlerContext context,
-            IsMyMusicianProfileRequirement requirement)
+            IsMyPersonRequirement requirement)
 
         {
-            if (!_httpContextAccessor.HttpContext.Request.RouteValues.TryGetValue("id", out object musicianProfileId))
+            if (!_httpContextAccessor.HttpContext.Request.RouteValues.TryGetValue("id", out object personId))
             {
                 context.Fail();
                 return;
@@ -42,16 +42,15 @@ namespace Orso.Arpa.Application.AuthApplication
                 return;
             }
 
-            bool doesMusicianProfileExists = await _arpaContext.EntityExistsAsync<MusicianProfile>(m =>
-                m.Id == Guid.Parse((string)musicianProfileId) && m.PersonId == _tokenAccessor.PersonId, default);
-
-            if (doesMusicianProfileExists)
+            var personIdAsGuid = Guid.Parse((string)personId);
+            if (_tokenAccessor.PersonId.Equals(personIdAsGuid) && await _arpaContext.EntityExistsAsync<Person>(personIdAsGuid, default))
             {
                 context.Succeed(requirement);
                 return;
             }
 
             context.Fail();
+            return;
         }
     }
 }

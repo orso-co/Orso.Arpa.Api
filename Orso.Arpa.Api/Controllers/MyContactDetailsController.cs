@@ -1,75 +1,69 @@
-using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AddressApplication;
+using Orso.Arpa.Application.ContactDetailApplication;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Infrastructure.Authorization;
+using Orso.Arpa.Application.MyContactDetailApplication;
 
 namespace Orso.Arpa.Api.Controllers
 {
-    [Route("api/persons/{id}/addresses")]
-    public class PersonAddressesController : BaseController
+    [Route("api/me/contactdetails")]
+    public class MyContactDetailsController : BaseController
     {
-        private readonly IAddressService _addressService;
+        private readonly IMyContactDetailService _myContactDetailService;
 
-        public PersonAddressesController(IAddressService addressService)
+        public MyContactDetailsController(IMyContactDetailService myContactDetailService)
         {
-            _addressService = addressService;
+            _myContactDetailService = myContactDetailService;
         }
 
         /// <summary>
-        /// Adds a new address to an existing person
+        /// Adds new contact details
         /// </summary>
-        /// <param name="addressCreateDto"></param>
-        /// <returns>The created address</returns>
+        /// <param name="myContactDetailCreateDto"></param>
+        /// <returns>The created contact detail</returns>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AddressDto>> Post(AddressCreateDto addressCreateDto)
+        public async Task<ActionResult<ContactDetailDto>> Post([FromBody] MyContactDetailCreateDto myContactDetailCreateDto)
         {
-            return Ok(await _addressService.CreateAsync(addressCreateDto));
+            return Ok(await _myContactDetailService.CreateAsync(myContactDetailCreateDto));
         }
 
         /// <summary>
-        /// Updates an existing address
+        /// Updates an existing contact detail
         /// </summary>
-        /// <param name="addressModifyDto"></param>
+        /// <param name="myContactDetailModifyDto"></param>
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
-        [HttpPut("{addressId}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> Put(AddressModifyDto addressModifyDto)
+        public async Task<ActionResult> Put(MyContactDetailModifyDto myContactDetailModifyDto)
         {
-            await _addressService.ModifyAsync(addressModifyDto);
+            await _myContactDetailService.ModifyAsync(myContactDetailModifyDto);
             return NoContent();
         }
 
         /// <summary>
-        /// Deletes an existing address
+        /// Deletes an existing contact detail
         /// </summary>
-        /// <param name="id">the person id</param>
-        /// <param name="addressId">the address id</param>
+        /// <param name="myContactDetailDeleteDto"></param>
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
-        [HttpDelete("{addressId}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Delete([FromRoute] Guid id, [FromRoute] Guid addressId)
+        public async Task<ActionResult> Delete(MyContactDetailDeleteDto myContactDetailDeleteDto)
         {
-            await _addressService.DeleteAsync(addressId);
+            await _myContactDetailService.DeleteAsync(myContactDetailDeleteDto);
             return NoContent();
         }
     }

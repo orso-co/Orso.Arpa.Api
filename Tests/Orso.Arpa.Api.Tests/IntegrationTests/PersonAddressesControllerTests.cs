@@ -19,8 +19,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(100)]
         public async Task Should_Add_New_Address_To_Existing_Person()
         {
-            Domain.Entities.Person person = PersonTestSeedData.LockedOutUser;
-
             var dto = new AddressCreateBodyDto
             {
                 UrbanDistrict = "Westend Süd",
@@ -37,7 +35,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new AddressDto
             {
                 CreatedAt = FakeDateTime.UtcNow,
-                CreatedBy = "Staff Member",
+                CreatedBy = "Per Former",
                 UrbanDistrict = "Westend Süd",
                 Address1 = "Bockenheimer Warte 33",
                 Address2 = "c/o Frau Rotkohl",
@@ -51,9 +49,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_staff)
+                .AuthenticateWith(_performer)
                 .PostAsync(ApiEndpoints.PersonAddressesController
-                    .Post(person.Id), BuildStringContent(dto));
+                    .Post(_performer.PersonId), BuildStringContent(dto));
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AddressDto result = await DeserializeResponseMessageAsync<AddressDto>(responseMessage);
@@ -100,6 +98,21 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     .Delete(person.Id, person.Addresses.First().Id));
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test]
+        public async Task Should_Not_Add_Address_To_Different_Person()
+        {
+            var dto = new AddressCreateBodyDto();
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .PostAsync(ApiEndpoints.PersonAddressesController.Post(_staff.PersonId), BuildStringContent(dto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
     }
 }

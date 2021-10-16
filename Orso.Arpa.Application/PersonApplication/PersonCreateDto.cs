@@ -18,6 +18,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public byte ExperienceLevel { get; set; }
         public string BirthName { get; set; }
         public byte Reliability { get; set; }
+        public byte GeneralPreference { get; set; }
     }
 
     public class PersonCreateDtoMappingProfile : Profile
@@ -58,6 +59,9 @@ namespace Orso.Arpa.Application.PersonApplication
                 .GeneralText(50);
 
             RuleFor(c => c.Reliability)
+                .FiveStarRating();
+
+            RuleFor(c => c.GeneralPreference)
                 .FiveStarRating();
         }
     }

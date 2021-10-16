@@ -102,7 +102,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Birthplace = "Honolulu",
                 ContactViaId = PersonTestSeedData.Performer.Id,
                 ExperienceLevel = 3,
-                Reliability = 2
+                Reliability = 2,
+                GeneralPreference = 4
             };
 
             var expectedDto = new PersonDto
@@ -121,7 +122,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ContactVia = ReducedPersonDtoData.Performer,
                 Gender = SelectValueDtoData.Female,
                 ExperienceLevel = modifyDto.ExperienceLevel,
-                Reliability = modifyDto.Reliability
+                Reliability = modifyDto.Reliability,
+                GeneralPreference = modifyDto.GeneralPreference
             };
             expectedDto.ContactsRecommended.Add(ReducedPersonDtoData.UnconfirmedUser);
 
@@ -160,7 +162,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Birthplace = "Buxdehude",
                 ContactViaId = PersonTestSeedData.DeletedUser.Id,
                 ExperienceLevel = 2,
-                Reliability = 3
+                Reliability = 3,
+                GeneralPreference = 4
             };
 
             var expectedDto = new PersonDto
@@ -178,7 +181,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Birthplace = createDto.Birthplace,
                 ContactVia = ReducedPersonDtoData.DeletedUser,
                 ExperienceLevel = createDto.ExperienceLevel,
-                Reliability = createDto.Reliability
+                Reliability = createDto.Reliability,
+                GeneralPreference = createDto.GeneralPreference
             };
 
             // Act

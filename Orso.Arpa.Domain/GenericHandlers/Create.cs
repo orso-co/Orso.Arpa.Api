@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,8 +27,11 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
             public virtual async Task<TEntity> Handle(ICreateCommand<TEntity> request, CancellationToken cancellationToken)
             {
-                ConstructorInfo ctor = typeof(TEntity).GetConstructors()
-                    .First(c => c.IsPublic);
+                ConstructorInfo ctor = typeof(TEntity).GetConstructor(
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    new Type[] { typeof(Guid?), request.GetType() },
+                    null);
 
                 ObjectActivator<TEntity> createdActivator = GetActivator<TEntity>(ctor);
 

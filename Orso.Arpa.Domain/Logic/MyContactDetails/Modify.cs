@@ -7,7 +7,7 @@ using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Modify;
 
-namespace Orso.Arpa.Domain.Logic.ContactDetails
+namespace Orso.Arpa.Domain.Logic.MyContactDetails
 {
     public static class Modify
     {
@@ -16,10 +16,10 @@ namespace Orso.Arpa.Domain.Logic.ContactDetails
             public ContactDetailKey Key { get; set; }
             public string Value { get; set; }
             public Guid? TypeId { get; set; }
-            public string CommentTeam { get; set; }
+            public string CommentInner { get; set; }
             public byte Preference { get; set; }
-            public Guid PersonId { get; set; }
             public Guid Id { get; set; }
+            public Guid PersonId { get; set; }
         }
 
         public class MappingProfile : Profile
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Logic.ContactDetails
                     .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Key))
                     .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Value))
                     .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId))
-                    .ForMember(dest => dest.CommentTeam, opt => opt.MapFrom(src => src.CommentTeam))
+                    .ForMember(dest => dest.CommentInner, opt => opt.MapFrom(src => src.CommentInner))
                     .ForMember(dest => dest.Preference, opt => opt.MapFrom(src => src.Preference))
                     .ForAllOtherMembers(opt => opt.Ignore());
             }
@@ -45,9 +45,6 @@ namespace Orso.Arpa.Domain.Logic.ContactDetails
                         .EntityExistsAsync<ContactDetail>(cd => cd.Id == id && cd.PersonId == command.PersonId, cancellation))
                     .WithMessage("Contact Detail could not be found")
                     .WithErrorCode("404");
-
-                RuleFor(c => c.PersonId)
-                    .EntityExists<Command, Person>(arpaContext);
 
                 RuleFor(c => c.TypeId)
                     .SelectValueMapping<Command, ContactDetail>(arpaContext, c => c.Type);
