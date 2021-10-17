@@ -8,6 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -119,16 +120,38 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Email = "changed" + userToModify.Email,
                 GivenName = "changed" + userToModify.Person.GivenName,
                 Surname = "changed" + userToModify.Person.Surname,
-                PhoneNumber = "changed" + userToModify.PhoneNumber
+                DateOfBirth = userToModify.Person.DateOfBirth.Value.AddDays(1),
+                AboutMe = "changed" + userToModify.Person.AboutMe,
+                BirthName = "changed" + userToModify.Person.BirthName,
+                Birthplace = "changed" + userToModify.Person.Birthplace,
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
             };
 
+            PersonDto sourcePerson = PersonDtoData.PerformerForNonStaff;
             var expectedDto = new MyUserProfileDto
             {
                 Email = modifyDto.Email,
-                GivenName = modifyDto.GivenName,
-                PhoneNumber = modifyDto.PhoneNumber,
-                Surname = modifyDto.Surname,
-                UserName = userToModify.UserName
+                UserName = userToModify.UserName,
+                Person = new PersonDto
+                {
+                    DateOfBirth = modifyDto.DateOfBirth,
+                    ContactDetails = sourcePerson.ContactDetails,
+                    AboutMe = modifyDto.AboutMe,
+                    Addresses = sourcePerson.Addresses,
+                    BankAccounts = sourcePerson.BankAccounts,
+                    BirthName = modifyDto.BirthName,
+                    Birthplace = modifyDto.Birthplace,
+                    ContactsRecommended = sourcePerson.ContactsRecommended,
+                    Surname = modifyDto.Surname,
+                    GivenName = modifyDto.GivenName,
+                    Id = userToModify.PersonId,
+                    ModifiedAt = FakeDateTime.UtcNow,
+                    ModifiedBy = "Per Former",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Gender = SelectValueDtoData.Female,
+                    StakeholderGroups = sourcePerson.StakeholderGroups
+                }
             };
 
             // Act

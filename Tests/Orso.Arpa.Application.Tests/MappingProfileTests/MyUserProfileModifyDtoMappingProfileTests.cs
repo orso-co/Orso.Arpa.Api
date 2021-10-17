@@ -29,7 +29,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 Email = UserTestSeedData.Performer.Email,
                 GivenName = "Orsi",
                 Surname = "Aner",
-                PhoneNumber = "123456"
             };
 
             // Act

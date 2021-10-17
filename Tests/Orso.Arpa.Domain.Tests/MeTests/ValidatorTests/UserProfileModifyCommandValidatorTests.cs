@@ -15,13 +15,15 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         private Validator _validator;
         private ArpaUserManager _userManager;
         private IUserAccessor _userAccessor;
+        private IArpaContext _arpaContext;
 
         [SetUp]
         public void Setup()
         {
             _userManager = new FakeUserManager();
             _userAccessor = Substitute.For<IUserAccessor>();
-            _validator = new Validator(_userManager, _userAccessor);
+            _arpaContext = Substitute.For<IArpaContext>();
+            _validator = new Validator(_userManager, _userAccessor, _arpaContext);
         }
 
         [Test]

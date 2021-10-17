@@ -41,6 +41,30 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.Gender = SelectValueDtoData.Diverse;
                 dto.StakeholderGroups.Add(SectionDtoData.Choir);
+                dto.AboutMe = "Oh yes, I'm the great pretender!";
+                dto.BirthName = "Sil";
+                dto.Birthplace = "Pusemuckel";
+                dto.DateOfBirth = new DateTime(1979, 5, 5);
+                dto.Reliability = 3;
+                dto.ExperienceLevel = 5;
+                dto.GeneralPreference = 2;
+                dto.ContactVia = ReducedPersonDtoData.UnconfirmedUser;
+                return dto;
+            }
+        }
+
+        public static PersonDto PerformerForNonStaff
+        {
+            get
+            {
+                Person person = PersonTestSeedData.Performer;
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Diverse;
+                dto.StakeholderGroups.Add(SectionDtoData.Choir);
+                dto.AboutMe = "Oh yes, I'm the great pretender!";
+                dto.BirthName = "Sil";
+                dto.Birthplace = "Pusemuckel";
+                dto.DateOfBirth = new DateTime(1979, 5, 5);
                 return dto;
             }
         }
@@ -125,6 +149,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     AccountOwner = "Muddi Roese"
                 });
                 dto.Gender = SelectValueDtoData.Diverse;
+                dto.ContactsRecommended.Add(ReducedPersonDtoData.Performer);
                 return dto;
             }
         }

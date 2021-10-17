@@ -87,7 +87,7 @@ namespace Orso.Arpa.Application.Extensions
         {
             return ruleBuilder
                 .MaximumLength(maximumLength)
-                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß$€#*%&:/\s\d\.\,\?\!\(\)\-\n\r]*$")
+                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß$€#*%&':/\s\d\.\,\?\!\(\)\-\n\r]*$")
                 .WithMessage("You entered an invalid character. Allowed characters are: a-z, A-Z, 0-9, umlauts, whitespace characters, punctuation marks, " +
                         "round braces, dashes, line breaks, slashes, hash tags, astersisks, percentage, the Euro and the Dollar sign.");
         }
