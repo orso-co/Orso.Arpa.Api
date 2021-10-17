@@ -120,7 +120,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Email = "changed" + userToModify.Email,
                 GivenName = "changed" + userToModify.Person.GivenName,
                 Surname = "changed" + userToModify.Person.Surname,
-                PhoneNumber = "0123456789",
                 DateOfBirth = userToModify.Person.DateOfBirth.Value.AddDays(1),
                 AboutMe = "changed" + userToModify.Person.AboutMe,
                 BirthName = "changed" + userToModify.Person.BirthName,
@@ -132,7 +131,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new MyUserProfileDto
             {
                 Email = modifyDto.Email,
-                PhoneNumber = modifyDto.PhoneNumber,
                 UserName = userToModify.UserName,
                 Person = new PersonDto
                 {

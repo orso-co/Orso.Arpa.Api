@@ -16,7 +16,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new MyUserProfileDto
                 {
                     Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
                     UserName = user.UserName,
                     Person = PersonDtoData.PerformerForNonStaff
                 };

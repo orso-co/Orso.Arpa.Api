@@ -9,7 +9,6 @@ namespace Orso.Arpa.Application.MeApplication
     public class MyUserProfileModifyDto
     {
         public string Email { get; set; }
-        public string PhoneNumber { get; set; }
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string AboutMe { get; set; }
@@ -54,9 +53,6 @@ namespace Orso.Arpa.Application.MeApplication
 
             RuleFor(c => c.BirthName)
                 .GeneralText(50);
-
-            RuleFor(c => c.PhoneNumber)
-                .PhoneNumber();
         }
     }
 }

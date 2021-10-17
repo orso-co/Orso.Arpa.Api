@@ -17,7 +17,6 @@ namespace Orso.Arpa.Domain.Logic.Me
         public class Command : IRequest
         {
             public string Email { get; set; }
-            public string PhoneNumber { get; set; }
             public string GivenName { get; set; }
             public string Surname { get; set; }
             public string AboutMe { get; set; }
@@ -35,7 +34,6 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .ForPath(dest => dest.Person.GivenName, opt => opt.MapFrom(src => src.GivenName))
                     .ForPath(dest => dest.Person.Surname, opt => opt.MapFrom(src => src.Surname))
                     .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                    .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
                     .ForPath(dest => dest.Person.AboutMe, opt => opt.MapFrom(src => src.AboutMe))
                     .ForPath(dest => dest.Person.GenderId, opt => opt.MapFrom(src => src.GenderId))
                     .ForPath(dest => dest.Person.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
