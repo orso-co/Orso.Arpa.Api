@@ -18,8 +18,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     UserName = user.UserName,
-                    GivenName = person.GivenName,
-                    Surname = person.Surname
+                    Person = PersonDtoData.PerformerForNonStaff
                 };
             }
         }

@@ -38,6 +38,14 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var person = new Person(
                     Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
                     new UserRegister.Command { GivenName = "Per", Surname = "Former", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                person.SetProperty(nameof(Person.Reliability), (byte)3);
+                person.SetProperty(nameof(Person.GeneralPreference), (byte)2);
+                person.SetProperty(nameof(Person.ExperienceLevel), (byte)5);
+                person.SetProperty(nameof(Person.DateOfBirth), new DateTime(1979, 5, 5));
+                person.SetProperty(nameof(Person.ContactViaId), UnconfirmedUser.Id);
+                person.SetProperty(nameof(Person.Birthplace), "Pusemuckel");
+                person.SetProperty(nameof(Person.BirthName), "Sil");
+                person.SetProperty(nameof(Person.AboutMe), "Oh yes, I'm the great pretender!");
                 person.StakeholderGroups.Add(new PersonSection(
                     Guid.Parse("e94c3925-4edb-4a56-a8a0-a655500f8f4a"),
                     person.Id,
