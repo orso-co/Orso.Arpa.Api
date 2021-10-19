@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.SectionApplication;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -60,6 +61,14 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<IEnumerable<SectionDto>>> GetDoublingInstruments([FromRoute] Guid id)
         {
             return Ok(await _sectionService.GetDoublingInstrumentsAsync(id));
+        }
+
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [HttpGet("{id}/positions")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<SelectValueDto>>> GetPositions([FromRoute] Guid id)
+        {
+            return Ok(await _sectionService.GetPositionsAsync(id));
         }
     }
 }

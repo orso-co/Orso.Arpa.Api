@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.SectionApplication;
+using Orso.Arpa.Application.SelectValueApplication;
 
 namespace Orso.Arpa.Application.Interfaces
 {
@@ -11,5 +12,6 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task<IEnumerable<SectionDto>> GetAsync(bool instrumentsOnly);
         Task<IEnumerable<SectionDto>> GetDoublingInstrumentsAsync(Guid id);
+        Task<IEnumerable<SelectValueDto>> GetPositionsAsync(Guid id);
     }
 }
