@@ -75,6 +75,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string GetTree(int? maxLevel) => $"{Sections}/tree?maxLevel={maxLevel}";
             public static string GetDoublingInstruments(Guid id) => $"{Sections}/{id}/doublinginstruments";
+            public static string GetPositions(Guid id) => $"{Sections}/{id}/positions";
         }
 
         public static class ProjectsController

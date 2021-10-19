@@ -21,6 +21,11 @@ namespace Orso.Arpa.Application.SelectValueApplication
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.SelectValue.Description))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.SelectValue.Name))
                 .IncludeBase<BaseEntity, BaseEntityDto>();
+
+            CreateMap<SelectValueSection, SelectValueDto>()
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.SelectValue.Description))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.SelectValue.Name))
+                .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
 }

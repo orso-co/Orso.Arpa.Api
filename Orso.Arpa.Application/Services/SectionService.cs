@@ -4,9 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.SectionApplication;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Logic.Sections;
@@ -30,6 +33,16 @@ namespace Orso.Arpa.Application.Services
             var query = new DoublingInstruments.Query { Id = id };
             IEnumerable<Section> doublingInstruments = await _mediator.Send(query);
             return _mapper.Map<IEnumerable<SectionDto>>(doublingInstruments);
+        }
+
+        public async Task<IEnumerable<SelectValueDto>> GetPositionsAsync(Guid id)
+        {
+            var query = new Positions.Query { Id = id };
+            IQueryable<SelectValueSection> positions = await _mediator.Send(query);
+
+            return await positions
+                .ProjectTo<SelectValueDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         public async Task<SectionTreeDto> GetTreeAsync(int? maxLevel)
