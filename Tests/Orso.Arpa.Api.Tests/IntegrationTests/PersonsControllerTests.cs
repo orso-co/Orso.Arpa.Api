@@ -147,6 +147,36 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto);
         }
 
+        [Test, Order(101)]
+        public async Task Should_Add_StakeholderGroup()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.PersonsController.StakeholderGroups(
+                    PersonTestSeedData.Person1WithSameEmail.Id,
+                    SectionSeedData.Performers.Id), null);
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test, Order(102)]
+        public async Task Should_Remove_StakeholderGroup()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .DeleteAsync(ApiEndpoints.PersonsController.StakeholderGroups(
+                    PersonTestSeedData.Performer.Id,
+                    SectionSeedData.Choir.Id));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
         [Test, Order(1000)]
         public async Task Should_Create()
         {

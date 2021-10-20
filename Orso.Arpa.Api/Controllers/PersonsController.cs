@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -144,6 +146,42 @@ namespace Orso.Arpa.Api.Controllers
         {
             MusicianProfileDto createdMusicianProfile = await _musicianProfileService.CreateAsync(musicianProfileCreateDto);
             return CreatedAtAction(nameof(MusicianProfilesController.GetById), "MusicianProfiles", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
+        }
+
+        /// <summary>
+        /// Adds a stakeholder group to an existing person
+        /// </summary>
+        /// <param name="addStakeholderGroupDto"></param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
+        [HttpPost("{id}/stakeholdergroups/{stakeholderGroupId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> AddStakeholderGroup([FromRoute] PersonAddStakeholderGroupDto addStakeholderGroupDto)
+        {
+            await _personService.AddStakeholderGroupAsync(addStakeholderGroupDto);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Removes stakeholder group from existing person
+        /// </summary>
+        /// <param name="removeStakeholderGroupDto"></param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
+        [HttpDelete("{id}/stakeholdergroups/{stakeholderGroupId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> RemoveRoom([FromRoute] PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
+        {
+            await _personService.RemoveStakeholderGroupAsync(removeStakeholderGroupDto);
+            return NoContent();
         }
     }
 }
