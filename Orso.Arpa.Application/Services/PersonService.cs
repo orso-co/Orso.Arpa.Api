@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;
@@ -23,9 +24,21 @@ namespace Orso.Arpa.Application.Services
         {
         }
 
+        public async Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addStakeholderGroupDto)
+        {
+            AddStakeholderGroup.Command command = _mapper.Map<AddStakeholderGroup.Command>(addStakeholderGroupDto);
+            await _mediator.Send(command);
+        }
+
         public Task<IEnumerable<PersonDto>> GetAsync()
         {
             return base.GetAsync(orderBy: p => p.OrderBy(person => person.Surname).ThenBy(person => person.GivenName));
+        }
+
+        public async Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
+        {
+            RemoveStakeholderGroup.Command command = _mapper.Map<RemoveStakeholderGroup.Command>(removeStakeholderGroupDto);
+            await _mediator.Send(command);
         }
     }
 }

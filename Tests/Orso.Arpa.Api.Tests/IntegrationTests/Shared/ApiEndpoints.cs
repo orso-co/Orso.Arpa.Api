@@ -278,6 +278,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string AddMusicianProfile(Guid id) => $"{Persons}/{id}/profiles/musician";
             public static string GetMusicianProfiles(Guid id, bool includeDeactivated) => $"{Persons}/{id}/profiles/musician?includeDeactivated={includeDeactivated}";
+
+            public static string StakeholderGroups(Guid id, Guid stakeholderGroupId) => $"{Persons}/{id}/stakeholdergroups/{stakeholderGroupId}";
         }
 
         public static class TranslationController

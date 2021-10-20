@@ -4,6 +4,12 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class PersonSection : BaseEntity
     {
+        public PersonSection(Guid? id, Person person, Section section) : base(id)
+        {
+            Person = person;
+            Section = section;
+        }
+
         public PersonSection(Guid? id, Guid personId, Guid sectionId) : base(id)
         {
             PersonId = personId;

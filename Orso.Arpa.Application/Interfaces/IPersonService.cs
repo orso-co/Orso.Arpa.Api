@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.PersonApplication;
 
 namespace Orso.Arpa.Application.Interfaces
@@ -16,5 +17,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task ModifyAsync(PersonModifyDto modifyDto);
 
         Task DeleteAsync(Guid id);
+        Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addstakeholderGroupDto);
+        Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto);
     }
 }
