@@ -40,7 +40,7 @@ namespace Orso.Arpa.Application.MeApplication
                 .NotEmpty();
 
             RuleFor(d => d.Comment)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
         }
     }
 

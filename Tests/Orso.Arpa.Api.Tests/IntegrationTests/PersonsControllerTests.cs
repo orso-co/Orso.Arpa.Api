@@ -93,12 +93,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             Person personToModify = PersonTestSeedData.LockedOutUser;
             var modifyDto = new PersonModifyBodyDto
             {
-                GivenName = "Tom2",
-                Surname = "Bone2",
+                GivenName = "Tommy",
+                Surname = "Bones",
                 AboutMe = "This is about me - bone",
                 GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id,
                 DateOfBirth = new DateTime(1960, 6, 6),
-                BirthName = "Bone1",
+                BirthName = "Bonny",
                 Birthplace = "Honolulu",
                 ContactViaId = PersonTestSeedData.Performer.Id,
                 ExperienceLevel = 3,

@@ -50,7 +50,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public MyDoublingInstrumentModifyBodyDtoValidator()
         {
             RuleFor(dto => dto.Comment)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
 
             RuleFor(dto => dto.LevelAssessmentInner)
                 .FiveStarRating();

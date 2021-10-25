@@ -36,23 +36,23 @@ namespace Orso.Arpa.Application.MeApplication
 
             RuleFor(c => c.GivenName)
                 .NotEmpty()
-                .GeneralText(50);
+                .PersonName(50);
 
             RuleFor(c => c.Surname)
                 .NotEmpty()
-                .GeneralText(50);
+                .PersonName(50);
 
             RuleFor(c => c.AboutMe)
-                .GeneralText(1000);
+                .RestrictedFreeText(1000);
 
             RuleFor(c => c.GenderId)
                 .NotEmpty();
 
             RuleFor(c => c.Birthplace)
-                .GeneralText(50);
+                .PlaceName(50);
 
             RuleFor(c => c.BirthName)
-                .GeneralText(50);
+                .PersonName(50);
         }
     }
 }

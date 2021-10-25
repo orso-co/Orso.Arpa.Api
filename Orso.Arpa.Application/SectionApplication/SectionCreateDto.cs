@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.SectionApplication
         {
             RuleFor(s => s.Name)
                 .NotEmpty()
-                .GeneralText(50);
+                .PlaceName(50);
         }
     }
 }

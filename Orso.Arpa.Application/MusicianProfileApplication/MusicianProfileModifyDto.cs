@@ -97,13 +97,13 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .FiveStarRating();
 
             RuleFor(p => p.BackgroundInner)
-                .GeneralText(1000);
+                .RestrictedFreeText(1000);
 
             RuleFor(p => p.BackgroundTeam)
-                .GeneralText(1000);
+                .RestrictedFreeText(1000);
 
             RuleFor(p => p.SalaryComment)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
 
             RuleFor(p => p.QualificationId)
                .NotEmpty();

@@ -68,7 +68,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication
                 .When(dto => ContactDetailKey.PhoneNumber.Equals(dto?.Key));
 
             RuleFor(c => c.CommentInner)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
 
             RuleFor(c => c.Preference)
                 .FiveStarRating();

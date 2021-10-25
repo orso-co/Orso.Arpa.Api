@@ -44,7 +44,7 @@ namespace Orso.Arpa.Application.UrlApplication
                  .ValidUri(1000);
 
             RuleFor(p => p.AnchorText)
-                .GeneralText(1000);
+                .PlaceName(1000);
         }
     }
 }

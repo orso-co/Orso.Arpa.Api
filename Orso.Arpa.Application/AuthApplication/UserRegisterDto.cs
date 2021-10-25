@@ -36,10 +36,10 @@ namespace Orso.Arpa.Application.AuthApplication
                 .EmailAddress();
             RuleFor(c => c.GivenName)
                 .NotEmpty()
-                .GeneralText(50);
+                .PersonName(50);
             RuleFor(c => c.Surname)
                 .NotEmpty()
-                .GeneralText(50);
+                .PersonName(50);
             RuleFor(c => c.ClientUri)
                 .ValidUri();
             RuleFor(c => c.StakeholderGroupIds)

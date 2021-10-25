@@ -42,11 +42,11 @@ namespace Orso.Arpa.Application.AppointmentApplication
                 .WithMessage("'EndTime' must be greater than 'StartTime'");
             RuleFor(d => d.Name)
                 .NotEmpty()
-                .GeneralText(50);
+                .FreeText(50);
             RuleFor(d => d.InternalDetails)
-                .GeneralText(1000);
+                .RestrictedFreeText(1000);
             RuleFor(d => d.PublicDetails)
-                .GeneralText(1000);
+                .RestrictedFreeText(1000);
         }
     }
 }

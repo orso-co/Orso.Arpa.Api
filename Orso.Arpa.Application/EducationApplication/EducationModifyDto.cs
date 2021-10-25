@@ -48,14 +48,14 @@ namespace Orso.Arpa.Application.EducationApplication
         {
             RuleFor(p => p.TimeSpan)
                 .NotEmpty()
-                .GeneralText(50);
+                .RestrictedFreeText(50);
 
             RuleFor(p => p.Institution)
                 .NotEmpty()
-                .GeneralText(255);
+                .PlaceName(255);
 
             RuleFor(p => p.Description)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
         }
     }
 }
