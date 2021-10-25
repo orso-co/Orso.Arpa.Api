@@ -56,10 +56,10 @@ namespace Orso.Arpa.Application.BankAccountApplication
                 .When(dto => !string.IsNullOrWhiteSpace(dto.Bic), ApplyConditionTo.CurrentValidator);
 
             RuleFor(c => c.CommentInner)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
 
             RuleFor(c => c.AccountOwner)
-                .GeneralText(50);
+                .PersonName(50);
         }
     }
 }

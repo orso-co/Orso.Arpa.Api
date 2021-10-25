@@ -121,11 +121,11 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Fail_If_Invalid_Character_Is_Supplied([Values("+", "~", "^", "°", "<", ">", "|", "}", "{", "[", "]", "\\", "=")] string name)
+        public void Should_Fail_If_Invalid_Character_Is_Supplied([Values("<", ">", "}", "{", "[", "]", "\\", "=")] string name)
         {
             _validator.ShouldHaveValidationErrorForExact(dto => dto.Name, name)
-                .WithErrorMessage("You entered an invalid character. Allowed characters are: a-z, A-Z, 0-9, umlauts, whitespace characters, punctuation marks, " +
-                        "round braces, dashes, line breaks, slashes, hash tags, astersisks, percentage, the Euro and the Dollar sign.");
+                .WithErrorMessage("Invalid character supplied. Please use only alphanumeric and whitespace characters " +
+                "or one of the following: '-./(),$€#*%&„“\":;?!@+^°| +~_");
         }
     }
 }

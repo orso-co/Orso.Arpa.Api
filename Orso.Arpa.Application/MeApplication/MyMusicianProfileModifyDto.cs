@@ -66,7 +66,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
                 .FiveStarRating();
 
             RuleFor(p => p.BackgroundInner)
-                .GeneralText(1000);
+                .RestrictedFreeText(1000);
 
             RuleForEach(p => p.PreferredPositionsInnerIds)
                 .NotEmpty();

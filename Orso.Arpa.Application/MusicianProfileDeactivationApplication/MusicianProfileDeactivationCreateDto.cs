@@ -42,7 +42,7 @@ namespace Orso.Arpa.Application.MusicianProfileDeactivationApplication
         public MusicianProfileDeactivationCreateBodyDtoValidator()
         {
             RuleFor(dto => dto.Purpose)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
 
             RuleFor(dto => dto.DeactivationStart)
                 .NotEmpty();

@@ -64,32 +64,32 @@ namespace Orso.Arpa.Application.AddressApplication
             RuleFor(c => c.Country)
                  .Cascade(CascadeMode.Stop)
                  .NotEmpty()
-                 .GeneralText(100);
+                 .PlaceName(100);
 
             RuleFor(c => c.City)
                  .Cascade(CascadeMode.Stop)
                  .NotEmpty()
-                 .GeneralText(100);
+                 .PlaceName(100);
 
             RuleFor(c => c.Zip)
                  .Cascade(CascadeMode.Stop)
                  .NotEmpty()
-                 .GeneralText(20);
+                 .PlaceName(20);
 
             RuleFor(c => c.Address1)
-                .GeneralText(100);
+                .PlaceName(100);
 
             RuleFor(c => c.Address2)
-                .GeneralText(100);
+                .PlaceName(100);
 
             RuleFor(c => c.State)
-                .GeneralText(100);
+                .PlaceName(100);
 
             RuleFor(c => c.UrbanDistrict)
-                .GeneralText(100);
+                .PlaceName(100);
 
             RuleFor(c => c.CommentInner)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
         }
     }
 }

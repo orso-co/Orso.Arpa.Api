@@ -45,7 +45,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public MyDoublingInstrumentCreateBodyDtoValidator()
         {
             RuleFor(dto => dto.Comment)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
 
             RuleFor(dto => dto.InstrumentId)
                 .NotEmpty();

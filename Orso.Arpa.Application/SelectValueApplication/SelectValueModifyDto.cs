@@ -31,10 +31,10 @@ namespace Orso.Arpa.Application.SelectValueApplication
         {
             RuleFor(s => s.Name)
                 .NotEmpty()
-                .GeneralText(50);
+                .PlaceName(50);
 
             RuleFor(s => s.Description)
-                .GeneralText(255);
+                .RestrictedFreeText(255);
         }
     }
 }

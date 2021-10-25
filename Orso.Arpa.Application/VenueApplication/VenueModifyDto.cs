@@ -31,10 +31,10 @@ namespace Orso.Arpa.Application.VenueApplication
         {
             RuleFor(v => v.Name)
                 .NotEmpty()
-                .GeneralText(50);
+                .PlaceName(50);
 
             RuleFor(v => v.Description)
-                .GeneralText(255);
+                .RestrictedFreeText(255);
         }
     }
 }

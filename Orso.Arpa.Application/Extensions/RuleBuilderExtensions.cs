@@ -83,13 +83,36 @@ namespace Orso.Arpa.Application.Extensions
                 .InclusiveBetween<T, byte>(0, 5);
         }
 
-        public static IRuleBuilder<T, string> GeneralText<T>(this IRuleBuilder<T, string> ruleBuilder, int maximumLength)
+        public static IRuleBuilderOptions<T, string> PersonName<T>(this IRuleBuilder<T, string> ruleBuilder, int maximumLength)
         {
             return ruleBuilder
                 .MaximumLength(maximumLength)
-                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß$€#*%&„“':/\s\d\.\,\?\!\(\)\-\n\r]*$")
-                .WithMessage("You entered an invalid character. Allowed characters are: a-z, A-Z, 0-9, umlauts, whitespace characters, punctuation marks, " +
-                        "round braces, dashes, line breaks, slashes, hash tags, astersisks, percentage, the Euro and the Dollar sign.");
+                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß'\-. ]*$")
+                .WithMessage("Invalid character supplied. Please use only alpabetic and space characters or one of the following: '-.");
+        }
+
+        public static IRuleBuilderOptions<T, string> PlaceName<T>(this IRuleBuilder<T, string> ruleBuilder, int maximumLength)
+        {
+            return ruleBuilder
+                .MaximumLength(maximumLength)
+                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß'\-. 0-9\/(),]*$")
+                .WithMessage("Invalid character supplied. Please use only alphanumeric and space characters or one of the following: '-./(),");
+        }
+
+        public static IRuleBuilderOptions<T, string> RestrictedFreeText<T>(this IRuleBuilder<T, string> ruleBuilder, int maximumLength)
+        {
+            return ruleBuilder
+                .MaximumLength(maximumLength)
+                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß'\-.\s0-9\/(),$€#*%&„“"":;?!@\+]*$")
+                .WithMessage("Invalid character supplied. Please use only alphanumeric and whitespace characters or one of the following: '-./(),$€#*%&„“\":;?!@+");
+        }
+
+        public static IRuleBuilderOptions<T, string> FreeText<T>(this IRuleBuilder<T, string> ruleBuilder, int maximumLength)
+        {
+            return ruleBuilder
+                .MaximumLength(maximumLength)
+                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß'\-.\s0-9\/(),$€#*%&„“"":;?!@\+\^°| +~_]*$")
+                .WithMessage("Invalid character supplied. Please use only alphanumeric and whitespace characters or one of the following: '-./(),$€#*%&„“\":;?!@+^°| +~_");
         }
     }
 }

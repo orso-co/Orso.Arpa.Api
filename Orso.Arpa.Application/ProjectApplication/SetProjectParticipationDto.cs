@@ -60,10 +60,10 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .NotEmpty();
 
             RuleFor(d => d.CommentByStaffInner)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
 
             RuleFor(d => d.CommentTeam)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
         }
     }
 }

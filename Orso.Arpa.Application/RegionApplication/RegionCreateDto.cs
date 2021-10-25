@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.RegionApplication
         {
             RuleFor(c => c.Name)
                 .NotEmpty()
-                .GeneralText(200);
+                .PlaceName(200);
         }
     }
 }

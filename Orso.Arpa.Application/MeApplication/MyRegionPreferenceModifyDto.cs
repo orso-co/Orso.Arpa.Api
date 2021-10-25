@@ -53,7 +53,7 @@ namespace Orso.Arpa.Application.MeApplication
                 .FiveStarRating();
 
             RuleFor(dto => dto.Comment)
-                .GeneralText(500);
+                .RestrictedFreeText(500);
         }
     }
 }
