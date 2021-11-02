@@ -96,38 +96,40 @@ namespace Orso.Arpa.Infrastructure.Localization
                     return;
                 }
 
-                obj.GetType().GetProperties().ForAll(p =>
+                obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).ForAll(p =>
                 {
-                    if (p.GetIndexParameters().Length == 0 && p.GetValue(obj) != null)
+                    var value = p.GetValue(obj);
+
+                    if (p.GetIndexParameters().Length == 0 && value != null)
                     {
-                        if (p.GetCustomAttributes<TranslateAttribute>().Any() &&
-                            p.GetValue(obj) is string)
+                        if (!p.PropertyType.IsPrimitive
+                            && !p.PropertyType.IsStatic()
+                            && p.PropertyType != typeof(string)
+                            && p.PropertyType != typeof(string[]))
                         {
-                            p.SetValue(obj,
-                                _localizerCache.GetTranslation((string)p.GetValue(obj),
-                                    p.GetCustomAttributes<TranslateAttribute>().First().ResourceKey, _uiCulture));
-
+                            TranslateObject(value, maxLevels - 1);
+                            return;
                         }
-                        else if (p.GetCustomAttributes<TranslateAttribute>().Any() &&
-                                 p.GetValue(obj) is string[])
+
+                        TranslateAttribute translateAttribute = p.GetCustomAttribute<TranslateAttribute>();
+
+                        if (translateAttribute != null)
                         {
-                            var translatableArray = (string[])p.GetValue(obj);
-                            IList<string> newTranslatedArray = new List<string>();
-                            for (int i = 0; i < translatableArray!.Length; i++)
+                            if (value is string x)
                             {
-                                newTranslatedArray.Add(_localizerCache.GetTranslation(
-                                    (string)p.GetValue(obj),
-                                    p.GetCustomAttributes<TranslateAttribute>().First().ResourceKey, _uiCulture));
+                                p.SetValue(obj, _localizerCache.GetTranslation(x, translateAttribute.ResourceKey, _uiCulture));
+
                             }
+                            else if (value is string[] translatableArray)
+                            {
+                                IList<string> newTranslatedArray = new List<string>();
+                                for (int i = 0; i < translatableArray!.Length; i++)
+                                {
+                                    newTranslatedArray.Add(_localizerCache.GetTranslation(translatableArray[i], translateAttribute.ResourceKey, _uiCulture));
+                                }
 
-                            p.SetValue(obj, newTranslatedArray.ToArray());
-
-                        }
-                        else if (!p.PropertyType.IsPrimitive && !p.PropertyType.IsStatic() &&
-                                 p.PropertyType != typeof(string) &&
-                                 p.PropertyType != typeof(string[]))
-                        {
-                            TranslateObject(p.GetValue(obj), maxLevels - 1);
+                                p.SetValue(obj, newTranslatedArray.ToArray());
+                            }
                         }
                     }
                 });

@@ -48,7 +48,7 @@ namespace Orso.Arpa.Infrastructure.Localization
             IQueryable<Domain.Entities.Localization> query = _localizations.AsQueryable().Where(d =>
                 d.ResourceKey.Equals(resourceKey) && d.LocalizationCulture.Equals(culture, StringComparison.InvariantCultureIgnoreCase));
 
-            return query.Count() == 0 ? new List<Domain.Entities.Localization>() : query.ToList();
+            return !query.Any() ? new List<Domain.Entities.Localization>() : query.ToList();
         }
 
         private List<Domain.Entities.Localization> GetDbLocalizationList()
