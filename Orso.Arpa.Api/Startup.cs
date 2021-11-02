@@ -91,7 +91,7 @@ namespace Orso.Arpa.Api
             services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
             services.AddControllers(options =>
                 {
-                    options.Filters.Add(typeof(LocationResultFilter));
+                    //   options.Filters.Add(typeof(LocationResultFilter));
                 })
                 .AddJsonOptions(options =>
                 {
