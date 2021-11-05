@@ -135,7 +135,8 @@ namespace Orso.Arpa.Api
                 {
                     MaxPageSize = 100,
                     IncludeTotalCount = true,
-                });
+                })
+                .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
