@@ -18,6 +18,7 @@ using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
+    [SetUICulture("en-GB")]
     public abstract class IntegrationTestBase
     {
         protected TestServer _unAuthenticatedServer;

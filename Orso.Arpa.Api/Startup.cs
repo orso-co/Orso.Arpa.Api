@@ -89,10 +89,7 @@ namespace Orso.Arpa.Api
             services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
             services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
-            services.AddControllers(options =>
-                {
-                    //   options.Filters.Add(typeof(LocationResultFilter));
-                })
+            services.AddControllers()
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());

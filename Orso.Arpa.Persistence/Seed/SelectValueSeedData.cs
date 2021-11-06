@@ -248,7 +248,7 @@ namespace Orso.Arpa.Persistence.Seed
         /// <summary>
         /// Probewochenende allgemein
         /// </summary>
-        public static SelectValue RehearsalWeekend => new(Guid.Parse("63a6b9a9-30a8-4cdb-983b-336b587069cb"), "Rehearsal weekend", string.Empty);
+        public static SelectValue RehearsalWeekend => new(Guid.Parse("63a6b9a9-30a8-4cdb-983b-336b587069cb"), "Rehearsal Weekend", string.Empty);
 
 
         /// <summary>
@@ -287,18 +287,18 @@ namespace Orso.Arpa.Persistence.Seed
         /// <summary>
         /// Konzertreise (Tour)
         /// </summary>
-        public static SelectValue ConcertTour => new(Guid.Parse("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"), "Concert tour", string.Empty);
+        public static SelectValue ConcertTour => new(Guid.Parse("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"), "Concert Tour", string.Empty);
 
 
         /// <summary>
         /// Sonderprojekt
         /// </summary>
-        public static SelectValue SpecialProject => new(Guid.Parse("f2a6ef3d-bb32-4505-83a5-2cb9f611ce0f"), "Special project", string.Empty);
+        public static SelectValue SpecialProject => new(Guid.Parse("f2a6ef3d-bb32-4505-83a5-2cb9f611ce0f"), "Special Project", string.Empty);
 
         /// <summary>
         /// CD-Aufnahme
         /// </summary>
-        public static SelectValue CDRecording => new(Guid.Parse("52fad37d-23a7-4515-9b77-3ee3bda03b9a"), "CD recording", string.Empty);
+        public static SelectValue CDRecording => new(Guid.Parse("52fad37d-23a7-4515-9b77-3ee3bda03b9a"), "CD Recording", string.Empty);
 
         /// <summary>
         /// Wettbewerb
@@ -391,17 +391,26 @@ namespace Orso.Arpa.Persistence.Seed
         /// <summary>
         /// Orchester Konzertpauschale 9€/11€ bei 10h
         /// </summary>
-        public static SelectValue OrchestraConcertLumpSum10h => new(Guid.Parse("d91def3e-4c55-42c7-ac56-147846be6bfa"), "Orchestra Concert Lump Sum 9€/11€ at 10h", string.Empty);
+        public static SelectValue OrchestraConcertLumpSum10h => new(
+            Guid.Parse("d91def3e-4c55-42c7-ac56-147846be6bfa"),
+            "Orchestra Concert Lump Sum 9€/11€ at 10h",
+            string.Empty);
 
         /// <summary>
         /// Orchester Konzertpauschale 9€/11€ bei 12h
         /// </summary>
-        public static SelectValue OrchestraConcertLumpSum12h => new(Guid.Parse("a10ce98a-b903-4dca-801d-3afb07711877"), "Orchestra Concert Lump Sum 9 €/11€ at 12h", string.Empty);
+        public static SelectValue OrchestraConcertLumpSum12h => new(
+            Guid.Parse("a10ce98a-b903-4dca-801d-3afb07711877"),
+            "Orchestra Concert Lump Sum 9 €/11€ at 12h",
+            string.Empty);
 
         /// <summary>
         /// Orchester Probe Stundensatz 9/11
         /// </summary>
-        public static SelectValue OrchestraRehearsalHourlyRate => new(Guid.Parse("717a27d5-2ef3-4266-92a8-84b3600115eb"), "Orchestra Rehearsal Hourly Rate 9/11", string.Empty);
+        public static SelectValue OrchestraRehearsalHourlyRate => new(
+            Guid.Parse("717a27d5-2ef3-4266-92a8-84b3600115eb"),
+            "Orchestra Rehearsal Hourly Rate 9/11",
+            string.Empty);
 
         // KONTAKTKONTEXT
 
@@ -513,7 +522,10 @@ namespace Orso.Arpa.Persistence.Seed
         /// <summary>
         /// Nicht eingeladen
         /// </summary>
-        public static SelectValue NotInvited => new(Guid.Parse("77c68dbb-a627-4053-829e-86c555754f60"), "Not invited", string.Empty);
+        public static SelectValue NotInvited => new(
+            Guid.Parse("77c68dbb-a627-4053-829e-86c555754f60"),
+            "Not Invited",
+            string.Empty);
         /// <summary>
         /// Unklar
         /// </summary>
@@ -535,21 +547,21 @@ namespace Orso.Arpa.Persistence.Seed
         /// <summary>
         /// Bankkonto erloschen
         /// </summary>
-        public static SelectValue BankAccountExpired => new(Guid.Parse("597bf9bc-4fad-433f-810d-ae4de4ac3bde"), "Bank account expired", string.Empty);
+        public static SelectValue BankAccountExpired => new(Guid.Parse("597bf9bc-4fad-433f-810d-ae4de4ac3bde"), "Bank Account Expired", string.Empty);
 
         /// <summary>
         /// Rücklastschrift erhalten
         /// </summary>
-        public static SelectValue ReturnDebitReceived => new(Guid.Parse("c36e8662-2740-49c7-87dd-3c301ef86909"), "Return debit received", string.Empty);
+        public static SelectValue ReturnDebitReceived => new(Guid.Parse("c36e8662-2740-49c7-87dd-3c301ef86909"), "Return Debit Received", string.Empty);
 
         /// <summary>
         /// Fehlerhafte Bankverbindung
         /// </summary>
-        public static SelectValue IncorrectBankDetails => new(Guid.Parse("7efd1bdd-67b5-4706-a1f4-9d67eea05e5d"), "Incorrect bank details", string.Empty);
+        public static SelectValue IncorrectBankDetails => new(Guid.Parse("7efd1bdd-67b5-4706-a1f4-9d67eea05e5d"), "Incorrect Bank Details", string.Empty);
 
         /// <summary>
         /// Other (see comment field) 
         /// </summary>
-        public static SelectValue OtherSeeCommentField => new(Guid.Parse("b0f67138-7488-4c68-ad4c-63fce6f862cc"), "Return debit received", string.Empty);
+        public static SelectValue OtherSeeCommentField => new(Guid.Parse("b0f67138-7488-4c68-ad4c-63fce6f862cc"), "Other (see comment field)", string.Empty);
     }
 }

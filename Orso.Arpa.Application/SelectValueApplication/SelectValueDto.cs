@@ -7,9 +7,9 @@ namespace Orso.Arpa.Application.SelectValueApplication
 {
     public class SelectValueDto : BaseEntityDto
     {
-        [Translate(nameof(SelectValueDto))]
+        [Translate]
         public string Name { get; set; }
-        [Translate(nameof(SelectValueDto))]
+        [Translate]
         public string Description { get; set; }
     }
 
@@ -20,12 +20,14 @@ namespace Orso.Arpa.Application.SelectValueApplication
             CreateMap<SelectValueMapping, SelectValueDto>()
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.SelectValue.Description))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.SelectValue.Name))
-                .IncludeBase<BaseEntity, BaseEntityDto>();
+                .IncludeBase<BaseEntity, BaseEntityDto>()
+                .AfterMap<LocalizeAction<SelectValueMapping, SelectValueDto>>();
 
             CreateMap<SelectValueSection, SelectValueDto>()
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.SelectValue.Description))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.SelectValue.Name))
-                .IncludeBase<BaseEntity, BaseEntityDto>();
+                .IncludeBase<BaseEntity, BaseEntityDto>()
+                .AfterMap<LocalizeAction<SelectValueSection, SelectValueDto>>();
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Infrastructure.Localization
 {
@@ -13,7 +12,7 @@ namespace Orso.Arpa.Infrastructure.Localization
         /// <param name="resourceKey">Indicates for which resource to load the translation for.</param>
         /// <param name="culture">The culture for which to load the translation.</param>
         /// <returns>The translation for the combination of the given parameters.</returns>
-        public string GetTranslation(string key, string resourceKey, string culture);
+        public bool TryGetTranslation(string key, string resourceKey, string culture, out string translatedString);
 
         /// <summary>
         /// Returns all translations for the given resourceKey and culture.
@@ -21,7 +20,7 @@ namespace Orso.Arpa.Infrastructure.Localization
         /// <param name="resourceKey">Indicates for which resource to load the translation for.</param>
         /// <param name="culture">The culture for which to load the translation.</param>
         /// <returns>A list of <see cref="Localization"/> matching <paramref name="resourceKey"/> and <paramref name="culture"/>.</returns>
-        IList<Domain.Entities.Localization> GetAllTranslations(string resourceKey, string culture);
+        Dictionary<string, string> GetAllTranslations(string resourceKey, string culture);
 
         /// <summary>
         /// Loads translations from DB into this cache.

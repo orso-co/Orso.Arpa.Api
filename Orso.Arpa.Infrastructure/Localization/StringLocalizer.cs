@@ -23,12 +23,12 @@ namespace Orso.Arpa.Infrastructure.Localization
             IList<LocalizedString> localizedStrings = new List<LocalizedString>();
 
             _cache.GetAllTranslations(_resourceKey, _location).ForAll(ls =>
-                localizedStrings.Add(new LocalizedString(ls.Key, ls.Text)));
+                localizedStrings.Add(new LocalizedString(ls.Key, ls.Value)));
 
             if (includeParentCultures)
             {
                 _cache.GetAllTranslations(_resourceKey, CultureInfo.GetCultureInfo(_location).Parent.ToString()).ForAll(ls =>
-                    localizedStrings.Add(new LocalizedString(ls.Key, ls.Text)));
+                    localizedStrings.Add(new LocalizedString(ls.Key, ls.Value)));
             }
 
             return localizedStrings;
@@ -38,7 +38,8 @@ namespace Orso.Arpa.Infrastructure.Localization
         {
             get
             {
-                return new (name, _cache.GetTranslation(name, _resourceKey, _location));
+                _cache.TryGetTranslation(name, _resourceKey, _location, out var translatedString);
+                return new(name, translatedString);
             }
         }
 

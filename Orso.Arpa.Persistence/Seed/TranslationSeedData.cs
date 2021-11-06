@@ -21,22 +21,18 @@ namespace Orso.Arpa.Persistence.Seed
                 try
                 {
                     // Default English
-                    ApplyTranslation(Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
+                    ApplyTranslation(
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
                         "en").ForAll(e => result.Add(e));
 
-                    // English
-                    ApplyTranslation(Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en-GB.json",
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en-GB.json",
-                        "en-GB").ForAll(e => result.Add(e));
-
                     // German
-                    ApplyTranslation(Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de-DE.json",
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de-DE.json",
-                        "de-DE").ForAll(e => result.Add(e));
-
-
-                } catch (DirectoryNotFoundException)
+                    ApplyTranslation(
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
+                        "de").ForAll(e => result.Add(e));
+                }
+                catch (DirectoryNotFoundException)
                 {
                     Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
                 }
@@ -45,21 +41,28 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        private static IList<Localization> ApplyTranslation(string translationPath,
-            string localizationPath, string culture)
+        private static IList<Localization> ApplyTranslation(
+            string translationPath,
+            string localizationPath,
+            string culture)
         {
+            if (translationPath == null)
+            {
+                throw new ArgumentNullException(nameof(translationPath));
+            }
 
             string translationsJson = File.ReadAllText(translationPath);
             IList<Localization> translationsList = ParseTranslations(translationsJson, culture);
 
-            string localizationsJson= File.ReadAllText(localizationPath);
+            string localizationsJson = File.ReadAllText(localizationPath);
             IList<Localization> localizationsList = ParseLocalications(localizationsJson);
 
             IList<Localization> merge = MergeTranslationToLocalication(translationsList, localizationsList);
             string mergeJson = JsonSerializer.Serialize(merge,
-                new ()
+                new()
                 {
-                    WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                 });
 
             File.WriteAllText(localizationPath, mergeJson);
@@ -134,13 +137,16 @@ namespace Orso.Arpa.Persistence.Seed
                 if (query.IsNullOrEmpty())  // if entry was removed.
                 {
                     if (a.Deleted == false)
+                    {
                         a.Delete(nameof(LocalizationSeedData), DateTime.Now);
+                    }
+
                     result.Add(a);
                 }
                 else
                 {   // if entry can be found in babel json
                     Localization translate = query.First();
-                    Localization updatedLocalization = new Localization(a.Id, translate.Key,
+                    var updatedLocalization = new Localization(a.Id, translate.Key,
                         translate.Text, translate.LocalizationCulture,
                         translate.ResourceKey);
                     updatedLocalization.Create(a.CreatedBy, a.CreatedAt);
@@ -164,7 +170,7 @@ namespace Orso.Arpa.Persistence.Seed
 
                 if (query.IsNullOrEmpty())
                 {
-                    Localization newLocalization = new Localization(b.Id, b.Key, b.Text,
+                    var newLocalization = new Localization(b.Id, b.Key, b.Text,
                         b.LocalizationCulture, b.ResourceKey);
 
                     newLocalization.Create(nameof(LocalizationSeedData), DateTime.Now);

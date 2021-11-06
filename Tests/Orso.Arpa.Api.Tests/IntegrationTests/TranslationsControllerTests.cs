@@ -25,14 +25,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .SendAsync(new HttpRequestMessage(HttpMethod.Get,ApiEndpoints.TranslationController.Get("de-DE")));
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
 
             TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
 
             Dictionary<string, string> roles = result.First(f => f.Key.Equals("RoleDto")).Value;
 
             roles.TryGetValue("Performer", out string kuenstler);
-            kuenstler.Should().BeEquivalentTo("Künstler");
+            kuenstler.Should().BeEquivalentTo("Mitwirkender");
 
             roles.TryGetValue("Staff", out string mitarbeiter);
             mitarbeiter.Should().BeEquivalentTo("Mitarbeiter");
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .SendAsync(new HttpRequestMessage(HttpMethod.Get,ApiEndpoints.TranslationController.Get("de-DE")));
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
 
             TranslationDto expected = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
             Dictionary<string, string> roles = expected.First(f => f.Key.Equals("RoleDto")).Value;
@@ -56,7 +56,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage postResponseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.TranslationController.Put("de-DE"), BuildStringContent(expected));
+                .PutAsync(ApiEndpoints.TranslationController.Put("de"), BuildStringContent(expected));
 
             postResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
@@ -64,7 +64,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .SendAsync(new HttpRequestMessage(HttpMethod.Get,ApiEndpoints.TranslationController.Get("de-DE")));
+                .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
 
             TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
 
