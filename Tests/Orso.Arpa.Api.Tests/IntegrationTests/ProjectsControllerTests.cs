@@ -446,7 +446,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.CommentByStaffInner = dto.CommentByStaffInner;
             expectedDto.CommentTeam = dto.CommentTeam;
             expectedDto.InvitationStatusId = dto.InvitationStatusId;
-            expectedDto.InvitationStatus = "Not invited";
+            expectedDto.InvitationStatus = "Not Invited";
             expectedDto.ParticipationStatusInnerId = dto.ParticipationStatusInnerId;
             expectedDto.ParticipationStatusInner = "Interested";
             expectedDto.ParticipationStatusInternalId = dto.ParticipationStatusInternalId;

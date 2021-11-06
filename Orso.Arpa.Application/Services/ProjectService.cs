@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
@@ -40,9 +39,8 @@ namespace Orso.Arpa.Application.Services
             var query = new GetForProject.Query { ProjectId = id };
             IOrderedQueryable<ProjectParticipation> projectParticipations = await _mediator.Send(query);
 
-            return await projectParticipations
-                .ProjectTo<ProjectParticipationDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            List<ProjectParticipation> list = await projectParticipations.ToListAsync();
+            return _mapper.Map<IEnumerable<ProjectParticipationDto>>(list);
         }
 
         public async Task<ProjectParticipationDto> SetProjectParticipationAsync(SetProjectParticipationDto myProjectParticipationDto)

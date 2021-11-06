@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
@@ -31,11 +29,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(2)]
-        public async Task Should_Localize_De_DE()
+        public async Task Should_Localize_De()
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .GetAsync(ApiEndpoints.RolesController.Get()+"?culture=de-DE");
+                .GetAsync(ApiEndpoints.RolesController.Get() + "?culture=de");
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
@@ -46,11 +44,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(3)]
-        public async Task Should_Localize_En_US()
+        public async Task Should_Localize_En()
         {
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
-                .GetAsync(ApiEndpoints.RolesController.Get()+"?culture=en-US");
+                .GetAsync(ApiEndpoints.RolesController.Get() + "?culture=en");
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
@@ -61,9 +59,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(4)]
-        public async Task Should_Localize_Accept_Language_Header_De_DE()
+        public async Task Should_Localize_Accept_Language_Header_De_DE_Defaults_De()
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get,
                 ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day));
             requestMessage.Headers.Add("Accept-Language", "de-DE");
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
@@ -79,11 +77,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(5)]
-        public async Task Should_Localize_Accept_Language_Header_En_GB()
+        public async Task Should_Localize_Accept_Language_Header_En()
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get,
                 ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day));
-            requestMessage.Headers.Add("Accept-Language", "en-GB");
+            requestMessage.Headers.Add("Accept-Language", "en");
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
                 .CreateClient()
                 .SendAsync(requestMessage);
@@ -99,7 +97,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(6)]
         public async Task Should_Localize_Accept_Language_Header_En_US_Defaults_To_En()
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get,
                 ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day));
             requestMessage.Headers.Add("Accept-Language", "en-US");
             HttpResponseMessage responseMessage = await _unAuthenticatedServer
@@ -117,7 +115,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(7)]
         public async Task Should_Localize_Accept_Language_Header_Default_En()
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get,
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get,
                 ApiEndpoints.AppointmentsController.Get(DateTime.Now, DateRange.Day));
             requestMessage.Headers.Add("Accept-Language", "*");
             HttpResponseMessage responseMessage = await _unAuthenticatedServer

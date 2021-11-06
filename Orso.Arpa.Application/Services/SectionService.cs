@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
@@ -40,9 +39,8 @@ namespace Orso.Arpa.Application.Services
             var query = new Positions.Query { Id = id };
             IQueryable<SelectValueSection> positions = await _mediator.Send(query);
 
-            return await positions
-                .ProjectTo<SelectValueDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            List<SelectValueSection> list = await positions.ToListAsync();
+            return _mapper.Map<IEnumerable<SelectValueDto>>(list);
         }
 
         public async Task<SectionTreeDto> GetTreeAsync(int? maxLevel)

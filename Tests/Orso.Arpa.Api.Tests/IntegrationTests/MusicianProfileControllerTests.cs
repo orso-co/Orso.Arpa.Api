@@ -100,9 +100,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     Person = ReducedPersonDtoData.Performer,
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
-                        ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
                         ReducedMusicianProfileDtoData.PerformerProfile,
-                        ReducedMusicianProfileDtoData.PerformerHornProfile
+                        ReducedMusicianProfileDtoData.PerformerHornProfile,
+                        ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
                     }
                 },
                 new GroupedMusicianProfileDto
@@ -133,7 +133,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<GroupedMusicianProfileDto> result = await DeserializeResponseMessageAsync<IEnumerable<GroupedMusicianProfileDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
+            result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrderingFor(r => r.Person));
         }
 
         [Test, Order(100)]

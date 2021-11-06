@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
@@ -61,9 +60,8 @@ namespace Orso.Arpa.Application.Services
             Tuple<IQueryable<Appointment>, int> appointmentTuple = await _mediator.Send(
                 new AppointmentList.Query(limit, offset, flattenedTree, currentPerson));
 
-            IList<MyAppointmentDto> myAppointmentDtos = await appointmentTuple.Item1
-                .ProjectTo<MyAppointmentDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            List<Appointment> list = await appointmentTuple.Item1.ToListAsync();
+            IList<MyAppointmentDto> myAppointmentDtos = _mapper.Map<IList<MyAppointmentDto>>(list);
 
             foreach (MyAppointmentDto dto in myAppointmentDtos)
             {
@@ -130,9 +128,9 @@ namespace Orso.Arpa.Application.Services
 
             IQueryable<MusicianProfile> musicianProfiles = await _mediator.Send(query);
 
-            return await musicianProfiles
-                .ProjectTo<MyMusicianProfileDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            List<MusicianProfile> profiles = await musicianProfiles.ToListAsync();
+
+            return _mapper.Map<IEnumerable<MyMusicianProfileDto>>(profiles);
         }
 
         public async Task<ProjectParticipationDto> SetMyProjectParticipationAsync(SetMyProjectParticipationDto myProjectParticipationDto)

@@ -1,15 +1,19 @@
 using System.Linq;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoleApplication;
 using Orso.Arpa.Application.RoomApplication;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -21,7 +25,11 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg =>
+            var services = new ServiceCollection();
+            services.AddSingleton<LocalizeAction<SelectValueMapping, SelectValueDto>>();
+            services.AddSingleton<LocalizeAction<Role, RoleDto>>();
+            services.AddSingleton(_localizerCache);
+            services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<MyAppointmentDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
@@ -33,10 +41,12 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<RoleDtoMappingProfile>();
             });
 
-            _mapper = new Mapper(config);
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            _mapper = serviceProvider.GetService<IMapper>();
         }
 
         private IMapper _mapper;
+        private readonly ILocalizerCache _localizerCache = Substitute.For<ILocalizerCache>();
 
         [Test]
         public void Should_Map_Appointment_To_AppointmentDto()

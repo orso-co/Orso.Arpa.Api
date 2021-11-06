@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.DoublingInstrumentApplication;
@@ -56,9 +55,8 @@ namespace Orso.Arpa.Application.Services
             var query = new GetGrouped.Query();
             IQueryable<Person> persons = await _mediator.Send(query);
 
-            return await persons
-                .ProjectTo<GroupedMusicianProfileDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            List<Person> list = await persons.ToListAsync();
+            return _mapper.Map<IEnumerable<GroupedMusicianProfileDto>>(list);
         }
 
         public async Task<IEnumerable<ProjectParticipationDto>> GetProjectParticipationsAsync(Guid id, bool includeCompleted)

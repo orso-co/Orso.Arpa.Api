@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace Orso.Arpa.Infrastructure.Localization
     {
         private static IServiceCollection _services;
         private static readonly object _syncLock = new();
-        private static List<Domain.Entities.Localization> _localizations = new List<Domain.Entities.Localization>();
+        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> _localizations = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
 
         public LocalizerCache(IServiceCollection services)
         {
@@ -23,41 +22,59 @@ namespace Orso.Arpa.Infrastructure.Localization
             return Task.Run(() => _localizations = GetDbLocalizationList());
         }
 
-        public string GetTranslation(string key, string resourceKey, string culture)
+        public bool TryGetTranslation(string key, string resourceKey, string culture, out string translatedString)
         {
+            translatedString = key;
 
             if (_localizations.Count == 0)
             {
                 _localizations = GetDbLocalizationList();
-                return key;
             }
 
-            Domain.Entities.Localization localization = _localizations.AsQueryable().DefaultIfEmpty(null).FirstOrDefault(d =>
-                d.Key.Equals(key) && d.ResourceKey.Equals(resourceKey) && d.LocalizationCulture.Equals(culture, StringComparison.InvariantCultureIgnoreCase));
-
-            return (localization == null) ? key : localization.Text ?? key;
-        }
-
-        public virtual IList<Domain.Entities.Localization> GetAllTranslations(string resourceKey, string culture)
-        {
-            if (_localizations.Count == 0)
+            if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict))
             {
-                return new List<Domain.Entities.Localization>();
+                if (languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict))
+                {
+                    if (keyDict.TryGetValue(key, out var text))
+                    {
+                        if (text != null)
+                        {
+                            translatedString = text;
+                            return true;
+                        }
+                    }
+                }
             }
 
-            IQueryable<Domain.Entities.Localization> query = _localizations.AsQueryable().Where(d =>
-                d.ResourceKey.Equals(resourceKey) && d.LocalizationCulture.Equals(culture, StringComparison.InvariantCultureIgnoreCase));
-
-            return !query.Any() ? new List<Domain.Entities.Localization>() : query.ToList();
+            return false;
         }
 
-        private List<Domain.Entities.Localization> GetDbLocalizationList()
+        public virtual Dictionary<string, string> GetAllTranslations(string resourceKey, string culture)
+        {
+            if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict))
+            {
+                if (languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict))
+                {
+                    return keyDict;
+                }
+            }
+            return new Dictionary<string, string>();
+        }
+
+        private Dictionary<string, Dictionary<string, Dictionary<string, string>>> GetDbLocalizationList()
         {
             lock (_syncLock)
             {
                 using IServiceScope scope = _services.BuildServiceProvider().CreateScope();
                 IArpaContext context = scope.ServiceProvider.GetService<IArpaContext>();
-                return context?.Localizations?.AsQueryable().Where(t => !t.Deleted).ToList();
+                return new Dictionary<string, Dictionary<string, Dictionary<string, string>>>(from item in context?.Localizations.ToList()
+                                                                                              group item by item.ResourceKey into resourceKeyGroup
+                                                                                              orderby resourceKeyGroup.Key
+                                                                                              select new KeyValuePair<string, Dictionary<string, Dictionary<string, string>>>(
+                                                                                                  resourceKeyGroup.Key,
+                                                                                                  new Dictionary<string, Dictionary<string, string>>(from foo in resourceKeyGroup
+                                                                                                                                                     group foo by foo.LocalizationCulture.ToLowerInvariant() into fooGroup
+                                                                                                                                                     select new KeyValuePair<string, Dictionary<string, string>>(fooGroup.Key, fooGroup.ToDictionary(f => f.Key, f => f.Text)))));
             }
         }
     }
