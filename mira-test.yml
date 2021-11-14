@@ -3,6 +3,16 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
+resources:
+  repositories:
+  - repository: Frontend
+    type: github
+    endpoint: Azure Devops OrsoDevOps
+    name: orso-co/Orso.Arpa.Web.Dev
+    ref: develop
+    trigger:
+    - develop
+    
 trigger:
 - develop
 
@@ -10,11 +20,14 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: 'Backend/**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
+- checkout: self
+  path: 'Backend'
+- checkout: Frontend
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
