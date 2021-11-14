@@ -434,7 +434,7 @@ namespace Orso.Arpa.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
+                endpoints.MapGraphQL(path: "/arpa-api/graphql").RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
             });
 
             EnsureDatabaseMigrations(app);
@@ -447,7 +447,7 @@ namespace Orso.Arpa.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
+                c.SwaggerEndpoint("/arpa-api/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
                 c.RoutePrefix = string.Empty;
             });
         }
