@@ -30,6 +30,7 @@ namespace Orso.Arpa.Api
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => webBuilder
+                    .UseKestrel(opt => opt.AddServerHeader = false)
                     .UseStartup<Startup>()
                     .ConfigureLogging(logging =>
                     {
