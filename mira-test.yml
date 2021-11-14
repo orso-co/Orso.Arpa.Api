@@ -45,3 +45,21 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.10'
+  displayName: 'Install Node.js'
+
+- script: npm install
+  displayName: 'Install Dependencies'
+
+- script: npx ng build --prod
+  displayName: 'Build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: './dist'
+    ArtifactName: 'arpa-dev-web-app'
+    publishLocation: 'Container'
+  displayName: 'Publish Artifacts'
