@@ -25,7 +25,9 @@ variables:
   solution: 'Backend\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  frontendOutputPath: '..\Backend\Orso.Arpa.Api\bin\$(buildConfiguration)\net5.0\wwwroot'
+  frontendOutputPath: '..\a\$(SYSTEM_TEAMPROJECT)\bin\$(buildConfiguration)\net5.0\wwwroot'
+  stage: 'dev'
+  targetFramework: '5.0'
 
 steps:
 - checkout: self
@@ -38,10 +40,10 @@ steps:
     targetType: 'inline'
     script: 'env | sort'
 - task: UseDotNet@2
-  displayName: Use .NET SDK 5.0.x
+  displayName: Use .NET SDK $(targetFramework).x
   inputs:
     packageType: 'sdk'
-    version: '5.0.x'
+    version: '$(targetFramework).x'
 - task: DotNetCoreCLI@2
   displayName: Restore Backend
   inputs:
@@ -51,8 +53,16 @@ steps:
   displayName: Build Backend
   inputs:
     command: build
-    projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
+    projects: '$(backendWorkingDirectory)/**/$(SYSTEM_TEAMPROJECT).csproj'
     arguments: --configuration $(BuildConfiguration) --no-restore
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    projects: '$(backendWorkingDirectory)/**/$(SYSTEM_TEAMPROJECT).csproj'
+    publishWebProjects: false
+    arguments: --configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"
+    zipAfterPublish: false
 - task: NodeTool@0
   inputs:
     versionSpec: '16.10'
@@ -67,21 +77,21 @@ steps:
   displayName: List Files
   inputs:
     targetType: 'inline'
-    script: 'tree /f $(AGENT.BUILDDIRECTORY)'
+    script: 'tree /f $(build.artifactstagingdirectory)'
     failOnStderr: true
     showWarnings: true
-- task: DotNetCoreCLI@2
-  displayName: Publish
+- task: ArchiveFiles@2
+  displayName: Create .zip File
   inputs:
-    command: publish
-    projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
-    publishWebProjects: false
-    arguments: --configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"
-    zipAfterPublish: true
-    workingDirectory: $(backendWorkingDirectory)
+    rootFolderOrFile: '$(build.artifactstagingdirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(SYSTEM_TEAMPROJECT).zip'
+    replaceExistingArchive: true
+    verbose: true
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
   inputs:
     PathtoPublish: $(build.artifactstagingdirectory)
-    ArtifactName: orso-arpa-develop
+    ArtifactName: 'orso-arpa-$(stage)'
     TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
