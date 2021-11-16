@@ -11,14 +11,10 @@
 
   <ItemGroup>
     <Content Remove="appsettings.Test.json" />
-    <Content Remove="wwwroot\images\arpa_logo.png" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="appsettings.Test.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="wwwroot\images\arpa_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -45,5 +41,9 @@
     <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>

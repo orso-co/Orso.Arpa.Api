@@ -10,6 +10,7 @@ using Orso.Arpa.Application.TranslationApplication;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
+    [SetUICulture("de")]
     public class TranslationsControllerTests : IntegrationTestBase
     {
         [SetUp]

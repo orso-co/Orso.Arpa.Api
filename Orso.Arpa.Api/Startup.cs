@@ -424,6 +424,7 @@ namespace Orso.Arpa.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseDefaultFiles(); // use index.html
             app.UseStaticFiles();
 
             AddSwagger(app);
@@ -431,22 +432,13 @@ namespace Orso.Arpa.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGraphQL(path: "/arpa-api/graphql").RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
+                endpoints.MapFallbackToController("Index", "Fallback");
+                endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
             });
 
             EnsureDatabaseMigrations(app);
 
             PreloadTranslationsFromDb(app);
-        }
-
-        private static void AddSwagger(IApplicationBuilder app)
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/arpa-api/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
-                c.RoutePrefix = string.Empty;
-            });
         }
 
         private static void ConfigureSecurityHeaders(IApplicationBuilder app, IWebHostEnvironment env)
@@ -472,6 +464,17 @@ namespace Orso.Arpa.Api
                 app.UseHsts();
             }
         }
+
+        private static void AddSwagger(IApplicationBuilder app)
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
+                c.RoutePrefix = string.Empty;
+            });
+        }
+
         protected virtual void EnsureDatabaseMigrations(IApplicationBuilder app)
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();

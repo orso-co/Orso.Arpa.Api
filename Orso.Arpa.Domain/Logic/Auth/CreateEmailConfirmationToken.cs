@@ -74,7 +74,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 var template = new ConfirmEmailTemplate
                 {
                     DisplayName = user.DisplayName,
-                    ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
+                    ArpaLogo = $"{_jwtConfiguration.Audience}/assets/common/logos/arpa_logo.png",
                     ClientUri = uri,
                     ClubAddress = _clubConfiguration.Address,
                     ClubMail = _clubConfiguration.Email,
