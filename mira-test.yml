@@ -28,6 +28,13 @@ steps:
 - checkout: self
   path: 'Backend'
 - checkout: Frontend
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'tree /f $(AGENT.BUILDDIRECTORY)'
+    failOnStderr: true
+    showWarnings: true
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
