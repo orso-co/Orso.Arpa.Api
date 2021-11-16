@@ -475,29 +475,6 @@ namespace Orso.Arpa.Api
             });
         }
 
-        private static void ConfigureSecurityHeaders(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app.UseXContentTypeOptions();
-            app.UseReferrerPolicy(opt => opt.NoReferrer());
-            app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
-            app.UseXfo(opt => opt.Deny());
-            // ToDo: Auf UseCsp umstellen, sobald die Issues im Frontend gefixt sind
-            app.UseCspReportOnly(opt => opt
-                    .BlockAllMixedContent()
-                    .StyleSources(s => s.Self())
-                    .FormActions(s => s.Self())
-                    .FrameAncestors(s => s.Self())
-                    .ScriptSources(s => s.Self())
-                    .ImageSources(s => s.Self())
-                    .ManifestSources(s => s.Self())
-                    .FontSources(s => s.Self().CustomSources("data:", "https://fonts.gstatic.com"))
-                );
-
-            if (env.IsProduction())
-            {
-                app.UseHsts();
-            }
-        }
         protected virtual void EnsureDatabaseMigrations(IApplicationBuilder app)
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
