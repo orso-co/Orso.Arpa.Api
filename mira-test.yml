@@ -25,7 +25,7 @@ variables:
   solution: 'Backend\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  frontendOutputPath: '..\Backend\bin\$(buildConfiguration)\net5.0\wwwroot'
+  frontendOutputPath: '..\Backend\Orso.Arpa.Api\bin\$(buildConfiguration)\net5.0\wwwroot'
 
 steps:
 - checkout: self
@@ -37,13 +37,6 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'env | sort'
-- task: PowerShell@2
-  displayName: List Files
-  inputs:
-    targetType: 'inline'
-    script: 'tree /f $(backendWorkingDirectory)'
-    failOnStderr: true
-    showWarnings: true
 - task: UseDotNet@2
   displayName: Use .NET SDK 5.0.x
   inputs:
@@ -58,7 +51,7 @@ steps:
   displayName: Build Backend
   inputs:
     command: build
-    projects: '$(backendWorkingDirectory)/**/*.csproj'
+    projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
     arguments: --configuration $(BuildConfiguration) --no-restore
 - task: NodeTool@0
   inputs:
@@ -81,7 +74,8 @@ steps:
   displayName: Publish
   inputs:
     command: publish
-    publishWebProjects: True
+    projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
+    publishWebProjects: false
     arguments: --configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"
     zipAfterPublish: true
     workingDirectory: $(backendWorkingDirectory)
