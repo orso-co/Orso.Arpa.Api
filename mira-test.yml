@@ -34,11 +34,6 @@ steps:
   path: 'Backend'
 - checkout: Frontend
   path: 'Frontend'
-- task: Bash@3
-  displayName: Print variables
-  inputs:
-    targetType: 'inline'
-    script: 'env | sort'
 - task: UseDotNet@2
   displayName: Use .NET SDK $(targetFramework).x
   inputs:
@@ -56,7 +51,7 @@ steps:
     projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
     arguments: --configuration $(BuildConfiguration) --no-restore
 - task: DotNetCoreCLI@2
-  displayName: Publish
+  displayName: Publish Backend
   inputs:
     command: publish
     projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
@@ -71,19 +66,12 @@ steps:
   displayName: 'Install Frontend Dependencies'
   workingDirectory: $(frontendWorkingDirectory)
 - script: npx ng build --configuration dev --output-path $(frontendOutputPath)
-  displayName: 'Build'
+  displayName: 'Build Frontend'
   workingDirectory: $(frontendWorkingDirectory)
-- task: PowerShell@2
-  displayName: List Files
-  inputs:
-    targetType: 'inline'
-    script: 'tree /f $(build.artifactstagingdirectory)'
-    failOnStderr: true
-    showWarnings: true
 - task: ArchiveFiles@2
   displayName: Create .zip File
   inputs:
-    rootFolderOrFile: '$(build.artifactstagingdirectory)'
+    rootFolderOrFile: '$(build.artifactstagingdirectory)/Orso.Arpa.Api'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/Orso.Arpa.Api.zip'
