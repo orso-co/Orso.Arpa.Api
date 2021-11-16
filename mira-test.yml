@@ -25,7 +25,7 @@ variables:
   solution: 'Backend\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  frontendOutputPath: '..\a\Orso.Arpa.Api\bin\$(buildConfiguration)\net5.0\wwwroot'
+  frontendOutputPath: '..\a\Orso.Arpa.Api\wwwroot'
   stage: 'dev'
   targetFramework: '5.0'
 
