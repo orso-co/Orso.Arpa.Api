@@ -92,6 +92,6 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
   inputs:
-    PathtoPublish: $(build.artifactstagingdirectory)
+    PathtoPublish: $(build.artifactstagingdirectory)/Orso.Arpa.Api.zip
     ArtifactName: 'orso-arpa-$(stage)'
     TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
