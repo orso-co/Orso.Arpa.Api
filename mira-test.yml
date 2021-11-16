@@ -20,13 +20,13 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  backendWorkingDirectory: $(AGENT.BUILDDIRECTORY) + '\Backend'
-  frontendWorkingDirectory: $(AGENT.BUILDDIRECTORY) + '\Frontend'
+  backendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Backend'
+  frontendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Frontend'
   solution: 'Backend\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   BuildParameters.RestoreBuildProjects: '**\*.csproj'
-  frontendOutputPath: '..\Backend\bin\' + $(buildConfiguration) + '\net5.0\wwwroot'
+  frontendOutputPath: '..\Backend\bin\$(buildConfiguration)\net5.0\wwwroot'
 
 steps:
 - checkout: self
@@ -35,10 +35,10 @@ steps:
   path: 'Frontend'
 - task: DotNetCoreCLI@2
   displayName: Restore Backend
-  workingDirectory: $(backendWorkingDirectory)
   inputs:
     command: restore
     projects: $(BuildParameters.RestoreBuildProjects)
+    workingDirectory: $(backendWorkingDirectory)
 - task: DotNetCoreCLI@2
   displayName: Build Backend
   inputs:
