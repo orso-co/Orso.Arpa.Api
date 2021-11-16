@@ -25,7 +25,7 @@ variables:
   solution: 'Backend\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  frontendOutputPath: '..\a\$(SYSTEM_TEAMPROJECT)\bin\$(buildConfiguration)\net5.0\wwwroot'
+  frontendOutputPath: '..\a\Orso.Arpa.Api\bin\$(buildConfiguration)\net5.0\wwwroot'
   stage: 'dev'
   targetFramework: '5.0'
 
@@ -53,13 +53,13 @@ steps:
   displayName: Build Backend
   inputs:
     command: build
-    projects: '$(backendWorkingDirectory)/**/$(SYSTEM_TEAMPROJECT).csproj'
+    projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
     arguments: --configuration $(BuildConfiguration) --no-restore
 - task: DotNetCoreCLI@2
   displayName: Publish
   inputs:
     command: publish
-    projects: '$(backendWorkingDirectory)/**/$(SYSTEM_TEAMPROJECT).csproj'
+    projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
     publishWebProjects: false
     arguments: --configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"
     zipAfterPublish: false
@@ -86,7 +86,7 @@ steps:
     rootFolderOrFile: '$(build.artifactstagingdirectory)'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(SYSTEM_TEAMPROJECT).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Orso.Arpa.Api.zip'
     replaceExistingArchive: true
     verbose: true
 - task: PublishBuildArtifacts@1
