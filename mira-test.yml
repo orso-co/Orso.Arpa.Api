@@ -38,12 +38,16 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'env | sort'
+- task: UseDotNet@2
+  displayName: User .NET SDK 5.0.x
+  inputs:
+    packageType: 'sdk'
+    version: '5.0.x
 - task: DotNetCoreCLI@2
   displayName: Restore Backend
   inputs:
     command: restore
     projects: $(BuildParameters.RestoreBuildProjects)
-    workingDirectory: $(backendWorkingDirectory)
 - task: DotNetCoreCLI@2
   displayName: Build Backend
   inputs:
