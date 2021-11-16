@@ -49,18 +49,19 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '5.0.x'
+    workingDirectory: $(backendWorkingDirectory)
 - task: DotNetCoreCLI@2
   displayName: Restore Backend
   inputs:
     command: restore
     projects: '**/*.csproj'
-    verbosityRestore: 'diagnostic'
+    verbosityRestore: 'Detailed'
     workingDirectory: $(backendWorkingDirectory)
 - task: DotNetCoreCLI@2
   displayName: Build Backend
   inputs:
-    command: 'build'
-    projects: $(BuildParameters.RestoreBuildProjects)
+    command: build
+    projects: '**/*.csproj'
     arguments: --configuration $(BuildConfiguration) --no-restore
     workingDirectory: $(backendWorkingDirectory)
 - task: NodeTool@0
