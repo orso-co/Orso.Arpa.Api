@@ -15,6 +15,7 @@ resources:
     
 trigger:
 - master
+pr: none
 
 pool:
   vmImage: 'windows-latest'
