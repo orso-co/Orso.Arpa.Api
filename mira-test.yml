@@ -25,7 +25,7 @@ variables:
   solution: 'Backend\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  BuildParameters.RestoreBuildProjects: '**\**\*.csproj'
+  BuildParameters.RestoreBuildProjects: '**\*.csproj'
   frontendOutputPath: '..\Backend\bin\$(buildConfiguration)\net5.0\wwwroot'
 
 steps:
