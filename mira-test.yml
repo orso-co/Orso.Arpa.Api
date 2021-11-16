@@ -25,7 +25,6 @@ variables:
   solution: 'Backend\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  BuildParameters.RestoreBuildProjects: '**\*.csproj'
   frontendOutputPath: '..\Backend\bin\$(buildConfiguration)\net5.0\wwwroot'
 
 steps:
@@ -38,6 +37,13 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'env | sort'
+- task: PowerShell@2
+  displayName: List Files
+  inputs:
+    targetType: 'inline'
+    script: 'tree /f $(backendWorkingDirectory)'
+    failOnStderr: true
+    showWarnings: true
 - task: UseDotNet@2
   displayName: Use .NET SDK 5.0.x
   inputs:
@@ -47,7 +53,7 @@ steps:
   displayName: Restore Backend
   inputs:
     command: restore
-    projects: $(BuildParameters.RestoreBuildProjects)
+    projects: '**/*.csproj'
     verbosityRestore: 'diagnostic'
     workingDirectory: $(backendWorkingDirectory)
 - task: DotNetCoreCLI@2
