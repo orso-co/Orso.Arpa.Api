@@ -24,8 +24,6 @@
     <None Include="appsettings.Test.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="wwwroot\assets\common\fonts\icomoon\demo-files\demo.js" />
-    <None Include="wwwroot\assets\common\fonts\icomoon\fonts\icomoon.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,5 +48,9 @@
     <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>
