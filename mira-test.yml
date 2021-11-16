@@ -39,7 +39,7 @@ steps:
     targetType: 'inline'
     script: 'env | sort'
 - task: UseDotNet@2
-  displayName: User .NET SDK 5.0.x
+  displayName: Use .NET SDK 5.0.x
   inputs:
     packageType: 'sdk'
     version: '5.0.x'
@@ -48,12 +48,14 @@ steps:
   inputs:
     command: restore
     projects: $(BuildParameters.RestoreBuildProjects)
+    verbosityRestore: 'diagnostic'
+    workingDirectory: $(backendWorkingDirectory)
 - task: DotNetCoreCLI@2
   displayName: Build Backend
   inputs:
     command: 'build'
     projects: $(BuildParameters.RestoreBuildProjects)
-    arguments: --configuration $(BuildConfiguration)
+    arguments: --configuration $(BuildConfiguration) --no-restore
     workingDirectory: $(backendWorkingDirectory)
 - task: NodeTool@0
   inputs:
