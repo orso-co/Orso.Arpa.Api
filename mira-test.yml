@@ -20,53 +20,60 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: 'Backend/**/*.sln'
+  backendWorkingDirectory: $(AGENT.BUILDDIRECTORY) + '\Backend'
+  frontendWorkingDirectory: $(AGENT.BUILDDIRECTORY) + '\Frontend'
+  solution: 'Backend\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  BuildParameters.RestoreBuildProjects: '**\*.csproj'
+  frontendOutputPath: '..\Backend\bin\' + $(buildConfiguration) + '\net5.0\wwwroot'
 
 steps:
 - checkout: self
   path: 'Backend'
 - checkout: Frontend
-
+  path: 'Frontend'
+- task: DotNetCoreCLI@2
+  displayName: Restore Backend
+  workingDirectory: $(backendWorkingDirectory)
+  inputs:
+    command: restore
+    projects: $(BuildParameters.RestoreBuildProjects)
+- task: DotNetCoreCLI@2
+  displayName: Build Backend
+  inputs:
+    command: 'build'
+    projects: $(BuildParameters.RestoreBuildProjects)
+    arguments: --configuration $(BuildConfiguration)
+    workingDirectory: $(backendWorkingDirectory)
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.10'
+  displayName: 'Install Node.js'
+- script: npm install
+  displayName: 'Install Frontend Dependencies'
+  workingDirectory: $(frontendWorkingDirectory)
+- script: npx ng build --configuration dev --output-path $(frontendOutputPath)
+  displayName: 'Build'
+  workingDirectory: $(frontendWorkingDirectory)
 - task: PowerShell@2
+  displayName: List Files
   inputs:
     targetType: 'inline'
     script: 'tree /f $(AGENT.BUILDDIRECTORY)'
     failOnStderr: true
     showWarnings: true
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
+  displayName: Publish
   inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: NodeTool@0
-  inputs:
-    versionSpec: '16.10'
-  displayName: 'Install Node.js'
-
-- script: npm install
-  displayName: 'Install Dependencies'
-
-- script: npx ng build --prod
-  displayName: 'Build'
-
+    command: publish
+    publishWebProjects: True
+    arguments: --configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"
+    zipAfterPublish: true
+    workingDirectory: $(backendWorkingDirectory)
 - task: PublishBuildArtifacts@1
+  displayName: Publish Artifact
   inputs:
-    PathtoPublish: './dist'
-    ArtifactName: 'arpa-dev-web-app'
-    publishLocation: 'Container'
-  displayName: 'Publish Artifacts'
+    PathtoPublish: $(build.artifactstagingdirectory)
+    ArtifactName: orso-arpa-develop
+    TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
