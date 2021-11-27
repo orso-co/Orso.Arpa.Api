@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.0.1" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.0.1" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.3.2" />
     <PackageReference Include="HotChocolate.Data" Version="12.0.1" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />
