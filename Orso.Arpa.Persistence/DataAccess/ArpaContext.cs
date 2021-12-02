@@ -207,7 +207,7 @@ namespace Orso.Arpa.Persistence.DataAccess
                     string propertyName = property.Metadata.Name;
                     if (property.Metadata.IsPrimaryKey())
                     {
-                        Dictionary<string, Guid> keyValues = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, null);
+                        Dictionary<string, Guid> keyValues = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, (JsonSerializerOptions)null);
                         keyValues[propertyName] = (Guid)property.CurrentValue;
                         auditEntry.KeyValues = JsonSerializer.Serialize(keyValues);
                         continue;

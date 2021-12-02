@@ -59,7 +59,7 @@ namespace Orso.Arpa.Persistence.Seed
 
             IList<Localization> merge = MergeTranslationToLocalication(translationsList, localizationsList);
             string mergeJson = JsonSerializer.Serialize(merge,
-                new()
+                new JsonSerializerOptions()
                 {
                     WriteIndented = true,
                     Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
