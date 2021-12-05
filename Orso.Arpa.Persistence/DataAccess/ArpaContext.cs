@@ -35,6 +35,7 @@ namespace Orso.Arpa.Persistence.DataAccess
             IDateTimeProvider dateTimeProvider,
             CallBack<Localization> translationCallBack) : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             _tokenAccessor = tokenAccessor;
             _dateTimeProvider = dateTimeProvider;
             _translationCallBack = translationCallBack;

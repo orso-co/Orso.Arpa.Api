@@ -11,6 +11,7 @@ namespace Orso.Arpa.Persistence.GraphQL
     {
         public GraphQLContext(DbContextOptions<GraphQLContext> options) : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         public DbSet<Address> Addresses { get; set; }
