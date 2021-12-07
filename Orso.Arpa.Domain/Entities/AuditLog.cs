@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using Orso.Arpa.Domain.ChangeLog;
 using Orso.Arpa.Domain.Enums;
 
@@ -17,5 +20,9 @@ namespace Orso.Arpa.Domain.Entities
         public Dictionary<string, object> NewValues { get; } = new Dictionary<string, object>();
         public IList<string> ChangedColumns { get; } = new List<string>();
         public string KeyValues { get; set; } = "{}";
+
+        public string OldValuesJson => JsonSerializer.Serialize(OldValues, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) });
+
+        public string NewValuesJson => JsonSerializer.Serialize(NewValues, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) });
     }
 }

@@ -120,6 +120,11 @@ namespace Orso.Arpa.Api
 
             ConfigureAuthorization(services);
 
+            ConfigureGraphQL(services);
+        }
+
+        protected virtual void ConfigureGraphQL(IServiceCollection services)
+        {
             services
                 .AddGraphQLServer()
                 .AddAuthorization()
