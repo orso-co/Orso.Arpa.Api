@@ -456,13 +456,13 @@ namespace Orso.Arpa.Api
             app.UseCspReportOnly(opt => opt
                     .BlockAllMixedContent()
                     .DefaultSources(s => s.Self())
-                    .StyleSources(s => s.Self().UnsafeInline()) // https://angular.io/guide/security
+                    .StyleSources(s => s.Self().UnsafeInline().CustomSources("fonts.googleapis.com")) // https://angular.io/guide/security
                     .FormActions(s => s.Self())
                     .FrameAncestors(s => s.Self())
                     .ScriptSources(s => s.Self())
                     .ImageSources(s => s.Self())
                     .ManifestSources(s => s.Self())
-                    .FontSources(s => s.Self().CustomSources("data:", "https://fonts.gstatic.com"))
+                    .FontSources(s => s.Self().CustomSources("fonts.gstatic.com"))
                 );
 
             if (env.IsProduction())
