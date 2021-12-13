@@ -455,7 +455,8 @@ namespace Orso.Arpa.Api
             // ToDo: Auf UseCsp umstellen, sobald die Issues im Frontend gefixt sind
             app.UseCspReportOnly(opt => opt
                     .BlockAllMixedContent()
-                    .StyleSources(s => s.Self())
+                    .DefaultSources(s => s.Self())
+                    .StyleSources(s => s.Self().UnsafeInline()) // https://angular.io/guide/security
                     .FormActions(s => s.Self())
                     .FrameAncestors(s => s.Self())
                     .ScriptSources(s => s.Self())
