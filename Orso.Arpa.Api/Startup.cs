@@ -458,10 +458,16 @@ namespace Orso.Arpa.Api
                     .DefaultSources(s => s.Self())
                     .StyleSources(s => s.Self().UnsafeInline().CustomSources("fonts.googleapis.com")) // https://angular.io/guide/security
                     .FormActions(s => s.Self())
+                    .FrameSources(s => s.Self().CustomSources("https://www.google.com/recaptcha/", "https://recaptcha.google.com/recaptcha/"))
                     .FrameAncestors(s => s.Self())
-                    .ScriptSources(s => s.Self())
+                    .ScriptSources(s => s.Self().CustomSources("https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/"))
                     .ImageSources(s => s.Self())
                     .ManifestSources(s => s.Self())
+                    .MediaSources(s => s.Self())
+                    .ObjectSources(s => s.Self())
+                    .ChildSources(s => s.Self())
+                    .ConnectSources(s => s.Self())
+                    .WorkerSources(s => s.Self())
                     .FontSources(s => s.Self().CustomSources("fonts.gstatic.com"))
                 );
 
