@@ -163,7 +163,10 @@ namespace Orso.Arpa.Api
             {
                 options.SetDefaultCulture(localizationConfiguration.DefaultCulture);
                 options.AddSupportedUICultures(localizationConfiguration.SupportedUiCultures.ToArray());
+                options.AddSupportedCultures(localizationConfiguration.SupportedUiCultures.ToArray());
+                options.ApplyCurrentCultureToResponseHeaders = true;
                 options.FallBackToParentCultures = localizationConfiguration.FallbackToParentCulture;
+                options.FallBackToParentUICultures = localizationConfiguration.FallbackToParentCulture;
             });
         }
 
