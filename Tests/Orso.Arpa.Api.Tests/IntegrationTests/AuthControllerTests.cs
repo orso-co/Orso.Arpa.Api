@@ -391,7 +391,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
                 yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
                 yield return new TestCaseData(FakeUsers.Performer, FakeUsers.Admin, Array.Empty<string>(), HttpStatusCode.NoContent, false);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Performer }, HttpStatusCode.NoContent, true);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Performer }, HttpStatusCode.UnprocessableEntity, false);
+                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Admin, RoleNames.Performer }, HttpStatusCode.NoContent, true);
             }
         }
 

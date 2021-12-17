@@ -1,12 +1,16 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Domain.Logic.Auth
 {
@@ -55,11 +59,27 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (!isNewUser)
                 {
+                    if (await CheckIfLastAdminWillBeRemovedAsync(currentRoles, request.RoleNames, user.Id))
+                    {
+                        throw new ValidationException(new ValidationFailure[] { new ValidationFailure(nameof(request.RoleNames), "The operation is not allowed because it would remove the last administrator") });
+                    }
                     await _userManager.RemoveFromRolesAsync(user, currentRoles);
                 }
                 await _userManager.AddToRolesAsync(user, request.RoleNames);
 
                 return isNewUser;
+            }
+
+            private async Task<bool> CheckIfLastAdminWillBeRemovedAsync(IList<string> currentRoles, IEnumerable<string> newRoles, Guid userId)
+            {
+                if (!currentRoles.Contains(RoleNames.Admin) || newRoles.Contains(RoleNames.Admin))
+                {
+                    return false;
+                }
+
+                IList<User> adminUsers = await _userManager.GetUsersInRoleAsync(RoleNames.Admin);
+
+                return adminUsers.Count == 1 && adminUsers.First().Id.Equals(userId);
             }
         }
     }
