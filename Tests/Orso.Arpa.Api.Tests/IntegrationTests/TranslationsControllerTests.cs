@@ -10,16 +10,8 @@ using Orso.Arpa.Application.TranslationApplication;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
-    [SetUICulture("de")]
     public class TranslationsControllerTests : IntegrationTestBase
     {
-        [SetUp]
-        public void SetUp()
-        {
-
-        }
-
-
         [Test, Order(1)]
         public async Task Should_Return_Translations()
         {
@@ -30,16 +22,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
 
-            Dictionary<string, string> roles = result.First(f => f.Key.Equals("RoleDto")).Value;
+            Dictionary<string, string> sections = result.First(f => f.Key.Equals("SectionDto")).Value;
 
-            roles.TryGetValue("Performer", out string kuenstler);
-            kuenstler.Should().BeEquivalentTo("Mitwirkender");
+            sections.TryGetValue("Performers", out string kuenstler);
+            kuenstler.Should().BeEquivalentTo("Mitwirkende");
 
-            roles.TryGetValue("Staff", out string mitarbeiter);
-            mitarbeiter.Should().BeEquivalentTo("Mitarbeiter");
+            sections.TryGetValue("Orchestra", out string orchester);
+            orchester.Should().BeEquivalentTo("Orchester");
 
-            roles.TryGetValue("Admin", out string administrator);
-            administrator.Should().BeEquivalentTo("Administrator");
+            sections.TryGetValue("Basso", out string basso);
+            basso.Should().BeEquivalentTo("Bass");
         }
 
         [Test, Order(2)]
@@ -51,8 +43,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
 
             TranslationDto expected = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
-            Dictionary<string, string> roles = expected.First(f => f.Key.Equals("RoleDto")).Value;
-            roles.Add("TheOneAndOnly", "DerEinzigWahre");
+            Dictionary<string, string> sections = expected.First(f => f.Key.Equals("SectionDto")).Value;
+            sections.Add("TheOneAndOnly", "DerEinzigWahre");
 
             HttpResponseMessage postResponseMessage = await _authenticatedServer
                 .CreateClient()

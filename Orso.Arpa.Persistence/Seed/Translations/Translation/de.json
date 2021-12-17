@@ -106,11 +106,6 @@
         "Band": "Band",
         "Soloists":  "Solisten"
     },
-    "RoleDto": {
-        "Performer": "Mitwirkender",
-        "Staff": "Mitarbeiter",
-        "Admin": "Administrator"
-    },
     "SelectValueDto": {
         "Present": "Anwesend",
         "Absent": "Nicht anwesend",
