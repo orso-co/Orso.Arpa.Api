@@ -55,7 +55,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
             IList<string> currentUserRoles = _userAccessor.UserRoles;
 
-            if (!currentUserRoles.Any())
+            if (currentUserRoles.Count == 0)
             {
                 context.Fail();
                 return;
