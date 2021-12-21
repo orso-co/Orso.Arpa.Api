@@ -48,7 +48,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Title.Should().Be("Resource not found.");
             errorMessage.Status.Should().Be(404);
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "User could not be found." } } });
-
         }
 
         [Test, Order(10000)]
@@ -84,6 +83,23 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             IList<UserDto> result = (await DeserializeResponseMessageAsync<IEnumerable<UserDto>>(responseMessage)).ToList();
 
             result.Should().BeEquivalentTo(expectedDtos);
+        }
+
+        [Test, Order(10002)]
+        public async Task Should_Not_Delete_Last_Admin()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_admin)
+                .DeleteAsync(ApiEndpoints.UsersController.Delete("admin"));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            errorMessage.Status.Should().Be(422);
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "The operation is not allowed because it would remove the last administrator" } } });
         }
 
         [Test, Order(2)]
