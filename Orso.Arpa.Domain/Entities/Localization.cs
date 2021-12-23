@@ -12,7 +12,6 @@ namespace Orso.Arpa.Domain.Entities
             ResourceKey = resourceKey;
         }
 
-
         public Localization(Guid id, string key, string text, string localizationCulture,
             string resourceKey, string createdBy, DateTime createdAt, string modifiedBy,
             DateTime? modifiedAt, bool deleted) : base(id)
@@ -22,9 +21,12 @@ namespace Orso.Arpa.Domain.Entities
             LocalizationCulture = localizationCulture;
             ResourceKey = resourceKey;
             base.Create(createdBy, createdAt);
-            if (modifiedAt != null) {
+            if (modifiedAt != null)
+            {
                 if (deleted)
+                {
                     Delete(modifiedBy, (DateTime)modifiedAt);
+                }
                 else
                 {
                     base.Modify(modifiedBy, (DateTime)modifiedAt);
@@ -39,6 +41,5 @@ namespace Orso.Arpa.Domain.Entities
         public string LocalizationCulture { get; set; }
 
         public string ResourceKey { get; set; }
-
     }
 }

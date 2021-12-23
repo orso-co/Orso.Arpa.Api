@@ -6,7 +6,8 @@ ORSO Berlin develops choir and orchestra management software
 ## Deployment
 [![Build Status](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_apis/build/status/orso-arpa%20-%201%20-%20CI?branchName=master)](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_build/latest?definitionId=2&branchName=master)
 
-[Deployed Test Api](https://orso-arpa.azurewebsites.net)
+[Dev](https://orso-arpa-dev.azurewebsites.net/)
+[Staging](https://orso-arpa-staging.azurewebsites.net/)
 
 [Build and Release Pipelines](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api)
 

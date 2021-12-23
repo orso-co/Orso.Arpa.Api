@@ -19,7 +19,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     {
         private static Guid GetEntryId()
         {
-            return JsonSerializer.Deserialize<Dictionary<string, Guid>>(AuditLogSeedData.CreateRegion.KeyValues, null)["Id"];
+            return JsonSerializer.Deserialize<Dictionary<string, Guid>>(AuditLogSeedData.CreateRegion.KeyValues, (JsonSerializerOptions)null)["Id"];
         }
 
         [Test, Order(1)]

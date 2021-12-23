@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Modify;

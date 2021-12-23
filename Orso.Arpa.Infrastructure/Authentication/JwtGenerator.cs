@@ -106,9 +106,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
         private RefreshToken GernerateRefreshToken(User user, string ipAddress)
         {
-            using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
-            var randomBytes = new byte[64];
-            rngCryptoServiceProvider.GetBytes(randomBytes);
+            var randomBytes = RandomNumberGenerator.GetBytes(64);
             DateTime now = _dateTimeProvider.GetUtcNow();
 
             return new RefreshToken
