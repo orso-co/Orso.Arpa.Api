@@ -35,6 +35,7 @@ namespace Orso.Arpa.Persistence.DataAccess
             IDateTimeProvider dateTimeProvider,
             CallBack<Localization> translationCallBack) : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             _tokenAccessor = tokenAccessor;
             _dateTimeProvider = dateTimeProvider;
             _translationCallBack = translationCallBack;
@@ -207,7 +208,7 @@ namespace Orso.Arpa.Persistence.DataAccess
                     string propertyName = property.Metadata.Name;
                     if (property.Metadata.IsPrimaryKey())
                     {
-                        Dictionary<string, Guid> keyValues = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, null);
+                        Dictionary<string, Guid> keyValues = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, (JsonSerializerOptions)null);
                         keyValues[propertyName] = (Guid)property.CurrentValue;
                         auditEntry.KeyValues = JsonSerializer.Serialize(keyValues);
                         continue;

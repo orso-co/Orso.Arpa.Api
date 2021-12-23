@@ -54,7 +54,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = ie.Message,
                         Detail = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
                     };
-                    _logger.LogError(ie, "IDENTITY ERROR", errorMessage, errorMessage);
+                    _logger.LogError(ie, "IDENTITY ERROR", errorMessage);
                     break;
 
                 case ValidationException ve:

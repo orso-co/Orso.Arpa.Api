@@ -30,15 +30,15 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(e => e.OldValues)
                 .HasConversion(
-                    e => JsonSerializer.Serialize(e, null),
-                    e => JsonSerializer.Deserialize<Dictionary<string, object>>(e, null))
+                    e => JsonSerializer.Serialize(e, (JsonSerializerOptions)null),
+                    e => JsonSerializer.Deserialize<Dictionary<string, object>>(e, (JsonSerializerOptions)null))
                 .Metadata.SetValueComparer(dictionaryValueComparer);
 
             builder
                 .Property(e => e.NewValues)
                 .HasConversion(
-                    e => JsonSerializer.Serialize(e, null),
-                    e => JsonSerializer.Deserialize<Dictionary<string, object>>(e, null))
+                    e => JsonSerializer.Serialize(e, (JsonSerializerOptions)null),
+                    e => JsonSerializer.Deserialize<Dictionary<string, object>>(e, (JsonSerializerOptions)null))
                 .Metadata.SetValueComparer(dictionaryValueComparer);
 
             builder
@@ -50,8 +50,8 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(e => e.ChangedColumns)
                 .HasConversion(
-                    e => JsonSerializer.Serialize(e, null),
-                    e => JsonSerializer.Deserialize<List<string>>(e, null))
+                    e => JsonSerializer.Serialize(e, (JsonSerializerOptions)null),
+                    e => JsonSerializer.Deserialize<List<string>>(e, (JsonSerializerOptions)null))
                 .Metadata.SetValueComparer(new ValueComparer<IList<string>>(
                     (c1, c2) => c1.SequenceEqual(c2),
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),

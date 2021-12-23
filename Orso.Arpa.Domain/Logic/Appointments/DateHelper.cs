@@ -19,7 +19,8 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         private static DateTime FirstDayOfWeek(DateTime date)
         {
             int diff = (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7;
-            return date.AddDays(-1 * diff).Date;
+            DateTime firstDay = date.AddDays(-1 * diff);
+            return new DateTime(firstDay.Year, firstDay.Month, firstDay.Day, 0, 0, 0, DateTimeKind.Local);
         }
 
         private static DateTime LastDayOfWeek(DateTime date)
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             {
                 DateRange.Month => FirstDayOfMonth(date),
                 DateRange.Week => FirstDayOfWeek(date),
-                DateRange.Day => date.Date,
+                DateRange.Day => new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, DateTimeKind.Local),
                 _ => throw new NotSupportedException("Requested DateRange is not supported"),
             };
         }

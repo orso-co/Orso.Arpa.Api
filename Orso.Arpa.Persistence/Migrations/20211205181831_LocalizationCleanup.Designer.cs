@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -11,9 +12,10 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20211205181831_LocalizationCleanup")]
+    partial class LocalizationCleanup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1245,11 +1247,9 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("676b04c8-4256-4008-9fc4-be62ea8f5dd0"),
                             CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 400, DateTimeKind.Local).AddTicks(7391),
                             CreatedBy = "LocalizationSeedData",
-                            Deleted = true,
+                            Deleted = false,
                             Key = "Performer",
                             LocalizationCulture = "de",
-                            ModifiedAt = new DateTime(2021, 12, 17, 16, 14, 23, 215, DateTimeKind.Local).AddTicks(9665),
-                            ModifiedBy = "LocalizationSeedData",
                             ResourceKey = "RoleDto",
                             Text = "Mitwirkender"
                         },
@@ -1258,11 +1258,9 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("9860c80a-fa54-49e6-b314-ba895bd31348"),
                             CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 401, DateTimeKind.Local).AddTicks(1189),
                             CreatedBy = "LocalizationSeedData",
-                            Deleted = true,
+                            Deleted = false,
                             Key = "Staff",
                             LocalizationCulture = "de",
-                            ModifiedAt = new DateTime(2021, 12, 17, 16, 14, 23, 217, DateTimeKind.Local).AddTicks(17),
-                            ModifiedBy = "LocalizationSeedData",
                             ResourceKey = "RoleDto",
                             Text = "Mitarbeiter"
                         },
@@ -1271,11 +1269,9 @@ namespace Orso.Arpa.Persistence.Migrations
                             Id = new Guid("cc54cb2a-30b5-473b-8d31-7788410bbc58"),
                             CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 401, DateTimeKind.Local).AddTicks(4545),
                             CreatedBy = "LocalizationSeedData",
-                            Deleted = true,
+                            Deleted = false,
                             Key = "Admin",
                             LocalizationCulture = "de",
-                            ModifiedAt = new DateTime(2021, 12, 17, 16, 14, 23, 217, DateTimeKind.Local).AddTicks(7085),
-                            ModifiedBy = "LocalizationSeedData",
                             ResourceKey = "RoleDto",
                             Text = "Administrator"
                         },
