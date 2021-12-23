@@ -21,7 +21,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Delete_User()
         {
             // Arrange
-            User user = FakeUsers.Admin;
+            User user = FakeUsers.UnconfirmedUser;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

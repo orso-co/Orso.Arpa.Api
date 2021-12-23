@@ -143,5 +143,20 @@ namespace Orso.Arpa.Tests.Shared.Identity
         {
             return Task.FromResult(IdentityResult.Success);
         }
+
+        public override Task<IList<User>> GetUsersInRoleAsync(string roleName)
+        {
+            switch (roleName)
+            {
+                case RoleNames.Admin:
+                    return Task.FromResult(new List<User> { FakeUsers.Admin } as IList<User>);
+                case RoleNames.Staff:
+                    return Task.FromResult(new List<User> { FakeUsers.Staff } as IList<User>);
+                case RoleNames.Performer:
+                    return Task.FromResult(new List<User> { FakeUsers.Performer } as IList<User>);
+                default:
+                    return Task.FromResult(new List<User>() as IList<User>);
+            }
+        }
     }
 }
