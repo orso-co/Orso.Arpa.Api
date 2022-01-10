@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk as base
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as base
 
 ARG PROJECT="Orso.Arpa.Api"
 ARG ENVIRONMENT="Development"
