@@ -2,7 +2,7 @@ name: Backend PR Check
 
 on:
   pull_request:
-    branches: [ master, develop ]
+    branches: [ develop ]
 
 jobs:
   build:
