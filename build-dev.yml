@@ -8,7 +8,7 @@ resources:
   - repository: Frontend
     type: github
     endpoint: Azure Devops OrsoDevOps
-    name: orso-co/Orso.Arpa.Web.Dev
+    name: orso-co/Orso.Arpa.Web
     ref: develop
     trigger:
     - develop
