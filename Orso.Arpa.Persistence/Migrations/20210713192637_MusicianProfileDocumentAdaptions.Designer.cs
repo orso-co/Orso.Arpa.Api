@@ -2397,7 +2397,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             InstrumentPartCount = (byte)2,
                             IsInstrument = true,
-                            Name = "Basso",
+                            Name = "Bass",
                             ParentId = new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a")
                         },
                         new
@@ -3745,7 +3745,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 1808"
+                            Name = "Orchestra Concert Rate: 1808"
                         },
                         new
                         {
@@ -3753,7 +3753,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 9€/11€ at 10h"
+                            Name = "Orchestra Concert Rate: 9€/11€ at 10h"
                         },
                         new
                         {
@@ -3761,7 +3761,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 9 €/11€ at 12h"
+                            Name = "Orchestra Concert Rate: 9€/11€ at 12h"
                         },
                         new
                         {

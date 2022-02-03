@@ -1413,7 +1413,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 555, DateTimeKind.Local).AddTicks(3686),
                             CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "Basso",
+                            Key = "Bass",
                             LocalizationCulture = "de",
                             ResourceKey = "SectionDto",
                             Text = "Bass"
@@ -2601,7 +2601,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 647, DateTimeKind.Local).AddTicks(1795),
                             CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "Orchesetra Concert Lump Sump 1808",
+                            Key = "Orchestra Concert Rate: 1808",
                             LocalizationCulture = "de",
                             ResourceKey = "SelectValueDto",
                             Text = "Orchester Konzertpauschale 1808"
@@ -2612,7 +2612,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 647, DateTimeKind.Local).AddTicks(9502),
                             CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "Orchestra Concert Lump Sum 9€/11€ at 10h",
+                            Key = "Orchestra Concert Rate: 9€/11€ at 10h",
                             LocalizationCulture = "de",
                             ResourceKey = "SelectValueDto",
                             Text = "Orchester Konzertpauschale 9€/11€ bei 10h"
@@ -2623,7 +2623,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 648, DateTimeKind.Local).AddTicks(6980),
                             CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "Orchestra Concert Lump Sum 9 €/11€ at 12h",
+                            Key = "Orchestra Concert Rate: 9€/11€ at 12h",
                             LocalizationCulture = "de",
                             ResourceKey = "SelectValueDto",
                             Text = "Orchester Konzertpauschale 9€/11€ bei 12h"
@@ -4355,7 +4355,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             InstrumentPartCount = (byte)2,
                             IsInstrument = true,
-                            Name = "Basso",
+                            Name = "Bass",
                             ParentId = new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a")
                         },
                         new
@@ -5703,7 +5703,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 1808"
+                            Name = "Orchestra Concert Rate: 1808"
                         },
                         new
                         {
@@ -5711,7 +5711,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 9€/11€ at 10h"
+                            Name = "Orchestra Concert Rate: 9€/11€ at 10h"
                         },
                         new
                         {
@@ -5719,7 +5719,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 9 €/11€ at 12h"
+                            Name = "Orchestra Concert Rate: 9€/11€ at 12h"
                         },
                         new
                         {

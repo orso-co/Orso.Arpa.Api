@@ -1225,15 +1225,15 @@ namespace Orso.Arpa.Persistence.Migrations
                     { new Guid("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Work" },
                     { new Guid("608b5583-a8dc-48d7-8afa-ef87ca0327f0"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Private" },
                     { new Guid("717a27d5-2ef3-4266-92a8-84b3600115eb"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Orchestra Rehearsal Hourly Rate 9/11" },
-                    { new Guid("a10ce98a-b903-4dca-801d-3afb07711877"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Orchestra Concert Lump Sum 9 €/11€ at 12h" },
+                    { new Guid("a10ce98a-b903-4dca-801d-3afb07711877"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Orchestra Concert Rate: 9€/11€ at 12h" },
                     { new Guid("9c0295b7-1b16-4fd6-a7de-ecd724c823b3"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Optional" },
-                    { new Guid("ddb23793-af96-4ea6-9b27-5e2dcfc90b65"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Orchestra Concert Lump Sum 1808" },
+                    { new Guid("ddb23793-af96-4ea6-9b27-5e2dcfc90b65"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Orchestra Concert Rate: 1808" },
                     { new Guid("b60d04e0-9841-41c9-9d24-976c8363a33d"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Glöckner 2018" },
                     { new Guid("2567e7be-5a5a-4671-b5ad-765c1e80fd41"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Special Case" },
                     { new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Other" },
                     { new Guid("a85738d9-e68e-4584-bac8-ccca8d539636"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Audition" },
                     { new Guid("f52b9170-c6f6-4828-b96c-df5dfbe9bd73"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Professional" },
-                    { new Guid("d91def3e-4c55-42c7-ac56-147846be6bfa"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Orchestra Concert Lump Sum 9€/11€ at 10h" }
+                    { new Guid("d91def3e-4c55-42c7-ac56-147846be6bfa"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, "", null, null, "Orchestra Concert Rate: 9€/11€ at 10h" }
                 });
 
             migrationBuilder.InsertData(
@@ -1427,7 +1427,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     { new Guid("cdc390d5-0649-441d-a086-df2e3b9d3512"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Clarinet", new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd") },
                     { new Guid("2327a9c3-2c6f-41b7-9045-bb00af798b42"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Oboe", new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd") },
                     { new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Flute", new Guid("a6abdeec-8185-40ac-a418-2e422bb9adbd") },
-                    { new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Basso", new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a") },
+                    { new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Bass", new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a") },
                     { new Guid("bb647161-8394-47d3-9f43-825762a70fc2"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Baritone", new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a") },
                     { new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Tenor", new Guid("7924daef-2542-4648-a42f-4c4374ee09db") },
                     { new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, true, null, null, "Alto", new Guid("48337b78-70f0-493e-911b-296632b06ef8") },
@@ -1464,9 +1464,9 @@ namespace Orso.Arpa.Persistence.Migrations
                     { new Guid("50dfa2be-85e2-4638-aa53-22dadc97a844"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Alto 2", new Guid("a06431be-f9d6-44dc-8fdb-fbf8aa2bb940") },
                     { new Guid("3db46ff0-9165-46cc-8f28-6a1d52dee518"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Tenor 1", new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da") },
                     { new Guid("afef89cf-90e1-4d4f-83ab-d2b47e97af0f"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Tenor 2", new Guid("1579d7e7-4f55-4532-a078-69fd1ec939da") },
-                    { new Guid("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Basso 1", new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca") },
+                    { new Guid("bfe0e1ca-95ce-4cb6-a9c9-3c23c70bab21"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Bass 1", new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca") },
                     { new Guid("eb5728b5-b1fd-4a70-8894-7bb152087837"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Violin I", new Guid("fab9a49a-9fa4-4af3-9e40-e13bdc930513") },
-                    { new Guid("61fa66ec-3103-43fe-800c-930547dff82c"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Basso 2", new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca") },
+                    { new Guid("61fa66ec-3103-43fe-800c-930547dff82c"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Bass 2", new Guid("e7dd10ef-1c39-4440-9a6c-65d397f010ca") },
                     { new Guid("f9c1924b-2b45-459c-b919-99059cb41e73"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Alto Flute", new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b") },
                     { new Guid("d0a18a79-ad5a-450d-92cc-20a58496aaf0"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Tenor Flute", new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b") },
                     { new Guid("fc66c8b8-d9de-4ff0-a695-37e717103686"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, false, null, null, "Bass Flute", new Guid("d6961f83-e792-4ddf-b91a-ae0867caeb3b") },
