@@ -420,6 +420,8 @@ namespace Orso.Arpa.Api
 
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
+            app.UseMiddleware<SecurityHeaderMiddleware>();
+
             ConfigureSecurityHeaders(app, env);
 
             app.UseRouting();
