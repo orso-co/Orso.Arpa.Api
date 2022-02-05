@@ -15,9 +15,8 @@ namespace Orso.Arpa.Api.Middleware
         public async Task Invoke(HttpContext context)
         {
             context.Response.Headers.Server = "Redacted";
-            context.Response.Headers.XPoweredBy = "Redacted";
             context.Response.Headers.SetCommaSeparatedValues(
-                "Permission-Policy",
+                "Permissions-Policy",
                 "accelerometer=(self",
                 "ambient-light-sensor=(self)",
                 "autoplay=(self)",
