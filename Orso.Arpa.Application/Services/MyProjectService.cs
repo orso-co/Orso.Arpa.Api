@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MyProjectApplication;
-using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.MyProjects;
 
@@ -26,8 +24,9 @@ public class MyProjectService : IMyProjectService
 
     public async Task<IEnumerable<MyProjectDto>> GetMyProjectsAsync()
     {
-        var query = new List.Query {PersonId = _userAccessor.PersonId};
-        IImmutableList<ProjectParticipation> result = await _mediator.Send(query);
+        var query = new List.Query { PersonId = _userAccessor.PersonId };
+        IEnumerable<List.MyProjectGrouping> result = await _mediator.Send(query);
+
         return _mapper.Map<IEnumerable<MyProjectDto>>(result);
     }
 }

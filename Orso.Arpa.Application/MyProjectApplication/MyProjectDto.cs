@@ -1,20 +1,21 @@
+using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Entities;
+using static Orso.Arpa.Domain.Logic.MyProjects.List;
 
 namespace Orso.Arpa.Application.MyProjectApplication;
 
 public class MyProjectDto
 {
     public ProjectDto Project { get; set; }
-    public ProjectParticipationDto Participation { get; set; }
+    public IList<MyProjectParticipationDto> Participations { get; set; } = new List<MyProjectParticipationDto>();
 }
 
 public class MyProjectDtoMappingProfile : Profile
 {
     public MyProjectDtoMappingProfile()
     {
-        CreateMap<ProjectParticipation, MyProjectDto>()
-            .ForMember(d => d.Participation, opt => opt.MapFrom(scr => scr));
+        CreateMap<MyProjectGrouping, MyProjectDto>()
+            .ForMember(d => d.Participations, opt => opt.MapFrom(src => src.ProjectParticipations));
     }
 }

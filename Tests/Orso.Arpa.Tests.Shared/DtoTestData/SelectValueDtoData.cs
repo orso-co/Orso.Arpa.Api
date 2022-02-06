@@ -98,5 +98,19 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Private",
             Description = "",
         };
+
+        public static SelectValueDto Acceptance => new()
+        {
+            Id = Guid.Parse("eef4a4d1-796b-4b37-96f6-f31dbccf0aeb"),
+            Name = "Acceptance",
+            Description = "",
+        };
+
+        public static SelectValueDto Candidate => new()
+        {
+            Id = Guid.Parse("b0dcb5e9-bbc6-4004-b9d7-0f6723416b9b"),
+            Name = "Candidate",
+            Description = "",
+        };
     }
 }
