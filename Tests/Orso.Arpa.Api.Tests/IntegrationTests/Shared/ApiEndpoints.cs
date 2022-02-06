@@ -334,5 +334,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Delete(Guid contactDetailId) => $"{MyContactDetails()}/{contactDetailId}";
         }
+
+        public static class MyProjectsController
+        {
+            private static string MyProjects() => $"{Base}/me/projects";
+            public static string Get() => MyProjects();
+
+
+        }
     }
 }
