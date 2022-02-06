@@ -292,6 +292,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IContactDetailService, ContactDetailService>();
             services.AddScoped<IMyContactDetailService, MyContactDetailService>();
             services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IMyProjectService, MyProjectService>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
