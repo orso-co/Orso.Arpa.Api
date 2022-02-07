@@ -59,6 +59,7 @@ namespace Orso.Arpa.Application.Services
             if (setRoleDto.RoleNames.Contains(RoleNames.Performer))
             {
                 SendQRCode.Command codeCommand = _mapper.Map<SendQRCode.Command>(setRoleDto);
+                codeCommand.SendEmail = true;
                 await _mediator.Send(codeCommand);
             }
         }

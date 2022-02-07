@@ -126,7 +126,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string SetAppointmentParticipationPrediction(Guid appointmentId, Guid predictionId)
                 => $"{Me}/appointments/{appointmentId}/participation/prediction/{predictionId}";
 
-            public static string SendQrCode() => $"{Me}/qrcode";
+            public static string GetQrCode(bool sendEmail) => $"{Me}/qrcode?sendEmail={sendEmail}";
         }
 
         public static class MyMusicianProfilesController
