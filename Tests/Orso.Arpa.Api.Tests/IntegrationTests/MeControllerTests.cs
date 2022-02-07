@@ -82,7 +82,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.SendQrCode());
+                .GetAsync(ApiEndpoints.MeController.GetQrCode(true));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -104,7 +104,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_admin)
-                .GetAsync(ApiEndpoints.MeController.SendQrCode());
+                .GetAsync(ApiEndpoints.MeController.GetQrCode(true));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);

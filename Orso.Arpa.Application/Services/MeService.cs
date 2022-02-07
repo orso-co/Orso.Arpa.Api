@@ -89,9 +89,9 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task<SendQRCode.QrCodeFile> SendMyQrCodeAsync()
+        public async Task<SendQRCode.QrCodeFile> GetMyQrCodeAsync(bool sendEmail)
         {
-            var command = new SendQRCode.Command { Username = _userAccessor.UserName };
+            var command = new SendQRCode.Command { Username = _userAccessor.UserName, SendEmail = sendEmail };
             return await _mediator.Send(command);
         }
 

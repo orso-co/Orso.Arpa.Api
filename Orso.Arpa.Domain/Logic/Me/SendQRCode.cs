@@ -25,6 +25,7 @@ namespace Orso.Arpa.Domain.Logic.Me
         public class Command : IRequest<QrCodeFile>
         {
             public string Username { get; set; }
+            public bool SendEmail { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -61,15 +62,7 @@ namespace Orso.Arpa.Domain.Logic.Me
             {
                 User user = await _userManager.FindByNameAsync(request.Username);
 
-                var template = new QRCodeTemplate
-                {
-                    DisplayName = user.DisplayName,
-                    ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
-                    ClubAddress = _clubConfiguration.Address,
-                    ClubMail = _clubConfiguration.Email,
-                    ClubName = _clubConfiguration.Name,
-                    ClubPhoneNumber = _clubConfiguration.Phone
-                };
+
 
                 var qrCode = new QrCodeFile()
                 {
@@ -77,12 +70,25 @@ namespace Orso.Arpa.Domain.Logic.Me
                     FileName = $"ARPA_QRCode_{user.DisplayName.Replace(' ', '_')}.png"
                 };
 
-                var attachments = new List<EmailAttachment>()
+                if (request.SendEmail)
+                {
+                    var template = new QRCodeTemplate
+                    {
+                        DisplayName = user.DisplayName,
+                        ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
+                        ClubAddress = _clubConfiguration.Address,
+                        ClubMail = _clubConfiguration.Email,
+                        ClubName = _clubConfiguration.Name,
+                        ClubPhoneNumber = _clubConfiguration.Phone
+                    };
+
+                    var attachments = new List<EmailAttachment>()
                 {
                     new EmailAttachment { Content = qrCode.Content, FileName = qrCode.FileName }
                 };
 
-                await _emailSender.SendTemplatedEmailAsync(template, user.Email, attachments);
+                    await _emailSender.SendTemplatedEmailAsync(template, user.Email, attachments);
+                }
 
                 return qrCode;
             }
