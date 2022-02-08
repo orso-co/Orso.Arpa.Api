@@ -66,7 +66,7 @@ steps:
 - script: npm install
   displayName: 'Install Frontend Dependencies'
   workingDirectory: $(frontendWorkingDirectory)
-- script: npx ng build --configuration dev --output-path $(frontendOutputPath)
+- script: npx ng build --configuration production --output-path $(frontendOutputPath)
   displayName: 'Build Frontend'
   workingDirectory: $(frontendWorkingDirectory)
 - task: ArchiveFiles@2

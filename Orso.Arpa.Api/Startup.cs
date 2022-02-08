@@ -292,6 +292,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IContactDetailService, ContactDetailService>();
             services.AddScoped<IMyContactDetailService, MyContactDetailService>();
             services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IMyProjectService, MyProjectService>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
@@ -420,6 +421,8 @@ namespace Orso.Arpa.Api
 
             app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
+            app.UseMiddleware<SecurityHeaderMiddleware>();
+
             ConfigureSecurityHeaders(app, env);
 
             app.UseRouting();
@@ -455,15 +458,14 @@ namespace Orso.Arpa.Api
             app.UseReferrerPolicy(opt => opt.NoReferrer());
             app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
             app.UseXfo(opt => opt.Deny());
-            // ToDo: Auf UseCsp umstellen, sobald die Issues im Frontend gefixt sind
-            app.UseCspReportOnly(opt => opt
+            app.UseCsp(opt => opt
                     .BlockAllMixedContent()
                     .DefaultSources(s => s.Self())
                     .StyleSources(s => s.Self().UnsafeInline().CustomSources("fonts.googleapis.com")) // https://angular.io/guide/security
                     .FormActions(s => s.Self())
-                    .FrameSources(s => s.Self().CustomSources("https://www.google.com/recaptcha/", "https://recaptcha.google.com/recaptcha/"))
+                    .FrameSources(s => s.Self().CustomSources("https://www.google.com/recaptcha/", "https://recaptcha.google.com/recaptcha/", "https://*.orso.co", "https://*.orso.berlin", "https://*.podio.com", "https://*.notion.so"))
                     .FrameAncestors(s => s.Self())
-                    .ScriptSources(s => s.Self().CustomSources("https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/"))
+                    .ScriptSources(s => s.Self().UnsafeInline().CustomSources("https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/"))
                     .ImageSources(s => s.Self())
                     .ManifestSources(s => s.Self())
                     .MediaSources(s => s.Self())
