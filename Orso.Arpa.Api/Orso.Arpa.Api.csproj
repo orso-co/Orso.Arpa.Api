@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Content Remove="appsettings.Test.json" />
+    <Content Remove="nlog.config" />
   </ItemGroup>
 
   <ItemGroup>
