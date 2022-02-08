@@ -35,14 +35,14 @@ namespace Orso.Arpa.Api.Controllers
         /// Sends the qr code by mail and returns it as png
         /// </summary>
         /// <response code="200"></response>
-        /// /// <response code="424">If email could not be sent</response>
+        /// <response code="424">If email could not be sent</response>
         [Authorize(Roles = RoleNames.Performer)]
         [HttpGet("qrcode")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status424FailedDependency)]
-        public async Task<ActionResult> SendQrCode()
+        public async Task<ActionResult> SendQrCode([FromQuery] bool sendEmail = false)
         {
-            QrCodeFile qrCode = await _meService.SendMyQrCodeAsync();
+            QrCodeFile qrCode = await _meService.GetMyQrCodeAsync(sendEmail);
             return File(qrCode.Content, QrCodeFile.ContentType, qrCode.FileName);
         }
 
