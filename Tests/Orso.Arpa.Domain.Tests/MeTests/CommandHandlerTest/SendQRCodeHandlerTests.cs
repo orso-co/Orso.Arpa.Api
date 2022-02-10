@@ -51,7 +51,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             var command = new SendQRCode.Command
             {
-                Username = UserTestSeedData.Performer.UserName
+                Username = UserTestSeedData.Performer.UserName,
+                SendEmail = true
             };
 
             // Act

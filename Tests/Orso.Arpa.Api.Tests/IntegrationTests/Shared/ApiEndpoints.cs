@@ -126,7 +126,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string SetAppointmentParticipationPrediction(Guid appointmentId, Guid predictionId)
                 => $"{Me}/appointments/{appointmentId}/participation/prediction/{predictionId}";
 
-            public static string SendQrCode() => $"{Me}/qrcode";
+            public static string GetQrCode(bool sendEmail) => $"{Me}/qrcode?sendEmail={sendEmail}";
         }
 
         public static class MyMusicianProfilesController
@@ -333,6 +333,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Put(Guid contactDetailId) => $"{MyContactDetails()}/{contactDetailId}";
 
             public static string Delete(Guid contactDetailId) => $"{MyContactDetails()}/{contactDetailId}";
+        }
+
+        public static class MyProjectsController
+        {
+            private static string MyProjects() => $"{Base}/me/projects";
+            public static string Get() => MyProjects();
+
+
         }
     }
 }
