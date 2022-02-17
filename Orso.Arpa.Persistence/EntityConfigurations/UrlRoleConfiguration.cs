@@ -8,8 +8,6 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<UrlRole> builder)
         {
-            builder.HasKey(e => new { e.UrlId, e.RoleId });
-
             builder
                 .HasOne(e => e.Role)
                 .WithMany(r => r.UrlRoles)

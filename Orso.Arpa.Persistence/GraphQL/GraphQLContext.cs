@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.DataAccess;
@@ -7,7 +8,7 @@ using Orso.Arpa.Persistence.EntityConfigurations;
 
 namespace Orso.Arpa.Persistence.GraphQL
 {
-    public class GraphQLContext : DbContext
+    public class GraphQLContext : IdentityDbContext<User, Role, Guid>
     {
         public GraphQLContext(DbContextOptions<GraphQLContext> options) : base(options)
         {

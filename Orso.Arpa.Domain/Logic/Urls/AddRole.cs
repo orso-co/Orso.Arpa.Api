@@ -58,7 +58,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
                     .WithMessage("The role is already linked to the url")
 
                     .MustAsync(async (roleId, cancellation) => !await roleManager.Roles.AnyAsync(r => r.Id == roleId && r.Name == RoleNames.Admin, cancellation))
-                    .WithMessage("Url visibility is not used for the admin role.");
+                    .WithMessage("It is not allowed to set the url role to admin");
             }
         }
 

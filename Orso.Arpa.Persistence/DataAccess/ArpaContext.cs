@@ -16,6 +16,7 @@ using Orso.Arpa.Domain.ChangeLog;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Domain.Views;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
@@ -94,6 +95,7 @@ namespace Orso.Arpa.Persistence.DataAccess
             builder.Entity<Url>()
                 .HasQueryFilter(url => !url.Deleted
                     && (url.UrlRoles.Count == 0
+                    || _tokenAccessor.UserRoles.Contains(RoleNames.Staff)
                     || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
 
             builder
