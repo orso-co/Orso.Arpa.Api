@@ -340,6 +340,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             private static string MyProjects() => $"{Base}/me/projects";
             public static string Get() => MyProjects();
 
+            public static string SetParticipation(Guid projectId) =>
+                $"{MyProjects()}/{projectId}/participation";
+
 
         }
     }

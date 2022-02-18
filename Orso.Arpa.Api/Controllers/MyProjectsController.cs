@@ -47,7 +47,7 @@ public class MyProjectsController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-    public async Task<ActionResult> SetProjectParticipationStatus(MyProjectParticipationModifyDto setMyProjectParticipationStatus)
+    public async Task<ActionResult<MyProjectParticipationDto>> SetProjectParticipationStatus(MyProjectParticipationModifyDto setMyProjectParticipationStatus)
     {
         return Ok( await _myProjectService.SetProjectParticipationStatus(setMyProjectParticipationStatus));
     }
