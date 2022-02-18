@@ -4,7 +4,9 @@ using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MyProjectApplication;
+using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Logic.MyProjects;
 
 namespace Orso.Arpa.Application.Services;
@@ -28,5 +30,14 @@ public class MyProjectService : IMyProjectService
         IEnumerable<List.MyProjectGrouping> result = await _mediator.Send(query);
 
         return _mapper.Map<IEnumerable<MyProjectDto>>(result);
+    }
+
+    public async Task<MyProjectParticipationDto> SetProjectParticipationStatus(MyProjectParticipationModifyDto myProjectParticipationModifyDto)
+    {
+        SetProjectParticipationStatus.Command command = _mapper
+            .Map<SetProjectParticipationStatus.Command>(myProjectParticipationModifyDto);
+
+        ProjectParticipation projectParticipation = await _mediator.Send(command);
+        return _mapper.Map<MyProjectParticipationDto>(projectParticipation);
     }
 }

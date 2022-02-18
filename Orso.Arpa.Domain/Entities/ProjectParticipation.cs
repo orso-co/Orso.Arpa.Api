@@ -15,14 +15,6 @@ namespace Orso.Arpa.Domain.Entities
             ParticipationStatusInternalId = command.ParticipationStatusInternalId;
         }
 
-        public ProjectParticipation(Logic.Me.SetProjectParticipation.Command command, Guid? id = null) : base(id)
-        {
-            ProjectId = command.ProjectId;
-            MusicianProfileId = command.MusicianProfileId;
-            CommentByPerformerInner = command.Comment;
-            ParticipationStatusInnerId = command.StatusId;
-        }
-
         protected ProjectParticipation() { }
 
         public Guid ProjectId { get; private set; }

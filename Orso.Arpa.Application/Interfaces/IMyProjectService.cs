@@ -9,5 +9,7 @@ namespace Orso.Arpa.Application.Interfaces
     {
         Task<IEnumerable<MyProjectDto>> GetMyProjectsAsync();
 
+        Task<MyProjectParticipationDto> SetProjectParticipationStatus(
+            MyProjectParticipationModifyDto myProjectParticipationModifyDto);
     }
 }

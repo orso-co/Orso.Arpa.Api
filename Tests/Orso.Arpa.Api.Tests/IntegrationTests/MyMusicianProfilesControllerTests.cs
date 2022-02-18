@@ -8,11 +8,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -163,83 +160,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.DoublingInstruments.First().Should().BeEquivalentTo(expectedDto.DoublingInstruments.First(), opt => opt.Excluding(dto => dto.Id));
             result.DoublingInstruments.First().Id.Should().NotBeEmpty();
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
-        }
-
-        [Test, Order(1001)]
-        public async Task Should_Set_New_Project_Participation()
-        {
-            // Arrange
-            MusicianProfile musicianProfile = MusicianProfileSeedData.PerformersHornMusicianProfile;
-            Project project = ProjectSeedData.HoorayForHollywood;
-            var dto = new SetMyProjectParticipationBodyDto
-            {
-                Comment = "Comment",
-                StatusId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[0].Id
-            };
-            var expectedDto = new ProjectParticipationDto
-            {
-                CommentByPerformerInner = dto.Comment,
-                ParticipationStatusInnerId = dto.StatusId,
-                ParticipationStatusInner = "Interested",
-                CreatedAt = FakeDateTime.UtcNow,
-                CreatedBy = "Per Former",
-                MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
-                Project = new ReducedProjectDto
-                {
-                    Id = project.Id,
-                    Description = project.Description,
-                    Code = project.Code,
-                    ShortTitle = project.ShortTitle,
-                    Title = project.Title
-                }
-            };
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MyMusicianProfilesController.SetProjectParticipation(
-                    musicianProfile.Id,
-                    project.Id), BuildStringContent(dto));
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
-            result.Id.Should().NotBeEmpty();
-        }
-
-        [Test, Order(1002)]
-        public async Task Should_Set_Existing_Project_Participation()
-        {
-            // Arrange
-            MusicianProfile musicianProfile = MusicianProfileSeedData.PerformerMusicianProfile;
-            Project project = ProjectSeedData.Schneekönigin;
-
-            var dto = new SetMyProjectParticipationBodyDto
-            {
-                Comment = "Comment",
-                StatusId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[0].Id
-            };
-            ProjectParticipationDto expectedDto = ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer;
-            expectedDto.CommentByPerformerInner = dto.Comment;
-            expectedDto.ParticipationStatusInnerId = dto.StatusId;
-            expectedDto.ParticipationStatusInner = "Interested";
-            expectedDto.ModifiedAt = FakeDateTime.UtcNow;
-            expectedDto.ModifiedBy = "Per Former";
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MyMusicianProfilesController.SetProjectParticipation(
-                    musicianProfile.Id,
-                    project.Id), BuildStringContent(dto));
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(1003)]
