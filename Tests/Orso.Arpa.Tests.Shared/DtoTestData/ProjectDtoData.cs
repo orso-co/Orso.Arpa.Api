@@ -53,6 +53,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 ProjectDto dto = RockingXMasBase;
                 dto.Urls.Add(UrlDtoData.ArpaWebsite);
                 dto.Urls.Add(UrlDtoData.OrsoWebsite);
+                dto.Urls.Add(UrlDtoData.Google);
                 return dto;
             }
         }
