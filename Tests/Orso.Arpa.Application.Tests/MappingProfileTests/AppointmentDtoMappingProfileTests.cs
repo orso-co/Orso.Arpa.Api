@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,7 +55,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMasRehearsal;
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
-            appointment.ProjectAppointments.First().Project.Urls.Remove(appointment.ProjectAppointments.First().Project.Urls.Last());
 
             _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Staff });
 
