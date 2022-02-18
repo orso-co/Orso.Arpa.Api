@@ -33,7 +33,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public static readonly MethodInfo SetGlobalQueryMethod
             = typeof(ArpaContextUtility).GetMethods(BindingFlags.Public | BindingFlags.Static)
-                .Single(t => t.IsGenericMethod && t.Name == "SetGlobalQuery");
+                .Single(t => t.IsGenericMethod && t.Name == nameof(SetGlobalQuery));
 
         public static void SetGlobalQuery<T>(ModelBuilder builder) where T : BaseEntity
         {

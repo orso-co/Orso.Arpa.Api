@@ -16,6 +16,7 @@ using Orso.Arpa.Domain.ChangeLog;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Domain.Views;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
@@ -94,6 +95,7 @@ namespace Orso.Arpa.Persistence.DataAccess
             builder.Entity<Url>()
                 .HasQueryFilter(url => !url.Deleted
                     && (url.UrlRoles.Count == 0
+                    || _tokenAccessor.UserRoles.Contains(RoleNames.Staff)
                     || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
 
             builder
@@ -116,17 +118,18 @@ namespace Orso.Arpa.Persistence.DataAccess
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             var currentUserDisplayName = _tokenAccessor.DisplayName;
+            DateTime now = _dateTimeProvider.GetUtcNow();
 
             foreach (EntityEntry<BaseEntity> entry in ChangeTracker.Entries<BaseEntity>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.Create(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
+                        entry.Entity.Create(currentUserDisplayName, now);
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.Modify(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
+                        entry.Entity.Modify(currentUserDisplayName, now);
                         break;
 
                     case EntityState.Deleted:

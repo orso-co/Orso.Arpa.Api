@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Roles;
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AppointmentDto>> GetById([FromRoute] Guid id)
+        public async Task<ActionResult<UrlDto>> GetById([FromRoute] Guid id)
         {
             return Ok(await _urlService.GetByIdAsync(id));
         }

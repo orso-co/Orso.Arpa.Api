@@ -8,8 +8,6 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<SectionAppointment> builder)
         {
-            builder.HasKey(e => new { e.SectionId, e.AppointmentId });
-
             builder
                 .HasOne(e => e.Section)
                 .WithMany(s => s.SectionAppointments)

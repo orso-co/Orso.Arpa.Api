@@ -336,42 +336,6 @@
     "Deleted": false
   },
   {
-    "Key": "Performer",
-    "Text": "Mitwirkender",
-    "LocalizationCulture": "de",
-    "ResourceKey": "RoleDto",
-    "Id": "676b04c8-4256-4008-9fc4-be62ea8f5dd0",
-    "CreatedBy": "LocalizationSeedData",
-    "CreatedAt": "2021-06-16T15:30:19.4007391+02:00",
-    "ModifiedBy": "LocalizationSeedData",
-    "ModifiedAt": "2021-12-17T16:14:23.2159665+01:00",
-    "Deleted": true
-  },
-  {
-    "Key": "Staff",
-    "Text": "Mitarbeiter",
-    "LocalizationCulture": "de",
-    "ResourceKey": "RoleDto",
-    "Id": "9860c80a-fa54-49e6-b314-ba895bd31348",
-    "CreatedBy": "LocalizationSeedData",
-    "CreatedAt": "2021-06-16T15:30:19.4011189+02:00",
-    "ModifiedBy": "LocalizationSeedData",
-    "ModifiedAt": "2021-12-17T16:14:23.2170017+01:00",
-    "Deleted": true
-  },
-  {
-    "Key": "Admin",
-    "Text": "Administrator",
-    "LocalizationCulture": "de",
-    "ResourceKey": "RoleDto",
-    "Id": "cc54cb2a-30b5-473b-8d31-7788410bbc58",
-    "CreatedBy": "LocalizationSeedData",
-    "CreatedAt": "2021-06-16T15:30:19.4014545+02:00",
-    "ModifiedBy": "LocalizationSeedData",
-    "ModifiedAt": "2021-12-17T16:14:23.2177085+01:00",
-    "Deleted": true
-  },
-  {
     "Key": "Choir",
     "Text": "Chor",
     "LocalizationCulture": "de",
