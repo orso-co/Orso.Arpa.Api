@@ -8,9 +8,6 @@ using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Me;
-using Orso.Arpa.Misc;
-using SetProjectParticipation = Orso.Arpa.Domain.Logic.Projects.SetProjectParticipation;
 
 namespace Orso.Arpa.Domain.Logic.MyProjects;
 
@@ -25,13 +22,13 @@ public static class SetProjectParticipationStatus
     }
     public class Validator : AbstractValidator<Command>
     {
-        public Validator(IArpaContext arpaContext, IDateTimeProvider dateTimeProvider, ITokenAccessor tokenAccessor)
+        public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor)
         {
             RuleFor(c => c.ProjectId)
                 .Cascade(CascadeMode.Stop)
                 .EntityExists<Command, Project>(arpaContext)
                 .MustAsync(async (projectId, cancellation) =>
-                    !(await arpaContext.FindAsync<Project>(new object[] {projectId}, cancellation))
+                    !(await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation))
                         .IsCompleted)
                 .WithMessage(
                     "The project is completed. You may not set the participation of a completed project")
@@ -48,14 +45,14 @@ public static class SetProjectParticipationStatus
             RuleFor(c => c.MusicianProfileId)
                 .Cascade(CascadeMode.Stop)
                 .MustAsync(async (musicianProfileId, cancellation) =>
-                    !(await arpaContext.EntityExistsAsync<MusicianProfile>(
-                        d => d.Id == musicianProfileId && d.PersonId == tokenAccessor.PersonId ,
+                    (await arpaContext.EntityExistsAsync<MusicianProfile>(
+                        d => d.Id == musicianProfileId && d.PersonId == tokenAccessor.PersonId,
                         cancellation)))
                 .WithErrorCode("404")
                 .WithMessage("Musician Profile could not be found.")
                 .MustAsync(async (musicianProfileId, cancellation) =>
                     !(await arpaContext.EntityExistsAsync<MusicianProfileDeactivation>(
-                        d => d.MusicianProfileId == musicianProfileId && d.DeactivationStart <= dateTimeProvider.GetUtcNow(),
+                        d => d.MusicianProfileId == musicianProfileId,
                         cancellation)))
                 .WithMessage("The musician profile is deactivated. A deactivated musician profile may not participate in a project");
 

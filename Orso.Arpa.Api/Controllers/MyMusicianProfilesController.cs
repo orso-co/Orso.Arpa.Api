@@ -7,10 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
-using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 
@@ -79,25 +77,6 @@ namespace Orso.Arpa.Api.Controllers
         {
             MyMusicianProfileDto createdMusicianProfile = await _meService.CreateMusicianProfileAsync(myMusicianProfileCreateDto);
             return CreatedAtAction(nameof(MusicianProfilesController.GetById), "MusicianProfiles", new { id = createdMusicianProfile.Id }, createdMusicianProfile);
-        }
-
-        /// <summary>
-        /// Sets the project participation for a musician profile of the current user
-        /// </summary>
-        /// <param name="myProjectParticipationDto"></param>
-        /// <returns>Project participation</returns>
-        /// <response code="200"></response>
-        /// <response code="404">If entity could not be found</response>
-        /// <response code="422">If validation fails</response>
-        [HttpPut("{id}/projects/{projectId}/participation")]
-        [Authorize(Roles = RoleNames.Performer)]
-        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<ProjectParticipationDto>> SetProjectParticipation(SetMyProjectParticipationDto myProjectParticipationDto)
-        {
-            return Ok(await _meService.SetMyProjectParticipationAsync(myProjectParticipationDto));
         }
 
         /// <summary>

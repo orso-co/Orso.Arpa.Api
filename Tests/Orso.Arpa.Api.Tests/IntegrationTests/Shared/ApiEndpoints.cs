@@ -140,8 +140,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Put(Guid id) => $"{MyMusicianProfiles}/{id}";
 
             public static string GetById(Guid id) => $"{MyMusicianProfiles}/{id}";
-
-            public static string SetProjectParticipation(Guid musicianProfileId, Guid projectId) => $"{MyMusicianProfiles}/{musicianProfileId}/projects/{projectId}/participation";
         }
 
         public static class MyMusicianProfileDoublingInstrumentsController
