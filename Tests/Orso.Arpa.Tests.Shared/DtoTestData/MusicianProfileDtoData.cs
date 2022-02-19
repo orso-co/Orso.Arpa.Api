@@ -112,7 +112,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    InstrumentId = SectionSeedData.Basso.Id,
+                    InstrumentId = SectionSeedData.Bass.Id,
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
@@ -157,7 +157,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    InstrumentId = SectionSeedData.Basso.Id,
+                    InstrumentId = SectionSeedData.Bass.Id,
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,

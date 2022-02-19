@@ -26,7 +26,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                                 Tenor,
                         LowMaleVoices,
                             Baritone,
-                            Basso,
+                            Bass,
 
                 Orchestra,
                     Winds,
@@ -174,7 +174,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Alto,
             Tenor,
             Baritone,
-            Basso,
+            Bass,
             Flute,
             Oboe,
             Clarinet,
@@ -228,7 +228,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         public static SectionDto Tenor => new() { Id = Guid.Parse("1579d7e7-4f55-4532-a078-69fd1ec939da"), Name = "Tenor", InstrumentPartCount = 2 };
         public static SectionDto LowMaleVoices => new() { Id = Guid.Parse("b9673cfd-7cdb-472c-86e0-1304cbb3840a"), Name = "Low Male Voices", };
         public static SectionDto Baritone => new() { Id = Guid.Parse("bb647161-8394-47d3-9f43-825762a70fc2"), Name = "Baritone", };
-        public static SectionDto Basso => new() { Id = Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), Name = "Basso", InstrumentPartCount = 2 };
+        public static SectionDto Bass => new() { Id = Guid.Parse("e7dd10ef-1c39-4440-9a6c-65d397f010ca"), Name = "Bass", InstrumentPartCount = 2 };
 
 
         public static SectionDto Orchestra => new() { Id = Guid.Parse("308659d6-6014-4d2c-a62a-be75bf202e62"), Name = "Orchestra", };
