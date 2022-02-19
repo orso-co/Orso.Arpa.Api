@@ -12,6 +12,7 @@ using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.DataAccess;
+using Orso.Arpa.Persistence.GraphQL;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
@@ -43,6 +44,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 options.UseSnakeCaseNamingConvention();
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
+            });
+
+            services.AddPooledDbContextFactory<GraphQLContext>(opt =>
+            {
+                opt
+                    .UseNpgsql(TestDatabase.ConnectionString)
+                    .UseSnakeCaseNamingConvention()
+                    .UseLazyLoadingProxies()
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
             });
         }
 
