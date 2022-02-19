@@ -10,17 +10,22 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     [TestFixture]
     public class GraphQLTests : IntegrationTestBase
     {
+        private IRequestExecutor _executor;
 
+        [OneTimeSetUp]
+        public async Task Setup()
+        {
+            _executor = await Startup.RequestExecutorBuilder.BuildRequestExecutorAsync();
+        }
 
         [Test]
         public async Task Should_Query_MusicianProfiles()
         {
-            IRequestExecutor executor = await Startup.RequestExecutorBuilder.BuildRequestExecutorAsync();
             IReadOnlyQueryRequest query = QueryRequestBuilder
                 .New()
                 .SetQuery("query Profiles {  musicianProfiles(skip: 0    take: 2    where: {isMainProfile: {equals: true}, and: {or: [{person: {givenName: {contains: \"\" }}}, {person: {surname: {contains: \"\" }}}, {instrument: {name: {contains: \"\" }}}]}}    order: {person: {givenName: ASC, surname: ASC}}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      isMainProfile      person {        id        givenName        surname        addresses {          country          zip          __typename        }        __typename      }      instrument {        id        name        __typename      }      __typename    }    __typename  }}")
                 .Create();
-            IExecutionResult result = await executor.ExecuteAsync(query);
+            IExecutionResult result = await _executor.ExecuteAsync(query);
             result.Errors.Should().BeNull();
             var queryResult = result as QueryResult;
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
@@ -30,12 +35,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Query_AuditLogs()
         {
-            IRequestExecutor executor = await Startup.RequestExecutorBuilder.BuildRequestExecutorAsync();
             IReadOnlyQueryRequest query = QueryRequestBuilder
                 .New()
                 .SetQuery("query AuditLog($skip: Int = 10, $take: Int = 2, $orderName: SortEnumType = DESC, $orderSurname: SortEnumType = DESC, $orderAboutMe: SortEnumType = DESC) { auditLogs( skip: $skip take: $take order: { createdAt: $orderName, tableName: $orderSurname, type: $orderAboutMe, createdBy: $orderAboutMe} ) { pageInfo { hasNextPage hasPreviousPage __typename } totalCount items { createdAt type tableName createdBy __typename } __typename }}")
                 .Create();
-            IExecutionResult result = await executor.ExecuteAsync(query);
+            IExecutionResult result = await _executor.ExecuteAsync(query);
             result.Errors.Should().BeNull();
             var queryResult = result as QueryResult;
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
@@ -46,12 +50,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Query_Persons()
         {
-            IRequestExecutor executor = await Startup.RequestExecutorBuilder.BuildRequestExecutorAsync();
             IReadOnlyQueryRequest query = QueryRequestBuilder
                 .New()
                 .SetQuery("query Persons($skip: Int = 2, $take: Int = 1, $orderName: SortEnumType = ASC, $orderSurname: SortEnumType = ASC, $searchQuery: String = \"\") {  persons(    skip: $skip    take: $take    order: {surname: $orderSurname, givenName: $orderName}    where: {or: [{surname: {contains: $searchQuery}}]}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      givenName      surname      aboutMe      reliability      generalPreference      experienceLevel      createdAt      createdBy      modifiedAt      modifiedBy      __typename    }    __typename  }}")
                 .Create();
-            IExecutionResult result = await executor.ExecuteAsync(query);
+            IExecutionResult result = await _executor.ExecuteAsync(query);
             result.Errors.Should().BeNull();
             var queryResult = result as QueryResult;
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
@@ -62,12 +65,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Query_Projects()
         {
-            IRequestExecutor executor = await Startup.RequestExecutorBuilder.BuildRequestExecutorAsync();
             IReadOnlyQueryRequest query = QueryRequestBuilder
                 .New()
                 .SetQuery("query Projects($skip: Int = 2, $take: Int = 1, $orderTitle: SortEnumType = ASC, $orderStart: SortEnumType = ASC, $orderEnd: SortEnumType = ASC, $searchQuery: String = \"\") {  projects(    skip: $skip    take: $take    order: {title: $orderTitle, startDate: $orderStart, endDate: $orderEnd}    where: {or: [{title: {contains: $searchQuery}}, {code: {contains: $searchQuery}}, {shortTitle: {contains: $searchQuery}}]}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      title      startDate      endDate      stateId      isCompleted      genreId      genre {        selectValue {          name          __typename        }        __typename      }      typeId      parentId      shortTitle      description      code      state {        selectValue {          name          __typename        }        __typename      }      parent {        title        id        __typename      }      __typename    }    __typename  }}")
                 .Create();
-            IExecutionResult result = await executor.ExecuteAsync(query);
+            IExecutionResult result = await _executor.ExecuteAsync(query);
             result.Errors.Should().BeNull();
             var queryResult = result as QueryResult;
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
