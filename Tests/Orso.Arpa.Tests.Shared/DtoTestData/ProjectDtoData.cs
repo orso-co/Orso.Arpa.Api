@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
-using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -68,11 +67,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     ShortTitle = "RockXmas",
                     Description = "Rocking around the christmas tree",
                     Code = "1005",
-                    TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
-                    GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
+                    Type = SelectValueDtoData.Concert,
+                    Genre = SelectValueDtoData.ClassicalMusic,
                     StartDate = new DateTime(2020, 12, 24),
                     EndDate = new DateTime(2020, 12, 26),
-                    StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                    State = SelectValueDtoData.Pending,
                     ParentId = null,
                     IsCompleted = true,
                     CreatedBy = "anonymous",
@@ -92,12 +91,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     ShortTitle = "Hollywood",
                     Description = "Winter is Coming",
                     Code = "1006",
-                    TypeId = SelectValueMappingSeedData.ProjectTypeMappings[1].Id,
-                    GenreId = SelectValueMappingSeedData.ProjectGenreMappings[1].Id,
+                    Type = SelectValueDtoData.ConcertTour,
+                    Genre = SelectValueDtoData.Crossover,
                     StartDate = new DateTime(2020, 05, 05),
                     EndDate = new DateTime(2020, 06, 06),
                     Urls = new List<UrlDto> { UrlDtoData.GoogleDe },
-                    StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
+                    State = SelectValueDtoData.Confirmed,
                     ParentId = null,
                     IsCompleted = false,
 
@@ -119,13 +118,13 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Description = "Let it snow",
                     EndDate = new DateTime(2020, 12, 10),
-                    GenreId = Guid.Parse("d733e38d-1d80-4054-b654-4ea4a128b0a8"),
+                    Genre = SelectValueDtoData.ClassicalMusic,
                     Id = Guid.Parse("b781c54d-8115-4561-b01e-9836fa05175e"),
                     ShortTitle = "Schnee",
                     StartDate = new DateTime(2020, 12, 1),
-                    StateId = Guid.Parse("725a4f4a-37cb-46ba-93a3-7b9cc2b015cb"),
+                    State = SelectValueDtoData.Pending,
                     Title = "Die Schneekönigin",
-                    TypeId = Guid.Parse("34f05f05-ef23-4f36-94e7-73b917530c51")
+                    Type = SelectValueDtoData.Concert
                 };
             }
         }

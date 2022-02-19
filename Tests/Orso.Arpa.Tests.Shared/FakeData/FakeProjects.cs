@@ -17,6 +17,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 project.Urls.Add(FakeUrls.ArpaWebsite);
                 project.Urls.Add(FakeUrls.OrsoWebsite);
                 project.Urls.Add(FakeUrls.Google);
+                project.SetProperty(nameof(Project.Type), FakeSelectValueMappings.Concert);
+                project.SetProperty(nameof(Project.Genre), FakeSelectValueMappings.ClassicalMusic);
+                project.SetProperty(nameof(Project.State), FakeSelectValueMappings.Pending);
                 return project;
             }
         }

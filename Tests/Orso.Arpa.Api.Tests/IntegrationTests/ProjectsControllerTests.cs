@@ -140,6 +140,25 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ParentId = ProjectSeedData.RockingXMas.Id
             };
 
+            var expectedDto = new ProjectDto
+            {
+                Description = modifyDto.Description,
+                EndDate = modifyDto.EndDate,
+                StartDate = modifyDto.StartDate,
+                Code = modifyDto.Code,
+                ShortTitle = modifyDto.ShortTitle,
+                ParentId = modifyDto.ParentId,
+                Id = projectToModify.Id,
+                Title = modifyDto.Title,
+                ModifiedAt = FakeDateTime.UtcNow,
+                ModifiedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = "anonymous",
+                Type = SelectValueDtoData.Workshop,
+                Genre = SelectValueDtoData.ChamberMusic,
+                State = SelectValueDtoData.Cacnelled
+            };
+
             // Act
             HttpResponseMessage responseMessage = await client
                 .PutAsync(ApiEndpoints.ProjectsController.Put(projectToModify.Id), BuildStringContent(modifyDto));
@@ -156,10 +175,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(modifyDto);
-            result.Id.Should().Be(projectToModify.Id);
-            result.ModifiedBy.Should().Be(_staff.DisplayName);
-            result.ModifiedAt.Should().Be(FakeDateTime.UtcNow);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls));
         }
 
         [Test, Order(100)]
@@ -222,11 +238,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ShortTitle = createDto.ShortTitle,
                 Description = createDto.Description,
                 Code = createDto.Code,
-                TypeId = createDto.TypeId,
-                GenreId = createDto.GenreId,
+                Type = SelectValueDtoData.Concert,
+                Genre = SelectValueDtoData.ClassicalMusic,
                 StartDate = createDto.StartDate,
                 EndDate = createDto.EndDate,
-                StateId = createDto.StateId,
+                State = SelectValueDtoData.Pending,
                 ParentId = createDto.ParentId,
                 IsCompleted = false,
                 CreatedBy = _staff.DisplayName,
