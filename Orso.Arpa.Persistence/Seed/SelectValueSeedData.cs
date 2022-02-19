@@ -386,14 +386,14 @@ namespace Orso.Arpa.Persistence.Seed
         /// <summary>
         /// Orchester Konzertpauschale 1808
         /// </summary>
-        public static SelectValue OrchestraConcertLumpSum1808 => new(Guid.Parse("ddb23793-af96-4ea6-9b27-5e2dcfc90b65"), "Orchestra Concert Lump Sum 1808", string.Empty);
+        public static SelectValue OrchestraConcertLumpSum1808 => new(Guid.Parse("ddb23793-af96-4ea6-9b27-5e2dcfc90b65"), "Orchestra Concert Rate: 1808", string.Empty);
 
         /// <summary>
         /// Orchester Konzertpauschale 9€/11€ bei 10h
         /// </summary>
         public static SelectValue OrchestraConcertLumpSum10h => new(
             Guid.Parse("d91def3e-4c55-42c7-ac56-147846be6bfa"),
-            "Orchestra Concert Lump Sum 9€/11€ at 10h",
+            "Orchestra Concert Rate: 9€/11€ at 10h",
             string.Empty);
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue OrchestraConcertLumpSum12h => new(
             Guid.Parse("a10ce98a-b903-4dca-801d-3afb07711877"),
-            "Orchestra Concert Lump Sum 9 €/11€ at 12h",
+            "Orchestra Concert Rate: 9€/11€ at 12h",
             string.Empty);
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue IncorrectBankDetails => new(Guid.Parse("7efd1bdd-67b5-4706-a1f4-9d67eea05e5d"), "Incorrect Bank Details", string.Empty);
 
         /// <summary>
-        /// Other (see comment field) 
+        /// Other (see comment field)
         /// </summary>
         public static SelectValue OtherSeeCommentField => new(Guid.Parse("b0f67138-7488-4c68-ad4c-63fce6f862cc"), "Other (see comment field)", string.Empty);
     }
