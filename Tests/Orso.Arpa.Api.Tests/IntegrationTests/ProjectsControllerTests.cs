@@ -158,7 +158,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Genre = SelectValueDtoData.ChamberMusic,
                 State = SelectValueDtoData.Cacnelled
             };
-            expectedDto.Urls.Add(UrlDtoData.GoogleDe);
 
             // Act
             HttpResponseMessage responseMessage = await client
@@ -176,7 +175,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls));
         }
 
         [Test, Order(100)]
