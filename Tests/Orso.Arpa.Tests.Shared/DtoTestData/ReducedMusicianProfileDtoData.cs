@@ -76,7 +76,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ReducedMusicianProfileDto
                 {
-                    InstrumentName = SectionSeedData.Basso.Name,
+                    InstrumentName = SectionSeedData.Bass.Name,
                     Id = Guid.Parse("c2b727eb-16f7-440d-a003-aab073532bbf"),
                     Qualification = string.Empty
                 };
@@ -115,7 +115,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ReducedMusicianProfileDto
                 {
-                    InstrumentName = SectionSeedData.Basso.Name,
+                    InstrumentName = SectionSeedData.Bass.Name,
                     Id = Guid.Parse("1a7a62f2-1ca0-4eed-9053-b59bc6db34d6"),
                     Qualification = string.Empty
                 };
