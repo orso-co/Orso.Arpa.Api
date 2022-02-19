@@ -55,5 +55,35 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 return selectValueMapping;
             }
         }
+
+        public static SelectValueMapping Concert
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectTypeMappings[0];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Concert);
+                return selectValueMapping;
+            }
+        }
+
+        public static SelectValueMapping ClassicalMusic
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectGenreMappings[0];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.ClassicalMusic);
+                return selectValueMapping;
+            }
+        }
+
+        public static SelectValueMapping Pending
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectStateMappings[0];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Pending);
+                return selectValueMapping;
+            }
+        }
     }
 }

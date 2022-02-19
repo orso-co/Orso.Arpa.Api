@@ -39,6 +39,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<ProjectDtoMappingProfile>();
                 cfg.AddProfile<UrlDtoMappingProfile>();
                 cfg.AddProfile<RoleDtoMappingProfile>();
+                cfg.AddProfile<SelectValueDtoMappingProfile>();
             });
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
