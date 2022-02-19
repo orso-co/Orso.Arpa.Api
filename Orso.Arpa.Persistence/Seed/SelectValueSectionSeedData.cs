@@ -114,11 +114,11 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValueSection TenorHigh => new(Guid.Parse("c1e830ce-77c9-4253-af52-e6f350bfe479"), SectionSeedData.Tenor.Id, SelectValueSeedData.High.Id);
         public static SelectValueSection TenorLow => new(Guid.Parse("abc02ea8-8785-49b4-b519-07cb02a10e06"), SectionSeedData.Tenor.Id, SelectValueSeedData.Low.Id);
         public static SelectValueSection TenorCoach => new(Guid.Parse("d5aa0e4e-ae90-4924-96be-05fb5459abe4"), SectionSeedData.Tenor.Id, SelectValueSeedData.Coach.Id);
-        public static SelectValueSection BassSolo => new(Guid.Parse("d0987cc0-f924-4d76-985f-b1e85be9e7b5"), SectionSeedData.Basso.Id, SelectValueSeedData.Solo.Id);
-        public static SelectValueSection BassSectionLead => new(Guid.Parse("4cb43aeb-68ac-4d2d-b66b-a3b252178c11"), SectionSeedData.Basso.Id, SelectValueSeedData.SectionLead.Id);
-        public static SelectValueSection BassHigh => new(Guid.Parse("2da6c9c0-3d83-4ee0-9c56-c9b3a8356081"), SectionSeedData.Basso.Id, SelectValueSeedData.High.Id);
-        public static SelectValueSection BassLow => new(Guid.Parse("f8aef705-7e10-4db9-9d2b-06b90194b7d2"), SectionSeedData.Basso.Id, SelectValueSeedData.Low.Id);
-        public static SelectValueSection BassCoach => new(Guid.Parse("8f6d28f2-10f6-47c2-8259-aad9fb7a6f6b"), SectionSeedData.Basso.Id, SelectValueSeedData.Coach.Id);
+        public static SelectValueSection BassSolo => new(Guid.Parse("d0987cc0-f924-4d76-985f-b1e85be9e7b5"), SectionSeedData.Bass.Id, SelectValueSeedData.Solo.Id);
+        public static SelectValueSection BassSectionLead => new(Guid.Parse("4cb43aeb-68ac-4d2d-b66b-a3b252178c11"), SectionSeedData.Bass.Id, SelectValueSeedData.SectionLead.Id);
+        public static SelectValueSection BassHigh => new(Guid.Parse("2da6c9c0-3d83-4ee0-9c56-c9b3a8356081"), SectionSeedData.Bass.Id, SelectValueSeedData.High.Id);
+        public static SelectValueSection BassLow => new(Guid.Parse("f8aef705-7e10-4db9-9d2b-06b90194b7d2"), SectionSeedData.Bass.Id, SelectValueSeedData.Low.Id);
+        public static SelectValueSection BassCoach => new(Guid.Parse("8f6d28f2-10f6-47c2-8259-aad9fb7a6f6b"), SectionSeedData.Bass.Id, SelectValueSeedData.Coach.Id);
 
 
         // Orchestra

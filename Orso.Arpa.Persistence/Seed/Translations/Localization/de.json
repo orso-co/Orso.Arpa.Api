@@ -480,7 +480,7 @@
     "Deleted": false
   },
   {
-    "Key": "Basso",
+    "Key": "Bass",
     "Text": "Bass",
     "LocalizationCulture": "de",
     "ResourceKey": "SectionDto",
@@ -1776,7 +1776,7 @@
     "Deleted": false
   },
   {
-    "Key": "Orchesetra Concert Lump Sump 1808",
+    "Key": "Orchestra Concert Rate: 1808",
     "Text": "Orchester Konzertpauschale 1808",
     "LocalizationCulture": "de",
     "ResourceKey": "SelectValueDto",
@@ -1788,7 +1788,7 @@
     "Deleted": false
   },
   {
-    "Key": "Orchestra Concert Lump Sum 9€/11€ at 10h",
+    "Key": "Orchestra Concert Rate: 9€/11€ at 10h",
     "Text": "Orchester Konzertpauschale 9€/11€ bei 10h",
     "LocalizationCulture": "de",
     "ResourceKey": "SelectValueDto",
@@ -1800,7 +1800,7 @@
     "Deleted": false
   },
   {
-    "Key": "Orchestra Concert Lump Sum 9 €/11€ at 12h",
+    "Key": "Orchestra Concert Rate: 9€/11€ at 12h",
     "Text": "Orchester Konzertpauschale 9€/11€ bei 12h",
     "LocalizationCulture": "de",
     "ResourceKey": "SelectValueDto",
