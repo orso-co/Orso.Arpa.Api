@@ -466,7 +466,7 @@ namespace Orso.Arpa.Api
                     .FrameSources(s => s.Self().CustomSources("https://www.google.com/recaptcha/", "https://recaptcha.google.com/recaptcha/", "https://*.orso.co", "https://*.orso.berlin", "https://*.podio.com", "https://*.notion.so"))
                     .FrameAncestors(s => s.Self())
                     .ScriptSources(s => s.Self().UnsafeInline().CustomSources("https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/"))
-                    .ImageSources(s => s.Self())
+                    .ImageSources(s => s.Self().CustomSources("data:"))
                     .ManifestSources(s => s.Self())
                     .MediaSources(s => s.Self())
                     .ObjectSources(s => s.Self())
