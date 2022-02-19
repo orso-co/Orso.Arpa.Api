@@ -17,7 +17,7 @@ namespace Orso.Arpa.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -1378,17 +1378,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5100a0ad-25ac-4e7d-a7f9-c9816b02be2e"),
-                            CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 555, DateTimeKind.Local).AddTicks(3686),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Basso",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Bass"
-                        },
-                        new
-                        {
                             Id = new Guid("f678e4b3-7c10-4a9e-8483-05d43361137a"),
                             CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 556, DateTimeKind.Local).AddTicks(1053),
                             CreatedBy = "LocalizationSeedData",
@@ -1543,17 +1532,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bc51b97c-95e2-4ee0-be43-05538dd253f8"),
-                            CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 567, DateTimeKind.Local).AddTicks(5400),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Bassett Horn",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Bassett-Horn"
-                        },
-                        new
-                        {
                             Id = new Guid("b01a1500-cf94-4b49-9256-1aec9ab7d5f7"),
                             CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 568, DateTimeKind.Local).AddTicks(3235),
                             CreatedBy = "LocalizationSeedData",
@@ -1627,7 +1605,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Key = "Brass",
                             LocalizationCulture = "de",
                             ResourceKey = "SectionDto",
-                            Text = "Bass"
+                            Text = "Blech"
                         },
                         new
                         {
@@ -1803,7 +1781,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Key = "Marimbaphone",
                             LocalizationCulture = "de",
                             ResourceKey = "SectionDto",
-                            Text = "Marimbaphone"
+                            Text = "Marimbaphon"
                         },
                         new
                         {
@@ -1935,7 +1913,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Key = "Electric Guitar",
                             LocalizationCulture = "de",
                             ResourceKey = "SectionDto",
-                            Text = "Elektrische Gitarre"
+                            Text = "E-Gitarre"
                         },
                         new
                         {
@@ -1946,7 +1924,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Key = "Electric Bass",
                             LocalizationCulture = "de",
                             ResourceKey = "SectionDto",
-                            Text = "Elektrischer Bass"
+                            Text = "E-Bass"
                         },
                         new
                         {
@@ -2012,7 +1990,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Key = "Violin",
                             LocalizationCulture = "de",
                             ResourceKey = "SectionDto",
-                            Text = "Geige"
+                            Text = "Violine"
                         },
                         new
                         {
@@ -2023,7 +2001,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Key = "Viola",
                             LocalizationCulture = "de",
                             ResourceKey = "SectionDto",
-                            Text = "Bratsche"
+                            Text = "Viola"
                         },
                         new
                         {
@@ -2566,39 +2544,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b131383c-d3e5-4222-8556-61aa6f59aa0e"),
-                            CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 647, DateTimeKind.Local).AddTicks(1795),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Orchesetra Concert Lump Sump 1808",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SelectValueDto",
-                            Text = "Orchester Konzertpauschale 1808"
-                        },
-                        new
-                        {
-                            Id = new Guid("6defbec6-09e1-4714-97c7-688a08ab71b9"),
-                            CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 647, DateTimeKind.Local).AddTicks(9502),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Orchestra Concert Lump Sum 9€/11€ at 10h",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SelectValueDto",
-                            Text = "Orchester Konzertpauschale 9€/11€ bei 10h"
-                        },
-                        new
-                        {
-                            Id = new Guid("38e33e88-0bd2-4c63-b127-e584b4d7eeaf"),
-                            CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 648, DateTimeKind.Local).AddTicks(6980),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Orchestra Concert Lump Sum 9 €/11€ at 12h",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SelectValueDto",
-                            Text = "Orchester Konzertpauschale 9€/11€ bei 12h"
-                        },
-                        new
-                        {
                             Id = new Guid("7a7fbead-646e-44d8-b1ec-3db050c95850"),
                             CreatedAt = new DateTime(2021, 11, 6, 14, 56, 26, 649, DateTimeKind.Local).AddTicks(5017),
                             CreatedBy = "LocalizationSeedData",
@@ -2904,6 +2849,413 @@ namespace Orso.Arpa.Persistence.Migrations
                             LocalizationCulture = "de",
                             ResourceKey = "SelectValueDto",
                             Text = "Universität"
+                        },
+                        new
+                        {
+                            Id = new Guid("3b5f7b27-ceb0-4446-9713-e5cca94691d1"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 599, DateTimeKind.Local).AddTicks(830),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Contractors",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Vertragspartner"
+                        },
+                        new
+                        {
+                            Id = new Guid("6f54ce52-0db0-4a26-8faa-42e2cce46167"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 599, DateTimeKind.Local).AddTicks(7360),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Conductor",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Dirigent"
+                        },
+                        new
+                        {
+                            Id = new Guid("e56b2e27-7da2-42b2-83a4-c6c455c1199e"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 600, DateTimeKind.Local).AddTicks(3900),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Assistant Conductor",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Dirigierassistent"
+                        },
+                        new
+                        {
+                            Id = new Guid("629e32a1-d497-48ca-9c97-d35fd8111488"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 601, DateTimeKind.Local).AddTicks(460),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Répétiteur",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Korrepetitor"
+                        },
+                        new
+                        {
+                            Id = new Guid("3e227927-ba6b-4505-a7b3-22a2fe1d0b5e"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 601, DateTimeKind.Local).AddTicks(7510),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Vocal Coach",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Stimmbildner:in"
+                        },
+                        new
+                        {
+                            Id = new Guid("5897d4dd-f6a6-4c11-a36d-d697abe04f1d"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 610, DateTimeKind.Local).AddTicks(4980),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Bass",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Bass (Chor)"
+                        },
+                        new
+                        {
+                            Id = new Guid("46fa11bd-4c1b-4296-a178-dac320247b40"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 621, DateTimeKind.Local).AddTicks(6490),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Basset Horn",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Bassett-Horn"
+                        },
+                        new
+                        {
+                            Id = new Guid("91a04cfb-c85c-4113-b36d-eaf1b24e9db7"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 623, DateTimeKind.Local).AddTicks(2090),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Double Bass Clarinet",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Kontrabass-Klarinette"
+                        },
+                        new
+                        {
+                            Id = new Guid("2f01dec8-155e-4da8-a321-62a5c53f65f4"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 627, DateTimeKind.Local).AddTicks(9480),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Tenor Saxophone",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Tenor-Saxophon"
+                        },
+                        new
+                        {
+                            Id = new Guid("e402dfd1-ebb6-48c4-b3c8-049362682130"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 630, DateTimeKind.Local).AddTicks(1820),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Bassoon",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Fagott"
+                        },
+                        new
+                        {
+                            Id = new Guid("487f31e7-b6c8-4051-a36d-cdb94e106a8a"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 630, DateTimeKind.Local).AddTicks(8730),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Contra Bassoon",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Kontrafagott"
+                        },
+                        new
+                        {
+                            Id = new Guid("5e754fb1-46af-4607-9579-d4430ab054ed"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 631, DateTimeKind.Local).AddTicks(5260),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Contraforte",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Kontraforte"
+                        },
+                        new
+                        {
+                            Id = new Guid("0108dcdb-caa7-4783-b69e-5c282a1e1770"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 632, DateTimeKind.Local).AddTicks(2300),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Bagpipes",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Dudelsack"
+                        },
+                        new
+                        {
+                            Id = new Guid("c5bb7cf5-d79b-4040-8e74-54baf19139d1"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 634, DateTimeKind.Local).AddTicks(350),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "High Brass",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Hohes Blech"
+                        },
+                        new
+                        {
+                            Id = new Guid("c32c7ff2-9908-41ae-ab4e-d84441354fd3"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 635, DateTimeKind.Local).AddTicks(350),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Low Brass",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Tiefes Blech"
+                        },
+                        new
+                        {
+                            Id = new Guid("30000f37-7a8f-47a0-98bb-f560777c4737"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 638, DateTimeKind.Local).AddTicks(9860),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Cornet",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Kornett"
+                        },
+                        new
+                        {
+                            Id = new Guid("e9f6caf6-773c-4982-ab65-9c96f6ac7cc9"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 639, DateTimeKind.Local).AddTicks(6280),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Soprano Cornet",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Sopran-Kornett"
+                        },
+                        new
+                        {
+                            Id = new Guid("edf764af-c96b-472a-b8c6-4342a9da71fb"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 640, DateTimeKind.Local).AddTicks(2740),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Trombone",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Posaune"
+                        },
+                        new
+                        {
+                            Id = new Guid("d1360e28-f9b4-47ed-9378-0d2bf48bba22"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 640, DateTimeKind.Local).AddTicks(9130),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Alto Trombone",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Alt-Posaune"
+                        },
+                        new
+                        {
+                            Id = new Guid("1adf93d9-ba07-4e15-99ac-8ec37bfd2c47"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 641, DateTimeKind.Local).AddTicks(5530),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Bass Trombone",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Bass-Posaune"
+                        },
+                        new
+                        {
+                            Id = new Guid("a96d385e-18a8-45d0-b165-b513f20ed2a9"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 642, DateTimeKind.Local).AddTicks(2200),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Double Bass Trombone",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Kontrabass-Posaune"
+                        },
+                        new
+                        {
+                            Id = new Guid("169900b0-43a9-4182-a402-c1bd49bf540b"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 646, DateTimeKind.Local).AddTicks(8600),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Timpani",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Pauken"
+                        },
+                        new
+                        {
+                            Id = new Guid("6935d438-4967-411d-a0ca-f3b4e5790a7d"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 648, DateTimeKind.Local).AddTicks(1730),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Drum Set (Band)",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Schlagzeug (Band)"
+                        },
+                        new
+                        {
+                            Id = new Guid("d861b543-b1a3-448a-b1a2-df0b8bbeaebe"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 648, DateTimeKind.Local).AddTicks(8190),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Drum Set (Orchestra)",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Schlagzeug (Orchester)"
+                        },
+                        new
+                        {
+                            Id = new Guid("93194d04-45f7-4889-9c9b-680d5a1305b8"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 652, DateTimeKind.Local).AddTicks(2670),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Mallets",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Stabspiel"
+                        },
+                        new
+                        {
+                            Id = new Guid("a57cde5e-b9e3-4786-9bbf-85f1f2cb1151"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 654, DateTimeKind.Local).AddTicks(6570),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "GlassHarp",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Glasharfe"
+                        },
+                        new
+                        {
+                            Id = new Guid("bdffc24c-35f8-4275-86e3-bdebc402e336"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 661, DateTimeKind.Local).AddTicks(3030),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Acoustic Guitar (Orchestra)",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Akustik-Gitarre (Orchester)"
+                        },
+                        new
+                        {
+                            Id = new Guid("500c6c2d-722c-4801-a26d-bc1f0ef11d0b"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 662, DateTimeKind.Local).AddTicks(5930),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Electric Guitar (Orchestra)",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "E-Gitarre (Orchester)"
+                        },
+                        new
+                        {
+                            Id = new Guid("f700e62b-9ce7-4eed-94fd-e3ae18cd57c0"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 663, DateTimeKind.Local).AddTicks(8810),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Electric Bass (Orchestra)",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "E-Bass (Orchester)"
+                        },
+                        new
+                        {
+                            Id = new Guid("cde22ff7-841f-4075-ba19-25bd0a085d76"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 671, DateTimeKind.Local).AddTicks(910),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Double Bass",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SectionDto",
+                            Text = "Kontrabass"
+                        },
+                        new
+                        {
+                            Id = new Guid("641c41dd-1d18-4695-94cb-315e36b52b1c"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 712, DateTimeKind.Local).AddTicks(2130),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Orchestra Concert Rate: 1808",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Orchester Konzertpauschale 1808"
+                        },
+                        new
+                        {
+                            Id = new Guid("52a0c124-95d8-4794-be63-5db904dda2fc"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 712, DateTimeKind.Local).AddTicks(9160),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Orchestra Concert Rate: 9€/11€ at 10h",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Orchester Konzertpauschale 9€/11€ bei 10h"
+                        },
+                        new
+                        {
+                            Id = new Guid("37db8c9b-d375-4531-bbec-df3ea5055e24"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 713, DateTimeKind.Local).AddTicks(6040),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Orchestra Concert Rate: 9€/11€ at 12h",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Orchester Konzertpauschale 9€/11€ bei 12h"
+                        },
+                        new
+                        {
+                            Id = new Guid("0ce3a0d7-919f-43cd-90f1-79a3e06a2659"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 737, DateTimeKind.Local).AddTicks(1180),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Gladly",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Gerne anfragen"
+                        },
+                        new
+                        {
+                            Id = new Guid("115814e0-fe21-433d-a65f-3e725c2e7ab0"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 737, DateTimeKind.Local).AddTicks(7620),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Emergency only",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Nur im Notfall"
+                        },
+                        new
+                        {
+                            Id = new Guid("36b0fb71-afcd-4473-a47b-a860f66409b3"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 738, DateTimeKind.Local).AddTicks(4180),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "For contacts only",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Aquisekontakt"
+                        },
+                        new
+                        {
+                            Id = new Guid("22f4fe1b-eae7-46cd-9363-4103b48f7611"),
+                            CreatedAt = new DateTime(2022, 2, 19, 21, 8, 46, 739, DateTimeKind.Local).AddTicks(590),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Never again",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Nie wieder"
                         });
                 });
 
@@ -4336,7 +4688,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             InstrumentPartCount = (byte)2,
                             IsInstrument = true,
-                            Name = "Basso",
+                            Name = "Bass",
                             ParentId = new Guid("b9673cfd-7cdb-472c-86e0-1304cbb3840a")
                         },
                         new
@@ -5688,7 +6040,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 1808"
+                            Name = "Orchestra Concert Rate: 1808"
                         },
                         new
                         {
@@ -5696,7 +6048,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 9€/11€ at 10h"
+                            Name = "Orchestra Concert Rate: 9€/11€ at 10h"
                         },
                         new
                         {
@@ -5704,7 +6056,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Deleted = false,
                             Description = "",
-                            Name = "Orchestra Concert Lump Sum 9 €/11€ at 12h"
+                            Name = "Orchestra Concert Rate: 9€/11€ at 12h"
                         },
                         new
                         {
