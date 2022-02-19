@@ -31,7 +31,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             orchester.Should().BeEquivalentTo("Orchester");
 
             sections.TryGetValue("Bass", out string bass);
-            bass.Should().BeEquivalentTo("Bass");
+            bass.Should().BeEquivalentTo("Bass (Chor)");
         }
 
         [Test, Order(2)]
