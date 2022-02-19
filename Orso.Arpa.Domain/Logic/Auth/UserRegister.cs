@@ -71,7 +71,11 @@ namespace Orso.Arpa.Domain.Logic.Auth
             private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
 
-            public Handler(ArpaUserManager userManager, IDateTimeProvider dateTimeProvider, IArpaContext arpaContext, IMapper mapper)
+            public Handler(
+                ArpaUserManager userManager,
+                IDateTimeProvider dateTimeProvider,
+                IArpaContext arpaContext,
+                IMapper mapper)
             {
                 _userManager = userManager;
                 _dateTimeProvider = dateTimeProvider;
@@ -113,10 +117,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                             new ValidationFailure[] { new ValidationFailure(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.") });
                 }
 
-                foreach (Guid sectionId in request.StakeholderGroupIds)
-                {
-                    person.StakeholderGroups.Add(new PersonSection(null, person.Id, sectionId));
-                }
+
 
                 var user = new User
                 {
@@ -128,12 +129,19 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 IdentityResult result = await _userManager.CreateAsync(user, request.Password);
 
-                if (result.Succeeded)
+                if (!result.Succeeded)
                 {
-                    return Unit.Value;
+                    throw new IdentityException("Problem creating user", result.Errors);
                 }
 
-                throw new IdentityException("Problem creating user", result.Errors);
+                _arpaContext.Set<PersonSection>().AddRange(request.StakeholderGroupIds.Select(sg => new PersonSection(null, person.Id, sg)));
+
+                if ((await _arpaContext.SaveChangesAsync(cancellationToken)) < request.StakeholderGroupIds.Count)
+                {
+                    throw new Exception("Problem creating stakeholder groups");
+                }
+
+                return Unit.Value;
             }
         }
     }

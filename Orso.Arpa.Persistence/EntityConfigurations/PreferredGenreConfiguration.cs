@@ -8,8 +8,6 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<PreferredGenre> builder)
         {
-            builder.HasKey(e => new { e.MusicianProfileId, e.SelectValueMappingId });
-
             builder
                 .HasOne(e => e.SelectValueMapping)
                 .WithMany()

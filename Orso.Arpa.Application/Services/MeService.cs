@@ -10,7 +10,6 @@ using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MyMusicianProfileApplication;
-using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.GenericHandlers;
@@ -131,16 +130,6 @@ namespace Orso.Arpa.Application.Services
             List<MusicianProfile> profiles = await musicianProfiles.ToListAsync();
 
             return _mapper.Map<IEnumerable<MyMusicianProfileDto>>(profiles);
-        }
-
-        public async Task<ProjectParticipationDto> SetMyProjectParticipationAsync(SetMyProjectParticipationDto myProjectParticipationDto)
-        {
-            SetProjectParticipation.Command command = _mapper
-                .Map<SetProjectParticipation.Command>(myProjectParticipationDto);
-
-            command.PersonId = _userAccessor.PersonId;
-            ProjectParticipation projectParticipation = await _mediator.Send(command);
-            return _mapper.Map<ProjectParticipationDto>(projectParticipation);
         }
 
         public async Task<MyMusicianProfileDto> UpdateMusicianProfileAsync(MyMusicianProfileModifyDto musicianProfileModifyDto)
