@@ -112,5 +112,47 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Candidate",
             Description = "",
         };
+
+        public static SelectValueDto Concert => new()
+        {
+            Id = Guid.Parse("34f05f05-ef23-4f36-94e7-73b917530c51"),
+            Name = "Concert",
+            Description = ""
+        };
+
+        public static SelectValueDto ConcertTour => new()
+        {
+            Id = Guid.Parse("7f76d426-cab7-4f4f-aba3-bd430bcec003"),
+            Name = "Concert Tour",
+            Description = ""
+        };
+
+        public static SelectValueDto Pending => new()
+        {
+            Id = Guid.Parse("725a4f4a-37cb-46ba-93a3-7b9cc2b015cb"),
+            Name = "Pending",
+            Description = ""
+        };
+
+        public static SelectValueDto Confirmed => new()
+        {
+            Id = Guid.Parse("b793fa86-2025-4258-8993-8045f4c312d7"),
+            Name = "Confirmed",
+            Description = ""
+        };
+
+        public static SelectValueDto Workshop => new()
+        {
+            Id = Guid.Parse("ae2f10ff-39ae-427e-a5e8-ddcd89422d44"),
+            Name = "Workshop",
+            Description = ""
+        };
+
+        public static SelectValueDto Cacnelled => new()
+        {
+            Id = Guid.Parse("65975857-ab27-480d-87c3-dba74d45cb63"),
+            Name = "Cancelled",
+            Description = ""
+        };
     }
 }

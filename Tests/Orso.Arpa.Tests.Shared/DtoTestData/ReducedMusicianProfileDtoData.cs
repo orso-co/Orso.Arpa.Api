@@ -17,7 +17,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InstrumentName = SectionSeedData.Alto.Name,
                     Qualification = SelectValueSeedData.Amateur.Name,
                     Id = Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"),
-                    DoublingInstrumentNames = string.Empty
                 };
             }
         }
@@ -26,13 +25,14 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new ReducedMusicianProfileDto
+                var dto = new ReducedMusicianProfileDto
                 {
                     InstrumentName = SectionSeedData.Horn.Name,
                     Qualification = SelectValueSeedData.Student.Name,
                     Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
-                    DoublingInstrumentNames = SectionSeedData.WagnerTuba.Name
                 };
+                dto.DoublingInstrumentNames.Add(SectionSeedData.WagnerTuba.Name);
+                return dto;
             }
         }
 
@@ -44,6 +44,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     InstrumentName = SectionSeedData.Tuba.Name,
                     Id = Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"),
+                    Qualification = string.Empty,
                     Deactivation = new MusicianProfileDeactivationDto
                     {
                         CreatedAt = FakeDateTime.UtcNow,
@@ -52,7 +53,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                         Id = Guid.Parse("c3bed69d-f880-41e6-8075-ebea53caf816"),
                         Purpose = "Ich lerne zur Zeit Fagott und hab keine Zeit mehr, Tuba zu spielen."
                     },
-                    DoublingInstrumentNames = string.Empty
                 };
             }
         }
@@ -65,7 +65,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     InstrumentName = SectionSeedData.Tenor.Name,
                     Id = Guid.Parse("f9d85f58-9156-4d5d-988b-3a3d0cb67205"),
-                    DoublingInstrumentNames = string.Empty
+                    Qualification = string.Empty
                 };
             }
         }
@@ -78,7 +78,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     InstrumentName = SectionSeedData.Basso.Name,
                     Id = Guid.Parse("c2b727eb-16f7-440d-a003-aab073532bbf"),
-                    DoublingInstrumentNames = string.Empty
+                    Qualification = string.Empty
                 };
             }
         }
@@ -91,7 +91,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     InstrumentName = SectionSeedData.Soprano.Name,
                     Id = Guid.Parse("7c215684-ee09-424f-9955-9b427494eaeb"),
-                    DoublingInstrumentNames = string.Empty
+                    Qualification = string.Empty
                 };
             }
         }
@@ -104,7 +104,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     InstrumentName = SectionSeedData.Flute.Name,
                     Id = Guid.Parse("9f6f3cab-6b0d-463e-8d66-58b9c760d498"),
-                    DoublingInstrumentNames = string.Empty
+                    Qualification = string.Empty
                 };
             }
         }
@@ -117,7 +117,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     InstrumentName = SectionSeedData.Basso.Name,
                     Id = Guid.Parse("1a7a62f2-1ca0-4eed-9053-b59bc6db34d6"),
-                    DoublingInstrumentNames = string.Empty
+                    Qualification = string.Empty
                 };
             }
         }
