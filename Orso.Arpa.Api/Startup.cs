@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;
 using FluentValidation.AspNetCore;
+using HotChocolate.Execution.Configuration;
 using HotChocolate.Types;
 using HotChocolate.Types.Pagination;
 using MediatR;
@@ -123,9 +124,10 @@ namespace Orso.Arpa.Api
             ConfigureGraphQL(services);
         }
 
+        public static IRequestExecutorBuilder RequestExecutorBuilder { get; private set; }
         protected virtual void ConfigureGraphQL(IServiceCollection services)
         {
-            services
+            RequestExecutorBuilder = services
                 .AddGraphQLServer()
                 .AddAuthorization()
                 .AddFiltering<CustomFilteringConvention>()
