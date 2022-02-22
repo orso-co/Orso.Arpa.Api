@@ -149,18 +149,17 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 
             private void UpdatePreferredPositionsInner(ICollection<MusicianProfilePositionInner> collectionToUpdate, IList<Guid> updateList, Guid musicianProfileId)
             {
-                if (updateList.Count == 0)
-                {
-                    collectionToUpdate.Clear();
-                    return;
-                }
-
                 foreach (MusicianProfilePositionInner position in collectionToUpdate)
                 {
                     if (!updateList.Contains(position.SelectValueSectionId))
                     {
                         _arpaContext.Remove(position);
                     }
+                }
+
+                if (updateList.Count == 0)
+                {
+                    return;
                 }
 
                 IEnumerable<Guid> existingSelectValueSectionIds = collectionToUpdate.Select(p => p.SelectValueSectionId);
@@ -175,18 +174,17 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 
             private void UpdatePreferredPositionsTeam(ICollection<MusicianProfilePositionTeam> collectionToUpdate, IList<Guid> updateList, Guid musicianProfileId)
             {
-                if (updateList.Count == 0)
-                {
-                    collectionToUpdate.Clear();
-                    return;
-                }
-
                 foreach (MusicianProfilePositionTeam position in collectionToUpdate)
                 {
                     if (!updateList.Contains(position.SelectValueSectionId))
                     {
                         _arpaContext.Remove(position);
                     }
+                }
+
+                if (updateList.Count == 0)
+                {
+                    return;
                 }
 
                 IEnumerable<Guid> existingSelectValueSectionIds = collectionToUpdate.Select(p => p.SelectValueSectionId);
