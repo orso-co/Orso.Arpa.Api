@@ -277,7 +277,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InquiryStatusTeamId = SelectValueMappingSeedData.MusicianProfileInquiryStatusTeamMappings[2].Id,
             };
             modifyDto.PreferredPositionsTeamIds.Add(SelectValueSectionSeedData.HornSolo.Id);
-            modifyDto.PreferredPositionsInnerIds.Add(SelectValueSectionSeedData.HornLow.Id);
             modifyDto.PreferredPartsTeam.Add(2);
             modifyDto.PreferredPartsInner.Add(3);
             var expectedDto = new MusicianProfileDto
@@ -301,7 +300,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PersonId = musicianProfileToModify.PersonId,
                 PreferredPartsInner = modifyDto.PreferredPartsInner,
                 PreferredPartsTeam = modifyDto.PreferredPartsTeam,
-                PreferredPositionsInnerIds = modifyDto.PreferredPositionsInnerIds,
                 PreferredPositionsTeamIds = modifyDto.PreferredPositionsTeamIds,
                 ProfilePreferenceInner = modifyDto.ProfilePreferenceInner,
                 ProfilePreferenceTeam = modifyDto.ProfilePreferenceTeam,
