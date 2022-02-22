@@ -1,6 +1,6 @@
+using System;
 using AutoMapper;
 using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 
@@ -10,7 +10,7 @@ namespace Orso.Arpa.Application.ContactDetailApplication
     {
         public ContactDetailKey Key { get; set; }
         public string Value { get; set; }
-        public SelectValueDto Type { get; set; }
+        public Guid? TypeId { get; set; }
         public string CommentInner { get; set; }
         public string CommentTeam { get; set; }
         public byte Preference { get; set; }

@@ -8,7 +8,6 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ContactDetailApplication;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
-using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -38,7 +37,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CommentTeam = dto.CommentTeam,
                 Key = dto.Key,
                 Preference = dto.Preference,
-                Type = SelectValueDtoData.PrivateContactDetail,
+                TypeId = dto.TypeId,
                 Value = dto.Value
             };
 

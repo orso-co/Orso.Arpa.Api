@@ -124,7 +124,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("252335a7-58ef-431b-ad1e-cc0ca53ebeaf"),
                     Key = ContactDetailKey.EMail,
-                    Type = SelectValueDtoData.PrivateContactDetail,
+                    TypeId = Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
                     Value = "user@without.role"
                 });
                 return dto;
@@ -194,7 +194,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("c56fb43d-6500-4cc7-957c-d64baf049df2"),
                     Key = ContactDetailKey.EMail,
-                    Type = SelectValueDtoData.PrivateContactDetail,
+                    TypeId = Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
                     Value = "person@without.user"
                 });
                 return dto;
@@ -217,7 +217,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("2d81d902-6d5f-4d15-bc20-27e3d54d3484"),
                     Key = ContactDetailKey.EMail,
-                    Type = SelectValueDtoData.PrivateContactDetail,
+                    TypeId = Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
                     Value = "person@withsame.email"
                 });
                 return dto;
@@ -240,7 +240,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("6638dcab-d415-4803-930f-ea13ead4e720"),
                     Key = ContactDetailKey.EMail,
-                    Type = SelectValueDtoData.PrivateContactDetail,
+                    TypeId = Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
                     Value = "person@withsame.email"
                 });
                 return dto;
