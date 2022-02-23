@@ -85,7 +85,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonSeedData.Admin;
-                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                PersonDto dto = CreateDto(person, null, null);
                 dto.Gender = SelectValueDtoData.Diverse;
                 return dto;
             }
