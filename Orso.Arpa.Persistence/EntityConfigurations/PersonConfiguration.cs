@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {
@@ -40,13 +39,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
-                .HasData(PersonSeedData.Persons);
-
-             builder
-                .HasOne(e => e.ContactVia)
-                .WithMany(e => e.ContactsRecommended)
-                .HasForeignKey(e => e.ContactViaId)
-                .OnDelete(DeleteBehavior.NoAction);
+               .HasOne(e => e.ContactVia)
+               .WithMany(e => e.ContactsRecommended)
+               .HasForeignKey(e => e.ContactViaId)
+               .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

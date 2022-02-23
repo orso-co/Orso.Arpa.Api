@@ -301,15 +301,18 @@ namespace Orso.Arpa.Api
 
             services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
 
-            EmailConfiguration emailConfig = Configuration
-                .GetSection("EmailConfiguration")
-                .Get<EmailConfiguration>();
-            services.AddSingleton(emailConfig);
+            AddConfiguration<EmailConfiguration>(services);
+            AddConfiguration<ClubConfiguration>(services);
+            AddConfiguration<SeedConfiguration>(services);
+        }
 
-            ClubConfiguration clubConfig = Configuration
-                .GetSection("ClubConfiguration")
-                .Get<ClubConfiguration>();
-            services.AddSingleton(clubConfig);
+        private T AddConfiguration<T>(IServiceCollection services) where T : class
+        {
+            T config = Configuration
+                .GetSection(typeof(T).Name)
+                .Get<T>();
+            services.AddSingleton(config);
+            return config;
         }
 
         protected virtual void RegisterDateTimeProvider(IServiceCollection services)
@@ -331,11 +334,7 @@ namespace Orso.Arpa.Api
                 .AddRoleManager<RoleManager<Role>>()
                 .AddUserManager<ArpaUserManager>();
 
-            IdentityConfiguration identityConfig = Configuration
-                .GetSection(nameof(IdentityConfiguration))
-                .Get<IdentityConfiguration>();
-
-            services.AddSingleton(identityConfig);
+            IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
 
             services.Configure<IdentityOptions>(opts =>
             {
@@ -352,11 +351,7 @@ namespace Orso.Arpa.Api
             services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromDays(identityConfig.EmailConfirmationTokenExpiryInDays));
 
-            JwtConfiguration jwtConfig = Configuration
-                .GetSection(nameof(JwtConfiguration))
-                .Get<JwtConfiguration>();
-
-            services.AddSingleton(jwtConfig);
+            JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
