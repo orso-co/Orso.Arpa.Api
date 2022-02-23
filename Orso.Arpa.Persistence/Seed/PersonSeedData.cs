@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.Auth;
 
@@ -7,24 +7,37 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class PersonSeedData
     {
-        public static IList<Person> Persons
+        public static Person GetInitialAdmin(InitialAdminConfiguration initialAdminConfiguration)
         {
-            get
+            if (initialAdminConfiguration is null)
             {
-                return new List<Person>
-                {
-                    Admin,
-                };
+                return Admin;
             }
+
+            return new Person(
+                    AdminPersonId,
+                    new UserRegister.Command
+                    {
+                        GivenName = initialAdminConfiguration.GivenName,
+                        Surname = initialAdminConfiguration.Surname,
+                        GenderId = initialAdminConfiguration.GenderId
+                    });
         }
+
+        public static Guid AdminPersonId => Guid.Parse("56ed7c20-ba78-4a02-936e-5e840ef0748c");
 
         public static Person Admin
         {
             get
             {
                 return new Person(
-                    Guid.Parse("56ed7c20-ba78-4a02-936e-5e840ef0748c"),
-                    new UserRegister.Command { GivenName = "Initial", Surname = "Admin", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                    AdminPersonId,
+                    new UserRegister.Command
+                    {
+                        GivenName = "Initial",
+                        Surname = "Admin",
+                        GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id
+                    });
             }
         }
     }
