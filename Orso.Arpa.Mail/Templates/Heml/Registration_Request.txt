@@ -65,7 +65,7 @@
           ob und wann du eine E-Mail von uns bekommen möchtest.</p>
 
           <p>Bei Fragen oder Löschwunsch Deiner Daten, schreibe bitte an support@arpa.orso.co. Bitte antworte nicht direkt auf diese Mail, da sie automatisch von ARPA erstellt wurde und Antworten darauf ins Leere laufen. </p>
-          <p>Ganz lieben Dank für Deine Aufmerksamkeit und bis hoffentlich bald mal wieder auf eine der großen Bühnen!</p>
+          <p>Ganz lieben Dank für Deine Aufmerksamkeit und bis hoffentlich bald mal wieder auf einer der großen Bühnen!</p>
 
           <p>Auch im Namen der ORSOnauten liebe Grüße,</p>
           <p>Wolfgang Roese - Künstlerische Leitung / Product Owner</p>
