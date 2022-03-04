@@ -19,5 +19,6 @@ namespace Orso.Arpa.Application.Interfaces
         Task DeleteAsync(Guid id);
         Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addstakeholderGroupDto);
         Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto);
+        Task<PersonInviteResultDto> InviteAsync(PersonInviteDto dto);
     }
 }

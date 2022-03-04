@@ -15,6 +15,9 @@
     <None Update="Templates\Html\Confirm_Email.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\Html\Invite_Person.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\Html\Password_Changed.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
