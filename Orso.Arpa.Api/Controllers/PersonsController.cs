@@ -178,7 +178,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> RemoveRoom([FromRoute] PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
+        public async Task<ActionResult> RemoveStakeholderGroup([FromRoute] PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
         {
             await _personService.RemoveStakeholderGroupAsync(removeStakeholderGroupDto);
             return NoContent();
