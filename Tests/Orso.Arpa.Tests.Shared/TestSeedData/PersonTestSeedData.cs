@@ -26,7 +26,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     UnconfirmedUser,
                     PersonWithoutUser,
                     Person1WithSameEmail,
-                    Person2WithSameEmail
+                    Person2WithSameEmail,
+                    PersonWithoutEmail,
+                    PersonWithMultipleEmails
                 };
             }
         }
@@ -221,6 +223,59 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Value = "person@withsame.email"
                 });
                 person.ContactDetails.Add(contactDetail);
+                return person;
+            }
+        }
+
+        public static Person PersonWithoutEmail
+        {
+            get
+            {
+                var person = new Person(
+                    Guid.Parse("d4cf390f-c48f-4405-8979-2e2cfc227fed"),
+                    new Domain.Logic.Persons.Create.Command
+                    {
+                        GivenName = "Person",
+                        Surname = "Withoutemail",
+                        GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id,
+                        DateOfBirth = new DateTime(1981, 7, 7),
+                        Birthplace = "Kiew",
+                    });
+                return person;
+            }
+        }
+
+        public static Person PersonWithMultipleEmails
+        {
+            get
+            {
+                var person = new Person(
+                    Guid.Parse("6291f056-bd7e-4e2f-984a-85ef64f01b7c"),
+                    new Domain.Logic.Persons.Create.Command
+                    {
+                        GivenName = "Person",
+                        Surname = "Multiple",
+                        GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id,
+                        DateOfBirth = new DateTime(1981, 7, 7),
+                        BirthName = "Emails",
+                        Birthplace = "Charkiw",
+                    });
+                var contactDetail1 = new ContactDetail(Guid.Parse("acc05ffa-877b-49a0-be2c-0e6b49b99252"), new Domain.Logic.ContactDetails.Create.Command
+                {
+                    PersonId = person.Id,
+                    TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
+                    Key = ContactDetailKey.EMail,
+                    Value = "person@withmultiple.email"
+                });
+                person.ContactDetails.Add(contactDetail1);
+                var contactDetail2 = new ContactDetail(Guid.Parse("40f18ff9-90cf-46be-9e06-6d288a27171d"), new Domain.Logic.ContactDetails.Create.Command
+                {
+                    PersonId = person.Id,
+                    TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
+                    Key = ContactDetailKey.EMail,
+                    Value = "person@withmultiple2.email"
+                });
+                person.ContactDetails.Add(contactDetail2);
                 return person;
             }
         }

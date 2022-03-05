@@ -86,6 +86,35 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
         }
 
+        [Test, Order(3)]
+        public async Task Should_Invite_Persons()
+        {
+            var inviteDto = new PersonInviteDto();
+            inviteDto.PersonIds.Add(PersonTestSeedData.PersonWithoutUser.Id);
+            inviteDto.PersonIds.Add(PersonTestSeedData.Performer.Id);
+            inviteDto.PersonIds.Add(PersonTestSeedData.PersonWithoutEmail.Id);
+            inviteDto.PersonIds.Add(PersonTestSeedData.PersonWithMultipleEmails.Id);
+
+            var expectedDto = new PersonInviteResultDto();
+            expectedDto.PersonsAlreadyRegistered.Add("Per Former");
+            expectedDto.PersonsWithMultipleEmailAddresses.Add("Person Multiple", new List<string> { "person@withmultiple2.email", "person@withmultiple.email" });
+            expectedDto.PersonsWithoutEmailAddress.Add("Person Withoutemail");
+            expectedDto.SuccessfulInvites.Add("Person Without", "person@without.user");
+            expectedDto.SuccessfulInvites.Add("Person Multiple", "person@withmultiple2.email");
+
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.PersonsController.Invite(), BuildStringContent(inviteDto));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            PersonInviteResultDto result = await DeserializeResponseMessageAsync<PersonInviteResultDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(2);
+            _fakeSmtpServer.ReceivedEmail.Select(em => em.ToAddresses[0].Address).Should().BeEquivalentTo(expectedDto.SuccessfulInvites.Values);
+        }
+
         [Test, Order(100)]
         public async Task Should_Modify()
         {

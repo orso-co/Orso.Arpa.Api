@@ -178,10 +178,28 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> RemoveRoom([FromRoute] PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
+        public async Task<ActionResult> RemoveStakeholderGroup([FromRoute] PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
         {
             await _personService.RemoveStakeholderGroupAsync(removeStakeholderGroupDto);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Invites persons to ARPA by email
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>A list of person ids to be invited to ARPA</returns>
+        /// <response code="200">Returns result dto</response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("invite")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<PersonInviteResultDto>> Invite([FromBody] PersonInviteDto dto)
+        {
+            return Ok(await _personService.InviteAsync(dto));
         }
     }
 }

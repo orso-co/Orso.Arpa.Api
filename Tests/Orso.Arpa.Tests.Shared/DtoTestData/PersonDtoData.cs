@@ -20,16 +20,18 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new List<PersonDto>
                 {
-                    Admin,
-                    Performer,
-                    Staff,
-                    WithoutRole,
-                    DeletedUser,
-                    LockedOutUser,
-                    UnconfirmedUser,
-                    Person1WithSameEmail,
-                    Person2WithSameEmail,
-                    PersonWithoutUser,
+                    Admin, // Admin Initial
+                    Performer, // Former Per
+                    Staff, // Member Staff
+                    PersonWithMultipleEmails, // Multiple Person
+                    WithoutRole, // Role Without
+                    DeletedUser, // User Deleted
+                    LockedOutUser, // User LockedOut
+                    UnconfirmedUser, // User Unconfirmed
+                    Person1WithSameEmail, // With Person1
+                    Person2WithSameEmail, // With Person2
+                    PersonWithoutUser, // Without Person
+                    PersonWithoutEmail, // Withoutemail Person
                 };
             }
         }
@@ -242,6 +244,51 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Key = ContactDetailKey.EMail,
                     TypeId = Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
                     Value = "person@withsame.email"
+                });
+                return dto;
+            }
+        }
+
+        public static PersonDto PersonWithoutEmail
+        {
+            get
+            {
+                Person person = PersonTestSeedData.PersonWithoutEmail;
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Diverse;
+                dto.DateOfBirth = new DateTime(1981, 7, 7);
+                dto.Birthplace = "Kiew";
+                return dto;
+            }
+        }
+
+        public static PersonDto PersonWithMultipleEmails
+        {
+            get
+            {
+                Person person = PersonTestSeedData.PersonWithMultipleEmails;
+                PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
+                dto.Gender = SelectValueDtoData.Diverse;
+                dto.DateOfBirth = new DateTime(1981, 7, 7);
+                dto.Birthplace = "Charkiw";
+                dto.BirthName = "Emails";
+                dto.ContactDetails.Add(new ContactDetailDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("40f18ff9-90cf-46be-9e06-6d288a27171d"),
+                    Key = ContactDetailKey.EMail,
+                    TypeId = Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
+                    Value = "person@withmultiple2.email"
+                });
+                dto.ContactDetails.Add(new ContactDetailDto
+                {
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("acc05ffa-877b-49a0-be2c-0e6b49b99252"),
+                    Key = ContactDetailKey.EMail,
+                    TypeId = Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"),
+                    Value = "person@withmultiple.email"
                 });
                 return dto;
             }
