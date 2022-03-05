@@ -1,0 +1,94 @@
+<heml>
+  <head>
+    <subject>ARPA ist da! Deine Daten / Deine Registrierung (Handlungsbedarf)</subject>
+    <preview>Ab sofort Registrierung möglich, um Deine Daten zu verwalten!</preview>
+    <style>
+      body {
+        background: #121212;
+        color: rgba(255, 255, 255, 0.87);
+        font-size: 14px;
+      }
+
+      container {
+        background: #1e1e1e;
+            max-width: 700px;
+        margin: 10px auto;
+        padding: 10px 20px;
+      }
+
+      button {
+        background: #43a5f4;
+        padding: 7px 14px;
+        color: #212529;
+        margin: auto;
+      }
+
+      a {
+        color: rgba(255, 255, 255, 0.87);
+      }
+
+      column {
+        padding: 0 10px;
+      }
+
+      h6 {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <container>
+      <row>
+        <column>
+          <img src="{{ArpaLogo}}" alt="arpa image" width="100" />
+        </column>
+        <column>
+          <h1>A R P A</h1>
+          <h3>Artists-Relationship- & Projectmanagement Application</h3>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <h2>Hallo {{DisplayName}}, 👋</h2>
+          <p>Du erhälst diese E-Mail, weil Du entweder…</p>
+
+          <p>a) ...aktuell Mitwirkende(r) bei ORSO bist oder in jüngster Vergangenheit warst und Du daher bereits in unserer Datenbank registriert bist...</p>
+          <p>b) ...oder eine Anfrage von uns erhalten hattest bezgl. Mitspielen/Mitsingen/Aushilfe...</p>
+          <p>c) ...oder Dich bei uns beworben hast, aber bisher noch nicht teilgenommen hast.</p>
+          <p>Es kann sein, daß diese E-Mail für Dich überraschend kommt, da wir teilweise auch sehr alte Datenbestände konsolidiert haben.</p>
+
+          <p>Bei Interesse an einer Teilnahme an unseren Konzertprojekten jetzt, demnächst oder irgendwann in der Zukunft, bitten wir Dich um <a href="https://arpa.orso.co">REGISTRIERUNG</a>
+          auf unserer neuen Plattform <a href="https://arpa.orso.berlin">ARPA</a>. Nach der Registrierung kannst Du Deine bereits bestehenden Daten sichten, bearbeiten oder die Löschung beantragen.
+          Auch kannst Du hier Deine Musikerprofile, Projektteilnahmen und Termine verwalten. Du wirst künftig in ARPA auch die Möglichkeithaben, festzulegen,
+          ob und wann du eine E-Mail von uns bekommen möchtest.</p>
+
+          <p>Bei Fragen oder Löschwunsch Deiner Daten, schreibe bitte an support@arpa.orso.co. Bitte antworte nicht direkt auf diese Mail, da sie automatisch von ARPA erstellt wurde und Antworten darauf ins Leere laufen. </p>
+          <p>Ganz lieben Dank für Deine Aufmerksamkeit und bis hoffentlich bald mal wieder auf einer der großen Bühnen!</p>
+
+          <p>Auch im Namen der ORSOnauten liebe Grüße,</p>
+          <p>Wolfgang Roese - Künstlerische Leitung / Product Owner</p>
+
+          <br></br>
+          <h4>Weitere Hintergründe zu dieser Mail und ARPA: </h4>
+          <p>Wir haben die Corona-Zeit genutzt, um mit Hilfe des Förderprogramms des Berliner Senats für Kultur und Europa eine  Software von grundauf open-source komplett neu zu entwicklen, um Chören und Orchestern eine bessere Organisationsmöglichkeit an die Hand zu geben. Unsere Software heißt “ARPA” und dies ist die erste E-Mail aus unserer ersten Produktiv-Instanz des neuen Systems. </p>
+          <p>Mit ARPA managen wir in Zukunft die Chor- und Orchesterbesetzungen der verschiedenen Konzertformate und Projekte. Hier werden neue Produktionen vorgestellt auf die man sich bewerben kann. Hier werden Probentermine bekanntgegeben, Rückmeldungen und Anwesenheiten verwaltet und künftig vieles, vieles Weitere mehr. ARPA wird stetig weiterentwickelt und soll allen Musiker:innen, Sänger:innen und Mitarbeiter:innen das Leben erleichtern, Arbeit abnehmen und mehr Raum und Zeit für das Wichtigste lassen: Das Musikmachen!</p>
+          <p>Mehr zu ARPA siehe Info-Website <a href="https://arpa.orso.berlin">www.arpa.orso.berlin</a>. Vielleicht ist das System auch für Dein Ensemble interessant? Nimm gerne Kontakt mit uns auf via <a href="mailto:mail@arpa.orso.co">mail@arpa.orso.co</a> </p>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <h5>{{ClubName}}</h5>
+          <h6 id="h61"><b>Telefon:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
+          <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
+          <h6><b>Adresse:</b> {{ClubAddress}}</h6>
+          <h5></h5>
+        </column>
+      </row>
+    </container>
+
+  </body>
+</heml>

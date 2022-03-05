@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class User : IdentityUser<Guid>
     {
-        public string DisplayName => $"{Person.GivenName} {Person.Surname}";
+        public string DisplayName => Person.DisplayName;
         public virtual Person Person { get; set; }
         public Guid PersonId { get; set; }
 

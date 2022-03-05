@@ -35,6 +35,13 @@ namespace Orso.Arpa.Application.Services
             return base.GetAsync(orderBy: p => p.OrderBy(person => person.Surname).ThenBy(person => person.GivenName));
         }
 
+        public async Task<PersonInviteResultDto> InviteAsync(PersonInviteDto dto)
+        {
+            Invite.Command command = _mapper.Map<Invite.Command>(dto);
+            PersonInviteResult result = await _mediator.Send(command);
+            return _mapper.Map<PersonInviteResultDto>(result);
+        }
+
         public async Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
         {
             RemoveStakeholderGroup.Command command = _mapper.Map<RemoveStakeholderGroup.Command>(removeStakeholderGroupDto);
