@@ -94,6 +94,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             inviteDto.PersonIds.Add(PersonTestSeedData.Performer.Id);
             inviteDto.PersonIds.Add(PersonTestSeedData.PersonWithoutEmail.Id);
             inviteDto.PersonIds.Add(PersonTestSeedData.PersonWithMultipleEmails.Id);
+
             var expectedDto = new PersonInviteResultDto();
             expectedDto.PersonsAlreadyRegistered.Add("Per Former");
             expectedDto.PersonsWithMultipleEmailAddresses.Add("Person Multiple", new List<string> { "person@withmultiple2.email", "person@withmultiple.email" });
@@ -111,6 +112,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             PersonInviteResultDto result = await DeserializeResponseMessageAsync<PersonInviteResultDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(2);
+            _fakeSmtpServer.ReceivedEmail.Select(em => em.ToAddresses[0].Address).Should().BeEquivalentTo(expectedDto.SuccessfulInvites.Values);
         }
 
         [Test, Order(100)]
