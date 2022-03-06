@@ -101,7 +101,7 @@ namespace Orso.Arpa.Persistence.DataAccess
             builder
                 .HasDbFunction(typeof(ArpaContext)
                 .GetMethod(nameof(GetAppointmentIdsForPerson), new[] { typeof(Guid) }))
-                .HasName("fn_appointments_for_person");
+                .HasName("fn_active_appointments_for_person");
             builder
                 .HasDbFunction(typeof(ArpaContext)
                 .GetMethod(nameof(GetMusicianProfilesForAppointment), new[] { typeof(Guid) }))
