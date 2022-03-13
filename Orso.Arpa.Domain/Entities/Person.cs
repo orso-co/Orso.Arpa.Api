@@ -39,6 +39,40 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(UserRegister.Command command)
+        {
+            GivenName = command.GivenName;
+            Surname = command.Surname;
+            DateOfBirth = command.DateOfBirth > DateTime.MinValue ? command.DateOfBirth : DateOfBirth;
+            GenderId = command.GenderId;
+        }
+
+        public void Update(Logic.Me.Modify.Command command)
+        {
+            GivenName = command.GivenName;
+            Surname = command.Surname;
+            AboutMe = command.AboutMe;
+            GenderId = command.GenderId;
+            DateOfBirth = command.DateOfBirth;
+            Birthplace = command.Birthplace;
+            BirthName = command.BirthName;
+        }
+
+        public void Update(Modify.Command command)
+        {
+            GivenName = command.GivenName;
+            Surname = command.Surname;
+            BirthName = command.BirthName;
+            AboutMe = command.AboutMe;
+            GenderId = command.GenderId;
+            DateOfBirth = command.DateOfBirth;
+            Birthplace = command.Birthplace;
+            ContactViaId = command.ContactViaId;
+            ExperienceLevel = command.ExperienceLevel;
+            Reliability = command.Reliability;
+            GeneralPreference = command.GeneralPreference;
+        }
+
         [JsonInclude]
         public string GivenName { get; private set; }
 

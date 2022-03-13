@@ -37,7 +37,6 @@ using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authentication;
@@ -86,7 +85,7 @@ namespace Orso.Arpa.Api
             services.AddGenericMediatorHandlers();
             services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
-                typeof(Modify.MappingProfile).Assembly);
+                typeof(Domain.Logic.Urls.AddRole.MappingProfile).Assembly);
             services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
             services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);

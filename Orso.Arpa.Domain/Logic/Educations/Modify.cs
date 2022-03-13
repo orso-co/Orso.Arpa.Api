@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
@@ -19,20 +18,6 @@ namespace Orso.Arpa.Domain.Logic.Educations
             public Guid TypeId { get; set; }
             public string Description { get; set; }
             public byte SortOrder { get; set; }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Education>()
-                    .ForMember(dest => dest.TimeSpan, opt => opt.MapFrom(src => src.TimeSpan))
-                    .ForMember(dest => dest.Institution, opt => opt.MapFrom(src => src.Institution))
-                    .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId))
-                    .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                    .ForMember(dest => dest.SortOrder, opt => opt.MapFrom(src => src.SortOrder))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
         }
 
         public class Validator : AbstractValidator<Command>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -82,43 +81,13 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             }
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, MusicianProfile>()
-                    .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.IsMainProfile))
-
-                    .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
-                    .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.LevelAssessmentTeam))
-                    .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.ProfilePreferenceInner))
-                    .ForMember(dest => dest.ProfilePreferenceTeam, opt => opt.MapFrom(src => src.ProfilePreferenceTeam))
-
-                    .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.BackgroundInner))
-                    .ForMember(dest => dest.BackgroundTeam, opt => opt.MapFrom(src => src.BackgroundTeam))
-                    .ForMember(dest => dest.SalaryComment, opt => opt.MapFrom(src => src.SalaryComment))
-
-                    .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.QualificationId))
-                    .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.SalaryId))
-                    .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.InquiryStatusInnerId))
-                    .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.InquiryStatusTeamId))
-
-                    .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner))
-                    .ForMember(dest => dest.PreferredPartsTeam, opt => opt.MapFrom(src => src.PreferredPartsTeam))
-
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
-        }
-
         public class Handler : IRequestHandler<Command>
         {
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
-            public Handler(IArpaContext arpaContext, IMapper mapper)
+            public Handler(IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -132,11 +101,11 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                     _arpaContext.MusicianProfiles.Update(mainProfile);
                 }
 
-                MusicianProfile modifiedEntity = _mapper.Map(request, existingMusicianProfile);
-                _arpaContext.Entry(existingMusicianProfile)?.CurrentValues?.SetValues(modifiedEntity);
+                existingMusicianProfile.Update(request);
+                _arpaContext.Entry(existingMusicianProfile)?.CurrentValues?.SetValues(existingMusicianProfile);
 
-                UpdatePreferredPositionsInner(modifiedEntity.PreferredPositionsInner, request.PreferredPositionsInnerIds, modifiedEntity.Id);
-                UpdatePreferredPositionsTeam(modifiedEntity.PreferredPositionsTeam, request.PreferredPositionsTeamIds, modifiedEntity.Id);
+                UpdatePreferredPositionsInner(existingMusicianProfile.PreferredPositionsInner, request.PreferredPositionsInnerIds, existingMusicianProfile.Id);
+                UpdatePreferredPositionsTeam(existingMusicianProfile.PreferredPositionsTeam, request.PreferredPositionsTeamIds, existingMusicianProfile.Id);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

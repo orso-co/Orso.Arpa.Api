@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
@@ -26,26 +25,6 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public Guid? StateId { get; set; }
             public Guid? ParentId { get; set; }
             public bool IsCompleted { get; set; }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Project>()
-                    .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-                    .ForMember(dest => dest.ShortTitle, opt => opt.MapFrom(src => src.ShortTitle))
-                    .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                    .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Code))
-                    .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId))
-                    .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.GenreId))
-                    .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate))
-                    .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate))
-                    .ForMember(dest => dest.StateId, opt => opt.MapFrom(src => src.StateId))
-                    .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentId))
-                    .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.IsCompleted))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
         }
 
         public class Validator : AbstractValidator<Command>

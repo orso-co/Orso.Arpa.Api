@@ -1,4 +1,5 @@
 using System;
+using Orso.Arpa.Domain.Logic.MyProjects;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -16,6 +17,21 @@ namespace Orso.Arpa.Domain.Entities
         }
 
         protected ProjectParticipation() { }
+
+        public void Update(SetProjectParticipationStatus.Command command)
+        {
+            ParticipationStatusInnerId = command.ParticipationStatusInnerId;
+            CommentByPerformerInner = command.CommentByPerformerInner;
+        }
+
+        public void Update(Logic.Projects.SetProjectParticipation.Command command)
+        {
+            CommentByStaffInner = command.CommentByStaffInner;
+            CommentTeam = command.CommentTeam;
+            InvitationStatusId = command.InvitationStatusId;
+            ParticipationStatusInnerId = command.ParticipationStatusInnerId;
+            ParticipationStatusInternalId = command.ParticipationStatusInternalId;
+        }
 
         public Guid ProjectId { get; private set; }
         public virtual Project Project { get; private set; }

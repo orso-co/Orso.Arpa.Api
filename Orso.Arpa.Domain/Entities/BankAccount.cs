@@ -15,6 +15,15 @@ namespace Orso.Arpa.Domain.Entities
         }
         protected BankAccount() { }
 
+        public void Update(Modify.Command command)
+        {
+            Iban = command.Iban;
+            Bic = command.Bic;
+            StatusId = command.StatusId;
+            CommentInner = command.CommentInner;
+            AccountOwner = command.AccountOwner;
+        }
+
         public string Iban { get; private set; }
         public string Bic { get; private set; }
         public Guid? StatusId { get; private set; }
@@ -24,6 +33,5 @@ namespace Orso.Arpa.Domain.Entities
 
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }
-
     }
 }

@@ -25,6 +25,16 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(Modify.Command command)
+        {
+            TimeSpan = command.TimeSpan;
+            Institution = command.Institution;
+            TypeId = command.TypeId;
+            Description = command.Description;
+            Description = command.Description;
+            SortOrder = command.SortOrder;
+        }
+
         public string TimeSpan { get; private set; }
         public string Institution { get; private set; }
         public Guid? TypeId { get; private set; }

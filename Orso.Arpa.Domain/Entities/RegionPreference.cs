@@ -19,6 +19,12 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(ModifyRegionPreference.Command command)
+        {
+            Rating = command.Rating;
+            Comment = command.Comment;
+        }
+
         public Guid RegionId { get; private set; }
         public virtual Region Region { get; private set; }
         public Guid MusicianProfileId { get; private set; }

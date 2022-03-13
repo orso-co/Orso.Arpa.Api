@@ -27,6 +27,21 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(Modify.Command command)
+        {
+            Title = command.Title;
+            ShortTitle = command.ShortTitle;
+            Description = command.Description;
+            Code = command.Code;
+            TypeId = command.TypeId;
+            GenreId = command.GenreId;
+            StartDate = command.StartDate;
+            EndDate = command.EndDate;
+            StateId = command.StateId;
+            ParentId = command.ParentId;
+            IsCompleted = command.IsCompleted;
+        }
+
         public string Title { get; private set; }
         public string ShortTitle { get; private set; }
         public string Description { get; private set; }

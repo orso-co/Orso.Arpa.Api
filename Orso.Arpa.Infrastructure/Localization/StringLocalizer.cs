@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Globalization;
-using AutoMapper.Internal;
 using Microsoft.Extensions.Localization;
 
 namespace Orso.Arpa.Infrastructure.Localization
@@ -22,13 +21,17 @@ namespace Orso.Arpa.Infrastructure.Localization
         {
             IList<LocalizedString> localizedStrings = new List<LocalizedString>();
 
-            _cache.GetAllTranslations(_resourceKey, _location).ForAll(ls =>
-                localizedStrings.Add(new LocalizedString(ls.Key, ls.Value)));
+            foreach (KeyValuePair<string, string> ls in _cache.GetAllTranslations(_resourceKey, _location))
+            {
+                localizedStrings.Add(new LocalizedString(ls.Key, ls.Value));
+            }
 
             if (includeParentCultures)
             {
-                _cache.GetAllTranslations(_resourceKey, CultureInfo.GetCultureInfo(_location).Parent.ToString()).ForAll(ls =>
-                    localizedStrings.Add(new LocalizedString(ls.Key, ls.Value)));
+                foreach (KeyValuePair<string, string> ls in _cache.GetAllTranslations(_resourceKey, CultureInfo.GetCultureInfo(_location).Parent.ToString()))
+                {
+                    localizedStrings.Add(new LocalizedString(ls.Key, ls.Value));
+                }
             }
 
             return localizedStrings;

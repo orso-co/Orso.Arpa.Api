@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -19,15 +18,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     public class SetDatesHandlerTests
     {
         private IArpaContext _arpaContext;
-        private IMapper _mapper;
         private SetDates.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _mapper = Substitute.For<IMapper>();
-            _handler = new SetDates.Handler(_arpaContext, _mapper);
+            _handler = new SetDates.Handler(_arpaContext);
         }
 
         [Test]

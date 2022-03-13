@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
@@ -19,20 +18,6 @@ namespace Orso.Arpa.Domain.Logic.BankAccounts
             public Guid? StatusId { get; set; }
             public Guid PersonId { get; set; }
             public string AccountOwner { get; set; }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, BankAccount>()
-                    .ForMember(dest => dest.Iban, opt => opt.MapFrom(src => src.Iban))
-                    .ForMember(dest => dest.Bic, opt => opt.MapFrom(src => src.Bic))
-                    .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => src.StatusId))
-                    .ForMember(dest => dest.CommentInner, opt => opt.MapFrom(src => src.CommentInner))
-                    .ForMember(dest => dest.AccountOwner, opt => opt.MapFrom(src => src.AccountOwner))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
         }
 
         public class Validator : AbstractValidator<Command>

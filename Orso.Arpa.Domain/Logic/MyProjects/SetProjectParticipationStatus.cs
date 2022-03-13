@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
@@ -59,26 +58,13 @@ public static class SetProjectParticipationStatus
         }
     }
 
-    public class MappingProfile : Profile
-    {
-        public MappingProfile()
-        {
-            CreateMap<Command, ProjectParticipation>()
-                .ForMember(dest => dest.ParticipationStatusInnerId, opt => opt.MapFrom(src => src.ParticipationStatusInnerId))
-                .ForMember(dest => dest.CommentByPerformerInner, opt => opt.MapFrom(src => src.CommentByPerformerInner))
-                .ForAllOtherMembers(opt => opt.Ignore());
-        }
-    }
-
     public class Handler : IRequestHandler<Command, ProjectParticipation>
     {
         private readonly IArpaContext _arpaContext;
-        private readonly IMapper _mapper;
 
-        public Handler(IArpaContext arpaContext, IMapper mapper)
+        public Handler(IArpaContext arpaContext)
         {
             _arpaContext = arpaContext;
-            _mapper = mapper;
         }
 
         public async Task<ProjectParticipation> Handle(Command request, CancellationToken cancellationToken)
@@ -87,7 +73,7 @@ public static class SetProjectParticipationStatus
             ProjectParticipation participation = (await _arpaContext.FindAsync<MusicianProfile>(new object[] { request.MusicianProfileId }, cancellationToken))
                 .ProjectParticipations.FirstOrDefault(pp => pp.ProjectId == request.ProjectId);
 
-            _mapper.Map(request, participation);
+            participation.Update(request);
             participation = _arpaContext.ProjectParticipations.Update(participation).Entity;
 
             if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)

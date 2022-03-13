@@ -1,7 +1,7 @@
 using System;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -20,14 +20,11 @@ namespace Orso.Arpa.Domain.GenericHandlers
         public class Handler<TEntity> : IRequestHandler<IModifyCommand<TEntity>> where TEntity : BaseEntity
         {
             private readonly IArpaContext _context;
-            private readonly IMapper _mapper;
 
             public Handler(
-                IArpaContext context,
-                IMapper mapper)
+                IArpaContext context)
             {
                 _context = context;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(IModifyCommand<TEntity> request, CancellationToken cancellationToken)
@@ -45,9 +42,15 @@ namespace Orso.Arpa.Domain.GenericHandlers
                     });
                 }
 
-                TEntity modifiedEntity = _mapper.Map(request, existingEntity);
+                MethodInfo updateMethod = typeof(TEntity).GetMethod("Update", BindingFlags.Public | BindingFlags.Instance, new Type[] { request.GetType() });
+                if (updateMethod is null)
+                {
+                    throw new Exception($"No 'Update' method found for type '{typeof(TEntity)}' and command '{request.GetType()}");
+                }
 
-                _context.Entry(existingEntity)?.CurrentValues?.SetValues(modifiedEntity);
+                updateMethod.Invoke(existingEntity, new[] { request });
+
+                _context.Entry(existingEntity)?.CurrentValues?.SetValues(existingEntity);
 
                 if (await _context.SaveChangesAsync(cancellationToken) > 0)
                 {

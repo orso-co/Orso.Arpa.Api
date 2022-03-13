@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
@@ -28,16 +27,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public Guid VenueId { get; private set; }
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Appointment>()
-                    .ForMember(dest => dest.VenueId, opt => opt.MapFrom(src => src.VenueId))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
-        }
-
         public class Validator : AbstractValidator<Command>
         {
             public Validator(IArpaContext arpaContext)
@@ -53,21 +42,18 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         public class Handler : IRequestHandler<Command>
         {
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
             public Handler(
-                IArpaContext arpaContext,
-                IMapper mapper)
+                IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
 
-                _mapper.Map(request, existingAppointment);
+                existingAppointment.Update(request);
 
                 _arpaContext.Appointments.Update(existingAppointment);
 
