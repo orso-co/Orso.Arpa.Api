@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
@@ -55,29 +54,13 @@ namespace Orso.Arpa.Domain.Logic.Projects
             }
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, ProjectParticipation>()
-                    .ForMember(dest => dest.ParticipationStatusInnerId, opt => opt.MapFrom(src => src.ParticipationStatusInnerId))
-                    .ForMember(dest => dest.ParticipationStatusInternalId, opt => opt.MapFrom(src => src.ParticipationStatusInternalId))
-                    .ForMember(dest => dest.InvitationStatusId, opt => opt.MapFrom(src => src.InvitationStatusId))
-                    .ForMember(dest => dest.CommentByStaffInner, opt => opt.MapFrom(src => src.CommentByStaffInner))
-                    .ForMember(dest => dest.CommentTeam, opt => opt.MapFrom(src => src.CommentTeam))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
-        }
-
         public class Handler : IRequestHandler<Command, ProjectParticipation>
         {
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
-            public Handler(IArpaContext arpaContext, IMapper mapper)
+            public Handler(IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<ProjectParticipation> Handle(Command request, CancellationToken cancellationToken)
@@ -93,7 +76,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
                 }
                 else
                 {
-                    _mapper.Map(request, participation);
+                    participation.Update(request);
                     participation = _arpaContext.ProjectParticipations.Update(participation).Entity;
                 }
 

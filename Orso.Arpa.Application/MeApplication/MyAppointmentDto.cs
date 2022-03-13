@@ -38,11 +38,6 @@ namespace Orso.Arpa.Application.MeApplication
                 .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.AppointmentRooms.Select(pa => pa.Room)))
                 .ForMember(dest => dest.PublicDetails, opt => opt.MapFrom(src => src.PublicDetails))
                 .ForMember(dest => dest.Expectation, opt => opt.MapFrom(src => src.Expectation.SelectValue.Name));
-
-            CreateMap<AppointmentParticipation, MyAppointmentDto>()
-                .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Result != null ? src.Result.SelectValue.Name : null))
-                .ForMember(dest => dest.PredictionId, opt => opt.MapFrom(src => src.PredictionId))
-                .ForAllOtherMembers(dest => dest.Ignore());
         }
     }
 }

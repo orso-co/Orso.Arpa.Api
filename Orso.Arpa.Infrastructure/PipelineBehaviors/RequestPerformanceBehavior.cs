@@ -7,7 +7,7 @@ using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.PipelineBehaviors
 {
-    public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly Stopwatch _timer;
         private readonly ILogger<TRequest> _logger;

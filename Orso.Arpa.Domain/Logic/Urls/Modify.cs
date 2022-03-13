@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
@@ -15,17 +14,6 @@ namespace Orso.Arpa.Domain.Logic.Urls
             public Guid Id { get; set; }
             public string Href { get; set; }
             public string AnchorText { get; set; }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Url>()
-                    .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Href))
-                    .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.AnchorText))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
         }
 
         public class Validator : AbstractValidator<Command>

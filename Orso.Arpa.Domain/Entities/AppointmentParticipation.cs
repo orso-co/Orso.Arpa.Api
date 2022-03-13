@@ -17,6 +17,16 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(SetPrediction.Command command)
+        {
+            PredictionId = command.PredictionId;
+        }
+
+        public void Update(SetResult.Command command)
+        {
+            ResultId = command.ResultId;
+        }
+
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }
         public Guid AppointmentId { get; private set; }

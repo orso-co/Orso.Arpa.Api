@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Domain.Entities
@@ -25,6 +26,34 @@ namespace Orso.Arpa.Domain.Entities
 
         public MusicianProfile()
         {
+        }
+
+        public void Update(ModifyMusicianProfile.Command command)
+        {
+            IsMainProfile = command.IsMainProfile;
+            LevelAssessmentInner = command.LevelAssessmentInner;
+            ProfilePreferenceInner = command.ProfilePreferenceInner;
+            BackgroundInner = command.BackgroundInner;
+            PreferredPartsInner = command.PreferredPartsInner.ToArray();
+            InquiryStatusInnerId = command.InquiryStatusInnerId;
+        }
+
+        public void Update(Logic.MusicianProfiles.Modify.Command command)
+        {
+            IsMainProfile = command.IsMainProfile;
+            LevelAssessmentInner = command.LevelAssessmentInner;
+            LevelAssessmentTeam = command.LevelAssessmentTeam;
+            ProfilePreferenceTeam = command.ProfilePreferenceTeam;
+            ProfilePreferenceInner = command.ProfilePreferenceInner;
+            BackgroundInner = command.BackgroundInner;
+            BackgroundTeam = command.BackgroundTeam;
+            SalaryComment = command.SalaryComment;
+            QualificationId = command.QualificationId;
+            SalaryId = command.SalaryId;
+            InquiryStatusInnerId = command.InquiryStatusInnerId;
+            InquiryStatusTeamId = command.InquiryStatusTeamId;
+            PreferredPartsInner = command.PreferredPartsInner.ToArray();
+            PreferredPartsTeam = command.PreferredPartsTeam.ToArray();
         }
 
         #region Native

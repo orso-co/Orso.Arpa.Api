@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -26,23 +25,6 @@ namespace Orso.Arpa.Domain.Logic.Me
             public string BirthName { get; set; }
         }
 
-        public class MappingProfile : AutoMapper.Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, User>()
-                    .ForPath(dest => dest.Person.GivenName, opt => opt.MapFrom(src => src.GivenName))
-                    .ForPath(dest => dest.Person.Surname, opt => opt.MapFrom(src => src.Surname))
-                    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                    .ForPath(dest => dest.Person.AboutMe, opt => opt.MapFrom(src => src.AboutMe))
-                    .ForPath(dest => dest.Person.GenderId, opt => opt.MapFrom(src => src.GenderId))
-                    .ForPath(dest => dest.Person.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
-                    .ForPath(dest => dest.Person.Birthplace, opt => opt.MapFrom(src => src.Birthplace))
-                    .ForPath(dest => dest.Person.BirthName, opt => opt.MapFrom(src => src.BirthName))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
-        }
-
         public class Validator : AbstractValidator<Command>
         {
             public Validator(ArpaUserManager userManager, IUserAccessor userAccessor, IArpaContext arpaContext)
@@ -62,16 +44,13 @@ namespace Orso.Arpa.Domain.Logic.Me
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly IMapper _mapper;
             private readonly ArpaUserManager _userManager;
             private readonly IUserAccessor _userAccessor;
 
             public Handler(
                 ArpaUserManager userManager,
-                IUserAccessor userAccessor,
-                IMapper mapper)
+                IUserAccessor userAccessor)
             {
-                _mapper = mapper;
                 _userManager = userManager;
                 _userAccessor = userAccessor;
             }
@@ -80,9 +59,9 @@ namespace Orso.Arpa.Domain.Logic.Me
             {
                 User existingUser = await _userAccessor.GetCurrentUserAsync();
 
-                User modifiedUser = _mapper.Map(request, existingUser);
+                existingUser.Update(request);
 
-                IdentityResult result = await _userManager.UpdateAsync(modifiedUser);
+                IdentityResult result = await _userManager.UpdateAsync(existingUser);
 
                 if (result.Succeeded)
                 {

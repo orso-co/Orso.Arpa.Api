@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.ChangeLog;
+using Orso.Arpa.Domain.Logic.Me;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class User : IdentityUser<Guid>
     {
+        public void Update(Modify.Command command)
+        {
+            Email = command.Email;
+            Person.Update(command);
+        }
+
         public string DisplayName => Person.DisplayName;
         public virtual Person Person { get; set; }
         public Guid PersonId { get; set; }

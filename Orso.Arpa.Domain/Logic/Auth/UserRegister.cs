@@ -34,19 +34,6 @@ namespace Orso.Arpa.Domain.Logic.Auth
             public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Person>()
-                    .ForMember(p => p.GivenName, opt => opt.MapFrom(src => src.GivenName))
-                    .ForMember(p => p.Surname, opt => opt.MapFrom(src => src.Surname))
-                    .ForMember(p => p.DateOfBirth, opt => opt.MapFrom((src, dest) => src.DateOfBirth > DateTime.MinValue ? src.DateOfBirth : dest.DateOfBirth))
-                    .ForMember(p => p.GenderId, opt => opt.MapFrom(src => src.GenderId))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
-        }
-
         public class Validator : AbstractValidator<Command>
         {
             public Validator(ArpaUserManager userManager, IArpaContext context)
@@ -69,7 +56,6 @@ namespace Orso.Arpa.Domain.Logic.Auth
             private readonly ArpaUserManager _userManager;
             private readonly IDateTimeProvider _dateTimeProvider;
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
             public Handler(
                 ArpaUserManager userManager,
@@ -80,7 +66,6 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 _userManager = userManager;
                 _dateTimeProvider = dateTimeProvider;
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -110,7 +95,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                             throw new AuthorizationException("You are not allowed to register with this e-mail address");
                         }
                         person = existingPerson;
-                        _mapper.Map(request, person);
+                        person.Update(request);
                         break;
                     default:
                         throw new ValidationException(

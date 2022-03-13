@@ -68,7 +68,8 @@ namespace Orso.Arpa.Application.Services
                     dto.Id, currentPerson.Id));
                 if (participation != null)
                 {
-                    _mapper.Map(participation, dto);
+                    dto.Result = participation.Result != null ? participation.Result.SelectValue.Name : null;
+                    dto.PredictionId = participation.PredictionId;
                 }
             }
 

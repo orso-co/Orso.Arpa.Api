@@ -25,9 +25,11 @@
   <ItemGroup>
     <Folder Include="AppointmentTests\QueryHandlerTests\" />
     <Folder Include="AuthTests\QueryHandlerTests\" />
+    <Folder Include="ProjectsTests\MappingProfileTests\" />
     <Folder Include="ProjectsTests\QueryHandlerTests\" />
     <Folder Include="RolesTests\ValidatorTests\" />
     <Folder Include="SelectValuesTests\ValidatorTests\" />
+    <Folder Include="UrlsTests\MappingProfileTests\" />
     <Folder Include="UsersTests\ValidatorTests\" />
     <Folder Include="VenuesTests\ValidatorTests\" />
   </ItemGroup>
