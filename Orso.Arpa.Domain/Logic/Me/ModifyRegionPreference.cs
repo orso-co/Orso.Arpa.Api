@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
@@ -18,17 +17,6 @@ namespace Orso.Arpa.Domain.Logic.Me
 
             public byte Rating { get; set; }
             public string Comment { get; set; }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, RegionPreference>()
-                    .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
-                    .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Comment))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
         }
 
         public class Validator : AbstractValidator<Command>

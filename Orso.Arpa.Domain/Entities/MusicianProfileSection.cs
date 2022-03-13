@@ -1,4 +1,5 @@
 using System;
+using Orso.Arpa.Domain.Logic.Me;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -16,6 +17,21 @@ namespace Orso.Arpa.Domain.Entities
             Comment = command.Comment;
             SectionId = command.InstrumentId;
             MusicianProfileId = command.MusicianProfileId;
+        }
+
+        public void Update(ModifyDoublingInstrument.Command command)
+        {
+            Comment = command.Comment;
+            InstrumentAvailabilityId = command.AvailabilityId;
+            LevelAssessmentInner = command.LevelAssessmentInner;
+        }
+
+        public void Update(Logic.MusicianProfileSections.Modify.Command command)
+        {
+            Comment = command.Comment;
+            InstrumentAvailabilityId = command.AvailabilityId;
+            LevelAssessmentInner = command.LevelAssessmentInner;
+            LevelAssessmentTeam = command.LevelAssessmentTeam;
         }
 
         public byte LevelAssessmentInner { get; private set; }

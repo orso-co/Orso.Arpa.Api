@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
@@ -20,20 +19,6 @@ namespace Orso.Arpa.Domain.Logic.MyContactDetails
             public byte Preference { get; set; }
             public Guid Id { get; set; }
             public Guid PersonId { get; set; }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, ContactDetail>()
-                    .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Key))
-                    .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Value))
-                    .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId))
-                    .ForMember(dest => dest.CommentInner, opt => opt.MapFrom(src => src.CommentInner))
-                    .ForMember(dest => dest.Preference, opt => opt.MapFrom(src => src.Preference))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
         }
 
         public class Validator : AbstractValidator<Command>

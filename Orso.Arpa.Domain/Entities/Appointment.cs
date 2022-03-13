@@ -26,6 +26,31 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(Modify.Command command)
+        {
+            CategoryId = command.CategoryId;
+            StartTime = command.StartTime;
+            EndTime = command.EndTime;
+            Name = command.Name;
+            PublicDetails = command.PublicDetails;
+            InternalDetails = command.InternalDetails;
+            StatusId = command.StatusId;
+            SalaryId = command.SalaryId;
+            SalaryPatternId = command.SalaryPatternId;
+            ExpectationId = command.ExpectationId;
+        }
+
+        public void Update(SetDates.Command command)
+        {
+            StartTime = command.StartTime ?? StartTime;
+            EndTime = command.EndTime ?? EndTime;
+        }
+
+        public void Update(SetVenue.Command command)
+        {
+            VenueId = command.VenueId;
+        }
+
         #region Native
 
         public DateTime StartTime { get; private set; }

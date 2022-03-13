@@ -24,10 +24,6 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
         {
             public MappingProfile()
             {
-                CreateMap<Command, AppointmentParticipation>()
-                    .ForMember(dest => dest.PredictionId, opt => opt.MapFrom(src => src.PredictionId))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-
                 CreateMap<Command, Create.Command>()
                     .ForMember(dest => dest.AppointmentId, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
@@ -80,7 +76,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
                 }
                 else
                 {
-                    _mapper.Map(request, participation);
+                    participation.Update(request);
                     _arpaContext.AppointmentParticipations.Update(participation);
                 }
 

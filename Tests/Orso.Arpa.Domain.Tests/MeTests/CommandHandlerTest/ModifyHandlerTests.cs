@@ -1,6 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using NSubstitute;
@@ -19,7 +18,6 @@ namespace Orso.Arpa.Domain.Tests.MeTests.CommandHandlerTest
     {
         private ArpaUserManager _userManager;
         private IUserAccessor _userAccessor;
-        private IMapper _mapper;
         private Modify.Handler _handler;
 
         [SetUp]
@@ -27,8 +25,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.CommandHandlerTest
         {
             _userManager = new FakeUserManager();
             _userAccessor = Substitute.For<IUserAccessor>();
-            _mapper = Substitute.For<IMapper>();
-            _handler = new Modify.Handler(_userManager, _userAccessor, _mapper);
+            _handler = new Modify.Handler(_userManager, _userAccessor);
         }
 
         [Test]
@@ -37,7 +34,6 @@ namespace Orso.Arpa.Domain.Tests.MeTests.CommandHandlerTest
             // Arrange
             User user = FakeUsers.Performer;
             _userAccessor.GetCurrentUserAsync().Returns(user);
-            _mapper.Map(Arg.Any<Modify.Command>(), Arg.Any<User>()).Returns(user);
 
             // Act
             Unit result = await _handler.Handle(new Modify.Command(), new CancellationToken());

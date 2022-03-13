@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -19,15 +18,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     public class SetVenueHandlerTests
     {
         private IArpaContext _arpaContext;
-        private IMapper _mapper;
         private SetVenue.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _mapper = Substitute.For<IMapper>();
-            _handler = new SetVenue.Handler(_arpaContext, _mapper);
+            _handler = new SetVenue.Handler(_arpaContext);
         }
 
         [Test]

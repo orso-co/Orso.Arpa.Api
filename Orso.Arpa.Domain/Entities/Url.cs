@@ -23,6 +23,12 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(Modify.Command command)
+        {
+            Href = command.Href;
+            AnchorText = command.AnchorText;
+        }
+
         public string Href { get; private set; }
         public string AnchorText { get; private set; }
         public virtual ICollection<UrlRole> UrlRoles { get; private set; } = new HashSet<UrlRole>();

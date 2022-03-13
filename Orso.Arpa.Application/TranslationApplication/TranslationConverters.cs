@@ -1,41 +1,40 @@
 using System.Collections.Generic;
 using AutoMapper;
-using AutoMapper.Internal;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Application.TranslationApplication
 {
 
-    public class TranslationToLocalizationConverter : ITypeConverter<TranslationDto, IList<Localization>>
+    public class TranslationToLocalizationConverter : ITypeConverter<TranslationDto, List<Localization>>
     {
-        public IList<Localization> Convert(TranslationDto source, IList<Localization> destination, ResolutionContext context)
+        public List<Localization> Convert(TranslationDto source, List<Localization> destination, ResolutionContext context)
         {
-            IList<Localization> translations = new List<Localization>();
+            var translations = new List<Localization>();
 
-            source.ForAll(rk =>
+            foreach (KeyValuePair<string, Dictionary<string, string>> rk in source)
             {
-                rk.Value.ForAll(t =>
+                foreach (KeyValuePair<string, string> t in rk.Value)
                 {
                     var localization = new Localization(null, t.Key, t.Value, null, rk.Key);
                     translations.Add(localization);
-                });
-            });
+                }
+            }
 
             return translations;
         }
     }
 
-    public class LocalizationToTranslationConverter : ITypeConverter<IList<Localization>, TranslationDto>
+    public class LocalizationToTranslationConverter : ITypeConverter<List<Localization>, TranslationDto>
     {
-        public TranslationDto Convert(IList<Localization> source, TranslationDto destination, ResolutionContext context)
+        public TranslationDto Convert(List<Localization> source, TranslationDto destination, ResolutionContext context)
         {
             TranslationDto root = new();
 
-            source.ForAll(t =>
+            foreach (Localization t in source)
             {
                 if (!root.ContainsKey(t.ResourceKey))
                 {
-                    root.Add(t.ResourceKey, new ());
+                    root.Add(t.ResourceKey, new());
                 }
 
                 root.TryGetValue(t.ResourceKey, out Dictionary<string, string> entries);
@@ -44,7 +43,7 @@ namespace Orso.Arpa.Application.TranslationApplication
                     entries.Remove(t.Key);
                 }
                 entries!.Add(t.Key, t.Text);
-            });
+            }
 
             return root;
         }

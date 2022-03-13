@@ -13,8 +13,8 @@ namespace Orso.Arpa.Application.TranslationApplication
     {
         public TranslationDtoProfile()
         {
-            CreateMap<TranslationDto, IList<Localization>>().ConvertUsing<TranslationToLocalizationConverter>();
-            CreateMap<IList<Localization>, TranslationDto>().ConvertUsing<LocalizationToTranslationConverter>();
+            CreateMap<TranslationDto, List<Localization>>().ConvertUsing<TranslationToLocalizationConverter>();
+            CreateMap<List<Localization>, TranslationDto>().ConvertUsing<LocalizationToTranslationConverter>();
         }
     }
 }

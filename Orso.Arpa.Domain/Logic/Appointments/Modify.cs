@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
@@ -23,25 +22,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public Guid? SalaryId { get; set; }
             public Guid? SalaryPatternId { get; set; }
             public Guid? ExpectationId { get; set; }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Appointment>()
-                    .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
-                    .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
-                    .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
-                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                    .ForMember(dest => dest.PublicDetails, opt => opt.MapFrom(src => src.PublicDetails))
-                    .ForMember(dest => dest.InternalDetails, opt => opt.MapFrom(src => src.InternalDetails))
-                    .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => src.StatusId))
-                    .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.SalaryId))
-                    .ForMember(dest => dest.SalaryPatternId, opt => opt.MapFrom(src => src.SalaryPatternId))
-                    .ForMember(dest => dest.ExpectationId, opt => opt.MapFrom(src => src.ExpectationId))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
         }
 
         public class Validator : AbstractValidator<Command>

@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
@@ -17,18 +16,6 @@ namespace Orso.Arpa.Domain.Logic.Regions
             public string Name { get; set; }
             public bool IsForPerformance { get; set; }
             public bool IsForRehearsal { get; set; }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Region>()
-                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                    .ForMember(dest => dest.IsForPerformance, opt => opt.MapFrom(src => src.IsForPerformance))
-                    .ForMember(dest => dest.IsForRehearsal, opt => opt.MapFrom(src => src.IsForRehearsal))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
         }
 
         public class Validator : AbstractValidator<Command>

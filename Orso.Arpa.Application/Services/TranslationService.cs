@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.Internal;
 using MediatR;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.TranslationApplication;
@@ -27,15 +24,15 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<TranslationDto> GetAsync(string culture)
         {
-            IEnumerable<Localization> localizations = await _mediator.Send(new List.Query {Culture = culture});
+            IEnumerable<Localization> localizations = await _mediator.Send(new List.Query { Culture = culture });
             return _mapper.Map<TranslationDto>(localizations);
         }
 
         public async Task ModifyAsync(TranslationDto modifyDto, string culture)
         {
-            IList<Localization> localizations = _mapper.Map<IList<Localization>>(modifyDto);
-            localizations.ForAll(l => l.LocalizationCulture = culture);
-            await _mediator.Send(new Modify.Query {Culture = culture, Localizations = localizations});
+            List<Localization> localizations = _mapper.Map<List<Localization>>(modifyDto);
+            localizations.ForEach(l => l.LocalizationCulture = culture);
+            await _mediator.Send(new Modify.Query { Culture = culture, Localizations = localizations });
         }
     }
 }

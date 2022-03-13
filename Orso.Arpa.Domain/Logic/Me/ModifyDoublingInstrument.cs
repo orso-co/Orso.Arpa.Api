@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
@@ -38,36 +37,22 @@ namespace Orso.Arpa.Domain.Logic.Me
             }
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, MusicianProfileSection>()
-                    .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Comment))
-                    .ForMember(dest => dest.InstrumentAvailabilityId, opt => opt.MapFrom(src => src.AvailabilityId))
-                    .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
-        }
-
         public class Handler : IRequestHandler<Command>
         {
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
-            public Handler(IArpaContext arpaContext, IMapper mapper)
+            public Handler(IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 MusicianProfileSection existingEntity = await _arpaContext.GetByIdAsync<MusicianProfileSection>(request.Id, cancellationToken);
 
-                MusicianProfileSection modifiedEntity = _mapper.Map(request, existingEntity);
+                existingEntity.Update(request);
 
-                _arpaContext.Entry(existingEntity)?.CurrentValues?.SetValues(modifiedEntity);
+                _arpaContext.Entry(existingEntity)?.CurrentValues?.SetValues(existingEntity);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

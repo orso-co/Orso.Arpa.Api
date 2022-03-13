@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using AutoMapper.Internal;
 using Castle.Core.Internal;
 using Orso.Arpa.Domain.Entities;
 
@@ -24,13 +23,13 @@ namespace Orso.Arpa.Persistence.Seed
                     ApplyTranslation(
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
-                        "en").ForAll(e => result.Add(e));
+                        "en").ForEach(e => result.Add(e));
 
                     // German
                     ApplyTranslation(
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
-                        "de").ForAll(e => result.Add(e));
+                        "de").ForEach(e => result.Add(e));
                 }
                 catch (DirectoryNotFoundException)
                 {
@@ -41,7 +40,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        private static IList<Localization> ApplyTranslation(
+        private static List<Localization> ApplyTranslation(
             string translationPath,
             string localizationPath,
             string culture)
@@ -52,12 +51,12 @@ namespace Orso.Arpa.Persistence.Seed
             }
 
             string translationsJson = File.ReadAllText(translationPath);
-            IList<Localization> translationsList = ParseTranslations(translationsJson, culture);
+            List<Localization> translationsList = ParseTranslations(translationsJson, culture);
 
             string localizationsJson = File.ReadAllText(localizationPath);
-            IList<Localization> localizationsList = ParseLocalications(localizationsJson);
+            List<Localization> localizationsList = ParseLocalications(localizationsJson);
 
-            IList<Localization> merge = MergeTranslationToLocalication(translationsList, localizationsList);
+            List<Localization> merge = MergeTranslationToLocalication(translationsList, localizationsList);
             string mergeJson = JsonSerializer.Serialize(merge,
                 new JsonSerializerOptions()
                 {
@@ -70,31 +69,31 @@ namespace Orso.Arpa.Persistence.Seed
             return merge;
         }
 
-        private static IList<Localization> ParseTranslations(string json, string culture)
+        private static List<Localization> ParseTranslations(string json, string culture)
         {
-            IList<Localization> translations = new List<Localization>();
+            var translations = new List<Localization>();
 
             var jsonDocument = JsonDocument.Parse(json);
             JsonElement rootElement = jsonDocument.RootElement;
-            rootElement.EnumerateObject().ForAll(resourceKey =>
+            foreach (JsonProperty resourceKey in rootElement.EnumerateObject())
             {
-                resourceKey.Value.EnumerateObject().ForAll(e =>
+                foreach (JsonProperty e in resourceKey.Value.EnumerateObject())
                 {
                     translations.Add(new Localization(null, e.Name, e.Value.GetString(), culture, resourceKey.Name));
-                });
-            });
+                }
+            }
 
             return translations;
         }
 
-        private static IList<Localization> ParseLocalications(string json)
+        private static List<Localization> ParseLocalications(string json)
         {
             // Don't even try this: >> JsonSerializer.Deserialize<List<Translation>>(json) <<
-            IList<Localization> translations = new List<Localization>();
+            var translations = new List<Localization>();
 
             var jsonDocument = JsonDocument.Parse(json);
             JsonElement rootElement = jsonDocument.RootElement;
-            rootElement.EnumerateArray().ForAll(t =>
+            foreach (JsonElement t in rootElement.EnumerateArray())
             {
                 string key = t.TryGetProperty("Key", out JsonElement element) ? element.GetString() : null;
                 string text = t.TryGetProperty("Text", out element) ? element.GetString() : null;
@@ -119,17 +118,17 @@ namespace Orso.Arpa.Persistence.Seed
                 bool deleted = t.TryGetProperty("Deleted", out element) && element.GetBoolean();
 
                 translations.Add(new Localization(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted));
-            });
+            }
             return translations;
         }
 
-        private static IList<Localization> MergeTranslationToLocalication(IList<Localization> translations,
-            IList<Localization> localizations)
+        private static List<Localization> MergeTranslationToLocalication(IList<Localization> translations,
+            List<Localization> localizations)
         {
-            IList<Localization> result = new List<Localization>();
+            var result = new List<Localization>();
 
             // Check already existing arpa translations and update
-            localizations.AsQueryable().Where(a => a.Deleted == false).ForAll(a =>
+            foreach (Localization a in localizations.AsQueryable().Where(a => !a.Deleted))
             {
                 IQueryable<Localization> query = translations.AsQueryable().Where(b =>
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key));
@@ -159,10 +158,10 @@ namespace Orso.Arpa.Persistence.Seed
 
                     result.Add(updatedLocalization);
                 }
-            });
+            }
 
             // Check for new entries
-            translations.ForAll(b =>
+            foreach (Localization b in translations)
             {
                 IQueryable<Localization> query = localizations.AsQueryable().Where(a =>
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key) &&
@@ -177,7 +176,7 @@ namespace Orso.Arpa.Persistence.Seed
 
                     result.Add(newLocalization);
                 }
-            });
+            }
 
             return result;
         }

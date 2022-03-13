@@ -20,17 +20,6 @@ namespace Orso.Arpa.Domain.Logic.Appointments
             public DateTime? EndTime { get; set; }
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, Appointment>()
-                    .ForMember(dest => dest.StartTime, opt => opt.MapFrom((src, dest) => src.StartTime ?? dest.StartTime))
-                    .ForMember(dest => dest.EndTime, opt => opt.MapFrom((src, dest) => src.EndTime ?? dest.EndTime))
-                    .ForAllOtherMembers(opt => opt.Ignore());
-            }
-        }
-
         public class Validator : AbstractValidator<Command>
         {
             public Validator(IArpaContext arpaContext, IMapper mapper)
@@ -39,10 +28,10 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                     .EntityExists<Command, Appointment>(arpaContext);
 
                 RuleFor(d => d.EndTime)
-                    .MustAsync(async (request, endTime, cancellation) =>
+                    .MustAsync(async (request, _, cancellation) =>
                     {
                         Appointment existingAppointment = await arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellation);
-                        mapper.Map(request, existingAppointment);
+                        existingAppointment.Update(request);
                         return existingAppointment?.EndTime >= existingAppointment?.StartTime;
                     })
                     .WithMessage("EndTime must be greater than StartTime");
@@ -52,21 +41,18 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         public class Handler : IRequestHandler<Command, Appointment>
         {
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
             public Handler(
-                IArpaContext arpaContext,
-                IMapper mapper)
+                IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Appointment> Handle(Command request, CancellationToken cancellationToken)
             {
                 Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
 
-                _mapper.Map(request, existingAppointment);
+                existingAppointment.Update(request);
 
                 EntityEntry<Appointment> changedAppointment = _arpaContext.Appointments.Update(existingAppointment);
 

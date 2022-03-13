@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
@@ -31,19 +30,6 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfileSections
 
                 RuleFor(c => c.AvailabilityId)
                     .SelectValueMapping<Command, MusicianProfileSection>(arpaContext, a => a.InstrumentAvailability);
-            }
-        }
-
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                CreateMap<Command, MusicianProfileSection>()
-                    .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Comment))
-                    .ForMember(dest => dest.InstrumentAvailabilityId, opt => opt.MapFrom(src => src.AvailabilityId))
-                    .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
-                    .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.LevelAssessmentTeam))
-                    .ForAllOtherMembers(opt => opt.Ignore());
             }
         }
     }

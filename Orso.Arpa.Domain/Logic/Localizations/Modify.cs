@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper.Internal;
 using MediatR;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Localizations
 {
-    public class Modify
+    public static class Modify
     {
         private static readonly object DbLock = new();
 
@@ -34,34 +33,34 @@ namespace Orso.Arpa.Domain.Logic.Localizations
                 lock (DbLock)
                 {
                     var dbEntries = _arpaContext.Localizations.AsQueryable().Where(q => q.LocalizationCulture.Equals(request.Culture)).ToList();
-                    dbEntries.ForAll(dbEntry =>
+                    dbEntries.ForEach(dbEntry =>
                     {
-                            Entities.Localization result = request.Localizations.Count == 0
-                                ? null
-                                : request.Localizations.AsQueryable()
-                                .DefaultIfEmpty(null).FirstOrDefault(l =>
-                                    l.ResourceKey.Equals(dbEntry.ResourceKey) &&
-                                    l.Key.Equals(dbEntry.Key));
-                            if (result == null)
+                        Entities.Localization result = request.Localizations.Count == 0
+                            ? null
+                            : request.Localizations.AsQueryable()
+                            .DefaultIfEmpty(null).FirstOrDefault(l =>
+                                l.ResourceKey.Equals(dbEntry.ResourceKey) &&
+                                l.Key.Equals(dbEntry.Key));
+                        if (result == null)
+                        {
+                            _arpaContext.Localizations.Remove(dbEntry);
+                        }
+                        else
+                        {
+                            if (!result.Text.Equals(dbEntry.Text))
                             {
-                                _arpaContext.Localizations.Remove(dbEntry);
+                                dbEntry.Text = result.Text;
                             }
-                            else
-                            {
-                                if (!result.Text.Equals(dbEntry.Text))
-                                {
-                                    dbEntry.Text = result.Text;
-                                }
-                                request.Localizations.Remove(result);
-                            }
+                            request.Localizations.Remove(result);
+                        }
                     });
 
-                    request.Localizations.ForAll(l =>
+                    foreach (Entities.Localization l in request.Localizations)
                     {
                         _arpaContext.Localizations.Add(l);
-                    });
+                    }
 
-                     _arpaContext.SaveChangesAsync(cancellationToken);
+                    _arpaContext.SaveChangesAsync(cancellationToken);
                 }
                 return Task.FromResult(Unit.Value);
             }

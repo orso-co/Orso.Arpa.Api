@@ -17,6 +17,13 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(Modify.Command command)
+        {
+            Name = command.Name;
+            IsForPerformance = command.IsForPerformance;
+            IsForRehearsal = command.IsForRehearsal;
+        }
+
         public string Name { get; private set; }
         public bool IsForRehearsal { get; private set; }
         public bool IsForPerformance { get; private set; }
