@@ -20,6 +20,13 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public void Update(Modify.Command command)
+        {
+            Name = command.Name;
+            Description = command.Description;
+            Address.Update(command);
+        }
+
         public string Name { get; private set; }
         public string Description { get; private set; }
         public Guid? AddressId { get; private set; }

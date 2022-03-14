@@ -10,10 +10,10 @@ namespace Orso.Arpa.Application.Services
     public class AddressService : BaseService<
         AddressDto,
         Address,
-        AddressCreateDto,
+        PersonAddressCreateDto,
         Create.Command,
-        AddressModifyDto,
-        AddressModifyBodyDto,
+        PersonAddressModifyDto,
+        PersonAddressModifyBodyDto,
         Modify.Command>, IAddressService
     {
         public AddressService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
