@@ -30,11 +30,14 @@ namespace Orso.Arpa.Application.VenueApplication
         {
             CreateMap<VenueModifyDto, Modify.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Body.Name))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Body.Description))
                 .ForMember(dest => dest.Address1, opt => opt.MapFrom(src => src.Body.Address1))
                 .ForMember(dest => dest.Address2, opt => opt.MapFrom(src => src.Body.Address2))
                 .ForMember(dest => dest.Zip, opt => opt.MapFrom(src => src.Body.Zip))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Body.City))
                 .ForMember(dest => dest.UrbanDistrict, opt => opt.MapFrom(src => src.Body.UrbanDistrict))
+                .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.Body.State))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Body.Country))
                 .ForMember(dest => dest.CommentInner, opt => opt.MapFrom(src => src.Body.AddressCommentInner));
         }
