@@ -32,7 +32,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AddressDto>> Post(AddressCreateDto addressCreateDto)
+        public async Task<ActionResult<AddressDto>> Post(PersonAddressCreateDto addressCreateDto)
         {
             return Ok(await _addressService.CreateAsync(addressCreateDto));
         }
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> Put(AddressModifyDto addressModifyDto)
+        public async Task<ActionResult> Put(PersonAddressModifyDto addressModifyDto)
         {
             await _addressService.ModifyAsync(addressModifyDto);
             return NoContent();

@@ -18,9 +18,9 @@ namespace Orso.Arpa.Domain.Logic.Venues
             public string UrbanDistrict { get; set; }
             public string Country { get; set; }
             public string State { get; set; }
-            public Guid? AddressId { get; set; }
             public string CommentInner { get; set; }
             public Guid? TypeId { get; set; }
+            public Guid? AddressId { get; set; }
         }
     }
 }

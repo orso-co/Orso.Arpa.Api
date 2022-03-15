@@ -14,7 +14,6 @@ namespace Orso.Arpa.Application.Services
         where TModifyDto : IdFromRouteDto<TModifyBodyDto>
         where TModifyCommand : IModifyCommand<TEntity>
     {
-
         protected BaseService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
         }
