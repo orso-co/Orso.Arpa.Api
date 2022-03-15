@@ -41,6 +41,18 @@ namespace Orso.Arpa.Domain.Entities
             TypeId = command.TypeId;
         }
 
+        public void Update(Logic.Venues.Modify.Command command)
+        {
+            Address1 = command.Address1;
+            Address2 = command.Address2;
+            Zip = command.Zip;
+            City = command.City;
+            UrbanDistrict = command.UrbanDistrict;
+            Country = command.Country;
+            State = command.State;
+            CommentInner = command.CommentInner;
+        }
+
         public string Address1 { get; private set; }
         public string Address2 { get; private set; }
         public string Zip { get; private set; }

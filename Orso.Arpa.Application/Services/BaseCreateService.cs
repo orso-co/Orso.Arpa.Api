@@ -12,7 +12,6 @@ namespace Orso.Arpa.Application.Services
         where TEntity : BaseEntity
         where TCreateCommand : ICreateCommand<TEntity>
     {
-
         protected BaseCreateService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
         }

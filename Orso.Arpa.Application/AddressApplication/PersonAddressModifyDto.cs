@@ -8,13 +8,13 @@ using Orso.Arpa.Domain.Logic.Addresses;
 
 namespace Orso.Arpa.Application.AddressApplication
 {
-    public class AddressModifyDto : IdFromRouteDto<AddressModifyBodyDto>
+    public class PersonAddressModifyDto : IdFromRouteDto<PersonAddressModifyBodyDto>
     {
         [FromRoute]
         public Guid AddressId { get; set; }
     }
 
-    public class AddressModifyBodyDto
+    public class PersonAddressModifyBodyDto
     {
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -27,11 +27,11 @@ namespace Orso.Arpa.Application.AddressApplication
         public Guid? TypeId { get; set; }
     }
 
-    public class AddressModifyDtoMappingProfile : Profile
+    public class PersonAddressModifyDtoMappingProfile : Profile
     {
-        public AddressModifyDtoMappingProfile()
+        public PersonAddressModifyDtoMappingProfile()
         {
-            CreateMap<AddressModifyDto, Modify.Command>()
+            CreateMap<PersonAddressModifyDto, Modify.Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AddressId))
                 .ForMember(dest => dest.Address1, opt => opt.MapFrom(src => src.Body.Address1))
@@ -45,21 +45,21 @@ namespace Orso.Arpa.Application.AddressApplication
         }
     }
 
-    public class AddressModifyDtoValidator : IdFromRouteDtoValidator<AddressModifyDto, AddressModifyBodyDto>
+    public class PersonAddressModifyDtoValidator : IdFromRouteDtoValidator<PersonAddressModifyDto, PersonAddressModifyBodyDto>
     {
-        public AddressModifyDtoValidator()
+        public PersonAddressModifyDtoValidator()
         {
             RuleFor(d => d.Body)
-                .SetValidator(new AddressModifyBodyDtoValidator());
+                .SetValidator(new PersonAddressModifyBodyDtoValidator());
 
             RuleFor(dto => dto.AddressId)
                 .NotEmpty();
         }
     }
 
-    public class AddressModifyBodyDtoValidator : AbstractValidator<AddressModifyBodyDto>
+    public class PersonAddressModifyBodyDtoValidator : AbstractValidator<PersonAddressModifyBodyDto>
     {
-        public AddressModifyBodyDtoValidator()
+        public PersonAddressModifyBodyDtoValidator()
         {
             RuleFor(c => c.Country)
                  .Cascade(CascadeMode.Stop)

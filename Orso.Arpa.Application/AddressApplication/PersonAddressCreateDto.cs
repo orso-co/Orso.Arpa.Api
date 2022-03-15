@@ -7,11 +7,11 @@ using Orso.Arpa.Domain.Logic.Addresses;
 
 namespace Orso.Arpa.Application.AddressApplication
 {
-    public class AddressCreateDto : IdFromRouteDto<AddressCreateBodyDto>
+    public class PersonAddressCreateDto : IdFromRouteDto<PersonAddressCreateBodyDto>
     {
     }
 
-    public class AddressCreateBodyDto
+    public class PersonAddressCreateBodyDto
     {
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -24,11 +24,11 @@ namespace Orso.Arpa.Application.AddressApplication
         public Guid? TypeId { get; set; }
     }
 
-    public class AddressCreateDtoMappingProfile : Profile
+    public class PersonAddressCreateDtoMappingProfile : Profile
     {
-        public AddressCreateDtoMappingProfile()
+        public PersonAddressCreateDtoMappingProfile()
         {
-            CreateMap<AddressCreateDto, Create.Command>()
+            CreateMap<PersonAddressCreateDto, Create.Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Address1, opt => opt.MapFrom(src => src.Body.Address1))
                 .ForMember(dest => dest.Address2, opt => opt.MapFrom(src => src.Body.Address2))
@@ -42,17 +42,17 @@ namespace Orso.Arpa.Application.AddressApplication
         }
     }
 
-    public class AddressCreateDtoValidator : IdFromRouteDtoValidator<AddressCreateDto, AddressCreateBodyDto>
+    public class PersonAddressCreateDtoValidator : IdFromRouteDtoValidator<PersonAddressCreateDto, PersonAddressCreateBodyDto>
     {
-        public AddressCreateDtoValidator()
+        public PersonAddressCreateDtoValidator()
         {
             RuleFor(d => d.Body)
-                .SetValidator(new AddressCreateBodyDtoValidator());
+                .SetValidator(new PersonAddressCreateBodyDtoValidator());
         }
     }
-    public class AddressCreateBodyDtoValidator : AbstractValidator<AddressCreateBodyDto>
+    public class PersonAddressCreateBodyDtoValidator : AbstractValidator<PersonAddressCreateBodyDto>
     {
-        public AddressCreateBodyDtoValidator()
+        public PersonAddressCreateBodyDtoValidator()
         {
             RuleFor(c => c.Country)
                  .Cascade(CascadeMode.Stop)

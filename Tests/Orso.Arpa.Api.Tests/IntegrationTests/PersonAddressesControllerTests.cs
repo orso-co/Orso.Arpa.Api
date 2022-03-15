@@ -19,7 +19,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(100)]
         public async Task Should_Add_New_Address_To_Existing_Person()
         {
-            var dto = new AddressCreateBodyDto
+            var dto = new PersonAddressCreateBodyDto
             {
                 UrbanDistrict = "Westend Süd",
                 Address1 = "Bockenheimer Warte 33",
@@ -64,7 +64,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             Domain.Entities.Person person = PersonTestSeedData.UserWithoutRole;
 
-            var dto = new AddressModifyBodyDto
+            var dto = new PersonAddressModifyBodyDto
             {
                 UrbanDistrict = "Westend Süd",
                 Address1 = "Bockenheimer Warte 33",
@@ -103,7 +103,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Not_Add_Address_To_Different_Person()
         {
-            var dto = new AddressCreateBodyDto();
+            var dto = new PersonAddressCreateBodyDto();
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

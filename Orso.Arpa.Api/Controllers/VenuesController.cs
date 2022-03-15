@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.RoomApplication;
 using Orso.Arpa.Application.VenueApplication;
+using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -46,6 +47,59 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms([FromRoute] Guid id)
         {
             return Ok(await _venueService.GetRoomsAsync(id));
+        }
+
+        /// <summary>
+        /// Creates a new venue
+        /// </summary>
+        /// <param name="venueCreateDto"></param>
+        /// <returns>The created venue</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<VenueDto>> Post([FromBody] VenueCreateDto venueCreateDto)
+        {
+            return Ok(await _venueService.CreateAsync(venueCreateDto));
+        }
+
+        /// <summary>
+        /// Updates an existing venue
+        /// </summary>
+        /// <param name="venueModifyDto"></param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> Put(VenueModifyDto venueModifyDto)
+        {
+            await _venueService.ModifyAsync(venueModifyDto);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Deletes an existing venue
+        /// </summary>
+        /// <param name="id">the venue id</param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
+        {
+            await _venueService.DeleteAsync(id);
+            return NoContent();
         }
     }
 }
