@@ -58,7 +58,7 @@ namespace Orso.Arpa.Application.VenueApplication
         {
             RuleFor(v => v.Name)
                 .NotEmpty()
-                .PlaceName(50);
+                .RestrictedFreeText(50);
 
             RuleFor(v => v.Description)
                 .RestrictedFreeText(255);
