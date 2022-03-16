@@ -30,7 +30,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             {
                 GivenName = person.GivenName,
                 Id = person.Id,
-                Surname = person.Surname
+                Surname = person.Surname,
+                DisplayName = person.DisplayName
             };
 
             // Act

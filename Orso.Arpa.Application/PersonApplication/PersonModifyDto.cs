@@ -85,7 +85,7 @@ namespace Orso.Arpa.Application.PersonApplication
             RuleFor(c => c.Reliability)
                 .FiveStarRating();
 
-            RuleFor(c => c.Reliability)
+            RuleFor(c => c.GeneralPreference)
                 .FiveStarRating();
         }
     }
