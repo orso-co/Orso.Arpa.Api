@@ -469,7 +469,7 @@ namespace Orso.Arpa.Api
                     .ChildSources(s => s.Self())
                     .ConnectSources(s => s.Self())
                     .WorkerSources(s => s.Self())
-                    .FontSources(s => s.Self().CustomSources("fonts.gstatic.com"))
+                    .FontSources(s => s.Self().CustomSources("fonts.gstatic.com", "data:"))
                 );
 
             if (env.IsProduction())
