@@ -467,7 +467,7 @@ namespace Orso.Arpa.Api
                     .MediaSources(s => s.Self())
                     .ObjectSources(s => s.Self())
                     .ChildSources(s => s.Self())
-                    .ConnectSources(s => s.Self())
+                    .ConnectSources(s => s.Self().CustomSources("fonts.gstatic.com"))
                     .WorkerSources(s => s.Self())
                     .FontSources(s => s.Self().CustomSources("fonts.gstatic.com", "data:"))
                 );
