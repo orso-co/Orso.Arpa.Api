@@ -171,7 +171,6 @@ namespace Orso.Arpa.Api
             });
         }
 
-
         private static void ConfigureAuthorization(IServiceCollection services)
         {
             services.AddAuthorization(options =>
