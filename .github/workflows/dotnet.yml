@@ -37,6 +37,6 @@ jobs:
         Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
     - name: Create integration test user on Windows
       run: |
-        & $env:PGBIN\psql --command="CREATE USER integration_test_user SUPERUSER WITH PASSWORD 'integration'" --command="\du"
+        & $env:PGBIN\psql --command="CREATE USER integration_test_user WITH SUPERUSER PASSWORD 'integration'" --command="\du"
     - name: Run Api Integration Tests
       run: dotnet test Tests/Orso.Arpa.Api.Tests/Orso.Arpa.Api.Tests.csproj --no-build --verbosity normal --configuration Release
