@@ -22,6 +22,14 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
+    - name: Run Mail Unit Tests
+      run: dotnet test Tests/Orso.Arpa.Mail.Tests/Orso.Arpa.Mail.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Run Infrastructure Unit Tests
+      run: dotnet test ./Tests/Orso.Arpa.Infrastructure.Tests/Orso.Arpa.Infrastructure.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Run Domain Unit Tests
+      run: dotnet test ./Tests/Orso.Arpa.Domain.Tests/Orso.Arpa.Domain.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Run Application Unit Tests
+      run: dotnet test ./Tests/Orso.Arpa.Application.Tests/Orso.Arpa.Application.Tests.csproj --no-build --verbosity normal --configuration Release
     - name: Start PostgreSQL on Windows
       run: |
         $pgService = Get-Service -Name postgresql*
@@ -29,6 +37,6 @@ jobs:
         Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
     - name: Create integration test user on Windows
       run: |
-        & $env:PGBIN\psql --command="CREATE USER integration_test_user CREATEDB PASSWORD 'integration'" --command="\du"
-    - name: Test
-      run: dotnet test --no-build --verbosity normal  --configuration Release
+        & $env:PGBIN\psql --command="CREATE USER integration_test_user WITH SUPERUSER PASSWORD 'integration'" --command="\du"
+    - name: Run Api Integration Tests
+      run: dotnet test Tests/Orso.Arpa.Api.Tests/Orso.Arpa.Api.Tests.csproj --no-build --verbosity normal --configuration Release

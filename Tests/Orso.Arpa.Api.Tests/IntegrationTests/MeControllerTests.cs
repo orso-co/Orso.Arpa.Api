@@ -59,7 +59,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetAppointments(take, skip));
+                .GetAsync(ApiEndpoints.MeController.GetAppointments(take, skip, true));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);

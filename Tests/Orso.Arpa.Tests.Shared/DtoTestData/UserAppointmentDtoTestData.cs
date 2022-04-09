@@ -39,7 +39,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2019, 12, 21, 10, 0, 0),
                     Venue = VenueDtoData.WeiherhofSchule,
                     PredictionId = Guid.Parse("319d508e-a6e2-437e-b48b-6be51e3459bd"),
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    Category = SelectValueDtoData.Rehearsal,
+                    Status = SelectValueDtoData.AppointmentConfirmed
                 };
                 dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
 
@@ -65,7 +67,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     PublicDetails = "Photo session for season to come",
                     Venue = null,
                     PredictionId = null,
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    Category = SelectValueDtoData.WarmUpRehearsal,
+                    Status = SelectValueDtoData.AppointmentConfirmed
                 };
             }
         }
@@ -92,6 +96,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
                 dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
                 dto.Rooms.Add(RoomDtoData.AulaWeiherhofSchule);
+                dto.Category = SelectValueDtoData.RehearsalWeekendChoir;
+                dto.Status = SelectValueDtoData.Refused;
                 return dto;
             }
         }
@@ -114,7 +120,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     PublicDetails = "Sold out :-)",
                     Venue = VenueDtoData.WeiherhofSchule,
                     PredictionId = null,
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    Category = SelectValueDtoData.SectionalRehearsal,
+                    Status = SelectValueDtoData.Scheduled
                 };
             }
         }

@@ -5,6 +5,7 @@ using AutoMapper;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoomApplication;
+using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Domain.Entities;
 
@@ -22,6 +23,8 @@ namespace Orso.Arpa.Application.MeApplication
         public string Expectation { get; set; }
         public string Result { get; set; }
         public Guid? PredictionId { get; set; }
+        public SelectValueDto Category { get; set; }
+        public SelectValueDto Status { get; set; }
     }
 
     public class MyAppointmentDtoMappingProfile : Profile
@@ -37,7 +40,9 @@ namespace Orso.Arpa.Application.MeApplication
                 .ForMember(dest => dest.Venue, opt => opt.MapFrom(src => src.Venue))
                 .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.AppointmentRooms.Select(pa => pa.Room)))
                 .ForMember(dest => dest.PublicDetails, opt => opt.MapFrom(src => src.PublicDetails))
-                .ForMember(dest => dest.Expectation, opt => opt.MapFrom(src => src.Expectation.SelectValue.Name));
+                .ForMember(dest => dest.Expectation, opt => opt.MapFrom(src => src.Expectation.SelectValue.Name))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
         }
     }
 }

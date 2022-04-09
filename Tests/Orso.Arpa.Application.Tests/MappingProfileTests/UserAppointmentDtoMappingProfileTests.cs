@@ -50,7 +50,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         private readonly ILocalizerCache _localizerCache = Substitute.For<ILocalizerCache>();
 
         [Test]
-        public void Should_Map_Appointment_To_AppointmentDto()
+        public void Should_Map_Appointment_To_MyAppointmentDto()
         {
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMasRehearsal;

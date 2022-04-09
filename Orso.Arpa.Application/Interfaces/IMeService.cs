@@ -10,7 +10,7 @@ namespace Orso.Arpa.Application.Interfaces
 {
     public interface IMeService
     {
-        Task<MyAppointmentListDto> GetMyAppointmentsAsync(int? limit, int? offset);
+        Task<MyAppointmentListDto> GetMyAppointmentsAsync(int? limit, int? offset, bool passed);
         Task<MyUserProfileDto> GetMyUserProfileAsync();
         Task ModifyMyUserProfileAsync(MyUserProfileModifyDto modifyDto);
         Task<SendQRCode.QrCodeFile> GetMyQrCodeAsync(bool sendEmail);

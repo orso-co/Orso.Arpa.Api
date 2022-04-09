@@ -50,17 +50,16 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task<MyAppointmentListDto> GetMyAppointmentsAsync(int? limit, int? offset)
+        public async Task<MyAppointmentListDto> GetMyAppointmentsAsync(int? limit, int? offset, bool passed)
         {
             var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
             IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
             Person currentPerson = await _userAccessor.GetCurrentPersonAsync();
 
-            Tuple<IQueryable<Appointment>, int> appointmentTuple = await _mediator.Send(
-                new AppointmentList.Query(limit, offset, flattenedTree, currentPerson));
+            (IList<Appointment> userAppointments, int totalCount) appointmentTuple = await _mediator.Send(
+                new AppointmentList.Query(limit, offset, passed, flattenedTree, currentPerson));
 
-            List<Appointment> list = await appointmentTuple.Item1.ToListAsync();
-            IList<MyAppointmentDto> myAppointmentDtos = _mapper.Map<IList<MyAppointmentDto>>(list);
+            IList<MyAppointmentDto> myAppointmentDtos = _mapper.Map<IList<MyAppointmentDto>>(appointmentTuple.userAppointments);
 
             foreach (MyAppointmentDto dto in myAppointmentDtos)
             {
@@ -75,7 +74,7 @@ namespace Orso.Arpa.Application.Services
 
             return new MyAppointmentListDto
             {
-                TotalRecordsCount = appointmentTuple.Item2,
+                TotalRecordsCount = appointmentTuple.totalCount,
                 UserAppointments = myAppointmentDtos
             };
         }

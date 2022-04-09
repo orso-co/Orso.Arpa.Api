@@ -18,6 +18,8 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 appointment.SetProperty(nameof(Appointment.Expectation), FakeSelectValueMappings.Mandatory);
                 appointment.SetProperty(nameof(Appointment.CreatedBy), "anonymous");
                 appointment.SetProperty(nameof(Appointment.CreatedAt), FakeDateTime.UtcNow);
+                appointment.SetProperty(nameof(Appointment.Category), FakeSelectValueMappings.Rehearsal);
+                appointment.SetProperty(nameof(Appointment.Status), FakeSelectValueMappings.AppointmentConfirmed);
                 return appointment;
             }
         }

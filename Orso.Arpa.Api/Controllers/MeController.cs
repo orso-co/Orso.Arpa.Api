@@ -56,9 +56,10 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<MyAppointmentListDto>> GetMyAppointments(
             [FromQuery] int? limit,
-            [FromQuery] int? offset)
+            [FromQuery] int? offset,
+            [FromQuery] bool passed = false)
         {
-            return Ok(await _meService.GetMyAppointmentsAsync(limit, offset));
+            return Ok(await _meService.GetMyAppointmentsAsync(limit, offset, passed));
         }
 
         /// <summary>
