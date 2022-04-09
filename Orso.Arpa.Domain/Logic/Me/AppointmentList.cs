@@ -8,48 +8,55 @@ using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.Me
 {
     public static class AppointmentList
     {
-        public class Query : IRequest<Tuple<IQueryable<Appointment>, int>>
+        public class Query : IRequest<(IList<Appointment> userAppointments, int totalCount)>
         {
-            public Query(int? limit, int? offset, IEnumerable<ITree<Section>> sectionTree, Person person)
+            public Query(int? limit, int? offset, bool passed, IEnumerable<ITree<Section>> sectionTree, Person person)
             {
                 Limit = limit;
                 Offset = offset;
                 SectionTree = sectionTree;
                 Person = person;
+                Passed = passed;
             }
 
             public int? Limit { get; }
             public int? Offset { get; }
+            public bool Passed { get; set; }
             public IEnumerable<ITree<Section>> SectionTree { get; }
             public Person Person { get; }
         }
 
-        public class Handler : IRequestHandler<Query, Tuple<IQueryable<Appointment>, int>>
+        public class Handler : IRequestHandler<Query, (IList<Appointment> userAppointments, int totalCount)>
         {
             private readonly IArpaContext _arpaContext;
+            private readonly IDateTimeProvider _dateTimeProvider;
 
-            public Handler(IArpaContext arpaContext)
+            public Handler(IArpaContext arpaContext, IDateTimeProvider dateTimeProvider)
             {
                 _arpaContext = arpaContext;
+                _dateTimeProvider = dateTimeProvider;
             }
 
-            public async Task<Tuple<IQueryable<Appointment>, int>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<(IList<Appointment> userAppointments, int totalCount)> Handle(Query request, CancellationToken cancellationToken)
             {
                 IList<Guid> appointmentIds = await _arpaContext.GetAppointmentIdsForPerson(request.Person.Id).Select(a => a.Id).ToListAsync();
                 var count = appointmentIds.Count;
 
-                IQueryable<Appointment> appointmentsForUser = _arpaContext.Appointments.AsQueryable()
-                    .Where(appointment => appointmentIds.Contains(appointment.Id))
-                    .OrderByDescending(p => p.StartTime)
-                    .Skip(request.Offset ?? 0)
-                    .Take(request.Limit ?? count);
+                IQueryable<Appointment> userAppointments = request.Passed
+                    ? _arpaContext.Appointments.AsQueryable()
+                        .Where(appointment => appointmentIds.Contains(appointment.Id) && appointment.EndTime <= _dateTimeProvider.GetUtcNow())
+                        .OrderByDescending(p => p.StartTime)
+                    : _arpaContext.Appointments.AsQueryable()
+                        .Where(appointment => appointmentIds.Contains(appointment.Id) && appointment.EndTime > _dateTimeProvider.GetUtcNow())
+                        .OrderBy(p => p.StartTime);
 
-                return new Tuple<IQueryable<Appointment>, int>(appointmentsForUser, count);
+                return (await userAppointments.Skip(request.Offset ?? 0).Take(request.Limit ?? count).ToListAsync(), userAppointments.Count());
             }
         }
     }
