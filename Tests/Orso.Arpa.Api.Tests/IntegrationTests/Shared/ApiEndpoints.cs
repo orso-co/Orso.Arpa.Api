@@ -125,7 +125,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string GetUserProfile() => $"{Me}/profiles/user";
 
-            public static string GetAppointments(int? limit = null, int? offset = null) => $"{Me}/appointments?limit={limit}&offset={offset}";
+            public static string GetAppointments(int? limit = null, int? offset = null, bool passed = false) => $"{Me}/appointments?limit={limit}&offset={offset}&passed={passed}";
 
             public static string PutUserProfile() => $"{Me}/profiles/user";
 
