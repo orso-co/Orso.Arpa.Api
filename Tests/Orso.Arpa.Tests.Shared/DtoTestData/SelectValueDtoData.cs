@@ -134,7 +134,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Description = ""
         };
 
-        public static SelectValueDto Confirmed => new()
+        public static SelectValueDto ProjectConfirmed => new()
         {
             Id = Guid.Parse("b793fa86-2025-4258-8993-8045f4c312d7"),
             Name = "Confirmed",
@@ -152,6 +152,55 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             Id = Guid.Parse("65975857-ab27-480d-87c3-dba74d45cb63"),
             Name = "Cancelled",
+            Description = ""
+        };
+
+        public static SelectValueDto WarmUpRehearsal => new()
+        {
+            Id = Guid.Parse("694de886-8566-45d0-afc7-6ded18a2b6e6"),
+            Name = "Warm-Up Rehearsal",
+            Description = ""
+        };
+
+        public static SelectValueDto AppointmentConfirmed => new()
+        {
+            Id = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+            Name = "Confirmed",
+            Description = ""
+        };
+
+        public static SelectValueDto RehearsalWeekendChoir => new()
+        {
+            Id = Guid.Parse("5b89cf6e-0194-4e01-bb32-8b1813a51e16"),
+            Name = "Rehearsal Weekend Choir",
+            Description = ""
+        };
+
+        public static SelectValueDto Refused => new()
+        {
+            Id = Guid.Parse("0126fded-0a82-4b53-85e4-1c04a4f79296"),
+            Name = "Refused",
+            Description = ""
+        };
+
+        public static SelectValueDto SectionalRehearsal => new()
+        {
+            Id = Guid.Parse("2634c0cc-31d2-4f61-813d-7ec60fc8ab34"),
+            Name = "Sectional Rehearsal",
+            Description = ""
+        };
+
+        public static SelectValueDto Scheduled => new()
+        {
+            Id = Guid.Parse("93033f7e-a3c1-45e3-8a17-021d0a4abe5a"),
+            Name = "Scheduled",
+            Description = ""
+        };
+
+        public static SelectValueDto Rehearsal => new()
+        {
+            Id = Guid.Parse("86672779-5e70-4965-b59c-032086d00914"),
+            Name = "Rehearsal",
             Description = ""
         };
     }
