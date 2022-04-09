@@ -85,5 +85,25 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 return selectValueMapping;
             }
         }
+
+        public static SelectValueMapping Rehearsal
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.AppointmentCategoryMappings[0];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Rehearsal);
+                return selectValueMapping;
+            }
+        }
+
+        public static SelectValueMapping AppointmentConfirmed
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.AppointmentStatusMappings[0];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Confirmed);
+                return selectValueMapping;
+            }
+        }
     }
 }

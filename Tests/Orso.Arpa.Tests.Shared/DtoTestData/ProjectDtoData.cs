@@ -96,7 +96,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartDate = new DateTime(2020, 05, 05),
                     EndDate = new DateTime(2020, 06, 06),
                     Urls = new List<UrlDto> { UrlDtoData.GoogleDe },
-                    State = SelectValueDtoData.Confirmed,
+                    State = SelectValueDtoData.ProjectConfirmed,
                     ParentId = null,
                     IsCompleted = false,
 
