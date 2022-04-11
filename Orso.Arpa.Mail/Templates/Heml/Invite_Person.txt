@@ -59,8 +59,8 @@
           <p>c) ...oder Dich bei uns beworben hast, aber bisher noch nicht teilgenommen hast.</p>
           <p>Es kann sein, daß diese E-Mail für Dich überraschend kommt, da wir teilweise auch sehr alte Datenbestände konsolidiert haben.</p>
 
-          <p>Bei Interesse an einer Teilnahme an unseren Konzertprojekten jetzt, demnächst oder irgendwann in der Zukunft, bitten wir Dich um <a href="https://arpa.orso.co">REGISTRIERUNG</a>
-          auf unserer neuen Plattform <a href="https://arpa.orso.berlin">ARPA</a>. Nach der Registrierung kannst Du Deine bereits bestehenden Daten sichten, bearbeiten oder die Löschung beantragen.
+          <p>Bei Interesse an einer Teilnahme an unseren Konzertprojekten jetzt, demnächst oder irgendwann in der Zukunft, bitten wir Dich um <a href="https://arpa.orso.co/register">REGISTRIERUNG</a>
+          auf unserer neuen Plattform <a href="https://arpa.orso.berlin">ARPA (Projektseite: Was ist ARPA?)</a>. Nach der Registrierung kannst Du Deine bereits bestehenden Daten sichten, bearbeiten oder die Löschung beantragen.
           Auch kannst Du hier Deine Musikerprofile, Projektteilnahmen und Termine verwalten. Du wirst künftig in ARPA auch die Möglichkeithaben, festzulegen,
           ob und wann du eine E-Mail von uns bekommen möchtest.</p>
 
