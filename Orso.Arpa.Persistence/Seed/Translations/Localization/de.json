@@ -2530,5 +2530,17 @@
     "ModifiedBy": null,
     "ModifiedAt": null,
     "Deleted": false
+  },
+  {
+    "Key": "Pending",
+    "Text": "Ausstehend",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SelectValueDto",
+    "Id": "4f75a437-16e6-4316-9b95-db0001fd3c45",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2022-04-12T21:10:03.882884+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
   }
 ]
