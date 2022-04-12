@@ -17,7 +17,7 @@ namespace Orso.Arpa.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.2")
+                .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -3256,6 +3256,17 @@ namespace Orso.Arpa.Persistence.Migrations
                             LocalizationCulture = "de",
                             ResourceKey = "SelectValueDto",
                             Text = "Nie wieder"
+                        },
+                        new
+                        {
+                            Id = new Guid("4f75a437-16e6-4316-9b95-db0001fd3c45"),
+                            CreatedAt = new DateTime(2022, 4, 12, 21, 10, 3, 882, DateTimeKind.Local).AddTicks(8840),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Pending",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Ausstehend"
                         });
                 });
 
