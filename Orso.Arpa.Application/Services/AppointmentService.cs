@@ -49,7 +49,7 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task<IEnumerable<AppointmentDto>> GetAsync(DateTime? date, DateRange range)
+        public async Task<IEnumerable<AppointmentListDto>> GetAsync(DateTime? date, DateRange range)
         {
             date ??= DateTime.Today;
 
@@ -62,17 +62,7 @@ namespace Orso.Arpa.Application.Services
                     || a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime,
                 asSplitQuery: true));
 
-            var dtoList = new List<AppointmentDto>();
-            var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
-            IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
-
-            foreach (Appointment appointment in entities)
-            {
-                AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
-                await AddParticipationsAsync(dto, appointment, flattenedTree);
-                dtoList.Add(dto);
-            }
-            return dtoList;
+            return _mapper.ProjectTo<AppointmentListDto>(entities).ToList();
         }
 
         public override async Task<AppointmentDto> GetByIdAsync(Guid id)

@@ -31,7 +31,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Roles = RoleNames.Staff)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<AppointmentDto>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range)
+        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range)
         {
             return Ok(await _appointmentService.GetAsync(date, range));
         }
