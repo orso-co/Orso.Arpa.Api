@@ -26,20 +26,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(DateRange.Day, new DateTime(2019, 12, 21), new List<AppointmentDto> {
-                    AppointmentDtoData.RockingXMasRehearsal,
-                    AppointmentDtoData.RehearsalWeekend
+                yield return new TestCaseData(DateRange.Day, new DateTime(2019, 12, 21), new List<AppointmentListDto> {
+                    AppointmentListDtoData.RockingXMasRehearsal,
+                    AppointmentListDtoData.RehearsalWeekend
                 });
                 // 16.-22.12.2019
-                yield return new TestCaseData(DateRange.Week, new DateTime(2019, 12, 21), new List<AppointmentDto> {
-                    AppointmentDtoData.RockingXMasRehearsal,
-                    AppointmentDtoData.RockingXMasConcert,
-                    AppointmentDtoData.RehearsalWeekend
+                yield return new TestCaseData(DateRange.Week, new DateTime(2019, 12, 21), new List<AppointmentListDto> {
+                    AppointmentListDtoData.RockingXMasRehearsal,
+                    AppointmentListDtoData.RockingXMasConcert,
+                    AppointmentListDtoData.RehearsalWeekend
                 });
-                yield return new TestCaseData(DateRange.Month, new DateTime(2020, 12, 21), new List<AppointmentDto> {
-                    AppointmentDtoData.AuditionDays,
-                    AppointmentDtoData.PhotoSession,
-                    AppointmentDtoData.StaffMeeting
+                yield return new TestCaseData(DateRange.Month, new DateTime(2020, 12, 21), new List<AppointmentListDto> {
+                    AppointmentListDtoData.AuditionDays,
+                    AppointmentListDtoData.PhotoSession,
+                    AppointmentListDtoData.StaffMeeting
                 });
             }
         }
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_Appointments(
             DateRange dateRange,
             DateTime date,
-            IList<AppointmentDto> expectedDtos)
+            IList<AppointmentListDto> expectedDtos)
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
