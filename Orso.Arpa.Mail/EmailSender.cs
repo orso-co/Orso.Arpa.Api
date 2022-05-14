@@ -45,7 +45,7 @@ namespace Orso.Arpa.Mail
         private MimeMessage CreateEmailMessage(EmailMessage emailMessage)
         {
             var mimeMessage = new MimeMessage();
-            mimeMessage.From.Add(new MailboxAddress(_emailConfig.From));
+            mimeMessage.From.Add(new MailboxAddress(_emailConfig.From, _emailConfig.From));
             mimeMessage.To.AddRange(emailMessage.To);
             mimeMessage.Subject = emailMessage.Subject ?? _emailConfig.DefaultSubject;
 

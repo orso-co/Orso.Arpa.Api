@@ -58,8 +58,8 @@ namespace Orso.Arpa.Application.Services
 
             IQueryable<Appointment> entities = await _mediator.Send(new List.Query<Appointment>(
                 predicate: a =>
-                    a.EndTime <= rangeEndTime && a.EndTime >= rangeStartTime
-                    || a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime,
+                    (a.EndTime <= rangeEndTime && a.EndTime >= rangeStartTime)
+                    || (a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime),
                 asSplitQuery: true));
 
             return _mapper.ProjectTo<AppointmentListDto>(entities).ToList();

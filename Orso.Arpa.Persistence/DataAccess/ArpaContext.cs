@@ -246,10 +246,7 @@ namespace Orso.Arpa.Persistence.DataAccess
                 }
             }
             // Das kann nicht direkt in der oberen foreach Schleife erfolgen, weil sonst der Changetracker während der Iteration verändert wird und eine Exception schmeißt
-            foreach (AuditLog log in auditLogs)
-            {
-                AuditLogs.Add(log);
-            }
+            AuditLogs.AddRange(auditLogs);
         }
 
         public void ClearChangeTracker()
