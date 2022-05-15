@@ -32,9 +32,9 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
 
         [Test]

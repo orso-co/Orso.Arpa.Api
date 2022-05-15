@@ -33,9 +33,9 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Name, new Command { Name = "Honolulu" });
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Name, new Command { Name = "Honolulu" });
         }
     }
 }

@@ -323,8 +323,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.DoublingInstruments));
             result.Id.Should().NotBeEmpty();
             result.DoublingInstruments.Count.Should().Be(1);
-            result.DoublingInstruments.First().Should().BeEquivalentTo(expectedDto.DoublingInstruments.First(), opt => opt.Excluding(dto => dto.Id));
-            result.DoublingInstruments.First().Id.Should().NotBeEmpty();
+            result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
+            result.DoublingInstruments[0].Id.Should().NotBeEmpty();
             responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
 

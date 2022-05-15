@@ -34,26 +34,26 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.Id, Guid.NewGuid(), nameof(Appointment));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.Id, Guid.NewGuid(), nameof(Appointment));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, _validRoomId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, _validRoomId));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_RoomId_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_RoomId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.RoomId, Guid.NewGuid(), nameof(Room));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.RoomId, Guid.NewGuid(), nameof(Room));
         }
 
         [Test]

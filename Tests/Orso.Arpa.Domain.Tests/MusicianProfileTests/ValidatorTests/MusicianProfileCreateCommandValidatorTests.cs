@@ -44,17 +44,17 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
 
         #region PersonId
         [Test]
-        public void Should_Have_Validation_Error_If_PersonId_Is_Not_Existing()
+        public async Task Should_Have_Validation_Error_If_PersonId_Is_Not_Existing()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.PersonId, Guid.NewGuid(), nameof(Person));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.PersonId, Guid.NewGuid(), nameof(Person));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.PersonId, Guid.Empty, nameof(Person));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.PersonId, Guid.Empty, nameof(Person));
         }
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_PersonId_Is_Supplied()
@@ -67,19 +67,19 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
 
         #region InstrumentId
         [Test]
-        public void Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing()
+        public async Task Should_Have_Validation_Error_If_InstrumentId_Is_Not_Existing()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.InstrumentId, Guid.NewGuid(), nameof(Section));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.InstrumentId, Guid.NewGuid(), nameof(Section));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.InstrumentId, Guid.Empty, nameof(Section));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.InstrumentId, Guid.Empty, nameof(Section));
         }
 
         [Test]
@@ -104,21 +104,21 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
 
         #region QualificationId
         [Test]
-        public void Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_QualificationId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, Guid.NewGuid(), nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -131,32 +131,32 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_QualificationId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, Guid.Empty, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, Guid.Empty, nameof(SelectValueMapping));
         }
         #endregion
 
         #region InquiryStatusInnerId
         [Test]
-        public void Should_Have_Validation_Error_If_InquiryStatusInnerId_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_InquiryStatusInnerId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.InquiryStatusInnerId, Guid.NewGuid(), nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.InquiryStatusInnerId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_InquiryStatusInnerId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Invalid_InquiryStatusInnerId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.InquiryStatusInnerId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.InquiryStatusInnerId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -180,21 +180,21 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
 
         #region InquiryStatusTeamId
         [Test]
-        public void Should_Have_Validation_Error_If_InquiryStatusTeamId_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_InquiryStatusTeamId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.InquiryStatusTeamId, Guid.NewGuid(), nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.InquiryStatusTeamId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_InquiryStatusTeamId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Invalid_InquiryStatusTeamId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.InquiryStatusTeamId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.InquiryStatusTeamId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -233,13 +233,13 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Throw_NotFoundException_If_Preferred_Position_Staff_Does_Not_Exist()
+        public async Task Should_Throw_NotFoundException_If_Preferred_Position_Staff_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
-            _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsTeamIds, new Create.Command
+            await _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsTeamIds, new Create.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPositionsTeamIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
@@ -247,13 +247,13 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Preferred_Position_Staff_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Preferred_Position_Staff_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Horn);
-            _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsTeamIds, new Create.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsTeamIds, new Create.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
                 PreferredPositionsTeamIds = new List<Guid> { SelectValueSectionSeedData.HornLow.Id }
@@ -279,13 +279,13 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Throw_NotFoundException_If_Preferred_Position_Performer_Does_Not_Exist()
+        public async Task Should_Throw_NotFoundException_If_Preferred_Position_Performer_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
-            _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsInnerIds, new Create.Command
+            await _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsInnerIds, new Create.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
@@ -293,13 +293,13 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Preferred_Position_Performer_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Preferred_Position_Performer_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Horn);
-            _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new Create.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new Create.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
                 PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.HornLow.Id }
@@ -324,12 +324,12 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Preferred_Part_Staff_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Preferred_Part_Staff_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Horn);
-            _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsTeam, new Create.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsTeam, new Create.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
                 PreferredPartsTeam = new List<byte> { 2 }
@@ -354,12 +354,12 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Preferred_Part_Performer_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Preferred_Part_Performer_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Horn);
-            _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new Create.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new Create.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
                 PreferredPartsInner = new List<byte> { 2 }

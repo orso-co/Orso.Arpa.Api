@@ -38,12 +38,12 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_NonAdminRole_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_NonAdminRole_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }
     }
 }

@@ -72,6 +72,17 @@ namespace Orso.Arpa.Tests.Shared.Extensions
             return testValidationResult.ShouldHaveValidationErrorFor(expression);
         }
 
+        public static async Task<ITestValidationWith> ShouldHaveValidationErrorForExactAsync<T, TValue>(
+            this IValidator<T> validator,
+            Expression<Func<T, TValue>> expression,
+            T objectToTest) where T : class
+        {
+            TValue value = expression.Compile()(objectToTest);
+            string propertyName = ValidatorOptions.Global.PropertyNameResolver(typeof(T), expression.GetMember(), expression);
+            TestValidationResult<T> testValidationResult = await validator.TestValidateAsync(objectToTest, opt => opt.IncludeProperties(propertyName));
+            return testValidationResult.ShouldHaveValidationErrorFor(expression);
+        }
+
         public static async Task ShouldNotHaveValidationErrorForExactAsync<T, TValue>(
             this IValidator<T> validator,
             Expression<Func<T, TValue>> expression,
