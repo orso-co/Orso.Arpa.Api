@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -35,35 +36,35 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.Id, Guid.NewGuid(), nameof(Appointment));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.Id, Guid.NewGuid(), nameof(Appointment));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.Id, new Command(_validAppointmentId, _validProjectId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, new Command(_validAppointmentId, _validProjectId));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_ProjectId_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_ProjectId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Project_Is_Already_Linked()
+        public async Task Should_Have_Validation_Error_If_Project_Is_Already_Linked()
         {
             Guid linkedProjectId = ProjectSeedData.RockingXMas.Id;
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorForExact(c => c.ProjectId, new Command(_validAppointmentId, linkedProjectId));
+            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, new Command(_validAppointmentId, linkedProjectId));
         }
     }
 }

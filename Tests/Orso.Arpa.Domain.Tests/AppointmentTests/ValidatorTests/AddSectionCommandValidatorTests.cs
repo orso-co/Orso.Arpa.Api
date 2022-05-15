@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -34,34 +35,34 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.Id, Guid.NewGuid(), nameof(Appointment));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.Id, Guid.NewGuid(), nameof(Appointment));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command(_validAppointmentId, _validSectionId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, _validSectionId));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_SectionId_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_SectionId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.SectionId, Guid.NewGuid(), nameof(Section));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.SectionId, Guid.NewGuid(), nameof(Section));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Section_Is_Already_Linked()
+        public async Task Should_Have_Validation_Error_If_Section_Is_Already_Linked()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorForExact(command => command.SectionId, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.SectionId, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
     }
 }

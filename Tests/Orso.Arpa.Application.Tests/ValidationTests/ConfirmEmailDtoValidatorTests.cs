@@ -18,25 +18,25 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Token_Is_Supplied([Values(null, "")] string givenName)
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Token, givenName);
+            _validator.ShouldHaveValidationErrorForExactAsync(command => command.Token, givenName);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Token_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Token, "token");
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Token, "token");
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_Email_Is_Supplied([Values(null, "", "test@")] string email)
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Email, email);
+            _validator.ShouldHaveValidationErrorForExactAsync(command => command.Email, email);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Email, "ludmilla@test.com");
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Email, "ludmilla@test.com");
         }
     }
 }

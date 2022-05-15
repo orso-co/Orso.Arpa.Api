@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
 
-            _validator.ShouldHaveNotFoundErrorFor(c => c.MusicianProfileId, Guid.NewGuid(), nameof(MusicianProfile));
+            _validator.ShouldHaveNotFoundErrorForAsync(c => c.MusicianProfileId, Guid.NewGuid(), nameof(MusicianProfile));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
 
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.MusicianProfileId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.MusicianProfileId, Guid.NewGuid());
         }
     }
 }

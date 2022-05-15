@@ -203,7 +203,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
 
             // Arrange
-            var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&email=");
+            var queryParameters = _fakeSmtpServer.ReceivedEmail[0].MessageParts[0].BodyData.Split("?token=")[1].Split("&email=");
             var confirmEmailToken = queryParameters[0];
             var email = queryParameters[1].Split('"')[0];
 
@@ -454,7 +454,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
 
             // Arrange
-            var queryParameters = _fakeSmtpServer.ReceivedEmail.First().MessageParts.First().BodyData.Split("?token=")[1].Split("&email=");
+            var queryParameters = _fakeSmtpServer.ReceivedEmail[0].MessageParts[0].BodyData.Split("?token=")[1].Split("&email=");
             var resetPasswordToken = queryParameters[0];
             var email = queryParameters[1].Split('"')[0];
 

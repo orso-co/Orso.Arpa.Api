@@ -9,7 +9,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [TestFixture]
     public class ContactDetailCreateDtoValidatorTests
     {
-        private readonly ContactDetailCreateBodyDtoValidator _bodyValidator = new ContactDetailCreateBodyDtoValidator();
+        private readonly ContactDetailCreateBodyDtoValidator _bodyValidator = new();
 
         [Test]
         public void Should_Fail_If_Invalid_PhoneNumber_Is_Supplied([Values("123456789", "(0761) 12345678", "Invalid PhoneNumber")] string phoneNumber)

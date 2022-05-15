@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -26,15 +27,15 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Name_Does_Already_Exist()
+        public async Task Should_Have_Validation_Error_If_Name_Does_Already_Exist()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Name, new Command { Name = RegionSeedData.StuttgartCity.Name });
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Name, new Command { Name = RegionSeedData.StuttgartCity.Name });
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Name, new Command { Name = "Honolulu" });
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Name, new Command { Name = "Honolulu" });
         }
     }
 }

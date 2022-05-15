@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -29,25 +30,25 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            _validator.ShouldHaveNotFoundErrorFor(command => command.Id,
+            await _validator.ShouldHaveNotFoundErrorFor(command => command.Id,
                 new Command { Id = Guid.NewGuid(), Name = "Name" }, nameof(Region));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Name_Does_Already_Exist()
+        public async Task Should_Have_Validation_Error_If_Name_Does_Already_Exist()
         {
             _arpaContext.EntityExistsAsync<Region>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorForExact(command => command.Name,
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Name,
                 new Command { Id = RegionSeedData.Freiburg.Id, Name = RegionSeedData.StuttgartCity.Name });
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_And_Name_Are_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Id_And_Name_Are_Supplied()
         {
             _arpaContext.EntityExistsAsync<Region>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Name,
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Name,
                 new Command { Id = RegionSeedData.Freiburg.Id, Name = "Honolulu" });
         }
     }

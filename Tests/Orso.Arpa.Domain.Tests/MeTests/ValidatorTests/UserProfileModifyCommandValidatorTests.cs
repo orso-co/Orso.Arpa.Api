@@ -29,25 +29,25 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Email_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Email, UserTestSeedData.Performer.Email);
+            _validator.ShouldHaveValidationErrorForExactAsync(command => command.Email, UserTestSeedData.Performer.Email);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Email, "ludmilla@test.com");
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Email, "ludmilla@test.com");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_GivenName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.GivenName, "Ludmilla");
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.GivenName, "Ludmilla");
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Surname_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Surname, "Schneider");
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Surname, "Schneider");
         }
     }
 }

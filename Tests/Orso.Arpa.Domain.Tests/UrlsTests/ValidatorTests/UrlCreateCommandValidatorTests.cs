@@ -33,14 +33,14 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         public void Should_Not_Have_Validation_Error_If_Valid_ProjecId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.ProjectId, ProjectSeedData.RockingXMas.Id);
+            _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.ProjectId, ProjectSeedData.RockingXMas.Id);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Not_Existing_ProjectId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
+            _validator.ShouldHaveNotFoundErrorForAsync(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
         }
     }
 }

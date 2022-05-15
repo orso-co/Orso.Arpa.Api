@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
         public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.Id, Guid.NewGuid(), nameof(Appointment));
+            _validator.ShouldHaveNotFoundErrorForAsync(c => c.Id, Guid.NewGuid(), nameof(Appointment));
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.Id, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, new Command()
             {
                 Id = _validAppointmentId,
                 PersonId = _validPersonId,
@@ -56,7 +56,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.PersonId, Guid.NewGuid(), nameof(Person));
+            _validator.ShouldHaveNotFoundErrorForAsync(c => c.PersonId, Guid.NewGuid(), nameof(Person));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Person>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.ResultId, Guid.NewGuid(), nameof(SelectValueMapping));
+            _validator.ShouldHaveNotFoundErrorForAsync(c => c.ResultId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
     }
 }

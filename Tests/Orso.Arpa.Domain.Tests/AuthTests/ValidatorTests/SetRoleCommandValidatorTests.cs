@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
@@ -25,9 +26,9 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Throw_Rest_Exception_If_Role_Does_Not_Exist()
+        public async Task Should_Throw_Rest_Exception_If_Role_Does_Not_Exist()
         {
-            _validator.ShouldHaveNotFoundErrorFor(c => c.RoleNames, new Command()
+            await _validator.ShouldHaveNotFoundErrorFor(c => c.RoleNames, new Command()
             {
                 Username = UserTestSeedData.Staff.UserName,
                 RoleNames = new[] { "DoesNotExist" }
@@ -35,9 +36,9 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_User_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_User_Does_Not_Exist()
         {
-            _validator.ShouldHaveNotFoundErrorFor(c => c.Username, "DoesNotExist", typeof(User).Name);
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.Username, "DoesNotExist", typeof(User).Name);
         }
     }
 }
