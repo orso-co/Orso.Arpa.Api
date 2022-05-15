@@ -24,13 +24,13 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         [Test]
         public void Should_Have_Validation_Error_If_Email_Does_Not_Exist()
         {
-            _validator.ShouldHaveNotFoundErrorFor(c => c.Email, "Does@Not.Exist", typeof(User).Name);
+            _validator.ShouldHaveNotFoundErrorForAsync(c => c.Email, "Does@Not.Exist", typeof(User).Name);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Email, UserTestSeedData.Performer.Email);
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Email, UserTestSeedData.Performer.Email);
         }
     }
 }

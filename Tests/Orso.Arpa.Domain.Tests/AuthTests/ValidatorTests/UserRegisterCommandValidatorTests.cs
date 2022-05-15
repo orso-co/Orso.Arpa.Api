@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
@@ -26,45 +27,45 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Email_Does_Exist()
+        public async Task Should_Have_Validation_Error_If_Email_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Email, UserTestSeedData.Performer.Email);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Email, UserTestSeedData.Performer.Email);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Email, "ludmilla@test.com");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Email, "ludmilla@test.com");
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Password_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Password_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Password, UserSeedData.ValidPassword);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Password, UserSeedData.ValidPassword);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_UserName_Does_Exist()
+        public async Task Should_Have_Validation_Error_If_UserName_Does_Exist()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.UserName, UserTestSeedData.Performer.UserName);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.UserName, UserTestSeedData.Performer.UserName);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.UserName, "ludmilla");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.UserName, "ludmilla");
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_GivenName_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_GivenName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.GivenName, "Ludmilla");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.GivenName, "Ludmilla");
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Surname_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Surname_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Surname, "Schneider");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Surname, "Schneider");
         }
     }
 }

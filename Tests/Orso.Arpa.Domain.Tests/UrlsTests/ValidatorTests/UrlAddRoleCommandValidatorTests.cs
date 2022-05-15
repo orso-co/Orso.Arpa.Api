@@ -1,6 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
@@ -29,11 +30,11 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_AdminRole_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_AdminRole_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorForExact(command => command.RoleId, new Command { RoleId = RoleDtoData.Admin.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Admin.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }
 
         [Test]
@@ -41,8 +42,8 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.RoleId, new Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.RoleId, new Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }
     }
 }

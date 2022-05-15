@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -33,15 +34,15 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Valid_SectionId_Is_Not_Linked()
+        public async Task Should_Have_Validation_Error_If_Valid_SectionId_Is_Not_Linked()
         {
             Section section = SectionSeedData.HighFemaleVoices;
 
-            _validator.ShouldHaveValidationErrorForExact(command => command.SectionId, new Command(_validAppointmentId, section.Id));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.SectionId, new Command(_validAppointmentId, section.Id));
         }
     }
 }

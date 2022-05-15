@@ -18,25 +18,25 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_Email_Is_Supplied([Values(null, "", "test@")] string email)
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.UsernameOrEmail, email);
+            _validator.ShouldHaveValidationErrorForExactAsync(command => command.UsernameOrEmail, email);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.UsernameOrEmail, "ludmilla@test.com");
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.UsernameOrEmail, "ludmilla@test.com");
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Invalid_ClientUri_Is_Supplied([Values(null, "", "http:/mw1.google.com", "foo/bar")] string clientUri)
         {
-            _validator.ShouldHaveValidationErrorForExact(query => query.ClientUri, clientUri);
+            _validator.ShouldHaveValidationErrorForExactAsync(query => query.ClientUri, clientUri);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_ClientUri_Is_Supplied([Values("http://localhost:4200", "https://www.google.de")] string clientUri)
         {
-            _validator.ShouldNotHaveValidationErrorForExact(query => query.ClientUri, clientUri);
+            _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.ClientUri, clientUri);
         }
     }
 }

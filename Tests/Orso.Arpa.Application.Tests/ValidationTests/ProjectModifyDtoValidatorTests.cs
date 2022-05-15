@@ -98,7 +98,6 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             {
                 StartDate = new DateTime(2020, 01, 01),
                 EndDate = new DateTime(2020, 01, 01) - new TimeSpan(5, 0, 0, 0),
-
             }).WithErrorMessage("EndDate must be greater than EndDate");
         }
 

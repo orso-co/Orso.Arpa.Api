@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -33,9 +34,9 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Duplicate_Code_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Duplicate_Code_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Code, new Command()
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Code, new Command()
             {
                 Code = ProjectSeedData.HoorayForHollywood.Code
             });
@@ -44,7 +45,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Unused_Code_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Code, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Code, new Command()
             {
                 Code = "New Code"
             });
@@ -54,7 +55,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Not_Have_Validation_Error_If_Valid_ParentId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.ParentId, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.ParentId, new Command()
             {
                 Code = "New Code",
                 ParentId = ProjectSeedData.RockingXMas.Id
@@ -73,10 +74,10 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_StateId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Invalid_StateId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorForExact(command => command.StateId, new Command()
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.StateId, new Command()
             {
                 Code = "New Code",
                 StateId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
@@ -97,7 +98,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_StateId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.StateId, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.StateId, new Command()
             {
                 Code = "New Code",
                 StateId = null
@@ -108,7 +109,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Not_Have_Validation_Error_If_Valid_StateId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.StateId, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.StateId, new Command()
             {
                 Code = "New Code",
                 StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id
@@ -116,10 +117,10 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_GenreId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Invalid_GenreId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorForExact(command => command.GenreId, new Command()
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.GenreId, new Command()
             {
                 Code = "New Code",
                 GenreId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
@@ -140,7 +141,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_GenreId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.GenreId, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.GenreId, new Command()
             {
                 Code = "New Code",
                 GenreId = null
@@ -151,7 +152,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Not_Have_Validation_Error_If_Valid_GenreId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.GenreId, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.GenreId, new Command()
             {
                 Code = "New Code",
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id
@@ -159,10 +160,10 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_TypeId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Invalid_TypeId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldHaveValidationErrorForExact(command => command.TypeId, new Command()
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.TypeId, new Command()
             {
                 Code = "New Code",
                 TypeId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
@@ -183,7 +184,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_TypeId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.TypeId, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.TypeId, new Command()
             {
                 Code = "New Code",
                 TypeId = null
@@ -194,7 +195,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         public void Should_Not_Have_Validation_Error_If_Valid_TypeId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.TypeId, new Command()
+            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.TypeId, new Command()
             {
                 Code = "New Code",
                 TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id

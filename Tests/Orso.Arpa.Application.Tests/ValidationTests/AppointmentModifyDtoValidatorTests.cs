@@ -99,8 +99,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             {
                 StartTime = FakeDateTime.UtcNow,
                 EndTime = FakeDateTime.UtcNow.AddHours(-3)
-            }
-            ).WithErrorMessage("EndTime must be greater than StartTime");
+            }).WithErrorMessage("EndTime must be greater than StartTime");
         }
 
         [Test]
@@ -120,8 +119,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             {
                 StartTime = new DateTime(2019, 12, 28),
                 EndTime = new DateTime(2019, 12, 28)
-            }
-            );
+            });
         }
 
         [Test]

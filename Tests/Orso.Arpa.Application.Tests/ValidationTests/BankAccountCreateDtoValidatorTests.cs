@@ -9,7 +9,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [SetUICulture("en-EN")]
     public class BankAccountCreateDtoValidatorTests
     {
-        private readonly BankAccountCreateBodyDtoValidator _validator = new BankAccountCreateBodyDtoValidator();
+        private readonly BankAccountCreateBodyDtoValidator _validator = new();
 
         [Test]
         public void Should_Fail_If_Iban_Is_Empty([Values("", null)] string iban)

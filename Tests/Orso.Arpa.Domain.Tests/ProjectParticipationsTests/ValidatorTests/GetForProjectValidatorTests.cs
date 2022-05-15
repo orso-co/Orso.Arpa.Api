@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
 
-            _validator.ShouldHaveNotFoundErrorFor(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
+            _validator.ShouldHaveNotFoundErrorForAsync(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
 
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.ProjectId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.ProjectId, Guid.NewGuid());
         }
     }
 }

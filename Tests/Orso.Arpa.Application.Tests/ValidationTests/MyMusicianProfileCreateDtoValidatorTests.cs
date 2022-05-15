@@ -22,73 +22,73 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_LevelAssessmentPerformer_Is_Out_Of_Range([Values(0, 6)] byte x)
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(command => command.LevelAssessmentInner, x);
+            _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.LevelAssessmentInner, x);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_LevelAssessmentPerformer_Is_In_Range([Values(1, 5)] byte x)
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExact(command => command.LevelAssessmentInner, x);
+            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.LevelAssessmentInner, x);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_InstrumentId_Is_Supplied()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(command => command.InstrumentId, Guid.Empty);
+            _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.InstrumentId, Guid.Empty);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_InstrumentId_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExact(command => command.InstrumentId, Guid.NewGuid());
+            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.InstrumentId, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Comment_Exceeds_Max_Length()
         {
-            _doublingInstrumentValidator.ShouldHaveValidationErrorForExact(command => command.Comment, new string('#', 501));
+            _doublingInstrumentValidator.ShouldHaveValidationErrorForExactAsync(command => command.Comment, new string('#', 501));
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_Comment_Is_Supplied()
         {
-            _doublingInstrumentValidator.ShouldNotHaveValidationErrorForExact(command => command.Comment, new string('#', 500));
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.Comment, new string('#', 500));
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_Empty_DoublingInstrumentId_Is_Supplied()
         {
-            _doublingInstrumentValidator.ShouldHaveValidationErrorForExact(command => command.InstrumentId, Guid.Empty);
+            _doublingInstrumentValidator.ShouldHaveValidationErrorForExactAsync(command => command.InstrumentId, Guid.Empty);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied()
         {
-            _doublingInstrumentValidator.ShouldNotHaveValidationErrorForExact(command => command.InstrumentId, Guid.NewGuid());
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.InstrumentId, Guid.NewGuid());
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentPerformer_Is_Out_Of_Range()
         {
-            _doublingInstrumentValidator.ShouldHaveValidationErrorForExact(command => command.LevelAssessmentInner, (byte)6);
+            _doublingInstrumentValidator.ShouldHaveValidationErrorForExactAsync(command => command.LevelAssessmentInner, (byte)6);
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_DoublingInstrument_LevelAssessmentPerformer_Is_In_Range([Values(0, 1, 5)] byte x)
         {
-            _doublingInstrumentValidator.ShouldNotHaveValidationErrorForExact(command => command.LevelAssessmentInner, x);
+            _doublingInstrumentValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.LevelAssessmentInner, x);
         }
 
         [Test]
         public void Should_Have_Validation_Error_If_PreferredPositionsInner_Contains_Empty_Guid()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(dto => dto.PreferredPositionsInnerIds, new List<Guid>() { Guid.Empty });
+            _bodyValidator.ShouldHaveValidationErrorForExactAsync(dto => dto.PreferredPositionsInnerIds, new List<Guid>() { Guid.Empty });
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_PreferredPositionsInner_Contains_Valid_Guid()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExact(dto => dto.PreferredPositionsInnerIds, new List<Guid>() { Guid.NewGuid() });
+            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.PreferredPositionsInnerIds, new List<Guid>() { Guid.NewGuid() });
         }
     }
 }
