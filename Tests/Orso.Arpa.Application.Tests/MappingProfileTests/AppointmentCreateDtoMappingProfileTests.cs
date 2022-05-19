@@ -26,16 +26,16 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             AppointmentCreateDto dto = new Faker<AppointmentCreateDto>()
-                .RuleFor(dto => dto.InternalDetails, (f, u) => f.Lorem.Paragraph())
-                .RuleFor(dto => dto.PublicDetails, (f, u) => f.Lorem.Paragraph())
-                .RuleFor(dto => dto.Name, (f, u) => f.Name.FirstName())
-                .RuleFor(dto => dto.StartTime, (f, u) => f.Date.Soon())
-                .RuleFor(dto => dto.EndTime, (f, u) => f.Date.Soon())
-                .RuleFor(dto => dto.CategoryId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.SalaryId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.SalaryPatternId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.StatusId, f => Guid.NewGuid())
-                .RuleFor(dto => dto.ExpectationId, f => Guid.NewGuid())
+                .RuleFor(dto => dto.InternalDetails, f => f.Lorem.Paragraph())
+                .RuleFor(dto => dto.PublicDetails, f => f.Lorem.Paragraph())
+                .RuleFor(dto => dto.Name, f => f.Name.FirstName())
+                .RuleFor(dto => dto.StartTime, f => f.Date.Soon())
+                .RuleFor(dto => dto.EndTime, f => f.Date.Soon())
+                .RuleFor(dto => dto.CategoryId, _ => Guid.NewGuid())
+                .RuleFor(dto => dto.SalaryId, _ => Guid.NewGuid())
+                .RuleFor(dto => dto.SalaryPatternId, _ => Guid.NewGuid())
+                .RuleFor(dto => dto.StatusId, _ => Guid.NewGuid())
+                .RuleFor(dto => dto.ExpectationId, _ => Guid.NewGuid())
                 .Generate();
 
             // Act

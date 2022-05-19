@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.RegionApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -19,27 +20,27 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(dto => dto.Id, Guid.Empty);
+            await _validator.ShouldHaveValidationErrorForExactAsync(dto => dto.Id, Guid.Empty);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Name_Is_Supplied([Values(null, "")] string name)
+        public async Task Should_Have_Validation_Error_If_Empty_Name_Is_Supplied([Values(null, "")] string name)
         {
-            _bodyValidator.ShouldHaveValidationErrorForExactAsync(dto => dto.Name, name);
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(dto => dto.Name, name);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Name_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.Name, "Honolulu");
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.Name, "Honolulu");
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.Id, Guid.NewGuid());
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.Id, Guid.NewGuid());
         }
     }
 }

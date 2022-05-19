@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -17,27 +18,27 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_UserName_Is_Supplied([Values(null, "")] string userName)
+        public async Task Should_Have_Validation_Error_If_Invalid_UserName_Is_Supplied([Values(null, "")] string userName)
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(query => query.UsernameOrEmail, userName);
+            await _validator.ShouldHaveValidationErrorForExactAsync(query => query.UsernameOrEmail, userName);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.UsernameOrEmail, UserTestSeedData.Performer.UserName);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.UsernameOrEmail, UserTestSeedData.Performer.UserName);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_ClientUri_Is_Supplied([Values(null, "", "http:/mw1.google.com", "foo/bar")] string clientUri)
+        public async Task Should_Have_Validation_Error_If_Invalid_ClientUri_Is_Supplied([Values(null, "", "http:/mw1.google.com", "foo/bar")] string clientUri)
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(query => query.ClientUri, clientUri);
+            await _validator.ShouldHaveValidationErrorForExactAsync(query => query.ClientUri, clientUri);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_ClientUri_Is_Supplied([Values("http://localhost:4200", "https://www.google.de")] string clientUri)
+        public async Task Should_Not_Have_Validation_Error_If_Valid_ClientUri_Is_Supplied([Values("http://localhost:4200", "https://www.google.de")] string clientUri)
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.ClientUri, clientUri);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.ClientUri, clientUri);
         }
     }
 }

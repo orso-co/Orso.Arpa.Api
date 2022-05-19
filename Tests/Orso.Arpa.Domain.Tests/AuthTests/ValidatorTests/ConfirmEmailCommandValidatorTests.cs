@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
@@ -22,15 +23,15 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Email_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_Email_Does_Not_Exist()
         {
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.Email, "Does@Not.Exist", typeof(User).Name);
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.Email, "Does@Not.Exist", typeof(User).Name);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Email, UserTestSeedData.Performer.Email);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Email, UserTestSeedData.Performer.Email);
         }
     }
 }

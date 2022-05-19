@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -30,17 +31,17 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_ProjecId_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_ProjecId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.ProjectId, ProjectSeedData.RockingXMas.Id);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.ProjectId, ProjectSeedData.RockingXMas.Id);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Not_Existing_ProjectId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Not_Existing_ProjectId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorForAsync(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.ProjectId, Guid.NewGuid(), nameof(Project));
         }
     }
 }

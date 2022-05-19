@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Persistence.Seed;
@@ -17,40 +18,40 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_Password_Is_Supplied(
+        public async Task Should_Have_Validation_Error_If_Invalid_Password_Is_Supplied(
             [Values(null, "", "1234", "123456", "aaaaaa", "AAAAAA", "aaaAAA", "aaAA11", "%%%%%%")] string password)
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(command => command.Password, password);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Password, password);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Password_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Password_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Password, UserSeedData.ValidPassword);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Password, UserSeedData.ValidPassword);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
+        public async Task Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(command => command.UsernameOrEmail, username);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.UsernameOrEmail, username);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Token_Is_Supplied([Values(null, "")] string token)
+        public async Task Should_Have_Validation_Error_If_Empty_Token_Is_Supplied([Values(null, "")] string token)
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(command => command.Token, token);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Token, token);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.UsernameOrEmail, "ludmilla");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.UsernameOrEmail, "ludmilla");
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Token_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Token_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Token, "token");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Token, "token");
         }
     }
 }

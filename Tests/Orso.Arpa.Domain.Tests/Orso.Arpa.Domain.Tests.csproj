@@ -7,9 +7,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AppointmentTests\QueryHandlerTests\**" />
+    <Compile Remove="AuthTests\QueryHandlerTests\**" />
     <Compile Remove="MusicianProfileTests\MappingProfileTests\**" />
+    <Compile Remove="ProjectsTests\MappingProfileTests\**" />
+    <Compile Remove="ProjectsTests\QueryHandlerTests\**" />
+    <Compile Remove="RolesTests\ValidatorTests\**" />
+    <Compile Remove="SelectValuesTests\ValidatorTests\**" />
+    <Compile Remove="UrlsTests\MappingProfileTests\**" />
+    <Compile Remove="UsersTests\ValidatorTests\**" />
+    <Compile Remove="VenuesTests\ValidatorTests\**" />
+    <EmbeddedResource Remove="AppointmentTests\QueryHandlerTests\**" />
+    <EmbeddedResource Remove="AuthTests\QueryHandlerTests\**" />
     <EmbeddedResource Remove="MusicianProfileTests\MappingProfileTests\**" />
+    <EmbeddedResource Remove="ProjectsTests\MappingProfileTests\**" />
+    <EmbeddedResource Remove="ProjectsTests\QueryHandlerTests\**" />
+    <EmbeddedResource Remove="RolesTests\ValidatorTests\**" />
+    <EmbeddedResource Remove="SelectValuesTests\ValidatorTests\**" />
+    <EmbeddedResource Remove="UrlsTests\MappingProfileTests\**" />
+    <EmbeddedResource Remove="UsersTests\ValidatorTests\**" />
+    <EmbeddedResource Remove="VenuesTests\ValidatorTests\**" />
+    <None Remove="AppointmentTests\QueryHandlerTests\**" />
+    <None Remove="AuthTests\QueryHandlerTests\**" />
     <None Remove="MusicianProfileTests\MappingProfileTests\**" />
+    <None Remove="ProjectsTests\MappingProfileTests\**" />
+    <None Remove="ProjectsTests\QueryHandlerTests\**" />
+    <None Remove="RolesTests\ValidatorTests\**" />
+    <None Remove="SelectValuesTests\ValidatorTests\**" />
+    <None Remove="UrlsTests\MappingProfileTests\**" />
+    <None Remove="UsersTests\ValidatorTests\**" />
+    <None Remove="VenuesTests\ValidatorTests\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,17 +47,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Tests.Shared\Orso.Arpa.Tests.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AppointmentTests\QueryHandlerTests\" />
-    <Folder Include="AuthTests\QueryHandlerTests\" />
-    <Folder Include="ProjectsTests\MappingProfileTests\" />
-    <Folder Include="ProjectsTests\QueryHandlerTests\" />
-    <Folder Include="RolesTests\ValidatorTests\" />
-    <Folder Include="SelectValuesTests\ValidatorTests\" />
-    <Folder Include="UrlsTests\MappingProfileTests\" />
-    <Folder Include="UsersTests\ValidatorTests\" />
-    <Folder Include="VenuesTests\ValidatorTests\" />
   </ItemGroup>
 </Project>

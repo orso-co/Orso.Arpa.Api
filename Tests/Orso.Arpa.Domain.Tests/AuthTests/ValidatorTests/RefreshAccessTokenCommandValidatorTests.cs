@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Tests.Shared.Extensions;
 using static Orso.Arpa.Domain.Logic.Auth.RefreshAccessToken;
@@ -16,27 +17,27 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_Token_Is_Supplied([Values(null, "")] string token)
+        public async Task Should_Have_Validation_Error_If_Invalid_Token_Is_Supplied([Values(null, "")] string token)
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(query => query.RefreshToken, token);
+            await _validator.ShouldHaveValidationErrorForExactAsync(query => query.RefreshToken, token);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Token_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Token_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.RefreshToken, "token");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.RefreshToken, "token");
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_Ip_Is_Supplied([Values(null, "")] string ip)
+        public async Task Should_Have_Validation_Error_If_Invalid_Ip_Is_Supplied([Values(null, "")] string ip)
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(query => query.RemoteIpAddress, ip);
+            await _validator.ShouldHaveValidationErrorForExactAsync(query => query.RemoteIpAddress, ip);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Ip_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Ip_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.RemoteIpAddress, "ip");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.RemoteIpAddress, "ip");
         }
     }
 }

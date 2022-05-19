@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -19,76 +20,75 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(command => command.Id, Guid.Empty);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Id, Guid.Empty);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, Guid.NewGuid());
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, Guid.NewGuid());
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_MusicianProfileId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_MusicianProfileId_Is_Supplied()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.MusicianProfileId, Guid.Empty);
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.MusicianProfileId, Guid.Empty);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_MusicianProfileId_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_MusicianProfileId_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.MusicianProfileId, Guid.NewGuid());
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.MusicianProfileId, Guid.NewGuid());
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_ParticipationStatusInternalId_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_ParticipationStatusInternalId_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.ParticipationStatusInternalId, Guid.NewGuid());
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.ParticipationStatusInternalId, Guid.NewGuid());
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_ParticipationStatusInternalId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_ParticipationStatusInternalId_Is_Supplied()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.ParticipationStatusInternalId, Guid.Empty);
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.ParticipationStatusInternalId, Guid.Empty);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_InvitationStatusId_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_InvitationStatusId_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.InvitationStatusId, Guid.NewGuid());
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.InvitationStatusId, Guid.NewGuid());
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_InvitationStatusId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_InvitationStatusId_Is_Supplied()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.InvitationStatusId, Guid.Empty);
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.InvitationStatusId, Guid.Empty);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_CommentByStaffInner_Exceeds_Max_Length()
+        public async Task Should_Have_Validation_Error_If_CommentByStaffInner_Exceeds_Max_Length()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.CommentByStaffInner, new string('#', 501));
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.CommentByStaffInner, new string('#', 501));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Comment_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Comment_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.CommentByStaffInner, new string('#', 500));
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.CommentByStaffInner, new string('#', 500));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_CommentTeam_Exceeds_Max_Length()
+        public async Task Should_Have_Validation_Error_If_CommentTeam_Exceeds_Max_Length()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.CommentTeam, new string('#', 501));
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(command => command.CommentTeam, new string('#', 501));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_CommentTeam_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_CommentTeam_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.CommentTeam, new string('#', 500));
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.CommentTeam, new string('#', 500));
         }
-
     }
 }

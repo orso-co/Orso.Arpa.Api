@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -16,15 +17,15 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
+        public async Task Should_Have_Validation_Error_If_Empty_UserName_Is_Supplied([Values(null, "")] string username)
         {
-            _validator.ShouldHaveValidationErrorForExactAsync(command => command.Username, username);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Username, username);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_RoleName_Is_Supplied([Values(null, "")] string roleName)
+        public async Task Should_Not_Have_Validation_Error_If_Empty_RoleName_Is_Supplied([Values(null, "")] string roleName)
         {
-            _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleNames, new[] { roleName });
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleNames, new[] { roleName });
         }
     }
 }

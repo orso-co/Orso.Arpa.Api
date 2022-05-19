@@ -13,12 +13,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     [TestFixture]
     public class TranslationResultFilterTests : IntegrationTestBase
     {
-        [SetUp]
-        public void SetUp()
-        {
-
-        }
-
         [Test, Order(1)]
         [TestCase("de-DE", "Mitwirkende", "Orchester")]
         [TestCase("de", "Mitwirkende", "Orchester")]
