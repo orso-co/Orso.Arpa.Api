@@ -35,9 +35,9 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(query => query.UsernameOrEmail, UserTestSeedData.Performer.UserName);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.UsernameOrEmail, UserTestSeedData.Performer.UserName);
         }
     }
 }

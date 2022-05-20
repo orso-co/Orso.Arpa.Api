@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication;
 using Orso.Arpa.Persistence.Seed;
@@ -18,27 +19,27 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_UserName_Is_Supplied([Values(null, "")] string userName)
+        public async Task Should_Have_Validation_Error_If_Invalid_UserName_Is_Supplied([Values(null, "")] string userName)
         {
-            _validator.ShouldHaveValidationErrorForExact(query => query.UsernameOrEmail, userName);
+            await _validator.ShouldHaveValidationErrorForExactAsync(query => query.UsernameOrEmail, userName);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_UserName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(query => query.UsernameOrEmail, UserTestSeedData.Performer.UserName);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.UsernameOrEmail, UserTestSeedData.Performer.UserName);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_Password_Is_Supplied([Values(null, "")] string password)
+        public async Task Should_Have_Validation_Error_If_Invalid_Password_Is_Supplied([Values(null, "")] string password)
         {
-            _validator.ShouldHaveValidationErrorForExact(query => query.Password, password);
+            await _validator.ShouldHaveValidationErrorForExactAsync(query => query.Password, password);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Password_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Password_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(query => query.Password, UserSeedData.ValidPassword);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(query => query.Password, UserSeedData.ValidPassword);
         }
     }
 }

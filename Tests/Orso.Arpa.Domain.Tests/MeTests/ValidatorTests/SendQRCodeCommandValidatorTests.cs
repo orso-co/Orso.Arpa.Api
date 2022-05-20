@@ -1,4 +1,4 @@
-using FluentValidation.TestHelper;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Identity;
@@ -23,15 +23,15 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Username_Does_Exist()
+        public async Task Should_Not_Have_Validation_Error_If_Username_Does_Exist()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.Username, UserTestSeedData.Performer.UserName);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Username, UserTestSeedData.Performer.UserName);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Username_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_Username_Does_Not_Exist()
         {
-            _validator.ShouldHaveNotFoundErrorFor(c => c.Username, "DoesNotExist", typeof(User).Name);
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.Username, "DoesNotExist", typeof(User).Name);
         }
     }
 }

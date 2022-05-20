@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
@@ -30,25 +31,25 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, new Command(_validAppointmentId, ProjectSeedData.RockingXMas.Id));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, ProjectSeedData.RockingXMas.Id));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Valid_ProjectId_Is_Not_Linked()
+        public async Task Should_Have_Validation_Error_If_Valid_ProjectId_Is_Not_Linked()
         {
             Project project = ProjectSeedData.HoorayForHollywood;
 
-            _validator.ShouldHaveValidationErrorForExact(command => command.ProjectId, new Command(_validAppointmentId, project.Id));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.ProjectId, new Command(_validAppointmentId, project.Id));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_ProjectId_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_ProjectId_Is_Supplied()
         {
             Project project = ProjectSeedData.RockingXMas;
 
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.ProjectId, new Command(_validAppointmentId, project.Id));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.ProjectId, new Command(_validAppointmentId, project.Id));
         }
     }
 }

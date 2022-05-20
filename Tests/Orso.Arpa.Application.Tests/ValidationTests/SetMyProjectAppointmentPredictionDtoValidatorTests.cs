@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -17,27 +18,27 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Id, Guid.Empty);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Id, Guid.Empty);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Id, Guid.NewGuid());
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, Guid.NewGuid());
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_PredictionId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Empty_PredictionId_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.PredictionId, Guid.Empty);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.PredictionId, Guid.Empty);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_PredictionId_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_PredictionId_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.PredictionId, Guid.NewGuid());
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.PredictionId, Guid.NewGuid());
         }
     }
 }

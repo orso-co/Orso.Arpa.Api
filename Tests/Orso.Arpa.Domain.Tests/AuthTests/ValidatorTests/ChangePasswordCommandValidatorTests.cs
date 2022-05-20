@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Identity;
@@ -25,17 +26,17 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Wrong_Current_Password_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Wrong_Current_Password_Is_Supplied()
         {
             _userAccessor.GetCurrentUserAsync().Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Performer);
-            _validator.ShouldHaveValidationErrorForExact(command => command.CurrentPassword, "WrongPassword");
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.CurrentPassword, "WrongPassword");
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Correct_Current_Password_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Correct_Current_Password_Is_Supplied()
         {
             _userAccessor.GetCurrentUserAsync().Returns(Arpa.Tests.Shared.FakeData.FakeUsers.Performer);
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.CurrentPassword, UserSeedData.ValidPassword);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.CurrentPassword, UserSeedData.ValidPassword);
         }
     }
 }

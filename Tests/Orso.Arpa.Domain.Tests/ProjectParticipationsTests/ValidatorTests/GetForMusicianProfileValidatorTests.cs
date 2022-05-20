@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
@@ -23,19 +24,19 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Not_Existing_Musician_Profile_Is_Suppliedf()
+        public async Task Should_Have_Validation_Error_If_Not_Existing_Musician_Profile_Is_Suppliedf()
         {
             _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
 
-            _validator.ShouldHaveNotFoundErrorFor(c => c.MusicianProfileId, Guid.NewGuid(), nameof(MusicianProfile));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.MusicianProfileId, Guid.NewGuid(), nameof(MusicianProfile));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Musician_Profile_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Musician_Profile_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
 
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.MusicianProfileId, Guid.NewGuid());
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.MusicianProfileId, Guid.NewGuid());
         }
     }
 }

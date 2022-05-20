@@ -100,5 +100,4 @@ public class MyProjectsControllerTests : IntegrationTestBase
         MyProjectParticipationDto result = await DeserializeResponseMessageAsync<MyProjectParticipationDto>(responseMessage);
         result.Should().BeEquivalentTo(expectedDto);
     }
-
 }

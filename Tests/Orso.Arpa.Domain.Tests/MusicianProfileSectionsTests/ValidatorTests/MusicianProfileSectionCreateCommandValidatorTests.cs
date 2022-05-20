@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -36,12 +37,12 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied_Child_Instrument()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied_Child_Instrument()
         {
             MusicianProfile profile = FakeMusicianProfiles.PerformerHornMusicianProfile;
             _arpaContext.GetByIdAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
                 .Returns(profile, profile);
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.InstrumentId, new Create.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.InstrumentId, new Create.Command
             {
                 InstrumentId = SectionSeedData.WagnerTuba.Id,
                 MusicianProfileId = profile.Id
@@ -49,7 +50,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied_Instrument()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied_Instrument()
         {
             var profile = new MusicianProfile(new Logic.MusicianProfiles.Create.Command
             {
@@ -58,7 +59,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
             profile.SetProperty(nameof(MusicianProfile.Instrument), FakeSections.Flute.Children.First());
             _arpaContext.GetByIdAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
                 .Returns(profile, profile);
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.InstrumentId, new Create.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.InstrumentId, new Create.Command
             {
                 InstrumentId = SectionSeedData.Flute.Id,
                 MusicianProfileId = profile.Id
@@ -66,50 +67,49 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_DoublingInstrumentId_Is_MainInstrumentId()
+        public async Task Should_Have_Validation_Error_If_DoublingInstrumentId_Is_MainInstrumentId()
         {
             _arpaContext.GetByIdAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
                 .Returns(FakeMusicianProfiles.PerformerHornMusicianProfile);
-            _validator.ShouldHaveValidationErrorForExact(c => c.InstrumentId, SectionSeedData.Horn.Id)
+            (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.InstrumentId, SectionSeedData.Horn.Id))
                 .WithErrorMessage("The doubling instrument may not be the main instrument");
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_DoublingInstrumentId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Invalid_DoublingInstrumentId_Is_Supplied()
         {
             MusicianProfile profile = FakeMusicianProfiles.PerformerHornMusicianProfile;
             _arpaContext.GetByIdAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
                 .Returns(profile, profile);
-            _validator.ShouldHaveValidationErrorForExact(c => c.InstrumentId, new Create.Command
+            (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.InstrumentId, new Create.Command
             {
                 MusicianProfileId = profile.Id,
                 InstrumentId = SectionSeedData.Piano.Id
-            })
-                .WithErrorMessage("This instrument is no valid doubling instrument for the selected main instrument");
+            })).WithErrorMessage("This instrument is no valid doubling instrument for the selected main instrument");
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_AvailabilityId_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_AvailabilityId_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.AvailabilityId, Guid.NewGuid(), nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.AvailabilityId, Guid.NewGuid(), nameof(SelectValueMapping));
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_AvailabilityId_Is_Supplied()
+        public async Task Should_Have_Validation_Error_If_Invalid_AvailabilityId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.AvailabilityId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.AvailabilityId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_AvailabilityId_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_AvailabilityId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.AvailabilityId, SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.AvailabilityId, SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using netDumbster.smtp;
@@ -55,9 +54,9 @@ namespace Orso.Arpa.Mail.Tests
             // Arrange
             _server.ClearReceivedEmail();
             EmailSender emailSender = CreateEmailSender();
-            var expectedRecipient = "recipient@test.de";
-            var expectedSubject = "Expected subject";
-            var expectedBody = "Expected body";
+            const string expectedRecipient = "recipient@test.de";
+            const string expectedSubject = "Expected subject";
+            const string expectedBody = "Expected body";
             var emailMessage = new EmailMessage(new string[] { expectedRecipient }, expectedSubject, expectedBody, null);
 
             // Act
@@ -66,9 +65,9 @@ namespace Orso.Arpa.Mail.Tests
 
             // Assert
             _server.ReceivedEmailCount.Should().Be(1);
-            SmtpMessage receivedMail = _server.ReceivedEmail.First();
+            SmtpMessage receivedMail = _server.ReceivedEmail[0];
             receivedMail.MessageParts[0].BodyData.Should().Be(expectedBody);
-            receivedMail.ToAddresses.First().Address.Should().Be(expectedRecipient);
+            receivedMail.ToAddresses[0].Address.Should().Be(expectedRecipient);
             receivedMail.Headers.Get("Subject").Should().Be(expectedSubject);
         }
 
@@ -79,8 +78,8 @@ namespace Orso.Arpa.Mail.Tests
             _server.ClearReceivedEmail();
             EmailSender emailSender = CreateEmailSender();
             var confirmEmailTemplate = new ConfirmEmailTemplate();
-            var expectedRecipient = "recipient@test.de";
-            var expectedSubject = "Expected subject";
+            const string expectedRecipient = "recipient@test.de";
+            const string expectedSubject = "Expected subject";
             var expectedBody = $"<title>{expectedSubject}</title>";
             _templateParser.Parse(Arg.Any<ITemplate>()).Returns(expectedBody);
 
@@ -89,9 +88,9 @@ namespace Orso.Arpa.Mail.Tests
 
             // Assert
             _server.ReceivedEmailCount.Should().Be(1);
-            SmtpMessage receivedMail = _server.ReceivedEmail.First();
+            SmtpMessage receivedMail = _server.ReceivedEmail[0];
             receivedMail.MessageParts[0].BodyData.Should().Be(expectedBody);
-            receivedMail.ToAddresses.First().Address.Should().Be(expectedRecipient);
+            receivedMail.ToAddresses[0].Address.Should().Be(expectedRecipient);
             receivedMail.Headers.Get("Subject").Should().Be(expectedSubject);
         }
 
@@ -101,9 +100,9 @@ namespace Orso.Arpa.Mail.Tests
             // Arrange
             EmailSender emailSender = CreateEmailSender();
             var confirmEmailTemplate = new ConfirmEmailTemplate();
-            var expectedRecipient = "recipient@test.de";
+            const string expectedRecipient = "recipient@test.de";
             var expectedSubject = _emailConfiguration.DefaultSubject;
-            var expectedBody = "some body without title tags";
+            const string expectedBody = "some body without title tags";
             _templateParser.Parse(Arg.Any<ITemplate>()).Returns(expectedBody);
 
             // Act
@@ -111,9 +110,9 @@ namespace Orso.Arpa.Mail.Tests
 
             // Assert
             _server.ReceivedEmailCount.Should().Be(1);
-            SmtpMessage receivedMail = _server.ReceivedEmail.First();
+            SmtpMessage receivedMail = _server.ReceivedEmail[0];
             receivedMail.MessageParts[0].BodyData.Should().Be(expectedBody);
-            receivedMail.ToAddresses.First().Address.Should().Be(expectedRecipient);
+            receivedMail.ToAddresses[0].Address.Should().Be(expectedRecipient);
             receivedMail.Headers.Get("Subject").Should().Be(expectedSubject);
         }
     }

@@ -39,12 +39,12 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
             {
                 IList<Guid> musicianProfileIds = await _arpaContext.GetMusicianProfilesForAppointment(request.Appointment.Id)
                         .Select(a => a.Id)
-                        .ToListAsync();
+                        .ToListAsync(cancellationToken);
 
                 List<MusicianProfile> profiles = await _arpaContext.MusicianProfiles
                     .AsQueryable()
                     .Where(p => musicianProfileIds.Contains(p.Id))
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
 
                 return from p in profiles
                        group p by p.Person into g

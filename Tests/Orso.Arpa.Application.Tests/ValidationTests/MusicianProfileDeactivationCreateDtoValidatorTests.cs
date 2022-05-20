@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -8,43 +9,43 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [TestFixture]
     public class MusicianProfileDeactivationCreateDtoValidatorTests
     {
-        private readonly MusicianProfileDeactivationCreateDtoValidator _validator = new MusicianProfileDeactivationCreateDtoValidator();
-        private readonly MusicianProfileDeactivationCreateBodyDtoValidator _bodyValidator = new MusicianProfileDeactivationCreateBodyDtoValidator();
+        private readonly MusicianProfileDeactivationCreateDtoValidator _validator = new();
+        private readonly MusicianProfileDeactivationCreateBodyDtoValidator _bodyValidator = new();
 
         [Test]
-        public void Should_Fail_If_Empty_DeactivationStart_Is_Supplied()
+        public async Task Should_Fail_If_Empty_DeactivationStart_Is_Supplied()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(dto => dto.DeactivationStart, DateTime.MinValue);
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(dto => dto.DeactivationStart, DateTime.MinValue);
         }
 
         [Test]
-        public void Should_Fail_If_Purpose_Exceeds_Max_Length()
+        public async Task Should_Fail_If_Purpose_Exceeds_Max_Length()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(dto => dto.Purpose, new string('#', 501));
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(dto => dto.Purpose, new string('#', 501));
         }
 
         [Test]
-        public void Should_Fail_If_Empty_Id_Is_Supplied()
+        public async Task Should_Fail_If_Empty_Id_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExact(dto => dto.Id, Guid.Empty);
+            await _validator.ShouldHaveValidationErrorForExactAsync(dto => dto.Id, Guid.Empty);
         }
 
         [Test]
-        public void Should_Succeed_If_Valid_DeactivationStart_Is_Supplied()
+        public async Task Should_Succeed_If_Valid_DeactivationStart_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExact(dto => dto.DeactivationStart, DateTime.MaxValue);
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.DeactivationStart, DateTime.MaxValue);
         }
 
         [Test]
-        public void Should_Succeed_If_Valid_Purpose_Is_Supplied()
+        public async Task Should_Succeed_If_Valid_Purpose_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExact(dto => dto.Purpose, new string('#', 500));
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.Purpose, new string('#', 500));
         }
 
         [Test]
-        public void Should_Succeed_If_Valid_Id_Is_Supplied()
+        public async Task Should_Succeed_If_Valid_Id_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(dto => dto.Id, Guid.NewGuid());
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.Id, Guid.NewGuid());
         }
     }
 }

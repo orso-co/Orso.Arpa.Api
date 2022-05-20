@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
@@ -25,17 +26,17 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _validator.ShouldNotHaveValidationErrorForExact(c => c.Id, UrlSeedData.ArpaWebsite.Id);
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, UrlSeedData.ArpaWebsite.Id);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Id_Does_Not_Exist()
+        public async Task Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            _validator.ShouldHaveNotFoundErrorFor(c => c.Id, Guid.NewGuid(), nameof(Url));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.Id, Guid.NewGuid(), nameof(Url));
         }
     }
 }

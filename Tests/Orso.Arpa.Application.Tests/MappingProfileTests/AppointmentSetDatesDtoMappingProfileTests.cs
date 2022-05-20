@@ -32,7 +32,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 {
                     StartTime = FakeDateTime.UtcNow,
                     EndTime = FakeDateTime.UtcNow.AddHours(2)
-
                 }
             };
             var expectedCommand = new SetDates.Command

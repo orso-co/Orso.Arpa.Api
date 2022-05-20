@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -16,39 +17,39 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Invalid_Email_Is_Supplied([Values(null, "", "test@")] string email)
+        public async Task Should_Have_Validation_Error_If_Invalid_Email_Is_Supplied([Values(null, "", "test@")] string email)
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Email, email);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Email, email);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Email_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Email, "ludmilla@test.com");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Email, "ludmilla@test.com");
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_GivenName_Is_Supplied([Values(null, "")] string givenName)
+        public async Task Should_Have_Validation_Error_If_Empty_GivenName_Is_Supplied([Values(null, "")] string givenName)
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.GivenName, givenName);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.GivenName, givenName);
         }
 
         [Test]
-        public void Should_Have_Validation_Error_If_Empty_Surname_Is_Supplied([Values(null, "")] string surname)
+        public async Task Should_Have_Validation_Error_If_Empty_Surname_Is_Supplied([Values(null, "")] string surname)
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Surname, surname);
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Surname, surname);
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_GivenName_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_GivenName_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.GivenName, "Ludmilla");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.GivenName, "Ludmilla");
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Surname_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Surname_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.Surname, "Schneider");
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Surname, "Schneider");
         }
     }
 }

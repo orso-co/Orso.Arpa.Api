@@ -15,7 +15,7 @@ namespace Orso.Arpa.Mail.Tests
         {
         }
 
-        private TemplateParser CreateTemplateParser()
+        private static TemplateParser CreateTemplateParser()
         {
             return new TemplateParser();
         }
