@@ -211,8 +211,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Delete(Guid id) => $"{Appointments}/{id}";
 
-            public static string SetParticipationResult(Guid id, Guid personId, Guid resultId) =>
-                $"{Appointments}/{id}/participations/{personId}/result/{resultId}";
+            public static string SetParticipationResult(Guid id, Guid personId, Guid predictionId) =>
+                $"{Appointments}/{id}/participations/{personId}/result/{predictionId}";
+
+            public static string SetParticipationPrediction(Guid id, Guid personId, Guid predictionId) =>
+                $"{Appointments}/{id}/participations/{personId}/prediction/{predictionId}";
         }
 
         public static class AuditLogsController

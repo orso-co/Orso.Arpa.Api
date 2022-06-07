@@ -133,5 +133,11 @@ namespace Orso.Arpa.Application.Services
             AppointmentParticipations.SetResult.Command command = _mapper.Map<AppointmentParticipations.SetResult.Command>(setParticipationResult);
             await _mediator.Send(command);
         }
+
+        public async Task SetParticipationPredictionAsync(AppointmentParticipationSetPredictionDto setParticipationPrediction)
+        {
+            AppointmentParticipations.SetPrediction.Command command = _mapper.Map<AppointmentParticipations.SetPrediction.Command>(setParticipationPrediction);
+            await _mediator.Send(command);
+        }
     }
 }

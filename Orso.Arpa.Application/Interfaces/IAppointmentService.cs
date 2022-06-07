@@ -36,5 +36,6 @@ namespace Orso.Arpa.Application.Interfaces
         Task DeleteAsync(Guid id);
 
         Task SetParticipationResultAsync(AppointmentParticipationSetResultDto setParticipationResult);
+        Task SetParticipationPredictionAsync(AppointmentParticipationSetPredictionDto setParticipationPrediction);
     }
 }

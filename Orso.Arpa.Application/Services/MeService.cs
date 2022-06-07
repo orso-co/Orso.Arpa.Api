@@ -56,10 +56,10 @@ namespace Orso.Arpa.Application.Services
             IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
             Person currentPerson = await _userAccessor.GetCurrentPersonAsync();
 
-            (IList<Appointment> userAppointments, int totalCount) appointmentTuple = await _mediator.Send(
+            (IList<Appointment> userAppointments, int totalCount) = await _mediator.Send(
                 new AppointmentList.Query(limit, offset, passed, flattenedTree, currentPerson));
 
-            IList<MyAppointmentDto> myAppointmentDtos = _mapper.Map<IList<MyAppointmentDto>>(appointmentTuple.userAppointments);
+            IList<MyAppointmentDto> myAppointmentDtos = _mapper.Map<IList<MyAppointmentDto>>(userAppointments);
 
             foreach (MyAppointmentDto dto in myAppointmentDtos)
             {
@@ -67,14 +67,14 @@ namespace Orso.Arpa.Application.Services
                     dto.Id, currentPerson.Id));
                 if (participation != null)
                 {
-                    dto.Result = participation.Result != null ? participation.Result.SelectValue.Name : null;
+                    dto.Result = participation.Result?.SelectValue.Name;
                     dto.PredictionId = participation.PredictionId;
                 }
             }
 
             return new MyAppointmentListDto
             {
-                TotalRecordsCount = appointmentTuple.totalCount,
+                TotalRecordsCount = totalCount,
                 UserAppointments = myAppointmentDtos
             };
         }

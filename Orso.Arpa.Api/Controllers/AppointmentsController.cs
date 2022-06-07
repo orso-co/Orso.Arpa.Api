@@ -265,5 +265,23 @@ namespace Orso.Arpa.Api.Controllers
             await _appointmentService.SetParticipationResultAsync(setParticipationResult);
             return NoContent();
         }
+
+        /// <summary>
+        /// Sets the prediction of an appointment participation
+        /// </summary>
+        /// <param name="setParticipationPrediction"></param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPut("{id}/participations/{personId}/prediction/{predictionId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> SetParticipationPrediction([FromRoute] AppointmentParticipationSetPredictionDto setParticipationPrediction)
+        {
+            await _appointmentService.SetParticipationPredictionAsync(setParticipationPrediction);
+            return NoContent();
+        }
     }
 }
