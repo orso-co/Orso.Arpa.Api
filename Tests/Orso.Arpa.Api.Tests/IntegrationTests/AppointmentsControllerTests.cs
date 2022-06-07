@@ -295,7 +295,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(108)]
+        [Test, Order(109)]
         public async Task Should_Not_Modify_If_Not_Existing_Id_Is_Supplied()
         {
             // Arrange
@@ -438,6 +438,22 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test, Order(118)]
+        public async Task Should_Set_Participation_Prediction()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationPrediction(
+                    AppointmentSeedData.PhotoSession.Id,
+                    PersonSeedData.AdminPersonId,
+                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id), null);
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(10004)]
