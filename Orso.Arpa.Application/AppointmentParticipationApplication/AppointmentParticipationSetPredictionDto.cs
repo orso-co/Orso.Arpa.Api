@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Application.Extensions;
 using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetPrediction;
 
 namespace Orso.Arpa.Application.AppointmentParticipationApplication
@@ -10,6 +11,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
         public Guid Id { get; set; }
         public Guid PersonId { get; set; }
         public Guid PredictionId { get; set; }
+        public string CommentByPerformerInner { get; set; }
     }
 
     public class AppointmentParticipationSetPredictionDtoValidator : AbstractValidator<AppointmentParticipationSetPredictionDto>
@@ -24,6 +26,8 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
                 .NotEmpty();
             RuleFor(d => d.PredictionId)
                 .NotEmpty();
+            RuleFor(d => d.CommentByPerformerInner)
+                .RestrictedFreeText(500);
         }
     }
 

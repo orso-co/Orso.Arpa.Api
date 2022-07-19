@@ -31,6 +31,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .WithMany()
                 .HasForeignKey(e => e.PredictionId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .Property(e => e.CommentByPerformerInner)
+                .HasMaxLength(500);
         }
     }
 }

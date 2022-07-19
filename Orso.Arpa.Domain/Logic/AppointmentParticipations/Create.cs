@@ -12,6 +12,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
             public Guid PersonId { get; set; }
             public Guid? PredictionId { get; set; }
             public Guid? ResultId { get; set; }
+            public string CommentByPerformerInner { get; set; }
         }
     }
 }
