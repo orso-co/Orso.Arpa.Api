@@ -25,6 +25,7 @@ namespace Orso.Arpa.Application.MeApplication
         public Guid? PredictionId { get; set; }
         public SelectValueDto Category { get; set; }
         public SelectValueDto Status { get; set; }
+        public string CommentByPerformerInner { get; set;  }
     }
 
     public class MyAppointmentDtoMappingProfile : Profile

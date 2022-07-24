@@ -79,7 +79,7 @@ namespace Orso.Arpa.Application.Services
             };
         }
 
-        public async Task SetMyAppointmentParticipationPredictionAsync(SetMyProjectAppointmentPredictionDto setParticipationPredictionDto)
+        public async Task SetMyAppointmentParticipationPredictionAsync(SetMyAppointmentParticipationPredictionDto setParticipationPredictionDto)
         {
             Domain.Logic.AppointmentParticipations.SetPrediction.Command command = _mapper
                 .Map<Domain.Logic.AppointmentParticipations.SetPrediction.Command>(setParticipationPredictionDto);

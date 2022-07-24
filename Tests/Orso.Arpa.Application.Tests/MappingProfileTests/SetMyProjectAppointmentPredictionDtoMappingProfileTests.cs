@@ -24,17 +24,28 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            var dto = new SetMyProjectAppointmentPredictionDto
+            var dto = new SetMyAppointmentParticipationPredictionDto
             {
                 Id = Guid.NewGuid(),
-                PredictionId = Guid.NewGuid()
+                PredictionId = Guid.NewGuid(),
+                Body = new SetMyAppointmentParticipationPredictionBodyDto
+                {
+                    CommentByPerformerInner = "CommentByPerformerInner"
+                }
+            };
+            var expectedCommand = new AppointmentParticipations.SetPrediction.Command
+            {
+                CommentByPerformerInner = dto.Body.CommentByPerformerInner,
+                Id = dto.Id,
+                PersonId = Guid.Empty,
+                PredictionId = dto.PredictionId,
             };
 
             // Act
             AppointmentParticipations.SetPrediction.Command command = _mapper.Map<AppointmentParticipations.SetPrediction.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }
