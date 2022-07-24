@@ -29,7 +29,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     AppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id,
                     PersonId = PersonTestSeedData.Performer.Id,
                     PredictionId = SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id,
-                    ResultId = null
+                    ResultId = null,
+                    CommentByPerformerInner = "Werde wahrscheinlich etwas früher gehen müssen."
                 });
             }
         }
