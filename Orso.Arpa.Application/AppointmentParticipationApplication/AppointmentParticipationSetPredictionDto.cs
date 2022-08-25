@@ -49,6 +49,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
         {
             CreateMap<AppointmentParticipationSetPredictionDto, Command>()
                 .ForMember(dest => dest.CommentByPerformerInner, opt => opt.MapFrom(src => src.Body.CommentByPerformerInner));
+
         }
     }
 }
