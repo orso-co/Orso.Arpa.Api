@@ -278,7 +278,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> SetParticipationPrediction([FromRoute] AppointmentParticipationSetPredictionDto setParticipationPrediction)
+        public async Task<ActionResult> SetParticipationPrediction(AppointmentParticipationSetPredictionDto setParticipationPrediction)
         {
             await _appointmentService.SetParticipationPredictionAsync(setParticipationPrediction);
             return NoContent();

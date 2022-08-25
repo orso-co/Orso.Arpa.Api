@@ -35,7 +35,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 ModifiedAt = null,
                 ModifiedBy = appointment.ModifiedBy,
                 PredictionId = appointment.PredictionId,
-                ResultId = appointment.ResultId
+                ResultId = appointment.ResultId,
+                CommentByPerformerInner = appointment.CommentByPerformerInner,
             };
         }
     }

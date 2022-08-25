@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task<MyUserProfileDto> GetMyUserProfileAsync();
         Task ModifyMyUserProfileAsync(MyUserProfileModifyDto modifyDto);
         Task<SendQRCode.QrCodeFile> GetMyQrCodeAsync(bool sendEmail);
-        Task SetMyAppointmentParticipationPredictionAsync(SetMyProjectAppointmentPredictionDto setParticipationPredictionDto);
+        Task SetMyAppointmentParticipationPredictionAsync(SetMyAppointmentParticipationPredictionDto setParticipationPredictionDto);
         Task<MyMusicianProfileDto> CreateMusicianProfileAsync(MyMusicianProfileCreateDto musicianProfileCreateDto);
         Task<MyMusicianProfileDto> GetMyMusicianProfileAsync(Guid id);
         Task<IEnumerable<MyMusicianProfileDto>> GetMyMusicianProfilesAsync(bool includeDeactivated);

@@ -443,6 +443,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(118)]
         public async Task Should_Set_Participation_Prediction()
         {
+            // Arrange
+            var dto = new AppointmentParticipationSetPredictionBodyDto
+            {
+                CommentByPerformerInner = "CommentByPerformerInner"
+            };
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
@@ -450,7 +456,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationPrediction(
                     AppointmentSeedData.PhotoSession.Id,
                     PersonSeedData.AdminPersonId,
-                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id), null);
+                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id),
+                    BuildStringContent(dto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

@@ -9,6 +9,8 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public Guid? ResultId { get; set; }
         public Guid? PredictionId { get; set; }
+
+        public string CommentByPerformerInner { get; set; }
     }
 
     public class AppointmentParticipationDtoMappingProfile : Profile

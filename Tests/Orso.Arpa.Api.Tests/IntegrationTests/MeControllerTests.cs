@@ -177,13 +177,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1000)]
         public async Task Should_Set_Appointment_Participation_Prediction()
         {
+            // Arrange
+            var dto = new SetMyAppointmentParticipationPredictionBodyDto
+            {
+                CommentByPerformerInner = "CommentByPerformerInner"
+            };
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
-                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id), null);
+                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id),
+                    BuildStringContent(dto));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
