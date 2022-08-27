@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using HotChocolate.Execution.Configuration;
 using HotChocolate.Types;
@@ -96,11 +97,6 @@ namespace Orso.Arpa.Api
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 })
                 .AddApplicationPart(typeof(Startup).Assembly)
-                .AddFluentValidation(config =>
-                {
-                    config.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
-                    config.RegisterValidatorsFromAssemblyContaining<Validator>();
-                })
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.InvalidModelStateResponseFactory = context =>
@@ -113,6 +109,8 @@ namespace Orso.Arpa.Api
                         return result;
                     };
                 });
+
+            ConfigureValidation(services);
 
             ConfigureSwagger(services);
 
@@ -169,6 +167,15 @@ namespace Orso.Arpa.Api
                 options.FallBackToParentCultures = localizationConfiguration.FallbackToParentCulture;
                 options.FallBackToParentUICultures = localizationConfiguration.FallbackToParentCulture;
             });
+        }
+
+        private static void ConfigureValidation(IServiceCollection services)
+        {
+            services
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters()
+                .AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
+                .AddValidatorsFromAssemblyContaining<Validator>();
         }
 
         private static void ConfigureAuthorization(IServiceCollection services)

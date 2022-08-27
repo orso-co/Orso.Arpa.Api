@@ -39,7 +39,6 @@ namespace Orso.Arpa.Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
         }
     }
 }
