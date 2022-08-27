@@ -214,7 +214,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue Optional => new(Guid.Parse("9c0295b7-1b16-4fd6-a7de-ecd724c823b3"), "Optional", string.Empty);
 
-
         /// <summary>
         /// Geplant
         /// </summary>
@@ -230,8 +229,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue AwaitingPoll => new(Guid.Parse("5e3edcf4-863b-433b-ae72-b6bb7e4dfc95"), "Awaiting Poll", string.Empty);
 
-
-
         // TERMINTYPUS (PROBEN)
 
         /// <summary>
@@ -244,12 +241,10 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue SectionalRehearsal => new(Guid.Parse("4418bfea-0e79-4f76-9e20-527644f654e0"), "Sectional Rehearsal", string.Empty);
 
-
         /// <summary>
         /// Probewochenende allgemein
         /// </summary>
         public static SelectValue RehearsalWeekend => new(Guid.Parse("63a6b9a9-30a8-4cdb-983b-336b587069cb"), "Rehearsal Weekend", string.Empty);
-
 
         /// <summary>
         /// Probewochenende Chor
@@ -266,7 +261,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue ChoreographyRehearsal => new(Guid.Parse("8f64e072-6523-4158-b92e-5c38c8ebca59"), "Choreography Rehearsal", string.Empty);
 
-
         /// <summary>
         /// Soundcheck
         /// </summary>
@@ -277,18 +271,15 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue WarmUpRehearsal => new(Guid.Parse("3f89bf0b-f17d-4439-b64f-ae7eee660ac4"), "Warm-Up Rehearsal", string.Empty);
 
-
         /// <summary>
         /// Konzert
         /// </summary>
         public static SelectValue Concert => new(Guid.Parse("71779748-6d3c-496a-9842-8dc508de6676"), "Concert", string.Empty);
 
-
         /// <summary>
         /// Konzertreise (Tour)
         /// </summary>
         public static SelectValue ConcertTour => new(Guid.Parse("7f6b69f3-4fe8-4b0c-a586-38a661c60af5"), "Concert Tour", string.Empty);
-
 
         /// <summary>
         /// Sonderprojekt
@@ -305,7 +296,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue Contest => new(Guid.Parse("95de5380-4027-4b73-b4db-3697aba5ba38"), "Contest", string.Empty);
 
-
         /// <summary>
         /// Besprechung
         /// </summary>
@@ -316,12 +306,10 @@ namespace Orso.Arpa.Persistence.Seed
         /// </summary>
         public static SelectValue StageBriefing => new(Guid.Parse("61dd102e-d449-40e1-8c6b-4ead99403ac1"), "Stage Briefing", string.Empty);
 
-
         /// <summary>
         /// Fototermin
         /// </summary>
         public static SelectValue PhotoSession => new(Guid.Parse("404f1bfd-2819-47c2-a78b-f3dbd4bc8953"), "Photo Session", string.Empty);
-
 
         /// <summary>
         /// Kurs
@@ -332,7 +320,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// Party
         /// </summary>
         public static SelectValue Party => new(Guid.Parse("79de43be-57cc-484f-bff2-57f3ba78dbe9"), "Photo Session", string.Empty);
-
 
         /// <summary>
         /// Show
@@ -348,8 +335,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// Siehe Kommentar
         /// </summary>
         public static SelectValue SeeComment => new(Guid.Parse("dfe6e73e-9a15-4094-80a5-151a64f3b4db"), "See Comment", string.Empty);
-
-
 
         /// <summary>
         /// Transfer
@@ -423,7 +408,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// Arbeit
         /// </summary>
         public static SelectValue Business => new(Guid.Parse("db1d2c88-a7b3-41c3-a17f-4fd7fe9faca5"), "Business", string.Empty);
-
 
         // QUALIFIKATION
         public static SelectValue Amateur => new(Guid.Parse("3f93768e-ac24-4741-9eb8-49d1e8e4a6e1"), "Amateur", string.Empty);

@@ -164,7 +164,6 @@ namespace Orso.Arpa.Persistence.Seed
             Volunteers,
             Suppliers,
             Contractors,
-
         };
 
         // PERFORMERS
@@ -273,7 +272,6 @@ namespace Orso.Arpa.Persistence.Seed
         public static Section Bagpipes => new(Guid.Parse("0031e6f5-2d51-4e88-9e82-7bd2c8340cac"), "Bagpipes", Others.Id, true);
         public static Section Didgeridoo => new(Guid.Parse("8903B8C5-0EF8-48FD-9C2B-71FBAE827965"), "Didgeridoo", Others.Id, true);
 
-
         // STRINGS
         public static Section Strings => new(Guid.Parse("1bde9862-3ed5-45cd-8d80-0a52c6b4c0fb"), "Strings", Orchestra.Id, false);
         public static Section HighStrings => new(Guid.Parse("7cef5e36-fe7f-4acb-b17a-24feeac8d5f8"), "High Strings", Strings.Id, false);
@@ -292,8 +290,6 @@ namespace Orso.Arpa.Persistence.Seed
 
         // SOLOISTS
         public static Section Soloists => new(Guid.Parse("e0fdb057-c9b7-4477-be75-cbf920a26af6"), "Soloists", Performers.Id, false);
-
-
 
         // MEMBERS
         public static Section Members => new(Guid.Parse("067647c0-3f25-449e-9212-03f39fa88f0f"), "Members", null, false);

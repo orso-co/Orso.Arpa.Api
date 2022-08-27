@@ -45,7 +45,6 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(e => e.CommentByStaffInner)
                 .HasMaxLength(500);
-
         }
     }
 }
