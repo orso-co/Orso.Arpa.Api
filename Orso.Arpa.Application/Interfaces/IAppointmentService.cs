@@ -11,7 +11,7 @@ namespace Orso.Arpa.Application.Interfaces
     {
         Task<IEnumerable<AppointmentListDto>> GetAsync(DateTime? date, DateRange range);
 
-        Task<AppointmentDto> GetByIdAsync(Guid id);
+        Task<AppointmentDto> GetByIdAsync(Guid id, bool includeParticipations);
 
         Task<AppointmentDto> CreateAsync(AppointmentCreateDto appointmentCreateDto);
 
@@ -21,13 +21,13 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task AddRoomAsync(AppointmentAddRoomDto addRoomDto);
 
-        Task<AppointmentDto> AddProjectAsync(AppointmentAddProjectDto addProjectDto);
+        Task<AppointmentDto> AddProjectAsync(AppointmentAddProjectDto addProjectDto, bool includeParticipations);
 
-        Task<AppointmentDto> AddSectionAsync(AppointmentAddSectionDto addSectionDto);
+        Task<AppointmentDto> AddSectionAsync(AppointmentAddSectionDto addSectionDto, bool includeParticipations);
 
-        Task<AppointmentDto> RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto);
+        Task<AppointmentDto> RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto, bool includeParticipations);
 
-        Task<AppointmentDto> RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto);
+        Task<AppointmentDto> RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto, bool includeParticipations);
 
         Task SetVenueAsync(AppointmentSetVenueDto setVenueDto);
 
