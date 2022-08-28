@@ -197,6 +197,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Put(Guid id) => $"{Appointments}/{id}";
 
+            public static string Get(Guid id, bool includeParticipations) => $"{Appointments}/{id}?includeParticipations={includeParticipations}";
+
             public static string Get(Guid id) => $"{Appointments}/{id}";
 
             public static string Room(Guid id, Guid roomId) => $"{Appointments}/{id}/rooms/{roomId}";

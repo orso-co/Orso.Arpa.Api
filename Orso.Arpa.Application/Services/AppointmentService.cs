@@ -29,18 +29,18 @@ namespace Orso.Arpa.Application.Services
         {
         }
 
-        public async Task<AppointmentDto> AddProjectAsync(AppointmentAddProjectDto addProjectDto)
+        public async Task<AppointmentDto> AddProjectAsync(AppointmentAddProjectDto addProjectDto, bool includeParticipations)
         {
             AddProject.Command command = _mapper.Map<AddProject.Command>(addProjectDto);
             await _mediator.Send(command);
-            return await GetByIdAsync(addProjectDto.Id);
+            return await GetByIdAsync(addProjectDto.Id, includeParticipations);
         }
 
-        public async Task<AppointmentDto> AddSectionAsync(AppointmentAddSectionDto addSectionDto)
+        public async Task<AppointmentDto> AddSectionAsync(AppointmentAddSectionDto addSectionDto, bool includeParticipations)
         {
             AddSection.Command command = _mapper.Map<AddSection.Command>(addSectionDto);
             await _mediator.Send(command);
-            return await GetByIdAsync(addSectionDto.Id);
+            return await GetByIdAsync(addSectionDto.Id, includeParticipations);
         }
 
         public async Task AddRoomAsync(AppointmentAddRoomDto addRoomDto)
@@ -65,13 +65,16 @@ namespace Orso.Arpa.Application.Services
             return _mapper.ProjectTo<AppointmentListDto>(entities).ToList();
         }
 
-        public override async Task<AppointmentDto> GetByIdAsync(Guid id)
+        public async Task<AppointmentDto> GetByIdAsync(Guid id, bool includeParticipations)
         {
             Appointment appointment = await _mediator.Send(new Details.Query<Appointment>(id));
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
-            var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
-            IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
-            await AddParticipationsAsync(dto, appointment, flattenedTree);
+            if (includeParticipations)
+            {
+                var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
+                IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
+                await AddParticipationsAsync(dto, appointment, flattenedTree);
+            }
             return dto;
         }
 
@@ -91,18 +94,18 @@ namespace Orso.Arpa.Application.Services
             dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(personGrouping);
         }
 
-        public async Task<AppointmentDto> RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto)
+        public async Task<AppointmentDto> RemoveProjectAsync(AppointmentRemoveProjectDto removeProjectDto, bool includeParticipations)
         {
             RemoveProject.Command command = _mapper.Map<RemoveProject.Command>(removeProjectDto);
             await _mediator.Send(command);
-            return await GetByIdAsync(removeProjectDto.Id);
+            return await GetByIdAsync(removeProjectDto.Id, includeParticipations);
         }
 
-        public async Task<AppointmentDto> RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto)
+        public async Task<AppointmentDto> RemoveSectionAsync(AppointmentRemoveSectionDto removeSectionDto, bool includeParticipations)
         {
             RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(removeSectionDto);
             await _mediator.Send(command);
-            return await GetByIdAsync(removeSectionDto.Id);
+            return await GetByIdAsync(removeSectionDto.Id, includeParticipations);
         }
 
         public async Task RemoveRoomAsync(AppointmentRemoveRoomDto removeRoomDto)

@@ -82,18 +82,35 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
         [Test, Order(2)]
         [TestCaseSource(nameof(s_appointmentByIdQueryTestData))]
-        public async Task Should_Get_By_Id(AppointmentDto expectedDto)
+        public async Task Should_Get_By_Id_With_Participations(AppointmentDto expectedDto)
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(FakeUsers.Staff)
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id));
+                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id, true));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test, Order(3)]
+        [TestCaseSource(nameof(s_appointmentByIdQueryTestData))]
+        public async Task Should_Get_By_Id_Without_Participations(AppointmentDto expectedDto)
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(FakeUsers.Staff)
+                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id, false));
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
+            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Participations));
+            result.Participations.Should().BeEmpty();
         }
 
         [Test, Order(1000)]
