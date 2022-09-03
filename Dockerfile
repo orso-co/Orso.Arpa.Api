@@ -43,7 +43,7 @@ WORKDIR /home/app
 
 RUN dotnet publish ./Orso.Arpa.Api/Orso.Arpa.Api.csproj -o /publish/
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine
 
 WORKDIR /publish
 
