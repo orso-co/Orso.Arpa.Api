@@ -1,0 +1,83 @@
+<heml>
+  <head>
+    <subject>Geänderte Projektteilnahme</subject>
+    <preview>{{MusicianName}} hat Projektteilnahme für {{Projekt}} geändert. Neuer Anmeldestatus: {{ParticipationStatus}}</preview>
+    <style>
+      body {
+        background: #121212;
+        color: rgba(255, 255, 255, 0.87);
+        font-size: 14px;
+      }
+
+      container {
+        background: #1e1e1e;
+            max-width: 700px;
+        margin: 10px auto;
+        padding: 10px 20px;
+      }
+
+      button {
+        background: #43a5f4;
+        padding: 7px 14px;
+        color: #212529;
+        margin: auto;
+      }
+
+      a {
+        color: rgba(255, 255, 255, 0.87);
+      }
+
+      column {
+        padding: 0 10px;
+      }
+
+      h6 {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <container>
+      <row>
+        <column>
+          <img src="{{ArpaLogo}}" alt="arpa image" width="100" />
+        </column>
+        <column>
+          <h1>Arpa 2.0</h1>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <h2>Änderung einer Projektteilnahme</h2>
+        </column>
+      </row>
+      <row>
+        <column small="5" large="3">
+          <p>Projekt:</p>
+          <p>Musiker:</p>
+          <p>Anmeldestatus:</p>
+          <p>Kommentar:</p>
+        </column>
+        <column small="7" large="9">
+          <p>{{Projekt}}</p>
+          <p>{{Musician}}</p>
+          <p>{{ParticipationStatus}}</p>
+          <p><strong>{{Comment}}</strong></p>
+        </column>
+      </row>
+      <hr/>
+      <row>
+        <column small="5" large="3">
+          <p><small>Teilnahmestatus KBB:</small></p>
+          <p><small>Kommentar KBB:</small></p>
+        </column>
+        <column small="7" large="9">
+          <p><small>{{ParticipationStatusInternal}}</small></p>
+          <p><small>{{CommentByStaff}}</small></p>
+        </column>
+      </row>
+    </container>
+  </body>
+</heml>

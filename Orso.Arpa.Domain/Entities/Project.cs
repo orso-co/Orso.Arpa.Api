@@ -62,5 +62,10 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
+
+        public override string ToString()
+        {
+            return $"{Code} - {Title}";
+        }
     }
 }

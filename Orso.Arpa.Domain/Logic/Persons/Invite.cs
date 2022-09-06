@@ -101,7 +101,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
                         DisplayName = item.Key,
                         ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
                         ClubAddress = _clubConfiguration.Address,
-                        ClubMail = _clubConfiguration.Email,
+                        ClubMail = _clubConfiguration.ContactEmail,
                         ClubName = _clubConfiguration.Name,
                         ClubPhoneNumber = _clubConfiguration.Phone
                     };
