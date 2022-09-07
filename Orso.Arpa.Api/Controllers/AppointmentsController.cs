@@ -40,6 +40,7 @@ namespace Orso.Arpa.Api.Controllers
         /// Gets an appointment by id
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="includeParticipations">Default: true. If true, request will be very slow!</param>
         /// <returns>The queried appointment</returns>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
@@ -47,9 +48,9 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AppointmentDto>> GetById([FromRoute] Guid id)
+        public async Task<ActionResult<AppointmentDto>> GetById([FromRoute] Guid id, [FromQuery] bool includeParticipations = true)
         {
-            return Ok(await _appointmentService.GetByIdAsync(id));
+            return Ok(await _appointmentService.GetByIdAsync(id, includeParticipations));
         }
 
         /// <summary>
@@ -93,6 +94,7 @@ namespace Orso.Arpa.Api.Controllers
         /// Adds a project to an existing appointment
         /// </summary>
         /// <param name="addProjectDto"></param>
+        /// <param name="includeParticipations"></param>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
@@ -101,15 +103,16 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto)
+        public async Task<ActionResult<AppointmentDto>> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto, [FromQuery] bool includeParticipations = true)
         {
-            return await _appointmentService.AddProjectAsync(addProjectDto);
+            return await _appointmentService.AddProjectAsync(addProjectDto, includeParticipations);
         }
 
         /// <summary>
         /// Adds a section to an existing appointment
         /// </summary>
         /// <param name="addSectionDto"></param>
+        /// <param name="includeParticipations"></param>
         /// <response code="200"></response>
         /// <response code="400">If domain validation fails</response>
         /// <response code="404">If entity could not be found</response>
@@ -119,9 +122,9 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto)
+        public async Task<ActionResult<AppointmentDto>> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto, [FromQuery] bool includeParticipations = true)
         {
-            return await _appointmentService.AddSectionAsync(addSectionDto);
+            return await _appointmentService.AddSectionAsync(addSectionDto, includeParticipations);
         }
 
         /// <summary>
@@ -183,6 +186,7 @@ namespace Orso.Arpa.Api.Controllers
         /// Removes section from existing appointment
         /// </summary>
         /// <param name="removeSectionDto"></param>
+        /// <param name="includeParticipations"></param>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
@@ -191,15 +195,16 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> RemoveSection([FromRoute] AppointmentRemoveSectionDto removeSectionDto)
+        public async Task<ActionResult<AppointmentDto>> RemoveSection([FromRoute] AppointmentRemoveSectionDto removeSectionDto, [FromQuery] bool includeParticipations = true)
         {
-            return await _appointmentService.RemoveSectionAsync(removeSectionDto);
+            return await _appointmentService.RemoveSectionAsync(removeSectionDto, includeParticipations);
         }
 
         /// <summary>
         /// Removes project from existing appointment
         /// </summary>
         /// <param name="removeProjectDto"></param>
+        /// <param name="includeParticipations"></param>
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
@@ -208,9 +213,9 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> RemoveProject([FromRoute] AppointmentRemoveProjectDto removeProjectDto)
+        public async Task<ActionResult<AppointmentDto>> RemoveProject([FromRoute] AppointmentRemoveProjectDto removeProjectDto, [FromQuery] bool includeParticipations = true)
         {
-            return await _appointmentService.RemoveProjectAsync(removeProjectDto);
+            return await _appointmentService.RemoveProjectAsync(removeProjectDto, includeParticipations);
         }
 
         /// <summary>

@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate.AspNetCore" Version="12.12.1" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.12.1" />
-    <PackageReference Include="HotChocolate.Data" Version="12.12.1" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="12.13.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.13.0" />
+    <PackageReference Include="HotChocolate.Data" Version="12.13.0" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
@@ -31,8 +31,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
-    <PackageReference Include="NLog" Version="5.0.2" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.1" />
+    <PackageReference Include="NLog" Version="5.0.4" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.4" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>

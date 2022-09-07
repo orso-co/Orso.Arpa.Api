@@ -21,6 +21,9 @@
     <None Update="Templates\Html\Password_Changed.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\Html\Project_Participation_Changed.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\Html\QR_Code.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -77,7 +77,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     ArpaLogo = $"{_jwtConfiguration.Audience}/assets/common/logos/arpa_logo.png",
                     ClientUri = uri,
                     ClubAddress = _clubConfiguration.Address,
-                    ClubMail = _clubConfiguration.Email,
+                    ClubMail = _clubConfiguration.ContactEmail,
                     ClubName = _clubConfiguration.Name,
                     ClubPhoneNumber = _clubConfiguration.Phone
                 };
