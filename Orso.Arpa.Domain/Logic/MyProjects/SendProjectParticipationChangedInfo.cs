@@ -41,8 +41,8 @@ namespace Orso.Arpa.Domain.Logic.MyProjects
             {
                 var template = new ProjectParticipationChangedTemplate
                 {
-                    CommentByStaff = request.ProjectParticipation.CommentByStaffInner,
-                    Comment = request.ProjectParticipation.CommentByPerformerInner,
+                    CommentByStaff = request.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
+                    Comment = request.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
                     MusicianName = request.ProjectParticipation.MusicianProfile.Person.DisplayName,
                     ParticipationStatus = request.ProjectParticipation.ParticipationStatusInner.SelectValue.Name,
                     ParticipationStatusInternal = request.ProjectParticipation.ParticipationStatusInternal.SelectValue.Name,

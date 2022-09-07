@@ -1,7 +1,7 @@
 <heml>
   <head>
-    <subject>Geänderte Projektteilnahme</subject>
-    <preview>{{MusicianName}} hat Projektteilnahme für {{Projekt}} geändert. Neuer Anmeldestatus: {{ParticipationStatus}}</preview>
+    <subject>Geänderte Projektteilnahme {{MusicianName}} für {{ProjectName}}</subject>
+    <preview>{{MusicianName}} hat Projektteilnahme für {{ProjectName}} geändert. Neuer Anmeldestatus: {{ParticipationStatus}}</preview>
     <style>
       body {
         background: #121212;
@@ -61,8 +61,8 @@
           <p>Kommentar:</p>
         </column>
         <column small="7" large="9">
-          <p>{{Projekt}}</p>
-          <p>{{Musician}}</p>
+          <p>{{ProjectName}}</p>
+          <p>{{MusicianName}}</p>
           <p>{{ParticipationStatus}}</p>
           <p><strong>{{Comment}}</strong></p>
         </column>
