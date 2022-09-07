@@ -32,9 +32,9 @@ public static class SetProjectParticipationStatus
                 .WithMessage(
                     "The project is completed. You may not set the participation of a completed project")
                 .MustAsync(async (command, projectId, cancellation) =>
-                    (await arpaContext.EntityExistsAsync<ProjectParticipation>(
+                    await arpaContext.EntityExistsAsync<ProjectParticipation>(
                         pp => pp.ProjectId == projectId &&
-                              pp.MusicianProfileId == command.MusicianProfileId, cancellation)))
+                              pp.MusicianProfileId == command.MusicianProfileId, cancellation))
                 .WithErrorCode("404")
                 .WithMessage("Project Participation could not be found.");
 
@@ -44,9 +44,9 @@ public static class SetProjectParticipationStatus
             RuleFor(c => c.MusicianProfileId)
                 .Cascade(CascadeMode.Stop)
                 .MustAsync(async (musicianProfileId, cancellation) =>
-                    (await arpaContext.EntityExistsAsync<MusicianProfile>(
+                    await arpaContext.EntityExistsAsync<MusicianProfile>(
                         d => d.Id == musicianProfileId && d.PersonId == tokenAccessor.PersonId,
-                        cancellation)))
+                        cancellation))
                 .WithErrorCode("404")
                 .WithMessage("Musician Profile could not be found.")
                 .MustAsync(async (musicianProfileId, cancellation) =>
