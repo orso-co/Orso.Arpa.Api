@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;
+using AspNetCoreRateLimit;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using HotChocolate.Execution.Configuration;
@@ -119,6 +120,17 @@ namespace Orso.Arpa.Api
             ConfigureAuthorization(services);
 
             ConfigureGraphQL(services);
+
+            ConfigureIpRateLimiting(services);
+        }
+
+        private void ConfigureIpRateLimiting(IServiceCollection services)
+        {
+            services.AddMemoryCache();
+            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimiting"));
+            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+            services.AddInMemoryRateLimiting();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
         }
 
         public static IRequestExecutorBuilder RequestExecutorBuilder { get; private set; }
@@ -415,6 +427,8 @@ namespace Orso.Arpa.Api
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseIpRateLimiting();
+
             app.UseRequestLocalization();
 
             app.UseErrorResponseLocalizationMiddleware();
