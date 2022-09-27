@@ -127,7 +127,7 @@ namespace Orso.Arpa.Api
         private void ConfigureIpRateLimiting(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimiting"));
+            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
             services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
             services.AddInMemoryRateLimiting();
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();

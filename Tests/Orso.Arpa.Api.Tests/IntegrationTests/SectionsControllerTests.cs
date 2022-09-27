@@ -120,5 +120,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             IEnumerable<SelectValueDto> result = await DeserializeResponseMessageAsync<IEnumerable<SelectValueDto>>(responseMessage);
             result.Should().BeEquivalentTo(expectedResult);
         }
+
+        [Test, Order(5)]
+        public async Task Should_Return_Too_Many_Requests()
+        {
+            HttpClient client = _unAuthenticatedServer.CreateClient();
+            HttpResponseMessage responseMessage = null;
+
+            // Act
+            for (int i = 0; i < 2; i++)
+            {
+                responseMessage = await client
+                    .GetAsync(ApiEndpoints.SectionsController.GetTree(2));
+            }
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.TooManyRequests);
+            var responseString = await responseMessage.Content.ReadAsStringAsync();
+            responseString.Should().Be("API calls quota exceeded! maximum admitted 1 per 1s.");
+        }
     }
 }
