@@ -92,7 +92,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                         Person existingPerson = existingPersons[0];
                         if (!(existingPerson.GivenName.Equals(request.GivenName) && existingPerson.Surname.Equals(request.Surname)))
                         {
-                            throw new AuthorizationException("You are not allowed to register with this e-mail address");
+                            throw new AuthorizationException("You are not allowed to register with this combination of email address and name.");
                         }
                         person = existingPerson;
                         person.Update(request);
