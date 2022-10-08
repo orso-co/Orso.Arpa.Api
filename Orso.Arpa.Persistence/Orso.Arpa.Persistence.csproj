@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="EFCore.NamingConventions" Version="6.0.0" />
-    <PackageReference Include="HotChocolate.Types" Version="12.14.0" />
+    <PackageReference Include="HotChocolate.Types" Version="12.15.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.9" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.7" />
