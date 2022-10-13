@@ -43,7 +43,6 @@ namespace Orso.Arpa.Application.PersonApplication
                 .PersonName(50);
 
             RuleFor(c => c.AboutMe)
-                .NotEmpty()
                 .RestrictedFreeText(1000);
 
             RuleFor(c => c.GenderId)
