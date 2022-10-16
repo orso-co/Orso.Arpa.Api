@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
+using NLog;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Orso.Arpa.Api
 {
@@ -10,7 +12,7 @@ namespace Orso.Arpa.Api
     {
         public static void Main(string[] args)
         {
-            NLog.Logger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            Logger logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
             try
             {
                 logger.Debug("init main");
@@ -23,7 +25,7 @@ namespace Orso.Arpa.Api
             }
             finally
             {
-                NLog.LogManager.Shutdown();
+                LogManager.Shutdown();
             }
         }
 
