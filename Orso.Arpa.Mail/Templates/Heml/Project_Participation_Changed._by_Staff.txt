@@ -1,0 +1,79 @@
+<heml>
+  <head>
+    <subject>Dein Teilnahmestatus für {{ProjectName}} wurde aktualisiert!</subject>
+    <preview>Dein neuer Status für {{ProjectName}} lautet: {{ParticipationStatus}}</preview>
+    <style>
+      body {
+        background: #121212;
+        color: rgba(255, 255, 255, 0.87);
+        font-size: 14px;
+      }
+
+      container {
+        background: #1e1e1e;
+            max-width: 700px;
+        margin: 10px auto;
+        padding: 10px 20px;
+      }
+
+      button {
+        background: #43a5f4;
+        padding: 7px 14px;
+        color: #212529;
+        margin: auto;
+      }
+
+      a {
+        color: rgba(255, 255, 255, 0.87);
+      }
+
+      column {
+        padding: 0 10px;
+      }
+
+      h6 {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <container>
+      <row>
+        <column>
+          <img src="{{ArpaLogo}}" alt="arpa image" width="100" />
+        </column>
+        <column>
+          <h1>Arpa 2.0</h1>
+        </column>
+      </row>
+    </container>
+    <container>
+      <row>
+        <column>
+          <h2>Hallo {{MusicianName}}, dein Teilnahmestatus wurde aktualisiert!</h2>
+          <h3>Dein neuer Status für {{ProjectName}} lautet: {{ParticipationStatus}}</h3>
+        </column>
+      </row>
+      <row>
+        <column small="5" large="3">
+          <p>Kommentar KBB:</p>
+        </column>
+        <column small="7" large="9">
+          <p>{{CommentByStaff}}</p>
+        </column>
+      </row>
+            <hr/>
+      <row>
+        <column small="5" large="3">
+          <p>Dein angegebener Status:</p>
+          <p>Dein Kommentar:</p>
+        </column>
+        <column small="7" large="9">
+          <p>{{ParticipationStatus}}</p>
+          <p>{{Comment}}</p>
+        </column>
+      </row>
+
+    </container>
+  </body>
+</heml>

@@ -51,7 +51,7 @@ namespace Orso.Arpa.Application.Services
 
             ProjectParticipation projectParticipation = await _mediator.Send(command);
 
-            var mailCommand = new SendProjectParticipationChangedInfo.Command
+            var mailCommand = new SendProjectParticipationChangedInfoToPerformer.Command
             {
                 ProjectParticipation = projectParticipation
             };

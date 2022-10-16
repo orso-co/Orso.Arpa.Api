@@ -30,5 +30,8 @@
     <None Update="Templates\Html\Reset_Password.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\Html\Project_Participation_Changed_by_Staff.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
