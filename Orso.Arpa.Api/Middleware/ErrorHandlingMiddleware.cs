@@ -54,7 +54,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = ie.Message,
                         Detail = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
                     };
-                    _logger.LogError(ie, "IDENTITY ERROR", errorMessage);
+                    _logger.LogError(ie, "IDENTITY ERROR");
                     break;
 
                 case ValidationException ve:
@@ -66,7 +66,7 @@ namespace Orso.Arpa.Api.Middleware
                             Title = "Resource not found.",
                             Status = (int)HttpStatusCode.NotFound
                         };
-                        _logger.LogError(ve, "NOT FOUND ERROR", errorMessage);
+                        _logger.LogError(ve, "NOT FOUND ERROR");
                     }
                     else if (errorCodes.Contains("403"))
                     {
@@ -75,7 +75,7 @@ namespace Orso.Arpa.Api.Middleware
                             Title = ve.Errors.First(e => e.ErrorCode.Equals("403")).ErrorMessage,
                             Status = (int)HttpStatusCode.Forbidden
                         };
-                        _logger.LogError(ve, "AUTHORIZATION ERROR", errorMessage);
+                        _logger.LogError(ve, "AUTHORIZATION ERROR");
                     }
                     else if (errorCodes.Contains("401"))
                     {
@@ -84,7 +84,7 @@ namespace Orso.Arpa.Api.Middleware
                             Title = ve.Errors.First(e => e.ErrorCode.Equals("401")).ErrorMessage,
                             Status = (int)HttpStatusCode.Unauthorized
                         };
-                        _logger.LogError(ve, "AUTHENTICATION ERROR", errorMessage);
+                        _logger.LogWarning(ve, "AUTHENTICATION ERROR");
                     }
                     else
                     {
@@ -93,7 +93,7 @@ namespace Orso.Arpa.Api.Middleware
                             Title = "One or more validation errors occurred.",
                             Status = (int)HttpStatusCode.UnprocessableEntity
                         };
-                        _logger.LogError(ve, "DOMAIN VALIDATION ERROR", errorMessage);
+                        _logger.LogError(ve, "DOMAIN VALIDATION ERROR");
                     }
                     foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
                     {
@@ -107,7 +107,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = ae.Message,
                         Status = (int)HttpStatusCode.Unauthorized,
                     };
-                    _logger.LogError(ae, "AUTHENTICATION ERROR", errorMessage);
+                    _logger.LogWarning(ae, "AUTHENTICATION ERROR");
                     break;
 
                 case NotFoundException nfe:
@@ -117,7 +117,7 @@ namespace Orso.Arpa.Api.Middleware
                         Status = (int)HttpStatusCode.NotFound
                     };
                     errorMessage.Errors.Add(nfe.PropertyName, new string[] { nfe.Message });
-                    _logger.LogError(nfe, "NOT FOUND ERROR", errorMessage);
+                    _logger.LogError(nfe, "NOT FOUND ERROR");
                     break;
 
                 case EmailException ee:
@@ -127,7 +127,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = ee.Message,
                         Detail = ee.InnerException?.Message
                     };
-                    _logger.LogError(ee, "EMAIL ERROR", errorMessage);
+                    _logger.LogError(ee, "EMAIL ERROR");
                     break;
 
                 case AuthorizationException aze:
@@ -136,7 +136,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = aze.Message,
                         Status = (int)HttpStatusCode.Forbidden
                     };
-                    _logger.LogError(aze, "AUTHORIZATION ERROR", errorMessage);
+                    _logger.LogError(aze, "AUTHORIZATION ERROR");
                     break;
 
                 case Exception e:
@@ -146,7 +146,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = "An unexpected error occured",
                         Detail = e.Message
                     };
-                    _logger.LogError(e, "SERVER ERROR", errorMessage);
+                    _logger.LogError(e, "SERVER ERROR");
                     break;
             }
 
