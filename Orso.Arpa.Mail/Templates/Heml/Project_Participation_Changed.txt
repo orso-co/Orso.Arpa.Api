@@ -1,6 +1,6 @@
 <heml>
   <head>
-    <subject>Geänderte Projektteilnahme {{MusicianName}} für {{ProjectName}}</subject>
+    <subject>{{ParticipationStatus}} von {{MusicianName}} für {{ProjectName}}</subject>
     <preview>{{MusicianName}} hat Projektteilnahme für {{ProjectName}} geändert. Neuer Anmeldestatus: {{ParticipationStatus}}</preview>
     <style>
       body {
