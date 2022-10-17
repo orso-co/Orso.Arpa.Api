@@ -2,14 +2,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
 
-namespace Orso.Arpa.Domain.Logic.MyProjects
+namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 {
-    public static class SendProjectParticipationChangedInfo
+    public static class SendProjectParticipationChangedByStaffInfo
     {
         public class Command : IRequest
         {
@@ -20,36 +20,37 @@ namespace Orso.Arpa.Domain.Logic.MyProjects
         {
             public Validator()
             {
-                RuleFor(c => c.ProjectParticipation)
+                _ = RuleFor(c => c.ProjectParticipation)
                     .NotNull();
             }
         }
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly ClubConfiguration _clubConfiguration;
             private readonly IEmailSender _emailSender;
+            private readonly IUserAccessor _userAccessor;
 
-            public Handler(ClubConfiguration clubConfiguration,
-                           IEmailSender emailSender)
+            public Handler(IEmailSender emailSender,
+                            IUserAccessor userAccessor)
             {
-                _clubConfiguration = clubConfiguration;
                 _emailSender = emailSender;
+                _userAccessor = userAccessor;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var template = new ProjectParticipationChangedTemplate
+                var template = new ProjectParticipationChangedByStaffTemplate
                 {
                     CommentByStaff = request.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
                     Comment = request.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
-                    MusicianName = request.ProjectParticipation.MusicianProfile.Person.DisplayName,
+                    MusicianName = _userAccessor.DisplayName,
                     ParticipationStatus = request.ProjectParticipation.ParticipationStatusInner.SelectValue.Name,
                     ParticipationStatusInternal = request.ProjectParticipation.ParticipationStatusInternal.SelectValue.Name,
                     ProjectName = request.ProjectParticipation.Project.ToString()
                 };
 
-                await _emailSender.SendTemplatedEmailAsync(template, _clubConfiguration.InternalEmail);
+                User user = await _userAccessor.GetCurrentUserAsync(cancellationToken);
+                await _emailSender.SendTemplatedEmailAsync(template, user.Email);
 
                 return Unit.Value;
             }

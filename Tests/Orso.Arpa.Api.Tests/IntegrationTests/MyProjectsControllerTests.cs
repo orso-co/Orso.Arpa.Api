@@ -47,9 +47,9 @@ public class MyProjectsControllerTests : IntegrationTestBase
             .GetAsync(ApiEndpoints.MyProjectsController.Get());
 
         // Assert
-        responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
-        result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
+        _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
     }
 
     [Test, Order(2)]
@@ -88,6 +88,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
                 Description = ""
             }
         };
+        _fakeSmtpServer.ClearReceivedEmail();
 
         // Act
         HttpResponseMessage responseMessage = await _authenticatedServer
@@ -96,8 +97,9 @@ public class MyProjectsControllerTests : IntegrationTestBase
             .PutAsync(ApiEndpoints.MyProjectsController.SetParticipation(project.Id), BuildStringContent(dto));
 
         // Assert
-        responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
         MyProjectParticipationDto result = await DeserializeResponseMessageAsync<MyProjectParticipationDto>(responseMessage);
-        result.Should().BeEquivalentTo(expectedDto);
+        _ = result.Should().BeEquivalentTo(expectedDto);
     }
 }

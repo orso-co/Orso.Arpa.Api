@@ -1,4 +1,5 @@
 using System.Security.Authentication;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -22,28 +23,20 @@ namespace Orso.Arpa.Infrastructure.Authentication
             _arpaContext = arpaContext;
         }
 
-        public async Task<User> GetCurrentUserAsync()
+        public async Task<User> GetCurrentUserAsync(CancellationToken cancellationToken = default)
         {
             User user = await _userManager.Users
                 .Include(x => x.Person)
-                .SingleAsync(x => x.NormalizedUserName == _userManager.NormalizeName(UserName));
+                .SingleAsync(x => x.NormalizedUserName == _userManager.NormalizeName(UserName), cancellationToken);
 
-            if (user == null)
-            {
-                throw new AuthenticationException("No user found for the user name provided by the jwt token");
-            }
-            return user;
+            return user ?? throw new AuthenticationException("No user found for the user name provided by the jwt token");
         }
 
-        public async Task<Person> GetCurrentPersonAsync()
+        public async Task<Person> GetCurrentPersonAsync(CancellationToken cancellationToken = default)
         {
-            Person person = await _arpaContext.FindAsync<Person>(PersonId);
+            Person person = await _arpaContext.FindAsync<Person>(new object[] { PersonId }, cancellationToken);
 
-            if (person == null)
-            {
-                throw new AuthenticationException("No person found for the person id provided by the jwt token");
-            }
-            return person;
+            return person ?? throw new AuthenticationException("No person found for the person id provided by the jwt token");
         }
     }
 }

@@ -33,13 +33,13 @@ namespace Orso.Arpa.Domain.Tests.MeTests.CommandHandlerTest
         {
             // Arrange
             User user = FakeUsers.Performer;
-            _userAccessor.GetCurrentUserAsync().Returns(user);
+            _ = _userAccessor.GetCurrentUserAsync(Arg.Any<CancellationToken>()).Returns(user);
 
             // Act
             Unit result = await _handler.Handle(new Modify.Command(), new CancellationToken());
 
             // Assert
-            result.Should().Be(Unit.Value);
+            _ = result.Should().Be(Unit.Value);
         }
     }
 }

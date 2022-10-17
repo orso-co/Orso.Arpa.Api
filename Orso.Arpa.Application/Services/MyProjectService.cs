@@ -38,7 +38,7 @@ public class MyProjectService : IMyProjectService
 
         ProjectParticipation projectParticipation = await _mediator.Send(command);
 
-        var mailCommand = new SendProjectParticipationChangedInfo.Command
+        var mailCommand = new SendProjectParticipationChangedByPerformerInfo.Command
         {
             ProjectParticipation = projectParticipation
         };
