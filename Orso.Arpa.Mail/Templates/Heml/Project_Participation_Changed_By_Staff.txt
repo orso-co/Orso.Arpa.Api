@@ -46,21 +46,21 @@
           <h1>Arpa 2.0</h1>
         </column>
       </row>
+      <h2>Hallo {{MusicianName}},</h2>
+      <h3>dein Teilnahmestatus wurde soeben aktualisiert!</h3>
+      <h3>Dein neuer Status aus unserer Sicht lautet nun wie folgt:</h3>
       <row>
-          <h2>Hallo {{MusicianName}},</h2>
-          <h3>dein Teilnahmestatus wurde aktualisiert!</h3>
-          <h3>Dein neuer Status aus unserer Sicht lautet nun wie folgt:</h3>
           <column small="7" large ="4">
-          <h4>Projekt:</h4>
-          <h4>Einladungsstatus:</h4>
-          <h4>Status aus unserer Sicht:</h4>
-          <h4>Kommentar KBB:</h4>
+            <h4>Projekt:</h4>
+            <h4>Einladungsstatus:</h4>
+            <h4>Status aus unserer Sicht:</h4>
+            <h4>Kommentar KBB:</h4>
           </column>
           <column small="5" large="8">
-          <h4>{{ProjectName}}</h4>
-          <h4>{{InvitationStatus}}</h4>
-          <h4>{{ParticipationStatusInternal}}</h4>
-          <p><i>{{CommentByStaff}}</i></p>
+            <h4>{{ProjectName}}</h4>
+            <h4>{{InvitationStatus}}</h4>
+            <h4>{{ParticipationStatusInternal}}</h4>
+            <p><i>{{CommentByStaff}}</i></p>
           </column>
       </row>
     <hr/>
