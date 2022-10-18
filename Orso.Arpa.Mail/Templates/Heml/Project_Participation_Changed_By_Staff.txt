@@ -1,0 +1,80 @@
+<heml>
+  <head>
+    <subject>Dein Teilnahmestatus für {{ProjectName}} wurde aktualisiert!</subject>
+    <preview>Dein neuer Status für {{ProjectName}} lautet: {{ParticipationStatusInternal}}</preview>
+    <style>
+      body {
+        background: #121212;
+        color: rgba(255, 255, 255, 0.87);
+        font-size: 14px;
+      }
+
+      container {
+        background: #1e1e1e;
+            max-width: 700px;
+        margin: 10px auto;
+        padding: 10px 20px;
+      }
+
+      button {
+        background: #43a5f4;
+        padding: 7px 14px;
+        color: #212529;
+        margin: auto;
+      }
+
+      a {
+        color: rgba(255, 255, 255, 0.87);
+      }
+
+      column {
+        padding: 0 10px;
+      }
+
+      h6 {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <container>
+      <row>
+        <column>
+          <img src="{{ArpaLogo}}" alt="arpa image" width="100" />
+        </column>
+        <column>
+          <h1>Arpa 2.0</h1>
+        </column>
+      </row>
+      <h2>Hallo {{MusicianName}},</h2>
+      <h3>dein Teilnahmestatus wurde soeben aktualisiert!</h3>
+      <h3>Dein neuer Status aus unserer Sicht lautet nun wie folgt:</h3>
+      <row>
+          <column small="7" large ="4">
+            <h4>Projekt:</h4>
+            <h4>Einladungsstatus:</h4>
+            <h4>Status aus unserer Sicht:</h4>
+            <h4>Kommentar KBB:</h4>
+          </column>
+          <column small="5" large="8">
+            <h4>{{ProjectName}}</h4>
+            <h4>{{InvitationStatus}}</h4>
+            <h4>{{ParticipationStatusInternal}}</h4>
+            <p><i>{{CommentByStaff}}</i></p>
+          </column>
+      </row>
+    <hr/>
+      <row>
+        <column small="7" large="4">
+          <h4>Status aus deiner Sicht:</h4>
+          <h4>Dein Kommentar:</h4>
+        </column>
+        <column small="5" large="8">
+          <h4>{{ParticipationStatusInner}}</h4>
+          <p><i>{{Comment}}</i></p>
+        </column>
+      </row>
+
+    </container>
+  </body>
+</heml>

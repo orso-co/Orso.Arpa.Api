@@ -34,9 +34,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.ProjectsController.Get(true));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<ProjectDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedProjects);
+            _ = result.Should().BeEquivalentTo(expectedProjects);
         }
 
         [Test, Order(2)]
@@ -52,9 +52,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.ProjectsController.Get(true));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<ProjectDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedProjects);
+            _ = result.Should().BeEquivalentTo(expectedProjects);
         }
 
         [Test, Order(3)]
@@ -70,9 +70,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.ProjectsController.Get());
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<ProjectDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedProjects);
+            _ = result.Should().BeEquivalentTo(expectedProjects);
         }
 
         [Test, Order(4)]
@@ -88,9 +88,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.ProjectsController.Get(expectedProject.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedProject);
+            _ = result.Should().BeEquivalentTo(expectedProject);
         }
 
         [Test, Order(5)]
@@ -112,9 +112,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.ProjectsController.GetParticipations(project.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<ProjectParticipationDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectParticipationDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
+            _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
         }
 
         [Test, Order(10000)]
@@ -164,7 +164,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.ProjectsController.Put(projectToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             // check now, if modification really did make it into the database. Fetch the (now modified) project again via GetById
 
@@ -173,9 +173,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.ProjectsController.Get(projectToModify.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls));
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls));
         }
 
         [Test, Order(100)]
@@ -206,12 +206,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
-            result.Id.Should().NotBeEmpty();
-            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.ProjectsController.Get(result.Id)}");
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.ProjectsController.Get(result.Id)}");
         }
 
         [Test, Order(101)]
@@ -256,12 +256,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
-            result.Id.Should().NotBeEmpty();
-            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.ProjectsController.Get(result.Id)}");
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.ProjectsController.Get(result.Id)}");
         }
 
         [Test, Order(102)]
@@ -282,11 +282,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
-            errorMessage.Title.Should().Be("One or more validation errors occurred.");
-            errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Code", new[] { "The specified project code is already in use. The project code needs to be unique." } } });
+            _ = errorMessage.Title.Should().Be("One or more validation errors occurred.");
+            _ = errorMessage.Status.Should().Be(422);
+            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Code", new[] { "The specified project code is already in use. The project code needs to be unique." } } });
         }
 
         [Test, Order(103)]
@@ -307,12 +307,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
             ValidationProblemDetails validationProblemDetails = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
-            validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
-            validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
-            validationProblemDetails.Status.Should().Be(422);
-            validationProblemDetails.Errors["Code"].Should().NotBeEmpty();
+            _ = validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
+            _ = validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
+            _ = validationProblemDetails.Status.Should().Be(422);
+            _ = validationProblemDetails.Errors["Code"].Should().NotBeEmpty();
         }
 
         [Test, Order(104)]
@@ -335,12 +335,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
             ValidationProblemDetails validationProblemDetails = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
-            validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
-            validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
-            validationProblemDetails.Status.Should().Be(422);
-            validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "EndDate", new[] { "'EndDate' must be greater than 'StartDate'" } } });
+            _ = validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
+            _ = validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
+            _ = validationProblemDetails.Status.Should().Be(422);
+            _ = validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "EndDate", new[] { "'EndDate' must be greater than 'StartDate'" } } });
         }
 
         [Test, Order(105)]
@@ -367,11 +367,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.AddUrl(ProjectDtoData.HoorayForHollywood.Id), BuildStringContent(urlCreateDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             UrlDto result = await DeserializeResponseMessageAsync<UrlDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
-            result.Id.Should().NotBeEmpty();
-            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.UrlsController.Get(result.Id)}");
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.UrlsController.Get(result.Id)}");
         }
 
         [Test, Order(106)]
@@ -390,11 +390,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.ProjectsController.AddUrl(Guid.NewGuid()), BuildStringContent(urlCreateDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
-            errorMessage.Title.Should().Be("Resource not found.");
-            errorMessage.Status.Should().Be(404);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "ProjectId", new[] { "Project could not be found." } } });
+            _ = errorMessage.Title.Should().Be("Resource not found.");
+            _ = errorMessage.Status.Should().Be(404);
+            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "ProjectId", new[] { "Project could not be found." } } });
         }
 
         [Test, Order(107)]
@@ -428,6 +428,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Project = ReducedProjectDtoData.HoorayForHollywood,
                 Person = ReducedPersonDtoData.Performer
             };
+            _fakeSmtpServer.ClearReceivedEmail();
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -436,10 +437,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.ProjectsController.SetParticipation(project.Id), BuildStringContent(dto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
-            result.Id.Should().NotBeEmpty();
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            EvaluateSimpleEmail(_performer.Email, "Dein Teilnahmestatus für 1006 - Hooray for Hollywood Freiburg wurde aktualisiert!");
         }
 
         [Test, Order(108)]
@@ -469,6 +471,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.ParticipationStatusInternal = "Acceptance";
             expectedDto.ModifiedAt = FakeDateTime.UtcNow;
             expectedDto.ModifiedBy = "Staff Member";
+            _fakeSmtpServer.ClearReceivedEmail();
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -477,9 +480,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.ProjectsController.SetParticipation(project.Id), BuildStringContent(dto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
+            EvaluateSimpleEmail(_performer.Email, "Dein Teilnahmestatus für 1007 - Die Schneekönigin wurde aktualisiert!");
         }
 
         [Test, Order(10000)]
@@ -495,7 +499,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.ProjectsController.Delete(projectToDelete.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

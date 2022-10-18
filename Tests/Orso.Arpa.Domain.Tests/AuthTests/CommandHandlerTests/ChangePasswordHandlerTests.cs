@@ -37,13 +37,13 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 CurrentPassword = UserSeedData.ValidPassword,
                 NewPassword = "NewPa$$w0rd"
             };
-            _userAccessor.GetCurrentUserAsync().Returns(user);
+            _ = _userAccessor.GetCurrentUserAsync(Arg.Any<CancellationToken>()).Returns(user);
 
             // Act
             Unit result = await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(Unit.Value);
+            _ = result.Should().BeEquivalentTo(Unit.Value);
         }
     }
 }

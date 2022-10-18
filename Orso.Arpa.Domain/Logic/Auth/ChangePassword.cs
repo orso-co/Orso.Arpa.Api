@@ -24,7 +24,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 ArpaUserManager userManager,
                 IUserAccessor userAccessor)
             {
-                RuleFor(c => c.CurrentPassword)
+                _ = RuleFor(c => c.CurrentPassword)
                     .MustAsync(async (oldPassword, cancellation) =>
                     {
                         User user = await userAccessor.GetCurrentUserAsync();
@@ -49,19 +49,14 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                User user = await _userAccessor.GetCurrentUserAsync();
+                User user = await _userAccessor.GetCurrentUserAsync(cancellationToken);
 
                 IdentityResult result = await _userManager.ChangePasswordAsync(
                     user,
                     request.CurrentPassword,
                     request.NewPassword);
 
-                if (result.Succeeded)
-                {
-                    return Unit.Value;
-                }
-
-                throw new IdentityException("Problem changing password", result.Errors);
+                return result.Succeeded ? Unit.Value : throw new IdentityException("Problem changing password", result.Errors);
             }
         }
     }

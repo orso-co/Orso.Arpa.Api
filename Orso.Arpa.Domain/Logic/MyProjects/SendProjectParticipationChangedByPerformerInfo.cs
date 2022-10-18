@@ -9,7 +9,7 @@ using Orso.Arpa.Mail.Templates;
 
 namespace Orso.Arpa.Domain.Logic.MyProjects
 {
-    public static class SendProjectParticipationChangedInfo
+    public static class SendProjectParticipationChangedByPerformerInfo
     {
         public class Command : IRequest
         {
@@ -39,7 +39,7 @@ namespace Orso.Arpa.Domain.Logic.MyProjects
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var template = new ProjectParticipationChangedTemplate
+                var template = new ProjectParticipationChangedByPerformerTemplate
                 {
                     CommentByStaff = request.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
                     Comment = request.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
