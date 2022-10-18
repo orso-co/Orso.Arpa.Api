@@ -46,8 +46,6 @@
           <h1>Arpa 2.0</h1>
         </column>
       </row>
-    </container>
-    <container>
       <row>
           <h2>Hallo {{MusicianName}},</h2>
           <h3>dein Teilnahmestatus wurde aktualisiert!</h3>
