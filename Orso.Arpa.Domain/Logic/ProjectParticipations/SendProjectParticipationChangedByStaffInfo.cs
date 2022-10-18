@@ -45,8 +45,8 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                     CommentByStaff = request.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
                     Comment = request.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
                     MusicianName = musician.DisplayName,
-                    ParticipationStatus = request.ProjectParticipation.ParticipationStatusInner.SelectValue.Name,
                     InvitationStatus = request.ProjectParticipation?.InvitationStatus?.SelectValue?.Name ?? "- ohne -",
+                    ParticipationStatus = request.ProjectParticipation.ParticipationStatusInner?.SelectValue?.Name ?? "- ohne -",
                     ProjectName = request.ProjectParticipation.Project.ToString()
                 };
 
