@@ -28,13 +28,13 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
         {
             // Arrange
             User user = FakeUsers.Performer;
-            _userAccessor.GetCurrentUserAsync().Returns(user);
+            _ = _userAccessor.GetCurrentUserAsync(Arg.Any<CancellationToken>()).Returns(user);
 
             // Act
             User result = await _handler.Handle(new UserProfile.Query(), new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(user);
+            _ = result.Should().BeEquivalentTo(user);
         }
     }
 }

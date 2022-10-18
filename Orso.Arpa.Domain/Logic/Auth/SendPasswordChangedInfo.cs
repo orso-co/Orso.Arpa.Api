@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             public Validator(
                 ArpaUserManager userManager)
             {
-                RuleFor(c => c.UsernameOrEmail)
+                _ = RuleFor(c => c.UsernameOrEmail)
                     .MustAsync(async (username, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(username) != null)
                     .WithErrorCode("404")
                     .WithMessage("User could not be found.")
@@ -54,15 +54,9 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                User user;
-                if (string.IsNullOrEmpty(request.UsernameOrEmail))
-                {
-                    user = await _userAccessor.GetCurrentUserAsync();
-                }
-                else
-                {
-                    user = await _userManager.FindUserByUsernameOrEmailAsync(request.UsernameOrEmail);
-                }
+                User user = string.IsNullOrEmpty(request.UsernameOrEmail)
+                    ? await _userAccessor.GetCurrentUserAsync(cancellationToken)
+                    : await _userManager.FindUserByUsernameOrEmailAsync(request.UsernameOrEmail);
 
                 var template = new PasswordChangedTemplate
                 {

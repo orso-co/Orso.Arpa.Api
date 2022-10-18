@@ -29,7 +29,7 @@ namespace Orso.Arpa.Domain.Logic.Me
         {
             public Validator(ArpaUserManager userManager, IUserAccessor userAccessor, IArpaContext arpaContext)
             {
-                RuleFor(c => c.Email)
+                _ = RuleFor(c => c.Email)
                     .MustAsync(async (email, cancellation) =>
                     {
                         User user = await userManager.FindByEmailAsync(email);
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     })
                     .WithMessage("Email aleady exists");
 
-                RuleFor(c => c.GenderId)
+                _ = RuleFor(c => c.GenderId)
                     .SelectValueMapping<Command, Person>(arpaContext, p => p.Gender);
             }
         }
@@ -57,18 +57,13 @@ namespace Orso.Arpa.Domain.Logic.Me
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                User existingUser = await _userAccessor.GetCurrentUserAsync();
+                User existingUser = await _userAccessor.GetCurrentUserAsync(cancellationToken);
 
                 existingUser.Update(request);
 
                 IdentityResult result = await _userManager.UpdateAsync(existingUser);
 
-                if (result.Succeeded)
-                {
-                    return Unit.Value;
-                }
-
-                throw new Exception("Problem updating user");
+                return result.Succeeded ? Unit.Value : throw new Exception("Problem updating user");
             }
         }
     }

@@ -22,7 +22,7 @@ namespace Orso.Arpa.Domain.Logic.Me
 
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _userAccessor.GetCurrentUserAsync();
+                return await _userAccessor.GetCurrentUserAsync(cancellationToken);
             }
         }
     }

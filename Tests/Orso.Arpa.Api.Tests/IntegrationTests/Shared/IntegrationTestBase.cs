@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -90,13 +91,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             IHostBuilder webHostBuilder = new HostBuilder();
 
-            webHostBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+            _ = webHostBuilder.UseContentRoot(Directory.GetCurrentDirectory());
 
             if (authenticated)
             {
-                webHostBuilder.ConfigureWebHost(webBuilder =>
+                _ = webHostBuilder.ConfigureWebHost(webBuilder =>
                 {
-                    webBuilder
+                    _ = webBuilder
                         .UseTestServer()
                         .UseEnvironment("Test")
                         .ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"))
@@ -105,9 +106,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             }
             else
             {
-                webHostBuilder.ConfigureWebHost(webBuilder =>
+                _ = webHostBuilder.ConfigureWebHost(webBuilder =>
                 {
-                    webBuilder
+                    _ = webBuilder
                         .UseTestServer()
                         .UseEnvironment("Test")
                         .ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"))
@@ -123,6 +124,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             IEnumerable<string> cookies = response.Headers.SingleOrDefault(header => header.Key == "Set-Cookie").Value;
             return cookies.FirstOrDefault(cookie => cookie.StartsWith(cookieName));
+        }
+
+        protected void EvaluateSimpleEmail(string expectedReceiverAddress, string expectedSubject)
+        {
+            _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            SmtpMessage receivedEmail = _fakeSmtpServer.ReceivedEmail[0];
+            _ = receivedEmail.Subject.Should().Be(expectedSubject);
+            _ = receivedEmail.ToAddresses.Count().Should().Be(1);
+            _ = receivedEmail.ToAddresses[0].Address.Should().Be(expectedReceiverAddress);
         }
     }
 }

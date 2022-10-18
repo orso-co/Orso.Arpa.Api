@@ -53,20 +53,20 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Unit result = await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(Unit.Value);
+            _ = result.Should().BeEquivalentTo(Unit.Value);
         }
 
         [Test]
         public async Task Should_Send_PasswordChanged_Info_Without_Supplied_User()
         {
             var command = new SendPasswordChangedInfo.Command();
-            _userAccessor.GetCurrentUserAsync().Returns(FakeUsers.Performer);
+            _ = _userAccessor.GetCurrentUserAsync(Arg.Any<CancellationToken>()).Returns(FakeUsers.Performer);
 
             // Act
             Unit result = await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(Unit.Value);
+            _ = result.Should().BeEquivalentTo(Unit.Value);
         }
     }
 }
