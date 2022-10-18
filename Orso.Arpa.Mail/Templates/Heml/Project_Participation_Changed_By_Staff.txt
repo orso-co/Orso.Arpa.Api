@@ -1,7 +1,7 @@
 <heml>
   <head>
     <subject>Dein Teilnahmestatus für {{ProjectName}} wurde aktualisiert!</subject>
-    <preview>Dein neuer Status für {{ProjectName}} lautet: {{ParticipationStatus}}</preview>
+    <preview>Dein neuer Status für {{ProjectName}} lautet: {{ParticipationStatusInternal}}</preview>
     <style>
       body {
         background: #121212;
@@ -52,16 +52,16 @@
           <h2>Hallo {{MusicianName}},</h2>
           <h3>dein Teilnahmestatus wurde aktualisiert!</h3>
           <h3>Dein neuer Status aus unserer Sicht lautet nun wie folgt:</h3>
-          <column>
+          <column small="7" large ="4">
           <h4>Projekt:</h4>
           <h4>Einladungsstatus:</h4>
-          <h4>Teilnahmestatus:</h4>
+          <h4>Status aus unserer Sicht:</h4>
           <h4>Kommentar KBB:</h4>
           </column>
-          <column>
+          <column small="5" large="8">
           <h4>{{ProjectName}}</h4>
           <h4>{{InvitationStatus}}</h4>
-          <h4>{{ParticipationStatus}}</h4>
+          <h4>{{ParticipationStatusInternal}}</h4>
           <p><i>{{CommentByStaff}}</i></p>
           </column>
       </row>
@@ -71,8 +71,8 @@
           <h4>Status aus deiner Sicht:</h4>
           <h4>Dein Kommentar:</h4>
         </column>
-        <column small="7" large="4">
-          <h4>{{ParticipationStatus}}</h4>
+        <column small="5" large="8">
+          <h4>{{ParticipationStatusInner}}</h4>
           <p><i>{{Comment}}</i></p>
         </column>
       </row>
