@@ -438,10 +438,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
             ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
             _ = result.Id.Should().NotBeEmpty();
+            EvaluateSimpleEmail(_performer.Email, "Dein Teilnahmestatus für 1006 - Hooray for Hollywood Freiburg wurde aktualisiert!");
         }
 
         [Test, Order(108)]
@@ -481,9 +481,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
             ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto);
+            EvaluateSimpleEmail(_performer.Email, "Dein Teilnahmestatus für 1007 - Die Schneekönigin wurde aktualisiert!");
         }
 
         [Test, Order(10000)]

@@ -2,8 +2,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
 
@@ -28,29 +28,37 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         public class Handler : IRequestHandler<Command>
         {
             private readonly IEmailSender _emailSender;
-            private readonly IUserAccessor _userAccessor;
+            private readonly ILogger<Handler> _logger;
 
-            public Handler(IEmailSender emailSender,
-                            IUserAccessor userAccessor)
+            public Handler(IEmailSender emailSender, ILogger<Handler> logger)
             {
                 _emailSender = emailSender;
-                _userAccessor = userAccessor;
+                _logger = logger;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                Person musician = request.ProjectParticipation.MusicianProfile.Person;
+
                 var template = new ProjectParticipationChangedByStaffTemplate
                 {
                     CommentByStaff = request.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
                     Comment = request.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
-                    MusicianName = _userAccessor.DisplayName,
+                    MusicianName = musician.DisplayName,
                     ParticipationStatus = request.ProjectParticipation.ParticipationStatusInner.SelectValue.Name,
-                    ParticipationStatusInternal = request.ProjectParticipation.ParticipationStatusInternal.SelectValue.Name,
                     ProjectName = request.ProjectParticipation.Project.ToString()
                 };
 
-                User user = await _userAccessor.GetCurrentUserAsync(cancellationToken);
-                await _emailSender.SendTemplatedEmailAsync(template, user.Email);
+                var emailAddress = musician.GetPreferredEMailAddress();
+
+                if (emailAddress != null)
+                {
+                    await _emailSender.SendTemplatedEmailAsync(template, emailAddress);
+                }
+                else
+                {
+                    _logger.LogError("Could not send the project participation changed email to {musician} because there is no email address assigned to this person.", musician.DisplayName);
+                }
 
                 return Unit.Value;
             }

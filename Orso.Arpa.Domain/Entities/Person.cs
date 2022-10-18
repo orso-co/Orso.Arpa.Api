@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Logic.Persons;
@@ -71,6 +72,15 @@ namespace Orso.Arpa.Domain.Entities
             ExperienceLevel = command.ExperienceLevel;
             Reliability = command.Reliability;
             GeneralPreference = command.GeneralPreference;
+        }
+
+        public string GetPreferredEMailAddress()
+        {
+            return User?.Email ??
+                    ContactDetails
+                        .Where(cd => cd.Key == Enums.ContactDetailKey.EMail)
+                        .OrderByDescending(cd => cd.Preference)
+                        .FirstOrDefault()?.Value;
         }
 
         [JsonInclude]

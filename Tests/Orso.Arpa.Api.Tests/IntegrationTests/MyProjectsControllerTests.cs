@@ -98,8 +98,8 @@ public class MyProjectsControllerTests : IntegrationTestBase
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
         MyProjectParticipationDto result = await DeserializeResponseMessageAsync<MyProjectParticipationDto>(responseMessage);
         _ = result.Should().BeEquivalentTo(expectedDto);
+        EvaluateSimpleEmail("kbb@orso.co", "Interested von Per Former für 1007 - Die Schneekönigin");
     }
 }
