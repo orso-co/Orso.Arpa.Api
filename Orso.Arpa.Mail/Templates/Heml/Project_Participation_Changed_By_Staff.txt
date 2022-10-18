@@ -49,28 +49,31 @@
     </container>
     <container>
       <row>
-        <column>
-          <h2>Hallo {{MusicianName}}, dein Teilnahmestatus wurde aktualisiert!</h2>
-          <h3>Dein neuer Status für {{ProjectName}} lautet: {{ParticipationStatus}}</h3>
-        </column>
+          <h2>Hallo {{MusicianName}},</h2>
+          <h3>dein Teilnahmestatus wurde aktualisiert!</h3>
+          <h3>Dein neuer Status aus unserer Sicht lautet nun wie folgt:</h3>
+          <column>
+          <h4>Projekt:</h4>
+          <h4>Einladungsstatus:</h4>
+          <h4>Teilnahmestatus:</h4>
+          <h4>Kommentar KBB:</h4>
+          </column>
+          <column>
+          <h4>{{ProjectName}}</h4>
+          <h4>{{InvitationStatus}}</h4>
+          <h4>{{ParticipationStatus}}</h4>
+          <p><i>{{CommentByStaff}}</i></p>
+          </column>
       </row>
+    <hr/>
       <row>
-        <column small="5" large="3">
-          <p>Kommentar KBB:</p>
+        <column small="7" large="4">
+          <h4>Status aus deiner Sicht:</h4>
+          <h4>Dein Kommentar:</h4>
         </column>
-        <column small="7" large="9">
-          <p>{{CommentByStaff}}</p>
-        </column>
-      </row>
-            <hr/>
-      <row>
-        <column small="5" large="3">
-          <p>Dein angegebener Status:</p>
-          <p>Dein Kommentar:</p>
-        </column>
-        <column small="7" large="9">
-          <p>{{ParticipationStatus}}</p>
-          <p>{{Comment}}</p>
+        <column small="7" large="4">
+          <h4>{{ParticipationStatus}}</h4>
+          <p><i>{{Comment}}</i></p>
         </column>
       </row>
 

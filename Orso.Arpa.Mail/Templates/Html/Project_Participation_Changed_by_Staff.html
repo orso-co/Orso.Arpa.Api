@@ -74,10 +74,6 @@
                 display: block;
                 width: 100%!important;
             }
-            .col-sm-5 {
-                display: block;
-                width: 42%!important;
-            }
             .column,
             .column-filler {
                 box-sizing: border-box;
@@ -136,21 +132,20 @@
                             <div class="row">
                                 <table class="row__table" width="100%" align="center" role="presentation" border="0" cellpadding="0" cellspacing="0" style="table-layout: fixed;">
                                     <tr class="row__row">
-                                        <td class="column col-sm-12" width="700" style="padding: 0 10px;width: 100%" align="left" valign="top">
-                                            <h2 class="header h2" style="margin: 20px 0; line-height: 30px; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Hallo {{MusicianName}}, dein Teilnahmestatus wurde aktualisiert!</h2>
-                                            <h3 class="header h3" style="margin: 20px 0; line-height: 24px; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Dein neuer Status für {{ProjectName}} lautet: {{ParticipationStatus}}</h3>
+                                        <h2 large="2" class="header h2" style="margin: 20px 0; line-height: 30px; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Hallo {{MusicianName}},</h2>
+                                        <h3 large="2" class="header h3" style="margin: 20px 0; line-height: 24px; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">dein Teilnahmestatus wurde aktualisiert!</h3>
+                                        <h3 large="2" class="header h3" style="margin: 20px 0; line-height: 24px; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Dein neuer Status aus unserer Sicht lautet nun wie folgt:</h3>
+                                        <td class="column col-sm-12" width="119" style="padding: 0 10px;width: 17%" align="left" valign="top">
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Projekt:</h4>
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Einladungsstatus:</h4>
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Teilnahmestatus:</h4>
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Kommentar KBB:</h4>
                                         </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="row">
-                                <table class="row__table" width="100%" align="center" role="presentation" border="0" cellpadding="0" cellspacing="0" style="table-layout: fixed;">
-                                    <tr class="row__row">
-                                        <td class="column col-sm-5" width="175" style="padding: 0 10px;width: 25%" align="left" valign="top">
-                                            <p class="text p" style="display: block; margin: 14px 0; font-family: Helvetica,Arial,sans-serif; line-height: 20px; color: #FFFFFF; color: rgba(255, 255, 255, .87); font-size: 14px;">Kommentar KBB:</p>
-                                        </td>
-                                        <td class="column col-sm-7" width="525" style="padding: 0 10px;width: 75%" align="left" valign="top">
-                                            <p class="text p" style="display: block; margin: 14px 0; font-family: Helvetica,Arial,sans-serif; line-height: 20px; color: #FFFFFF; color: rgba(255, 255, 255, .87); font-size: 14px;">{{CommentByStaff}}</p>
+                                        <td class="column col-sm-12" width="231" style="padding: 0 10px;width: 33%" align="left" valign="top">
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">{{ProjectName}}</h4>
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">{{InvitationStatus}}</h4>
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">{{ParticipationStatus}}</h4>
+                                            <p class="text p" style="display: block; margin: 14px 0; font-family: Helvetica,Arial,sans-serif; line-height: 20px; color: #FFFFFF; color: rgba(255, 255, 255, .87); font-size: 14px;"><i>{{CommentByStaff}}</i></p>
                                         </td>
                                     </tr>
                                 </table>
@@ -169,14 +164,15 @@
                             <div class="row">
                                 <table class="row__table" width="100%" align="center" role="presentation" border="0" cellpadding="0" cellspacing="0" style="table-layout: fixed;">
                                     <tr class="row__row">
-                                        <td class="column col-sm-5" width="175" style="padding: 0 10px;width: 25%" align="left" valign="top">
-                                            <p class="text p" style="display: block; margin: 14px 0; font-family: Helvetica,Arial,sans-serif; line-height: 20px; color: #FFFFFF; color: rgba(255, 255, 255, .87); font-size: 14px;">Dein angegebener Status:</p>
-                                            <p class="text p" style="display: block; margin: 14px 0; font-family: Helvetica,Arial,sans-serif; line-height: 20px; color: #FFFFFF; color: rgba(255, 255, 255, .87); font-size: 14px;">Dein Kommentar:</p>
+                                        <td class="column col-sm-7" width="231" style="padding: 0 10px;width: 33%" align="left" valign="top">
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Status aus deiner Sicht:</h4>
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">Dein Kommentar:</h4>
                                         </td>
-                                        <td class="column col-sm-7" width="525" style="padding: 0 10px;width: 75%" align="left" valign="top">
-                                            <p class="text p" style="display: block; margin: 14px 0; font-family: Helvetica,Arial,sans-serif; line-height: 20px; color: #FFFFFF; color: rgba(255, 255, 255, .87); font-size: 14px;">{{ParticipationStatus}}</p>
-                                            <p class="text p" style="display: block; margin: 14px 0; font-family: Helvetica,Arial,sans-serif; line-height: 20px; color: #FFFFFF; color: rgba(255, 255, 255, .87); font-size: 14px;">{{Comment}}</p>
+                                        <td class="column col-sm-7" width="231" style="padding: 0 10px;width: 33%" align="left" valign="top">
+                                            <h4 class="header h4" style="margin: 20px 0; font-family: Helvetica,Arial,sans-serif; color: #FFFFFF; color: rgba(255, 255, 255, .87);">{{ParticipationStatus}}</h4>
+                                            <p class="text p" style="display: block; margin: 14px 0; font-family: Helvetica,Arial,sans-serif; line-height: 20px; color: #FFFFFF; color: rgba(255, 255, 255, .87); font-size: 14px;"><i>{{Comment}}</i></p>
                                         </td>
+                                        <td class="column-filler td" style="padding: 0; mso-hide: all; max-height: 0px; overflow: hidden;"> </td>
                                     </tr>
                                 </table>
                             </div>

@@ -10,5 +10,7 @@ namespace Orso.Arpa.Mail.Templates
         public string ParticipationStatus { get; set; }
         public string Comment { get; set; }
         public string CommentByStaff { get; set; }
+        public string InvitationStatus { get; set; }
+
     }
 }

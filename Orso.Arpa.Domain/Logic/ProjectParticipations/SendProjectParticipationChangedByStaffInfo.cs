@@ -13,7 +13,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
     {
         public class Command : IRequest
         {
-            public ProjectParticipation ProjectParticipation { get; set; }
+            public ProjectParticipation ProjectParticipation { get; init; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -46,6 +46,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                     Comment = request.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
                     MusicianName = musician.DisplayName,
                     ParticipationStatus = request.ProjectParticipation.ParticipationStatusInner.SelectValue.Name,
+                    InvitationStatus = request.ProjectParticipation?.InvitationStatus?.SelectValue?.Name ?? "- ohne -",
                     ProjectName = request.ProjectParticipation.Project.ToString()
                 };
 
