@@ -32,10 +32,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MeController.GetUserProfile());
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyUserProfileDto result = await DeserializeResponseMessageAsync<MyUserProfileDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         private static IEnumerable<TestCaseData> s_appointmentTestData
@@ -62,11 +62,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MeController.GetAppointments(take, skip, true));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyAppointmentListDto result = await DeserializeResponseMessageAsync<MyAppointmentListDto>(responseMessage);
 
-            result.UserAppointments.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(d => d.Id));
-            result.TotalRecordsCount.Should().Be(4);
+            _ = result.UserAppointments.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(d => d.Id));
+            _ = result.TotalRecordsCount.Should().Be(4);
         }
 
         [Test, Order(3)]
@@ -85,16 +85,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MeController.GetQrCode(true));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            responseMessage.Content.Headers.ContentType.MediaType.Should().BeEquivalentTo("image/png");
-            responseMessage.Content.Headers.ContentDisposition.FileName.Should().Be("ARPA_QRCode_Per_Former.png");
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.Content.Headers.ContentType.MediaType.Should().BeEquivalentTo("image/png");
+            _ = responseMessage.Content.Headers.ContentDisposition.FileName.Should().Be("ARPA_QRCode_Per_Former.png");
             byte[] responseContent = await responseMessage.Content.ReadAsByteArrayAsync();
-            responseContent.Should().NotBeEmpty();
-            responseContent.Should().BeEquivalentTo(expectedFile);
-            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            _ = responseContent.Should().NotBeEmpty();
+            _ = responseContent.Should().BeEquivalentTo(expectedFile);
+            _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
             netDumbster.smtp.SmtpMessage receivedMail = _fakeSmtpServer.ReceivedEmail[0];
-            receivedMail.ToAddresses[0].Address.Should().ContainEquivalentOf(_performer.Email);
-            receivedMail.MessageParts.Length.Should().Be(2);
+            _ = receivedMail.ToAddresses[0].Address.Should().ContainEquivalentOf(_performer.Email);
+            _ = receivedMail.MessageParts.Length.Should().Be(2);
         }
 
         [Test, Order(4)]
@@ -107,7 +107,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MeController.GetQrCode(true));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Test, Order(100)]
@@ -163,19 +163,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.MeController.PutUserProfile(), BuildStringContent(modifyDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             HttpResponseMessage getMessage = await client
                 .GetAsync(ApiEndpoints.MeController.GetUserProfile());
 
-            getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyUserProfileDto result = await DeserializeResponseMessageAsync<MyUserProfileDto>(getMessage);
 
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(1000)]
-        public async Task Should_Set_Appointment_Participation_Prediction()
+        public async Task Should_Set_Existing_Appointment_Participation_Prediction()
         {
             // Arrange
             var dto = new SetMyAppointmentParticipationPredictionBodyDto
@@ -186,14 +186,36 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_staff)
+                .AuthenticateWith(_performer)
                 .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
                     SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id),
                     BuildStringContent(dto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test, Order(1001)]
+        public async Task Should_Set_New_Appointment_Participation_Prediction()
+        {
+            // Arrange
+            var dto = new SetMyAppointmentParticipationPredictionBodyDto
+            {
+                CommentByPerformerInner = "CommentByPerformerInner",
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
+                    AppointmentSeedData.AfterShowParty.Id,
+                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[1].Id),
+                    BuildStringContent(dto));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

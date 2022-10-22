@@ -58,10 +58,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(date, dateRange));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDtos);
+            _ = result.Should().BeEquivalentTo(expectedDtos);
         }
 
         private static IEnumerable<TestCaseData> s_appointmentByIdQueryTestData
@@ -91,9 +91,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id, true));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(3)]
@@ -107,10 +107,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id, false));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Participations));
-            result.Participations.Should().BeEmpty();
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Participations));
+            _ = result.Participations.Should().BeEmpty();
         }
 
         [Test, Order(1000)]
@@ -149,13 +149,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AppointmentsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
 
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
-            result.Id.Should().NotBeEmpty();
-            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.AppointmentsController.Get(result.Id)}");
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.AppointmentsController.Get(result.Id)}");
         }
 
         [Test, Order(104)]
@@ -170,7 +170,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     RoomSeedData.AulaWeiherhofSchule.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(100)]
@@ -190,9 +190,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     SectionSeedData.Alto.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(101)]
@@ -212,9 +212,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     ProjectSeedData.HoorayForHollywood.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         private static IEnumerable<TestCaseData> PersonTestData
@@ -240,7 +240,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     SelectValueMappingSeedData.AppointmentParticipationResultMappings[0].Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(expectedStatusCode);
+            _ = responseMessage.StatusCode.Should().Be(expectedStatusCode);
         }
 
         [Test, Order(106)]
@@ -255,7 +255,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     VenueSeedData.WeiherhofSchule.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(107)]
@@ -284,7 +284,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.AppointmentsController.Put(appointmentToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(108)]
@@ -309,7 +309,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.AppointmentsController.Put(appointmentToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(109)]
@@ -332,11 +332,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.AppointmentsController.Put(Guid.NewGuid()), BuildStringContent(modifyDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
-            errorMessage.Title.Should().Be("Resource not found.");
-            errorMessage.Status.Should().Be(404);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Id", new[] { "Appointment could not be found." } } });
+            _ = errorMessage.Title.Should().Be("Resource not found.");
+            _ = errorMessage.Status.Should().Be(404);
+            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Id", new[] { "Appointment could not be found." } } });
         }
 
         [Test, Order(108)]
@@ -362,9 +362,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.AppointmentsController.SetDates(appointmentToModify.Id), BuildStringContent(setDatesDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(109)]
@@ -379,7 +379,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     RoomSeedData.AulaWeiherhofSchule.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(102)]
@@ -415,9 +415,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     SectionSeedData.Alto.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(103)]
@@ -452,13 +452,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     ProjectSeedData.HoorayForHollywood.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(118)]
-        public async Task Should_Set_Participation_Prediction()
+        public async Task Should_Set_New_Participation_Prediction()
         {
             // Arrange
             var dto = new AppointmentParticipationSetPredictionBodyDto
@@ -477,7 +477,30 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     BuildStringContent(dto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [Test, Order(119)]
+        public async Task Should_Set_Existing_Participation_Prediction()
+        {
+            // Arrange
+            var dto = new AppointmentParticipationSetPredictionBodyDto
+            {
+                CommentByPerformerInner = "CommentByPerformerInner"
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationPrediction(
+                    AppointmentSeedData.RockingXMasRehearsal.Id,
+                    _performer.PersonId,
+                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id),
+                    BuildStringContent(dto));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(10004)]
@@ -493,13 +516,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.AppointmentsController.Delete(appointmentToDelete.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             HttpResponseMessage getResponseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.AppointmentsController.Get(appointmentToDelete.Id));
-            getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            _ = getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

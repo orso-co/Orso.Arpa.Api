@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
@@ -25,7 +26,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
         {
             public MappingProfile()
             {
-                CreateMap<Command, Create.Command>()
+                _ = CreateMap<Command, Create.Command>()
                     .ForMember(dest => dest.AppointmentId, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
                     .ForMember(dest => dest.PredictionId, opt => opt.MapFrom(src => src.PredictionId))
@@ -38,15 +39,15 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(d => d.Id)
+                _ = RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext);
-                RuleFor(d => d.PersonId)
+                _ = RuleFor(d => d.PersonId)
                     .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, Person>(arpaContext)
                     .Must((command, personId) => arpaContext.IsPersonEligibleForAppointment(personId, command.Id))
                     .WithErrorCode("403")
                     .WithMessage("This person is not eligible for the supplied appointment.");
-                RuleFor(d => d.PredictionId)
+                _ = RuleFor(d => d.PredictionId)
                     .EntityExists<Command, SelectValueMapping>(arpaContext);
             }
         }
@@ -66,28 +67,23 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
+                AppointmentParticipation appointmentParticipation = await _arpaContext.AppointmentParticipations
+                    .SingleOrDefaultAsync(ap => ap.AppointmentId.Equals(request.Id) && ap.PersonId.Equals(request.PersonId), cancellationToken);
 
-                AppointmentParticipation participation = existingAppointment.AppointmentParticipations
-                    .FirstOrDefault(pa => pa.PersonId == request.PersonId);
-
-                if (participation == null)
+                if (appointmentParticipation == null)
                 {
-                    participation = new AppointmentParticipation(Guid.NewGuid(), _mapper.Map<Command, Create.Command>(request));
-                    await _arpaContext.AppointmentParticipations.AddAsync(participation, cancellationToken);
+                    _ = await _arpaContext.AppointmentParticipations
+                        .AddAsync(new AppointmentParticipation(Guid.NewGuid(), _mapper.Map<Command, Create.Command>(request)), cancellationToken);
                 }
                 else
                 {
-                    participation.Update(request);
-                    _arpaContext.AppointmentParticipations.Update(participation);
+                    appointmentParticipation.Update(request);
+                    _ = _arpaContext.AppointmentParticipations.Update(appointmentParticipation);
                 }
 
-                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
-                {
-                    return Unit.Value;
-                }
-
-                throw new Exception("Problem updating appointment participation");
+                return await _arpaContext.SaveChangesAsync(cancellationToken) == 2 // participation + audtit trail
+                    ? Unit.Value
+                    : throw new Exception("Problem updating appointment participation");
             }
         }
     }
