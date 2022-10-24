@@ -6,7 +6,6 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -26,13 +25,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InstrumentId = SectionSeedData.PiccoloFlute.Id,
                 LevelAssessmentInner = 1,
                 LevelAssessmentTeam = 2,
-                Comment = "Plays like a nightingale (with cough)"
+                Comment = " Plays like a nightingale (with cough) "
             };
 
             var expectedDto = new DoublingInstrumentDto
             {
                 AvailabilityId = dto.AvailabilityId,
-                Comment = dto.Comment,
+                Comment = "Plays like a nightingale (with cough)",
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = "Staff Member",
                 InstrumentId = dto.InstrumentId,
@@ -46,10 +45,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
                     .Post(profile.Id), BuildStringContent(dto));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             DoublingInstrumentDto result = await DeserializeResponseMessageAsync<DoublingInstrumentDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
-            result.Id.Should().NotBeEmpty();
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+            _ = result.Id.Should().NotBeEmpty();
         }
 
         [Test, Order(1000)]
@@ -71,7 +70,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
                     .Put(profile.Id, profile.DoublingInstruments.First().Id), BuildStringContent(dto));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(10000)]
@@ -85,7 +84,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
                     .Delete(profile.Id, profile.DoublingInstruments.First().Id));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

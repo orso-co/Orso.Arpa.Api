@@ -83,18 +83,19 @@ namespace Orso.Arpa.Api
 
             ConfigureCors(services);
 
-            services.AddMediatR(typeof(Login.Handler).Assembly);
-            services.AddGenericMediatorHandlers();
-            services.AddAutoMapper(
+            _ = services.AddMediatR(typeof(Login.Handler).Assembly);
+            _ = services.AddGenericMediatorHandlers();
+            _ = services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
                 typeof(Domain.Logic.Urls.AddRole.MappingProfile).Assembly);
-            services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
+            _ = services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
-            services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
-            services.AddControllers()
+            _ = services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
+            _ = services.AddControllers()
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
+                    options.JsonSerializerOptions.Converters.Add(new TrimmedStringConverter());
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 })
                 .AddApplicationPart(typeof(Startup).Assembly)
@@ -126,11 +127,11 @@ namespace Orso.Arpa.Api
 
         private void ConfigureIpRateLimiting(IServiceCollection services)
         {
-            services.AddMemoryCache();
-            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
-            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
-            services.AddInMemoryRateLimiting();
-            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            _ = services.AddMemoryCache();
+            _ = services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+            _ = services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+            _ = services.AddInMemoryRateLimiting();
+            _ = services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
         }
 
         public static IRequestExecutorBuilder RequestExecutorBuilder { get; private set; }
@@ -160,21 +161,21 @@ namespace Orso.Arpa.Api
             }
 
             var lz = new LocalizerCache(services);
-            services.AddSingleton<ILocalizerCache>(_ => lz);
-            services.AddSingleton<ArpaContext.CallBack<Localization>>(_ => lz.LoadTranslations);
-            services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
+            _ = services.AddSingleton<ILocalizerCache>(_ => lz);
+            _ = services.AddSingleton<ArpaContext.CallBack<Localization>>(_ => lz.LoadTranslations);
+            _ = services.AddSingleton<IStringLocalizerFactory, ArpaLocalizerFactory>();
 
-            services.AddLocalization();
+            _ = services.AddLocalization();
 
             LocalizationConfiguration localizationConfiguration = Configuration
                 .GetSection("LocalizationConfiguration")
                 .Get<LocalizationConfiguration>();
 
-            services.Configure<RequestLocalizationOptions>(options =>
+            _ = services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.SetDefaultCulture(localizationConfiguration.DefaultCulture);
-                options.AddSupportedUICultures(localizationConfiguration.SupportedUiCultures.ToArray());
-                options.AddSupportedCultures(localizationConfiguration.SupportedUiCultures.ToArray());
+                _ = options.SetDefaultCulture(localizationConfiguration.DefaultCulture);
+                _ = options.AddSupportedUICultures(localizationConfiguration.SupportedUiCultures.ToArray());
+                _ = options.AddSupportedCultures(localizationConfiguration.SupportedUiCultures.ToArray());
                 options.ApplyCurrentCultureToResponseHeaders = true;
                 options.FallBackToParentCultures = localizationConfiguration.FallbackToParentCulture;
                 options.FallBackToParentUICultures = localizationConfiguration.FallbackToParentCulture;
@@ -183,7 +184,7 @@ namespace Orso.Arpa.Api
 
         private static void ConfigureValidation(IServiceCollection services)
         {
-            services
+            _ = services
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters()
                 .AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
@@ -192,7 +193,7 @@ namespace Orso.Arpa.Api
 
         private static void ConfigureAuthorization(IServiceCollection services)
         {
-            services.AddAuthorization(options =>
+            _ = services.AddAuthorization(options =>
             {
                 options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
                     policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
@@ -219,7 +220,7 @@ namespace Orso.Arpa.Api
 
         private static void ConfigureSwagger(IServiceCollection services)
         {
-            services.AddSwaggerGen(options =>
+            _ = services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
@@ -273,54 +274,54 @@ namespace Orso.Arpa.Api
                 });
             });
 
-            services.AddFluentValidationRulesToSwagger();
+            _ = services.AddFluentValidationRulesToSwagger();
         }
 
         private void RegisterServices(IServiceCollection services)
         {
-            services.AddScoped<IJwtGenerator, JwtGenerator>();
-            services.AddScoped<IUserAccessor, UserAccessor>();
-            services.AddScoped<ITokenAccessor, TokenAccessor>();
-            services.AddScoped<IDataSeeder, DataSeeder>();
-            services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler, IsMyMusicianProfileAuthorizationHandler>();
-            services.AddScoped<IAuthorizationHandler, IsMyPersonAuthorizationHandler>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IRegionService, RegionService>();
-            services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<ISelectValueService, SelectValueService>();
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IUrlService, UrlService>();
-            services.AddScoped<ISectionService, SectionService>();
-            services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IVenueService, VenueService>();
-            services.AddScoped<IAuditLogService, AuditLogService>();
-            services.AddScoped<IMusicianProfileService, MusicianProfileService>();
-            services.AddScoped<IEducationService, EducationService>();
-            services.AddScoped<ICurriculumVitaeReferenceService, CurriculumVitaeReferenceService>();
-            services.AddScoped<IPersonService, PersonService>();
-            services.AddScoped<IDoublingInstrumentService, DoublingInstrumentService>();
-            services.AddScoped<IMeService, MeService>();
-            services.AddScoped<ITemplateParser, TemplateParser>();
-            services.AddScoped<IEmailSender, EmailSender>();
-            services.AddScoped<ITranslationService, TranslationService>();
-            services.AddScoped<IMusicianProfileDeactivationService, MusicianProfileDeactivationService>();
+            _ = services.AddScoped<IJwtGenerator, JwtGenerator>();
+            _ = services.AddScoped<IUserAccessor, UserAccessor>();
+            _ = services.AddScoped<ITokenAccessor, TokenAccessor>();
+            _ = services.AddScoped<IDataSeeder, DataSeeder>();
+            _ = services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
+            _ = services.AddScoped<IAuthorizationHandler, IsMyMusicianProfileAuthorizationHandler>();
+            _ = services.AddScoped<IAuthorizationHandler, IsMyPersonAuthorizationHandler>();
+            _ = services.AddScoped<IAuthService, AuthService>();
+            _ = services.AddScoped<IUserService, UserService>();
+            _ = services.AddScoped<IRegionService, RegionService>();
+            _ = services.AddScoped<IRoleService, RoleService>();
+            _ = services.AddScoped<ISelectValueService, SelectValueService>();
+            _ = services.AddScoped<IProjectService, ProjectService>();
+            _ = services.AddScoped<IUrlService, UrlService>();
+            _ = services.AddScoped<ISectionService, SectionService>();
+            _ = services.AddScoped<IAppointmentService, AppointmentService>();
+            _ = services.AddScoped<IVenueService, VenueService>();
+            _ = services.AddScoped<IAuditLogService, AuditLogService>();
+            _ = services.AddScoped<IMusicianProfileService, MusicianProfileService>();
+            _ = services.AddScoped<IEducationService, EducationService>();
+            _ = services.AddScoped<ICurriculumVitaeReferenceService, CurriculumVitaeReferenceService>();
+            _ = services.AddScoped<IPersonService, PersonService>();
+            _ = services.AddScoped<IDoublingInstrumentService, DoublingInstrumentService>();
+            _ = services.AddScoped<IMeService, MeService>();
+            _ = services.AddScoped<ITemplateParser, TemplateParser>();
+            _ = services.AddScoped<IEmailSender, EmailSender>();
+            _ = services.AddScoped<ITranslationService, TranslationService>();
+            _ = services.AddScoped<IMusicianProfileDeactivationService, MusicianProfileDeactivationService>();
             services.AddGenericListHandler(typeof(AuditLog));
-            services.AddScoped<IBankAccountService, BankAccountService>();
-            services.AddScoped<IContactDetailService, ContactDetailService>();
-            services.AddScoped<IMyContactDetailService, MyContactDetailService>();
-            services.AddScoped<IAddressService, AddressService>();
-            services.AddScoped<IMyProjectService, MyProjectService>();
+            _ = services.AddScoped<IBankAccountService, BankAccountService>();
+            _ = services.AddScoped<IContactDetailService, ContactDetailService>();
+            _ = services.AddScoped<IMyContactDetailService, MyContactDetailService>();
+            _ = services.AddScoped<IAddressService, AddressService>();
+            _ = services.AddScoped<IMyProjectService, MyProjectService>();
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
+            _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
+            _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
 
-            services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
+            _ = services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
 
-            AddConfiguration<EmailConfiguration>(services);
-            AddConfiguration<ClubConfiguration>(services);
-            AddConfiguration<SeedConfiguration>(services);
+            _ = AddConfiguration<EmailConfiguration>(services);
+            _ = AddConfiguration<ClubConfiguration>(services);
+            _ = AddConfiguration<SeedConfiguration>(services);
         }
 
         private T AddConfiguration<T>(IServiceCollection services) where T : class
@@ -328,20 +329,20 @@ namespace Orso.Arpa.Api
             T config = Configuration
                 .GetSection(typeof(T).Name)
                 .Get<T>();
-            services.AddSingleton(config);
+            _ = services.AddSingleton(config);
             return config;
         }
 
         protected virtual void RegisterDateTimeProvider(IServiceCollection services)
         {
-            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            _ = services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         }
 
         private void ConfigureAuthentication(IServiceCollection services)
         {
             IdentityBuilder builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
-            identityBuilder
+            _ = identityBuilder
                 .AddEntityFrameworkStores<ArpaContext>()
                 .AddSignInManager<SignInManager<User>>()
                 .AddEntityFrameworkStores<ArpaContext>()
@@ -353,7 +354,7 @@ namespace Orso.Arpa.Api
 
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
 
-            services.Configure<IdentityOptions>(opts =>
+            _ = services.Configure<IdentityOptions>(opts =>
             {
                 opts.Lockout.AllowedForNewUsers = true;
                 opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(identityConfig.LockoutExpiryInMinutes);
@@ -362,15 +363,15 @@ namespace Orso.Arpa.Api
                 opts.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             });
 
-            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+            _ = services.Configure<DataProtectionTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromHours(identityConfig.DataProtectionTokenExpiryInHours));
 
-            services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
+            _ = services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromDays(identityConfig.EmailConfirmationTokenExpiryInDays));
 
             JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
-            services
+            _ = services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearerConfiguration(jwtConfig);
         }
@@ -382,11 +383,11 @@ namespace Orso.Arpa.Api
                 .GetSection("AllowedOrigins")
                 .Get<string[]>();
 
-            services.AddCors(opt =>
+            _ = services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy
+                    _ = policy
                         .AllowAnyHeader()
                         .WithExposedHeaders("x-token-expired")
                         .AllowCredentials()
@@ -398,71 +399,71 @@ namespace Orso.Arpa.Api
 
         protected virtual void ConfigureDatabase(IServiceCollection services)
         {
-            services.AddDbContext<ArpaContext>(opt =>
+            _ = services.AddDbContext<ArpaContext>(opt =>
             {
-                opt
+                _ = opt
                     .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
                     .UseSnakeCaseNamingConvention();
 
                 if (_hostingEnvironment.IsDevelopment())
                 {
-                    opt.EnableSensitiveDataLogging();
-                    opt.EnableDetailedErrors();
+                    _ = opt.EnableSensitiveDataLogging();
+                    _ = opt.EnableDetailedErrors();
                 }
             });
-            services.AddPooledDbContextFactory<GraphQLContext>(opt =>
+            _ = services.AddPooledDbContextFactory<GraphQLContext>(opt =>
             {
-                opt
+                _ = opt
                     .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
                     .UseSnakeCaseNamingConvention()
                     .UseLazyLoadingProxies();
 
                 if (_hostingEnvironment.IsDevelopment())
                 {
-                    opt.EnableSensitiveDataLogging();
-                    opt.EnableDetailedErrors();
+                    _ = opt.EnableSensitiveDataLogging();
+                    _ = opt.EnableDetailedErrors();
                 }
             });
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseIpRateLimiting();
+            _ = app.UseIpRateLimiting();
 
-            app.UseRequestLocalization();
+            _ = app.UseRequestLocalization();
 
-            app.UseErrorResponseLocalizationMiddleware();
+            _ = app.UseErrorResponseLocalizationMiddleware();
 
-            app.UseMiddleware<NLog.Web.NLogRequestPostedBodyMiddleware>();
+            _ = app.UseMiddleware<NLog.Web.NLogRequestPostedBodyMiddleware>();
 
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            _ = app.UseMiddleware<ErrorHandlingMiddleware>();
 
-            app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
+            _ = app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
-            app.UseMiddleware<SecurityHeaderMiddleware>();
+            _ = app.UseMiddleware<SecurityHeaderMiddleware>();
 
             ConfigureSecurityHeaders(app, env);
 
-            app.UseRouting();
+            _ = app.UseRouting();
 
-            app.UseCors("CorsPolicy");
+            _ = app.UseCors("CorsPolicy");
 
-            app.UseHealthChecks("/health");
-            app.UseHttpsRedirection();
+            _ = app.UseHealthChecks("/health");
+            _ = app.UseHttpsRedirection();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            _ = app.UseAuthentication();
+            _ = app.UseAuthorization();
 
-            app.UseDefaultFiles(); // use index.html
-            app.UseStaticFiles();
+            _ = app.UseDefaultFiles(); // use index.html
+            _ = app.UseStaticFiles();
 
             AddSwagger(app);
 
-            app.UseEndpoints(endpoints =>
+            _ = app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                endpoints.MapFallbackToController("Index", "Fallback");
-                endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
+                _ = endpoints.MapControllers();
+                _ = endpoints.MapFallbackToController("Index", "Fallback");
+                _ = endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
             });
 
             EnsureDatabaseMigrations(app);
@@ -472,11 +473,11 @@ namespace Orso.Arpa.Api
 
         private static void ConfigureSecurityHeaders(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseXContentTypeOptions();
-            app.UseReferrerPolicy(opt => opt.NoReferrer());
-            app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
-            app.UseXfo(opt => opt.Deny());
-            app.UseCsp(opt => opt
+            _ = app.UseXContentTypeOptions();
+            _ = app.UseReferrerPolicy(opt => opt.NoReferrer());
+            _ = app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+            _ = app.UseXfo(opt => opt.Deny());
+            _ = app.UseCsp(opt => opt
                     .BlockAllMixedContent()
                     .DefaultSources(s => s.Self())
                     .StyleSources(s => s.Self().UnsafeInline().CustomSources("fonts.googleapis.com")) // https://angular.io/guide/security
@@ -496,14 +497,14 @@ namespace Orso.Arpa.Api
 
             if (env.IsProduction())
             {
-                app.UseHsts();
+                _ = app.UseHsts();
             }
         }
 
         private static void AddSwagger(IApplicationBuilder app)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            _ = app.UseSwagger();
+            _ = app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
                 c.RoutePrefix = string.Empty;
@@ -536,7 +537,7 @@ namespace Orso.Arpa.Api
             try
             {
                 ILocalizerCache localizerCache = services.GetRequiredService<ILocalizerCache>();
-                localizerCache.LoadTranslations();
+                _ = localizerCache.LoadTranslations();
             }
             catch (Exception ex)
             {
