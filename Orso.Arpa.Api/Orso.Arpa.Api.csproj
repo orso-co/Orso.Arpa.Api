@@ -21,9 +21,9 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="12.15.0" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.15.0" />
-    <PackageReference Include="HotChocolate.Data" Version="12.15.0" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="12.15.1" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.15.1" />
+    <PackageReference Include="HotChocolate.Data" Version="12.15.1" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
