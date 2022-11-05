@@ -26,12 +26,13 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="date"></param>
         /// <param name="range"></param>
+        /// <param name="statusId"></param>
         /// <returns>A list of appointments</returns>
         /// <response code="200"></response>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range)
+        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range, [FromQuery] Guid statusId)
         {
             return Ok(await _appointmentService.GetAsync(date, range));
         }
