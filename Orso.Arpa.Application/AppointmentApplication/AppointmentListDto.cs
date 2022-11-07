@@ -13,6 +13,8 @@ namespace Orso.Arpa.Application.AppointmentApplication
         public DateTime EndTime { get; set; }
 
         public string Name { get; set; }
+
+        public Guid? StatusId { get; set; }
     }
 
     public class AppointmentListDtoMappingProfile : Profile
