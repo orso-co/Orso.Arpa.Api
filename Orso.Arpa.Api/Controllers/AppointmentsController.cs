@@ -26,7 +26,6 @@ namespace Orso.Arpa.Api.Controllers
         /// </summary>
         /// <param name="date"></param>
         /// <param name="range"></param>
-        /// <param name="statusId"></param>
         /// <returns>A list of appointments</returns>
         /// <response code="200"></response>
         [Authorize(Roles = RoleNames.Staff)]
