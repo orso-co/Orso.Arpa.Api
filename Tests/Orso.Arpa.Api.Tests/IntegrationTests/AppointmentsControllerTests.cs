@@ -41,7 +41,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     AppointmentListDtoData.PhotoSession,
                     AppointmentListDtoData.StaffMeeting
                 });
-
             }
         }
 
