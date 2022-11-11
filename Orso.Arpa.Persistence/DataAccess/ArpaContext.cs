@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Castle.Core.Internal;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -89,30 +88,30 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             {
                 MethodInfo method = ArpaContextUtility.SetGlobalQueryMethod.MakeGenericMethod(type);
-                method.Invoke(this, new object[] { builder });
+                _ = method.Invoke(this, new object[] { builder });
             }
 
-            builder.Entity<Url>()
+            _ = builder.Entity<Url>()
                 .HasQueryFilter(url => !url.Deleted
                     && (url.UrlRoles.Count == 0
                     || _tokenAccessor.UserRoles.Contains(RoleNames.Staff)
                     || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
 
-            builder
+            _ = builder
                 .HasDbFunction(typeof(ArpaContext)
                 .GetMethod(nameof(GetAppointmentIdsForPerson), new[] { typeof(Guid) }))
                 .HasName("fn_active_appointments_for_person");
-            builder
+            _ = builder
                 .HasDbFunction(typeof(ArpaContext)
                 .GetMethod(nameof(GetMusicianProfilesForAppointment), new[] { typeof(Guid) }))
                 .HasName("fn_mupro_for_appointments");
-            builder
+            _ = builder
                 .HasDbFunction(typeof(ArpaContext)
                 .GetMethod(nameof(GetActiveMusicianProfilesForAppointment), new[] { typeof(Guid) }))
                 .HasName("fn_active_mupro_for_appointments");
 
             base.OnModelCreating(builder);
-            builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
+            _ = builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -142,7 +141,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             int saveResult = await base.SaveChangesAsync(cancellationToken);
 
-            if (!ChangeTracker.Entries<Localization>().IsNullOrEmpty())
+            if (!ChangeTracker.Entries<Localization>().Any())
             {
                 await _translationCallBack();
             }
