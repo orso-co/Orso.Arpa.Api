@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using AspNetCoreRateLimit;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -96,6 +97,7 @@ namespace Orso.Arpa.Api
                 {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
                     options.JsonSerializerOptions.Converters.Add(new TrimmedStringConverter());
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 })
                 .AddApplicationPart(typeof(Startup).Assembly)
