@@ -43,7 +43,7 @@ namespace Orso.Arpa.Domain.Logic.Localizations
                                 l.Key.Equals(dbEntry.Key));
                         if (result == null)
                         {
-                            _arpaContext.Localizations.Remove(dbEntry);
+                            _ = _arpaContext.Localizations.Remove(dbEntry);
                         }
                         else
                         {
@@ -51,16 +51,16 @@ namespace Orso.Arpa.Domain.Logic.Localizations
                             {
                                 dbEntry.Text = result.Text;
                             }
-                            request.Localizations.Remove(result);
+                            _ = request.Localizations.Remove(result);
                         }
                     });
 
                     foreach (Entities.Localization l in request.Localizations)
                     {
-                        _arpaContext.Localizations.Add(l);
+                        _ = _arpaContext.Localizations.Add(l);
                     }
 
-                    _arpaContext.SaveChangesAsync(cancellationToken);
+                    _ = _arpaContext.SaveChangesAsync(cancellationToken).GetAwaiter().GetResult();
                 }
                 return Task.FromResult(Unit.Value);
             }
