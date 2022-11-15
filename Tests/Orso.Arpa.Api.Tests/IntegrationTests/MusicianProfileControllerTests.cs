@@ -312,7 +312,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpClient client = _authenticatedServer
                             .CreateClient()
                             .AuthenticateWith(_staff);
-
             // Act
             HttpResponseMessage responseMessage = await client
                 .PutAsync(ApiEndpoints.MusicianProfilesController.Put(musicianProfileToModify.Id), BuildStringContent(modifyDto));

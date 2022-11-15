@@ -16,6 +16,7 @@ using netDumbster.smtp;
 using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Tests.Shared.FakeData;
+using Yoh.Text.Json.NamingPolicies;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
@@ -28,6 +29,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected User _staff;
         protected User _admin;
         protected SimpleSmtpServer _fakeSmtpServer;
+        private JsonSerializerOptions _jsonSerializerOptions;
 
         [TearDown]
         public void DisposeMailServer()
@@ -65,24 +67,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             _performer = FakeUsers.Performer;
             _staff = FakeUsers.Staff;
             _admin = FakeUsers.Admin;
-        }
-
-        protected static async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)
-        {
-            var responseString = await responseMessage.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions
+            _jsonSerializerOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            options.Converters.Add(new JsonStringEnumConverter());
-
-            return JsonSerializer.Deserialize<T>(responseString, options);
+            _jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicies.SnakeCaseUpper));
         }
 
-        protected static StringContent BuildStringContent(object unserializedObject)
+        protected async Task<T> DeserializeResponseMessageAsync<T>(HttpResponseMessage responseMessage)
+        {
+            var responseString = await responseMessage.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<T>(responseString, _jsonSerializerOptions);
+        }
+
+        protected StringContent BuildStringContent(object unserializedObject)
         {
             return new StringContent(
-                JsonSerializer.Serialize(unserializedObject),
+                JsonSerializer.Serialize(unserializedObject, _jsonSerializerOptions),
                 Encoding.UTF8,
                 MediaTypeNames.Application.Json);
         }
@@ -93,20 +95,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             _ = webHostBuilder.UseContentRoot(Directory.GetCurrentDirectory());
 
-            if (authenticated)
-            {
-                _ = webHostBuilder.ConfigureWebHost(webBuilder =>
+            _ = authenticated
+                ? webHostBuilder.ConfigureWebHost(webBuilder =>
                 {
                     _ = webBuilder
                         .UseTestServer()
                         .UseEnvironment("Test")
                         .ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"))
                         .UseStartup<AuthenticatedTestStartup>();
-                });
-            }
-            else
-            {
-                _ = webHostBuilder.ConfigureWebHost(webBuilder =>
+                })
+                : webHostBuilder.ConfigureWebHost(webBuilder =>
                 {
                     _ = webBuilder
                         .UseTestServer()
@@ -114,7 +112,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                         .ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"))
                         .UseStartup<TestStartup>();
                 });
-            }
 
             IHost host = await webHostBuilder.StartAsync();
             return host.GetTestServer();
