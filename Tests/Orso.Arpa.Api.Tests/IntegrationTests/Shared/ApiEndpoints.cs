@@ -129,8 +129,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string PutUserProfile() => $"{Me}/profiles/user";
 
-            public static string SetAppointmentParticipationPrediction(Guid appointmentId, Guid predictionId)
-                => $"{Me}/appointments/{appointmentId}/participation/prediction/{predictionId}";
+            public static string SetAppointmentParticipationPrediction(Guid appointmentId)
+                => $"{Me}/appointments/{appointmentId}/participation/prediction";
 
             public static string GetQrCode(bool sendEmail) => $"{Me}/qrcode?sendEmail={sendEmail}";
         }
@@ -213,11 +213,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Delete(Guid id) => $"{Appointments}/{id}";
 
-            public static string SetParticipationResult(Guid id, Guid personId, Guid predictionId) =>
-                $"{Appointments}/{id}/participations/{personId}/result/{predictionId}";
+            public static string SetParticipationResult(Guid id, Guid personId, AppointmentParticipationResult appointmentParticipationResult) =>
+                $"{Appointments}/{id}/participations/{personId}/result/{appointmentParticipationResult}";
 
-            public static string SetParticipationPrediction(Guid id, Guid personId, Guid predictionId) =>
-                $"{Appointments}/{id}/participations/{personId}/prediction/{predictionId}";
+            public static string SetParticipationPrediction(Guid id, Guid personId) =>
+                $"{Appointments}/{id}/participations/{personId}/prediction";
         }
 
         public static class AuditLogsController

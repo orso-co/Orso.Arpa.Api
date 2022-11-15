@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
+using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
-namespace Orso.Arpa.Application.MusicianProfileApplication
+namespace Orso.Arpa.Application.MeApplication
 {
     public class MyMusicianProfileCreateDto
     {
         public byte LevelAssessmentInner { get; set; }
         public Guid InstrumentId { get; set; }
-        public Guid? InquiryStatusInnerId { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
         public IList<MyDoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentCreateBodyDto>();
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
         public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
@@ -21,11 +23,11 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MyMusicianProfileCreateDtoMappingProfile()
         {
-            CreateMap<MyMusicianProfileCreateDto, Create.Command>()
+            _ = CreateMap<MyMusicianProfileCreateDto, Create.Command>()
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
 
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
-                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.InquiryStatusInnerId))
+                .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.InquiryStatusInner))
 
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.PreferredPartsInner));
@@ -36,30 +38,33 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MyMusicianProfileCreateDtoValidator()
         {
-            RuleFor(p => p)
+            _ = RuleFor(p => p)
                 .NotNull();
 
-            RuleFor(p => p.LevelAssessmentInner)
+            _ = RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating()
                 .NotEqual((byte)0);
 
-            RuleFor(p => p.InstrumentId)
+            _ = RuleFor(p => p.InstrumentId)
                .NotEmpty();
 
-            RuleFor(p => p.DoublingInstruments)
+            _ = RuleFor(p => p.DoublingInstruments)
                 .NotNull();
 
-            RuleFor(p => p.PreferredPositionsInnerIds)
+            _ = RuleFor(p => p.PreferredPositionsInnerIds)
                 .NotNull();
 
-            RuleFor(p => p.PreferredPartsInner)
+            _ = RuleFor(p => p.PreferredPartsInner)
                 .NotNull();
 
-            RuleForEach(p => p.DoublingInstruments)
+            _ = RuleForEach(p => p.DoublingInstruments)
                 .SetValidator(new MyDoublingInstrumentCreateBodyDtoValidator());
 
-            RuleForEach(p => p.PreferredPositionsInnerIds)
+            _ = RuleForEach(p => p.PreferredPositionsInnerIds)
               .NotEmpty();
+
+            _ = RuleFor(p => p.InquiryStatusInner)
+                .IsInEnum();
         }
     }
 }

@@ -3,7 +3,7 @@ using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MyProjects;
 
 namespace Orso.Arpa.Application.MyProjectApplication;
@@ -15,7 +15,7 @@ public class MyProjectParticipationModifyDto : IdFromRouteDto<MyProjectParticipa
 
 public class MyProjectParticipationModifyBodyDto
 {
-    public Guid ParticipationStatusId { get; set; }
+    public ProjectParticipationStatusInner ParticipationStatusInner { get; set; }
     public string Comment { get; set; }
     public Guid MusicianProfileId { get; set; }
 }
@@ -24,14 +24,14 @@ public class MyProjectParticipationModifyDtoMappingProfile : Profile
 {
     public MyProjectParticipationModifyDtoMappingProfile()
     {
-        CreateMap<MyProjectParticipationModifyDto, SetProjectParticipationStatus.Command>()
+        _ = CreateMap<MyProjectParticipationModifyDto, SetProjectParticipationStatus.Command>()
             .ForMember(dest => dest.CommentByPerformerInner,
                 opt => opt.MapFrom(src => src.Body.Comment))
             .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.MusicianProfileId,
                 opt => opt.MapFrom(src => src.Body.MusicianProfileId))
-            .ForMember(dest => dest.ParticipationStatusInnerId,
-                opt => opt.MapFrom(src => src.Body.ParticipationStatusId));
+            .ForMember(dest => dest.ParticipationStatusInner,
+                opt => opt.MapFrom(src => src.Body.ParticipationStatusInner));
     }
 }
 
@@ -39,7 +39,7 @@ public class MyProjectParticipationModifyDtoValidator : IdFromRouteDtoValidator<
 {
     public MyProjectParticipationModifyDtoValidator()
     {
-        RuleFor(d => d.Body)
+        _ = RuleFor(d => d.Body)
             .SetValidator(new MyProjectParticipationModifyBodyDtoValidator());
     }
 }
@@ -48,9 +48,9 @@ public class MyProjectParticipationModifyBodyDtoValidator : AbstractValidator<My
 {
     public MyProjectParticipationModifyBodyDtoValidator()
     {
-        RuleFor(d => d.ParticipationStatusId)
-            .NotEmpty();
-        RuleFor(d => d.Comment)
+        _ = RuleFor(d => d.ParticipationStatusInner)
+            .IsInEnum();
+        _ = RuleFor(d => d.Comment)
             .RestrictedFreeText(500);
     }
 }

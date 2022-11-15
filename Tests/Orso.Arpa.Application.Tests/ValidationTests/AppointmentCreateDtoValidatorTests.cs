@@ -2,6 +2,7 @@ using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -31,15 +32,9 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Empty_StatusId_Is_Supplied()
+        public void Should_Not_Have_Validation_Error_If_Valid_Status_Is_Supplied()
         {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.StatusId, default(Guid?));
-        }
-
-        [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_StatusId_Is_Supplied()
-        {
-            _validator.ShouldNotHaveValidationErrorForExact(command => command.StatusId, Guid.NewGuid());
+            _validator.ShouldNotHaveValidationErrorForExact(command => command.Status, AppointmentStatus.Refused);
         }
 
         [Test]
@@ -69,7 +64,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_EndTime_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.EndTime, DateTime.MinValue);
+            _ = _validator.ShouldHaveValidationErrorForExact(command => command.EndTime, DateTime.MinValue);
         }
 
         [Test]
@@ -81,7 +76,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_EndTime_Is_Not_Greater_Than_StartTime()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.EndTime, new AppointmentCreateDto
+            _ = _validator.ShouldHaveValidationErrorForExact(command => command.EndTime, new AppointmentCreateDto
             {
                 StartTime = FakeDateTime.UtcNow,
                 EndTime = FakeDateTime.UtcNow.AddHours(-3)
@@ -111,7 +106,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Name_Is_Supplied([Values(null, "")] string name)
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Name, name);
+            _ = _validator.ShouldHaveValidationErrorForExact(command => command.Name, name);
         }
 
         [Test]
@@ -123,7 +118,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Fail_If_Invalid_Character_Is_Supplied([Values("<", ">", "}", "{", "[", "]", "\\", "=")] string name)
         {
-            _validator.ShouldHaveValidationErrorForExact(dto => dto.Name, name)
+            _ = _validator.ShouldHaveValidationErrorForExact(dto => dto.Name, name)
                 .WithErrorMessage("Invalid character supplied. Please use only alphanumeric and whitespace characters " +
                 "or one of the following: '-./(),$€#*%&„“\":;?!@+^°| +~_");
         }

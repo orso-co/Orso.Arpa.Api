@@ -1,5 +1,6 @@
 using System;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -12,8 +13,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 ProjectParticipationDto dto = PerformerSchneeköniginParticipationForPerformer;
                 dto.CommentTeam = "Comment by team";
-                dto.InvitationStatus = "Invited";
-                dto.InvitationStatusId = Guid.Parse("625a9195-2380-4762-8dc6-13163e354ef6");
+                dto.InvitationStatus = ProjectInvitationStatus.Invited;
                 dto.Person = ReducedPersonDtoData.Performer;
                 return dto;
             }
@@ -26,10 +26,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             CreatedBy = "anonymous",
             Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-            ParticipationStatusInner = "Acceptance",
-            ParticipationStatusInnerId = Guid.Parse("eef4a4d1-796b-4b37-96f6-f31dbccf0aeb"),
-            ParticipationStatusInternal = "Candidate",
-            ParticipationStatusInternalId = Guid.Parse("b0dcb5e9-bbc6-4004-b9d7-0f6723416b9b"),
+            ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
             Project = ReducedProjectDtoData.Schneekönigin
         };
 

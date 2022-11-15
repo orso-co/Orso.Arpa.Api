@@ -10,6 +10,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -180,7 +181,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var dto = new SetMyAppointmentParticipationPredictionBodyDto
             {
-                CommentByPerformerInner = "CommentByPerformerInner"
+                CommentByPerformerInner = "CommentByPerformerInner",
+                Prediction = AppointmentParticipationPrediction.Yes
             };
 
             // Act
@@ -188,8 +190,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .AuthenticateWith(_performer)
                 .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
-                    AppointmentSeedData.RockingXMasRehearsal.Id,
-                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id),
+                    AppointmentSeedData.RockingXMasRehearsal.Id),
                     BuildStringContent(dto));
 
             // Assert
@@ -203,6 +204,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var dto = new SetMyAppointmentParticipationPredictionBodyDto
             {
                 CommentByPerformerInner = "CommentByPerformerInner",
+                Prediction = AppointmentParticipationPrediction.Partly
             };
 
             // Act
@@ -210,8 +212,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .AuthenticateWith(_performer)
                 .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
-                    AppointmentSeedData.AfterShowParty.Id,
-                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[1].Id),
+                    AppointmentSeedData.AfterShowParty.Id),
                     BuildStringContent(dto));
 
             // Assert

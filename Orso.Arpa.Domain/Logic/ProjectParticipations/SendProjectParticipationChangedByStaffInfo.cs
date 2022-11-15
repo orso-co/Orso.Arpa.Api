@@ -45,10 +45,10 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                     CommentByStaff = request.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
                     Comment = request.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
                     MusicianName = musician.DisplayName,
-                    ParticipationStatusInner = request.ProjectParticipation.ParticipationStatusInner?.SelectValue?.Name ?? "- ohne -",
-                    ParticipationStatusInternal = request.ProjectParticipation.ParticipationStatusInternal?.SelectValue?.Name ?? "- ohne -",
+                    ParticipationStatusInner = request.ProjectParticipation.ParticipationStatusInner?.ToString() ?? "- ohne -",
+                    ParticipationStatusInternal = request.ProjectParticipation.ParticipationStatusInternal?.ToString() ?? "- ohne -",
 
-                    InvitationStatus = request.ProjectParticipation?.InvitationStatus?.SelectValue?.Name ?? "- ohne -",
+                    InvitationStatus = request.ProjectParticipation?.InvitationStatus?.ToString() ?? "- ohne -",
                     ProjectName = request.ProjectParticipation.Project.ToString()
                 };
 

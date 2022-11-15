@@ -28,8 +28,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public Guid InstrumentId { get; set; }
         public Guid? QualificationId { get; set; }
         public Guid? SalaryId { get; set; }
-        public Guid? InquiryStatusInnerId { get; set; }
-        public Guid? InquiryStatusTeamId { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusTeam { get; set; }
         public IList<DoublingInstrumentDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentDto>();
         public IList<EducationDto> Educations { get; set; } = new List<EducationDto>();
         public IList<CurriculumVitaeReferenceDto> CurriculumVitaeReferences { get; set; } = new List<CurriculumVitaeReferenceDto>();
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileDtoMappingProfile()
         {
-            CreateMap<MusicianProfile, MusicianProfileDto>()
+            _ = CreateMap<MusicianProfile, MusicianProfileDto>()
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.IsMainProfile))
                 .ForMember(dest => dest.Deactivation, opt => opt.MapFrom(src => src.Deactivation))
 
@@ -64,8 +64,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.QualificationId))
                 .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.SalaryId))
-                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.InquiryStatusInnerId))
-                .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.InquiryStatusTeamId))
+                .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.InquiryStatusInner))
+                .ForMember(dest => dest.InquiryStatusTeam, opt => opt.MapFrom(src => src.InquiryStatusTeam))
 
                 .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.PreferredPositionsInner.Select(p => p.SelectValueSectionId)))

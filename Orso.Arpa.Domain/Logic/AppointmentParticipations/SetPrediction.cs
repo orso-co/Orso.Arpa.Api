@@ -7,6 +7,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -18,7 +19,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
         {
             public Guid Id { get; set; }
             public Guid PersonId { get; set; }
-            public Guid PredictionId { get; set; }
+            public AppointmentParticipationPrediction Prediction { get; set; }
             public string CommentByPerformerInner { get; set; }
         }
 
@@ -29,8 +30,8 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
                 _ = CreateMap<Command, Create.Command>()
                     .ForMember(dest => dest.AppointmentId, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
-                    .ForMember(dest => dest.PredictionId, opt => opt.MapFrom(src => src.PredictionId))
-                    .ForMember(dest => dest.ResultId, opt => opt.MapFrom(_ => default(Guid?)))
+                    .ForMember(dest => dest.Prediction, opt => opt.MapFrom(src => src.Prediction))
+                    .ForMember(dest => dest.Result, opt => opt.MapFrom(_ => default(AppointmentParticipationResult?)))
                     .ForMember(dest => dest.CommentByPerformerInner, opt => opt.MapFrom(src => src.CommentByPerformerInner));
             }
         }
@@ -47,8 +48,6 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
                     .Must((command, personId) => arpaContext.IsPersonEligibleForAppointment(personId, command.Id))
                     .WithErrorCode("403")
                     .WithMessage("This person is not eligible for the supplied appointment.");
-                _ = RuleFor(d => d.PredictionId)
-                    .EntityExists<Command, SelectValueMapping>(arpaContext);
             }
         }
 

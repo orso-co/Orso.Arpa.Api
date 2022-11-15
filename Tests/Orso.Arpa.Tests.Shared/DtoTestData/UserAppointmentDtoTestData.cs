@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -38,10 +39,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     PublicDetails = "Let's rock",
                     StartTime = new DateTime(2019, 12, 21, 10, 0, 0),
                     Venue = VenueDtoData.WeiherhofSchule,
-                    PredictionId = Guid.Parse("319d508e-a6e2-437e-b48b-6be51e3459bd"),
+                    Prediction = AppointmentParticipationPrediction.Yes,
                     CreatedAt = FakeDateTime.UtcNow,
                     Category = SelectValueDtoData.Rehearsal,
-                    Status = SelectValueDtoData.AppointmentConfirmed
+                    Status = AppointmentStatus.Confirmed
                 };
                 dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
 
@@ -66,10 +67,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Photo session",
                     PublicDetails = "Photo session for season to come",
                     Venue = null,
-                    PredictionId = null,
+                    Prediction = null,
                     CreatedAt = FakeDateTime.UtcNow,
                     Category = SelectValueDtoData.WarmUpRehearsal,
-                    Status = SelectValueDtoData.AppointmentConfirmed
+                    Status = AppointmentStatus.Confirmed
                 };
             }
         }
@@ -91,13 +92,13 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Rocking X-mas After Show Party",
                     PublicDetails = "Get the party started",
                     Venue = VenueDtoData.WeiherhofSchule,
-                    PredictionId = null,
+                    Prediction = null,
                     CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
                 dto.Rooms.Add(RoomDtoData.AulaWeiherhofSchule);
                 dto.Category = SelectValueDtoData.RehearsalWeekendChoir;
-                dto.Status = SelectValueDtoData.Refused;
+                dto.Status = AppointmentStatus.Refused;
                 return dto;
             }
         }
@@ -119,10 +120,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Rocking X-mas Concert",
                     PublicDetails = "Sold out :-)",
                     Venue = VenueDtoData.WeiherhofSchule,
-                    PredictionId = null,
+                    Prediction = null,
                     CreatedAt = FakeDateTime.UtcNow,
                     Category = SelectValueDtoData.SectionalRehearsal,
-                    Status = SelectValueDtoData.Scheduled
+                    Status = AppointmentStatus.Scheduled
                 };
             }
         }

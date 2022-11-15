@@ -20,25 +20,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public async Task Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
         {
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Id, Guid.Empty);
+            _ = await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Id, Guid.Empty);
         }
 
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_Id_Is_Supplied()
         {
             await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, Guid.NewGuid());
-        }
-
-        [Test]
-        public async Task Should_Have_Validation_Error_If_Empty_PredictionId_Is_Supplied()
-        {
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.PredictionId, Guid.Empty);
-        }
-
-        [Test]
-        public async Task Should_Not_Have_Validation_Error_If_Valid_PredictionId_Is_Supplied()
-        {
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.PredictionId, Guid.NewGuid());
         }
     }
 }

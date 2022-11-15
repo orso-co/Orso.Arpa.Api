@@ -4,9 +4,10 @@ using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Me;
 
-namespace Orso.Arpa.Application.MyMusicianProfileApplication
+namespace Orso.Arpa.Application.MeApplication
 {
     public class MyMusicianProfileModifyDto : IdFromRouteDto<MyMusicianProfileModifyBodyDto>
     {
@@ -20,7 +21,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
         public byte ProfilePreferenceInner { get; set; }
         public string BackgroundInner { get; set; }
 
-        public Guid? InquiryStatusInnerId { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
 
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
         public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
@@ -30,7 +31,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
     {
         public MyMusicianProfileModifyDtoMappingProfile()
         {
-            CreateMap<MyMusicianProfileModifyDto, ModifyMusicianProfile.Command>()
+            _ = CreateMap<MyMusicianProfileModifyDto, ModifyMusicianProfile.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
 
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.Body.IsMainProfile))
@@ -39,7 +40,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
                 .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.Body.ProfilePreferenceInner))
                 .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.Body.BackgroundInner))
 
-                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
+                .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.Body.InquiryStatusInner))
 
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPartsInner, opt => opt.MapFrom(src => src.Body.PreferredPartsInner));
@@ -50,7 +51,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
     {
         public MyMusicianProfileModifyDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new MyMusicianProfileModifyBodyDtoValidator());
 
         }
@@ -60,22 +61,25 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
     {
         public MyMusicianProfileModifyBodyDtoValidator()
         {
-            RuleFor(p => p.LevelAssessmentInner)
+            _ = RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
-            RuleFor(p => p.ProfilePreferenceInner)
+            _ = RuleFor(p => p.ProfilePreferenceInner)
                 .FiveStarRating();
 
-            RuleFor(p => p.BackgroundInner)
+            _ = RuleFor(p => p.BackgroundInner)
                 .RestrictedFreeText(1000);
 
-            RuleForEach(p => p.PreferredPositionsInnerIds)
+            _ = RuleForEach(p => p.PreferredPositionsInnerIds)
                 .NotEmpty();
 
-            RuleFor(p => p.PreferredPartsInner)
+            _ = RuleFor(p => p.PreferredPartsInner)
                 .NotNull();
 
-            RuleFor(p => p.PreferredPositionsInnerIds)
+            _ = RuleFor(p => p.PreferredPositionsInnerIds)
                 .NotNull();
+
+            _ = RuleFor(p => p.InquiryStatusInner)
+                .IsInEnum();
         }
     }
 }

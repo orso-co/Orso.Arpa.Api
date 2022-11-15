@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Tests.Shared.Extensions;
 

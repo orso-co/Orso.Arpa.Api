@@ -2,6 +2,7 @@ using System;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
@@ -20,7 +21,7 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public Guid? GenreId { get; set; }
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
-            public Guid? StateId { get; set; }
+            public ProjectStatus? Status { get; set; }
             public Guid? ParentId { get; set; }
             public bool IsCompleted { get; set; }
         }
@@ -28,24 +29,18 @@ namespace Orso.Arpa.Domain.Logic.Projects
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(d => d.Code)
+                _ = RuleFor(d => d.Code)
                     .MustAsync(async (code, cancellation) =>
-                        (!await arpaContext.Projects.AnyAsync(project =>
-#pragma warning disable RCS1155 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
-                                        project.Code.ToLower() == code.ToLower(), cancellation)))
-#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
+                        !await arpaContext.Projects.AnyAsync(project => project.Code.ToLower() == code.ToLower(), cancellation))
                     .WithMessage("The specified project code is already in use. The project code needs to be unique.");
 
-                RuleFor(c => c.ParentId)
+                _ = RuleFor(c => c.ParentId)
                     .EntityExists<Command, Project>(arpaContext);
 
-                RuleFor(d => d.StateId)
-                    .SelectValueMapping<Command, Project>(arpaContext, a => a.State);
-
-                RuleFor(d => d.GenreId)
+                _ = RuleFor(d => d.GenreId)
                    .SelectValueMapping<Command, Project>(arpaContext, a => a.Genre);
 
-                RuleFor(d => d.TypeId)
+                _ = RuleFor(d => d.TypeId)
                    .SelectValueMapping<Command, Project>(arpaContext, a => a.Type);
             }
         }

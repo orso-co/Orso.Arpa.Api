@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -41,7 +42,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InternalDetails = "I need more coffee",
                     PublicDetails = "Let's rock",
                     Name = "Rocking X-mas Dress Rehearsal",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
@@ -136,7 +137,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InternalDetails = "Where is my jacket?",
                     PublicDetails = "Sold out :-)",
                     Name = "Rocking X-mas Concert",
-                    StatusId = Guid.Parse("93033f7e-a3c1-45e3-8a17-021d0a4abe5a"),
+                    Status = AppointmentStatus.Scheduled,
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
@@ -198,7 +199,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InternalDetails = "Shake it, baby",
                     PublicDetails = "Get the party started",
                     Name = "Rocking X-mas After Show Party",
-                    StatusId = Guid.Parse("0126fded-0a82-4b53-85e4-1c04a4f79296"),
+                    Status = AppointmentStatus.Refused,
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("867622fa-7aa5-43f3-b3ef-5290d1f61734"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
@@ -229,7 +230,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InternalDetails = "Reminder: Don't forget to talk about the summer holidays",
                     PublicDetails = "Meet and greet",
                     Name = "Team Meeting",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("b09bc4a6-06ab-4d45-8b82-7971e662ccb5"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
@@ -255,7 +256,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InternalDetails = null,
                     PublicDetails = "Photo session for season to come",
                     Name = "Photo session",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
                     VenueId = null,
@@ -314,7 +315,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InternalDetails = null,
                     PublicDetails = "Accordion rehearsal weekend",
                     Name = "Rehearsal weekend",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
                     VenueId = null,
@@ -340,7 +341,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InternalDetails = null,
                     PublicDetails = "Audition days for piccolo flutes",
                     Name = "Audition days",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("647f674a-bc2f-4d3a-9ce4-f0aefa98cd9d"),
                     VenueId = null,
@@ -360,7 +361,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Id = Guid.Parse("869cb371-e77e-4ffe-84a9-cdf852e31358"),
                     SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                     CategoryId = Guid.Parse("694de886-8566-45d0-afc7-6ded18a2b6e6"),
                     PublicDetails = "Hooray for Hollywood rehearsal for soprano voices only",
                     CreatedAt = FakeDateTime.UtcNow,
@@ -391,7 +392,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 var dto = new AppointmentDto
                 {
                     Id = Guid.Parse("af02e789-fb96-4d69-b252-e1c91c23c2fe"),
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                     SalaryId = Guid.Parse("aedc27f3-e2e8-4368-ad69-1ab1c3dd7974"),
                     StartTime = new DateTime(2021, 12, 29, 8, 00, 00),
                     EndTime = new DateTime(2021, 12, 29, 17, 00, 00),

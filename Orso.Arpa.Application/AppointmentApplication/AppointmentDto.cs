@@ -9,6 +9,7 @@ using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.RoomApplication;
 using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Application.AppointmentApplication
@@ -29,7 +30,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
         [IncludeForRoles(RoleNames.Staff)]
         public string InternalDetails { get; set; }
 
-        public Guid? StatusId { get; set; }
+        public AppointmentStatus? Status { get; set; }
 
         public Guid? SalaryId { get; set; }
 
@@ -52,7 +53,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentDtoMappingProfile()
         {
-            CreateMap<Appointment, AppointmentDto>()
+            _ = CreateMap<Appointment, AppointmentDto>()
                 .ForMember(dest => dest.Participations, opt => opt.Ignore())
                 .ForMember(dest => dest.Projects, opt => opt.MapFrom(src => src.ProjectAppointments.Select(pa => pa.Project)))
                 .ForMember(dest => dest.Sections, opt => opt.MapFrom(src => src.SectionAppointments.Select(ra => ra.Section)))

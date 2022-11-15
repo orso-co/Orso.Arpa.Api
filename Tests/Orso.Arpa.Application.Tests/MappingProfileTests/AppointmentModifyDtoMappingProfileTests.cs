@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -37,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     CategoryId = Guid.NewGuid(),
                     SalaryId = Guid.NewGuid(),
                     SalaryPatternId = Guid.NewGuid(),
-                    StatusId = Guid.NewGuid()
+                    Status = AppointmentStatus.Ambigous
                 }
             };
             var expectedCommand = new Modify.Command
@@ -51,14 +52,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 CategoryId = dto.Body.CategoryId,
                 SalaryId = dto.Body.SalaryId,
                 SalaryPatternId = dto.Body.SalaryPatternId,
-                StatusId = dto.Body.StatusId
+                Status = dto.Body.Status
             };
 
             // Act
             Modify.Command command = _mapper.Map<Modify.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(expectedCommand);
+            _ = command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

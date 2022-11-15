@@ -6,6 +6,7 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.AppointmentParticipations;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -31,12 +32,12 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTe
         public async Task Should_Set_Result()
         {
             // Arrange
-            _arpaContext.Appointments
+            _ = _arpaContext.Appointments
                     .FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
                 .Returns(AppointmentSeedData.RockingXMasConcert);
-            _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
+            _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
                 .Returns(1);
-            _mapper.Map<SetResult.Command, Create.Command>(Arg.Any<SetResult.Command>())
+            _ = _mapper.Map<SetResult.Command, Create.Command>(Arg.Any<SetResult.Command>())
                 .Returns(new Create.Command());
 
             // Act
@@ -44,13 +45,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTe
                 new SetResult.Command
                 {
                     PersonId = Guid.NewGuid(),
-                    ResultId = Guid.NewGuid(),
+                    Result = AppointmentParticipationResult.Present,
                     Id = Guid.NewGuid()
                 },
                 new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(Unit.Value);
+            _ = result.Should().BeEquivalentTo(Unit.Value);
         }
     }
 }

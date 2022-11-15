@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentParticipationApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
@@ -20,7 +21,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public async Task Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
         {
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Id, Guid.Empty);
+            _ = await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Id, Guid.Empty);
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public async Task Should_Have_Validation_Error_If_Empty_PersonId_Is_Supplied()
         {
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.PersonId, Guid.Empty);
+            _ = await _validator.ShouldHaveValidationErrorForExactAsync(command => command.PersonId, Guid.Empty);
         }
 
         [Test]
@@ -42,15 +43,9 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public async Task Should_Have_Validation_Error_If_Empty_ResultId_Is_Supplied()
+        public async Task Should_Not_Have_Validation_Error_If_Valid_Result_Is_Supplied()
         {
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.ResultId, Guid.Empty);
-        }
-
-        [Test]
-        public async Task Should_Not_Have_Validation_Error_If_Valid_ResultId_Is_Supplied()
-        {
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.ResultId, Guid.NewGuid());
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Result, AppointmentParticipationResult.Absent);
         }
     }
 }

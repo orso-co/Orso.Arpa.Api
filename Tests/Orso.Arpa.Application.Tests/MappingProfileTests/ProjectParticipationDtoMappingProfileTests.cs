@@ -23,9 +23,9 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Setup()
         {
             var services = new ServiceCollection();
-            services.AddSingleton<RoleBasedSetNullAction<ProjectParticipation, ProjectParticipationDto>>();
-            services.AddSingleton(_tokenAccessor);
-            services.AddAutoMapper(cfg =>
+            _ = services.AddSingleton<RoleBasedSetNullAction<ProjectParticipation, ProjectParticipationDto>>();
+            _ = services.AddSingleton(_tokenAccessor);
+            _ = services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<ProjectParticipationDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
@@ -46,19 +46,16 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerSchneeköniginParticipation;
-            _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Staff });
+            _ = _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Staff });
             var expectedDto = new ProjectParticipationDto
             {
                 Id = projectParticipation.Id,
                 CommentByPerformerInner = projectParticipation.CommentByPerformerInner,
                 CommentByStaffInner = projectParticipation.CommentByStaffInner,
                 CommentTeam = projectParticipation.CommentTeam,
-                InvitationStatus = "Invited",
-                InvitationStatusId = projectParticipation.InvitationStatusId,
-                ParticipationStatusInternal = "Candidate",
-                ParticipationStatusInternalId = projectParticipation.ParticipationStatusInternalId,
-                ParticipationStatusInner = "Acceptance",
-                ParticipationStatusInnerId = projectParticipation.ParticipationStatusInnerId,
+                InvitationStatus = projectParticipation.InvitationStatus,
+                ParticipationStatusInternal = projectParticipation.ParticipationStatusInternal,
+                ParticipationStatusInner = projectParticipation.ParticipationStatusInner,
                 MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                 Project = ReducedProjectDtoData.Schneekönigin,
                 Person = ReducedPersonDtoData.Performer
@@ -68,15 +65,16 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             ProjectParticipationDto dto = _mapper.Map<ProjectParticipationDto>(projectParticipation);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto);
+            _ = dto.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test]
+        [System.Obsolete]
         public void Should_Map_For_Performer()
         {
             // Arrange
             ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerSchneeköniginParticipation;
-            _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Performer });
+            _ = _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Performer });
             var expectedDto = new ProjectParticipationDto
             {
                 Id = projectParticipation.Id,
@@ -84,11 +82,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 CommentByStaffInner = projectParticipation.CommentByStaffInner,
                 CommentTeam = null,
                 InvitationStatus = null,
-                InvitationStatusId = null,
-                ParticipationStatusInternal = "Candidate",
-                ParticipationStatusInternalId = projectParticipation.ParticipationStatusInternalId,
-                ParticipationStatusInner = "Acceptance",
-                ParticipationStatusInnerId = projectParticipation.ParticipationStatusInnerId,
+                ParticipationStatusInternal = projectParticipation.ParticipationStatusInternal,
+                ParticipationStatusInner = projectParticipation.ParticipationStatusInner,
                 MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                 Project = ReducedProjectDtoData.Schneekönigin,
                 Person = null
@@ -98,7 +93,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             ProjectParticipationDto dto = _mapper.Map<ProjectParticipationDto>(projectParticipation);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto);
+            _ = dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }

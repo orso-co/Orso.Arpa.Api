@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
@@ -15,8 +16,8 @@ namespace Orso.Arpa.Domain.Entities
             PersonId = command.PersonId;
             InstrumentId = command.InstrumentId;
             QualificationId = command.QualificationId;
-            InquiryStatusInnerId = command.InquiryStatusInnerId;
-            InquiryStatusTeamId = command.InquiryStatusTeamId;
+            InquiryStatusInner = command.InquiryStatusInner;
+            InquiryStatusTeam = command.InquiryStatusTeam;
             IsMainProfile = isMainProfile;
             PreferredPositionsInner = command.PreferredPositionsInnerIds.Distinct().Select(i => new MusicianProfilePositionInner(i, Id)).ToList();
             PreferredPositionsTeam = command.PreferredPositionsTeamIds.Distinct().Select(i => new MusicianProfilePositionTeam(i, Id)).ToList();
@@ -35,7 +36,7 @@ namespace Orso.Arpa.Domain.Entities
             ProfilePreferenceInner = command.ProfilePreferenceInner;
             BackgroundInner = command.BackgroundInner;
             PreferredPartsInner = command.PreferredPartsInner.ToArray();
-            InquiryStatusInnerId = command.InquiryStatusInnerId;
+            InquiryStatusInner = command.InquiryStatusInner;
         }
 
         public void Update(Logic.MusicianProfiles.Modify.Command command)
@@ -50,8 +51,8 @@ namespace Orso.Arpa.Domain.Entities
             SalaryComment = command.SalaryComment;
             QualificationId = command.QualificationId;
             SalaryId = command.SalaryId;
-            InquiryStatusInnerId = command.InquiryStatusInnerId;
-            InquiryStatusTeamId = command.InquiryStatusTeamId;
+            InquiryStatusInner = command.InquiryStatusInner;
+            InquiryStatusTeam = command.InquiryStatusTeam;
             PreferredPartsInner = command.PreferredPartsInner.ToArray();
             PreferredPartsTeam = command.PreferredPartsTeam.ToArray();
         }
@@ -85,11 +86,13 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
 
+        [Obsolete("is only needed for migration purposes")]
         public Guid? InquiryStatusInnerId { get; private set; }
-        public virtual SelectValueMapping InquiryStatusInner { get; private set; }
+        public MusicianProfileInquiryStatus? InquiryStatusInner { get; private set; }
 
+        [Obsolete("is only needed for migration purposes")]
         public Guid? InquiryStatusTeamId { get; private set; }
-        public virtual SelectValueMapping InquiryStatusTeam { get; private set; }
+        public MusicianProfileInquiryStatus? InquiryStatusTeam { get; private set; }
 
         public virtual MusicianProfileDeactivation Deactivation { get; private set; }
         public bool IsDeactivated(DateTime date) => Deactivation != null && Deactivation.DeactivationStart <= date;

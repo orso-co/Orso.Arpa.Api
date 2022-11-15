@@ -4,6 +4,7 @@ using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .RuleFor(dto => dto.GenreId, Guid.NewGuid())
                 .RuleFor(dto => dto.StartDate, new DateTime(2022, 03, 03))
                 .RuleFor(dto => dto.EndDate, new DateTime(2022, 04, 04))
-                .RuleFor(dto => dto.StateId, Guid.NewGuid())
+                .RuleFor(dto => dto.Status, (f) => f.Random.Enum<ProjectStatus>())
                 .RuleFor(dto => dto.IsCompleted, true)
                 .RuleFor(dto => dto.ParentId, (f) => f.Random.Guid())
                 .Generate();
@@ -43,7 +44,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Create.Command command = _mapper.Map<Create.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            _ = command.Should().BeEquivalentTo(dto);
         }
     }
 }

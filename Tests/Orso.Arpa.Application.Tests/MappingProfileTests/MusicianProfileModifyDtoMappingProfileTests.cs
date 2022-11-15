@@ -4,6 +4,7 @@ using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -43,8 +44,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
                     QualificationId = Guid.NewGuid(),
                     SalaryId = Guid.NewGuid(),
-                    InquiryStatusInnerId = Guid.NewGuid(),
-                    InquiryStatusTeamId = Guid.NewGuid(),
+                    InquiryStatusInner = MusicianProfileInquiryStatus.EmergencyOnly,
+                    InquiryStatusTeam = MusicianProfileInquiryStatus.Unknown,
 
                     PreferredPartsInner = new List<byte> { 1, 4 },
                     PreferredPartsTeam = new List<byte> { 2, 3 },
@@ -68,8 +69,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
                 QualificationId = dto.Body.QualificationId,
                 SalaryId = dto.Body.SalaryId,
-                InquiryStatusInnerId = dto.Body.InquiryStatusInnerId,
-                InquiryStatusTeamId = dto.Body.InquiryStatusTeamId,
+                InquiryStatusInner = dto.Body.InquiryStatusInner,
+                InquiryStatusTeam = dto.Body.InquiryStatusTeam,
 
                 PreferredPartsInner = dto.Body.PreferredPartsInner,
                 PreferredPartsTeam = dto.Body.PreferredPartsTeam,
@@ -81,7 +82,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Modify.Command command = _mapper.Map<Modify.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(expectedCommand);
+            _ = command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

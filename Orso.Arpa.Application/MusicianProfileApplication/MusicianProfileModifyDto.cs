@@ -4,6 +4,7 @@ using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
@@ -27,9 +28,9 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 
         public Guid? SalaryId { get; set; }
 
-        public Guid? InquiryStatusInnerId { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
 
-        public Guid? InquiryStatusTeamId { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusTeam { get; set; }
 
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
         public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
@@ -41,7 +42,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileModifyDtoMappingProfile()
         {
-            CreateMap<MusicianProfileModifyDto, Modify.Command>()
+            _ = CreateMap<MusicianProfileModifyDto, Modify.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
 
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.Body.IsMainProfile))
@@ -56,8 +57,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
 
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.Body.QualificationId))
                 .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.Body.SalaryId))
-                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
-                .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.Body.InquiryStatusTeamId))
+                .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.Body.InquiryStatusInner))
+                .ForMember(dest => dest.InquiryStatusTeam, opt => opt.MapFrom(src => src.Body.InquiryStatusTeam))
 
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPositionsTeamIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsTeamIds))
@@ -70,7 +71,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileModifyDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new MusicianProfileModifyBodyDtoValidator());
         }
     }
@@ -79,39 +80,45 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileModifyBodyDtoValidator()
         {
-            RuleFor(p => p.PreferredPositionsInnerIds)
+            _ = RuleFor(p => p.PreferredPositionsInnerIds)
                 .NotNull();
-            RuleFor(p => p.PreferredPositionsTeamIds)
+            _ = RuleFor(p => p.PreferredPositionsTeamIds)
                 .NotNull();
-            RuleFor(p => p.PreferredPartsInner)
+            _ = RuleFor(p => p.PreferredPartsInner)
                 .NotNull();
-            RuleFor(p => p.PreferredPartsTeam)
+            _ = RuleFor(p => p.PreferredPartsTeam)
                 .NotNull();
-            RuleFor(p => p.LevelAssessmentInner)
+            _ = RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
-            RuleFor(p => p.LevelAssessmentTeam)
+            _ = RuleFor(p => p.LevelAssessmentTeam)
                 .FiveStarRating();
-            RuleFor(p => p.ProfilePreferenceInner)
+            _ = RuleFor(p => p.ProfilePreferenceInner)
                 .FiveStarRating();
-            RuleFor(p => p.ProfilePreferenceTeam)
+            _ = RuleFor(p => p.ProfilePreferenceTeam)
                 .FiveStarRating();
 
-            RuleFor(p => p.BackgroundInner)
+            _ = RuleFor(p => p.BackgroundInner)
                 .RestrictedFreeText(1000);
 
-            RuleFor(p => p.BackgroundTeam)
+            _ = RuleFor(p => p.BackgroundTeam)
                 .RestrictedFreeText(1000);
 
-            RuleFor(p => p.SalaryComment)
+            _ = RuleFor(p => p.SalaryComment)
                 .RestrictedFreeText(500);
 
-            RuleFor(p => p.QualificationId)
+            _ = RuleFor(p => p.QualificationId)
                .NotEmpty();
 
-            RuleForEach(p => p.PreferredPositionsTeamIds)
+            RuleFor(p => p.InquiryStatusInner)
+                .IsInEnum();
+
+            RuleFor(p => p.InquiryStatusTeam)
+                .IsInEnum();
+
+            _ = RuleForEach(p => p.PreferredPositionsTeamIds)
                 .NotEmpty();
 
-            RuleForEach(p => p.PreferredPositionsInnerIds)
+            _ = RuleForEach(p => p.PreferredPositionsInnerIds)
                 .NotEmpty();
         }
     }

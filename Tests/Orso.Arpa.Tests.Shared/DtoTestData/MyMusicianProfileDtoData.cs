@@ -1,7 +1,8 @@
 using System;
+using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
-using Orso.Arpa.Application.MyMusicianProfileApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -46,7 +47,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
                     InstrumentId = Guid.Parse("b9532add-efec-4510-831c-902c32ef7dbb"),
                     LevelAssessmentInner = 1,
-                    InquiryStatusInnerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusInnerMappings[1].Id,
+                    InquiryStatusInner = MusicianProfileInquiryStatus.EmergencyOnly,
                     BackgroundInner = "Background Trombonist",
                     ProfilePreferenceInner = 3,
                     CreatedAt = FakeDateTime.UtcNow,
