@@ -70,7 +70,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public async Task Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
-            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
+            _ = _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             await _validator.ShouldHaveNotFoundErrorFor(c => c.Id, new Command()
             {
                 Id = Guid.NewGuid(),
@@ -111,53 +111,6 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
                 Code = "New Code",
                 ParentId = Guid.NewGuid()
             }, nameof(Project));
-        }
-
-        [Test]
-        public async Task Should_Have_Validation_Error_If_Invalid_StateId_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.StateId, new Command()
-            {
-                Code = "New Code",
-                StateId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
-            });
-        }
-
-        [Test]
-        public async Task Should_Have_Validation_Error_If_Not_Existing_StateId_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            await _validator.ShouldHaveNotFoundErrorFor(command => command.StateId, new Command()
-            {
-                Code = "New Code",
-                StateId = Guid.NewGuid()
-            }, nameof(SelectValueMapping));
-        }
-
-        [Test]
-        public async Task Should_Not_Have_Validation_Error_If_Empty_StateId_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.StateId, new Command()
-            {
-                Code = "New Code",
-                StateId = null
-            });
-        }
-
-        [Test]
-        public async Task Should_Not_Have_Validation_Error_If_Valid_StateId_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.StateId, new Command()
-            {
-                Code = "New Code",
-                StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id
-            });
         }
 
         [Test]
@@ -245,8 +198,8 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_TypeId_Is_Supplied()
         {
-            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.TypeId, new Command()
             {
                 Code = "New Code",

@@ -4,6 +4,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Domain.Enums;
 using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetPrediction;
 
 namespace Orso.Arpa.Application.AppointmentParticipationApplication
@@ -12,12 +13,11 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         [FromRoute]
         public Guid PersonId { get; set; }
-        [FromRoute]
-        public Guid PredictionId { get; set; }
     }
 
     public class AppointmentParticipationSetPredictionBodyDto
     {
+        public AppointmentParticipationPrediction Prediction { get; set; }
         public string CommentByPerformerInner { get; set; }
     }
 
@@ -25,11 +25,9 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public AppointmentParticipationSetPredictionDtoValidator()
         {
-            RuleFor(d => d.PersonId)
+            _ = RuleFor(d => d.PersonId)
                 .NotEmpty();
-            RuleFor(d => d.PredictionId)
-                .NotEmpty();
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new AppointmentParticipationSetPredictionBodyDtoValidator());
         }
     }
@@ -38,8 +36,10 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public AppointmentParticipationSetPredictionBodyDtoValidator()
         {
-            RuleFor(d => d.CommentByPerformerInner)
+            _ = RuleFor(d => d.CommentByPerformerInner)
                 .RestrictedFreeText(500);
+            _ = RuleFor(d => d.Prediction)
+                .IsInEnum();
         }
     }
 
@@ -47,8 +47,9 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public AppointmentParticipationSetPredictionDtoMappingProfile()
         {
-            CreateMap<AppointmentParticipationSetPredictionDto, Command>()
-                .ForMember(dest => dest.CommentByPerformerInner, opt => opt.MapFrom(src => src.Body.CommentByPerformerInner));
+            _ = CreateMap<AppointmentParticipationSetPredictionDto, Command>()
+                .ForMember(dest => dest.CommentByPerformerInner, opt => opt.MapFrom(src => src.Body.CommentByPerformerInner))
+                .ForMember(dest => dest.Prediction, opt => opt.MapFrom(src => src.Body.Prediction));
 
         }
     }

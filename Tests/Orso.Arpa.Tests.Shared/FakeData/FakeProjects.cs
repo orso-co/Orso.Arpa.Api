@@ -1,4 +1,5 @@
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -19,7 +20,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 project.Urls.Add(FakeUrls.Google);
                 project.SetProperty(nameof(Project.Type), FakeSelectValueMappings.Concert);
                 project.SetProperty(nameof(Project.Genre), FakeSelectValueMappings.ClassicalMusic);
-                project.SetProperty(nameof(Project.State), FakeSelectValueMappings.Pending);
+                project.SetProperty(nameof(Project.Status), ProjectStatus.Pending);
                 return project;
             }
         }

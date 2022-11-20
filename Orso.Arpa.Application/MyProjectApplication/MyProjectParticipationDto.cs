@@ -1,16 +1,16 @@
 using AutoMapper;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Application.MyProjectApplication
 {
     public class MyProjectParticipationDto : BaseEntityDto
     {
-        public SelectValueDto ParticipationStatusInner { get; set; }
+        public ProjectParticipationStatusInner? ParticipationStatusInner { get; set; }
 
-        public SelectValueDto ParticipationStatusInternal { get; set; }
+        public ProjectParticipationStatusInternal? ParticipationStatusInternal { get; set; }
 
         public string CommentByPerformerInner { get; set; }
 
@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.MyProjectApplication
     {
         public MyProjectParticipationDtoMappingProfile()
         {
-            CreateMap<ProjectParticipation, MyProjectParticipationDto>();
+            _ = CreateMap<ProjectParticipation, MyProjectParticipationDto>();
         }
     }
 }

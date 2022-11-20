@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Application.AppointmentApplication
 {
@@ -14,14 +15,14 @@ namespace Orso.Arpa.Application.AppointmentApplication
 
         public string Name { get; set; }
 
-        public Guid? StatusId { get; set; }
+        public AppointmentStatus? Status { get; set; }
     }
 
     public class AppointmentListDtoMappingProfile : Profile
     {
         public AppointmentListDtoMappingProfile()
         {
-            CreateMap<Appointment, AppointmentListDto>();
+            _ = CreateMap<Appointment, AppointmentListDto>();
         }
     }
 }

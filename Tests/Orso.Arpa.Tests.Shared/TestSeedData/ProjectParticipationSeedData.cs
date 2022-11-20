@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
-using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -43,9 +43,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     ProjectId = ProjectSeedData.Schneekönigin.Id,
                     MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
-                    InvitationStatusId = SelectValueMappingSeedData.ProjectParticipationInvitationStatusMappings[0].Id,
-                    ParticipationStatusInternalId = SelectValueMappingSeedData.ProjectParticipationStatusInternalMappings[0].Id,
-                    ParticipationStatusInnerId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[1].Id,
+                    InvitationStatus = ProjectInvitationStatus.Invited,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     CommentByStaffInner = "Comment by staff",
                     CommentTeam = "Comment by team"
                 }, Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"));

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Appointments;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
@@ -39,7 +40,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        Status = AppointmentStatus.Confirmed,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[0].Id,
                         SalaryPatternId = SelectValueMappingSeedData.AppointmentSalaryPatternMappings[0].Id,
                         StartTime = new DateTime(2019, 12, 21, 10, 00, 00),
@@ -70,7 +71,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[1].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[1].Id,
+                        Status = AppointmentStatus.Scheduled,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
                         SalaryPatternId = SelectValueMappingSeedData.AppointmentSalaryPatternMappings[1].Id,
                         StartTime = new DateTime(2019, 12, 22, 20, 00, 00),
@@ -97,7 +98,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[2].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[2].Id,
+                        Status = AppointmentStatus.Refused,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[2].Id,
                         SalaryPatternId = SelectValueMappingSeedData.AppointmentSalaryPatternMappings[2].Id,
                         StartTime = new DateTime(2019, 12, 24),
@@ -133,7 +134,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        Status = AppointmentStatus.Confirmed,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
                         SalaryPatternId = null,
                         StartTime = new DateTime(2020, 12, 22, 20, 00, 00),
@@ -164,7 +165,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        Status = AppointmentStatus.Confirmed,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
                         SalaryPatternId = null,
                         StartTime = new DateTime(2020, 12, 22, 15, 00, 00),
@@ -194,7 +195,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        Status = AppointmentStatus.Confirmed,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
                         SalaryPatternId = null,
                         EndTime = new DateTime(2019, 12, 24, 16, 00, 00),
@@ -224,7 +225,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        Status = AppointmentStatus.Confirmed,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
                         SalaryPatternId = null,
                         StartTime = new DateTime(2020, 11, 29, 8, 00, 00),
@@ -258,7 +259,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        Status = AppointmentStatus.Confirmed,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
                         SalaryPatternId = null,
                         StartTime = new DateTime(2021, 12, 29, 8, 00, 00),
@@ -292,7 +293,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     new Create.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
-                        StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id,
+                        Status = AppointmentStatus.Confirmed,
                         SalaryId = SelectValueMappingSeedData.AppointmentSalaryMappings[1].Id,
                         SalaryPatternId = null,
                         StartTime = new DateTime(2021, 12, 30, 8, 00, 00),

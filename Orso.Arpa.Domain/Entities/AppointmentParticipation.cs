@@ -1,5 +1,5 @@
 using System;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.AppointmentParticipations;
 
 namespace Orso.Arpa.Domain.Entities
@@ -10,8 +10,8 @@ namespace Orso.Arpa.Domain.Entities
         {
             PersonId = command.PersonId;
             AppointmentId = command.AppointmentId;
-            PredictionId = command.PredictionId;
-            ResultId = command.ResultId;
+            Prediction = command.Prediction;
+            Result = command.Result;
             CommentByPerformerInner = command.CommentByPerformerInner;
         }
 
@@ -21,23 +21,27 @@ namespace Orso.Arpa.Domain.Entities
 
         public void Update(SetPrediction.Command command)
         {
-            PredictionId = command.PredictionId;
+            Prediction = command.Prediction;
             CommentByPerformerInner = command.CommentByPerformerInner;
         }
 
         public void Update(SetResult.Command command)
         {
-            ResultId = command.ResultId;
+            Result = command.Result;
         }
 
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }
         public Guid AppointmentId { get; private set; }
         public virtual Appointment Appointment { get; private set; }
+
+        [Obsolete("is only needed for migration purposes")]
         public Guid? ResultId { get; private set; }
-        public virtual SelectValueMapping Result { get; private set; }
+        public AppointmentParticipationResult? Result { get; private set; }
+
+        [Obsolete("is only needed for migration purposes")]
         public Guid? PredictionId { get; private set; }
-        public virtual SelectValueMapping Prediction { get; private set; }
+        public AppointmentParticipationPrediction? Prediction { get; private set; }
         public string CommentByPerformerInner { get; private set; }
     }
 }

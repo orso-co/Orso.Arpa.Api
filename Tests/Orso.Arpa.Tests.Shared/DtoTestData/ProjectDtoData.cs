@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -71,7 +72,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Genre = SelectValueDtoData.ClassicalMusic,
                     StartDate = new DateTime(2020, 12, 24),
                     EndDate = new DateTime(2020, 12, 26),
-                    State = SelectValueDtoData.Pending,
+                    Status = ProjectStatus.Pending,
                     ParentId = null,
                     IsCompleted = true,
                     CreatedBy = "anonymous",
@@ -96,7 +97,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartDate = new DateTime(2020, 05, 05),
                     EndDate = new DateTime(2020, 06, 06),
                     Urls = new List<UrlDto> { UrlDtoData.GoogleDe },
-                    State = SelectValueDtoData.ProjectConfirmed,
+                    Status = ProjectStatus.Confirmed,
                     ParentId = null,
                     IsCompleted = false,
 
@@ -122,7 +123,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Id = Guid.Parse("b781c54d-8115-4561-b01e-9836fa05175e"),
                     ShortTitle = "Schnee",
                     StartDate = new DateTime(2020, 12, 1),
-                    State = SelectValueDtoData.Pending,
+                    Status = ProjectStatus.Pending,
                     Title = "Die Schneekönigin",
                     Type = SelectValueDtoData.Concert
                 };

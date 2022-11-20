@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
 using Orso.Arpa.Persistence.Seed;
 
@@ -37,7 +38,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                         StartDate = new DateTime(2020, 12, 24),
                         EndDate = new DateTime(2020, 12, 26),
-                        StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                        Status = ProjectStatus.Pending,
                         ParentId = null,
                         IsCompleted = true,
                     });
@@ -60,7 +61,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[1].Id,
                         StartDate = new DateTime(2020, 05, 05),
                         EndDate = new DateTime(2020, 06, 06),
-                        StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
+                        Status = ProjectStatus.Confirmed,
                         ParentId = null,
                         IsCompleted = false
                     });
@@ -83,7 +84,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                         StartDate = new DateTime(2020, 12, 1),
                         EndDate = new DateTime(2020, 12, 10),
-                        StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                        Status = ProjectStatus.Pending,
                         ParentId = null,
                         IsCompleted = false,
                     });

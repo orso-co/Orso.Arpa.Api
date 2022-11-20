@@ -41,7 +41,7 @@ public static class List
             List<ProjectParticipation> projectParticipations = await _arpaContext.ProjectParticipations
                 .Where(p =>
                     !p.Project.IsCompleted &&
-                    p.InvitationStatusId.HasValue &&
+                    p.InvitationStatus.HasValue &&
                     musicianProfileIds.Contains(p.MusicianProfileId))
                 .ToListAsync(cancellationToken);
 

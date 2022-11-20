@@ -1,14 +1,14 @@
-using System;
 using AutoMapper;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Application.AppointmentParticipationApplication
 {
     public class AppointmentParticipationDto : BaseEntityDto
     {
-        public Guid? ResultId { get; set; }
-        public Guid? PredictionId { get; set; }
+        public AppointmentParticipationResult? Result { get; set; }
+        public AppointmentParticipationPrediction? Prediction { get; set; }
 
         public string CommentByPerformerInner { get; set; }
     }
@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public AppointmentParticipationDtoMappingProfile()
         {
-            CreateMap<AppointmentParticipation, AppointmentParticipationDto>()
+            _ = CreateMap<AppointmentParticipation, AppointmentParticipationDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }

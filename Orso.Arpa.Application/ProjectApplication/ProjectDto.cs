@@ -5,6 +5,7 @@ using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Application.ProjectApplication
 {
@@ -19,7 +20,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public IList<UrlDto> Urls { get; set; } = new List<UrlDto>();
-        public SelectValueDto State { get; set; }
+        public ProjectStatus Status { get; set; }
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }
     }
@@ -28,7 +29,7 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public ProjectDtoMappingProfile()
         {
-            CreateMap<Project, ProjectDto>()
+            _ = CreateMap<Project, ProjectDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }

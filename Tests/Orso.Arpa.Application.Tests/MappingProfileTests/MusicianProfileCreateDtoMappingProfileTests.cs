@@ -4,6 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -38,8 +39,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     LevelAssessmentTeam = 2,
                     InstrumentId = Guid.NewGuid(),
                     QualificationId = Guid.NewGuid(),
-                    InquiryStatusInnerId = Guid.NewGuid(),
-                    InquiryStatusTeamId = Guid.NewGuid(),
+                    InquiryStatusInner = MusicianProfileInquiryStatus.Unknown,
+                    InquiryStatusTeam = MusicianProfileInquiryStatus.EmergencyOnly,
                 }
             };
             dto.Body.PreferredPositionsInnerIds.Add(Guid.NewGuid());
@@ -59,8 +60,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Create.Command command = _mapper.Map<Create.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto.Body, opt => opt.Excluding(c => c.DoublingInstruments));
-            command.PersonId.Should().Be(dto.Id);
+            _ = command.Should().BeEquivalentTo(dto.Body, opt => opt.Excluding(c => c.DoublingInstruments));
+            _ = command.PersonId.Should().Be(dto.Id);
         }
     }
 }

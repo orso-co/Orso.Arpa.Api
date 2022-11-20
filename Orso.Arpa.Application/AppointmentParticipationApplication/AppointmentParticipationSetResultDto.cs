@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Orso.Arpa.Domain.Enums;
 using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetResult;
 
 namespace Orso.Arpa.Application.AppointmentParticipationApplication
@@ -9,7 +10,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public Guid Id { get; set; }
         public Guid PersonId { get; set; }
-        public Guid ResultId { get; set; }
+        public AppointmentParticipationResult Result { get; set; }
     }
 
     public class AppointmentParticipationSetResultDtoValidator : AbstractValidator<AppointmentParticipationSetResultDto>
@@ -22,8 +23,8 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
                 .NotEmpty();
             RuleFor(d => d.PersonId)
                 .NotEmpty();
-            RuleFor(d => d.ResultId)
-                .NotEmpty();
+            RuleFor(d => d.Result)
+                .IsInEnum();
         }
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Domain.Entities
@@ -17,7 +18,7 @@ namespace Orso.Arpa.Domain.Entities
             GenreId = command.GenreId;
             StartDate = command.StartDate;
             EndDate = command.EndDate;
-            StateId = command.StateId;
+            Status = command.Status;
             ParentId = command.ParentId;
             IsCompleted = command.IsCompleted;
         }
@@ -37,7 +38,7 @@ namespace Orso.Arpa.Domain.Entities
             GenreId = command.GenreId;
             StartDate = command.StartDate;
             EndDate = command.EndDate;
-            StateId = command.StateId;
+            Status = command.Status;
             ParentId = command.ParentId;
             IsCompleted = command.IsCompleted;
         }
@@ -53,8 +54,10 @@ namespace Orso.Arpa.Domain.Entities
         public DateTime? StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
         public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
+
+        [Obsolete("is only needed for migration purposes")]
         public Guid? StateId { get; private set; }
-        public virtual SelectValueMapping State { get; private set; }
+        public ProjectStatus? Status { get; private set; }
         public Guid? ParentId { get; private set; }
         public virtual Project Parent { get; private set; }
         public virtual ICollection<Project> Children { get; private set; } = new HashSet<Project>();

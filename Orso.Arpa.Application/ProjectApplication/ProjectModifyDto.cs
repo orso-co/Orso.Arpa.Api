@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Domain.Enums;
 using static Orso.Arpa.Domain.Logic.Projects.Modify;
 
 namespace Orso.Arpa.Application.ProjectApplication
@@ -21,7 +22,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         public Guid? GenreId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public Guid? StateId { get; set; }
+        public ProjectStatus? Status { get; set; }
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }
     }
@@ -30,10 +31,10 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public ProjectModifyDtoMappingProfile()
         {
-            CreateMap<ProjectModifyDto, Command>()
+            _ = CreateMap<ProjectModifyDto, Command>()
                 .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.Body.IsCompleted))
                 .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.Body.ParentId))
-                .ForMember(dest => dest.StateId, opt => opt.MapFrom(src => src.Body.StateId))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Body.Status))
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.Body.EndDate))
                 .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Body.StartDate))
                 .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.Body.GenreId))
@@ -49,10 +50,10 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public ProjectModifyDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new ProjectModifyBodyDtoValidator());
 
-            RuleFor(p => p.Body.ParentId)
+            _ = RuleFor(p => p.Body.ParentId)
                 .Must((dto, parentId) => dto.Id != parentId.Value)
                 .When(dto => dto.Body?.ParentId != null)
                 .WithMessage("The project must not be its own parent");
@@ -63,25 +64,28 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public ProjectModifyBodyDtoValidator()
         {
-            RuleFor(p => p.Title)
+            _ = RuleFor(p => p.Title)
                 .NotEmpty()
                 .FreeText(100);
 
-            RuleFor(p => p.ShortTitle)
+            _ = RuleFor(p => p.ShortTitle)
                 .NotEmpty()
                 .PlaceName(30);
 
-            RuleFor(p => p.Description)
+            _ = RuleFor(p => p.Description)
                 .RestrictedFreeText(1000);
 
-            RuleFor(p => p.Code)
+            _ = RuleFor(p => p.Code)
                 .NotEmpty()
                 .Sepa()
                 .MaximumLength(15);
 
-            When(p => p.StartDate != null && p.EndDate != null, () =>
+            RuleFor(p => p.Status)
+                .IsInEnum();
+
+            _ = When(p => p.StartDate != null && p.EndDate != null, () =>
             {
-                RuleFor(p => p.EndDate)
+                _ = RuleFor(p => p.EndDate)
                 .Must((p, endTime) => endTime >= p.StartDate)
                 .WithMessage("EndDate must be greater than EndDate");
             });

@@ -20,7 +20,7 @@ namespace Orso.Arpa.Domain.Logic.MyProjects
         {
             public Validator()
             {
-                RuleFor(c => c.ProjectParticipation)
+                _ = RuleFor(c => c.ProjectParticipation)
                     .NotNull();
             }
         }
@@ -44,8 +44,8 @@ namespace Orso.Arpa.Domain.Logic.MyProjects
                     CommentByStaff = request.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
                     Comment = request.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
                     MusicianName = request.ProjectParticipation.MusicianProfile.Person.DisplayName,
-                    ParticipationStatus = request.ProjectParticipation.ParticipationStatusInner.SelectValue.Name,
-                    ParticipationStatusInternal = request.ProjectParticipation.ParticipationStatusInternal.SelectValue.Name,
+                    ParticipationStatus = request.ProjectParticipation.ParticipationStatusInner?.ToString() ?? "- ohne -",
+                    ParticipationStatusInternal = request.ProjectParticipation.ParticipationStatusInternal?.ToString() ?? "- ohne -",
                     ProjectName = request.ProjectParticipation.Project.ToString()
                 };
 

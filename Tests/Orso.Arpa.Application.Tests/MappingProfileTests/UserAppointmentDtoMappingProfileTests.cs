@@ -26,10 +26,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Setup()
         {
             var services = new ServiceCollection();
-            services.AddSingleton<LocalizeAction<SelectValueMapping, SelectValueDto>>();
-            services.AddSingleton<LocalizeAction<Role, RoleDto>>();
-            services.AddSingleton(_localizerCache);
-            services.AddAutoMapper(cfg =>
+            _ = services.AddSingleton<LocalizeAction<SelectValueMapping, SelectValueDto>>();
+            _ = services.AddSingleton<LocalizeAction<Role, RoleDto>>();
+            _ = services.AddSingleton(_localizerCache);
+            _ = services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<MyAppointmentDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
@@ -54,15 +54,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Appointment appointment = FakeAppointments.RockingXMasRehearsal;
-            appointment.ProjectAppointments.First().Project.Urls.Remove(appointment.ProjectAppointments.First().Project.Urls.First());
+            _ = appointment.ProjectAppointments.First().Project.Urls.Remove(appointment.ProjectAppointments.First().Project.Urls.First());
             MyAppointmentDto expectedDto = UserAppointmentDtoTestData.RockingXMasDressRehearsal;
 
             // Act
             MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dto => dto.PredictionId));
+            _ = dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Prediction));
         }
     }
 }

@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -17,18 +18,18 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
         {
             public Guid Id { get; set; }
             public Guid PersonId { get; set; }
-            public Guid ResultId { get; set; }
+            public AppointmentParticipationResult Result { get; set; }
         }
 
         public class MappingProfile : Profile
         {
             public MappingProfile()
             {
-                CreateMap<Command, Create.Command>()
+                _ = CreateMap<Command, Create.Command>()
                     .ForMember(dest => dest.AppointmentId, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
-                    .ForMember(dest => dest.PredictionId, opt => opt.MapFrom(_ => default(Guid?)))
-                    .ForMember(dest => dest.ResultId, opt => opt.MapFrom(src => src.ResultId));
+                    .ForMember(dest => dest.Prediction, opt => opt.MapFrom(_ => default(AppointmentParticipationPrediction?)))
+                    .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Result));
             }
         }
 
@@ -36,16 +37,14 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(d => d.Id)
+                _ = RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext);
-                RuleFor(d => d.PersonId)
+                _ = RuleFor(d => d.PersonId)
                     .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, Person>(arpaContext)
                     .Must((command, personId) => arpaContext.IsPersonEligibleForAppointment(personId, command.Id))
                     .WithErrorCode("403")
                     .WithMessage("This person is not eligible for the supplied appointment.");
-                RuleFor(d => d.ResultId)
-                    .EntityExists<Command, SelectValueMapping>(arpaContext);
             }
         }
 
@@ -73,20 +72,17 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
                 if (participation == null)
                 {
                     participation = new AppointmentParticipation(Guid.NewGuid(), _mapper.Map<Command, Create.Command>(request));
-                    await _arpaContext.AppointmentParticipations.AddAsync(participation, cancellationToken);
+                    _ = await _arpaContext.AppointmentParticipations.AddAsync(participation, cancellationToken);
                 }
                 else
                 {
                     participation.Update(request);
-                    _arpaContext.AppointmentParticipations.Update(participation);
+                    _ = _arpaContext.AppointmentParticipations.Update(participation);
                 }
 
-                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
-                {
-                    return Unit.Value;
-                }
-
-                throw new Exception("Problem updating appointment participation");
+                return await _arpaContext.SaveChangesAsync(cancellationToken) > 0
+                    ? Unit.Value
+                    : throw new Exception("Problem updating appointment participation");
             }
         }
     }

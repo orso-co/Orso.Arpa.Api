@@ -37,6 +37,7 @@
     <PackageReference Include="NTRPRS.NLog.Slack" Version="5.0.4" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

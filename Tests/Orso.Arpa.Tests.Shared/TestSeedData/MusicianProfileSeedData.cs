@@ -64,7 +64,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     PersonId = PersonTestSeedData.Performer.Id,
                     InstrumentId = SectionSeedData.Horn.Id,
                     LevelAssessmentInner = 1,
-                    InquiryStatusInnerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusInnerMappings[1].Id,
+                    InquiryStatusInner = MusicianProfileInquiryStatus.EmergencyOnly,
                     QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[1].Id
                 };
                 command.PreferredPositionsTeamIds.Add(SelectValueSectionSeedData.HornCoach.Id);

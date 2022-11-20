@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Domain.Entities
@@ -15,7 +16,7 @@ namespace Orso.Arpa.Domain.Entities
             Name = command.Name;
             PublicDetails = command.PublicDetails;
             InternalDetails = command.InternalDetails;
-            StatusId = command.StatusId;
+            Status = command.Status;
             SalaryId = command.SalaryId;
             SalaryPatternId = command.SalaryPatternId;
             ExpectationId = command.ExpectationId;
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Domain.Entities
             Name = command.Name;
             PublicDetails = command.PublicDetails;
             InternalDetails = command.InternalDetails;
-            StatusId = command.StatusId;
+            Status = command.Status;
             SalaryId = command.SalaryId;
             SalaryPatternId = command.SalaryPatternId;
             ExpectationId = command.ExpectationId;
@@ -65,8 +66,9 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? CategoryId { get; private set; }
         public virtual SelectValueMapping Category { get; private set; }
 
+        [Obsolete("is only needed for migration purposes")]
         public Guid? StatusId { get; private set; }
-        public virtual SelectValueMapping Status { get; private set; }
+        public AppointmentStatus? Status { get; private set; }
 
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }

@@ -10,7 +10,7 @@ using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 
-namespace Orso.Arpa.Application.MyMusicianProfileApplication
+namespace Orso.Arpa.Application.MeApplication
 {
     public class MyMusicianProfileDto : BaseEntityDto
     {
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
         public string BackgroundInner { get; set; }
         public Guid PersonId { get; set; }
         public Guid InstrumentId { get; set; }
-        public Guid? InquiryStatusInnerId { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
         public IList<MyDoublingInstrumentDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentDto>();
         public IList<EducationDto> Educations { get; set; } = new List<EducationDto>();
         public IList<CurriculumVitaeReferenceDto> CurriculumVitaeReferences { get; set; } = new List<CurriculumVitaeReferenceDto>();
@@ -44,7 +44,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
     {
         public MyMusicianProfileDtoMappingProfile()
         {
-            CreateMap<MusicianProfile, MyMusicianProfileDto>()
+            _ = CreateMap<MusicianProfile, MyMusicianProfileDto>()
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.IsMainProfile))
                 .ForMember(dest => dest.Deactivation, opt => opt.MapFrom(src => src.Deactivation))
 
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
 
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
-                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.InquiryStatusInnerId))
+                .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.InquiryStatusInner))
 
                 .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.PreferredPositionsInner
@@ -72,7 +72,7 @@ namespace Orso.Arpa.Application.MyMusicianProfileApplication
     {
         public MyDoublingInstrumentDtoMappingProfile()
         {
-            CreateMap<MusicianProfileSection, MyDoublingInstrumentDto>()
+            _ = CreateMap<MusicianProfileSection, MyDoublingInstrumentDto>()
                 .ForMember(dest => dest.AvailabilityId, opt => opt.MapFrom(src => src.InstrumentAvailabilityId))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.SectionId))
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))

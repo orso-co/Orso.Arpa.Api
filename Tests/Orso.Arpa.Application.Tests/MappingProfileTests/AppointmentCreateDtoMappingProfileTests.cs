@@ -4,6 +4,7 @@ using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .RuleFor(dto => dto.CategoryId, _ => Guid.NewGuid())
                 .RuleFor(dto => dto.SalaryId, _ => Guid.NewGuid())
                 .RuleFor(dto => dto.SalaryPatternId, _ => Guid.NewGuid())
-                .RuleFor(dto => dto.StatusId, _ => Guid.NewGuid())
+                .RuleFor(dto => dto.Status, f => f.Random.Enum<AppointmentStatus>())
                 .RuleFor(dto => dto.ExpectationId, _ => Guid.NewGuid())
                 .Generate();
 
@@ -42,7 +43,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Create.Command command = _mapper.Map<Create.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto);
+            _ = command.Should().BeEquivalentTo(dto);
         }
     }
 }

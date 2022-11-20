@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.MyMusicianProfileApplication;
+using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Me;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -37,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
                     BackgroundInner = "Performer gave some background",
 
-                    InquiryStatusInnerId = Guid.NewGuid(),
+                    InquiryStatusInner = MusicianProfileInquiryStatus.Unknown,
 
                     PreferredPartsInner = new List<byte> { 1, 4 },
                     PreferredPositionsInnerIds = new List<Guid> { Guid.NewGuid() },
@@ -53,7 +54,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
                 BackgroundInner = dto.Body.BackgroundInner,
 
-                InquiryStatusInnerId = dto.Body.InquiryStatusInnerId,
+                InquiryStatusInner = dto.Body.InquiryStatusInner,
 
                 PreferredPartsInner = dto.Body.PreferredPartsInner,
                 PreferredPositionsInnerIds = dto.Body.PreferredPositionsInnerIds
@@ -63,7 +64,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             ModifyMusicianProfile.Command command = _mapper.Map<ModifyMusicianProfile.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(expectedCommand);
+            _ = command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

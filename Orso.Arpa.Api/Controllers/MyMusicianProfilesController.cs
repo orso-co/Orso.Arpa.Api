@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MyMusicianProfileApplication;
+using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
 

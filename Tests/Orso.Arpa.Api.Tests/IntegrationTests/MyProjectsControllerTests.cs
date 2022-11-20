@@ -7,9 +7,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MyProjectApplication;
-using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -32,8 +31,8 @@ public class MyProjectsControllerTests : IntegrationTestBase
             CreatedBy = "anonymous",
             Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-            ParticipationStatusInner = SelectValueDtoData.Acceptance,
-            ParticipationStatusInternal = SelectValueDtoData.Candidate,
+            ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
         });
         var expectedDtos = new List<MyProjectDto>
         {
@@ -60,19 +59,14 @@ public class MyProjectsControllerTests : IntegrationTestBase
 
         var dto = new MyProjectParticipationModifyBodyDto
         {
-            ParticipationStatusId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[0].Id,
+            ParticipationStatusInner = ProjectParticipationStatusInner.Interested,
             Comment = "Performer comment",
             MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id
         };
 
         var expectedDto = new MyProjectParticipationDto()
         {
-            ParticipationStatusInner = new SelectValueDto
-            {
-                Id = dto.ParticipationStatusId,
-                Name = "Interested",
-                Description = ""
-            },
+            ParticipationStatusInner = ProjectParticipationStatusInner.Interested,
             CreatedAt = FakeDateTime.UtcNow,
             CreatedBy = "anonymous",
             ModifiedAt = FakeDateTime.UtcNow,
@@ -81,12 +75,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
             CommentByStaffInner = "Comment by staff",
             Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
-            ParticipationStatusInternal = new SelectValueDto
-            {
-                Id = Guid.Parse("b0dcb5e9-bbc6-4004-b9d7-0f6723416b9b"),
-                Name = "Candidate",
-                Description = ""
-            }
+            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate
         };
         _fakeSmtpServer.ClearReceivedEmail();
 

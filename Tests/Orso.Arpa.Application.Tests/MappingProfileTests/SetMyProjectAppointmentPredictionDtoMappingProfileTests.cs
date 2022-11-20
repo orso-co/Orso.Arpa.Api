@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Domain.Enums;
 using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -27,10 +28,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var dto = new SetMyAppointmentParticipationPredictionDto
             {
                 Id = Guid.NewGuid(),
-                PredictionId = Guid.NewGuid(),
                 Body = new SetMyAppointmentParticipationPredictionBodyDto
                 {
-                    CommentByPerformerInner = "CommentByPerformerInner"
+                    CommentByPerformerInner = "CommentByPerformerInner",
+                    Prediction = AppointmentParticipationPrediction.Partly
                 }
             };
             var expectedCommand = new AppointmentParticipations.SetPrediction.Command
@@ -38,14 +39,14 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 CommentByPerformerInner = dto.Body.CommentByPerformerInner,
                 Id = dto.Id,
                 PersonId = Guid.Empty,
-                PredictionId = dto.PredictionId,
+                Prediction = AppointmentParticipationPrediction.Partly
             };
 
             // Act
             AppointmentParticipations.SetPrediction.Command command = _mapper.Map<AppointmentParticipations.SetPrediction.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(expectedCommand);
+            _ = command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }
