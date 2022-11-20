@@ -42,7 +42,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Prediction = AppointmentParticipationPrediction.Yes,
                     CreatedAt = FakeDateTime.UtcNow,
                     Category = SelectValueDtoData.Rehearsal,
-                    Status = AppointmentStatus.Confirmed
+                    Status = AppointmentStatus.Confirmed,
+                    CommentByPerformerInner = "Werde wahrscheinlich etwas früher gehen müssen."
                 };
                 dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
 

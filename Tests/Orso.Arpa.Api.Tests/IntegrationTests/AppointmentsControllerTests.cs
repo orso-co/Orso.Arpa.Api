@@ -482,7 +482,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(119)]
-        [Obsolete]
         public async Task Should_Set_Existing_Participation_Prediction()
         {
             // Arrange

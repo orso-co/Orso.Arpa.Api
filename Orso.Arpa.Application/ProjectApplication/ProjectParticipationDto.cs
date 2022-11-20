@@ -1,4 +1,3 @@
-using System;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using Orso.Arpa.Application.General;
@@ -39,7 +38,6 @@ namespace Orso.Arpa.Application.ProjectApplication
 
     public class ProjectParticipationDtoMappingProfile : Profile
     {
-        [Obsolete]
         public ProjectParticipationDtoMappingProfile()
         {
             _ = CreateMap<ProjectParticipation, ProjectParticipationDto>()

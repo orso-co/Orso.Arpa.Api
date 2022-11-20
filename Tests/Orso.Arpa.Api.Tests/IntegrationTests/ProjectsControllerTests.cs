@@ -216,7 +216,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(101)]
-        [Obsolete]
         public async Task Should_Create_With_All_Fields_Defined()
         {
             // Arrange

@@ -68,6 +68,7 @@ namespace Orso.Arpa.Application.Services
                 {
                     dto.Result = participation.Result;
                     dto.Prediction = participation.Prediction;
+                    dto.CommentByPerformerInner = participation.CommentByPerformerInner;
                 }
             }
 

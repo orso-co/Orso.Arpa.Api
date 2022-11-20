@@ -128,7 +128,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
             SmtpMessage receivedEmail = _fakeSmtpServer.ReceivedEmail[0];
             _ = receivedEmail.Subject.Should().Be(expectedSubject);
-            _ = receivedEmail.ToAddresses.Count().Should().Be(1);
+            _ = receivedEmail.ToAddresses.Length.Should().Be(1);
             _ = receivedEmail.ToAddresses[0].Address.Should().Be(expectedReceiverAddress);
         }
     }
