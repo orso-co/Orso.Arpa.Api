@@ -16,7 +16,7 @@ public class MyProjectParticipationModifyDto : IdFromRouteDto<MyProjectParticipa
 public class MyProjectParticipationModifyBodyDto
 {
     public ProjectParticipationStatusInner ParticipationStatusInner { get; set; }
-    public string Comment { get; set; }
+    public string CommentByPerformerInner { get; set; }
     public Guid MusicianProfileId { get; set; }
 }
 
@@ -26,7 +26,7 @@ public class MyProjectParticipationModifyDtoMappingProfile : Profile
     {
         _ = CreateMap<MyProjectParticipationModifyDto, SetProjectParticipationStatus.Command>()
             .ForMember(dest => dest.CommentByPerformerInner,
-                opt => opt.MapFrom(src => src.Body.Comment))
+                opt => opt.MapFrom(src => src.Body.CommentByPerformerInner))
             .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.MusicianProfileId,
                 opt => opt.MapFrom(src => src.Body.MusicianProfileId))
@@ -50,7 +50,7 @@ public class MyProjectParticipationModifyBodyDtoValidator : AbstractValidator<My
     {
         _ = RuleFor(d => d.ParticipationStatusInner)
             .IsInEnum();
-        _ = RuleFor(d => d.Comment)
+        _ = RuleFor(d => d.CommentByPerformerInner)
             .RestrictedFreeText(500);
     }
 }
