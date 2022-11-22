@@ -60,7 +60,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
         var dto = new MyProjectParticipationModifyBodyDto
         {
             ParticipationStatusInner = ProjectParticipationStatusInner.Interested,
-            Comment = "Performer comment",
+            CommentByPerformerInner = "Performer comment",
             MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id
         };
 
@@ -71,7 +71,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
             CreatedBy = "anonymous",
             ModifiedAt = FakeDateTime.UtcNow,
             ModifiedBy = "Per Former",
-            CommentByPerformerInner = dto.Comment,
+            CommentByPerformerInner = dto.CommentByPerformerInner,
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
             CommentByStaffInner = "Comment by staff",
             Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
