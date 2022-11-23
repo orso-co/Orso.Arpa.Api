@@ -61,7 +61,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             MyAppointmentDto dto = _mapper.Map<MyAppointmentDto>(appointment);
 
             // Assert
-            _ = dto.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Prediction));
+            _ = dto.Should().BeEquivalentTo(expectedDto, opt => opt
+                .Excluding(dto => dto.Prediction)
+                .Excluding(dto => dto.Result)
+                .Excluding(dto => dto.CommentByPerformerInner));
         }
     }
 }

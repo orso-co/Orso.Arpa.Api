@@ -45,6 +45,7 @@ namespace Orso.Arpa.Application.MeApplication
                 .ForMember(dest => dest.Expectation, opt => opt.MapFrom(src => src.Expectation.SelectValue.Name))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
+            // CommentByPerformerInner, Result and Prediction will be set manually in service
         }
     }
 }
