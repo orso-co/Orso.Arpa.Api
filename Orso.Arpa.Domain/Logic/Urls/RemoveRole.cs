@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
         {
             public MappingProfile()
             {
-                CreateMap<Command, UrlRole>()
+                _ = CreateMap<Command, UrlRole>()
                     .ForMember(dest => dest.UrlId, opt => opt.MapFrom(src => src.UrlId))
                     .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.RoleId));
             }
@@ -44,10 +44,10 @@ namespace Orso.Arpa.Domain.Logic.Urls
         {
             public Validator(IArpaContext arpaContext, RoleManager<Role> roleManager)
             {
-                RuleFor(d => d.UrlId)
+                _ = RuleFor(d => d.UrlId)
                        .EntityExists<Command, Url>(arpaContext);
 
-                RuleFor(d => d.RoleId)
+                _ = RuleFor(d => d.RoleId)
                     .Cascade(CascadeMode.Stop)
                     .MustAsync(async (roleId, cancellation) => await roleManager.Roles.AnyAsync(r => r.Id == roleId, cancellation))
                     .WithErrorCode("404")
@@ -73,10 +73,11 @@ namespace Orso.Arpa.Domain.Logic.Urls
                 UrlRole roleToRemove = await _arpaContext.UrlRoles
                    .FirstOrDefaultAsync(ar => ar.RoleId == request.RoleId && ar.UrlId == request.UrlId, cancellationToken);
 
-                _arpaContext.UrlRoles.Remove(roleToRemove);
+                _ = _arpaContext.UrlRoles.Remove(roleToRemove);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
+                    _arpaContext.ClearChangeTracker();
                     return Unit.Value;
                 }
 

@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(d => d.RoomId)
+                _ = RuleFor(d => d.RoomId)
                     .MustAsync(async (dto, roomId, cancellation) => await arpaContext.AppointmentRooms
                         .AnyAsync(ar => ar.RoomId == roomId && ar.AppointmentId == dto.Id, cancellation))
                     .WithMessage("The room is not linked to the appointment");
@@ -52,10 +52,11 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                 AppointmentRoom roomToRemove = await _arpaContext.AppointmentRooms
                                     .FirstOrDefaultAsync(ar => ar.RoomId == request.RoomId && ar.AppointmentId == request.Id, cancellationToken);
 
-                _arpaContext.AppointmentRooms.Remove(roomToRemove);
+                _ = _arpaContext.AppointmentRooms.Remove(roomToRemove);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
+                    _arpaContext.ClearChangeTracker();
                     return Unit.Value;
                 }
 

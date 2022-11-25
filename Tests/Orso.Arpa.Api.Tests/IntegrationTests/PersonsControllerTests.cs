@@ -251,13 +251,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.PersonsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             PersonDto result = await DeserializeResponseMessageAsync<PersonDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt
                 .Excluding(dto => dto.Id));
-            result.Id.Should().NotBeEmpty();
-            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.PersonsController.Get(result.Id)}");
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.PersonsController.Get(result.Id)}");
         }
 
         [Test, Order(1001)]
@@ -317,15 +317,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonDtoData.LockedOutUser.Id), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.DoublingInstruments));
-            result.Id.Should().NotBeEmpty();
-            result.DoublingInstruments.Count.Should().Be(1);
-            result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
-            result.DoublingInstruments[0].Id.Should().NotBeEmpty();
-            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.DoublingInstruments));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = result.DoublingInstruments.Count.Should().Be(1);
+            _ = result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
+            _ = result.DoublingInstruments[0].Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
 
         [Test, Order(1101)]

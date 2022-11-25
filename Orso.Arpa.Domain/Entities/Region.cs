@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.Logic.Regions;
 
 namespace Orso.Arpa.Domain.Entities
@@ -28,6 +29,7 @@ namespace Orso.Arpa.Domain.Entities
         public bool IsForRehearsal { get; private set; }
         public bool IsForPerformance { get; private set; }
 
+        [CascadingSoftDelete]
         public virtual ICollection<RegionPreference> RegionPreferences { get; private set; } = new HashSet<RegionPreference>();
     }
 }

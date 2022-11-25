@@ -64,24 +64,24 @@ namespace Orso.Arpa.Api.Controllers
             return Ok(await _musicianProfileService.GetByIdAsync(id));
         }
 
-        ///// <summary>
-        ///// Deletes existing musicianProfile by id
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <response code="204"></response>
-        ///// <response code="404">If entity could not be found</response>
-        ///// <response code="422">If validation fails</response>
-        //[Authorize(Roles = RoleNames.Staff)]
-        //[HttpDelete("{id}")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        //public async Task<ActionResult> Delete([FromRoute] Guid id)
-        //{
-        //    await _musicianProfileService.DeleteAsync(id);
+        /// <summary>
+        /// Deletes existing musicianProfile by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Admin)]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> Delete([FromRoute] Guid id)
+        {
+            await _musicianProfileService.DeleteAsync(id);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
         /// <summary>
         /// Gets all project participations of the given musician profile

@@ -36,9 +36,14 @@ namespace Orso.Arpa.Application.Services
             {
                 Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
-                await _mediator.Send(doublingInstrumentCommand);
+                _ = await _mediator.Send(doublingInstrumentCommand);
             }
             return _mapper.Map<MusicianProfileDto>(createdEntity);
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            _ = await _mediator.Send(new Domain.GenericHandlers.Delete.Command<MusicianProfile>() { Id = id });
         }
 
         public Task<IEnumerable<MusicianProfileDto>> GetByPersonAsync(Guid personId, bool includeDeactivated)
@@ -77,7 +82,7 @@ namespace Orso.Arpa.Application.Services
             command.InstrumentId = existingMusicianProfile.InstrumentId;
             command.ExistingMusicianProfile = existingMusicianProfile;
 
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
             return await GetByIdAsync(command.Id);
         }
     }

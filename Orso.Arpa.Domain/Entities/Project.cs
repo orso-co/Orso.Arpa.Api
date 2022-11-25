@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
 
@@ -53,6 +54,8 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping Genre { get; private set; }
         public DateTime? StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
+
+        [CascadingSoftDelete]
         public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
 
         [Obsolete("is only needed for migration purposes")]
@@ -60,10 +63,15 @@ namespace Orso.Arpa.Domain.Entities
         public ProjectStatus? Status { get; private set; }
         public Guid? ParentId { get; private set; }
         public virtual Project Parent { get; private set; }
-        public virtual ICollection<Project> Children { get; private set; } = new HashSet<Project>();
         public bool IsCompleted { get; private set; }
 
+        [CascadingSoftDelete]
+        public virtual ICollection<Project> Children { get; private set; } = new HashSet<Project>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
 
         public override string ToString()

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.Logic.Rooms;
 
 namespace Orso.Arpa.Domain.Entities
@@ -26,6 +27,7 @@ namespace Orso.Arpa.Domain.Entities
         public string Floor { get; private set; }
         public string Name { get; private set; }
 
+        [CascadingSoftDelete]
         public virtual ICollection<AppointmentRoom> AppointmentRooms { get; private set; }
             = new HashSet<AppointmentRoom>();
     }
