@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Appointments;
 
@@ -52,6 +53,11 @@ namespace Orso.Arpa.Domain.Entities
             VenueId = command.VenueId;
         }
 
+        internal void ClearVenue()
+        {
+            VenueId = null;
+        }
+
         #region Native
 
         public DateTime StartTime { get; private set; }
@@ -88,9 +94,16 @@ namespace Orso.Arpa.Domain.Entities
         #endregion
         #region Collection
 
+        [CascadingSoftDelete]
         public virtual ICollection<AppointmentRoom> AppointmentRooms { get; private set; } = new HashSet<AppointmentRoom>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<SectionAppointment> SectionAppointments { get; private set; } = new HashSet<SectionAppointment>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();
 
         #endregion

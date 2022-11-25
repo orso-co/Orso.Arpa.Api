@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Orso.Arpa.Domain.Attributes;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -19,7 +20,10 @@ namespace Orso.Arpa.Domain.Entities
         public virtual Section Section { get; private set; }
         public Guid SelectValueId { get; private set; }
         public virtual SelectValue SelectValue { get; private set; }
+
+        [CascadingSoftDelete]
         public virtual ICollection<MusicianProfilePositionInner> MusicianProfilePositionsAsInner { get; private set; } = new HashSet<MusicianProfilePositionInner>();
+        [CascadingSoftDelete]
         public virtual ICollection<MusicianProfilePositionTeam> MusicianProfilePositionsAsTeam { get; private set; } = new HashSet<MusicianProfilePositionTeam>();
     }
 }

@@ -36,5 +36,12 @@ namespace Orso.Arpa.Application.Services
             IImmutableList<Room> rooms = await _mediator.Send(new Rooms.Query(id));
             return _mapper.Map<IEnumerable<RoomDto>>(rooms);
         }
+
+        public override async Task DeleteAsync(Guid id)
+        {
+            var notification = new DeleteNotification() { Id = id };
+            await _mediator.Publish(notification);
+            await base.DeleteAsync(id);
+        }
     }
 }

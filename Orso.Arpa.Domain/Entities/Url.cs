@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.Logic.Urls;
 
 namespace Orso.Arpa.Domain.Entities
@@ -31,6 +32,8 @@ namespace Orso.Arpa.Domain.Entities
 
         public string Href { get; private set; }
         public string AnchorText { get; private set; }
+
+        [CascadingSoftDelete]
         public virtual ICollection<UrlRole> UrlRoles { get; private set; } = new HashSet<UrlRole>();
         public Guid ProjectId { get; private set; }
         public virtual Project Project { get; private set; }

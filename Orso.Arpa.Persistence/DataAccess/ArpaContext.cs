@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.ChangeLog;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
@@ -78,7 +79,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLazyLoadingProxies();
+            _ = optionsBuilder.UseLazyLoadingProxies();
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -153,7 +154,34 @@ namespace Orso.Arpa.Persistence.DataAccess
         {
             entry.State = EntityState.Modified;
             (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
+            Type entityType = entry.Entity.GetType();
 
+            foreach (NavigationEntry navigationEntry in entry.Navigations)
+            {
+                var shouldBeDeleted = entityType
+                    .GetProperty(navigationEntry.Metadata.Name)?
+                    .GetCustomAttribute<CascadingSoftDeleteAttribute>() != null;
+
+                if (!shouldBeDeleted)
+                {
+                    continue;
+                }
+                if (!navigationEntry.IsLoaded)
+                {
+                    await navigationEntry.LoadAsync(cancellationToken);
+                }
+                if (navigationEntry is CollectionEntry collectionEntry)
+                {
+                    foreach (var dependentEntryObject in collectionEntry.CurrentValue)
+                    {
+                        await DeleteNavigationEntry(currentUserDisplayName, dependentEntryObject, cancellationToken);
+                    }
+                }
+                else if (navigationEntry is ReferenceEntry referenceEntry && referenceEntry.CurrentValue != null)
+                {
+                    await DeleteNavigationEntry(currentUserDisplayName, referenceEntry.CurrentValue, cancellationToken);
+                }
+            }
             foreach (IProperty property in entry.CurrentValues.Properties)
             {
                 if (property.IsColumnNullable() && property.IsForeignKey())
@@ -161,23 +189,15 @@ namespace Orso.Arpa.Persistence.DataAccess
                     entry.CurrentValues[property] = null;
                 }
             }
-            foreach (NavigationEntry navigationEntry in entry.Navigations)
+        }
+
+        private async Task DeleteNavigationEntry(string currentUserDisplayName, object navigationEntryCurrentValue, CancellationToken cancellationToken)
+        {
+            EntityEntry dependentEntry = Entry(navigationEntryCurrentValue);
+            Type typeOfDependentEntry = dependentEntry.Entity.GetType();
+            if (typeOfDependentEntry.IsSubclassOf(typeof(BaseEntity)))
             {
-                if (navigationEntry is CollectionEntry collectionEntry)
-                {
-                    if (!collectionEntry.IsLoaded)
-                    {
-                        await collectionEntry.LoadAsync(cancellationToken);
-                    }
-                    foreach (var dependentEntryObject in collectionEntry.CurrentValue)
-                    {
-                        EntityEntry dependentEntry = Entry(dependentEntryObject);
-                        if (dependentEntry.Entity.GetType().IsSubclassOf(typeof(BaseEntity)))
-                        {
-                            await DeleteWithNavigationsAsync(currentUserDisplayName, dependentEntry, cancellationToken);
-                        }
-                    }
-                }
+                await DeleteWithNavigationsAsync(currentUserDisplayName, dependentEntry, cancellationToken);
             }
         }
 
