@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -25,7 +27,22 @@ namespace Orso.Arpa.Application.Services
 
         public virtual async Task DeleteAsync(Guid id)
         {
-            await _mediator.Send(new Delete.Command<TEntity>() { Id = id });
+            Type entityDeleteNotificationType = Assembly
+                .GetAssembly(typeof(BaseEntity))
+                .GetTypes()
+                .FirstOrDefault(t => t.GetInterfaces().Any(x =>
+                                    x.IsGenericType &&
+                                    x.GetGenericTypeDefinition() == typeof(IEntityDeleteNotification<>) &&
+                                    x.GetGenericArguments().Contains(typeof(TEntity))));
+
+            if (entityDeleteNotificationType != null)
+            {
+                var notification = Activator.CreateInstance(entityDeleteNotificationType) as IEntityDeleteNotification<TEntity>;
+                notification.Id = id;
+                await _mediator.Publish(notification);
+            }
+
+            _ = await _mediator.Send(new Delete.Command<TEntity>() { Id = id });
         }
     }
 }

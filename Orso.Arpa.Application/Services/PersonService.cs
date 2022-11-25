@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,13 +46,6 @@ namespace Orso.Arpa.Application.Services
         {
             RemoveStakeholderGroup.Command command = _mapper.Map<RemoveStakeholderGroup.Command>(removeStakeholderGroupDto);
             await _mediator.Send(command);
-        }
-
-        public override async Task DeleteAsync(Guid id)
-        {
-            var notification = new DeleteNotification() { Id = id };
-            await _mediator.Publish(notification);
-            await base.DeleteAsync(id);
         }
     }
 }

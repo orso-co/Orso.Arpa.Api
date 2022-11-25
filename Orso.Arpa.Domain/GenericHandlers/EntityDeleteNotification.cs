@@ -6,6 +6,6 @@ namespace Orso.Arpa.Domain.GenericHandlers
 {
     public interface IEntityDeleteNotification<TEntity> : INotification where TEntity : BaseEntity
     {
-        Guid Id { get; }
+        Guid Id { get; set; }
     }
 }
