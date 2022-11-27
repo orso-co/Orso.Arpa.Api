@@ -28,10 +28,12 @@ public static class SetProjectParticipationStatus
                 .Cascade(CascadeMode.Stop)
                 .EntityExists<Command, Project>(arpaContext)
                 .MustAsync(async (projectId, cancellation) =>
-                    !(await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation))
-                        .IsCompleted)
+                {
+                    Project project = await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation);
+                    return !(project.IsCompleted || ProjectStatus.Cancelled.Equals(project.Status));
+                })
                 .WithMessage(
-                    "The project is completed. You may not set the participation of a completed project")
+                    "The project is cancelled or completed. You must not set the participation of such a project")
                 .MustAsync(async (command, projectId, cancellation) =>
                     await arpaContext.EntityExistsAsync<ProjectParticipation>(
                         pp => pp.ProjectId == projectId &&

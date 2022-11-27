@@ -31,7 +31,9 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<ProjectDto>> GetAsync(bool includeCompleted)
         {
-            Expression<Func<Project, bool>> predicate = includeCompleted ? default : p => !p.IsCompleted && p.Status != ProjectStatus.Cancelled;
+            Expression<Func<Project, bool>> predicate = includeCompleted
+                ? default
+                : p => !p.IsCompleted && p.Status != ProjectStatus.Cancelled;
             return await base.GetAsync(predicate: predicate);
         }
 
