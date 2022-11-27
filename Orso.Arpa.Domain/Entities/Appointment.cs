@@ -65,6 +65,7 @@ namespace Orso.Arpa.Domain.Entities
         public string Name { get; private set; }
         public string PublicDetails { get; private set; }
         public string InternalDetails { get; private set; }
+        public AppointmentStatus? Status { get; private set; }
 
         #endregion
         #region Reference
@@ -74,7 +75,6 @@ namespace Orso.Arpa.Domain.Entities
 
         [Obsolete("is only needed for migration purposes")]
         public Guid? StatusId { get; private set; }
-        public AppointmentStatus? Status { get; private set; }
 
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }

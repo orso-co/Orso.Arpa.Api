@@ -49,5 +49,35 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
             }
         }
+
+        public static ReducedProjectDto ChorwerkstattFreiburg
+        {
+            get
+            {
+                return new ReducedProjectDto
+                {
+                    Code = "1003",
+                    Description = "Ein Blick hinter die Kulissen…",
+                    Id = Guid.Parse("a9668e17-e6df-4b08-8db5-30c88f89d78c"),
+                    ShortTitle = "ChWeFr",
+                    Title = "Chorwerkstatt Freiburg",
+                };
+            }
+        }
+
+        public static ReducedProjectDto Chorwerkstatt
+        {
+            get
+            {
+                return new ReducedProjectDto
+                {
+                    Code = "1002",
+                    Description = "Ein Blick hinter die Kulissen…",
+                    Id = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
+                    ShortTitle = "ChWeTour",
+                    Title = "Chorwerkstatt",
+                };
+            }
+        }
     }
 }

@@ -20,25 +20,6 @@ public class MyProjectsControllerTests : IntegrationTestBase
     [Test, Order(1)]
     public async Task Should_Get_My_Projects()
     {
-        var expectedDto = new MyProjectDto
-        {
-            Project = ProjectDtoData.Schneekönigin
-        };
-        expectedDto.Participations.Add(new MyProjectParticipationDto
-        {
-            CommentByStaffInner = "Comment by staff",
-            CreatedAt = FakeDateTime.UtcNow,
-            CreatedBy = "anonymous",
-            Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
-            MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-            ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
-            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
-        });
-        var expectedDtos = new List<MyProjectDto>
-        {
-            expectedDto
-        };
-
         // Act
         HttpResponseMessage responseMessage = await _authenticatedServer
             .CreateClient()
@@ -48,7 +29,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
-        _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
+        _ = result.Should().BeEquivalentTo(MyProjectDtoData.PerformerProjects, opt => opt.WithStrictOrdering());
     }
 
     [Test, Order(2)]

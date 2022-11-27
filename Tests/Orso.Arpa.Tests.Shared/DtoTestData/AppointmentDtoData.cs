@@ -199,7 +199,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     InternalDetails = "Shake it, baby",
                     PublicDetails = "Get the party started",
                     Name = "Rocking X-mas After Show Party",
-                    Status = AppointmentStatus.Refused,
+                    Status = AppointmentStatus.Confirmed,
                     CreatedBy = "anonymous",
                     ExpectationId = Guid.Parse("867622fa-7aa5-43f3-b3ef-5290d1f61734"),
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),

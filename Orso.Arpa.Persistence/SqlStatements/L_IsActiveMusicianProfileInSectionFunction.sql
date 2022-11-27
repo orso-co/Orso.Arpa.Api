@@ -2,7 +2,7 @@ create or replace function fn_is_active_mupro_in_section (p_mupro_id uuid, p_app
 returns bool as 
 $BODY$
 BEGIN
-  If not exists ( --appointment.SectionAppointments.Count == 0
+  If not exists (
      select 1 from section_appointments where appointment_id=p_appointment_id and deleted=false )
   then return true;
   end if; 

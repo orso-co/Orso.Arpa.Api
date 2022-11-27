@@ -2,7 +2,7 @@ create or replace function fn_is_active_person_in_project ( p_appointment_id uui
 returns bool as 
 $BODY$
 begin
-  If not exists ( --appointment.ProjectAppointments.Count == 0
+  If not exists (
      select 1 from project_appointments where appointment_id = p_appointment_id and deleted=false )
   then return true;
   end if; 
