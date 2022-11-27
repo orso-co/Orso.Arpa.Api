@@ -55,7 +55,19 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.ValidatorTests
             _ = _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.RockingXMas);
             _ = _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
             _ = (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, Guid.Empty))
-                .WithErrorMessage("The project is completed. You may not set the participation of a completed project");
+                .WithErrorMessage("The project is cancelled or completed. You must not set the participation of such a project");
+        }
+
+        [Test]
+        public async Task Should_Have_Validation_Error_If_Project_Is_Cancelled()
+        {
+            _ = _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.ChorwerkstattFreiburg);
+            _ = _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
+            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, Guid.Empty))
+                .WithErrorMessage("The project is cancelled or completed. You must not set the participation of such a project");
         }
 
         [Test]
