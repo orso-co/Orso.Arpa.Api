@@ -99,7 +99,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.Projects.Add(ProjectDtoData.RockingXMasForPerformer);
                 dto.Rooms.Add(RoomDtoData.AulaWeiherhofSchule);
                 dto.Category = SelectValueDtoData.RehearsalWeekendChoir;
-                dto.Status = AppointmentStatus.Refused;
+                dto.Status = AppointmentStatus.Confirmed;
                 return dto;
             }
         }

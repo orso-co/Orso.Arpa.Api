@@ -7,6 +7,96 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class ProjectParticipationDtoData
     {
+        public static ProjectParticipationDto PerformerChorwerkstattFreiburgParticipationForStaff
+        {
+            get
+            {
+                ProjectParticipationDto dto = PerformerChorwerkstattFreiburgForPerformer;
+                dto.CommentTeam = "Comment by team";
+                dto.InvitationStatus = ProjectInvitationStatus.Invited;
+                dto.Person = ReducedPersonDtoData.Performer;
+                return dto;
+            }
+        }
+
+        public static ProjectParticipationDto PerformerChorwerkstattFreiburgForPerformer
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CommentByStaffInner = "Comment by staff",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("bd70283c-22ba-4ddb-9ae2-5f85d0151811"),
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Acceptance,
+                    Project = ReducedProjectDtoData.ChorwerkstattFreiburg
+                };
+            }
+        }
+
+        public static ProjectParticipationDto PerformerHoorayForHollywoodParticipationForStaff
+        {
+            get
+            {
+                ProjectParticipationDto dto = PerformerHoorayForHollywoodForPerformer;
+                dto.CommentTeam = "Comment by team";
+                dto.InvitationStatus = ProjectInvitationStatus.Invited;
+                dto.Person = ReducedPersonDtoData.Performer;
+                return dto;
+            }
+        }
+
+        public static ProjectParticipationDto PerformerHoorayForHollywoodForPerformer
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CommentByStaffInner = "Comment by staff",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("42fe1129-72f1-4935-b136-9bc41583e895"),
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    Project = ReducedProjectDtoData.HoorayForHollywood
+                };
+            }
+        }
+
+        public static ProjectParticipationDto PerformerChorwerkstattParticipationForStaff
+        {
+            get
+            {
+                ProjectParticipationDto dto = PerformerChorwerkstattForPerformer;
+                dto.CommentTeam = "Comment by team";
+                dto.InvitationStatus = ProjectInvitationStatus.Invited;
+                dto.Person = ReducedPersonDtoData.Performer;
+                return dto;
+            }
+        }
+
+        public static ProjectParticipationDto PerformerChorwerkstattForPerformer
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CommentByStaffInner = "Comment by staff",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("014b7ae4-9c6a-4273-b54e-c40a911d41a3"),
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,
+                    Project = ReducedProjectDtoData.Chorwerkstatt
+                };
+            }
+        }
+
         public static ProjectParticipationDto PerformerSchneeköniginParticipationForStaff
         {
             get

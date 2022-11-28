@@ -327,5 +327,10 @@ namespace Orso.Arpa.Persistence.DataAccess
             command.CommandText = $"SELECT public.fn_is_person_eligible_for_appointment('{personId}', '{appointmentId}')";
             return (bool)command.ExecuteScalar();
         }
+
+        public async Task<int> ExecuteSqlAsync(string sqlStatement)
+        {
+            return await Database.ExecuteSqlRawAsync(sqlStatement);
+        }
     }
 }

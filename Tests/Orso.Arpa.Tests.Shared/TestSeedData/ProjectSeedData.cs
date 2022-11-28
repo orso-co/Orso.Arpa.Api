@@ -17,7 +17,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     RockingXMas,
                     HoorayForHollywood,
-                    Schneekönigin
+                    Schneekönigin,
+                    Chorwerkstatt,
+                    ChorwerkstattFreiburg
                 };
             }
         }
@@ -86,6 +88,52 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         EndDate = new DateTime(2020, 12, 10),
                         Status = ProjectStatus.Pending,
                         ParentId = null,
+                        IsCompleted = false,
+                    });
+            }
+        }
+
+        public static Project Chorwerkstatt
+        {
+            get
+            {
+                return new Project(
+                    Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
+                    new Create.Command
+                    {
+                        Title = "Chorwerkstatt",
+                        ShortTitle = "ChWeTour",
+                        Description = "Ein Blick hinter die Kulissen…",
+                        Code = "1002",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[1].Id,
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[3].Id,
+                        StartDate = new DateTime(2020, 9, 1),
+                        EndDate = new DateTime(2020, 11, 30),
+                        Status = ProjectStatus.Confirmed,
+                        ParentId = null,
+                        IsCompleted = false,
+                    });
+            }
+        }
+
+        public static Project ChorwerkstattFreiburg
+        {
+            get
+            {
+                return new Project(
+                    Guid.Parse("a9668e17-e6df-4b08-8db5-30c88f89d78c"),
+                    new Create.Command
+                    {
+                        Title = "Chorwerkstatt Freiburg",
+                        ShortTitle = "ChWeFr",
+                        Description = "Ein Blick hinter die Kulissen…",
+                        Code = "1003",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[3].Id,
+                        StartDate = new DateTime(2020, 10, 10),
+                        EndDate = new DateTime(2020, 10, 30),
+                        Status = ProjectStatus.Cancelled,
+                        ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
                         IsCompleted = false,
                     });
             }

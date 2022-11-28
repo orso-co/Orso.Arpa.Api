@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -59,10 +58,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(3)]
-        public async Task Should_Get_Only_Completed_Projects()
+        public async Task Should_Get_Not_Completed_Projects()
         {
             // Arrange
-            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.ProjectsForPerformer.Where(p => !p.IsCompleted);
+            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.NotCompletedProjectsForPerformer;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer

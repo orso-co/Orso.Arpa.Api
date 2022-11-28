@@ -45,10 +45,50 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(FakeUsers.Performer, MusicianProfileSeedData.PerformerMusicianProfile.Id, false, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer });
-                yield return new TestCaseData(FakeUsers.Performer, MusicianProfileSeedData.PerformerMusicianProfile.Id, true, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerRockingXMasParticipationForPerformer, ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer });
-                yield return new TestCaseData(FakeUsers.Staff, MusicianProfileSeedData.PerformerMusicianProfile.Id, false, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff });
-                yield return new TestCaseData(FakeUsers.Staff, MusicianProfileSeedData.PerformerMusicianProfile.Id, true, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerRockingXMasParticipationForStaff, ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff });
+                yield return new TestCaseData(
+                    FakeUsers.Performer,
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    false,
+                    new List<ProjectParticipationDto>
+                    {
+                        ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer,
+                        ProjectParticipationDtoData.PerformerChorwerkstattForPerformer,
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodForPerformer
+                    });
+                yield return new TestCaseData(
+                    FakeUsers.Performer,
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    true,
+                    new List<ProjectParticipationDto>
+                    {
+                        ProjectParticipationDtoData.PerformerRockingXMasParticipationForPerformer,
+                        ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer,
+                        ProjectParticipationDtoData.PerformerChorwerkstattForPerformer,
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodForPerformer,
+                        ProjectParticipationDtoData.PerformerChorwerkstattFreiburgForPerformer
+                    });
+                yield return new TestCaseData(
+                    FakeUsers.Staff,
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    false,
+                    new List<ProjectParticipationDto>
+                    {
+                        ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerChorwerkstattParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodParticipationForStaff
+                    });
+                yield return new TestCaseData(
+                    FakeUsers.Staff,
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    true,
+                    new List<ProjectParticipationDto>
+                    {
+                        ProjectParticipationDtoData.PerformerRockingXMasParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerChorwerkstattParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerChorwerkstattFreiburgParticipationForStaff
+                    });
             }
         }
 
