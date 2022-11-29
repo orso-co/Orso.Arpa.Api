@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.Enums
     {
         Confirmed = 10,
         Scheduled = 20,
-        Ambigous = 30,
+        Ambiguous = 30,
         AwaitingPoll = 40,
         Refused = 50
     }

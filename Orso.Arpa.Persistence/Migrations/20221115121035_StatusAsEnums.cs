@@ -394,7 +394,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     "WHEN '36176b7e-0926-43d6-b19a-72838ccd2acd' then 'Confirmed' " +
                     "WHEN '93033f7e-a3c1-45e3-8a17-021d0a4abe5a' then 'Scheduled' " +
                     "WHEN '0126fded-0a82-4b53-85e4-1c04a4f79296' then 'Refused' " +
-                    "WHEN 'b6cf76a5-ec3f-4e81-9499-174d33bb7249' then 'Ambigous' " +
+                    "WHEN 'b6cf76a5-ec3f-4e81-9499-174d33bb7249' then 'Ambiguous' " +
                     "WHEN '4dc9db05-357a-43a6-ba20-f2a9e5033802' then 'AwaitingPoll' " +
                     "ELSE null END);");
 
