@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     CategoryId = Guid.NewGuid(),
                     SalaryId = Guid.NewGuid(),
                     SalaryPatternId = Guid.NewGuid(),
-                    Status = AppointmentStatus.Ambigous
+                    Status = AppointmentStatus.Ambiguous
                 }
             };
             var expectedCommand = new Modify.Command
