@@ -8,6 +8,7 @@ using Orso.Arpa.Application.RoomApplication;
 using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Application.VenueApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Application.MeApplication
 {
@@ -21,18 +22,18 @@ namespace Orso.Arpa.Application.MeApplication
         public IList<RoomDto> Rooms { get; set; } = new List<RoomDto>();
         public string PublicDetails { get; set; }
         public string Expectation { get; set; }
-        public string Result { get; set; }
-        public Guid? PredictionId { get; set; }
+        public AppointmentParticipationResult? Result { get; set; }
+        public AppointmentParticipationPrediction? Prediction { get; set; }
         public SelectValueDto Category { get; set; }
-        public SelectValueDto Status { get; set; }
-        public string CommentByPerformerInner { get; set;  }
+        public AppointmentStatus? Status { get; set; }
+        public string CommentByPerformerInner { get; set; }
     }
 
     public class MyAppointmentDtoMappingProfile : Profile
     {
         public MyAppointmentDtoMappingProfile()
         {
-            CreateMap<Appointment, MyAppointmentDto>()
+            _ = CreateMap<Appointment, MyAppointmentDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>()
                 .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
                 .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
@@ -44,6 +45,7 @@ namespace Orso.Arpa.Application.MeApplication
                 .ForMember(dest => dest.Expectation, opt => opt.MapFrom(src => src.Expectation.SelectValue.Name))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
+            // CommentByPerformerInner, Result and Prediction will be set manually in service
         }
     }
 }

@@ -88,7 +88,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
-        [HttpPut("appointments/{id}/participation/prediction/{predictionId}")]
+        [HttpPut("appointments/{id}/participation/prediction")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]

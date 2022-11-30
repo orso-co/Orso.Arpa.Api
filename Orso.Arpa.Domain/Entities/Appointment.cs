@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Attributes;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Domain.Entities
@@ -15,7 +17,7 @@ namespace Orso.Arpa.Domain.Entities
             Name = command.Name;
             PublicDetails = command.PublicDetails;
             InternalDetails = command.InternalDetails;
-            StatusId = command.StatusId;
+            Status = command.Status;
             SalaryId = command.SalaryId;
             SalaryPatternId = command.SalaryPatternId;
             ExpectationId = command.ExpectationId;
@@ -34,7 +36,7 @@ namespace Orso.Arpa.Domain.Entities
             Name = command.Name;
             PublicDetails = command.PublicDetails;
             InternalDetails = command.InternalDetails;
-            StatusId = command.StatusId;
+            Status = command.Status;
             SalaryId = command.SalaryId;
             SalaryPatternId = command.SalaryPatternId;
             ExpectationId = command.ExpectationId;
@@ -51,6 +53,11 @@ namespace Orso.Arpa.Domain.Entities
             VenueId = command.VenueId;
         }
 
+        internal void ClearVenue()
+        {
+            VenueId = null;
+        }
+
         #region Native
 
         public DateTime StartTime { get; private set; }
@@ -58,6 +65,7 @@ namespace Orso.Arpa.Domain.Entities
         public string Name { get; private set; }
         public string PublicDetails { get; private set; }
         public string InternalDetails { get; private set; }
+        public AppointmentStatus? Status { get; private set; }
 
         #endregion
         #region Reference
@@ -65,8 +73,8 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? CategoryId { get; private set; }
         public virtual SelectValueMapping Category { get; private set; }
 
+        [Obsolete("is only needed for migration purposes")]
         public Guid? StatusId { get; private set; }
-        public virtual SelectValueMapping Status { get; private set; }
 
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
@@ -86,9 +94,16 @@ namespace Orso.Arpa.Domain.Entities
         #endregion
         #region Collection
 
+        [CascadingSoftDelete]
         public virtual ICollection<AppointmentRoom> AppointmentRooms { get; private set; } = new HashSet<AppointmentRoom>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<ProjectAppointment> ProjectAppointments { get; private set; } = new HashSet<ProjectAppointment>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<SectionAppointment> SectionAppointments { get; private set; } = new HashSet<SectionAppointment>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();
 
         #endregion

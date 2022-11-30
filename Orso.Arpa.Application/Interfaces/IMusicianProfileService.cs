@@ -14,5 +14,7 @@ namespace Orso.Arpa.Application.Interfaces
         Task<IEnumerable<ProjectParticipationDto>> GetProjectParticipationsAsync(Guid id, bool includeCompleted);
         Task<MusicianProfileDto> UpdateAsync(MusicianProfileModifyDto musicianProfileModifyDto);
         Task<IEnumerable<GroupedMusicianProfileDto>> GetGroupedAsync();
+
+        Task DeleteAsync(Guid id);
     }
 }

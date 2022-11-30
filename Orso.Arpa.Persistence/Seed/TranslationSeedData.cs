@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using Castle.Core.Internal;
 using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Persistence.Seed
@@ -23,13 +22,13 @@ namespace Orso.Arpa.Persistence.Seed
                     ApplyTranslation(
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
-                        "en").ForEach(e => result.Add(e));
+                        "en").ForEach(result.Add);
 
                     // German
                     ApplyTranslation(
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
                         Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
-                        "de").ForEach(e => result.Add(e));
+                        "de").ForEach(result.Add);
                 }
                 catch (DirectoryNotFoundException)
                 {
@@ -133,7 +132,7 @@ namespace Orso.Arpa.Persistence.Seed
                 IQueryable<Localization> query = translations.AsQueryable().Where(b =>
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key));
 
-                if (query.IsNullOrEmpty())  // if entry was removed.
+                if (!query.Any())  // if entry was removed.
                 {
                     if (a.Deleted == false)
                     {
@@ -167,7 +166,7 @@ namespace Orso.Arpa.Persistence.Seed
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key) &&
                     a.Deleted == false);
 
-                if (query.IsNullOrEmpty())
+                if (!query.Any())
                 {
                     var newLocalization = new Localization(b.Id, b.Key, b.Text,
                         b.LocalizationCulture, b.ResourceKey);

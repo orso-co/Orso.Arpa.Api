@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 as base
+FROM mcr.microsoft.com/dotnet/sdk:7.0 as base
 
 ARG PROJECT="Orso.Arpa.Api"
 ARG ENVIRONMENT="Development"
@@ -43,7 +43,7 @@ WORKDIR /home/app
 
 RUN dotnet publish ./Orso.Arpa.Api/Orso.Arpa.Api.csproj -o /publish/
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine
 
 WORKDIR /publish
 

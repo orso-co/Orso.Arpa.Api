@@ -22,10 +22,10 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfileDeactivations
         {
             public Validator(IDateTimeProvider dateTimeProvider, IArpaContext arpaContext)
             {
-                RuleFor(command => command.MusicianProfileId)
+                _ = RuleFor(command => command.MusicianProfileId)
                     .EntityExists<Command, MusicianProfile>(arpaContext);
 
-                RuleFor(dest => dest.DeactivationStart)
+                _ = RuleFor(dest => dest.DeactivationStart)
                     .Cascade(CascadeMode.Stop)
                     .Must(start => start >= dateTimeProvider.GetUtcNow())
                     .WithMessage("Deactivating a musician profile for the past is not allowed")
@@ -38,7 +38,10 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfileDeactivations
                             context.AddFailure(nameof(Command.MusicianProfileId), "The musician profile is already deactivated");
                             return;
                         }
-                        if (musicianProfile.ProjectParticipations.Select(pp => pp.Project).Any(project => project.EndDate >= start && !project.IsCompleted))
+                        if (musicianProfile.ProjectParticipations.Select(pp => pp.Project).Any(project =>
+                                project.EndDate >= start
+                                && !project.IsCompleted
+                                && project.Status != Enums.ProjectStatus.Cancelled))
                         {
                             context.AddFailure("You may not deactivate a musician profile which is participating in an active project");
                         }

@@ -8,6 +8,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -25,7 +26,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(c => c.MusicianProfileId)
+                _ = RuleFor(c => c.MusicianProfileId)
                 .EntityExists<Query, MusicianProfile>(arpaContext);
             }
         }
@@ -43,7 +44,9 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
             {
                 Expression<Func<ProjectParticipation, bool>> query = request.IncludeCompletedProjects
                     ? pp => pp.MusicianProfileId == request.MusicianProfileId
-                    : pp => pp.MusicianProfileId == request.MusicianProfileId && !pp.Project.IsCompleted;
+                    : pp => pp.MusicianProfileId == request.MusicianProfileId
+                        && !pp.Project.IsCompleted
+                        && pp.Project.Status != ProjectStatus.Cancelled;
 
                 return await _arpaContext.ProjectParticipations
                     .Where(query)

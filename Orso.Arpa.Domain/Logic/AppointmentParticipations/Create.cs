@@ -1,5 +1,6 @@
 using System;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using static Orso.Arpa.Domain.GenericHandlers.Create;
 
 namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
@@ -10,8 +11,8 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
         {
             public Guid AppointmentId { get; set; }
             public Guid PersonId { get; set; }
-            public Guid? PredictionId { get; set; }
-            public Guid? ResultId { get; set; }
+            public AppointmentParticipationPrediction? Prediction { get; set; }
+            public AppointmentParticipationResult? Result { get; set; }
             public string CommentByPerformerInner { get; set; }
         }
     }

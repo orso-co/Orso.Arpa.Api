@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -37,7 +38,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     GenreId = Guid.NewGuid(),
                     StartDate = new DateTime(2022, 03, 03),
                     EndDate = new DateTime(2022, 04, 04),
-                    StateId = Guid.NewGuid(),
+                    Status = ProjectStatus.Archived,
                     ParentId = Guid.NewGuid(),
                     IsCompleted = true
                 }
@@ -53,7 +54,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 GenreId = dto.Body.GenreId,
                 StartDate = dto.Body.StartDate,
                 EndDate = dto.Body.EndDate,
-                StateId = dto.Body.StateId,
+                Status = dto.Body.Status,
                 ParentId = dto.Body.ParentId,
                 IsCompleted = dto.Body.IsCompleted
             };
@@ -62,7 +63,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Modify.Command command = _mapper.Map<Modify.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(expectedCommand);
+            _ = command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

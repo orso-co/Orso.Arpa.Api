@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
-using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -16,6 +16,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     PerformerSchneeköniginParticipation,
                     PerformerRockingXMasParticipation,
+                    PerformerHoorayForHollywoodParticipation,
+                    PerformerChorwerkstattParticipation,
+                    PerformerChorwerkstattFreiburgParticipation,
                     StaffParticipation1,
                     StaffParticipation2,
                     AdminParticipation
@@ -43,12 +46,63 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     ProjectId = ProjectSeedData.Schneekönigin.Id,
                     MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
-                    InvitationStatusId = SelectValueMappingSeedData.ProjectParticipationInvitationStatusMappings[0].Id,
-                    ParticipationStatusInternalId = SelectValueMappingSeedData.ProjectParticipationStatusInternalMappings[0].Id,
-                    ParticipationStatusInnerId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[1].Id,
+                    InvitationStatus = ProjectInvitationStatus.Invited,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     CommentByStaffInner = "Comment by staff",
                     CommentTeam = "Comment by team"
                 }, Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"));
+            }
+        }
+
+        public static ProjectParticipation PerformerHoorayForHollywoodParticipation
+        {
+            get
+            {
+                return new ProjectParticipation(new SetProjectParticipation.Command
+                {
+                    ProjectId = ProjectSeedData.HoorayForHollywood.Id,
+                    MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    InvitationStatus = ProjectInvitationStatus.Invited,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
+                    CommentByStaffInner = "Comment by staff",
+                    CommentTeam = "Comment by team"
+                }, Guid.Parse("42fe1129-72f1-4935-b136-9bc41583e895"));
+            }
+        }
+
+        public static ProjectParticipation PerformerChorwerkstattParticipation
+        {
+            get
+            {
+                return new ProjectParticipation(new SetProjectParticipation.Command
+                {
+                    ProjectId = ProjectSeedData.Chorwerkstatt.Id,
+                    MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    InvitationStatus = ProjectInvitationStatus.Invited,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+                    CommentByStaffInner = "Comment by staff",
+                    CommentTeam = "Comment by team"
+                }, Guid.Parse("014b7ae4-9c6a-4273-b54e-c40a911d41a3"));
+            }
+        }
+
+        public static ProjectParticipation PerformerChorwerkstattFreiburgParticipation
+        {
+            get
+            {
+                return new ProjectParticipation(new SetProjectParticipation.Command
+                {
+                    ProjectId = ProjectSeedData.ChorwerkstattFreiburg.Id,
+                    MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    InvitationStatus = ProjectInvitationStatus.Invited,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Acceptance,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+                    CommentByStaffInner = "Comment by staff",
+                    CommentTeam = "Comment by team"
+                }, Guid.Parse("bd70283c-22ba-4ddb-9ae2-5f85d0151811"));
             }
         }
 

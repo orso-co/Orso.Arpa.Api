@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
 using Orso.Arpa.Domain.Logic.Projects;
 
@@ -30,7 +31,9 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<ProjectDto>> GetAsync(bool includeCompleted)
         {
-            Expression<Func<Project, bool>> predicate = includeCompleted ? default : p => !p.IsCompleted;
+            Expression<Func<Project, bool>> predicate = includeCompleted
+                ? default
+                : p => !p.IsCompleted && p.Status != ProjectStatus.Cancelled;
             return await base.GetAsync(predicate: predicate);
         }
 
@@ -54,7 +57,7 @@ namespace Orso.Arpa.Application.Services
             {
                 ProjectParticipation = projectParticipation
             };
-            await _mediator.Send(mailCommand);
+            _ = await _mediator.Send(mailCommand);
 
             return _mapper.Map<ProjectParticipationDto>(projectParticipation);
         }

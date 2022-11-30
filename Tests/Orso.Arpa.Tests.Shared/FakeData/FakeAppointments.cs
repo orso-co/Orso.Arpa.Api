@@ -1,5 +1,6 @@
 using System.Linq;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -19,7 +20,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 appointment.SetProperty(nameof(Appointment.CreatedBy), "anonymous");
                 appointment.SetProperty(nameof(Appointment.CreatedAt), FakeDateTime.UtcNow);
                 appointment.SetProperty(nameof(Appointment.Category), FakeSelectValueMappings.Rehearsal);
-                appointment.SetProperty(nameof(Appointment.Status), FakeSelectValueMappings.AppointmentConfirmed);
+                appointment.SetProperty(nameof(Appointment.Status), AppointmentStatus.Confirmed);
                 return appointment;
             }
         }

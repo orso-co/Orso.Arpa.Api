@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Domain.Logic.Me;
 
 namespace Orso.Arpa.Application.Interfaces

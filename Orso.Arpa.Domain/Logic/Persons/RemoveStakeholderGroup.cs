@@ -21,7 +21,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(d => d.StakeholderGroupId)
+                _ = RuleFor(d => d.StakeholderGroupId)
                     .MustAsync(async (command, stakeholderGroupId, cancellation) => await arpaContext.Set<PersonSection>()
                         .AnyAsync(ar => ar.SectionId == stakeholderGroupId && ar.PersonId == command.Id, cancellation))
                     .WithMessage("The stakeholder group is not linked to the person");
@@ -42,10 +42,11 @@ namespace Orso.Arpa.Domain.Logic.Persons
                 PersonSection personSectionToRemove = await _arpaContext.Set<PersonSection>()
                                     .FirstOrDefaultAsync(ar => ar.SectionId == request.StakeholderGroupId && ar.PersonId == request.Id, cancellationToken);
 
-                _arpaContext.Set<PersonSection>().Remove(personSectionToRemove);
+                _ = _arpaContext.Set<PersonSection>().Remove(personSectionToRemove);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
+                    _arpaContext.ClearChangeTracker();
                     return Unit.Value;
                 }
 

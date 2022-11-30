@@ -2,7 +2,9 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
+using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -28,7 +30,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             {
                 LevelAssessmentInner = 1,
                 InstrumentId = Guid.NewGuid(),
-                InquiryStatusInnerId = Guid.NewGuid(),
+                InquiryStatusInner = MusicianProfileInquiryStatus.EmergencyOnly,
             };
             dto.PreferredPositionsInnerIds.Add(Guid.NewGuid());
             dto.DoublingInstruments.Add(new MyDoublingInstrumentCreateBodyDto
@@ -44,7 +46,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Create.Command command = _mapper.Map<Create.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(dto, opt => opt.Excluding(dto => dto.DoublingInstruments));
+            _ = command.Should().BeEquivalentTo(dto, opt => opt.Excluding(dto => dto.DoublingInstruments));
         }
     }
 }

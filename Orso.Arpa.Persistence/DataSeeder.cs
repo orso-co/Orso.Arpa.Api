@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -38,15 +40,27 @@ namespace Orso.Arpa.Persistence
                 await SeedInitialAdminPersonAsync();
                 await SeedInitialAdminUserAsync();
             }
+
+            await SeedViewsAndFunctionsAsync();
+        }
+
+        private async Task SeedViewsAndFunctionsAsync()
+        {
+            var sqlDirectory = Path.Combine(AppContext.BaseDirectory, "SqlStatements");
+            foreach (var sqlFile in Directory.EnumerateFiles(sqlDirectory, "*.sql"))
+            {
+                var sqlStatement = File.ReadAllText(Path.Combine(sqlDirectory, sqlFile));
+                _ = await _arpaContext.ExecuteSqlAsync(sqlStatement);
+            }
         }
 
         private async Task SeedRolesAsync()
         {
             foreach (Role role in RoleSeedData.Roles)
             {
-                if (!(await _roleManager.RoleExistsAsync(role.Name)))
+                if (!await _roleManager.RoleExistsAsync(role.Name))
                 {
-                    await _roleManager.CreateAsync(role);
+                    _ = await _roleManager.CreateAsync(role);
                 }
             }
         }
@@ -62,8 +76,8 @@ namespace Orso.Arpa.Persistence
 
             if (!await _arpaContext.EntityExistsAsync<Person>(initialAdmin.Id, CancellationToken.None))
             {
-                await _arpaContext.Persons.AddAsync(initialAdmin);
-                await _arpaContext.SaveChangesAsync(CancellationToken.None);
+                _ = await _arpaContext.Persons.AddAsync(initialAdmin);
+                _ = await _arpaContext.SaveChangesAsync(CancellationToken.None);
             }
         }
 
@@ -78,12 +92,12 @@ namespace Orso.Arpa.Persistence
 
             if ((await _arpaUserManager.FindByNameAsync(initialAdmin.UserName)) is null)
             {
-                await _arpaUserManager.CreateAsync(initialAdmin, _seedConfiguration.InitialAdmin?.Password ?? UserSeedData.ValidPassword);
+                _ = await _arpaUserManager.CreateAsync(initialAdmin, _seedConfiguration.InitialAdmin?.Password ?? UserSeedData.ValidPassword);
             }
 
-            if (!(await _arpaUserManager.IsInRoleAsync(initialAdmin, RoleNames.Admin)))
+            if (!await _arpaUserManager.IsInRoleAsync(initialAdmin, RoleNames.Admin))
             {
-                await _arpaUserManager.AddToRoleAsync(initialAdmin, RoleNames.Admin);
+                _ = await _arpaUserManager.AddToRoleAsync(initialAdmin, RoleNames.Admin);
             }
         }
     }

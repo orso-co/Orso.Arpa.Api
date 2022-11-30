@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Orso.Arpa.Domain.Attributes;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Me;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
@@ -15,8 +17,8 @@ namespace Orso.Arpa.Domain.Entities
             PersonId = command.PersonId;
             InstrumentId = command.InstrumentId;
             QualificationId = command.QualificationId;
-            InquiryStatusInnerId = command.InquiryStatusInnerId;
-            InquiryStatusTeamId = command.InquiryStatusTeamId;
+            InquiryStatusInner = command.InquiryStatusInner;
+            InquiryStatusTeam = command.InquiryStatusTeam;
             IsMainProfile = isMainProfile;
             PreferredPositionsInner = command.PreferredPositionsInnerIds.Distinct().Select(i => new MusicianProfilePositionInner(i, Id)).ToList();
             PreferredPositionsTeam = command.PreferredPositionsTeamIds.Distinct().Select(i => new MusicianProfilePositionTeam(i, Id)).ToList();
@@ -35,7 +37,7 @@ namespace Orso.Arpa.Domain.Entities
             ProfilePreferenceInner = command.ProfilePreferenceInner;
             BackgroundInner = command.BackgroundInner;
             PreferredPartsInner = command.PreferredPartsInner.ToArray();
-            InquiryStatusInnerId = command.InquiryStatusInnerId;
+            InquiryStatusInner = command.InquiryStatusInner;
         }
 
         public void Update(Logic.MusicianProfiles.Modify.Command command)
@@ -50,8 +52,8 @@ namespace Orso.Arpa.Domain.Entities
             SalaryComment = command.SalaryComment;
             QualificationId = command.QualificationId;
             SalaryId = command.SalaryId;
-            InquiryStatusInnerId = command.InquiryStatusInnerId;
-            InquiryStatusTeamId = command.InquiryStatusTeamId;
+            InquiryStatusInner = command.InquiryStatusInner;
+            InquiryStatusTeam = command.InquiryStatusTeam;
             PreferredPartsInner = command.PreferredPartsInner.ToArray();
             PreferredPartsTeam = command.PreferredPartsTeam.ToArray();
         }
@@ -85,35 +87,48 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
 
+        [Obsolete("is only needed for migration purposes")]
         public Guid? InquiryStatusInnerId { get; private set; }
-        public virtual SelectValueMapping InquiryStatusInner { get; private set; }
+        public MusicianProfileInquiryStatus? InquiryStatusInner { get; private set; }
 
+        [Obsolete("is only needed for migration purposes")]
         public Guid? InquiryStatusTeamId { get; private set; }
-        public virtual SelectValueMapping InquiryStatusTeam { get; private set; }
+        public MusicianProfileInquiryStatus? InquiryStatusTeam { get; private set; }
 
+        [CascadingSoftDelete]
         public virtual MusicianProfileDeactivation Deactivation { get; private set; }
         public bool IsDeactivated(DateTime date) => Deactivation != null && Deactivation.DeactivationStart <= date;
 
         #endregion
 
         #region Collection
+
+        [CascadingSoftDelete]
         public virtual ICollection<MusicianProfileSection> DoublingInstruments { get; private set; } = new HashSet<MusicianProfileSection>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<Education> Educations { get; private set; } = new HashSet<Education>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<CurriculumVitaeReference> CurriculumVitaeReferences { get; private set; } = new HashSet<CurriculumVitaeReference>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<MusicianProfilePositionInner> PreferredPositionsInner { get; private set; } = new HashSet<MusicianProfilePositionInner>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<MusicianProfilePositionTeam> PreferredPositionsTeam { get; private set; } = new HashSet<MusicianProfilePositionTeam>();
 
         //Todo: ARPA-326
+        [CascadingSoftDelete]
         public virtual ICollection<PreferredGenre> PreferredGenres { get; private set; } = new HashSet<PreferredGenre>();
 
+        [CascadingSoftDelete]
         public virtual ICollection<MusicianProfileDocument> Documents { get; private set; } = new HashSet<MusicianProfileDocument>();
 
+        [CascadingSoftDelete]
         public virtual ICollection<RegionPreference> RegionPreferences { get; private set; } = new HashSet<RegionPreference>();
 
-
-        //Todo: ARPA-328
-        public virtual ICollection<Audition> Auditions { get; private set; } = new HashSet<Audition>();
-
+        [CascadingSoftDelete]
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
         #endregion
 

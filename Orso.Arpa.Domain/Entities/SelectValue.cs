@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Orso.Arpa.Domain.Attributes;
 
 namespace Orso.Arpa.Domain.Entities
 {
@@ -17,7 +18,11 @@ namespace Orso.Arpa.Domain.Entities
 
         public string Name { get; private set; }
         public string Description { get; private set; }
+
+        [CascadingSoftDelete]
         public virtual ICollection<SelectValueMapping> SelectValueMappings { get; set; } = new HashSet<SelectValueMapping>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<SelectValueSection> InstrumentParts { get; set; } = new HashSet<SelectValueSection>();
     }
 }

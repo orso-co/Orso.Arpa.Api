@@ -16,36 +16,6 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             }
         }
 
-        public static SelectValueMapping Invited
-        {
-            get
-            {
-                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectParticipationInvitationStatusMappings[0];
-                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Invited);
-                return selectValueMapping;
-            }
-        }
-
-        public static SelectValueMapping Candidate
-        {
-            get
-            {
-                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectParticipationStatusInternalMappings[0];
-                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Candidate);
-                return selectValueMapping;
-            }
-        }
-
-        public static SelectValueMapping Acceptance
-        {
-            get
-            {
-                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[1];
-                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Acceptance);
-                return selectValueMapping;
-            }
-        }
-
         public static SelectValueMapping Amateur
         {
             get
@@ -76,32 +46,12 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             }
         }
 
-        public static SelectValueMapping Pending
-        {
-            get
-            {
-                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.ProjectStateMappings[0];
-                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Pending);
-                return selectValueMapping;
-            }
-        }
-
         public static SelectValueMapping Rehearsal
         {
             get
             {
                 SelectValueMapping selectValueMapping = SelectValueMappingSeedData.AppointmentCategoryMappings[0];
                 selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Rehearsal);
-                return selectValueMapping;
-            }
-        }
-
-        public static SelectValueMapping AppointmentConfirmed
-        {
-            get
-            {
-                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.AppointmentStatusMappings[0];
-                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Confirmed);
                 return selectValueMapping;
             }
         }

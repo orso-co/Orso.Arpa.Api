@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -34,9 +35,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Performer);
                 profile.SetProperty(nameof(MusicianProfile.Qualification), FakeSelectValueMappings.Amateur);
                 participation.SetProperty(nameof(ProjectParticipation.MusicianProfile), profile);
-                participation.SetProperty(nameof(ProjectParticipation.InvitationStatus), FakeSelectValueMappings.Invited);
-                participation.SetProperty(nameof(ProjectParticipation.ParticipationStatusInternal), FakeSelectValueMappings.Candidate);
-                participation.SetProperty(nameof(ProjectParticipation.ParticipationStatusInner), FakeSelectValueMappings.Acceptance);
+                participation.SetProperty(nameof(ProjectParticipation.InvitationStatus), ProjectInvitationStatus.Invited);
+                participation.SetProperty(nameof(ProjectParticipation.ParticipationStatusInternal), ProjectParticipationStatusInternal.Candidate);
+                participation.SetProperty(nameof(ProjectParticipation.ParticipationStatusInner), ProjectParticipationStatusInner.Acceptance);
                 return participation;
             }
         }

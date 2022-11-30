@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.Logic.Auth;
 using Orso.Arpa.Domain.Logic.Persons;
 
@@ -83,6 +84,11 @@ namespace Orso.Arpa.Domain.Entities
                         .FirstOrDefault()?.Value;
         }
 
+        internal void ClearContactVia()
+        {
+            ContactViaId = null;
+        }
+
         [JsonInclude]
         public string GivenName { get; private set; }
 
@@ -122,20 +128,28 @@ namespace Orso.Arpa.Domain.Entities
 
         public virtual SelectValueMapping Gender { get; private set; }
 
+        [CascadingSoftDelete]
         [JsonInclude]
         public virtual ICollection<Address> Addresses { get; private set; } = new HashSet<Address>();
 
+        [CascadingSoftDelete]
         public virtual ICollection<ContactDetail> ContactDetails { get; private set; } = new HashSet<ContactDetail>();
 
         [JsonInclude]
+        [CascadingSoftDelete]
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();
 
         [JsonInclude]
+        [CascadingSoftDelete]
         public virtual ICollection<MusicianProfile> MusicianProfiles { get; private set; } = new HashSet<MusicianProfile>();
 
         [JsonInclude]
+        [CascadingSoftDelete]
         public virtual ICollection<PersonSection> StakeholderGroups { get; private set; } = new HashSet<PersonSection>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<BankAccount> BankAccounts { get; private set; } = new HashSet<BankAccount>();
+
         public string DisplayName => !string.IsNullOrEmpty(GivenName) && !string.IsNullOrEmpty(Surname) ? $"{GivenName} {Surname}" : (GivenName ?? Surname);
 
     }

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.AppointmentParticipations;
-using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -28,8 +28,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     AppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id,
                     PersonId = PersonTestSeedData.Performer.Id,
-                    PredictionId = SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id,
-                    ResultId = null,
+                    Prediction = AppointmentParticipationPrediction.Yes,
+                    Result = null,
                     CommentByPerformerInner = "Werde wahrscheinlich etwas früher gehen müssen."
                 });
             }
@@ -43,8 +43,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     AppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id,
                     PersonId = PersonTestSeedData.Staff.Id,
-                    PredictionId = SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[1].Id,
-                    ResultId = SelectValueMappingSeedData.AppointmentParticipationResultMappings[0].Id
+                    Prediction = AppointmentParticipationPrediction.Partly,
+                    Result = AppointmentParticipationResult.Present
                 });
             }
         }

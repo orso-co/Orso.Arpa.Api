@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -31,10 +32,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 {
                     CommentByStaffInner = "CommentByStaffInner",
                     CommentTeam = "CommentTeam",
-                    InvitationStatusId = Guid.NewGuid(),
+                    InvitationStatus = ProjectInvitationStatus.Invited,
                     MusicianProfileId = Guid.NewGuid(),
-                    ParticipationStatusInnerId = Guid.NewGuid(),
-                    ParticipationStatusInternalId = Guid.NewGuid()
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Acceptance
                 }
             };
             var expectedCommand = new SetProjectParticipation.Command
@@ -42,17 +43,17 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 ProjectId = dto.Id,
                 CommentByStaffInner = dto.Body.CommentByStaffInner,
                 CommentTeam = dto.Body.CommentTeam,
-                InvitationStatusId = dto.Body.InvitationStatusId,
+                InvitationStatus = dto.Body.InvitationStatus,
                 MusicianProfileId = dto.Body.MusicianProfileId,
-                ParticipationStatusInnerId = dto.Body.ParticipationStatusInnerId,
-                ParticipationStatusInternalId = dto.Body.ParticipationStatusInternalId
+                ParticipationStatusInner = dto.Body.ParticipationStatusInner,
+                ParticipationStatusInternal = dto.Body.ParticipationStatusInternal
             };
 
             // Act
             SetProjectParticipation.Command command = _mapper.Map<SetProjectParticipation.Command>(dto);
 
             // Assert
-            command.Should().BeEquivalentTo(expectedCommand);
+            _ = command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

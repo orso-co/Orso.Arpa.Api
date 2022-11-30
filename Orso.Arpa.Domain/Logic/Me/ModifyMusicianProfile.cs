@@ -7,6 +7,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
@@ -30,28 +31,25 @@ namespace Orso.Arpa.Domain.Logic.Me
             public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
             public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
             public MusicianProfile ExistingMusicianProfile { get; set; }
-            public Guid? InquiryStatusInnerId { get; set; }
+            public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(c => c.ExistingMusicianProfile)
+                _ = RuleFor(c => c.ExistingMusicianProfile)
                     .NotEmpty();
 
-                RuleFor(c => c.IsMainProfile)
+                _ = RuleFor(c => c.IsMainProfile)
                     .Must((command, isMainProfile) => isMainProfile || (!isMainProfile && !command.ExistingMusicianProfile.IsMainProfile))
                     .WithMessage("You may not turn off the IsMainProfile flag");
 
-                RuleForEach(c => c.PreferredPositionsInnerIds)
+                _ = RuleForEach(c => c.PreferredPositionsInnerIds)
                     .MusicianProfilePosition(arpaContext);
 
-                RuleForEach(c => c.PreferredPartsInner)
+                _ = RuleForEach(c => c.PreferredPartsInner)
                     .InstrumentPart(arpaContext);
-
-                RuleFor(c => c.InquiryStatusInnerId)
-                    .SelectValueMapping<Command, MusicianProfile>(arpaContext, a => a.InquiryStatusInner);
             }
         }
 
@@ -72,7 +70,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                 {
                     MusicianProfile mainProfile = await _arpaContext.MusicianProfiles.AsQueryable().SingleOrDefaultAsync(mp => mp.PersonId == existingMusicianProfile.PersonId && mp.IsMainProfile, cancellationToken);
                     mainProfile.TurnOffIsMainProfileFlag();
-                    _arpaContext.MusicianProfiles.Update(mainProfile);
+                    _ = _arpaContext.MusicianProfiles.Update(mainProfile);
                 }
 
                 existingMusicianProfile.Update(request);
@@ -95,7 +93,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                 {
                     if (!updateList.Contains(position.SelectValueSectionId))
                     {
-                        _arpaContext.Remove(position);
+                        _ = _arpaContext.Remove(position);
                     }
                 }
 
@@ -109,7 +107,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                 {
                     if (!existingSelectValueSectionIds.Contains(selectValueSectionId))
                     {
-                        _arpaContext.Add(new MusicianProfilePositionInner(selectValueSectionId, musicianProfileId));
+                        _ = _arpaContext.Add(new MusicianProfilePositionInner(selectValueSectionId, musicianProfileId));
                     }
                 }
             }

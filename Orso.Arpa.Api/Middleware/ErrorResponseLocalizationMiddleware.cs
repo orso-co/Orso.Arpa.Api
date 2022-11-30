@@ -3,7 +3,6 @@ using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Castle.Core.Internal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,10 +54,10 @@ namespace Orso.Arpa.Api.Middleware
                             JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
 
                         deserializedErrorMessage!.Detail =
-                            deserializedErrorMessage.Detail.IsNullOrEmpty()
+                            string.IsNullOrEmpty(deserializedErrorMessage.Detail)
                                 ? null : localizer[deserializedErrorMessage.Detail];
 
-                        deserializedErrorMessage.Title = deserializedErrorMessage.Title.IsNullOrEmpty()
+                        deserializedErrorMessage.Title = string.IsNullOrEmpty(deserializedErrorMessage.Title)
                             ? null : localizer[deserializedErrorMessage.Title];
 
                         await using var streamWrite = new StreamWriter(originalBody);
@@ -99,12 +98,7 @@ namespace Orso.Arpa.Api.Middleware
         /// <returns>The <see cref="IApplicationBuilder"/>.</returns>
         public static IApplicationBuilder UseErrorResponseLocalizationMiddleware(this IApplicationBuilder app)
         {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-
-            return app.UseMiddleware<ErrorResponseLocalizationMiddleware>();
+            return app == null ? throw new ArgumentNullException(nameof(app)) : app.UseMiddleware<ErrorResponseLocalizationMiddleware>();
         }
     }
 }

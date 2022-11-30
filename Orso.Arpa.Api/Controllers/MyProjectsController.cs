@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MeApplication;
-using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Application.MyProjectApplication;
-using Orso.Arpa.Application.Services;
 using Orso.Arpa.Domain.Roles;
 
 namespace Orso.Arpa.Api.Controllers;
@@ -49,6 +46,6 @@ public class MyProjectsController : BaseController
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult<MyProjectParticipationDto>> SetProjectParticipationStatus(MyProjectParticipationModifyDto setMyProjectParticipationStatus)
     {
-        return Ok( await _myProjectService.SetProjectParticipationStatus(setMyProjectParticipationStatus));
+        return Ok(await _myProjectService.SetProjectParticipationStatus(setMyProjectParticipationStatus));
     }
 }

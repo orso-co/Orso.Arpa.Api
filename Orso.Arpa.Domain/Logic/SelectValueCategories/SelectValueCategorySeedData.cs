@@ -76,7 +76,7 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
         public static SelectValueCategory ProjectState => new(
             Guid.Parse("9804d695-d8c7-40bd-814f-8458b55fb583"),
             nameof(Project),
-            nameof(Project.State),
+            nameof(Project.Status),
             "State");
 
         public static SelectValueCategory ProjectType => new(

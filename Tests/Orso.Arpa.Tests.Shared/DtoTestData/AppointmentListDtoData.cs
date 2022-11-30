@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Domain.Enums;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -33,7 +34,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2019, 12, 21, 18, 30, 0),
                     StartTime = new DateTime(2019, 12, 21, 10, 0, 0),
                     Name = "Rocking X-mas Dress Rehearsal",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                 };
             }
         }
@@ -49,7 +50,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2019, 12, 22, 23, 30, 00),
                     StartTime = new DateTime(2019, 12, 22, 20, 00, 00),
                     Name = "Rocking X-mas Concert",
-                    StatusId = Guid.Parse("93033f7e-a3c1-45e3-8a17-021d0a4abe5a"),
+                    Status = AppointmentStatus.Scheduled,
                 };
             }
         }
@@ -64,7 +65,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2019, 12, 24, 06, 00, 00),
                     StartTime = new DateTime(2019, 12, 24),
                     Name = "Rocking X-mas After Show Party",
-                    StatusId = Guid.Parse("0126fded-0a82-4b53-85e4-1c04a4f79296"),
+                    Status = AppointmentStatus.Refused,
                 };
             }
         }
@@ -79,7 +80,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2020, 12, 22, 23, 30, 00),
                     StartTime = new DateTime(2020, 12, 22, 20, 00, 00),
                     Name = "Team Meeting",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                 };
             }
         }
@@ -94,7 +95,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2020, 12, 22, 16, 00, 00),
                     StartTime = new DateTime(2020, 12, 22, 15, 00, 00),
                     Name = "Photo session",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                 };
             }
         }
@@ -109,7 +110,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2019, 12, 24, 16, 00, 00),
                     StartTime = new DateTime(2019, 12, 20, 15, 00, 00),
                     Name = "Rehearsal weekend",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                 };
             }
         }
@@ -124,7 +125,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2020, 11, 29, 8, 00, 00),
                     EndTime = new DateTime(2020, 12, 2, 17, 00, 00),
                     Name = "Audition days",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                 };
             }
         }
@@ -139,7 +140,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Soprano rehearsal",
                     StartTime = new DateTime(2021, 12, 30, 8, 00, 00),
                     EndTime = new DateTime(2021, 12, 30, 17, 00, 00),
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                 };
             }
         }
@@ -154,7 +155,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2021, 12, 29, 8, 00, 00),
                     EndTime = new DateTime(2021, 12, 29, 17, 00, 00),
                     Name = "Alto rehearsal",
-                    StatusId = Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"),
+                    Status = AppointmentStatus.Confirmed,
                 };
             }
         }

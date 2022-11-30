@@ -2,6 +2,7 @@ using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -23,7 +24,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Id_Is_Supplied()
         {
-            _validator.ShouldHaveValidationErrorForExact(command => command.Id, Guid.Empty);
+            _ = _validator.ShouldHaveValidationErrorForExact(command => command.Id, Guid.Empty);
         }
 
         [Test]
@@ -47,13 +48,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Not_Have_Validation_Error_If_Empty_StatusId_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExact(command => command.StatusId, default(Guid?));
+            _bodyValidator.ShouldNotHaveValidationErrorForExact(command => command.Status, default(AppointmentStatus?));
         }
 
         [Test]
         public void Should_Not_Have_Validation_Error_If_Valid_StatusId_Is_Supplied()
         {
-            _bodyValidator.ShouldNotHaveValidationErrorForExact(command => command.StatusId, Guid.NewGuid());
+            _bodyValidator.ShouldNotHaveValidationErrorForExact(command => command.Status, AppointmentStatus.AwaitingPoll);
         }
 
         [Test]
@@ -71,7 +72,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_StartTime_Is_Supplied()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(command => command.StartTime, DateTime.MinValue);
+            _ = _bodyValidator.ShouldHaveValidationErrorForExact(command => command.StartTime, DateTime.MinValue);
         }
 
         [Test]
@@ -83,7 +84,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_EndTime_Is_Supplied()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(command => command.EndTime, DateTime.MinValue);
+            _ = _bodyValidator.ShouldHaveValidationErrorForExact(command => command.EndTime, DateTime.MinValue);
         }
 
         [Test]
@@ -95,7 +96,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_EndTime_Is_Not_Greater_Than_StartTime()
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(command => command.EndTime, new AppointmentModifyBodyDto
+            _ = _bodyValidator.ShouldHaveValidationErrorForExact(command => command.EndTime, new AppointmentModifyBodyDto
             {
                 StartTime = FakeDateTime.UtcNow,
                 EndTime = FakeDateTime.UtcNow.AddHours(-3)
@@ -125,7 +126,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public void Should_Have_Validation_Error_If_Empty_Name_Is_Supplied([Values(null, "")] string name)
         {
-            _bodyValidator.ShouldHaveValidationErrorForExact(command => command.Name, name);
+            _ = _bodyValidator.ShouldHaveValidationErrorForExact(command => command.Name, name);
         }
 
         [Test]

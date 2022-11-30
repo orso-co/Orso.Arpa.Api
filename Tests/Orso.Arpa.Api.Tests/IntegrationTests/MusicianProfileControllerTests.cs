@@ -12,6 +12,7 @@ using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -35,19 +36,59 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MusicianProfilesController.Get(expectedDto.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         private static IEnumerable<TestCaseData> s_projectParticipationData
         {
             get
             {
-                yield return new TestCaseData(FakeUsers.Performer, MusicianProfileSeedData.PerformerMusicianProfile.Id, false, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer });
-                yield return new TestCaseData(FakeUsers.Performer, MusicianProfileSeedData.PerformerMusicianProfile.Id, true, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerRockingXMasParticipationForPerformer, ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer });
-                yield return new TestCaseData(FakeUsers.Staff, MusicianProfileSeedData.PerformerMusicianProfile.Id, false, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff });
-                yield return new TestCaseData(FakeUsers.Staff, MusicianProfileSeedData.PerformerMusicianProfile.Id, true, new List<ProjectParticipationDto> { ProjectParticipationDtoData.PerformerRockingXMasParticipationForStaff, ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff });
+                yield return new TestCaseData(
+                    FakeUsers.Performer,
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    false,
+                    new List<ProjectParticipationDto>
+                    {
+                        ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer,
+                        ProjectParticipationDtoData.PerformerChorwerkstattForPerformer,
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodForPerformer
+                    });
+                yield return new TestCaseData(
+                    FakeUsers.Performer,
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    true,
+                    new List<ProjectParticipationDto>
+                    {
+                        ProjectParticipationDtoData.PerformerRockingXMasParticipationForPerformer,
+                        ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer,
+                        ProjectParticipationDtoData.PerformerChorwerkstattForPerformer,
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodForPerformer,
+                        ProjectParticipationDtoData.PerformerChorwerkstattFreiburgForPerformer
+                    });
+                yield return new TestCaseData(
+                    FakeUsers.Staff,
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    false,
+                    new List<ProjectParticipationDto>
+                    {
+                        ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerChorwerkstattParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodParticipationForStaff
+                    });
+                yield return new TestCaseData(
+                    FakeUsers.Staff,
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    true,
+                    new List<ProjectParticipationDto>
+                    {
+                        ProjectParticipationDtoData.PerformerRockingXMasParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerChorwerkstattParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodParticipationForStaff,
+                        ProjectParticipationDtoData.PerformerChorwerkstattFreiburgParticipationForStaff
+                    });
             }
         }
 
@@ -62,9 +103,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MusicianProfilesController.GetProjectParticipations(musicianProfileId, includeCompleted));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<ProjectParticipationDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectParticipationDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
+            _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
         }
 
         [Test, Order(3)]
@@ -77,7 +118,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MusicianProfilesController.GetProjectParticipations(MusicianProfileSeedData.AdminMusicianSopranoProfile.Id, true));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
         [Test, Order(4)]
@@ -131,9 +172,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.MusicianProfilesController.Get());
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<GroupedMusicianProfileDto> result = await DeserializeResponseMessageAsync<IEnumerable<GroupedMusicianProfileDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrderingFor(r => r.Person));
+            _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrderingFor(r => r.Person));
         }
 
         [Test, Order(100)]
@@ -166,11 +207,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.MusicianProfilesController.AddEducation(MusicianProfileSeedData.AdminMusicianSopranoProfile.Id), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             EducationDto result = await DeserializeResponseMessageAsync<EducationDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
-            result.Id.Should().NotBeEmpty();
-            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.EducationsController.Get(result.Id)}");
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.EducationsController.Get(result.Id)}");
         }
 
         [Test, Order(101)]
@@ -203,11 +244,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.MusicianProfilesController.AddCurriculumVitaeReference(MusicianProfileSeedData.PerformerMusicianProfile.Id), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             CurriculumVitaeReferenceDto result = await DeserializeResponseMessageAsync<CurriculumVitaeReferenceDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
-            result.Id.Should().NotBeEmpty();
-            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.CurriculumVitaeReferencesController.Get(result.Id)}");
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.CurriculumVitaeReferencesController.Get(result.Id)}");
         }
 
         [Test, Order(102)]
@@ -234,10 +275,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.MusicianProfilesController.AddDeactivation(MusicianProfileSeedData.PerformerMusicianProfile.Id), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             MusicianProfileDeactivationDto result = await DeserializeResponseMessageAsync<MusicianProfileDeactivationDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
-            result.Id.Should().NotBeEmpty();
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            _ = result.Id.Should().NotBeEmpty();
         }
 
         [Test, Order(103)]
@@ -250,7 +291,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.MusicianProfilesController.RemoveDeactivation(MusicianProfileSeedData.PerformersDeactivatedTubaProfile.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(1000)]
@@ -273,8 +314,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
                 QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[3].Id,
                 SalaryId = SelectValueMappingSeedData.MusicianProfileSalaryMappings[2].Id,
-                InquiryStatusInnerId = SelectValueMappingSeedData.MusicianProfileInquiryStatusInnerMappings[0].Id,
-                InquiryStatusTeamId = SelectValueMappingSeedData.MusicianProfileInquiryStatusTeamMappings[2].Id,
+                InquiryStatusInner = MusicianProfileInquiryStatus.ForContactsOnly,
+                InquiryStatusTeam = MusicianProfileInquiryStatus.Gladly,
             };
             modifyDto.PreferredPositionsTeamIds.Add(SelectValueSectionSeedData.HornSolo.Id);
             modifyDto.PreferredPartsTeam.Add(2);
@@ -288,9 +329,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = musicianProfileToModify.CreatedBy,
                 SalaryComment = modifyDto.SalaryComment,
                 SalaryId = modifyDto.SalaryId,
-                InquiryStatusInnerId = modifyDto.InquiryStatusInnerId,
+                InquiryStatusInner = (Domain.Enums.MusicianProfileInquiryStatus)modifyDto.InquiryStatusInner,
                 Id = musicianProfileToModify.Id,
-                InquiryStatusTeamId = modifyDto.InquiryStatusTeamId,
+                InquiryStatusTeam = (Domain.Enums.MusicianProfileInquiryStatus)modifyDto.InquiryStatusTeam,
                 InstrumentId = musicianProfileToModify.InstrumentId,
                 IsMainProfile = true,
                 LevelAssessmentInner = modifyDto.LevelAssessmentInner,
@@ -303,46 +344,45 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PreferredPositionsTeamIds = modifyDto.PreferredPositionsTeamIds,
                 ProfilePreferenceInner = modifyDto.ProfilePreferenceInner,
                 ProfilePreferenceTeam = modifyDto.ProfilePreferenceTeam,
-                QualificationId = modifyDto.QualificationId
+                QualificationId = modifyDto.QualificationId,
+                Educations = musicianProfileToModify.Educations,
+                CurriculumVitaeReferences = musicianProfileToModify.CurriculumVitaeReferences
             };
-            expectedDto.Educations = musicianProfileToModify.Educations;
-            expectedDto.CurriculumVitaeReferences = musicianProfileToModify.CurriculumVitaeReferences;
 
             HttpClient client = _authenticatedServer
                             .CreateClient()
                             .AuthenticateWith(_staff);
-
             // Act
             HttpResponseMessage responseMessage = await client
                 .PutAsync(ApiEndpoints.MusicianProfilesController.Put(musicianProfileToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
 
             // check if former main profile is not main profile anymore
             HttpResponseMessage getResponseMessage = await client
                 .GetAsync(ApiEndpoints.MusicianProfilesController.Get(MusicianProfileSeedData.PerformerMusicianProfile.Id));
 
-            getResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = getResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MusicianProfileDto getResult = await DeserializeResponseMessageAsync<MusicianProfileDto>(getResponseMessage);
-            getResult.IsMainProfile.Should().BeFalse();
+            _ = getResult.IsMainProfile.Should().BeFalse();
         }
 
-        //[Test, Order(10000)]
-        //public async Task Should_Delete()
-        //{
-        //    // Arrange
+        [Test, Order(10000)]
+        public async Task Should_Delete()
+        {
+            // Arrange
 
-        //    // Act
-        //    HttpResponseMessage responseMessage = await _authenticatedServer
-        //        .CreateClient()
-        //        .AuthenticateWith(_staff)
-        //        .DeleteAsync(ApiEndpoints.MusicianProfilesController.Delete(MusicianProfileDtoData.PerformerProfile.Id));
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_admin)
+                .DeleteAsync(ApiEndpoints.MusicianProfilesController.Delete(MusicianProfileDtoData.PerformerProfile.Id));
 
-        //    // Assert
-        //    responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        //}
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
     }
 }

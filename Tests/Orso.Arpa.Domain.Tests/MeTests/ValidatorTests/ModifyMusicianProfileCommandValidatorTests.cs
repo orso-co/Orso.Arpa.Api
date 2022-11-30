@@ -77,18 +77,11 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         }
 
         [Test]
-        public async Task Should_Not_Have_Validation_Error_If_Valid_IncquiryStatusInner_Is_Supplied()
-        {
-            _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.InquiryStatusInnerId, SelectValueMappingSeedData.MusicianProfileInquiryStatusInnerMappings[0].Id);
-        }
-
-        [Test]
         public async Task Should_Have_Validation_Error_If_Invalid_Preferred_Position_Inner_Is_Supplied()
         {
-            _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
-            (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
+            _ = _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
+            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
@@ -108,8 +101,8 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_Preferred_Position_Inner_Is_Supplied()
         {
-            _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Horn);
+            _ = _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Horn);
             await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
@@ -120,8 +113,8 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         [Test]
         public async Task Should_Have_Validation_Error_If_Invalid_Preferred_Part_Inner_Is_Supplied()
         {
-            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
-            (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new ModifyMusicianProfile.Command
+            _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
+            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPartsInner = new List<byte> { 8 }
@@ -131,7 +124,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_Preferred_Part_Inner_Is_Supplied()
         {
-            _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Horn);
+            _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Horn);
             await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,

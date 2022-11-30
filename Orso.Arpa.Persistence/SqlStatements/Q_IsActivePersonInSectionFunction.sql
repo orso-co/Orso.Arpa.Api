@@ -2,7 +2,7 @@ create or replace function fn_is_active_person_in_section ( p_appointment_id uui
 returns bool as 
 $BODY$
 BEGIN
-  If not exists ( --appointment.SectionAppointments.Count == 0
+  If not exists (
      select 1 from section_appointments where appointment_id=p_appointment_id and deleted=false )
   then return true;
   end if; 

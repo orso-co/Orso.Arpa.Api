@@ -59,7 +59,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
+            IEnumerable<AppointmentListDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentListDto>>(responseMessage);
 
             _ = result.Should().BeEquivalentTo(expectedDtos);
         }
@@ -124,7 +124,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PublicDetails = "Public Details",
                 EndTime = new DateTime(2021, 3, 5, 14, 15, 20),
                 StartTime = new DateTime(2021, 3, 5, 9, 15, 20),
-                SalaryId = Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b")
+                SalaryId = Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b"),
+                Status = AppointmentStatus.Scheduled
             };
 
             var expectedDto = new AppointmentDto
@@ -138,7 +139,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 PublicDetails = createDto.PublicDetails,
                 EndTime = createDto.EndTime,
                 StartTime = createDto.StartTime,
-                StatusId = createDto.StatusId,
+                Status = createDto.Status,
                 SalaryId = createDto.SalaryId
             };
 
@@ -237,7 +238,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationResult(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
                     person.Id,
-                    SelectValueMappingSeedData.AppointmentParticipationResultMappings[0].Id), null);
+                    AppointmentParticipationResult.Absent), null);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(expectedStatusCode);
@@ -274,7 +275,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 SalaryPatternId = SelectValueMappingSeedData.AppointmentSalaryPatternMappings[0].Id,
                 EndTime = FakeDateTime.UtcNow.AddHours(5),
                 StartTime = FakeDateTime.UtcNow,
-                StatusId = SelectValueMappingSeedData.AppointmentStatusMappings[0].Id
+                Status = AppointmentStatus.Confirmed
             };
 
             // Act
@@ -463,7 +464,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var dto = new AppointmentParticipationSetPredictionBodyDto
             {
-                CommentByPerformerInner = "CommentByPerformerInner"
+                CommentByPerformerInner = "CommentByPerformerInner",
+                Prediction = AppointmentParticipationPrediction.Partly
             };
 
             // Act
@@ -472,8 +474,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationPrediction(
                     AppointmentSeedData.PhotoSession.Id,
-                    PersonSeedData.AdminPersonId,
-                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id),
+                    PersonSeedData.AdminPersonId),
                     BuildStringContent(dto));
 
             // Assert
@@ -486,7 +487,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var dto = new AppointmentParticipationSetPredictionBodyDto
             {
-                CommentByPerformerInner = "CommentByPerformerInner"
+                CommentByPerformerInner = "CommentByPerformerInner",
+                Prediction = AppointmentParticipationPrediction.Yes
             };
 
             // Act
@@ -495,8 +497,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationPrediction(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
-                    _performer.PersonId,
-                    SelectValueMappingSeedData.AppointmentParticipationPredictionMappings[0].Id),
+                    _performer.PersonId),
                     BuildStringContent(dto));
 
             // Assert

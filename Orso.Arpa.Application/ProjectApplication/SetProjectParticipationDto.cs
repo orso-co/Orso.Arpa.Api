@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Application.ProjectApplication
@@ -13,9 +14,9 @@ namespace Orso.Arpa.Application.ProjectApplication
 
     public class SetProjectParticipationBodyDto
     {
-        public Guid? ParticipationStatusInnerId { get; set; }
-        public Guid ParticipationStatusInternalId { get; set; }
-        public Guid InvitationStatusId { get; set; }
+        public ProjectParticipationStatusInner? ParticipationStatusInner { get; set; }
+        public ProjectParticipationStatusInternal ParticipationStatusInternal { get; set; }
+        public ProjectInvitationStatus InvitationStatus { get; set; }
         public string CommentByStaffInner { get; set; }
         public string CommentTeam { get; set; }
         public Guid MusicianProfileId { get; set; }
@@ -26,13 +27,13 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public SetProjectParticipationDtoMappingProfile()
         {
-            CreateMap<SetProjectParticipationDto, SetProjectParticipation.Command>()
+            _ = CreateMap<SetProjectParticipationDto, SetProjectParticipation.Command>()
                 .ForMember(dest => dest.CommentByStaffInner, opt => opt.MapFrom(src => src.Body.CommentByStaffInner))
                 .ForMember(dest => dest.CommentTeam, opt => opt.MapFrom(src => src.Body.CommentTeam))
-                .ForMember(dest => dest.InvitationStatusId, opt => opt.MapFrom(src => src.Body.InvitationStatusId))
+                .ForMember(dest => dest.InvitationStatus, opt => opt.MapFrom(src => src.Body.InvitationStatus))
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Body.MusicianProfileId))
-                .ForMember(dest => dest.ParticipationStatusInnerId, opt => opt.MapFrom(src => src.Body.ParticipationStatusInnerId))
-                .ForMember(dest => dest.ParticipationStatusInternalId, opt => opt.MapFrom(src => src.Body.ParticipationStatusInternalId))
+                .ForMember(dest => dest.ParticipationStatusInner, opt => opt.MapFrom(src => src.Body.ParticipationStatusInner))
+                .ForMember(dest => dest.ParticipationStatusInternal, opt => opt.MapFrom(src => src.Body.ParticipationStatusInternal))
                 .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.Id));
         }
     }
@@ -41,7 +42,7 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public SetProjectParticipationDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new SetProjectParticipationBodyDtoValidator());
         }
     }
@@ -50,19 +51,19 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public SetProjectParticipationBodyDtoValidator()
         {
-            RuleFor(d => d.MusicianProfileId)
+            _ = RuleFor(d => d.MusicianProfileId)
                 .NotEmpty();
 
-            RuleFor(d => d.ParticipationStatusInternalId)
+            _ = RuleFor(d => d.ParticipationStatusInternal)
                 .NotEmpty();
 
-            RuleFor(d => d.InvitationStatusId)
+            _ = RuleFor(d => d.InvitationStatus)
                 .NotEmpty();
 
-            RuleFor(d => d.CommentByStaffInner)
+            _ = RuleFor(d => d.CommentByStaffInner)
                 .RestrictedFreeText(500);
 
-            RuleFor(d => d.CommentTeam)
+            _ = RuleFor(d => d.CommentTeam)
                 .RestrictedFreeText(500);
         }
     }

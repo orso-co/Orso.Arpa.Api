@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,6 +10,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -58,10 +58,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(3)]
-        public async Task Should_Get_Only_Completed_Projects()
+        public async Task Should_Get_Not_Completed_Projects()
         {
             // Arrange
-            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.ProjectsForPerformer.Where(p => !p.IsCompleted);
+            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.NotCompletedProjectsForPerformer;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -136,7 +136,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[2].Id,
                 StartDate = new DateTime(2021, 02, 02),
                 EndDate = new DateTime(2021, 02, 28),
-                StateId = SelectValueMappingSeedData.ProjectStateMappings[2].Id,
+                Status = ProjectStatus.Cancelled,
                 ParentId = ProjectSeedData.RockingXMas.Id
             };
 
@@ -156,7 +156,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = "anonymous",
                 Type = SelectValueDtoData.Workshop,
                 Genre = SelectValueDtoData.ChamberMusic,
-                State = SelectValueDtoData.Cacnelled
+                Status = ProjectStatus.Cancelled
             };
 
             // Act
@@ -228,7 +228,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                 StartDate = new DateTime(2021, 01, 01),
                 EndDate = new DateTime(2021, 01, 31),
-                StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                Status = ProjectStatus.Pending,
                 ParentId = ProjectSeedData.HoorayForHollywood.Id,
             };
 
@@ -242,7 +242,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Genre = SelectValueDtoData.ClassicalMusic,
                 StartDate = createDto.StartDate,
                 EndDate = createDto.EndDate,
-                State = SelectValueDtoData.Pending,
+                Status = ProjectStatus.Pending,
                 ParentId = createDto.ParentId,
                 IsCompleted = false,
                 CreatedBy = _staff.DisplayName,
@@ -408,18 +408,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 MusicianProfileId = musicianProfile.Id,
                 CommentByStaffInner = "Staff comment",
                 CommentTeam = "Team comment",
-                InvitationStatusId = SelectValueMappingSeedData.ProjectParticipationInvitationStatusMappings[0].Id,
-                ParticipationStatusInnerId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[0].Id,
-                ParticipationStatusInternalId = SelectValueMappingSeedData.ProjectParticipationStatusInternalMappings[0].Id,
+                InvitationStatus = ProjectInvitationStatus.Invited,
+                ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
+                ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
             };
             var expectedDto = new ProjectParticipationDto
             {
-                ParticipationStatusInnerId = dto.ParticipationStatusInnerId,
-                ParticipationStatusInner = "Interested",
-                ParticipationStatusInternalId = dto.ParticipationStatusInternalId,
-                ParticipationStatusInternal = "Candidate",
-                InvitationStatusId = dto.InvitationStatusId,
-                InvitationStatus = "Invited",
+                ParticipationStatusInner = (ProjectParticipationStatusInner)dto.ParticipationStatusInner,
+                ParticipationStatusInternal = dto.ParticipationStatusInternal,
+                InvitationStatus = dto.InvitationStatus,
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = "Staff Member",
                 CommentByStaffInner = "Staff comment",
@@ -456,19 +453,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 MusicianProfileId = musicianProfile.Id,
                 CommentByStaffInner = "Staff comment",
                 CommentTeam = "Team comment",
-                InvitationStatusId = SelectValueMappingSeedData.ProjectParticipationInvitationStatusMappings[1].Id,
-                ParticipationStatusInnerId = SelectValueMappingSeedData.ProjectParticipationStatusInnerMappings[0].Id,
-                ParticipationStatusInternalId = SelectValueMappingSeedData.ProjectParticipationStatusInternalMappings[1].Id,
+                InvitationStatus = ProjectInvitationStatus.NotInvited,
+                ParticipationStatusInner = ProjectParticipationStatusInner.Pending,
+                ParticipationStatusInternal = ProjectParticipationStatusInternal.Pending,
             };
             ProjectParticipationDto expectedDto = ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff;
             expectedDto.CommentByStaffInner = dto.CommentByStaffInner;
             expectedDto.CommentTeam = dto.CommentTeam;
-            expectedDto.InvitationStatusId = dto.InvitationStatusId;
-            expectedDto.InvitationStatus = "Not Invited";
-            expectedDto.ParticipationStatusInnerId = dto.ParticipationStatusInnerId;
-            expectedDto.ParticipationStatusInner = "Interested";
-            expectedDto.ParticipationStatusInternalId = dto.ParticipationStatusInternalId;
-            expectedDto.ParticipationStatusInternal = "Acceptance";
+            expectedDto.InvitationStatus = dto.InvitationStatus;
+            expectedDto.ParticipationStatusInner = (ProjectParticipationStatusInner)dto.ParticipationStatusInner;
+            expectedDto.ParticipationStatusInternal = dto.ParticipationStatusInternal;
             expectedDto.ModifiedAt = FakeDateTime.UtcNow;
             expectedDto.ModifiedBy = "Staff Member";
             _fakeSmtpServer.ClearReceivedEmail();

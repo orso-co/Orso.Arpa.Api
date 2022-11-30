@@ -1,19 +1,109 @@
 using System;
 using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class ProjectParticipationDtoData
     {
+        public static ProjectParticipationDto PerformerChorwerkstattFreiburgParticipationForStaff
+        {
+            get
+            {
+                ProjectParticipationDto dto = PerformerChorwerkstattFreiburgForPerformer;
+                dto.CommentTeam = "Comment by team";
+                dto.InvitationStatus = ProjectInvitationStatus.Invited;
+                dto.Person = ReducedPersonDtoData.Performer;
+                return dto;
+            }
+        }
+
+        public static ProjectParticipationDto PerformerChorwerkstattFreiburgForPerformer
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CommentByStaffInner = "Comment by staff",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("bd70283c-22ba-4ddb-9ae2-5f85d0151811"),
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Acceptance,
+                    Project = ReducedProjectDtoData.ChorwerkstattFreiburg
+                };
+            }
+        }
+
+        public static ProjectParticipationDto PerformerHoorayForHollywoodParticipationForStaff
+        {
+            get
+            {
+                ProjectParticipationDto dto = PerformerHoorayForHollywoodForPerformer;
+                dto.CommentTeam = "Comment by team";
+                dto.InvitationStatus = ProjectInvitationStatus.Invited;
+                dto.Person = ReducedPersonDtoData.Performer;
+                return dto;
+            }
+        }
+
+        public static ProjectParticipationDto PerformerHoorayForHollywoodForPerformer
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CommentByStaffInner = "Comment by staff",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("42fe1129-72f1-4935-b136-9bc41583e895"),
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    Project = ReducedProjectDtoData.HoorayForHollywood
+                };
+            }
+        }
+
+        public static ProjectParticipationDto PerformerChorwerkstattParticipationForStaff
+        {
+            get
+            {
+                ProjectParticipationDto dto = PerformerChorwerkstattForPerformer;
+                dto.CommentTeam = "Comment by team";
+                dto.InvitationStatus = ProjectInvitationStatus.Invited;
+                dto.Person = ReducedPersonDtoData.Performer;
+                return dto;
+            }
+        }
+
+        public static ProjectParticipationDto PerformerChorwerkstattForPerformer
+        {
+            get
+            {
+                return new ProjectParticipationDto
+                {
+                    CommentByStaffInner = "Comment by staff",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Id = Guid.Parse("014b7ae4-9c6a-4273-b54e-c40a911d41a3"),
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,
+                    Project = ReducedProjectDtoData.Chorwerkstatt
+                };
+            }
+        }
+
         public static ProjectParticipationDto PerformerSchneeköniginParticipationForStaff
         {
             get
             {
                 ProjectParticipationDto dto = PerformerSchneeköniginParticipationForPerformer;
                 dto.CommentTeam = "Comment by team";
-                dto.InvitationStatus = "Invited";
-                dto.InvitationStatusId = Guid.Parse("625a9195-2380-4762-8dc6-13163e354ef6");
+                dto.InvitationStatus = ProjectInvitationStatus.Invited;
                 dto.Person = ReducedPersonDtoData.Performer;
                 return dto;
             }
@@ -26,10 +116,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             CreatedBy = "anonymous",
             Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-            ParticipationStatusInner = "Acceptance",
-            ParticipationStatusInnerId = Guid.Parse("eef4a4d1-796b-4b37-96f6-f31dbccf0aeb"),
-            ParticipationStatusInternal = "Candidate",
-            ParticipationStatusInternalId = Guid.Parse("b0dcb5e9-bbc6-4004-b9d7-0f6723416b9b"),
+            ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
             Project = ReducedProjectDtoData.Schneekönigin
         };
 

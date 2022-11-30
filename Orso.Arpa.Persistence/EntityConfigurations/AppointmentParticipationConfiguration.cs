@@ -8,33 +8,35 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<AppointmentParticipation> builder)
         {
-            builder
+            _ = builder
                 .HasOne(e => e.Person)
                 .WithMany(p => p.AppointmentParticipations)
                 .HasForeignKey(e => e.PersonId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder
+            _ = builder
                 .HasOne(e => e.Appointment)
                 .WithMany(a => a.AppointmentParticipations)
                 .HasForeignKey(e => e.AppointmentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder
-                .HasOne(e => e.Result)
-                .WithMany()
-                .HasForeignKey(e => e.ResultId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder
-                .HasOne(e => e.Prediction)
-                .WithMany()
-                .HasForeignKey(e => e.PredictionId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder
+            _ = builder
                 .Property(e => e.CommentByPerformerInner)
                 .HasMaxLength(500);
+
+            _ = builder
+                .Property(s => s.Result)
+                .HasConversion<string>()
+                .HasMaxLength(100);
+
+            _ = builder
+                .Property(s => s.Prediction)
+                .HasConversion<string>()
+                .HasMaxLength(100);
+
+            _ = builder.HasIndex(e => e.Result);
+
+            _ = builder.HasIndex(e => e.Prediction);
         }
     }
 }

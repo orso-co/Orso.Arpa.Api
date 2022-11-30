@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MeApplication;
 using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MyMusicianProfileApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.GenericHandlers;
@@ -47,7 +46,7 @@ namespace Orso.Arpa.Application.Services
         public async Task ModifyMyUserProfileAsync(MyUserProfileModifyDto userProfileModifyDto)
         {
             Orso.Arpa.Domain.Logic.Me.Modify.Command command = _mapper.Map<Domain.Logic.Me.Modify.Command>(userProfileModifyDto);
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
         }
 
         public async Task<MyAppointmentListDto> GetMyAppointmentsAsync(int? limit, int? offset, bool passed)
@@ -67,8 +66,9 @@ namespace Orso.Arpa.Application.Services
                     dto.Id, currentPerson.Id));
                 if (participation != null)
                 {
-                    dto.Result = participation.Result?.SelectValue.Name;
-                    dto.PredictionId = participation.PredictionId;
+                    dto.Result = participation.Result;
+                    dto.Prediction = participation.Prediction;
+                    dto.CommentByPerformerInner = participation.CommentByPerformerInner;
                 }
             }
 
@@ -85,7 +85,7 @@ namespace Orso.Arpa.Application.Services
                 .Map<Domain.Logic.AppointmentParticipations.SetPrediction.Command>(setParticipationPredictionDto);
 
             command.PersonId = _userAccessor.PersonId;
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
         }
 
         public async Task<SendQRCode.QrCodeFile> GetMyQrCodeAsync(bool sendEmail)
@@ -105,7 +105,7 @@ namespace Orso.Arpa.Application.Services
             {
                 Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
-                await _mediator.Send(doublingInstrumentCommand);
+                _ = await _mediator.Send(doublingInstrumentCommand);
             }
             return _mapper.Map<MyMusicianProfileDto>(createdEntity);
         }
@@ -141,7 +141,7 @@ namespace Orso.Arpa.Application.Services
             command.InstrumentId = existingMusicianProfile.InstrumentId;
             command.ExistingMusicianProfile = existingMusicianProfile;
 
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
             return await GetMyMusicianProfileAsync(command.Id);
         }
 
@@ -155,19 +155,19 @@ namespace Orso.Arpa.Application.Services
         public async Task ModifyDoublingInstrumentAsync(MyDoublingInstrumentModifyDto myDoublingInstrumentModifyDto)
         {
             ModifyDoublingInstrument.Command command = _mapper.Map<ModifyDoublingInstrument.Command>(myDoublingInstrumentModifyDto);
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
         }
 
         public async Task AddDocumentToMusicianProfileAsync(MyMusicianProfileAddDocumentDto addDocumentDto)
         {
             AddDocumentToMusicianProfile.Command command = _mapper.Map<AddDocumentToMusicianProfile.Command>(addDocumentDto);
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
         }
 
         public async Task RemoveDocumentFromMusicianProfileAsync(MyMusicianProfileRemoveDocumentDto removeDocumentDto)
         {
             RemoveDocumentFromMusicianProfile.Command command = _mapper.Map<RemoveDocumentFromMusicianProfile.Command>(removeDocumentDto);
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
         }
 
         public async Task<RegionPreferenceDto> CreateRegionPreferenceAsync(MyRegionPreferenceCreateDto myRegionPreferenceCreateDto)
@@ -180,13 +180,13 @@ namespace Orso.Arpa.Application.Services
         public async Task ModifyRegionPreferenceAsync(MyRegionPreferenceModifyDto myRegionPreferenceModifyDto)
         {
             ModifyRegionPreference.Command command = _mapper.Map<ModifyRegionPreference.Command>(myRegionPreferenceModifyDto);
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
         }
 
         public async Task RemoveRegionPreferenceAsync(MyRegionPreferenceRemoveDto myRegionPreferenceRemoveDto)
         {
             RemoveRegionPreference.Command command = _mapper.Map<RemoveRegionPreference.Command>(myRegionPreferenceRemoveDto);
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
         }
     }
 }

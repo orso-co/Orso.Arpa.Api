@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using AspNetCoreRateLimit;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -52,6 +53,7 @@ using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Orso.Arpa.Persistence.GraphQL;
+using Yoh.Text.Json.NamingPolicies;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
 
 namespace Orso.Arpa.Api
@@ -96,6 +98,7 @@ namespace Orso.Arpa.Api
                 {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
                     options.JsonSerializerOptions.Converters.Add(new TrimmedStringConverter());
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicies.SnakeCaseUpper)); // https://github.com/dotnet/runtime/issues/782
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 })
                 .AddApplicationPart(typeof(Startup).Assembly)

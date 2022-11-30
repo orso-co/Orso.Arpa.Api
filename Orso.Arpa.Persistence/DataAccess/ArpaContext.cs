@@ -7,11 +7,11 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Castle.Core.Internal;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.ChangeLog;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
@@ -79,7 +79,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLazyLoadingProxies();
+            _ = optionsBuilder.UseLazyLoadingProxies();
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -89,30 +89,30 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             {
                 MethodInfo method = ArpaContextUtility.SetGlobalQueryMethod.MakeGenericMethod(type);
-                method.Invoke(this, new object[] { builder });
+                _ = method.Invoke(this, new object[] { builder });
             }
 
-            builder.Entity<Url>()
+            _ = builder.Entity<Url>()
                 .HasQueryFilter(url => !url.Deleted
                     && (url.UrlRoles.Count == 0
                     || _tokenAccessor.UserRoles.Contains(RoleNames.Staff)
                     || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
 
-            builder
+            _ = builder
                 .HasDbFunction(typeof(ArpaContext)
                 .GetMethod(nameof(GetAppointmentIdsForPerson), new[] { typeof(Guid) }))
                 .HasName("fn_active_appointments_for_person");
-            builder
+            _ = builder
                 .HasDbFunction(typeof(ArpaContext)
                 .GetMethod(nameof(GetMusicianProfilesForAppointment), new[] { typeof(Guid) }))
                 .HasName("fn_mupro_for_appointments");
-            builder
+            _ = builder
                 .HasDbFunction(typeof(ArpaContext)
                 .GetMethod(nameof(GetActiveMusicianProfilesForAppointment), new[] { typeof(Guid) }))
                 .HasName("fn_active_mupro_for_appointments");
 
             base.OnModelCreating(builder);
-            builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
+            _ = builder.ApplyConfigurationsFromAssembly(typeof(UserConfiguration).Assembly);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -142,7 +142,7 @@ namespace Orso.Arpa.Persistence.DataAccess
 
             int saveResult = await base.SaveChangesAsync(cancellationToken);
 
-            if (!ChangeTracker.Entries<Localization>().IsNullOrEmpty())
+            if (!ChangeTracker.Entries<Localization>().Any())
             {
                 await _translationCallBack();
             }
@@ -154,7 +154,34 @@ namespace Orso.Arpa.Persistence.DataAccess
         {
             entry.State = EntityState.Modified;
             (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
+            Type entityType = entry.Entity.GetType();
 
+            foreach (NavigationEntry navigationEntry in entry.Navigations)
+            {
+                var shouldBeDeleted = entityType
+                    .GetProperty(navigationEntry.Metadata.Name)?
+                    .GetCustomAttribute<CascadingSoftDeleteAttribute>() != null;
+
+                if (!shouldBeDeleted)
+                {
+                    continue;
+                }
+                if (!navigationEntry.IsLoaded)
+                {
+                    await navigationEntry.LoadAsync(cancellationToken);
+                }
+                if (navigationEntry is CollectionEntry collectionEntry)
+                {
+                    foreach (var dependentEntryObject in collectionEntry.CurrentValue)
+                    {
+                        await DeleteNavigationEntry(currentUserDisplayName, dependentEntryObject, cancellationToken);
+                    }
+                }
+                else if (navigationEntry is ReferenceEntry referenceEntry && referenceEntry.CurrentValue != null)
+                {
+                    await DeleteNavigationEntry(currentUserDisplayName, referenceEntry.CurrentValue, cancellationToken);
+                }
+            }
             foreach (IProperty property in entry.CurrentValues.Properties)
             {
                 if (property.IsColumnNullable() && property.IsForeignKey())
@@ -162,23 +189,15 @@ namespace Orso.Arpa.Persistence.DataAccess
                     entry.CurrentValues[property] = null;
                 }
             }
-            foreach (NavigationEntry navigationEntry in entry.Navigations)
+        }
+
+        private async Task DeleteNavigationEntry(string currentUserDisplayName, object navigationEntryCurrentValue, CancellationToken cancellationToken)
+        {
+            EntityEntry dependentEntry = Entry(navigationEntryCurrentValue);
+            Type typeOfDependentEntry = dependentEntry.Entity.GetType();
+            if (typeOfDependentEntry.IsSubclassOf(typeof(BaseEntity)))
             {
-                if (navigationEntry is CollectionEntry collectionEntry)
-                {
-                    if (!collectionEntry.IsLoaded)
-                    {
-                        await collectionEntry.LoadAsync(cancellationToken);
-                    }
-                    foreach (var dependentEntryObject in collectionEntry.CurrentValue)
-                    {
-                        EntityEntry dependentEntry = Entry(dependentEntryObject);
-                        if (dependentEntry.Entity.GetType().IsSubclassOf(typeof(BaseEntity)))
-                        {
-                            await DeleteWithNavigationsAsync(currentUserDisplayName, dependentEntry, cancellationToken);
-                        }
-                    }
-                }
+                await DeleteWithNavigationsAsync(currentUserDisplayName, dependentEntry, cancellationToken);
             }
         }
 
@@ -307,6 +326,11 @@ namespace Orso.Arpa.Persistence.DataAccess
             using DbCommand command = Database.GetDbConnection().CreateCommand();
             command.CommandText = $"SELECT public.fn_is_person_eligible_for_appointment('{personId}', '{appointmentId}')";
             return (bool)command.ExecuteScalar();
+        }
+
+        public async Task<int> ExecuteSqlAsync(string sqlStatement)
+        {
+            return await Database.ExecuteSqlRawAsync(sqlStatement);
         }
     }
 }

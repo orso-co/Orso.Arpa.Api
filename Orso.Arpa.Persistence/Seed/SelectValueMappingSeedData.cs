@@ -17,23 +17,14 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(AppointmentSalaryMappings);
                 list.AddRange(AppointmentSalaryPatternMappings);
                 list.AddRange(AppointmentExpectationMappings);
-                list.AddRange(AppointmentParticipationPredictionMappings);
-                list.AddRange(AppointmentParticipationResultMappings);
-                list.AddRange(AppointmentStatusMappings);
                 list.AddRange(ProjectGenreMappings);
                 list.AddRange(ProjectTypeMappings);
-                list.AddRange(ProjectStateMappings);
                 list.AddRange(MusicianProfileQualificationMappings);
                 list.AddRange(MusicianProfileSalaryMappings);
-                list.AddRange(MusicianProfileInquiryStatusInnerMappings);
-                list.AddRange(MusicianProfileInquiryStatusTeamMappings);
                 list.AddRange(AuditionStatusMappings);
                 list.AddRange(AuditionRepetitorStatusMappings);
                 list.AddRange(MusicianProfileDocumentsMappings);
                 list.AddRange(MusicianProfileSectionInstrumentAvailabilityMappings);
-                list.AddRange(ProjectParticipationInvitationStatusMappings);
-                list.AddRange(ProjectParticipationStatusInnerMappings);
-                list.AddRange(ProjectParticipationStatusInternalMappings);
                 list.AddRange(EducationTypeMappings);
                 list.AddRange(CurriculumVitaeReferenceTypeMappings);
                 list.AddRange(PersonGenderMappings);
@@ -138,6 +129,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> AppointmentParticipationPredictionMappings
         {
             get
@@ -152,6 +144,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> AppointmentParticipationResultMappings
         {
             get
@@ -167,6 +160,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> AppointmentStatusMappings
         {
             get
@@ -217,6 +211,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> ProjectStateMappings
         {
             get
@@ -261,6 +256,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> MusicianProfileInquiryStatusInnerMappings
         {
             get
@@ -276,6 +272,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> MusicianProfileInquiryStatusTeamMappings
         {
             get
@@ -352,6 +349,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> ProjectParticipationStatusInnerMappings
         {
             get
@@ -366,6 +364,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> ProjectParticipationStatusInternalMappings
         {
             get
@@ -380,6 +379,7 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
+        [Obsolete("is only needed for migration purposes")]
         public static IList<SelectValueMapping> ProjectParticipationInvitationStatusMappings
         {
             get

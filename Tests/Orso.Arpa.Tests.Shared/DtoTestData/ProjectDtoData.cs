@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Application.UrlApplication;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -16,7 +17,22 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     RockingXMasForPerformer,
                     HoorayForHollywood,
-                    Schneekönigin
+                    Schneekönigin,
+                    Chorwerkstatt,
+                    ChorwerkstattFreiburg
+                };
+            }
+        }
+
+        public static IList<ProjectDto> NotCompletedProjectsForPerformer
+        {
+            get
+            {
+                return new List<ProjectDto>
+                {
+                    HoorayForHollywood,
+                    Schneekönigin,
+                    Chorwerkstatt
                 };
             }
         }
@@ -29,7 +45,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     RockingXMasForStaff,
                     HoorayForHollywood,
-                    Schneekönigin
+                    Schneekönigin,
+                    Chorwerkstatt,
+                    ChorwerkstattFreiburg
                 };
             }
         }
@@ -71,7 +89,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Genre = SelectValueDtoData.ClassicalMusic,
                     StartDate = new DateTime(2020, 12, 24),
                     EndDate = new DateTime(2020, 12, 26),
-                    State = SelectValueDtoData.Pending,
+                    Status = ProjectStatus.Pending,
                     ParentId = null,
                     IsCompleted = true,
                     CreatedBy = "anonymous",
@@ -96,7 +114,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartDate = new DateTime(2020, 05, 05),
                     EndDate = new DateTime(2020, 06, 06),
                     Urls = new List<UrlDto> { UrlDtoData.GoogleDe },
-                    State = SelectValueDtoData.ProjectConfirmed,
+                    Status = ProjectStatus.Confirmed,
                     ParentId = null,
                     IsCompleted = false,
 
@@ -122,9 +140,54 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Id = Guid.Parse("b781c54d-8115-4561-b01e-9836fa05175e"),
                     ShortTitle = "Schnee",
                     StartDate = new DateTime(2020, 12, 1),
-                    State = SelectValueDtoData.Pending,
+                    Status = ProjectStatus.Pending,
                     Title = "Die Schneekönigin",
                     Type = SelectValueDtoData.Concert
+                };
+            }
+        }
+
+        public static ProjectDto Chorwerkstatt
+        {
+            get
+            {
+                return new ProjectDto
+                {
+                    Code = "1002",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Description = "Ein Blick hinter die Kulissen…",
+                    EndDate = new DateTime(2020, 11, 30),
+                    Genre = SelectValueDtoData.FilmMusic,
+                    Id = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
+                    ShortTitle = "ChWeTour",
+                    StartDate = new DateTime(2020, 9, 1),
+                    Status = ProjectStatus.Confirmed,
+                    Title = "Chorwerkstatt",
+                    Type = SelectValueDtoData.ConcertTour
+                };
+            }
+        }
+
+        public static ProjectDto ChorwerkstattFreiburg
+        {
+            get
+            {
+                return new ProjectDto
+                {
+                    Code = "1003",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Description = "Ein Blick hinter die Kulissen…",
+                    EndDate = new DateTime(2020, 10, 30),
+                    Genre = SelectValueDtoData.FilmMusic,
+                    Id = Guid.Parse("a9668e17-e6df-4b08-8db5-30c88f89d78c"),
+                    ShortTitle = "ChWeFr",
+                    StartDate = new DateTime(2020, 10, 10),
+                    Status = ProjectStatus.Cancelled,
+                    Title = "Chorwerkstatt Freiburg",
+                    Type = SelectValueDtoData.Concert,
+                    ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7")
                 };
             }
         }

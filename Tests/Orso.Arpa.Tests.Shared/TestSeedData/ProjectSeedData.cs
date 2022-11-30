@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.Projects;
 using Orso.Arpa.Persistence.Seed;
 
@@ -16,7 +17,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 {
                     RockingXMas,
                     HoorayForHollywood,
-                    Schneekönigin
+                    Schneekönigin,
+                    Chorwerkstatt,
+                    ChorwerkstattFreiburg
                 };
             }
         }
@@ -37,7 +40,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                         StartDate = new DateTime(2020, 12, 24),
                         EndDate = new DateTime(2020, 12, 26),
-                        StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                        Status = ProjectStatus.Pending,
                         ParentId = null,
                         IsCompleted = true,
                     });
@@ -60,7 +63,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[1].Id,
                         StartDate = new DateTime(2020, 05, 05),
                         EndDate = new DateTime(2020, 06, 06),
-                        StateId = SelectValueMappingSeedData.ProjectStateMappings[1].Id,
+                        Status = ProjectStatus.Confirmed,
                         ParentId = null,
                         IsCompleted = false
                     });
@@ -83,8 +86,54 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         GenreId = SelectValueMappingSeedData.ProjectGenreMappings[0].Id,
                         StartDate = new DateTime(2020, 12, 1),
                         EndDate = new DateTime(2020, 12, 10),
-                        StateId = SelectValueMappingSeedData.ProjectStateMappings[0].Id,
+                        Status = ProjectStatus.Pending,
                         ParentId = null,
+                        IsCompleted = false,
+                    });
+            }
+        }
+
+        public static Project Chorwerkstatt
+        {
+            get
+            {
+                return new Project(
+                    Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
+                    new Create.Command
+                    {
+                        Title = "Chorwerkstatt",
+                        ShortTitle = "ChWeTour",
+                        Description = "Ein Blick hinter die Kulissen…",
+                        Code = "1002",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[1].Id,
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[3].Id,
+                        StartDate = new DateTime(2020, 9, 1),
+                        EndDate = new DateTime(2020, 11, 30),
+                        Status = ProjectStatus.Confirmed,
+                        ParentId = null,
+                        IsCompleted = false,
+                    });
+            }
+        }
+
+        public static Project ChorwerkstattFreiburg
+        {
+            get
+            {
+                return new Project(
+                    Guid.Parse("a9668e17-e6df-4b08-8db5-30c88f89d78c"),
+                    new Create.Command
+                    {
+                        Title = "Chorwerkstatt Freiburg",
+                        ShortTitle = "ChWeFr",
+                        Description = "Ein Blick hinter die Kulissen…",
+                        Code = "1003",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[3].Id,
+                        StartDate = new DateTime(2020, 10, 10),
+                        EndDate = new DateTime(2020, 10, 30),
+                        Status = ProjectStatus.Cancelled,
+                        ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
                         IsCompleted = false,
                     });
             }

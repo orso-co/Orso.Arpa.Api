@@ -5,6 +5,7 @@ using FluentValidation;
 using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Application.MusicianProfileApplication
@@ -19,8 +20,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public byte LevelAssessmentTeam { get; set; }
         public Guid InstrumentId { get; set; }
         public Guid QualificationId { get; set; }
-        public Guid? InquiryStatusInnerId { get; set; }
-        public Guid? InquiryStatusTeamId { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
+        public MusicianProfileInquiryStatus? InquiryStatusTeam { get; set; }
         public IList<DoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentCreateBodyDto>();
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
         public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
@@ -32,15 +33,15 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileCreateDtoMappingProfile()
         {
-            CreateMap<MusicianProfileCreateDto, Create.Command>()
+            _ = CreateMap<MusicianProfileCreateDto, Create.Command>()
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
 
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.Body.InstrumentId))
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.Body.QualificationId))
-                .ForMember(dest => dest.InquiryStatusInnerId, opt => opt.MapFrom(src => src.Body.InquiryStatusInnerId))
-                .ForMember(dest => dest.InquiryStatusTeamId, opt => opt.MapFrom(src => src.Body.InquiryStatusTeamId))
+                .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.Body.InquiryStatusInner))
+                .ForMember(dest => dest.InquiryStatusTeam, opt => opt.MapFrom(src => src.Body.InquiryStatusTeam))
 
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPositionsTeamIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsTeamIds))
@@ -53,7 +54,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileCreateDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new MusicianProfileCreateBodyDtoValidator());
         }
     }
@@ -62,43 +63,49 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileCreateBodyDtoValidator()
         {
-            RuleFor(p => p)
+            _ = RuleFor(p => p)
                 .NotNull();
 
-            RuleFor(p => p.DoublingInstruments)
+            _ = RuleFor(p => p.DoublingInstruments)
                 .NotNull();
 
-            RuleFor(p => p.PreferredPositionsInnerIds)
+            _ = RuleFor(p => p.PreferredPositionsInnerIds)
                 .NotNull();
 
-            RuleFor(p => p.PreferredPositionsTeamIds)
+            _ = RuleFor(p => p.PreferredPositionsTeamIds)
                 .NotNull();
 
-            RuleFor(p => p.PreferredPartsInner)
+            _ = RuleFor(p => p.PreferredPartsInner)
                 .NotNull();
 
-            RuleFor(p => p.PreferredPartsTeam)
+            _ = RuleFor(p => p.PreferredPartsTeam)
                 .NotNull();
 
-            RuleFor(p => p.LevelAssessmentInner)
+            _ = RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
-            RuleFor(p => p.LevelAssessmentTeam)
+            _ = RuleFor(p => p.LevelAssessmentTeam)
                 .FiveStarRating();
 
-            RuleFor(p => p.InstrumentId)
+            _ = RuleFor(p => p.InstrumentId)
                .NotEmpty();
 
-            RuleFor(p => p.QualificationId)
+            _ = RuleFor(p => p.QualificationId)
                .NotEmpty();
 
-            RuleForEach(p => p.DoublingInstruments)
+            _ = RuleForEach(p => p.DoublingInstruments)
                 .SetValidator(new DoublingInstrumentCreateBodyDtoValidator());
 
-            RuleForEach(p => p.PreferredPositionsTeamIds)
+            _ = RuleForEach(p => p.PreferredPositionsTeamIds)
                 .NotEmpty();
 
-            RuleForEach(p => p.PreferredPositionsInnerIds)
+            _ = RuleForEach(p => p.PreferredPositionsInnerIds)
                 .NotEmpty();
+
+            _ = RuleFor(p => p.InquiryStatusInner)
+                .IsInEnum();
+
+            _ = RuleFor(p => p.InquiryStatusTeam)
+                .IsInEnum();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Application.TranslationApplication;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
@@ -24,44 +25,41 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             Dictionary<string, string> sections = result.First(f => f.Key.Equals("SectionDto")).Value;
 
-            sections.TryGetValue("Performers", out string kuenstler);
-            kuenstler.Should().BeEquivalentTo("Mitwirkende");
+            _ = sections.TryGetValue("Performers", out string kuenstler);
+            _ = kuenstler.Should().BeEquivalentTo("Mitwirkende");
 
-            sections.TryGetValue("Orchestra", out string orchester);
-            orchester.Should().BeEquivalentTo("Orchester");
+            _ = sections.TryGetValue("Orchestra", out string orchester);
+            _ = orchester.Should().BeEquivalentTo("Orchester");
 
-            sections.TryGetValue("Bass", out string bass);
-            bass.Should().BeEquivalentTo("Bass (Chor)");
+            _ = sections.TryGetValue("Bass", out string bass);
+            _ = bass.Should().BeEquivalentTo("Bass (Chor)");
         }
 
         [Test, Order(2)]
         public async Task Should_Change_Translations()
         {
-            HttpResponseMessage responseMessage = await _authenticatedServer
+            HttpClient client = _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_staff)
+                .AuthenticateWith(_staff);
+
+            HttpResponseMessage responseMessage = await client
                 .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
 
             TranslationDto expected = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
-            Dictionary<string, string> sections = expected.First(f => f.Key.Equals("SectionDto")).Value;
-            sections.Add("TheOneAndOnly", "DerEinzigWahre");
+            expected.First(f => f.Key.Equals(nameof(SectionDto))).Value.Add("TheOneAndOnly", "DerEinzigWahre");
 
-            HttpResponseMessage postResponseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
+            HttpResponseMessage postResponseMessage = await client
                 .PutAsync(ApiEndpoints.TranslationController.Put("de"), BuildStringContent(expected));
 
-            postResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = postResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             // Get and check values.
-            responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
+            responseMessage = await client
                 .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
 
             TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
 
-            result.Should().BeEquivalentTo(expected);
+            _ = result.Should().BeEquivalentTo(expected);
         }
     }
 }
