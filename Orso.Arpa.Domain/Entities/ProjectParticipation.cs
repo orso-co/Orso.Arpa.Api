@@ -42,17 +42,8 @@ namespace Orso.Arpa.Domain.Entities
         public string CommentByPerformerInner { get; set; }
         public string CommentByStaffInner { get; set; }
         public string CommentTeam { get; set; }
-
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? ParticipationStatusInnerId { get; set; }
         public ProjectParticipationStatusInner? ParticipationStatusInner { get; set; }
-
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? ParticipationStatusInternalId { get; set; }
         public ProjectParticipationStatusInternal? ParticipationStatusInternal { get; set; }
-
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? InvitationStatusId { get; set; }
         public ProjectInvitationStatus? InvitationStatus { get; set; }
     }
 }
