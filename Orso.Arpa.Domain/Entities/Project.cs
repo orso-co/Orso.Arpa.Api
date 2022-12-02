@@ -58,8 +58,6 @@ namespace Orso.Arpa.Domain.Entities
         [CascadingSoftDelete]
         public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
 
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? StateId { get; private set; }
         public ProjectStatus? Status { get; private set; }
         public Guid? ParentId { get; private set; }
         public virtual Project Parent { get; private set; }
