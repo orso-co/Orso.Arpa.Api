@@ -4,7 +4,7 @@ using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Application.ProjectApplication
 {

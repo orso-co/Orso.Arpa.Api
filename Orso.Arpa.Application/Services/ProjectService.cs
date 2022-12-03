@@ -11,7 +11,6 @@ using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
-using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Application.Services
 {

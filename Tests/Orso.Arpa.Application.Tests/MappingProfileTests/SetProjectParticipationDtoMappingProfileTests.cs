@@ -4,7 +4,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {

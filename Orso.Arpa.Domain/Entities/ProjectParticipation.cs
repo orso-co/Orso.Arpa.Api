@@ -1,12 +1,13 @@
 using System;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MyProjects;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Domain.Entities
 {
     public class ProjectParticipation : BaseEntity
     {
-        public ProjectParticipation(Logic.Projects.SetProjectParticipation.Command command, Guid? id = null) : base(id)
+        public ProjectParticipation(SetProjectParticipation.Command command, Guid? id = null) : base(id)
         {
             ProjectId = command.ProjectId;
             MusicianProfileId = command.MusicianProfileId;
@@ -25,7 +26,7 @@ namespace Orso.Arpa.Domain.Entities
             CommentByPerformerInner = command.CommentByPerformerInner;
         }
 
-        public void Update(Logic.Projects.SetProjectParticipation.Command command)
+        public void Update(SetProjectParticipation.Command command)
         {
             CommentByStaffInner = command.CommentByStaffInner;
             CommentTeam = command.CommentTeam;

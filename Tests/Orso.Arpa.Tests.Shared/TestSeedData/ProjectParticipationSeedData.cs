@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
