@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -38,15 +37,15 @@ namespace Orso.Arpa.Domain.Logic.Auth
         {
             public Validator(ArpaUserManager userManager, IArpaContext context)
             {
-                RuleFor(c => c.UserName)
-                    .MustAsync(async (username, cancellation) => await userManager.FindByNameAsync(username) == null)
+                _ = RuleFor(c => c.UserName)
+                    .MustAsync(async (username, _) => await userManager.FindByNameAsync(username) == null)
                     .WithMessage("Username aleady exists");
-                RuleFor(c => c.Email)
-                    .MustAsync(async (email, cancellation) => await userManager.FindByEmailAsync(email) == null)
+                _ = RuleFor(c => c.Email)
+                    .MustAsync(async (email, _) => await userManager.FindByEmailAsync(email) == null)
                     .WithMessage("Email aleady exists");
-                RuleForEach(c => c.StakeholderGroupIds)
+                _ = RuleForEach(c => c.StakeholderGroupIds)
                     .EntityExists<Command, Section>(context);
-                RuleFor(c => c.GenderId)
+                _ = RuleFor(c => c.GenderId)
                     .SelectValueMapping<Command, Person>(context, p => p.Gender);
             }
         }
@@ -60,8 +59,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             public Handler(
                 ArpaUserManager userManager,
                 IDateTimeProvider dateTimeProvider,
-                IArpaContext arpaContext,
-                IMapper mapper)
+                IArpaContext arpaContext)
             {
                 _userManager = userManager;
                 _dateTimeProvider = dateTimeProvider;
@@ -102,8 +100,6 @@ namespace Orso.Arpa.Domain.Logic.Auth
                             new ValidationFailure[] { new ValidationFailure(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.") });
                 }
 
-
-
                 var user = new User
                 {
                     Email = request.Email,
@@ -120,13 +116,16 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 }
 
                 _arpaContext.Set<PersonSection>().AddRange(request.StakeholderGroupIds.Select(sg => new PersonSection(null, person.Id, sg)));
-
-                if ((await _arpaContext.SaveChangesAsync(cancellationToken)) < request.StakeholderGroupIds.Count)
+                _ = _arpaContext.Set<ContactDetail>().Add(new ContactDetail(null, new ContactDetails.Create.Command
                 {
-                    throw new Exception("Problem creating stakeholder groups");
-                }
+                    Key = ContactDetailKey.EMail,
+                    PersonId = person.Id,
+                    Value = request.Email,
+                }));
 
-                return Unit.Value;
+                return (await _arpaContext.SaveChangesAsync(cancellationToken)) < request.StakeholderGroupIds.Count + 1
+                    ? throw new Exception("Problem creating stakeholder groups")
+                    : Unit.Value;
             }
         }
     }
