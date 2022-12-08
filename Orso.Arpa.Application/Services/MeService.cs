@@ -14,6 +14,7 @@ using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Domain.Logic.MusicianProfiles;
 using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Application.Services
@@ -107,6 +108,10 @@ namespace Orso.Arpa.Application.Services
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
                 _ = await _mediator.Send(doublingInstrumentCommand);
             }
+
+            var notification = new MusicianProfileCreatedNotification { MusicianProfile = createdEntity };
+            await _mediator.Publish(notification);
+
             return _mapper.Map<MyMusicianProfileDto>(createdEntity);
         }
 
