@@ -34,10 +34,14 @@ namespace Orso.Arpa.Application.Services
             MusicianProfile createdEntity = await _mediator.Send(command);
             foreach (DoublingInstrumentCreateBodyDto doublingInstrument in createDto.Body.DoublingInstruments)
             {
-                Orso.Arpa.Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
+                Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
                 _ = await _mediator.Send(doublingInstrumentCommand);
             }
+
+            var notification = new MusicianProfileCreatedNotification { MusicianProfile = createdEntity };
+            await _mediator.Publish(notification);
+
             return _mapper.Map<MusicianProfileDto>(createdEntity);
         }
 
