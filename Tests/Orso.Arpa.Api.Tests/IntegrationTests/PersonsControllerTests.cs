@@ -289,7 +289,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 InstrumentId = createDto.InstrumentId,
                 QualificationId = createDto.QualificationId,
-                PersonId = PersonDtoData.LockedOutUser.Id,
+                PersonId = PersonDtoData.UnconfirmedUser.Id,
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
                 IsMainProfile = true
@@ -315,7 +315,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonTestSeedData.LockedOutUser.Id), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonTestSeedData.UnconfirmedUser.Id), BuildStringContent(createDto));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -327,7 +327,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
             _ = result.DoublingInstruments[0].Id.Should().NotBeEmpty();
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
-            EvaluateSimpleEmail("kbb@orso.co", "New Mupro for LockedOut User: Clarinet");
+            EvaluateSimpleEmail("kbb@orso.co", "New MuPro for Unconfirmed User: Clarinet");
         }
 
         [Test, Order(1101)]

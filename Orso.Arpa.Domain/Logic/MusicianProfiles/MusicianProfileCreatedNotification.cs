@@ -35,6 +35,8 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 
         public async Task Handle(MusicianProfileCreatedNotification notification, CancellationToken cancellationToken)
         {
+            // the explicit loading of the entities is a dirty hack to overcome the change tracking issues after dbcontext.add of a non-proxy.
+
             Person person = notification.MusicianProfile.Person
                 ?? await _arpaContext.Persons.FindAsync(new object[] { notification.MusicianProfile.PersonId }, cancellationToken);
 
@@ -44,7 +46,9 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                 DisplayName = person.DisplayName,
                 Instrument = notification.MusicianProfile.Instrument.Name,
                 LevelAssessmentInner = notification.MusicianProfile.LevelAssessmentInner.ToString(),
-                Qualification = notification.MusicianProfile.Qualification != null ? notification.MusicianProfile.Qualification.SelectValue.Name : "- no qualification selected -",
+                Qualification = notification.MusicianProfile.Qualification != null
+                    ? (await _arpaContext.SelectValues.FindAsync(new object[] { notification.MusicianProfile.Qualification.SelectValueId }, cancellationToken)).Name
+                    : "- no qualification selected -",
                 Id = notification.MusicianProfile.Id.ToString("D"),
                 ClubAddress = _clubConfiguration.Address,
                 ClubMail = _clubConfiguration.ContactEmail,
