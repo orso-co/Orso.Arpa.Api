@@ -260,7 +260,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.PersonsController.Get(result.Id)}");
         }
 
-        [Test, Order(1001)]
+        [Test, Order(1002)]
         public async Task Should_Add_MusicianProfile()
         {
             // Arrange
@@ -330,7 +330,44 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             EvaluateSimpleEmail("kbb@orso.co", "New MuPro for Unconfirmed User: Clarinet");
         }
 
-        [Test, Order(1101)]
+        [Test, Order(1003)]
+        public async Task Should_Add_Minimal_MusicianProfile()
+        {
+            // Arrange
+            var createDto = new MusicianProfileCreateBodyDto
+            {
+                InstrumentId = SectionSeedData.AcousticGuitar.Id,
+                QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
+            };
+
+            var expectedDto = new MusicianProfileDto
+            {
+                InstrumentId = createDto.InstrumentId,
+                QualificationId = createDto.QualificationId,
+                PersonId = PersonDtoData.PersonWithMultipleEmails.Id,
+                CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow,
+                IsMainProfile = true
+            };
+            _fakeSmtpServer.ClearReceivedEmail();
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonTestSeedData.PersonWithMultipleEmails.Id), BuildStringContent(createDto));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
+            EvaluateSimpleEmail("kbb@orso.co", "New MuPro for Person Multiple: Acoustic Guitar (Orchestra)");
+        }
+
+        [Test, Order(1001)]
         public async Task Should_Not_Add_MusicianProfile_Due_To_Missing_Mandatory_Field()
         {
             // Arrange
