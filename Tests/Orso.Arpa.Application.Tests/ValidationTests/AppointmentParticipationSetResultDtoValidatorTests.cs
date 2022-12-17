@@ -11,11 +11,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     public class AppointmentParticipationSetResultDtoValidatorTests
     {
         private AppointmentParticipationSetResultDtoValidator _validator;
+        private AppointmentParticipationSetResultBodyDtoValidator _bodyValidator;
 
         [SetUp]
         public void SetUp()
         {
             _validator = new AppointmentParticipationSetResultDtoValidator();
+            _bodyValidator = new();
         }
 
         [Test]
@@ -45,7 +47,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_Result_Is_Supplied()
         {
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Result, AppointmentParticipationResult.Absent);
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(command => command.Result, AppointmentParticipationResult.Absent);
         }
     }
 }
