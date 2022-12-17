@@ -83,8 +83,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         protected StringContent BuildStringContent(object unserializedObject)
         {
+            var serialized = JsonSerializer.Serialize(unserializedObject, _jsonSerializerOptions);
             return new StringContent(
-                JsonSerializer.Serialize(unserializedObject, _jsonSerializerOptions),
+                serialized,
                 Encoding.UTF8,
                 MediaTypeNames.Application.Json);
         }
