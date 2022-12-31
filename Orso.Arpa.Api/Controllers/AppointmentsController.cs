@@ -84,8 +84,6 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [Microsoft.AspNetCore.Mvc.ProducesResponseType(StatusCodes.Status204NoContent)]
-        [Microsoft.AspNetCore.Mvc.ProducesDefaultResponseType]
         public async Task<ActionResult> AddRoom([FromRoute] AppointmentAddRoomDto addRoomDto)
         {
             await _appointmentService.AddRoomAsync(addRoomDto);
@@ -159,8 +157,6 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [Microsoft.AspNetCore.Mvc.ProducesResponseType(StatusCodes.Status204NoContent)]
-        [Microsoft.AspNetCore.Mvc.ProducesDefaultResponseType]
         public async Task<ActionResult> Put(AppointmentModifyDto appointmentModifyDto)
         {
             await _appointmentService.ModifyAsync(appointmentModifyDto);
