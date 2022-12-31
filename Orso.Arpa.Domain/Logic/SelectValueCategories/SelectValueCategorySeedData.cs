@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
 
 namespace Orso.Arpa.Domain.Logic.SelectValueCategories
 {
@@ -8,8 +7,7 @@ namespace Orso.Arpa.Domain.Logic.SelectValueCategories
     {
         public static IList<SelectValueCategory> SelectValueCategories
         {
-            get
-            {
+            get {
                 return new List<SelectValueCategory>
                 {
                     AddressType,

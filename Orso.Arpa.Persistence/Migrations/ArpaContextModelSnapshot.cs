@@ -3927,6 +3927,11 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("status");
 
+                    b.Property<string>("Status")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("status");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)

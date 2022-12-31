@@ -1,10 +1,4 @@
 using System;
-using AutoMapper;
-using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetResult;
 
 namespace Orso.Arpa.Application.AppointmentParticipationApplication
 {

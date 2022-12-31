@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.SelectValueCategories;
 
 namespace Orso.Arpa.Persistence.Seed
 {
@@ -9,8 +7,7 @@ namespace Orso.Arpa.Persistence.Seed
     {
         public static IList<SelectValueMapping> SelectValueMappings
         {
-            get
-            {
+            get {
                 var list = new List<SelectValueMapping>();
                 list.AddRange(AddressTypeMappings);
                 list.AddRange(AppointmentCategoryMappings);
@@ -36,8 +33,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> AddressTypeMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("fb44b625-7086-48e6-bcc6-a004dd472012"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Private.Id, 10),
@@ -50,8 +46,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> AppointmentCategoryMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                    new SelectValueMapping(Guid.Parse("86672779-5e70-4965-b59c-032086d00914"), SelectValueCategorySeedData.AppointmentCategory.Id, SelectValueSeedData.Rehearsal.Id, 10),
@@ -88,8 +83,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> AppointmentSalaryMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("88da1c17-9efc-4f69-ba0f-39c76592845b"), SelectValueCategorySeedData.AppointmentSalary.Id, SelectValueSeedData.Yes.Id, 10),
@@ -102,8 +96,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> AppointmentSalaryPatternMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("8b51c75f-d597-48ef-8451-5f5fc32d57d1"), SelectValueCategorySeedData.AppointmentSalaryPattern.Id, SelectValueSeedData.Gloeckner2018.Id, 50),
@@ -117,8 +110,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> AppointmentExpectationMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("867622fa-7aa5-43f3-b3ef-5290d1f61734"), SelectValueCategorySeedData.AppointmentExpectation.Id, SelectValueSeedData.Pending.Id, 10),
@@ -131,8 +123,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> ProjectTypeMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("34f05f05-ef23-4f36-94e7-73b917530c51"), SelectValueCategorySeedData.ProjectType.Id, SelectValueSeedData.Concert.Id, 10),
@@ -150,8 +141,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> ProjectGenreMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("d733e38d-1d80-4054-b654-4ea4a128b0a8"), SelectValueCategorySeedData.ProjectGenre.Id, SelectValueSeedData.ClassicalMusic.Id,10),
@@ -166,8 +156,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> MusicianProfileQualificationMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("f036bca9-95d4-4526-b845-fff9208ab103"), SelectValueCategorySeedData.MusicianProfileQualification.Id, SelectValueSeedData.Amateur.Id, 10),
@@ -181,8 +170,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> MusicianProfileSalaryMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("58a0d16f-2dac-4836-930e-1dd320430ef4"), SelectValueCategorySeedData.MusicianProfileSalary.Id, SelectValueSeedData.Without.Id, 10),
@@ -195,8 +183,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> AuditionStatusMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("be152c92-b807-4850-8327-9d1916dabead"), SelectValueCategorySeedData.AuditionStatus.Id, SelectValueSeedData.Passed.Id, 20),
@@ -211,8 +198,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> AuditionRepetitorStatusMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("a88b874f-9879-482f-85ec-1ddda9bb545c"), SelectValueCategorySeedData.AuditionRepetitorStatus.Id, SelectValueSeedData.IsAskingForPianist.Id, 10),
@@ -225,8 +211,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> MusicianProfileDocumentsMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("f9cc5445-8a6e-480b-bffb-410089f55896"), SelectValueCategorySeedData.MusicianProfileDocuments.Id, SelectValueSeedData.CV.Id, 10),
@@ -242,8 +227,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> MusicianProfileSectionInstrumentAvailabilityMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("d33ea034-0c5f-458d-bef5-26d2c12b6b03"), SelectValueCategorySeedData.MusicianProfileSectionInstrumentAvailability.Id, SelectValueSeedData.PrivateOwnership.Id, 10),
@@ -256,8 +240,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> EducationTypeMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("99251f16-deca-437e-84e2-a747e1a8ad7f"), SelectValueCategorySeedData.EducationType.Id, SelectValueSeedData.PrivateLesson.Id),
@@ -271,8 +254,7 @@ namespace Orso.Arpa.Persistence.Seed
         }
         public static IList<SelectValueMapping> CurriculumVitaeReferenceTypeMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("dead0ae2-bb2b-4584-992e-dddeb7f23d53"), SelectValueCategorySeedData.CurriculumVitaeReferenceType.Id, SelectValueSeedData.EnsemblePosition.Id),
@@ -286,8 +268,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> PersonGenderMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("32761c45-e481-4eb9-a23e-d73330482572"), SelectValueCategorySeedData.PersonGender.Id, SelectValueSeedData.Female.Id),
@@ -299,8 +280,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> ContactDetailTypeMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("f0bf8326-623e-4caa-bd92-bc05c721a6cf"), SelectValueCategorySeedData.ContactDetailType.Id, SelectValueSeedData.Private.Id, 10),
@@ -313,8 +293,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static IList<SelectValueMapping> BankAccountStatusMappings
         {
-            get
-            {
+            get {
                 return new List<SelectValueMapping>
                 {
                     new SelectValueMapping(Guid.Parse("a24f4ce6-b3c6-4d58-9e31-cb3a83ae2694"), SelectValueCategorySeedData.BankAccountStatus.Id, SelectValueSeedData.BankAccountExpired.Id, 10),

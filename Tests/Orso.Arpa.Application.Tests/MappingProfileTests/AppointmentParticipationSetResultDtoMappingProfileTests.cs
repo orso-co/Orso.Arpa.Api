@@ -1,10 +1,4 @@
 using System;
-using AutoMapper;
-using FluentAssertions;
-using NUnit.Framework;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.AppointmentParticipations;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {

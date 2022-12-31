@@ -1,22 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using netDumbster.smtp;
-using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Tests.Shared.FakeData;
-using Yoh.Text.Json.NamingPolicies;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {

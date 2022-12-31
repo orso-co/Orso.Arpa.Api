@@ -2,19 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
-using NUnit.Framework;
-using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Persistence.Seed;
-using Orso.Arpa.Tests.Shared.DtoTestData;
-using Orso.Arpa.Tests.Shared.FakeData;
-using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -56,8 +44,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
         private static IEnumerable<TestCaseData> s_musicianProfileData
         {
-            get
-            {
+            get {
                 yield return new TestCaseData(false, new List<MusicianProfileDto> {
                     MusicianProfileDtoData.PerformerProfile,
                     MusicianProfileDtoData.PerformersHornMusicianProfile,

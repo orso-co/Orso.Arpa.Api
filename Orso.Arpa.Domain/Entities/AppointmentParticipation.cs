@@ -1,6 +1,4 @@
 using System;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.AppointmentParticipations;
 
 namespace Orso.Arpa.Domain.Entities
 {
