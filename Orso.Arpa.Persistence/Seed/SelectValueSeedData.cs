@@ -12,28 +12,17 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 return new List<SelectValue>
                 {
-                    Present,
-                    Absent,
-                    Inapplicable,
                     Ambiguous,
-                    AwaitingScan,
                     Yes,
                     No,
-                    Partly,
-                    DontKnowYet,
                     Pending,
                     Confirmed,
                     Cancelled,
-                    Postponed,
-                    Archived,
                     Mandatory,
                     Optional,
                     ClassicalMusic,
                     Crossover,
                     ChamberMusic,
-                    Scheduled,
-                    Refused,
-                    AwaitingPoll,
                     Meeting,
                     StageBriefing,
                     WarmUpRehearsal,
@@ -75,10 +64,6 @@ namespace Orso.Arpa.Persistence.Seed
                     Without,
                     WithStrict,
                     WithNegotiable,
-                    Gladly,
-                    EmergencyOnly,
-                    NeverAgain,
-                    ForContactsOnly,
                     FilmMusic,
                     DancePerformance,
                     ContemporaryMusic,
@@ -103,20 +88,10 @@ namespace Orso.Arpa.Persistence.Seed
                     Low,
                     Coach,
                     Tutti,
-                    FirstSection,
-                    SecondSection,
                     SectionLead,
                     ConcertMaster,
                     SecondConcertMaster,
                     OrchestraPiano,
-                    Accompaniment,
-                    Interested,
-                    Acceptance,
-                    Refusal,
-                    Unclear,
-                    Candidate,
-                    Invited,
-                    NotInvited,
                     PrivateLesson,
                     MusicSchool,
                     University,
@@ -138,29 +113,9 @@ namespace Orso.Arpa.Persistence.Seed
         }
 
         /// <summary>
-        /// Anwesend
-        /// </summary>
-        public static SelectValue Present => new(Guid.Parse("313445ca-57fa-45f0-8515-325949d60726"), "Present", string.Empty);
-
-        /// <summary>
-        /// Nicht anwesend
-        /// </summary>
-        public static SelectValue Absent => new(Guid.Parse("f0f26735-b796-4a70-a20c-92e0e2910bb4"), "Absent", string.Empty);
-
-        /// <summary>
-        /// Unzutreffend
-        /// </summary>
-        public static SelectValue Inapplicable => new(Guid.Parse("86bf6480-787a-4fe0-9d79-0f8d0d36acc4"), "Inapplicable", string.Empty);
-
-        /// <summary>
         /// Unklar
         /// </summary>
         public static SelectValue Ambiguous => new(Guid.Parse("66a6446a-7191-4f14-9c5d-052891b9c5a2"), "Ambiguous", string.Empty);
-
-        /// <summary>
-        /// Eintrag nach Scan
-        /// </summary>
-        public static SelectValue AwaitingScan => new(Guid.Parse("5d31f1f7-73fd-42a4-a429-33fab925b15d"), "Awaiting Scan", string.Empty);
 
         /// <summary>
         /// Ja
@@ -171,16 +126,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// Nein
         /// </summary>
         public static SelectValue No => new(Guid.Parse("88b763ac-8093-4c5d-a881-85be1fb8a24d"), "No", string.Empty);
-
-        /// <summary>
-        /// Teilweise
-        /// </summary>
-        public static SelectValue Partly => new(Guid.Parse("1e60dfdf-e7c9-4378-b1af-dcb53fe20022"), "Partly", string.Empty);
-
-        /// <summary>
-        /// Ich weiß es noch nicht
-        /// </summary>
-        public static SelectValue DontKnowYet => new(Guid.Parse("4ee7d317-6d71-4d6e-b45a-954c8c7dcf03"), "Don't know yet", string.Empty);
 
         public static SelectValue Pending => new(Guid.Parse("362efd25-e1d2-496d-b7fa-884371a58682"), "Pending", string.Empty);
 
@@ -195,16 +140,6 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue Cancelled => new(Guid.Parse("33bbdccf-59a9-4b05-bdac-af50137cecb3"), "Cancelled", string.Empty);
 
         /// <summary>
-        /// Verschoben
-        /// </summary>
-        public static SelectValue Postponed => new(Guid.Parse("bd0f37e1-ec14-4d87-8380-117b4480d7a4"), "Postponed", string.Empty);
-
-        /// <summary>
-        /// Archiviert
-        /// </summary>
-        public static SelectValue Archived => new(Guid.Parse("425f1526-0513-4535-bdd8-47632d82956f"), "Archived", string.Empty);
-
-        /// <summary>
         /// Teilnahme erwünscht
         /// </summary>
         public static SelectValue Mandatory => new(Guid.Parse("a4734d39-cbb9-4635-b3ae-f4e1192a6bd1"), "Mandatory", string.Empty);
@@ -213,21 +148,6 @@ namespace Orso.Arpa.Persistence.Seed
         /// Teilnahme möglich
         /// </summary>
         public static SelectValue Optional => new(Guid.Parse("9c0295b7-1b16-4fd6-a7de-ecd724c823b3"), "Optional", string.Empty);
-
-        /// <summary>
-        /// Geplant
-        /// </summary>
-        public static SelectValue Scheduled => new(Guid.Parse("c76de830-3746-449a-8f1f-bd5d9233655c"), "Scheduled", string.Empty);
-
-        /// <summary>
-        /// Verworfen
-        /// </summary>
-        public static SelectValue Refused => new(Guid.Parse("99d192e1-332a-494e-b821-075be14211be"), "Refused", string.Empty);
-
-        /// <summary>
-        /// Umfrage abwarten
-        /// </summary>
-        public static SelectValue AwaitingPoll => new(Guid.Parse("5e3edcf4-863b-433b-ae72-b6bb7e4dfc95"), "Awaiting Poll", string.Empty);
 
         // TERMINTYPUS (PROBEN)
 
@@ -421,12 +341,6 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue WithStrict => new(Guid.Parse("dec26aef-f0de-4c9f-a164-e23e2543c987"), "With - strict", string.Empty);
         public static SelectValue WithNegotiable => new(Guid.Parse("d53b4a35-f472-42a1-ab22-c7afb1e7d77e"), "With - negotiable", string.Empty);
 
-        // EINLADUNGSSTATUS
-        public static SelectValue Gladly => new(Guid.Parse("1f0e9a86-4641-4d7e-8413-a1beba0e8afb"), "Gladly", string.Empty);
-        public static SelectValue EmergencyOnly => new(Guid.Parse("5850e103-4ac9-472e-85f2-cddc08732ccc"), "Emergency only", string.Empty);
-        public static SelectValue NeverAgain => new(Guid.Parse("5db547d6-c115-4409-8db7-59374ca2af83"), "Never again", string.Empty);
-        public static SelectValue ForContactsOnly => new(Guid.Parse("0d1073cd-f6d5-4572-87ac-98ab6f15c05a"), "For contacts only", string.Empty);
-
         // GENRES
 
         /// <summary>
@@ -474,47 +388,10 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue Low => new(Guid.Parse("959e5b30-6ad1-4102-8dce-f1395b8ae73e"), "Low", string.Empty);
         public static SelectValue Coach => new(Guid.Parse("a89a8323-4c82-4e55-8ef1-6d7150f564e9"), "Coach", string.Empty);
         public static SelectValue Tutti => new(Guid.Parse("5a4a1318-2f23-45b0-8329-3eec0f446389"), "Tutti", string.Empty);
-        public static SelectValue FirstSection => new(Guid.Parse("b85984d6-4390-44f9-bd92-5d1000cb4d3f"), "1st section", string.Empty);
-        public static SelectValue SecondSection => new(Guid.Parse("4a9de438-ccce-4a95-873a-c8befb933067"), "2nd section", string.Empty);
         public static SelectValue SectionLead => new(Guid.Parse("36c6963d-a08c-4394-823a-1d24ba8330b4"), "Section lead", string.Empty);
         public static SelectValue ConcertMaster => new(Guid.Parse("fc2c8cf2-3189-44de-a124-2debe1d7b057"), "Concert master", string.Empty);
         public static SelectValue SecondConcertMaster => new(Guid.Parse("9ed94828-9deb-49a9-9a65-ecb83620c82e"), "2nd concert master", string.Empty);
         public static SelectValue OrchestraPiano => new(Guid.Parse("ebae975b-d9a3-4d2f-b0a3-beff554e7041"), "Orchestra piano", string.Empty);
-        public static SelectValue Accompaniment => new(Guid.Parse("61dab188-a07d-4a58-8ec9-c54050e914ac"), "Accompaniment", string.Empty);
-
-        // TEILNAHMESTATUS
-        /// <summary>
-        /// Interessiert
-        /// </summary>
-        public static SelectValue Interested => new(Guid.Parse("1c1bec30-91d2-4699-8753-67f4feb53df3"), "Interested", string.Empty);
-        /// <summary>
-        /// Zusage
-        /// </summary>
-        public static SelectValue Acceptance => new(Guid.Parse("26686d6e-853e-4d57-b10d-35444ae824be"), "Acceptance", string.Empty);
-        /// <summary>
-        /// Absage
-        /// </summary>
-        public static SelectValue Refusal => new(Guid.Parse("78d6ce19-ac32-444f-94a6-aa4262340fa1"), "Refusal", string.Empty);
-        /// <summary>
-        /// Kandidat
-        /// </summary>
-        public static SelectValue Candidate => new(Guid.Parse("b3bd7011-2cda-49d9-8fea-46fa02db9c4b"), "Candidate", string.Empty);
-        /// <summary>
-        /// Eingeladen
-        /// </summary>
-        public static SelectValue Invited => new(Guid.Parse("d2236889-d7d1-4896-b449-69f273c6b514"), "Invited", string.Empty);
-        /// <summary>
-        /// Nicht eingeladen
-        /// </summary>
-        public static SelectValue NotInvited => new(
-            Guid.Parse("77c68dbb-a627-4053-829e-86c555754f60"),
-            "Not Invited",
-            string.Empty);
-        /// <summary>
-        /// Unklar
-        /// </summary>
-        public static SelectValue Unclear => new(Guid.Parse("a80c8892-7cba-4b19-b84d-937da70c8af3"), "Unclear", string.Empty);
-
         public static SelectValue PrivateLesson => new(Guid.Parse("d73cba63-f92e-4c17-b416-59f8e021fbf2"), "Private lesson", string.Empty);
         public static SelectValue MusicSchool => new(Guid.Parse("d45ac8a2-f17c-49ca-9525-99473771a340"), "Music school", string.Empty);
         public static SelectValue University => new(Guid.Parse("371ee51d-3612-4eb4-b169-25eae26c382f"), "University", string.Empty);

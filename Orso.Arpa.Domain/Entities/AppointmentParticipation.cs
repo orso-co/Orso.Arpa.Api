@@ -34,13 +34,7 @@ namespace Orso.Arpa.Domain.Entities
         public virtual Person Person { get; private set; }
         public Guid AppointmentId { get; private set; }
         public virtual Appointment Appointment { get; private set; }
-
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? ResultId { get; private set; }
         public AppointmentParticipationResult? Result { get; private set; }
-
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? PredictionId { get; private set; }
         public AppointmentParticipationPrediction? Prediction { get; private set; }
         public string CommentByPerformerInner { get; private set; }
     }

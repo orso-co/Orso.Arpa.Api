@@ -129,53 +129,6 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> AppointmentParticipationPredictionMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("319d508e-a6e2-437e-b48b-6be51e3459bd"), SelectValueCategorySeedData.AppointmentParticipationPrediction.Id, SelectValueSeedData.Yes.Id, 10),
-                    new SelectValueMapping(Guid.Parse("c9225a82-0348-41bb-a591-7726f8079cde"), SelectValueCategorySeedData.AppointmentParticipationPrediction.Id, SelectValueSeedData.Partly.Id, 30),
-                    new SelectValueMapping(Guid.Parse("17d201fc-777b-43bb-9c46-0d07737a8ab7"), SelectValueCategorySeedData.AppointmentParticipationPrediction.Id, SelectValueSeedData.No.Id, 20),
-                    new SelectValueMapping(Guid.Parse("50e6049b-a9cd-400b-a475-e2563147aebc"), SelectValueCategorySeedData.AppointmentParticipationPrediction.Id, SelectValueSeedData.DontKnowYet.Id, 40),
-                };
-            }
-        }
-
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> AppointmentParticipationResultMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("3801aa69-cc4e-4fd5-947c-bfdd4e95d48e"), SelectValueCategorySeedData.AppointmentParticipationResult.Id, SelectValueSeedData.Present.Id, 10),
-                    new SelectValueMapping(Guid.Parse("ade78d45-b010-4ed7-87f0-e30e0558f151"), SelectValueCategorySeedData.AppointmentParticipationResult.Id, SelectValueSeedData.Absent.Id, 20),
-                    new SelectValueMapping(Guid.Parse("ff994b2c-a3bd-4676-a974-f53d4fa562ba"), SelectValueCategorySeedData.AppointmentParticipationResult.Id, SelectValueSeedData.Inapplicable.Id, 30),
-                    new SelectValueMapping(Guid.Parse("8b7d7f26-b7e5-42e2-afc1-cedddbae841a"), SelectValueCategorySeedData.AppointmentParticipationResult.Id, SelectValueSeedData.Ambiguous.Id, 40),
-                    new SelectValueMapping(Guid.Parse("7fb30d45-1faf-4f6a-ac5d-436204ad8e69"), SelectValueCategorySeedData.AppointmentParticipationResult.Id, SelectValueSeedData.AwaitingScan.Id, 50),
-                };
-            }
-        }
-
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> AppointmentStatusMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("36176b7e-0926-43d6-b19a-72838ccd2acd"), SelectValueCategorySeedData.AppointmentStatus.Id, SelectValueSeedData.Confirmed.Id, 10),
-                    new SelectValueMapping(Guid.Parse("93033f7e-a3c1-45e3-8a17-021d0a4abe5a"), SelectValueCategorySeedData.AppointmentStatus.Id, SelectValueSeedData.Scheduled.Id, 20),
-                    new SelectValueMapping(Guid.Parse("0126fded-0a82-4b53-85e4-1c04a4f79296"), SelectValueCategorySeedData.AppointmentStatus.Id, SelectValueSeedData.Refused.Id, 50),
-                    new SelectValueMapping(Guid.Parse("b6cf76a5-ec3f-4e81-9499-174d33bb7249"), SelectValueCategorySeedData.AppointmentStatus.Id, SelectValueSeedData.Ambiguous.Id, 30),
-                    new SelectValueMapping(Guid.Parse("4dc9db05-357a-43a6-ba20-f2a9e5033802"), SelectValueCategorySeedData.AppointmentStatus.Id, SelectValueSeedData.AwaitingPoll.Id, 40),
-                };
-            }
-        }
-
         public static IList<SelectValueMapping> ProjectTypeMappings
         {
             get
@@ -211,22 +164,6 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> ProjectStateMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("725a4f4a-37cb-46ba-93a3-7b9cc2b015cb"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Pending.Id, 10),
-                    new SelectValueMapping(Guid.Parse("b793fa86-2025-4258-8993-8045f4c312d7"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Confirmed.Id, 20),
-                    new SelectValueMapping(Guid.Parse("65975857-ab27-480d-87c3-dba74d45cb63"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Cancelled.Id, 30),
-                    new SelectValueMapping(Guid.Parse("bc29bf0a-2ebb-4db8-8765-a5f835492552"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Postponed.Id, 40),
-                    new SelectValueMapping(Guid.Parse("75f2d1c3-4ba2-4acc-8fd3-6b01ca66d1c9"), SelectValueCategorySeedData.ProjectState.Id, SelectValueSeedData.Archived.Id, 50),
-                };
-            }
-        }
-
         public static IList<SelectValueMapping> MusicianProfileQualificationMappings
         {
             get
@@ -252,38 +189,6 @@ namespace Orso.Arpa.Persistence.Seed
                     new SelectValueMapping(Guid.Parse("459dc1ea-de92-4a26-9b7b-848d67154cae"), SelectValueCategorySeedData.MusicianProfileSalary.Id, SelectValueSeedData.WithStrict.Id, 20),
                     new SelectValueMapping(Guid.Parse("2fbb99cd-d14a-4b7c-b7fb-9b676f961e2c"), SelectValueCategorySeedData.MusicianProfileSalary.Id, SelectValueSeedData.WithNegotiable.Id, 30),
                     new SelectValueMapping(Guid.Parse("d80bf2be-de2f-4d72-ba02-6081b5ba77d2"), SelectValueCategorySeedData.MusicianProfileSalary.Id, SelectValueSeedData.Unknown.Id, 40),
-                };
-            }
-        }
-
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> MusicianProfileInquiryStatusInnerMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("68e947c0-9450-4b64-90d7-553850396a3f"), SelectValueCategorySeedData.MusicianProfileInquiryStatusInner.Id, SelectValueSeedData.Gladly.Id, 10),
-                    new SelectValueMapping(Guid.Parse("60c1a391-59b4-4cea-ba83-59e09f7512b6"), SelectValueCategorySeedData.MusicianProfileInquiryStatusInner.Id, SelectValueSeedData.EmergencyOnly.Id, 20),
-                    new SelectValueMapping(Guid.Parse("ab5c5904-2683-47c4-a436-319303b8e62f"), SelectValueCategorySeedData.MusicianProfileInquiryStatusInner.Id, SelectValueSeedData.NeverAgain.Id, 90),
-                    new SelectValueMapping(Guid.Parse("a15014ad-582e-4388-9b58-aceb52cf41bf"), SelectValueCategorySeedData.MusicianProfileInquiryStatusInner.Id, SelectValueSeedData.Unknown.Id, 40),
-                    new SelectValueMapping(Guid.Parse("90b5cfa9-890b-4b89-a750-646f3a26db23"), SelectValueCategorySeedData.MusicianProfileInquiryStatusInner.Id, SelectValueSeedData.ForContactsOnly.Id, 30),
-                };
-            }
-        }
-
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> MusicianProfileInquiryStatusTeamMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("cdfb1c47-22dc-4657-aab8-1dbfaf21e862"), SelectValueCategorySeedData.MusicianProfileInquiryStatusTeam.Id, SelectValueSeedData.Gladly.Id, 10),
-                    new SelectValueMapping(Guid.Parse("9363bb46-937e-42bf-bb71-5fb16126b501"), SelectValueCategorySeedData.MusicianProfileInquiryStatusTeam.Id, SelectValueSeedData.EmergencyOnly.Id, 20),
-                    new SelectValueMapping(Guid.Parse("03a0cbc1-4546-4b54-b05d-ec37dafeec25"), SelectValueCategorySeedData.MusicianProfileInquiryStatusTeam.Id, SelectValueSeedData.NeverAgain.Id, 40),
-                    new SelectValueMapping(Guid.Parse("0fdbc388-feba-4607-9771-7751009f1fc8"), SelectValueCategorySeedData.MusicianProfileInquiryStatusTeam.Id, SelectValueSeedData.Unknown.Id, 90),
-                    new SelectValueMapping(Guid.Parse("354ef017-70ca-4c2b-914c-71be7289a0e5"), SelectValueCategorySeedData.MusicianProfileInquiryStatusTeam.Id, SelectValueSeedData.ForContactsOnly.Id, 30),
                 };
             }
         }
@@ -349,50 +254,6 @@ namespace Orso.Arpa.Persistence.Seed
             }
         }
 
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> ProjectParticipationStatusInnerMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("e0abe26f-27da-4396-b80c-d1ceb836a8b2"), SelectValueCategorySeedData.ProjectParticipationStatusInner.Id, SelectValueSeedData.Interested.Id, 10),
-                    new SelectValueMapping(Guid.Parse("eef4a4d1-796b-4b37-96f6-f31dbccf0aeb"), SelectValueCategorySeedData.ProjectParticipationStatusInner.Id, SelectValueSeedData.Acceptance.Id, 30),
-                    new SelectValueMapping(Guid.Parse("1d402f12-816d-4994-a94d-28d52cb2d199"), SelectValueCategorySeedData.ProjectParticipationStatusInner.Id, SelectValueSeedData.Refusal.Id, 40),
-                    new SelectValueMapping(Guid.Parse("8168cfbf-7e53-41c5-8bc4-f5392d9a3b57"), SelectValueCategorySeedData.ProjectParticipationStatusInner.Id, SelectValueSeedData.Pending.Id, 20),
-                };
-            }
-        }
-
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> ProjectParticipationStatusInternalMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("b0dcb5e9-bbc6-4004-b9d7-0f6723416b9b"), SelectValueCategorySeedData.ProjectParticipationStatusInternal.Id, SelectValueSeedData.Candidate.Id, 10),
-                    new SelectValueMapping(Guid.Parse("f1c2c792-f11f-43ab-8cf6-d6ff905894fc"), SelectValueCategorySeedData.ProjectParticipationStatusInternal.Id, SelectValueSeedData.Acceptance.Id, 30),
-                    new SelectValueMapping(Guid.Parse("0096f414-50c9-4d45-9a85-4af30641b7fa"), SelectValueCategorySeedData.ProjectParticipationStatusInternal.Id, SelectValueSeedData.Refusal.Id, 40),
-                    new SelectValueMapping(Guid.Parse("03bdcf0a-2638-4b8f-a093-4084b9969162"), SelectValueCategorySeedData.ProjectParticipationStatusInternal.Id, SelectValueSeedData.Pending.Id, 20),
-                };
-            }
-        }
-
-        [Obsolete("is only needed for migration purposes")]
-        public static IList<SelectValueMapping> ProjectParticipationInvitationStatusMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new SelectValueMapping(Guid.Parse("625a9195-2380-4762-8dc6-13163e354ef6"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.Invited.Id, 20),
-                    new SelectValueMapping(Guid.Parse("2ad77626-e0b3-45a6-9d24-e4677181ee7e"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.NotInvited.Id, 30),
-                    new SelectValueMapping(Guid.Parse("2a5f85e6-a7ed-48eb-852c-0b191d7ba949"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.Candidate.Id, 10),
-                    new SelectValueMapping(Guid.Parse("c6b0b06f-a915-4087-9827-34e76ab6895f"), SelectValueCategorySeedData.ProjectParticipationInvitationStatus.Id, SelectValueSeedData.Unclear.Id, 40),
-                };
-            }
-        }
         public static IList<SelectValueMapping> EducationTypeMappings
         {
             get

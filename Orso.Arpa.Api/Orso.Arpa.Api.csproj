@@ -20,20 +20,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
+    <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.15.2" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.15.2" />
     <PackageReference Include="HotChocolate.Data" Version="12.15.2" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.0" />
-    <PackageReference Include="NLog" Version="5.0.5" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.1" />
+    <PackageReference Include="NLog" Version="5.1.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.0" />
     <PackageReference Include="NTRPRS.NLog.Slack" Version="5.0.4" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
@@ -41,12 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
-    <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
-    <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
+    <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
+    <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

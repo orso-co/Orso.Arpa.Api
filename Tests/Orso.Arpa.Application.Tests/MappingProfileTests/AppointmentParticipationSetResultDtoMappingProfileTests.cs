@@ -29,6 +29,15 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             {
                 Id = Guid.NewGuid(),
                 PersonId = Guid.NewGuid(),
+                Body = new AppointmentParticipationSetResultBodyDto
+                {
+                    Result = AppointmentParticipationResult.Absent
+                }
+            };
+            var expectedCommand = new SetResult.Command
+            {
+                Id = dto.Id,
+                PersonId = dto.PersonId,
                 Result = AppointmentParticipationResult.Absent
             };
 
@@ -36,7 +45,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             SetResult.Command command = _mapper.Map<SetResult.Command>(dto);
 
             // Assert
-            _ = command.Should().BeEquivalentTo(dto);
+            _ = command.Should().BeEquivalentTo(expectedCommand);
         }
     }
 }

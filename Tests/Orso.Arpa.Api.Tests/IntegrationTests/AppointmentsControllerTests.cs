@@ -237,8 +237,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationResult(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
-                    person.Id,
-                    AppointmentParticipationResult.Absent), null);
+                    person.Id), BuildStringContent(new AppointmentParticipationSetResultBodyDto { Result = AppointmentParticipationResult.AwaitingScan }));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(expectedStatusCode);

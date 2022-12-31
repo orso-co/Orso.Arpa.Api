@@ -31,9 +31,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.PersonsController.Get());
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<PersonDto> result = await DeserializeResponseMessageAsync<IEnumerable<PersonDto>>(responseMessage);
-            result.Should().BeEquivalentTo(PersonDtoData.Persons, opt => opt.WithStrictOrdering());
+            _ = result.Should().BeEquivalentTo(PersonDtoData.Persons, opt => opt.WithStrictOrdering());
         }
 
         [Test, Order(2)]
@@ -49,9 +49,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.PersonsController.Get(expectedDto.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             PersonDto result = await DeserializeResponseMessageAsync<PersonDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         private static IEnumerable<TestCaseData> s_musicianProfileData
@@ -81,9 +81,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.PersonsController.GetMusicianProfiles(_performer.PersonId, includeDeactivated));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<MusicianProfileDto> result = await DeserializeResponseMessageAsync<IEnumerable<MusicianProfileDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
+            _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
         }
 
         [Test, Order(3)]
@@ -108,11 +108,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.PersonsController.Invite(), BuildStringContent(inviteDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             PersonInviteResultDto result = await DeserializeResponseMessageAsync<PersonInviteResultDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto);
-            _fakeSmtpServer.ReceivedEmailCount.Should().Be(2);
-            _fakeSmtpServer.ReceivedEmail.Select(em => em.ToAddresses[0].Address).Should().BeEquivalentTo(expectedDto.SuccessfulInvites.Values);
+            _ = result.Should().BeEquivalentTo(expectedDto);
+            _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(2);
+            _ = _fakeSmtpServer.ReceivedEmail.Select(em => em.ToAddresses[0].Address).Should().BeEquivalentTo(expectedDto.SuccessfulInvites.Values);
         }
 
         [Test, Order(100)]
@@ -165,15 +165,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.PersonsController.Put(personToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             HttpResponseMessage getMessage = await client
                 .GetAsync(ApiEndpoints.PersonsController.Get(personToModify.Id));
 
-            getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             PersonDto result = await DeserializeResponseMessageAsync<PersonDto>(getMessage);
 
-            result.Should().BeEquivalentTo(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(101)]
@@ -188,7 +188,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     SectionSeedData.Performers.Id), null);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(102)]
@@ -203,7 +203,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     SectionSeedData.Choir.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(1000)]
@@ -260,7 +260,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.PersonsController.Get(result.Id)}");
         }
 
-        [Test, Order(1001)]
+        [Test, Order(1002)]
         public async Task Should_Add_MusicianProfile()
         {
             // Arrange
@@ -289,7 +289,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 InstrumentId = createDto.InstrumentId,
                 QualificationId = createDto.QualificationId,
-                PersonId = PersonDtoData.LockedOutUser.Id,
+                PersonId = PersonDtoData.UnconfirmedUser.Id,
                 CreatedBy = _staff.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
                 IsMainProfile = true
@@ -309,12 +309,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = _staff.DisplayName,
                 LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner
             });
+            _fakeSmtpServer.ClearReceivedEmail();
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonDtoData.LockedOutUser.Id), BuildStringContent(createDto));
+                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonTestSeedData.UnconfirmedUser.Id), BuildStringContent(createDto));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -326,9 +327,47 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
             _ = result.DoublingInstruments[0].Id.Should().NotBeEmpty();
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
+            EvaluateSimpleEmail("kbb@orso.co", "New MuPro for Unconfirmed User: Clarinet");
         }
 
-        [Test, Order(1101)]
+        [Test, Order(1003)]
+        public async Task Should_Add_Minimal_MusicianProfile()
+        {
+            // Arrange
+            var createDto = new MusicianProfileCreateBodyDto
+            {
+                InstrumentId = SectionSeedData.AcousticGuitar.Id,
+                QualificationId = SelectValueMappingSeedData.MusicianProfileQualificationMappings[2].Id,
+            };
+
+            var expectedDto = new MusicianProfileDto
+            {
+                InstrumentId = createDto.InstrumentId,
+                QualificationId = createDto.QualificationId,
+                PersonId = PersonDtoData.PersonWithMultipleEmails.Id,
+                CreatedBy = _staff.DisplayName,
+                CreatedAt = FakeDateTime.UtcNow,
+                IsMainProfile = true
+            };
+            _fakeSmtpServer.ClearReceivedEmail();
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(PersonTestSeedData.PersonWithMultipleEmails.Id), BuildStringContent(createDto));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
+            EvaluateSimpleEmail("kbb@orso.co", "New MuPro for Person Multiple: Acoustic Guitar (Orchestra)");
+        }
+
+        [Test, Order(1001)]
         public async Task Should_Not_Add_MusicianProfile_Due_To_Missing_Mandatory_Field()
         {
             // Arrange
@@ -345,7 +384,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.PersonsController.AddMusicianProfile(FakePersons.Performer.Id), BuildStringContent(createDto));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
         }
 
         [Test, Order(10000)]
@@ -360,7 +399,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.PersonsController.Delete(PersonTestSeedData.UnconfirmedUser.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

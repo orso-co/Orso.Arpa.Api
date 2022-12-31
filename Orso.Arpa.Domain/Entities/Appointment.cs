@@ -73,9 +73,6 @@ namespace Orso.Arpa.Domain.Entities
         public Guid? CategoryId { get; private set; }
         public virtual SelectValueMapping Category { get; private set; }
 
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? StatusId { get; private set; }
-
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
 

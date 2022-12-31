@@ -86,13 +86,7 @@ namespace Orso.Arpa.Domain.Entities
 
         public Guid? SalaryId { get; private set; }
         public virtual SelectValueMapping Salary { get; private set; }
-
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? InquiryStatusInnerId { get; private set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; private set; }
-
-        [Obsolete("is only needed for migration purposes")]
-        public Guid? InquiryStatusTeamId { get; private set; }
         public MusicianProfileInquiryStatus? InquiryStatusTeam { get; private set; }
 
         [CascadingSoftDelete]
@@ -130,6 +124,7 @@ namespace Orso.Arpa.Domain.Entities
 
         [CascadingSoftDelete]
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
+
         #endregion
 
         public void TurnOffIsMainProfileFlag()

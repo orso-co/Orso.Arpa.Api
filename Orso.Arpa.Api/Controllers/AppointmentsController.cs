@@ -261,11 +261,11 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
-        [HttpPut("{id}/participations/{personId}/result/{result}")]
+        [HttpPut("{id}/participations/{personId}/result")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> SetParticipationResult([FromRoute] AppointmentParticipationSetResultDto setParticipationResult)
+        public async Task<ActionResult> SetParticipationResult(AppointmentParticipationSetResultDto setParticipationResult)
         {
             await _appointmentService.SetParticipationResultAsync(setParticipationResult);
             return NoContent();

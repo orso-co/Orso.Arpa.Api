@@ -1,29 +1,40 @@
 using System;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Application.General;
 using Orso.Arpa.Domain.Enums;
 using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetResult;
 
 namespace Orso.Arpa.Application.AppointmentParticipationApplication
 {
-    public class AppointmentParticipationSetResultDto
+    public class AppointmentParticipationSetResultDto : IdFromRouteDto<AppointmentParticipationSetResultBodyDto>
     {
-        public Guid Id { get; set; }
+        [FromRoute]
         public Guid PersonId { get; set; }
+    }
+
+    public class AppointmentParticipationSetResultBodyDto
+    {
         public AppointmentParticipationResult Result { get; set; }
     }
 
-    public class AppointmentParticipationSetResultDtoValidator : AbstractValidator<AppointmentParticipationSetResultDto>
+    public class AppointmentParticipationSetResultDtoValidator : IdFromRouteDtoValidator<AppointmentParticipationSetResultDto, AppointmentParticipationSetResultBodyDto>
     {
         public AppointmentParticipationSetResultDtoValidator()
         {
-            RuleFor(d => d)
-                .NotNull();
-            RuleFor(d => d.Id)
+            _ = RuleFor(d => d.PersonId)
                 .NotEmpty();
-            RuleFor(d => d.PersonId)
-                .NotEmpty();
-            RuleFor(d => d.Result)
+            _ = RuleFor(d => d.Body)
+                .SetValidator(new AppointmentParticipationSetResultBodyDtoValidator());
+        }
+    }
+
+    public class AppointmentParticipationSetResultBodyDtoValidator : AbstractValidator<AppointmentParticipationSetResultBodyDto>
+    {
+        public AppointmentParticipationSetResultBodyDtoValidator()
+        {
+            _ = RuleFor(d => d.Result)
                 .IsInEnum();
         }
     }
@@ -32,7 +43,8 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public AppointmentParticipationSetResultDtoMappingProfile()
         {
-            CreateMap<AppointmentParticipationSetResultDto, Command>();
+            _ = CreateMap<AppointmentParticipationSetResultDto, Command>()
+                .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Body.Result));
         }
     }
 }
