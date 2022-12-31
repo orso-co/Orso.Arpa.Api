@@ -1,4 +1,6 @@
 using System;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Logic.MyProjects;
 
 namespace Orso.Arpa.Domain.Entities
 {

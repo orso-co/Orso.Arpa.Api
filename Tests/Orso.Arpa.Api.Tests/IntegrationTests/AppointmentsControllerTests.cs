@@ -1,7 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
+using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.AppointmentParticipationApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.FakeData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -10,7 +24,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     {
         private static IEnumerable<TestCaseData> s_appointmentQueryTestData
         {
-            get {
+            get
+            {
                 yield return new TestCaseData(DateRange.Day, new DateTime(2019, 12, 21), new List<AppointmentListDto> {
                     AppointmentListDtoData.RockingXMasRehearsal,
                     AppointmentListDtoData.RehearsalWeekend
@@ -51,7 +66,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
         private static IEnumerable<TestCaseData> s_appointmentByIdQueryTestData
         {
-            get {
+            get
+            {
                 yield return new TestCaseData(AppointmentDtoData.RockingXMasRehearsal);
                 yield return new TestCaseData(AppointmentDtoData.RockingXMasConcert);
                 yield return new TestCaseData(AppointmentDtoData.AfterShowParty);
@@ -204,7 +220,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
         private static IEnumerable<TestCaseData> PersonTestData
         {
-            get {
+            get
+            {
                 yield return new TestCaseData(PersonTestSeedData.Performer, HttpStatusCode.NoContent);
                 yield return new TestCaseData(PersonTestSeedData.LockedOutUser, HttpStatusCode.Forbidden);
             }

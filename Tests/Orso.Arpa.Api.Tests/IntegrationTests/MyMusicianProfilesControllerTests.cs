@@ -1,7 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
+using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.MeApplication;
+using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.FakeData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
@@ -9,7 +21,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     {
         private static IEnumerable<TestCaseData> s_musicianProfileData
         {
-            get {
+            get
+            {
                 yield return new TestCaseData(false, new List<MyMusicianProfileDto> {
                     MyMusicianProfileDtoData.PerformerProfile,
                     MyMusicianProfileDtoData.PerformersHornMusicianProfile,

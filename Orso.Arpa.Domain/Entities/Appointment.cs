@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Attributes;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Logic.Appointments;
 
 namespace Orso.Arpa.Domain.Entities
 {

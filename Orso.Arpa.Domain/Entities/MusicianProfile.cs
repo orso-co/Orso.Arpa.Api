@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Orso.Arpa.Domain.Attributes;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Domain.Logic.MusicianProfiles;
 
 namespace Orso.Arpa.Domain.Entities
 {
