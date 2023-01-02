@@ -18,6 +18,7 @@ namespace Orso.Arpa.Domain.Entities
             BirthName = command.BirthName;
             DateOfBirth = command.DateOfBirth;
             Birthplace = command.Birthplace;
+            Background = command.Background;
             GenderId = command.GenderId;
             ContactViaId = command.ContactViaId;
             ExperienceLevel = command.ExperienceLevel;
@@ -69,6 +70,7 @@ namespace Orso.Arpa.Domain.Entities
             GenderId = command.GenderId;
             DateOfBirth = command.DateOfBirth;
             Birthplace = command.Birthplace;
+            Background = command.Background;
             ContactViaId = command.ContactViaId;
             ExperienceLevel = command.ExperienceLevel;
             Reliability = command.Reliability;
@@ -99,6 +101,9 @@ namespace Orso.Arpa.Domain.Entities
 
         [JsonInclude]
         public string AboutMe { get; private set; }
+
+        [JsonInclude]
+        public string Background { get; private set; }
 
         public Guid? ContactViaId { get; private set; }
         public virtual Person ContactVia { get; private set; }

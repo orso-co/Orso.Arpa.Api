@@ -20,6 +20,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public Guid? ContactViaId { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string Birthplace { get; set; }
+        public string Background { get; set; }
         public byte ExperienceLevel { get; set; }
         public string BirthName { get; set; }
         public byte Reliability { get; set; }
@@ -38,6 +39,7 @@ namespace Orso.Arpa.Application.PersonApplication
                 .ForMember(dest => dest.ContactViaId, opt => opt.MapFrom(src => src.Body.ContactViaId))
                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.Body.DateOfBirth.HasValue ? src.Body.DateOfBirth.Value.Date : (DateTime?)null))
                 .ForMember(dest => dest.Birthplace, opt => opt.MapFrom(src => src.Body.Birthplace))
+                .ForMember(dest => dest.Background, opt => opt.MapFrom(src => src.Body.Background))
                 .ForMember(dest => dest.ExperienceLevel, opt => opt.MapFrom(src => src.Body.ExperienceLevel))
                 .ForMember(dest => dest.BirthName, opt => opt.MapFrom(src => src.Body.BirthName))
                 .ForMember(dest => dest.Reliability, opt => opt.MapFrom(src => src.Body.Reliability))
@@ -74,6 +76,9 @@ namespace Orso.Arpa.Application.PersonApplication
 
             RuleFor(c => c.Birthplace)
                 .PlaceName(50);
+
+            RuleFor(c => c.Background)
+                .PlaceName(500);
 
             RuleFor(c => c.ExperienceLevel)
                 .FiveStarRating();

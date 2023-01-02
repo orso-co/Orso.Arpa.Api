@@ -15,7 +15,6 @@ namespace Orso.Arpa.Application.Interfaces
         Task<IEnumerable<PersonDto>> GetAsync();
 
         Task ModifyAsync(PersonModifyDto modifyDto);
-
         Task DeleteAsync(Guid id);
         Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addstakeholderGroupDto);
         Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto);
