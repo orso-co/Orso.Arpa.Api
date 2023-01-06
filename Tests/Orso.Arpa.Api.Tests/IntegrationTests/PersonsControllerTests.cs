@@ -129,7 +129,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 DateOfBirth = new DateTime(1960, 6, 6),
                 BirthName = "Bonny",
                 Birthplace = "Honolulu",
-                Background = "This is a wonderful person our staff met in Berlin",
+                PersonBackgroundTeam = "This is a wonderful person our staff met in Berlin",
                 ContactViaId = PersonTestSeedData.Performer.Id,
                 ExperienceLevel = 3,
                 Reliability = 2,
