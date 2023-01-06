@@ -29,7 +29,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(50);
 
             builder
-                .Property(e => e.Background)
+                .Property(e => e.PersonBackgroundTeam)
                 .HasMaxLength(500);
 
             builder
