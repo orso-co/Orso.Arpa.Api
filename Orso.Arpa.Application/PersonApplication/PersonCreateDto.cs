@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.PersonApplication
         public Guid? ContactViaId { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string Birthplace { get; set; }
-        public string Background { get; set; }
+        public string PersonBackgroundTeam { get; set; }
         public byte ExperienceLevel { get; set; }
         public string BirthName { get; set; }
         public byte Reliability { get; set; }
@@ -52,7 +52,7 @@ namespace Orso.Arpa.Application.PersonApplication
             RuleFor(c => c.Birthplace)
                 .PlaceName(50);
 
-            RuleFor(c => c.Background)
+            RuleFor(c => c.PersonBackgroundTeam)
                 .PlaceName(500);
 
             RuleFor(c => c.ExperienceLevel)

@@ -29,6 +29,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(50);
 
             builder
+                .Property(e => e.Background)
+                .HasMaxLength(500);
+
+            builder
                 .Property(e => e.MovingBox)
                 .HasMaxLength(10000);
 
