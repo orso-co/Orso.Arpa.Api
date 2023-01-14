@@ -25,12 +25,12 @@
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.16.0" />
     <PackageReference Include="HotChocolate.Data" Version="12.16.0" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.1">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.1" />
     <PackageReference Include="NLog" Version="5.1.1" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.1" />
