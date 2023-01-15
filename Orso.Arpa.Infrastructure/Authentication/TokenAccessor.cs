@@ -26,11 +26,9 @@ namespace Orso.Arpa.Infrastructure.Authentication
                 var username = _httpContextAccessor?.HttpContext?.User?.Claims?
                     .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
                     .Value;
-                if (username == null)
-                {
-                    throw new AuthenticationException("No user name found in the JWT token");
-                }
-                return username;
+                return username == null
+                    ? throw new AuthenticationException("No user name found in the JWT token")
+                    : username;
             }
         }
 
@@ -59,9 +57,11 @@ namespace Orso.Arpa.Infrastructure.Authentication
         {
             get
             {
-                return Guid.Parse(_httpContextAccessor?.HttpContext?.User?.Claims?
-                   .FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?
-                   .Value ?? "");
+                var userId = _httpContextAccessor?.HttpContext?.User?.Claims?
+                    .FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+                return string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out Guid userIdAsGuid)
+                   ? throw new AuthenticationException("Invalid token")
+                   : userIdAsGuid;
             }
         }
 
@@ -69,9 +69,11 @@ namespace Orso.Arpa.Infrastructure.Authentication
         {
             get
             {
-                return Guid.Parse(_httpContextAccessor?.HttpContext?.User?.Claims?
-                   .FirstOrDefault(c => c.Type.Contains("/person_id"))?
-                   .Value ?? "");
+                var personId = _httpContextAccessor?.HttpContext?.User?.Claims?
+                   .FirstOrDefault(c => c.Type.Contains("/person_id"))?.Value;
+                return string.IsNullOrEmpty(personId) || !Guid.TryParse(personId, out Guid personIdAsGuid)
+                   ? throw new AuthenticationException("Invalid token")
+                   : personIdAsGuid;
             }
         }
     }

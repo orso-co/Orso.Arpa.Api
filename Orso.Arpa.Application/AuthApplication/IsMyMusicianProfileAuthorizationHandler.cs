@@ -30,13 +30,18 @@ namespace Orso.Arpa.Application.AuthApplication
             IsMyMusicianProfileRequirement requirement)
 
         {
+            if (!context.User.Identity.IsAuthenticated)
+            {
+                context.Fail(new AuthorizationFailureReason(this, "User is not authenticated"));
+            }
+
             if (!_httpContextAccessor.HttpContext.Request.RouteValues.TryGetValue("id", out object musicianProfileId))
             {
-                context.Fail();
+                context.Fail(new AuthorizationFailureReason(this, "No id supplied"));
                 return;
             }
 
-            if (_tokenAccessor.UserRoles.Contains(RoleNames.Staff))
+            if (context.User.IsInRole(RoleNames.Staff))
             {
                 context.Succeed(requirement);
                 return;

@@ -30,9 +30,15 @@ namespace Orso.Arpa.Application.AuthApplication
             IsMyPersonRequirement requirement)
 
         {
+            if (!context.User.Identity.IsAuthenticated)
+            {
+                context.Fail(new AuthorizationFailureReason(this, "User is not authenticated"));
+                return;
+            }
+
             if (!_httpContextAccessor.HttpContext.Request.RouteValues.TryGetValue("id", out object personId))
             {
-                context.Fail();
+                context.Fail(new AuthorizationFailureReason(this, "No id supplied"));
                 return;
             }
 

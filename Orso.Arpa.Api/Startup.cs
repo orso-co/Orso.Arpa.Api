@@ -198,6 +198,7 @@ namespace Orso.Arpa.Api
         {
             _ = services.AddAuthorization(options =>
             {
+                options.InvokeHandlersAfterFailure = false;
                 options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
                     policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
                 options.AddPolicy(AuthorizationPolicies.IsMyMusicianProfile, policy =>
