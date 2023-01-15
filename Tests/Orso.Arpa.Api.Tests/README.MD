@@ -48,6 +48,25 @@ full_page_writes = off    # recover from partial page writes
 After changing these settings in the **postgresql.conf** you need to restart your server for these changes to
 take effect.
 
+### Integration test user
+
+To be able to run the integration tests (and do create and delete the databases and tables needed) it is required to
+add a `integration_test_user` role to your postgres server used for the tests. The password in plain text is `integration`
+
+```sql
+-- Role: integration_test_user
+-- DROP ROLE IF EXISTS integration_test_user;
+
+CREATE ROLE integration_test_user WITH
+  LOGIN
+  SUPERUSER
+  INHERIT
+  CREATEDB
+  CREATEROLE
+  REPLICATION
+  ENCRYPTED PASSWORD 'SCRAM-SHA-256$4096:JRWu4TWTeL/PSNyczHz0SA==$3gDkERY+8C58EyWaV6lld6Otp0ecMJo5PPdvmu+BH/g=:3xVVbsaPllZI2P1EJ+g7fe6GoiInMEInFNCilrihMBU=';
+  ```
+
 
 ## How to get rid of orphaned *doomed_database_s*
 

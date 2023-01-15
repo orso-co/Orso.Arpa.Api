@@ -18,7 +18,7 @@
         },
         "Orso.Arpa.Api": {
             "commandName": "Project",
-            "dotnetRunMessages": "true",
+            "dotnetRunMessages": true,
             "launchBrowser": false,
             "launchUrl": "swagger",
             "environmentVariables": {
