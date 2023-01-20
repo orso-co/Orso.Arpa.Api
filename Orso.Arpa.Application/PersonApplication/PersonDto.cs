@@ -40,6 +40,7 @@ namespace Orso.Arpa.Application.PersonApplication
 
         public string Birthplace { get; set; }
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [IncludeForRoles(RoleNames.Staff)]
         public string PersonBackgroundTeam { get; set; }
 

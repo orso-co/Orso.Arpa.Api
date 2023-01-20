@@ -53,7 +53,7 @@ namespace Orso.Arpa.Application.PersonApplication
                 .PlaceName(50);
 
             RuleFor(c => c.PersonBackgroundTeam)
-                .PlaceName(500);
+                .RestrictedFreeText(1000);
 
             RuleFor(c => c.ExperienceLevel)
                 .FiveStarRating();
