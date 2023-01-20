@@ -37,6 +37,11 @@ namespace Orso.Arpa.Application.AuthApplication
             SetRoleAuthorizationRequirement requirement)
 
         {
+            if (!context.User.Identity.IsAuthenticated)
+            {
+                context.Fail(new AuthorizationFailureReason(this, "User is not authenticated"));
+            }
+
             SetRoleDto dto = null;
             Stream body = _httpContextAccessor.HttpContext.Request.Body;
 

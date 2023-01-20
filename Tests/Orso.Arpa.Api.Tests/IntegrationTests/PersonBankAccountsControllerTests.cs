@@ -16,7 +16,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     public class PersonBankAccountsControllerTests : IntegrationTestBase
     {
         [Test, Order(100)]
-        public async Task Should_Add_New_Bank_Account_To_Existing_Person()
+        public async Task Should_Add_New_Bank_Account_To_Existing_Person_As_Staff()
         {
             Domain.Entities.Person person = PersonTestSeedData.Performer;
 
@@ -44,10 +44,76 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.PersonBankAccountsController
                     .Post(person.Id), BuildStringContent(dto));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             BankAccountDto result = await DeserializeResponseMessageAsync<BankAccountDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
-            result.Id.Should().NotBeEmpty();
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+            _ = result.Id.Should().NotBeEmpty();
+        }
+
+        [Test, Order(101)]
+        public async Task Should_Add_New_Bank_Account_To_Existing_Person_As_Performer()
+        {
+            Domain.Entities.Person person = PersonTestSeedData.Performer;
+
+            var dto = new BankAccountCreateBodyDto
+            {
+                Iban = "DE95680900000037156401",
+                Bic = "GENODE61FR1",
+                CommentInner = "Dieses Konto läuft auf meine Mudda",
+                AccountOwner = "Muddi Roese"
+            };
+
+            var expectedDto = new BankAccountDto
+            {
+                Iban = "DE95680900000037156401",
+                Bic = "GENODE61FR1",
+                CommentInner = "Dieses Konto läuft auf meine Mudda",
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = "Per Former",
+                AccountOwner = "Muddi Roese"
+            };
+
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .PostAsync(ApiEndpoints.PersonBankAccountsController
+                    .Post(person.Id), BuildStringContent(dto));
+
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            BankAccountDto result = await DeserializeResponseMessageAsync<BankAccountDto>(responseMessage);
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+            _ = result.Id.Should().NotBeEmpty();
+        }
+
+        [Test, Order(102)]
+        public async Task Should_Not_Add_New_Bank_Account_To_Existing_Person_When_User_Is_Not_Authenticated()
+        {
+            Domain.Entities.Person person = PersonTestSeedData.Performer;
+
+            var dto = new BankAccountCreateBodyDto
+            {
+                Iban = "DE95680900000037156400",
+                Bic = "GENODE61FR1",
+                CommentInner = "Dieses Konto läuft auf meine Mudda",
+                AccountOwner = "Muddi Roese"
+            };
+
+            _ = new BankAccountDto
+            {
+                Iban = "DE95680900000037156400",
+                Bic = "GENODE61FR1",
+                CommentInner = "Dieses Konto läuft auf meine Mudda",
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = "Staff Member",
+                AccountOwner = "Muddi Roese"
+            };
+
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.PersonBankAccountsController
+                    .Post(person.Id), BuildStringContent(dto));
+
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
         [Test, Order(1000)]
@@ -70,7 +136,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.PersonBankAccountsController
                     .Put(person.Id, person.BankAccounts.First().Id), BuildStringContent(dto));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(10000)]
@@ -84,7 +150,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.PersonBankAccountsController
                     .Delete(person.Id, person.BankAccounts.First().Id));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }
