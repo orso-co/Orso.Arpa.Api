@@ -134,7 +134,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         DateOfBirth = new DateTime(1981, 5, 7),
                         BirthName = "User",
                         Birthplace = "Wherethepfefferwächst",
-                        PersonBackgroundTeam = "No further backgroundinformation about this person"
+                        PersonBackgroundTeam = "Staff only background information"
                     });
                 var contactDetail = new ContactDetail(Guid.Parse("c56fb43d-6500-4cc7-957c-d64baf049df2"), new Domain.Logic.ContactDetails.Create.Command
                 {
