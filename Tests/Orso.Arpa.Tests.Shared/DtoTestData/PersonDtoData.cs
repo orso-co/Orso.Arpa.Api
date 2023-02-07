@@ -65,7 +65,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.Gender = SelectValueDtoData.Diverse;
                 dto.StakeholderGroups.Add(SectionDtoData.Choir);
                 dto.AboutMe = "Oh yes, I'm the great pretender!";
-                dto.PersonBackgroundTeam = "Staff only background information";
                 dto.BirthName = "Sil";
                 dto.Birthplace = "Pusemuckel";
                 dto.DateOfBirth = new DateTime(1979, 5, 5);
