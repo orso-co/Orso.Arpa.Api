@@ -42,6 +42,10 @@ namespace Orso.Arpa.Application.PersonApplication
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [IncludeForRoles(RoleNames.Staff)]
+        public string PersonBackgroundTeam { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [IncludeForRoles(RoleNames.Staff)]
         public byte ExperienceLevel { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
