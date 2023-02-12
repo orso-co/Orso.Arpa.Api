@@ -202,15 +202,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 {
                     rockingXMasConcertParticipation
                 });
-                yield return new TestCaseData(null, new DateTime(2019, 12, 21, 9, 0, 0, DateTimeKind.Utc), null, new List<MusicianProfileAppointmentParticipationDto>()
+                yield return new TestCaseData(null, new DateTime(2019, 12, 21, 10, 0, 0, DateTimeKind.Utc), null, new List<MusicianProfileAppointmentParticipationDto>()
                 {
                     rockingXMasConcertParticipation
                 });
-                yield return new TestCaseData(null, null, new DateTime(2019, 12, 21, 17, 30, 0, DateTimeKind.Utc), new List<MusicianProfileAppointmentParticipationDto>()
+                yield return new TestCaseData(null, null, new DateTime(2019, 12, 21, 18, 30, 0, DateTimeKind.Utc), new List<MusicianProfileAppointmentParticipationDto>()
                 {
                     rockingXMasConcertParticipation
                 });
-                yield return new TestCaseData(ProjectSeedData.RockingXMas.Id, new DateTime(2019, 12, 21, 9, 0, 0, DateTimeKind.Utc), new DateTime(2019, 12, 21, 17, 30, 0, DateTimeKind.Utc), new List<MusicianProfileAppointmentParticipationDto>()
+                yield return new TestCaseData(ProjectSeedData.RockingXMas.Id, new DateTime(2019, 12, 21, 10, 0, 0, DateTimeKind.Utc), new DateTime(2019, 12, 21, 18, 30, 0, DateTimeKind.Utc), new List<MusicianProfileAppointmentParticipationDto>()
                 {
                     rockingXMasConcertParticipation
                 });

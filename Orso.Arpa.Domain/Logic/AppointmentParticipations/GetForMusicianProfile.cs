@@ -52,12 +52,14 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
 
                 if (appointmentParticipations.Any() && request.StartTime.HasValue)
                 {
-                    appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.StartTime.Equals(request.StartTime.Value.ToLocalTime()));
+                    var normalizedTime = new DateTime(request.StartTime.Value.Ticks, DateTimeKind.Unspecified);
+                    appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.StartTime.Equals(normalizedTime));
                 }
 
                 if (appointmentParticipations.Any() && request.EndTime.HasValue)
                 {
-                    appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.EndTime.Equals(request.EndTime.Value.ToLocalTime()));
+                    var normalizedTime = new DateTime(request.EndTime.Value.Ticks, DateTimeKind.Unspecified);
+                    appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.EndTime.Equals(normalizedTime));
                 }
 
                 if (appointmentParticipations.Any() && request.ProjectId.HasValue)
