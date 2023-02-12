@@ -48,7 +48,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
                     InvitationStatus = ProjectInvitationStatus.Invited,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
-                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
                     CommentByStaffInner = "Comment by staff",
                     CommentTeam = "Comment by team"
                 }, Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"));
@@ -65,7 +65,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
                     InvitationStatus = ProjectInvitationStatus.Invited,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
-                    ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     CommentByStaffInner = "Comment by staff",
                     CommentTeam = "Comment by team"
                 }, Guid.Parse("42fe1129-72f1-4935-b136-9bc41583e895"));

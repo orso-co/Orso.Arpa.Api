@@ -14,6 +14,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new List<MyAppointmentDto>
                 {
+                    AltoRehearsal,
+                    TeamMeeting,
                     PhotoSession,
                     RockingXMasAfterShowParty,
                     RockingXMasConcert,
@@ -126,6 +128,55 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Category = SelectValueDtoData.SectionalRehearsal,
                     Status = AppointmentStatus.Scheduled
                 };
+            }
+        }
+
+        public static MyAppointmentDto AltoRehearsal
+        {
+            get
+            {
+                var dto = new MyAppointmentDto
+                {
+                    CreatedBy = "anonymous",
+                    StartTime = new DateTime(2021, 12, 29, 8, 00, 00),
+                    EndTime = new DateTime(2021, 12, 29, 17, 00, 00),
+                    Expectation = "Confirmed",
+                    Id = Guid.Parse("af02e789-fb96-4d69-b252-e1c91c23c2fe"),
+                    Name = "Alto rehearsal",
+                    PublicDetails = "Hooray for Hollywood rehearsal for alto voices only",
+                    Prediction = AppointmentParticipationPrediction.Partly,
+                    Result = AppointmentParticipationResult.AwaitingScan,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    Category = SelectValueDtoData.WarmUpRehearsal,
+                    Status = AppointmentStatus.Confirmed
+                };
+                dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
+                return dto;
+            }
+        }
+
+        public static MyAppointmentDto TeamMeeting
+        {
+            get
+            {
+                var dto = new MyAppointmentDto
+                {
+                    CreatedBy = "anonymous",
+                    StartTime = new DateTime(2020, 12, 22, 20, 00, 00),
+                    EndTime = new DateTime(2020, 12, 22, 23, 30, 00),
+                    Expectation = "Mandatory",
+                    Id = Guid.Parse("cab05507-489c-4f18-aad5-f1c393626860"),
+                    Name = "Team Meeting",
+                    PublicDetails = "Meet and greet",
+                    Prediction = null,
+                    Result = null,
+                    CreatedAt = FakeDateTime.UtcNow,
+                    Category = SelectValueDtoData.Rehearsal,
+                    Status = AppointmentStatus.Confirmed,
+                    Venue = VenueDtoData.WeiherhofSchule
+                };
+                dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
+                return dto;
             }
         }
     }

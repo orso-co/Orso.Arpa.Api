@@ -202,6 +202,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasConcert;
             expectedDto.Participations.Clear();
+            expectedDto.Participations.Add(AppointmentDtoData.PerformerParticipation);
             expectedDto.Projects.Add(ProjectDtoData.HoorayForHollywood);
 
             // Act
@@ -426,8 +427,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             AppointmentDto expectedDto = AppointmentDtoData.StaffMeeting;
             expectedDto.Projects.Clear();
+            expectedDto.Participations.Clear();
 
-            AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipation;
+            AppointmentParticipationListItemDto performerParticipation = AppointmentDtoData.PerformerParticipationRockingXMasRehearsal;
             performerParticipation.MusicianProfiles.Add(ReducedMusicianProfileDtoData.PerformerHornProfile);
             performerParticipation.MusicianProfiles.Add(ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile);
             performerParticipation.Participation = null;

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.WebUtilities;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Enums;
 
@@ -240,6 +242,25 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Delete(Guid id) => $"{MusicianProfiles}/{id}";
 
             public static string GetProjectParticipations(Guid id, bool includeCompleted) => $"{MusicianProfiles}/{id}/projectparticipations?includeCompleted={includeCompleted}";
+            public static string GetAppointmentParticipations(Guid id, Guid? projectId, DateTime? startTime, DateTime? endTime)
+            {
+                string url = $"{MusicianProfiles}/{id}/appointmentparticipations";
+                var param = new Dictionary<string, string>();
+                if (projectId.HasValue)
+                {
+                    param.Add("projectId", projectId.ToString());
+                }
+                if (startTime.HasValue)
+                {
+                    param.Add("startTime", startTime.Value.ToIsoString());
+                }
+                if (endTime.HasValue)
+                {
+                    param.Add("endTime", endTime.Value.ToIsoString());
+                }
+
+                return QueryHelpers.AddQueryString(url, param);
+            }
 
             public static string AddEducation(Guid id) => $"{MusicianProfiles}/{id}/educations";
             public static string AddCurriculumVitaeReference(Guid id) => $"{MusicianProfiles}/{id}/curriculumVitaeReferences";
