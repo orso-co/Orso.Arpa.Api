@@ -12,7 +12,6 @@ using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
 using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Application.Services
@@ -30,7 +29,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<MusicianProfileDto> CreateAsync(MusicianProfileCreateDto createDto)
         {
-            Create.Command command = _mapper.Map<Create.Command>(createDto);
+            Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfiles.Create.Command>(createDto);
             MusicianProfile createdEntity = await _mediator.Send(command);
             foreach (DoublingInstrumentCreateBodyDto doublingInstrument in createDto.Body.DoublingInstruments)
             {
@@ -48,6 +47,19 @@ namespace Orso.Arpa.Application.Services
         public async Task DeleteAsync(Guid id)
         {
             _ = await _mediator.Send(new Domain.GenericHandlers.Delete.Command<MusicianProfile>() { Id = id });
+        }
+
+        public async Task<IEnumerable<MusicianProfileAppointmentParticipationDto>> GetAppointmentParticipationsAsync(Guid id, Guid? projectId, DateTime? startTime, DateTime? endTime)
+        {
+            var query = new Domain.Logic.AppointmentParticipations.GetForMusicianProfile.Query
+            {
+                MusicianProfileId = id,
+                ProjectId = projectId,
+                StartTime = startTime,
+                EndTime = endTime
+            };
+            IEnumerable<AppointmentParticipation> appointmentParticipations = await _mediator.Send(query);
+            return _mapper.Map<IEnumerable<MusicianProfileAppointmentParticipationDto>>(appointmentParticipations);
         }
 
         public Task<IEnumerable<MusicianProfileDto>> GetByPersonAsync(Guid personId, bool includeDeactivated)
@@ -70,7 +82,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<ProjectParticipationDto>> GetProjectParticipationsAsync(Guid id, bool includeCompleted)
         {
-            var query = new GetForMusicianProfile.Query { IncludeCompletedProjects = includeCompleted, MusicianProfileId = id };
+            var query = new Domain.Logic.ProjectParticipations.GetForMusicianProfile.Query { IncludeCompletedProjects = includeCompleted, MusicianProfileId = id };
             IEnumerable<ProjectParticipation> participations = await _mediator.Send(query);
 
             // Cannot use .ProjectTo here because .ProjectTo does not suppert After Mapping Actions

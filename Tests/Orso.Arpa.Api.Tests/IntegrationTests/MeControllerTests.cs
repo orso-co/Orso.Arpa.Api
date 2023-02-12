@@ -46,8 +46,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 yield return new TestCaseData(null, null, UserAppointmentDtoTestData.PerformerUserAppointments);
                 yield return new TestCaseData(1, 2, new List<MyAppointmentDto>
                 {
-                    UserAppointmentDtoTestData.RockingXMasAfterShowParty,
-                    UserAppointmentDtoTestData.RockingXMasConcert,
+                    UserAppointmentDtoTestData.TeamMeeting,
+                    UserAppointmentDtoTestData.PhotoSession,
                 });
             }
         }
@@ -67,7 +67,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             MyAppointmentListDto result = await DeserializeResponseMessageAsync<MyAppointmentListDto>(responseMessage);
 
             _ = result.UserAppointments.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(d => d.Id));
-            _ = result.TotalRecordsCount.Should().Be(4);
+            _ = result.TotalRecordsCount.Should().Be(6);
         }
 
         [Test, Order(3)]

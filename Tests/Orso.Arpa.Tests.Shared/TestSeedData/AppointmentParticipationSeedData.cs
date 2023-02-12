@@ -14,13 +14,14 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new List<AppointmentParticipation>
                 {
-                    PerformerParticipation,
+                    PerformerParticipationRockingXMasRehearsal,
+                    PerformerParticipationAltoRehearsal,
                     StaffParticipation
                 };
             }
         }
 
-        public static AppointmentParticipation PerformerParticipation
+        public static AppointmentParticipation PerformerParticipationRockingXMasRehearsal
         {
             get
             {
@@ -31,6 +32,20 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Prediction = AppointmentParticipationPrediction.Yes,
                     Result = null,
                     CommentByPerformerInner = "Werde wahrscheinlich etwas früher gehen müssen."
+                });
+            }
+        }
+
+        public static AppointmentParticipation PerformerParticipationAltoRehearsal
+        {
+            get
+            {
+                return new AppointmentParticipation(Guid.Parse("fd2a48d5-9df0-41f1-86b6-1e5f9606ecab"), new Create.Command
+                {
+                    AppointmentId = AppointmentSeedData.AltoRehearsal.Id,
+                    PersonId = PersonTestSeedData.Performer.Id,
+                    Prediction = AppointmentParticipationPrediction.Partly,
+                    Result = AppointmentParticipationResult.AwaitingScan
                 });
             }
         }

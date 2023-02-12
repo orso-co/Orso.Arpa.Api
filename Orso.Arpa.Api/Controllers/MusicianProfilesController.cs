@@ -102,6 +102,26 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Gets all project appointment participations of the given musician profile
+        /// </summary>
+        /// <param name="id">The id of the musician profile</param>
+        /// <param name="projectId">Optional parameter to filter by project id</param>
+        /// <param name="startTime">Optional parameter to filter by start time</param>
+        /// <param name="endTime">Optional parameter to filter by end time</param>
+        /// <returns>All appointment participations of the given musician profile</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        [Authorize(Roles = RoleNames.PerformerOrStaff)]
+        [Authorize(Policy = AuthorizationPolicies.IsMyMusicianProfile)]
+        [HttpGet("{id}/appointmentparticipations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<MusicianProfileAppointmentParticipationDto>>> GetAppointmentParticipations([FromRoute] Guid id, [FromQuery] Guid? projectId, DateTime? startTime, DateTime? endTime)
+        {
+            return Ok(await _musicianProfileService.GetAppointmentParticipationsAsync(id, projectId, startTime, endTime));
+        }
+
+        /// <summary>
         /// Updates the musician profile
         /// </summary>
         /// <returns>The updated musician profile</returns>

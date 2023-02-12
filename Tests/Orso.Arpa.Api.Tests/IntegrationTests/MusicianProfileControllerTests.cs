@@ -177,6 +177,67 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrderingFor(r => r.Person));
         }
 
+
+        private static IEnumerable<TestCaseData> s_appointmentParticipationData
+        {
+            get
+            {
+                var rockingXMasConcertParticipation = new MusicianProfileAppointmentParticipationDto
+                {
+                    Appointment = AppointmentListDtoData.RockingXMasRehearsal,
+                    AppointmentParticipation = AppointmentParticipationDtoData.PerformerParticipationRockingXMasRehearsal
+                };
+                var altoRehearsalParticipation = new MusicianProfileAppointmentParticipationDto
+                {
+                    Appointment = AppointmentListDtoData.AltoRehearsal,
+                    AppointmentParticipation = AppointmentParticipationDtoData.PerformerParticipationAltoRehearsal
+                };
+
+                yield return new TestCaseData(null, null, null, new List<MusicianProfileAppointmentParticipationDto>()
+                {
+                    rockingXMasConcertParticipation,
+                    altoRehearsalParticipation
+                });
+                yield return new TestCaseData(ProjectSeedData.RockingXMas.Id, null, null, new List<MusicianProfileAppointmentParticipationDto>()
+                {
+                    rockingXMasConcertParticipation
+                });
+                yield return new TestCaseData(null, new DateTime(2019, 12, 21, 9, 0, 0, DateTimeKind.Utc), null, new List<MusicianProfileAppointmentParticipationDto>()
+                {
+                    rockingXMasConcertParticipation
+                });
+                yield return new TestCaseData(null, null, new DateTime(2019, 12, 21, 17, 30, 0, DateTimeKind.Utc), new List<MusicianProfileAppointmentParticipationDto>()
+                {
+                    rockingXMasConcertParticipation
+                });
+                yield return new TestCaseData(ProjectSeedData.RockingXMas.Id, new DateTime(2019, 12, 21, 9, 0, 0, DateTimeKind.Utc), new DateTime(2019, 12, 21, 17, 30, 0, DateTimeKind.Utc), new List<MusicianProfileAppointmentParticipationDto>()
+                {
+                    rockingXMasConcertParticipation
+                });
+            }
+        }
+
+        [Test, Order(5)]
+        [TestCaseSource(nameof(s_appointmentParticipationData))]
+        public async Task Should_Get_Appointment_Participations(Guid? projectId, DateTime? startTime, DateTime? endTime, IEnumerable<MusicianProfileAppointmentParticipationDto> expectedResult)
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.MusicianProfilesController.GetAppointmentParticipations(
+                    MusicianProfileSeedData.PerformerMusicianProfile.Id,
+                    projectId,
+                    startTime,
+                    endTime));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            IEnumerable<MusicianProfileAppointmentParticipationDto> result = await DeserializeResponseMessageAsync<IEnumerable<MusicianProfileAppointmentParticipationDto>>(responseMessage);
+            _ = result.Should().BeEquivalentTo(expectedResult);
+        }
+
         [Test, Order(100)]
         public async Task Should_Add_Education()
         {
