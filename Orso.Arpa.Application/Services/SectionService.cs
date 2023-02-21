@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -21,10 +20,15 @@ namespace Orso.Arpa.Application.Services
         {
         }
 
-        public async Task<IEnumerable<SectionDto>> GetAsync(bool instrumentsOnly)
+        public async Task<IEnumerable<SectionDto>> GetAsync(bool instrumentsWithChildrenOnly)
         {
-            Expression<Func<Section, bool>> predicate = (section) => section.IsInstrument;
-            return await base.GetAsync(orderBy: s => s.OrderBy(s => s.Name), predicate: instrumentsOnly ? predicate : null);
+            if (instrumentsWithChildrenOnly)
+            {
+                var query = new InstrumentsWithChildren.Query();
+                IEnumerable<Section> instruments = await _mediator.Send(query);
+                return _mapper.Map<IEnumerable<SectionDto>>(instruments);
+            }
+            return await base.GetAsync();
         }
 
         public async Task<IEnumerable<SectionDto>> GetDoublingInstrumentsAsync(Guid id)

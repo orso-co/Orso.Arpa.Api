@@ -79,7 +79,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Get() => Sections;
 
-            public static string GetInstruments() => $"{Sections}?instrumentsOnly=true";
+            public static string GetInstrumentsWithChildren() => $"{Sections}?instrumentsWithChildrenOnly=true";
 
             public static string GetTree(int? maxLevel) => $"{Sections}/tree?maxLevel={maxLevel}";
             public static string GetDoublingInstruments(Guid id) => $"{Sections}/{id}/doublinginstruments";
