@@ -18,7 +18,7 @@ namespace Orso.Arpa.Api.GraphQL
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<MusicianProfile>> GetMusicianProfiles([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<MusicianProfile>>(context.MusicianProfiles.ToListAsync());
+            new(context.MusicianProfiles.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Api.GraphQL
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<Person>> GetPersons([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<Person>>(context.Persons.ToListAsync());
+            new(context.Persons.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
@@ -34,7 +34,7 @@ namespace Orso.Arpa.Api.GraphQL
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<Project>> GetProjects([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<Project>>(context.Projects.ToListAsync());
+            new(context.Projects.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
@@ -42,6 +42,6 @@ namespace Orso.Arpa.Api.GraphQL
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<AuditLog>> GetAuditLogs([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<AuditLog>>(context.AuditLogs.ToListAsync());
+            new(context.AuditLogs.ToListAsync());
     }
 }
