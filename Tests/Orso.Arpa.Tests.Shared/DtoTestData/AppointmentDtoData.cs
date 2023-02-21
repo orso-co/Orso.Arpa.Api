@@ -48,7 +48,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
                     CreatedAt = FakeDateTime.UtcNow
                 };
-                dto.Participations.Add(PerformerParticipation);
+                dto.Participations.Add(PerformerParticipationRockingXMasRehearsal);
                 dto.Participations.Add(StaffParticipation);
                 dto.Participations.Add(AdminParticipation);
                 dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
@@ -63,13 +63,32 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.Performer,
-                    Participation = AppointmentParticipationDtoData.PerformerParticipation,
 
                     MusicianProfiles = new List<ReducedMusicianProfileDto>
                     {
                         ReducedMusicianProfileDtoData.PerformerProfile,
                     }
                 };
+            }
+        }
+
+        public static AppointmentParticipationListItemDto PerformerParticipationRockingXMasRehearsal
+        {
+            get
+            {
+                AppointmentParticipationListItemDto participation = PerformerParticipation;
+                participation.Participation = AppointmentParticipationDtoData.PerformerParticipationRockingXMasRehearsal;
+                return participation;
+            }
+        }
+
+        public static AppointmentParticipationListItemDto PerformerParticipationAltoRehearsal
+        {
+            get
+            {
+                AppointmentParticipationListItemDto participation = PerformerParticipation;
+                participation.Participation = AppointmentParticipationDtoData.PerformerParticipationAltoRehearsal;
+                return participation;
             }
         }
 
@@ -207,7 +226,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
                 dto.Sections.Add(SectionDtoData.Alto);
                 dto.Rooms.Add(RoomDtoData.AulaWeiherhofSchule);
-                AppointmentParticipationListItemDto performerParticipation = PerformerParticipation;
+                AppointmentParticipationListItemDto performerParticipation = PerformerParticipationRockingXMasRehearsal;
                 performerParticipation.Participation = null;
                 dto.Participations.Add(performerParticipation);
                 dto.Projects.Add(ProjectDtoData.RockingXMasForStaff);
@@ -237,6 +256,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedAt = FakeDateTime.UtcNow
                 };
                 dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
+                dto.Participations.Add(PerformerParticipation);
                 return dto;
             }
         }
@@ -405,6 +425,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
                 dto.Sections.Add(SectionDtoData.Alto);
                 dto.Projects.Add(ProjectDtoData.HoorayForHollywood);
+                dto.Participations.Add(PerformerParticipationAltoRehearsal);
                 return dto;
             }
         }

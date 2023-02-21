@@ -60,7 +60,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Id = Guid.Parse("42fe1129-72f1-4935-b136-9bc41583e895"),
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-                    ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
+                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
                     Project = ReducedProjectDtoData.HoorayForHollywood
                 };
@@ -116,7 +116,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             CreatedBy = "anonymous",
             Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-            ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
+            ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
             ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
             Project = ReducedProjectDtoData.Schneekönigin
         };

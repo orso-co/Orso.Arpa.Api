@@ -26,9 +26,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.SectionsController.Get());
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<SectionDto> result = await DeserializeResponseMessageAsync<IEnumerable<SectionDto>>(responseMessage);
-            result.Should().BeEquivalentTo(SectionDtoData.Sections);
+            _ = result.Should().BeEquivalentTo(SectionDtoData.Sections);
         }
 
         [Test, Order(2)]
@@ -41,24 +41,24 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.SectionsController.GetTree(2));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             SectionTreeDto result = await DeserializeResponseMessageAsync<SectionTreeDto>(responseMessage);
-            result.Should().BeEquivalentTo(SectionTreeDtoData.Level2SectionTreeDto);
+            _ = result.Should().BeEquivalentTo(SectionTreeDtoData.Level2SectionTreeDto);
         }
 
         [Test, Order(3)]
-        public async Task Should_Get_Instruments()
+        public async Task Should_Get_Instruments_With_Children()
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.SectionsController.GetInstruments());
+                .GetAsync(ApiEndpoints.SectionsController.GetInstrumentsWithChildren());
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<SectionDto> result = await DeserializeResponseMessageAsync<IEnumerable<SectionDto>>(responseMessage);
-            result.Should().BeEquivalentTo(SectionDtoData.Instruments);
+            _ = result.Should().BeEquivalentTo(SectionDtoData.InstrumentsWithChildren);
         }
 
         private static IEnumerable<TestCaseData> s_doublingInstrumentsData
@@ -94,9 +94,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.SectionsController.GetDoublingInstruments(sectionId));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<SectionDto> result = await DeserializeResponseMessageAsync<IEnumerable<SectionDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedResult);
+            _ = result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -116,9 +116,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_performer)
                 .GetAsync(ApiEndpoints.SectionsController.GetPositions(SectionSeedData.Alto.Id));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<SelectValueDto> result = await DeserializeResponseMessageAsync<IEnumerable<SelectValueDto>>(responseMessage);
-            result.Should().BeEquivalentTo(expectedResult);
+            _ = result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Test, Order(5)]
@@ -135,9 +135,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             }
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.TooManyRequests);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.TooManyRequests);
             var responseString = await responseMessage.Content.ReadAsStringAsync();
-            responseString.Should().Be("API calls quota exceeded! maximum admitted 1 per 1s.");
+            _ = responseString.Should().Be("API calls quota exceeded! maximum admitted 1 per 1s.");
         }
     }
 }
