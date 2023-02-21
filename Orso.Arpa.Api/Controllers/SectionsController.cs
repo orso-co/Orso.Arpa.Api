@@ -28,9 +28,9 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<SectionDto>>> Get([FromQuery] bool instrumentsOnly = false)
+        public async Task<ActionResult<IEnumerable<SectionDto>>> Get([FromQuery] bool instrumentsWithChildrenOnly = false)
         {
-            return Ok(await _sectionService.GetAsync(instrumentsOnly));
+            return Ok(await _sectionService.GetAsync(instrumentsWithChildrenOnly));
         }
 
         /// <summary>
