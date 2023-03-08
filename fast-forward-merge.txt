@@ -1,3 +1,4 @@
 $ git checkout master
-$ git merge your-branch # the branch which has an open pull request
+$ git pull
+$ git merge develop --ff-only
 $ git push
