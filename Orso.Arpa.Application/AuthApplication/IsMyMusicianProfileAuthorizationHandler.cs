@@ -33,6 +33,7 @@ namespace Orso.Arpa.Application.AuthApplication
             if (!context.User.Identity.IsAuthenticated)
             {
                 context.Fail(new AuthorizationFailureReason(this, "User is not authenticated"));
+                return;
             }
 
             if (!_httpContextAccessor.HttpContext.Request.RouteValues.TryGetValue("id", out object musicianProfileId))

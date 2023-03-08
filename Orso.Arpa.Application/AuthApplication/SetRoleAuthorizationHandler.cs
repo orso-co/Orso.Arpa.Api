@@ -40,6 +40,7 @@ namespace Orso.Arpa.Application.AuthApplication
             if (!context.User.Identity.IsAuthenticated)
             {
                 context.Fail(new AuthorizationFailureReason(this, "User is not authenticated"));
+                return;
             }
 
             SetRoleDto dto = null;
