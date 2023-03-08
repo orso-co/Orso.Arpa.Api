@@ -1,27 +1,40 @@
-name: Fast-Forward PR
+name: Fast-forward
 
-on: 
+on:
   issue_comment:
-    types: [created]
+    types: [created, edited]
 
 jobs:
-  fast_forward_job:
-    name: Fast Forward
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/fast-forward')   
+  fast_forward:
+    name: Fast-forward
     runs-on: ubuntu-latest
+    if: |
+      github.event.issue.pull_request &&
+      github.event.comment.author_association == 'OWNER' && 
+      contains(github.event.comment.body, '/fast-forward')
+
     steps:
-      # To use this repository's private action, you must check out the repository
-      - name: Checkout code into workspace directory
-        uses: actions/checkout@v2
+      - name: Generate access token
+        uses: tibdex/github-app-token@v1
+        id: generate-token
         with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Fetch repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
-      # Basic use case example
-      - name: Fast Forward PR
-        id: ff-action
-        uses: endre-spotlab/fast-forward-js-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
-          failure_message: 'Failed! Cannot do fast forward!'
-          staging_branch: 'develop'
-          production_branch: 'master'
+
+      - name: Checkout pull request
+        run: hub pr checkout ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+      - name: Fast-forward & push
+        run: |
+          export PR_COMMIT=$(git rev-parse HEAD)
+          git checkout master
+          git merge --ff-only $PR_COMMIT
+          git push origin master
