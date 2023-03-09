@@ -438,8 +438,6 @@ namespace Orso.Arpa.Api
 
             _ = app.UseErrorResponseLocalizationMiddleware();
 
-            _ = app.UseMiddleware<NLog.Web.NLogRequestPostedBodyMiddleware>();
-
             _ = app.UseMiddleware<ErrorHandlingMiddleware>();
 
             _ = app.UseMiddleware<EnableRequestBodyRewindMiddleware>();

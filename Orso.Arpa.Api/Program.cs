@@ -2,8 +2,10 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Web;
 using NLog;
+using NLog.Web;
+using Orso.Arpa.Api.Middleware;
+using Orso.Arpa.Api.ModelBinding;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Orso.Arpa.Api
@@ -12,7 +14,12 @@ namespace Orso.Arpa.Api
     {
         public static void Main(string[] args)
         {
-            Logger logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            Logger logger = LogManager
+                .Setup()
+                .SetupExtensions(x => _ = x.RegisterLayoutRenderer<AspnetPostedBodyShadowedLayoutRenderer>(SensibleRequestDataShadower.ASPNET_REQUEST_POSTED_BODY_SHADOWED))
+                .LoadConfigurationFromAppSettings()
+                .GetCurrentClassLogger();
+
             try
             {
                 logger.Debug("init main");
@@ -35,8 +42,8 @@ namespace Orso.Arpa.Api
                     .UseStartup<Startup>()
                     .ConfigureLogging(logging =>
                     {
-                        logging.ClearProviders();
-                        logging.SetMinimumLevel(LogLevel.Trace);
+                        _ = logging.ClearProviders();
+                        _ = logging.SetMinimumLevel(LogLevel.Trace);
                     })
                     .UseNLog());
     }

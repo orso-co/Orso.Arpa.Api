@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -45,6 +46,8 @@ namespace Orso.Arpa.Api.Middleware
             Exception ex)
         {
             ValidationProblemDetails errorMessage = null;
+            string errorLogMessage = null;
+
             switch (ex)
             {
                 case IdentityException ie:
@@ -54,7 +57,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = ie.Message,
                         Detail = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
                     };
-                    _logger.LogError(ie, "IDENTITY ERROR");
+                    errorLogMessage = "IDENTITY ERROR";
                     break;
 
                 case ValidationException ve:
@@ -66,7 +69,7 @@ namespace Orso.Arpa.Api.Middleware
                             Title = "Resource not found.",
                             Status = (int)HttpStatusCode.NotFound
                         };
-                        _logger.LogError(ve, "NOT FOUND ERROR");
+                        errorLogMessage = "NOT FOUND ERROR";
                     }
                     else if (errorCodes.Contains("403"))
                     {
@@ -75,7 +78,7 @@ namespace Orso.Arpa.Api.Middleware
                             Title = ve.Errors.First(e => e.ErrorCode.Equals("403")).ErrorMessage,
                             Status = (int)HttpStatusCode.Forbidden
                         };
-                        _logger.LogError(ve, "AUTHORIZATION ERROR");
+                        _logger.LogWarning(ve, "AUTHORIZATION ERROR");
                     }
                     else if (errorCodes.Contains("401"))
                     {
@@ -93,7 +96,7 @@ namespace Orso.Arpa.Api.Middleware
                             Title = "One or more validation errors occurred.",
                             Status = (int)HttpStatusCode.UnprocessableEntity
                         };
-                        _logger.LogError(ve, "DOMAIN VALIDATION ERROR");
+                        errorLogMessage = "DOMAIN VALIDATION ERROR";
                     }
                     foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
                     {
@@ -117,7 +120,7 @@ namespace Orso.Arpa.Api.Middleware
                         Status = (int)HttpStatusCode.NotFound
                     };
                     errorMessage.Errors.Add(nfe.PropertyName, new string[] { nfe.Message });
-                    _logger.LogError(nfe, "NOT FOUND ERROR");
+                    errorLogMessage = "NOT FOUND ERROR";
                     break;
 
                 case EmailException ee:
@@ -127,7 +130,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = ee.Message,
                         Detail = ee.InnerException?.Message
                     };
-                    _logger.LogError(ee, "EMAIL ERROR");
+                    errorLogMessage = "EMAIL ERROR";
                     break;
 
                 case AuthorizationException aze:
@@ -136,7 +139,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = aze.Message,
                         Status = (int)HttpStatusCode.Forbidden
                     };
-                    _logger.LogError(aze, "AUTHORIZATION ERROR");
+                    _logger.LogWarning(aze, "AUTHORIZATION ERROR");
                     break;
 
                 case Exception e:
@@ -146,11 +149,19 @@ namespace Orso.Arpa.Api.Middleware
                         Title = "An unexpected error occured",
                         Detail = e.Message
                     };
-                    _logger.LogError(e, "SERVER ERROR");
+                    errorLogMessage = "SERVER ERROR";
                     break;
             }
 
             context.Response.StatusCode = errorMessage?.Status ?? 500;
+
+            if (errorLogMessage != null)
+            {
+                context.Items.Add(
+                    SensibleRequestDataShadower.ASPNET_REQUEST_POSTED_BODY_SHADOWED,
+                    await SensibleRequestDataShadower.ShadowSensibleDataForLoggingAsync(context.Request.Body));
+                _logger.LogError(ex, errorLogMessage);
+            }
 
             if (errorMessage != null)
             {
