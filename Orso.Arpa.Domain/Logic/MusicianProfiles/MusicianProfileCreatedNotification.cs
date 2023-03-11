@@ -50,7 +50,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                         ? (await _arpaContext.SelectValues.FindAsync(new object[] { notification.MusicianProfile.Qualification.SelectValueId }, cancellationToken)).Name
                         : null },
                     { "Created by", notification.MusicianProfile.CreatedBy },
-                    { "Link", $"{_jwtConfiguration.Audience}/arpa/mupro/{personIdAsString}/(projects//modal:{personIdAsString}/{musicianProfileIdAsString})?comboInstruments=true" }
+                    { "Link", $"<{_jwtConfiguration.Audience}/arpa/mupro/{personIdAsString}/(projects//modal:{personIdAsString}/{musicianProfileIdAsString})?comboInstruments=true|Open Musician Profile>" }
                 });
         }
     }

@@ -117,10 +117,10 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 return;
             }
 
-            await UpdateParentProjectAsync(notification.ProjectParticipation, !notification.ChangedByPerformer, cancellationToken);
+            await UpdateParentProjectAsync(notification.ProjectParticipation, cancellationToken);
         }
 
-        private async Task UpdateParentProjectAsync(ProjectParticipation projectParticipation, bool updateInternalStatus, CancellationToken cancellationToken)
+        private async Task UpdateParentProjectAsync(ProjectParticipation projectParticipation, CancellationToken cancellationToken)
         {
             Project parentProject = projectParticipation.Project.Parent;
 
@@ -140,28 +140,19 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
             bool shouldSetParticipationStatusInner = participationOfParentProject is null
                 || !expectedParticipationStatusInner.Equals(participationOfParentProject.ParticipationStatusInner);
 
-            ProjectParticipationStatusInternal expectedParticipationStatusInternal = 0;
-            bool shouldSetParticipationStatusInternal = false;
-
-            ProjectInvitationStatus expectedInvitationStatus = 0;
-            bool shouldSetInvitationStatus = false;
-
-            if (updateInternalStatus)
-            {
-                IEnumerable<ProjectParticipationStatusInternal?> participationStatusInternalOfChildrenProjects = participationStatusOfChildrenProjects
-                    .Select(pp => pp?.ParticipationStatusInternal);
-                expectedParticipationStatusInternal = ProjectParticipationStatusInheritanceEvaluator
+            IEnumerable<ProjectParticipationStatusInternal?> participationStatusInternalOfChildrenProjects = participationStatusOfChildrenProjects
+                .Select(pp => pp?.ParticipationStatusInternal);
+            ProjectParticipationStatusInternal expectedParticipationStatusInternal = ProjectParticipationStatusInheritanceEvaluator
                     .EvaluateNewParticipationStatusInternal(participationStatusInternalOfChildrenProjects);
-                shouldSetParticipationStatusInternal = participationOfParentProject is null
-                || !expectedParticipationStatusInternal.Equals(participationOfParentProject.ParticipationStatusInternal);
+            bool shouldSetParticipationStatusInternal = participationOfParentProject is null
+            || !expectedParticipationStatusInternal.Equals(participationOfParentProject.ParticipationStatusInternal);
 
-                IEnumerable<ProjectInvitationStatus?> invitationStatusOfChildrenProjects = participationStatusOfChildrenProjects
-                    .Select(pp => pp?.InvitationStatus);
-                expectedInvitationStatus = ProjectParticipationStatusInheritanceEvaluator
+            IEnumerable<ProjectInvitationStatus?> invitationStatusOfChildrenProjects = participationStatusOfChildrenProjects
+                .Select(pp => pp?.InvitationStatus);
+            ProjectInvitationStatus expectedInvitationStatus = ProjectParticipationStatusInheritanceEvaluator
                     .EvaluateNewInvitationStatus(invitationStatusOfChildrenProjects);
-                shouldSetInvitationStatus = participationOfParentProject is null
-                    || !expectedInvitationStatus.Equals(participationOfParentProject.InvitationStatus);
-            }
+            bool shouldSetInvitationStatus = participationOfParentProject is null
+                 || !expectedInvitationStatus.Equals(participationOfParentProject.InvitationStatus);
 
             if (shouldSetParticipationStatusInner
                 || shouldSetParticipationStatusInternal
@@ -178,7 +169,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 
                 if (parentProject.ParentId != null)
                 {
-                    await UpdateParentProjectAsync(participationOfParentProject, updateInternalStatus, cancellationToken);
+                    await UpdateParentProjectAsync(participationOfParentProject, cancellationToken);
                 }
             }
         }
