@@ -58,6 +58,16 @@ namespace Orso.Arpa.Domain.Entities
             PreferredPartsTeam = command.PreferredPartsTeam.ToArray();
         }
 
+        public void TurnOffIsMainProfileFlag()
+        {
+            IsMainProfile = false;
+        }
+
+        public override string ToString()
+        {
+            return $"{Person.DisplayName} ({Instrument.Name})";
+        }
+
         #region Native
         public bool IsMainProfile { get; private set; }
         public byte LevelAssessmentInner { get; private set; }
@@ -126,10 +136,5 @@ namespace Orso.Arpa.Domain.Entities
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
 
         #endregion
-
-        public void TurnOffIsMainProfileFlag()
-        {
-            IsMainProfile = false;
-        }
     }
 }

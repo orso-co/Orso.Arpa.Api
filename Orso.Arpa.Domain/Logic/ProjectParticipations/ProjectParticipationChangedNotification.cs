@@ -175,7 +175,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 await CreateOrUpdateProjectParticipationAsync(
                        participationOfParentProject,
                        shouldSetParticipationStatusInner ? expectedParticipationStatusInner : null,
-                       musicianProfileId,
+                       projectParticipation.MusicianProfile,
                        parentProject,
                        shouldSetParticipationStatusInternal ? expectedParticipationStatusInternal : null,
                        shouldSetInvitationStatus ? expectedInvitationStatus : null,
@@ -191,7 +191,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         private async Task CreateOrUpdateProjectParticipationAsync(
             ProjectParticipation projectParticipation,
             ProjectParticipationStatusInner? projectParticipationStatusInner,
-            Guid musicianProfileId,
+            MusicianProfile musicianProfile,
             Project parentProject,
             ProjectParticipationStatusInternal? projectParticipationStatusInternal,
             ProjectInvitationStatus? projectInvitationStatus,
@@ -202,7 +202,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 var newParticipation = new ProjectParticipation(
                     new SetProjectParticipation.Command
                     {
-                        MusicianProfileId = musicianProfileId,
+                        MusicianProfileId = musicianProfile.Id,
                         ProjectId = parentProject.Id,
                         ParticipationStatusInner = projectParticipationStatusInner,
                         ParticipationStatusInternal = projectParticipationStatusInternal,
@@ -214,12 +214,12 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     _logger.LogInformation("Participation of parent project created due to inheritance.\n" +
-                        "parentProject: {Project}\n" +
-                        "musicianProfileId: {MusicianProfileId}\n" +
-                        "participationStatusInner: {ParticipationStatusInner}\n" +
-                        "participationStatusInternal: {ParticipationStatusInternal}\n" +
-                        "invitationStatus: {ProjectInvitationStatus}\n",
-                        parentProject, musicianProfileId, projectParticipationStatusInner, projectParticipationStatusInternal, projectInvitationStatus);
+                        "Parent Project: {Project}\n" +
+                        "Musician Profile: {MusicianProfile}\n" +
+                        "Participation Status Inner: {ParticipationStatusInner}\n" +
+                        "Participation Status Internal: {ParticipationStatusInternal}\n" +
+                        "Invitation Status: {ProjectInvitationStatus}\n",
+                        parentProject, musicianProfile, projectParticipationStatusInner, projectParticipationStatusInternal, projectInvitationStatus);
                     return;
                 }
 
@@ -244,12 +244,12 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
                     _logger.LogInformation("Participation of parent project updated due to inheritance (null value means no update).\n" +
-                        "parentProject: {Project}\n" +
-                        "musicianProfileId: {MusicianProfileId}\n" +
-                        "participationStatusInner: {ParticipationStatusInner}\n" +
-                        "participationStatusInternal: {ParticipationStatusInternal}\n" +
-                        "invitationStatus: {ProjectInvitationStatus}\n",
-                        parentProject, musicianProfileId, projectParticipationStatusInner, projectParticipationStatusInternal, projectInvitationStatus);
+                        "Parent Project: {Project}\n" +
+                        "Musician Profile Id: {MusicianProfile}\n" +
+                        "Participation Status Inner: {ParticipationStatusInner}\n" +
+                        "Participation Status Internal: {ParticipationStatusInternal}\n" +
+                        "Invitation Status: {ProjectInvitationStatus}\n",
+                        parentProject, musicianProfile, projectParticipationStatusInner, projectParticipationStatusInternal, projectInvitationStatus);
                     return;
                 }
 
