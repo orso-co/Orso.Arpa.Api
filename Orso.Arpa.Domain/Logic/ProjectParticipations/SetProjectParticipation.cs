@@ -32,13 +32,19 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 _ = RuleFor(c => c.ProjectId)
                     .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, Project>(arpaContext)
-                    .MustAsync(async (projectId, cancellation) =>
+                    .CustomAsync(async (projectId, context, cancellation) =>
                     {
                         Project project = await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation);
-                        return !(project.IsCompleted || ProjectStatus.Cancelled.Equals(project.Status));
-                    })
-                    .WithMessage(
-                    "The project is cancelled or completed. You must not set the participation of such a project");
+                        if (project.IsCompleted || ProjectStatus.Cancelled.Equals(project.Status))
+                        {
+                            context.AddFailure(nameof(Command.ProjectId), "The project is cancelled or completed. You must not set the participation of such a project");
+                            return;
+                        }
+                        if (project.Children.Any())
+                        {
+                            context.AddFailure(nameof(Command.ProjectId), "You may not set the participation of a parent project");
+                        }
+                    });
 
                 _ = RuleFor(c => c.MusicianProfileId)
                     .Cascade(CascadeMode.Stop)

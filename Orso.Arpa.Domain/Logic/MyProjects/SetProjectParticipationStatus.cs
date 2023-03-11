@@ -20,6 +20,7 @@ public static class SetProjectParticipationStatus
         public Guid ProjectId { get; set; }
         public Guid MusicianProfileId { get; set; }
     }
+
     public class Validator : AbstractValidator<Command>
     {
         public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor)
@@ -27,13 +28,19 @@ public static class SetProjectParticipationStatus
             _ = RuleFor(c => c.ProjectId)
                 .Cascade(CascadeMode.Stop)
                 .EntityExists<Command, Project>(arpaContext)
-                .MustAsync(async (projectId, cancellation) =>
+                .CustomAsync(async (projectId, context, cancellation) =>
                 {
                     Project project = await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation);
-                    return !(project.IsCompleted || ProjectStatus.Cancelled.Equals(project.Status));
+                    if (project.IsCompleted || ProjectStatus.Cancelled.Equals(project.Status))
+                    {
+                        context.AddFailure(nameof(Command.ProjectId), "The project is cancelled or completed. You must not set the participation of such a project");
+                        return;
+                    }
+                    if (project.Children.Any())
+                    {
+                        context.AddFailure(nameof(Command.ProjectId), "You may not set the participation of a parent project");
+                    }
                 })
-                .WithMessage(
-                    "The project is cancelled or completed. You must not set the participation of such a project")
                 .MustAsync(async (command, projectId, cancellation) =>
                     await arpaContext.EntityExistsAsync<ProjectParticipation>(
                         pp => pp.ProjectId == projectId &&
@@ -54,7 +61,6 @@ public static class SetProjectParticipationStatus
                         d => d.MusicianProfileId == musicianProfileId,
                         cancellation))
                 .WithMessage("The musician profile is deactivated. A deactivated musician profile may not participate in a project");
-
         }
     }
 
