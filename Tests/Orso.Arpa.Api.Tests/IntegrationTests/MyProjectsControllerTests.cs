@@ -70,6 +70,6 @@ public class MyProjectsControllerTests : IntegrationTestBase
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         MyProjectParticipationDto result = await DeserializeResponseMessageAsync<MyProjectParticipationDto>(responseMessage);
         _ = result.Should().BeEquivalentTo(expectedDto);
-        EvaluateSimpleEmail("kbb@orso.co", "Interested von Per Former für 1007 - Die Schneekönigin");
+        EvaluateSimpleEmail("Interested von Per Former für 1007 - Die Schneekönigin", "kbb@orso.co");
     }
 }

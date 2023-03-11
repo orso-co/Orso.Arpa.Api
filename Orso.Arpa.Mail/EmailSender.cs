@@ -30,6 +30,11 @@ namespace Orso.Arpa.Mail
 
         public async Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail, IList<EmailAttachment> attachments = null)
         {
+            await SendTemplatedEmailAsync(templateData, new string[1] { receipientMail }, attachments);
+        }
+
+        public async Task SendTemplatedEmailAsync(ITemplate templateData, IEnumerable<string> recipientMailList, IList<EmailAttachment> attachments = null)
+        {
             var templatedBody = _templateParser.Parse(templateData);
 
             var subject = _emailConfig.DefaultSubject;
@@ -38,7 +43,7 @@ namespace Orso.Arpa.Mail
                 subject = templatedBody.Split("<title>")[1].Split("</title>")[0];
             }
 
-            var mailMessage = new EmailMessage(new string[] { receipientMail }, subject, templatedBody, attachments);
+            var mailMessage = new EmailMessage(recipientMailList, subject, templatedBody, attachments);
             await SendEmailAsync(mailMessage);
         }
 

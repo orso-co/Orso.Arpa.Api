@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -78,7 +78,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new ProjectParticipation(new SetProjectParticipation.Command
                 {
-                    ProjectId = ProjectSeedData.Chorwerkstatt.Id,
+                    ProjectId = ProjectSeedData.ChorwerkstattTour.Id,
                     MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
                     InvitationStatus = ProjectInvitationStatus.Invited,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,

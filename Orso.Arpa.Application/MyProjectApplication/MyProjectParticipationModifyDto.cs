@@ -49,6 +49,7 @@ public class MyProjectParticipationModifyBodyDtoValidator : AbstractValidator<My
     public MyProjectParticipationModifyBodyDtoValidator()
     {
         _ = RuleFor(d => d.ParticipationStatusInner)
+            .NotEmpty()
             .IsInEnum();
         _ = RuleFor(d => d.CommentByPerformerInner)
             .RestrictedFreeText(500);

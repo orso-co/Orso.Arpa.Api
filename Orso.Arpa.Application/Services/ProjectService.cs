@@ -11,7 +11,6 @@ using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
-using Orso.Arpa.Domain.Logic.Projects;
 
 namespace Orso.Arpa.Application.Services
 {
@@ -51,13 +50,14 @@ namespace Orso.Arpa.Application.Services
             SetProjectParticipation.Command command = _mapper
                 .Map<SetProjectParticipation.Command>(myProjectParticipationDto);
 
-            ProjectParticipation projectParticipation = await _mediator.Send(command);
+            ProjectParticipation projectParticipation = (ProjectParticipation)await _mediator.Send(command);
 
-            var mailCommand = new SendProjectParticipationChangedByStaffInfo.Command
+            var notification = new ProjectParticipationChangedNotification
             {
-                ProjectParticipation = projectParticipation
+                ProjectParticipation = projectParticipation,
+                ChangedByPerformer = false
             };
-            _ = await _mediator.Send(mailCommand);
+            await _mediator.Publish(notification);
 
             return _mapper.Map<ProjectParticipationDto>(projectParticipation);
         }

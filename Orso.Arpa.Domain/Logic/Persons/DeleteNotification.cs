@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
         public Guid Id { get; set; }
     }
 
-    public partial class ContactViaHandler : INotificationHandler<DeleteNotification>
+    public class ContactViaHandler : INotificationHandler<DeleteNotification>
     {
         private readonly IArpaContext _arpaContext;
 
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
         }
     }
 
-    public partial class UserHandler : INotificationHandler<DeleteNotification>
+    public class UserHandler : INotificationHandler<DeleteNotification>
     {
         private readonly IArpaContext _arpaContext;
         private readonly ArpaUserManager _arpaUserManager;

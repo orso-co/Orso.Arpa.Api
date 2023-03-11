@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -68,6 +68,20 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.ValidatorTests
             _ = _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
             _ = (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, Guid.Empty))
                 .WithErrorMessage("The project is cancelled or completed. You must not set the participation of such a project");
+        }
+
+        [Test]
+        public async Task Should_Have_Validation_Error_If_Project_Has_Children()
+        {
+            Project werkstattTour = ProjectSeedData.ChorwerkstattTour;
+            werkstattTour.Children.Add(ProjectSeedData.ChorwerkstattFreiburg);
+            _ = _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
+            _ = _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(werkstattTour);
+            _ = _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
+            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, Guid.Empty))
+                .WithErrorMessage("You may not set the participation of a parent project");
         }
 
         [Test]

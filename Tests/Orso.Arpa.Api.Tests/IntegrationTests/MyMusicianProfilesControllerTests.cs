@@ -161,7 +161,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
             _ = result.DoublingInstruments[0].Id.Should().NotBeEmpty();
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
-            EvaluateSimpleEmail("kbb@orso.co", "New MuPro for Per Former: Clarinet");
+            EvaluateSimpleEmail("New MuPro for Per Former: Clarinet", "kbb@orso.co");
         }
 
         [Test, Order(1003)]
