@@ -58,7 +58,6 @@ public class MyProjectsControllerTests : IntegrationTestBase
             Id = Guid.Parse("429ac181-9b36-4635-8914-faabc5f593ff"),
             ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate
         };
-        _fakeSmtpServer.ClearReceivedEmail();
 
         // Act
         HttpResponseMessage responseMessage = await _authenticatedServer
@@ -70,7 +69,6 @@ public class MyProjectsControllerTests : IntegrationTestBase
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         MyProjectParticipationDto result = await DeserializeResponseMessageAsync<MyProjectParticipationDto>(responseMessage);
         _ = result.Should().BeEquivalentTo(expectedDto);
-        EvaluateSimpleEmail("Interested von Per Former für 1007 - Die Schneekönigin", "kbb@orso.co");
     }
 
     [Test, Order(3)]
@@ -95,7 +93,6 @@ public class MyProjectsControllerTests : IntegrationTestBase
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
             ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate
         };
-        _fakeSmtpServer.ClearReceivedEmail();
 
         // Act
         HttpResponseMessage responseMessage = await _authenticatedServer
@@ -108,6 +105,5 @@ public class MyProjectsControllerTests : IntegrationTestBase
         MyProjectParticipationDto result = await DeserializeResponseMessageAsync<MyProjectParticipationDto>(responseMessage);
         _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
         _ = result.Id.Should().NotBeEmpty();
-        EvaluateSimpleEmail("Interested von Per Former für 1004 - Chorwerkstatt Berlin", "kbb@orso.co");
     }
 }

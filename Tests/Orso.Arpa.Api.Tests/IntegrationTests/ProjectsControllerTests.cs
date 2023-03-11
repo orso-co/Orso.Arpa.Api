@@ -438,7 +438,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
             _ = result.Id.Should().NotBeEmpty();
-            EvaluateSimpleEmail("Dein Teilnahmestatus für 1004 - Chorwerkstatt Berlin wurde aktualisiert!", _performer.Email, "kbb@orso.co");
+            EvaluateSimpleEmail("Dein Teilnahmestatus für 1004 - Chorwerkstatt Berlin wurde aktualisiert!", _performer.Email);
         }
 
         [Test, Order(108)]
@@ -477,7 +477,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto);
-            EvaluateSimpleEmail("Dein Teilnahmestatus für 1007 - Die Schneekönigin wurde aktualisiert!", _performer.Email, "kbb@orso.co");
+            EvaluateSimpleEmail("Dein Teilnahmestatus für 1007 - Die Schneekönigin wurde aktualisiert!", _performer.Email);
         }
 
         [Test, Order(10000)]

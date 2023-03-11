@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Mail.Interfaces;
-using Orso.Arpa.Mail.Templates;
+using Orso.Arpa.Domain.Logging;
 
 namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 {
@@ -14,47 +15,43 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
         public MusicianProfile MusicianProfile { get; set; }
     }
 
-    public class SendMusicianProfileCreatedInfo : INotificationHandler<MusicianProfileCreatedNotification>
+    public class SendMusicianProfileCreatedInfoToKbb : INotificationHandler<MusicianProfileCreatedNotification>
     {
-        private readonly ClubConfiguration _clubConfiguration;
-        private readonly IEmailSender _emailSender;
         private readonly JwtConfiguration _jwtConfiguration;
         private readonly IArpaContext _arpaContext;
+        private readonly ILogger<SendMusicianProfileCreatedInfoToKbb> _logger;
 
-        public SendMusicianProfileCreatedInfo(
-            ClubConfiguration clubConfiguration,
-            IEmailSender emailSender,
+        public SendMusicianProfileCreatedInfoToKbb(
             JwtConfiguration jwtConfiguration,
-            IArpaContext arpaContext)
+            IArpaContext arpaContext,
+            ILogger<SendMusicianProfileCreatedInfoToKbb> logger)
         {
-            _clubConfiguration = clubConfiguration;
-            _emailSender = emailSender;
             _jwtConfiguration = jwtConfiguration;
             _arpaContext = arpaContext;
+            _logger = logger;
         }
 
         public async Task Handle(MusicianProfileCreatedNotification notification, CancellationToken cancellationToken)
         {
             Person person = notification.MusicianProfile.Person
                 ?? await _arpaContext.Persons.FindAsync(new object[] { notification.MusicianProfile.PersonId }, cancellationToken);
+            var musicianProfileIdAsString = notification.MusicianProfile.Id.ToString("D");
+            var personIdAsString = person.Id.ToString("D");
 
-            var template = new MusicianProfileCreatedTemplate
-            {
-                ArpaLogo = $"{_jwtConfiguration.Audience}/assets/common/logos/arpa_logo.png",
-                DisplayName = person.DisplayName,
-                Instrument = (await _arpaContext.Sections.FindAsync(new object[] { notification.MusicianProfile.InstrumentId }, cancellationToken)).Name,
-                LevelAssessmentInner = notification.MusicianProfile.LevelAssessmentInner.ToString(),
-                Qualification = notification.MusicianProfile.Qualification != null
-                    ? (await _arpaContext.SelectValues.FindAsync(new object[] { notification.MusicianProfile.Qualification.SelectValueId }, cancellationToken)).Name
-                    : "- no qualification selected -",
-                Id = notification.MusicianProfile.Id.ToString("D"),
-                ClubAddress = _clubConfiguration.Address,
-                ClubMail = _clubConfiguration.ContactEmail,
-                ClubName = _clubConfiguration.Name,
-                ClubPhoneNumber = _clubConfiguration.Phone
-            };
-
-            await _emailSender.SendTemplatedEmailAsync(template, _clubConfiguration.InternalEmail);
+            KbbInfoLogger.LogInfoForKbb(
+                _logger,
+                "musician profile created",
+                new Dictionary<string, object>
+                {
+                    { "Person", person },
+                    { "Instrument", notification.MusicianProfile.Instrument ?? await _arpaContext.Sections.FindAsync(new object[] { notification.MusicianProfile.InstrumentId }, cancellationToken) },
+                    { "Level Assessment Inner", notification.MusicianProfile.LevelAssessmentInner },
+                    { "Qualification", notification.MusicianProfile.Qualification != null
+                        ? (await _arpaContext.SelectValues.FindAsync(new object[] { notification.MusicianProfile.Qualification.SelectValueId }, cancellationToken)).Name
+                        : null },
+                    { "Created by", notification.MusicianProfile.CreatedBy },
+                    { "Link", $"{_jwtConfiguration.Audience}/arpa/mupro/{personIdAsString}/(projects//modal:{personIdAsString}/{musicianProfileIdAsString})?comboInstruments=true" }
+                });
         }
     }
 }
