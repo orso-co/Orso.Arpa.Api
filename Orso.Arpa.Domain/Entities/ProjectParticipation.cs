@@ -18,6 +18,16 @@ namespace Orso.Arpa.Domain.Entities
             ParticipationStatusInternal = command.ParticipationStatusInternal;
         }
 
+        public ProjectParticipation(SetProjectParticipationStatus.Command command, Guid? id = null) : base(id)
+        {
+            ProjectId = command.ProjectId;
+            MusicianProfileId = command.MusicianProfileId;
+            CommentByPerformerInner = command.CommentByPerformerInner;
+            ParticipationStatusInner = command.ParticipationStatusInner;
+            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate;
+            InvitationStatus = ProjectInvitationStatus.Candidate;
+        }
+
         protected ProjectParticipation() { }
 
         public void Update(SetProjectParticipationStatus.Command command)
