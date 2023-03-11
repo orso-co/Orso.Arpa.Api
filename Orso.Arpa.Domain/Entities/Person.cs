@@ -86,6 +86,11 @@ namespace Orso.Arpa.Domain.Entities
                         .FirstOrDefault()?.Value;
         }
 
+        public override string ToString()
+        {
+            return DisplayName;
+        }
+
         internal void ClearContactVia()
         {
             ContactViaId = null;

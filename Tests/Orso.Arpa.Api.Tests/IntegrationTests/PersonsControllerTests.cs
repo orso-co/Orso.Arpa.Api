@@ -313,7 +313,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = _staff.DisplayName,
                 LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner
             });
-            _fakeSmtpServer.ClearReceivedEmail();
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -331,7 +330,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
             _ = result.DoublingInstruments[0].Id.Should().NotBeEmpty();
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
-            EvaluateSimpleEmail("New MuPro for Unconfirmed User: Clarinet", "kbb@orso.co");
         }
 
         [Test, Order(1003)]
@@ -353,7 +351,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedAt = FakeDateTime.UtcNow,
                 IsMainProfile = true
             };
-            _fakeSmtpServer.ClearReceivedEmail();
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -368,7 +365,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
             _ = result.Id.Should().NotBeEmpty();
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
-            EvaluateSimpleEmail("New MuPro for Person Multiple: Acoustic Guitar (Orchestra)", "kbb@orso.co");
         }
 
         [Test, Order(1001)]

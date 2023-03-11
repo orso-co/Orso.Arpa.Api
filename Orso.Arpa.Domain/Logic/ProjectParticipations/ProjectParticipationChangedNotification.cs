@@ -9,6 +9,7 @@ using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.Logging;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
 
@@ -21,53 +22,47 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         public bool ChangedByPerformer { get; set; }
     }
 
-    public class SendProjectParticipationChangedByPerformerMail : INotificationHandler<ProjectParticipationChangedNotification>
+    public class SendProjectParticipationChangedInfoToKbb : INotificationHandler<ProjectParticipationChangedNotification>
     {
-        private readonly ClubConfiguration _clubConfiguration;
-        private readonly IEmailSender _emailSender;
+        private readonly ILogger<SendProjectParticipationChangedInfoToKbb> _logger;
 
-        public SendProjectParticipationChangedByPerformerMail(ClubConfiguration clubConfiguration,
-                       IEmailSender emailSender)
+        public SendProjectParticipationChangedInfoToKbb(ILogger<SendProjectParticipationChangedInfoToKbb> logger)
         {
-            _clubConfiguration = clubConfiguration;
-            _emailSender = emailSender;
+            _logger = logger;
         }
 
-        public async Task Handle(ProjectParticipationChangedNotification notification, CancellationToken cancellationToken)
+        public Task Handle(ProjectParticipationChangedNotification notification, CancellationToken cancellationToken)
         {
-            if (!notification.ChangedByPerformer)
-            {
-                return;
-            }
-
-            var template = new ProjectParticipationChangedByPerformerTemplate
-            {
-                CommentByStaff = notification.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
-                Comment = notification.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
-                MusicianName = notification.ProjectParticipation.MusicianProfile.Person.DisplayName,
-                ParticipationStatus = notification.ProjectParticipation.ParticipationStatusInner?.ToString() ?? "- ohne -",
-                ParticipationStatusInternal = notification.ProjectParticipation.ParticipationStatusInternal?.ToString() ?? "- ohne -",
-                ProjectName = notification.ProjectParticipation.Project.ToString()
-            };
-
-            await _emailSender.SendTemplatedEmailAsync(template, _clubConfiguration.InternalEmail);
+            KbbInfoLogger.LogInfoForKbb(
+                _logger,
+                "project participation changed",
+                new Dictionary<string, object>
+                {
+                    { "Project", notification.ProjectParticipation.Project },
+                    { "Musician Profile", notification.ProjectParticipation.MusicianProfile },
+                    { "Project Participation Status Inner", notification.ProjectParticipation.ParticipationStatusInner },
+                    { "Comment by Performer", notification.ProjectParticipation.CommentByStaffInner },
+                    { "Project Participation Status Internal", notification.ProjectParticipation.ParticipationStatusInternal },
+                    { "Comment by Staff", notification.ProjectParticipation.CommentByStaffInner },
+                    { "Invitation Status", notification.ProjectParticipation.InvitationStatus },
+                    { "Modified by", notification.ProjectParticipation.ModifiedBy }
+                });
+            return Task.CompletedTask;
         }
     }
 
-    public class SendProjectParticipationChangedByStaffMail : INotificationHandler<ProjectParticipationChangedNotification>
+    public class SendProjectParticipationChangedMailToPerformer : INotificationHandler<ProjectParticipationChangedNotification>
     {
         private readonly IEmailSender _emailSender;
-        private readonly ILogger<SendProjectParticipationChangedByStaffMail> _logger;
+        private readonly ILogger<SendProjectParticipationChangedMailToPerformer> _logger;
         private readonly ClubConfiguration _clubConfiguration;
 
-        public SendProjectParticipationChangedByStaffMail(
+        public SendProjectParticipationChangedMailToPerformer(
             IEmailSender emailSender,
-            ILogger<SendProjectParticipationChangedByStaffMail> logger,
-            ClubConfiguration clubConfiguration)
+            ILogger<SendProjectParticipationChangedMailToPerformer> logger)
         {
             _emailSender = emailSender;
             _logger = logger;
-            _clubConfiguration = clubConfiguration;
         }
 
         public async Task Handle(ProjectParticipationChangedNotification notification, CancellationToken cancellationToken)
@@ -95,7 +90,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 
             if (emailAddress != null)
             {
-                await _emailSender.SendTemplatedEmailAsync(template, new string[2] { emailAddress, _clubConfiguration.InternalEmail });
+                await _emailSender.SendTemplatedEmailAsync(template, emailAddress);
             }
             else
             {
@@ -213,13 +208,17 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
-                    _logger.LogInformation("Participation of parent project created due to inheritance.\n" +
-                        "Parent Project: {Project}\n" +
-                        "Musician Profile: {MusicianProfile}\n" +
-                        "Participation Status Inner: {ParticipationStatusInner}\n" +
-                        "Participation Status Internal: {ParticipationStatusInternal}\n" +
-                        "Invitation Status: {ProjectInvitationStatus}\n",
-                        parentProject, musicianProfile, projectParticipationStatusInner, projectParticipationStatusInternal, projectInvitationStatus);
+                    KbbInfoLogger.LogInfoForKbb(
+                        _logger,
+                        "Participation of parent project created due to inheritance",
+                        new Dictionary<string, object>
+                        {
+                            { "Parent Project", parentProject },
+                            { "Musician Profile", musicianProfile },
+                            { "Participation Status Inner", projectParticipationStatusInner },
+                            { "Participation Status Internal", projectParticipationStatusInternal },
+                            { "Invitation Status", projectInvitationStatus }
+                        });
                     return;
                 }
 
@@ -243,13 +242,18 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {
-                    _logger.LogInformation("Participation of parent project updated due to inheritance (null value means no update).\n" +
-                        "Parent Project: {Project}\n" +
-                        "Musician Profile Id: {MusicianProfile}\n" +
-                        "Participation Status Inner: {ParticipationStatusInner}\n" +
-                        "Participation Status Internal: {ParticipationStatusInternal}\n" +
-                        "Invitation Status: {ProjectInvitationStatus}\n",
-                        parentProject, musicianProfile, projectParticipationStatusInner, projectParticipationStatusInternal, projectInvitationStatus);
+                    KbbInfoLogger.LogInfoForKbb(
+                        _logger,
+                        "Participation of parent project updated due to inheritance",
+                        new Dictionary<string, object>
+                        {
+                            { "Parent Project", parentProject },
+                            { "Musician Profile", musicianProfile },
+                            { "Participation Status Inner", projectParticipationStatusInner },
+                            { "Participation Status Internal", projectParticipationStatusInternal },
+                            { "Invitation Status", projectInvitationStatus }
+                        },
+                        "NONE value means no update");
                     return;
                 }
 

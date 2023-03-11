@@ -143,7 +143,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = _performer.DisplayName,
                 LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner
             });
-            _fakeSmtpServer.ClearReceivedEmail();
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -161,7 +160,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
             _ = result.DoublingInstruments[0].Id.Should().NotBeEmpty();
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
-            EvaluateSimpleEmail("New MuPro for Per Former: Clarinet", "kbb@orso.co");
         }
 
         [Test, Order(1003)]

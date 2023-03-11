@@ -18,6 +18,11 @@ namespace Orso.Arpa.Domain.Entities
         {
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         public string Name { get; private set; }
         public bool IsInstrument { get; private set; }
         public byte InstrumentPartCount { get; private set; }
