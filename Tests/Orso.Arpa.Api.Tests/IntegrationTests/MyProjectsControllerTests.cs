@@ -33,7 +33,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
     }
 
     [Test, Order(2)]
-    public async Task Should_Set_My_Project_Participation()
+    public async Task Should_Set_Existing_Project_Participation()
     {
         // Arrange
         Project project = ProjectSeedData.Schneekönigin;
@@ -71,5 +71,43 @@ public class MyProjectsControllerTests : IntegrationTestBase
         MyProjectParticipationDto result = await DeserializeResponseMessageAsync<MyProjectParticipationDto>(responseMessage);
         _ = result.Should().BeEquivalentTo(expectedDto);
         EvaluateSimpleEmail("Interested von Per Former für 1007 - Die Schneekönigin", "kbb@orso.co");
+    }
+
+    [Test, Order(3)]
+    public async Task Should_Set_New_Project_Participation()
+    {
+        // Arrange
+        Project project = ProjectSeedData.ChorwerkstattBerlin;
+
+        var dto = new MyProjectParticipationModifyBodyDto
+        {
+            ParticipationStatusInner = ProjectParticipationStatusInner.Interested,
+            CommentByPerformerInner = "Performer comment",
+            MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id
+        };
+
+        var expectedDto = new MyProjectParticipationDto()
+        {
+            ParticipationStatusInner = ProjectParticipationStatusInner.Interested,
+            CreatedAt = FakeDateTime.UtcNow,
+            CreatedBy = "Per Former",
+            CommentByPerformerInner = dto.CommentByPerformerInner,
+            MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate
+        };
+        _fakeSmtpServer.ClearReceivedEmail();
+
+        // Act
+        HttpResponseMessage responseMessage = await _authenticatedServer
+            .CreateClient()
+            .AuthenticateWith(_performer)
+            .PutAsync(ApiEndpoints.MyProjectsController.SetParticipation(project.Id), BuildStringContent(dto));
+
+        // Assert
+        _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        MyProjectParticipationDto result = await DeserializeResponseMessageAsync<MyProjectParticipationDto>(responseMessage);
+        _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+        _ = result.Id.Should().NotBeEmpty();
+        EvaluateSimpleEmail("Interested von Per Former für 1004 - Chorwerkstatt Berlin", "kbb@orso.co");
     }
 }

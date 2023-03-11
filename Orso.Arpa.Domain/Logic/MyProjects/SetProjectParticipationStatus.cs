@@ -8,6 +8,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.MyProjects;
 
@@ -23,7 +24,7 @@ public static class SetProjectParticipationStatus
 
     public class Validator : AbstractValidator<Command>
     {
-        public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor)
+        public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor, IDateTimeProvider dateTimeProvider)
         {
             _ = RuleFor(c => c.ProjectId)
                 .Cascade(CascadeMode.Stop)
@@ -40,13 +41,7 @@ public static class SetProjectParticipationStatus
                     {
                         context.AddFailure(nameof(Command.ProjectId), "You may not set the participation of a parent project");
                     }
-                })
-                .MustAsync(async (command, projectId, cancellation) =>
-                    await arpaContext.EntityExistsAsync<ProjectParticipation>(
-                        pp => pp.ProjectId == projectId &&
-                              pp.MusicianProfileId == command.MusicianProfileId, cancellation))
-                .WithErrorCode("404")
-                .WithMessage("Project Participation could not be found.");
+                });
 
             _ = RuleFor(c => c.MusicianProfileId)
                 .Cascade(CascadeMode.Stop)
@@ -58,7 +53,7 @@ public static class SetProjectParticipationStatus
                 .WithMessage("Musician Profile could not be found.")
                 .MustAsync(async (musicianProfileId, cancellation) =>
                     !await arpaContext.EntityExistsAsync<MusicianProfileDeactivation>(
-                        d => d.MusicianProfileId == musicianProfileId,
+                         d => d.MusicianProfileId == musicianProfileId && d.DeactivationStart <= dateTimeProvider.GetUtcNow(),
                         cancellation))
                 .WithMessage("The musician profile is deactivated. A deactivated musician profile may not participate in a project");
         }
@@ -79,8 +74,16 @@ public static class SetProjectParticipationStatus
             ProjectParticipation participation = (await _arpaContext.FindAsync<MusicianProfile>(new object[] { request.MusicianProfileId }, cancellationToken))
                 .ProjectParticipations.FirstOrDefault(pp => pp.ProjectId == request.ProjectId);
 
-            participation.Update(request);
-            participation = _arpaContext.ProjectParticipations.Update(participation).Entity;
+            if (participation == null)
+            {
+                participation = new ProjectParticipation(request);
+                participation = (await _arpaContext.ProjectParticipations.AddAsync(participation, cancellationToken)).Entity;
+            }
+            else
+            {
+                participation.Update(request);
+                participation = _arpaContext.ProjectParticipations.Update(participation).Entity;
+            }
 
             return await _arpaContext.SaveChangesAsync(cancellationToken) > 0
                 ? participation

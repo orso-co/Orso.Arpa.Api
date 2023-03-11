@@ -10,7 +10,6 @@ namespace Orso.Arpa.Application.MyProjectApplication;
 
 public class MyProjectParticipationModifyDto : IdFromRouteDto<MyProjectParticipationModifyBodyDto>
 {
-
 }
 
 public class MyProjectParticipationModifyBodyDto
@@ -53,5 +52,7 @@ public class MyProjectParticipationModifyBodyDtoValidator : AbstractValidator<My
             .IsInEnum();
         _ = RuleFor(d => d.CommentByPerformerInner)
             .RestrictedFreeText(500);
+        _ = RuleFor(d => d.MusicianProfileId)
+            .NotEmpty();
     }
 }
