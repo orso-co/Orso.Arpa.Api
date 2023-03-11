@@ -2,6 +2,13 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
+using MediatR;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Extensions;
+using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 {

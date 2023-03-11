@@ -29,16 +29,16 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         {
             // Arrange
             Appointment expectedAppointment = AppointmentSeedData.RockingXMasConcert;
-            _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
+            _ = _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
                 .Returns(expectedAppointment);
-            _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
+            _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
                 .Returns(1);
 
             // Act
-            Unit result = await _handler.Handle(new Logic.Appointments.Modify.Command(), new CancellationToken());
+            Unit result = await _handler.Handle(new Domain.Logic.Appointments.Modify.Command(), new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(Unit.Value);
+            _ = result.Should().BeEquivalentTo(Unit.Value);
         }
     }
 }

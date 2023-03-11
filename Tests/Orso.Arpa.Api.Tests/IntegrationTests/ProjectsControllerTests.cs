@@ -402,19 +402,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             MusicianProfile musicianProfile = MusicianProfileSeedData.PerformersHornMusicianProfile;
-            Project project = ProjectSeedData.HoorayForHollywood;
+            Project project = ProjectSeedData.ChorwerkstattBerlin;
             var dto = new SetProjectParticipationBodyDto
             {
                 MusicianProfileId = musicianProfile.Id,
                 CommentByStaffInner = "Staff comment",
                 CommentTeam = "Team comment",
                 InvitationStatus = ProjectInvitationStatus.Invited,
-                ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
+                ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                 ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
             };
             var expectedDto = new ProjectParticipationDto
             {
-                ParticipationStatusInner = (ProjectParticipationStatusInner)dto.ParticipationStatusInner,
+                ParticipationStatusInner = dto.ParticipationStatusInner,
                 ParticipationStatusInternal = dto.ParticipationStatusInternal,
                 InvitationStatus = dto.InvitationStatus,
                 CreatedAt = FakeDateTime.UtcNow,
@@ -422,7 +422,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CommentByStaffInner = "Staff comment",
                 CommentTeam = "Team comment",
                 MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
-                Project = ReducedProjectDtoData.HoorayForHollywood,
+                Project = ReducedProjectDtoData.ChorwerkstattBerlin,
                 Person = ReducedPersonDtoData.Performer
             };
             _fakeSmtpServer.ClearReceivedEmail();
@@ -438,7 +438,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
             _ = result.Id.Should().NotBeEmpty();
-            EvaluateSimpleEmail(_performer.Email, "Dein Teilnahmestatus für 1006 - Hooray for Hollywood Freiburg wurde aktualisiert!");
+            EvaluateSimpleEmail("Dein Teilnahmestatus für 1004 - Chorwerkstatt Berlin wurde aktualisiert!", _performer.Email, "kbb@orso.co");
         }
 
         [Test, Order(108)]
@@ -477,7 +477,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectParticipationDto result = await DeserializeResponseMessageAsync<ProjectParticipationDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto);
-            EvaluateSimpleEmail(_performer.Email, "Dein Teilnahmestatus für 1007 - Die Schneekönigin wurde aktualisiert!");
+            EvaluateSimpleEmail("Dein Teilnahmestatus für 1007 - Die Schneekönigin wurde aktualisiert!", _performer.Email, "kbb@orso.co");
         }
 
         [Test, Order(10000)]

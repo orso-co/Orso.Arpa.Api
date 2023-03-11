@@ -16,24 +16,24 @@ namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
         public void Setup()
         {
             _roleManager = new FakeRoleManager();
-            _handler = new Logic.Roles.List.Handler(_roleManager);
+            _handler = new Domain.Logic.Roles.List.Handler(_roleManager);
         }
 
         private RoleManager<Role> _roleManager;
-        private Logic.Roles.List.Handler _handler;
+        private Domain.Logic.Roles.List.Handler _handler;
 
         [Test]
         public async Task Should_Get_Role_List()
         {
             // Arrange
-            var listQuery = new Logic.Roles.List.Query();
+            var listQuery = new Domain.Logic.Roles.List.Query();
             IEnumerable<Role> expectedRoles = RoleSeedData.Roles;
 
             // Act
             IEnumerable<Role> roles = await _handler.Handle(listQuery, new CancellationToken());
 
             // Assert
-            roles.Should().BeEquivalentTo(expectedRoles, opt => opt.Excluding(user => user.ConcurrencyStamp));
+            _ = roles.Should().BeEquivalentTo(expectedRoles, opt => opt.Excluding(user => user.ConcurrencyStamp));
         }
     }
 }

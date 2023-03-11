@@ -18,8 +18,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     RockingXMas,
                     HoorayForHollywood,
                     Schneekönigin,
-                    Chorwerkstatt,
-                    ChorwerkstattFreiburg
+                    ChorwerkstattTour,
+                    ChorwerkstattFreiburg,
+                    ChorwerkstattBerlin
                 };
             }
         }
@@ -93,7 +94,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static Project Chorwerkstatt
+        public static Project ChorwerkstattTour
         {
             get
             {
@@ -133,6 +134,29 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         StartDate = new DateTime(2020, 10, 10),
                         EndDate = new DateTime(2020, 10, 30),
                         Status = ProjectStatus.Cancelled,
+                        ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
+                        IsCompleted = false,
+                    });
+            }
+        }
+
+        public static Project ChorwerkstattBerlin
+        {
+            get
+            {
+                return new Project(
+                    Guid.Parse("f1bea5ee-6569-4db1-9a46-c425a5571be2"),
+                    new Create.Command
+                    {
+                        Title = "Chorwerkstatt Berlin",
+                        ShortTitle = "ChWeB",
+                        Description = "Ein Blick hinter die Kulissen…",
+                        Code = "1004",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[3].Id,
+                        StartDate = new DateTime(2020, 11, 1),
+                        EndDate = new DateTime(2020, 11, 30),
+                        Status = ProjectStatus.Confirmed,
                         ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
                         IsCompleted = false,
                     });

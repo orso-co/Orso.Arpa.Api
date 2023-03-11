@@ -19,7 +19,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     HoorayForHollywood,
                     Schneekönigin,
                     Chorwerkstatt,
-                    ChorwerkstattFreiburg
+                    ChorwerkstattFreiburg,
+                    ChorwerkstattBerlin
                 };
             }
         }
@@ -32,7 +33,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     HoorayForHollywood,
                     Schneekönigin,
-                    Chorwerkstatt
+                    Chorwerkstatt,
+                    ChorwerkstattBerlin
                 };
             }
         }
@@ -47,7 +49,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     HoorayForHollywood,
                     Schneekönigin,
                     Chorwerkstatt,
-                    ChorwerkstattFreiburg
+                    ChorwerkstattFreiburg,
+                    ChorwerkstattBerlin
                 };
             }
         }
@@ -186,6 +189,29 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartDate = new DateTime(2020, 10, 10),
                     Status = ProjectStatus.Cancelled,
                     Title = "Chorwerkstatt Freiburg",
+                    Type = SelectValueDtoData.Concert,
+                    ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7")
+                };
+            }
+        }
+
+        public static ProjectDto ChorwerkstattBerlin
+        {
+            get
+            {
+                return new ProjectDto
+                {
+                    Code = "1004",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Description = "Ein Blick hinter die Kulissen…",
+                    EndDate = new DateTime(2020, 11, 30),
+                    Genre = SelectValueDtoData.FilmMusic,
+                    Id = Guid.Parse("f1bea5ee-6569-4db1-9a46-c425a5571be2"),
+                    ShortTitle = "ChWeB",
+                    StartDate = new DateTime(2020, 11, 1),
+                    Status = ProjectStatus.Confirmed,
+                    Title = "Chorwerkstatt Berlin",
                     Type = SelectValueDtoData.Concert,
                     ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7")
                 };

@@ -65,7 +65,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static ReducedProjectDto Chorwerkstatt
+        public static ReducedProjectDto ChorwerkstattTour
         {
             get
             {
@@ -76,6 +76,21 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Id = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
                     ShortTitle = "ChWeTour",
                     Title = "Chorwerkstatt",
+                };
+            }
+        }
+
+        public static ReducedProjectDto ChorwerkstattBerlin
+        {
+            get
+            {
+                return new ReducedProjectDto
+                {
+                    Code = "1004",
+                    Description = "Ein Blick hinter die Kulissen…",
+                    Id = Guid.Parse("f1bea5ee-6569-4db1-9a46-c425a5571be2"),
+                    ShortTitle = "ChWeB",
+                    Title = "Chorwerkstatt Berlin",
                 };
             }
         }

@@ -20,13 +20,13 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
     public class ListHandlerTests
     {
         private IArpaContext _arpaContext;
-        private Logic.SelectValues.List.Handler _handler;
+        private Domain.Logic.SelectValues.List.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new Logic.SelectValues.List.Handler(_arpaContext);
+            _handler = new Domain.Logic.SelectValues.List.Handler(_arpaContext);
         }
 
         [Test]
@@ -49,12 +49,12 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
                 .FirstOrDefault(c => c.Table == nameof(Address) && c.Property == nameof(Address.Type))?
                 .SelectValueMappings;
             DbSet<SelectValueCategory> categoriesToReturn = categories.AsQueryable().BuildMockDbSet();
-            categoriesToReturn.AsQueryable().Returns(categories.AsQueryable());
-            _arpaContext.SelectValueCategories.Returns(categoriesToReturn);
+            _ = categoriesToReturn.AsQueryable().Returns(categories.AsQueryable());
+            _ = _arpaContext.SelectValueCategories.Returns(categoriesToReturn);
 
             // Act
             IImmutableList<SelectValueMapping> result = await _handler.Handle(
-                new Logic.SelectValues.List.Query
+                new Domain.Logic.SelectValues.List.Query
                 {
                     TableName = nameof(Address),
                     PropertyName = nameof(Address.Type)
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
                 new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo(expectedMappings);
+            _ = result.Should().BeEquivalentTo(expectedMappings);
         }
     }
 }

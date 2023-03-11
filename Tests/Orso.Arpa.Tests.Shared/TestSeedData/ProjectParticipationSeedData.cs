@@ -78,7 +78,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new ProjectParticipation(new SetProjectParticipation.Command
                 {
-                    ProjectId = ProjectSeedData.Chorwerkstatt.Id,
+                    ProjectId = ProjectSeedData.ChorwerkstattTour.Id,
                     MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id,
                     InvitationStatus = ProjectInvitationStatus.Invited,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,

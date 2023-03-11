@@ -7,6 +7,7 @@ using Orso.Arpa.Application.MyProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.MyProjects;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Application.Services;
 
@@ -38,11 +39,12 @@ public class MyProjectService : IMyProjectService
 
         ProjectParticipation projectParticipation = await _mediator.Send(command);
 
-        var mailCommand = new SendProjectParticipationChangedByPerformerInfo.Command
+        var notification = new ProjectParticipationChangedNotification
         {
-            ProjectParticipation = projectParticipation
+            ProjectParticipation = projectParticipation,
+            ChangedByPerformer = true,
         };
-        await _mediator.Send(mailCommand);
+        await _mediator.Publish(notification);
 
         return _mapper.Map<MyProjectParticipationDto>(projectParticipation);
     }

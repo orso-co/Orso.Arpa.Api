@@ -55,10 +55,12 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .NotEmpty();
 
             _ = RuleFor(d => d.ParticipationStatusInternal)
-                .NotEmpty();
+                .NotEmpty()
+                .IsInEnum();
 
             _ = RuleFor(d => d.InvitationStatus)
-                .NotEmpty();
+                .NotEmpty()
+                .IsInEnum();
 
             _ = RuleFor(d => d.CommentByStaffInner)
                 .RestrictedFreeText(500);

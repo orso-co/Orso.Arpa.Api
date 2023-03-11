@@ -17,24 +17,24 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _handler = new Logic.Users.List.Handler(_userManager);
+            _handler = new Domain.Logic.Users.List.Handler(_userManager);
         }
 
         private ArpaUserManager _userManager;
-        private Logic.Users.List.Handler _handler;
+        private Domain.Logic.Users.List.Handler _handler;
 
         [Test]
         public async Task Should_Get_User_List()
         {
             // Arrange
-            var listQuery = new Logic.Users.List.Query();
+            var listQuery = new Domain.Logic.Users.List.Query();
             IList<User> expectedUsers = FakeUsers.Users.ToList();
 
             // Act
             IList<User> users = (await _handler.Handle(listQuery, new CancellationToken())).ToList();
 
             // Assert
-            users.Should().BeEquivalentTo(expectedUsers, opt => opt
+            _ = users.Should().BeEquivalentTo(expectedUsers, opt => opt
                 .Excluding(user => user.ConcurrencyStamp)
                 .Excluding(user => user.RefreshTokens)
                 .Excluding(user => user.Person));

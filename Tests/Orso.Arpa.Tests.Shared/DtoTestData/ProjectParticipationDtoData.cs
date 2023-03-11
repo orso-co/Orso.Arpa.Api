@@ -92,7 +92,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                     ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,
-                    Project = ReducedProjectDtoData.Chorwerkstatt
+                    Project = ReducedProjectDtoData.ChorwerkstattTour
                 };
             }
         }

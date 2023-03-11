@@ -124,13 +124,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             return cookies.FirstOrDefault(cookie => cookie.StartsWith(cookieName));
         }
 
-        protected void EvaluateSimpleEmail(string expectedReceiverAddress, string expectedSubject)
+        protected void EvaluateSimpleEmail(string expectedSubject, params string[] expectedReceiverAddresses)
         {
             _ = _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
             SmtpMessage receivedEmail = _fakeSmtpServer.ReceivedEmail[0];
             _ = receivedEmail.Subject.Should().Be(expectedSubject);
-            _ = receivedEmail.ToAddresses.Length.Should().Be(1);
-            _ = receivedEmail.ToAddresses[0].Address.Should().Be(expectedReceiverAddress);
+            _ = receivedEmail.ToAddresses.Length.Should().Be(expectedReceiverAddresses.Length);
+            _ = receivedEmail.ToAddresses.Select(ta => ta.Address).Should().BeEquivalentTo(expectedReceiverAddresses);
         }
     }
 }
