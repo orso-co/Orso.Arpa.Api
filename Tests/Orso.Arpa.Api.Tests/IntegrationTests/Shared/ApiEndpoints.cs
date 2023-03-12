@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.WebUtilities;
-using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {
