@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Misc;
+using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 {
