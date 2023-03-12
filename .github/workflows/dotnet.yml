@@ -1,79 +1,43 @@
-name: Backend PR Check
-
 on:
   pull_request:
     branches:
-        - develop
+      - develop
 
 jobs:
-  Build:
+  build:
+
     runs-on: windows-latest
+
     steps:
-        - name: Check out code
-          uses: actions/checkout@v3
-        - name: Setup .NET 7
-          uses: actions/setup-dotnet@v3
-          with:
-            dotnet-version: 7.0.x 
-        - name: Clean
-          run: dotnet clean ./Orso.Arpa.Api.sln --configuration Release && dotnet nuget locals all --clear
-        - name: Restore dependencies
-          run: dotnet restore
-        - name: Build
-          run: dotnet build --no-restore --configuration Release
-  Misc-Tests:
-    runs-on: windows-latest
-    needs: [ Build ]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      - name: Run Misc Unit Tests
-        run: dotnet test Tests/Orso.Arpa.Misc.Tests/Orso.Arpa.Misc.Tests.csproj --verbosity normal --configuration Release
-  Mail-Tests:
-    runs-on: windows-latest
-    needs: [ Build ]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      - name: Run Mail Unit Tests
-        run: dotnet test Tests/Orso.Arpa.Mail.Tests/Orso.Arpa.Mail.Tests.csproj --verbosity normal --configuration Release
-  Infrastructure-Tests:
-    runs-on: windows-latest
-    needs: [ Build ]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      - name: Run Infrastructure Unit Tests
-        run: dotnet test ./Tests/Orso.Arpa.Infrastructure.Tests/Orso.Arpa.Infrastructure.Tests.csproj --verbosity normal --configuration Release
-  Domain-Tests:
-    runs-on: windows-latest
-    needs: [ Build ]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      - name: Run Domain Unit Tests
-        run: dotnet test ./Tests/Orso.Arpa.Domain.Tests/Orso.Arpa.Domain.Tests.csproj --verbosity normal --configuration Release
-  Application-Tests:
-    runs-on: windows-latest
-    needs: [ Build ]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      - name: Run Application Unit Tests
-        run: dotnet test ./Tests/Orso.Arpa.Application.Tests/Orso.Arpa.Application.Tests.csproj --verbosity normal --configuration Release
-  Api-Tests:
-    runs-on: windows-latest
-    needs: [ Build ]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      - name: Start PostgreSQL on Windows
-        run: |
-          $pgService = Get-Service -Name postgresql*
-          Set-Service -InputObject $pgService -Status running -StartupType automatic
-          Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
-      - name: Create integration test user on Windows
-        run: |
-          & $env:PGBIN\psql --command="CREATE USER integration_test_user WITH SUPERUSER PASSWORD 'integration'" --command="\du"
-      - name: Run Api Integration Tests
-        run: dotnet test Tests/Orso.Arpa.Api.Tests/Orso.Arpa.Api.Tests.csproj --verbosity normal --configuration Release
+    - name: Check out code
+      uses: actions/checkout@v3
+    - name: Setup .NET 7
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x 
+    - name: Clean
+      run: dotnet clean ./Orso.Arpa.Api.sln --configuration Release && dotnet nuget locals all --clear
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+    - name: Run Misc Unit Tests
+      run: dotnet test Tests/Orso.Arpa.Misc.Tests/Orso.Arpa.Misc.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Run Mail Unit Tests
+      run: dotnet test Tests/Orso.Arpa.Mail.Tests/Orso.Arpa.Mail.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Run Infrastructure Unit Tests
+      run: dotnet test ./Tests/Orso.Arpa.Infrastructure.Tests/Orso.Arpa.Infrastructure.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Run Domain Unit Tests
+      run: dotnet test ./Tests/Orso.Arpa.Domain.Tests/Orso.Arpa.Domain.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Run Application Unit Tests
+      run: dotnet test ./Tests/Orso.Arpa.Application.Tests/Orso.Arpa.Application.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Start PostgreSQL on Windows
+      run: |
+        $pgService = Get-Service -Name postgresql*
+        Set-Service -InputObject $pgService -Status running -StartupType automatic
+        Start-Process -FilePath "$env:PGBIN\pg_isready" -Wait -PassThru
+    - name: Create integration test user on Windows
+      run: |
+        & $env:PGBIN\psql --command="CREATE USER integration_test_user WITH SUPERUSER PASSWORD 'integration'" --command="\du"
+    - name: Run Api Integration Tests
+      run: dotnet test Tests/Orso.Arpa.Api.Tests/Orso.Arpa.Api.Tests.csproj --no-build --verbosity normal --configuration Release
