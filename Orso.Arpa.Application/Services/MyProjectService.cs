@@ -24,9 +24,15 @@ public class MyProjectService : IMyProjectService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<MyProjectDto>> GetMyProjectsAsync()
+    public async Task<IEnumerable<MyProjectDto>> GetMyProjectsAsync(int? offset, int? limit, bool includeCompleted)
     {
-        var query = new List.Query { PersonId = _userAccessor.PersonId };
+        var query = new List.Query
+        {
+            PersonId = _userAccessor.PersonId,
+            Offset = offset,
+            Limit = limit,
+            IncludeCompleted = includeCompleted
+        };
         IEnumerable<List.MyProjectGrouping> result = await _mediator.Send(query);
 
         return _mapper.Map<IEnumerable<MyProjectDto>>(result);

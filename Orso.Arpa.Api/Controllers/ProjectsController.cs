@@ -29,7 +29,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="includeCompleted"></param>
         /// <returns>A list of projects</returns>
         /// <response code="200"></response>
-        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [Authorize(Roles = RoleNames.Staff)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ProjectDto>>> Get([FromQuery] bool includeCompleted = false)
@@ -142,8 +142,6 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _projectService.GetParticipationsByIdAsync(id));
         }
-
-
 
         /// <summary>
         /// Sets the project participation for the given musician profile

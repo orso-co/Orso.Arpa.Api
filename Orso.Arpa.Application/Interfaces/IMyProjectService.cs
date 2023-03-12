@@ -7,7 +7,7 @@ namespace Orso.Arpa.Application.Interfaces
 {
     public interface IMyProjectService
     {
-        Task<IEnumerable<MyProjectDto>> GetMyProjectsAsync();
+        Task<IEnumerable<MyProjectDto>> GetMyProjectsAsync(int? offset, int? limit, bool includeCompleted);
 
         Task<MyProjectParticipationDto> SetProjectParticipationStatus(
             MyProjectParticipationModifyDto myProjectParticipationModifyDto);

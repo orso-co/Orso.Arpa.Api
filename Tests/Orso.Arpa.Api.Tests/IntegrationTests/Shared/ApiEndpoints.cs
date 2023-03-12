@@ -369,7 +369,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         public static class MyProjectsController
         {
             private static string MyProjects() => $"{Base}/me/projects";
-            public static string Get() => MyProjects();
+            public static string Get(int? offset = null, int? limit = null, bool includeCompleted = false) =>
+                $"{MyProjects()}?offset={offset}&limit={limit}&includeCompleted={includeCompleted}";
 
             public static string SetParticipation(Guid projectId) =>
                 $"{MyProjects()}/{projectId}/participation";

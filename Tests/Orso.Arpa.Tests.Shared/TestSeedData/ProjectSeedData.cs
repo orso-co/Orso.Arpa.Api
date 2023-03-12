@@ -20,7 +20,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Schneekönigin,
                     ChorwerkstattTour,
                     ChorwerkstattFreiburg,
-                    ChorwerkstattBerlin
+                    ChorwerkstattBerlin,
+                    ChorwerkstattStuttgart
                 };
             }
         }
@@ -159,6 +160,30 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Status = ProjectStatus.Confirmed,
                         ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
                         IsCompleted = false,
+                    });
+            }
+        }
+
+        public static Project ChorwerkstattStuttgart
+        {
+            get
+            {
+                return new Project(
+                    Guid.Parse("483927b5-19de-4677-8af4-482c271ffae4"),
+                    new Create.Command
+                    {
+                        Title = "Chorwerkstatt Stuttgart",
+                        ShortTitle = "ChWeS",
+                        Description = "Ein Blick hinter die Kulissen…",
+                        Code = "1008",
+                        TypeId = SelectValueMappingSeedData.ProjectTypeMappings[0].Id,
+                        GenreId = SelectValueMappingSeedData.ProjectGenreMappings[3].Id,
+                        StartDate = new DateTime(2020, 11, 10),
+                        EndDate = new DateTime(2020, 11, 20),
+                        Status = ProjectStatus.Pending,
+                        ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
+                        IsCompleted = false,
+                        IsHiddenForPerformers = true
                     });
             }
         }
