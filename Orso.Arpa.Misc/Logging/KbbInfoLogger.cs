@@ -14,7 +14,7 @@ namespace Orso.Arpa.Misc.Logging
         {
             logger.LogInformation(
                 KbbInfoLogFormatter.FormatLog(header, infoLines, subHeader),
-                infoLines.Values.Select(v => v ?? "_-- NONE --_").ToArray());
+                infoLines.Values.Select(v => v ?? "-- NONE --".FormatItalic()).ToArray());
         }
     }
 }

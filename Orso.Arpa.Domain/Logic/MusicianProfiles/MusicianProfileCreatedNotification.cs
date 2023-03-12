@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Misc;
 using Orso.Arpa.Misc.Logging;
 
 namespace Orso.Arpa.Domain.Logic.MusicianProfiles
@@ -50,7 +51,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
                         ? (await _arpaContext.SelectValues.FindAsync(new object[] { notification.MusicianProfile.Qualification.SelectValueId }, cancellationToken)).Name
                         : null },
                     { "Created by", notification.MusicianProfile.CreatedBy },
-                    { "Link", $"<{_jwtConfiguration.Audience}/arpa/mupro/{personIdAsString}/(projects//modal:{personIdAsString}/{musicianProfileIdAsString})?comboInstruments=true|Open Musician Profile>" }
+                    { "Link", $"{_jwtConfiguration.Audience}/arpa/mupro/{personIdAsString}/(projects//modal:{personIdAsString}/{musicianProfileIdAsString})?comboInstruments=true".FormatLink("Open Musician Profile") }
                 });
         }
     }

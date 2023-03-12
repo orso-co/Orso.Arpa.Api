@@ -13,5 +13,15 @@ namespace Orso.Arpa.Misc
         {
             return sWhitespace.Replace(str, string.Empty);
         }
+
+        public static string FormatItalic(this string str)
+        {
+            return $"_{str}_";
+        }
+
+        public static string FormatLink(this string href, string label)
+        {
+            return $"<{href}|{label}>";
+        }
     }
 }
