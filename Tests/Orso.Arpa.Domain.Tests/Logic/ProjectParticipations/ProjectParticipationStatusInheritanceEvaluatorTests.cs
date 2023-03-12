@@ -37,6 +37,9 @@ namespace Orso.Arpa.Domain.Tests.Logic.ProjectParticipations
                 yield return new TestCaseData(
                     new ProjectParticipationStatusInner?[] { null, ProjectParticipationStatusInner.Refusal },
                     ProjectParticipationStatusInner.Pending);
+                yield return new TestCaseData(
+                    new ProjectParticipationStatusInner?[] { null, null },
+                    ProjectParticipationStatusInner.Pending);
             }
         }
 
@@ -82,6 +85,9 @@ namespace Orso.Arpa.Domain.Tests.Logic.ProjectParticipations
                 yield return new TestCaseData(
                     new ProjectParticipationStatusInternal?[] { null, ProjectParticipationStatusInternal.Refusal },
                     ProjectParticipationStatusInternal.Pending);
+                yield return new TestCaseData(
+                    new ProjectParticipationStatusInternal?[] { null, null },
+                    ProjectParticipationStatusInternal.Pending);
             }
         }
 
@@ -123,6 +129,9 @@ namespace Orso.Arpa.Domain.Tests.Logic.ProjectParticipations
                     ProjectInvitationStatus.Unclear);
                 yield return new TestCaseData(
                     new ProjectInvitationStatus?[] { ProjectInvitationStatus.Candidate, null },
+                    ProjectInvitationStatus.Unclear);
+                yield return new TestCaseData(
+                    new ProjectInvitationStatus?[] { null, null },
                     ProjectInvitationStatus.Unclear);
             }
         }

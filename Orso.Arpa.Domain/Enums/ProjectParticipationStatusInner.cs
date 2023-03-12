@@ -8,6 +8,7 @@ namespace Orso.Arpa.Domain.Enums
     {
         Interested = 10,
         Pending = 20,
+        RehearsalsOnly = 25,
         Acceptance = 30,
         Refusal = 40
     }

@@ -1,8 +1,7 @@
-name: Backend PR Check
-
 on:
   pull_request:
-    branches: [ develop ]
+    branches:
+      - develop
 
 jobs:
   build:
@@ -22,6 +21,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore --configuration Release
+    - name: Run Misc Unit Tests
+      run: dotnet test Tests/Orso.Arpa.Misc.Tests/Orso.Arpa.Misc.Tests.csproj --no-build --verbosity normal --configuration Release
     - name: Run Mail Unit Tests
       run: dotnet test Tests/Orso.Arpa.Mail.Tests/Orso.Arpa.Mail.Tests.csproj --no-build --verbosity normal --configuration Release
     - name: Run Infrastructure Unit Tests
