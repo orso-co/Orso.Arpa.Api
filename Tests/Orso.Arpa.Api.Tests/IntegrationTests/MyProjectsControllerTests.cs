@@ -79,14 +79,14 @@ public class MyProjectsControllerTests : IntegrationTestBase
 
         var dto = new MyProjectParticipationModifyBodyDto
         {
-            ParticipationStatusInner = ProjectParticipationStatusInner.Interested,
+            ParticipationStatusInner = ProjectParticipationStatusInner.RehearsalsOnly,
             CommentByPerformerInner = "Performer comment",
             MusicianProfileId = MusicianProfileSeedData.PerformerMusicianProfile.Id
         };
 
         var expectedDto = new MyProjectParticipationDto()
         {
-            ParticipationStatusInner = ProjectParticipationStatusInner.Interested,
+            ParticipationStatusInner = ProjectParticipationStatusInner.RehearsalsOnly,
             CreatedAt = FakeDateTime.UtcNow,
             CreatedBy = "Per Former",
             CommentByPerformerInner = dto.CommentByPerformerInner,

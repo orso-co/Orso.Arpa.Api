@@ -50,7 +50,7 @@ namespace Orso.Arpa.Application.Services
             SetProjectParticipation.Command command = _mapper
                 .Map<SetProjectParticipation.Command>(myProjectParticipationDto);
 
-            ProjectParticipation projectParticipation = (ProjectParticipation)await _mediator.Send(command);
+            ProjectParticipation projectParticipation = await _mediator.Send(command);
 
             var notification = new ProjectParticipationChangedNotification
             {

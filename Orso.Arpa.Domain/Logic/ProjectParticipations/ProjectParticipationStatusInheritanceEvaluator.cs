@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 {
@@ -11,10 +12,8 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         {
             return childrenStatus.Any(status => ProjectParticipationStatusInner.Acceptance.Equals(status))
                 ? ProjectParticipationStatusInner.Acceptance
-                : childrenStatus.All(status => ProjectParticipationStatusInner.Refusal.Equals(status))
-                ? ProjectParticipationStatusInner.Refusal
-                : childrenStatus.All(status => ProjectParticipationStatusInner.Interested.Equals(status))
-                ? ProjectParticipationStatusInner.Interested
+                : childrenStatus.AreAllSame()
+                ? childrenStatus.First() ?? ProjectParticipationStatusInner.Pending
                 : ProjectParticipationStatusInner.Pending;
         }
 
@@ -23,10 +22,8 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         {
             return childrenStatus.Any(status => ProjectParticipationStatusInternal.Acceptance.Equals(status))
                 ? ProjectParticipationStatusInternal.Acceptance
-                : childrenStatus.All(status => ProjectParticipationStatusInternal.Refusal.Equals(status))
-                ? ProjectParticipationStatusInternal.Refusal
-                : childrenStatus.All(status => ProjectParticipationStatusInternal.Candidate.Equals(status))
-                ? ProjectParticipationStatusInternal.Candidate
+                : childrenStatus.AreAllSame()
+                ? childrenStatus.First() ?? ProjectParticipationStatusInternal.Pending
                 : ProjectParticipationStatusInternal.Pending;
         }
 
@@ -35,10 +32,8 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         {
             return childrenStatus.Any(status => ProjectInvitationStatus.Invited.Equals(status))
                 ? ProjectInvitationStatus.Invited
-                : childrenStatus.All(status => ProjectInvitationStatus.Candidate.Equals(status))
-                ? ProjectInvitationStatus.Candidate
-                : childrenStatus.All(status => ProjectInvitationStatus.NotInvited.Equals(status))
-                ? ProjectInvitationStatus.NotInvited
+                : childrenStatus.AreAllSame()
+                ? childrenStatus.First() ?? ProjectInvitationStatus.Unclear
                 : ProjectInvitationStatus.Unclear;
         }
     }

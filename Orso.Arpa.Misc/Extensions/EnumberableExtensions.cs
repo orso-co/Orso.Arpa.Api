@@ -24,7 +24,7 @@ namespace Orso.Arpa.Misc.Extensions
                     }
                     finally
                     {
-                        semaphore.Release();
+                        _ = semaphore.Release();
                     }
                 }));
             }
@@ -32,6 +32,37 @@ namespace Orso.Arpa.Misc.Extensions
             {
                 semaphore.Dispose();
             }
+        }
+
+        public static bool AreAllSame<T>(this IEnumerable<T> enumerable)
+        {
+            if (enumerable == null)
+            {
+                throw new ArgumentNullException(nameof(enumerable));
+            }
+
+            using (IEnumerator<T> enumerator = enumerable.GetEnumerator())
+            {
+                var toCompare = default(T);
+                if (enumerator.MoveNext())
+                {
+                    toCompare = enumerator.Current;
+                }
+
+                while (enumerator.MoveNext())
+                {
+                    if (toCompare == null && enumerator.Current != null)
+                    {
+                        return false;
+                    }
+                    if (toCompare != null && !toCompare.Equals(enumerator.Current))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
