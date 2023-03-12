@@ -33,6 +33,60 @@ public class MyProjectsControllerTests : IntegrationTestBase
     }
 
     [Test, Order(2)]
+    public async Task Should_Get_My_Projects_With_Pagination()
+    {
+        // Arrange
+        var expectedResult = new List<MyProjectDto>
+        {
+            MyProjectDtoData.PerformerChorwerkstattBerlinDto
+        };
+
+        // Act
+        HttpResponseMessage responseMessage = await _authenticatedServer
+            .CreateClient()
+            .AuthenticateWith(_performer)
+            .GetAsync(ApiEndpoints.MyProjectsController.Get(offset: 1, limit: 1));
+
+        // Assert
+        _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
+        _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrdering());
+    }
+
+    [Test, Order(3)]
+    public async Task Should_Get_My_ProjectsIncludeCompleted()
+    {
+        // Arrange
+        var rockingXMasDto = new MyProjectDto
+        {
+            Project = ProjectDtoData.RockingXMasForPerformer
+        };
+        rockingXMasDto.Participations.Add(new MyProjectParticipationDto
+        {
+            CreatedAt = FakeDateTime.UtcNow,
+            CreatedBy = "anonymous",
+            Id = Guid.Parse("2b3503d3-9061-4110-85e6-88e864842ece"),
+            MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+        });
+        var expectedResult = new List<MyProjectDto>
+        {
+            rockingXMasDto
+        };
+        expectedResult.AddRange(MyProjectDtoData.PerformerProjects);
+
+        // Act
+        HttpResponseMessage responseMessage = await _authenticatedServer
+            .CreateClient()
+            .AuthenticateWith(_performer)
+            .GetAsync(ApiEndpoints.MyProjectsController.Get(includeCompleted: true));
+
+        // Assert
+        _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
+        _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrdering());
+    }
+
+    [Test, Order(100)]
     public async Task Should_Set_Existing_Project_Participation()
     {
         // Arrange
@@ -71,7 +125,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
         _ = result.Should().BeEquivalentTo(expectedDto);
     }
 
-    [Test, Order(3)]
+    [Test, Order(101)]
     public async Task Should_Set_New_Project_Participation()
     {
         // Arrange

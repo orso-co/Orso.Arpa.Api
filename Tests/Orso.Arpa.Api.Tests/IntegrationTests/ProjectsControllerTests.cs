@@ -21,24 +21,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     [TestFixture]
     public class ProjectsControllerTests : IntegrationTestBase
     {
-        [Test, Order(1)]
-        public async Task Should_Get_All_Projects_As_Performer()
-        {
-            // Arrange
-            IList<ProjectDto> expectedProjects = ProjectDtoData.ProjectsForPerformer;
-
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.ProjectsController.Get(true));
-
-            // Assert
-            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            IEnumerable<ProjectDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectDto>>(responseMessage);
-            _ = result.Should().BeEquivalentTo(expectedProjects);
-        }
-
         [Test, Order(2)]
         public async Task Should_Get_All_Projects_As_Staff()
         {
@@ -61,12 +43,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_Not_Completed_Projects()
         {
             // Arrange
-            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.NotCompletedProjectsForPerformer;
+            IEnumerable<ProjectDto> expectedProjects = ProjectDtoData.NotCompletedProjectsForStaff;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
+                .AuthenticateWith(_staff)
                 .GetAsync(ApiEndpoints.ProjectsController.Get());
 
             // Assert

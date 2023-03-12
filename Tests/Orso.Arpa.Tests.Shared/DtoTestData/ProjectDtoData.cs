@@ -9,36 +9,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class ProjectDtoData
     {
-        public static IList<ProjectDto> ProjectsForPerformer
-        {
-            get
-            {
-                return new List<ProjectDto>
-                {
-                    RockingXMasForPerformer,
-                    HoorayForHollywood,
-                    Schneekönigin,
-                    Chorwerkstatt,
-                    ChorwerkstattFreiburg,
-                    ChorwerkstattBerlin
-                };
-            }
-        }
-
-        public static IList<ProjectDto> NotCompletedProjectsForPerformer
-        {
-            get
-            {
-                return new List<ProjectDto>
-                {
-                    HoorayForHollywood,
-                    Schneekönigin,
-                    Chorwerkstatt,
-                    ChorwerkstattBerlin
-                };
-            }
-        }
-
         public static IList<ProjectDto> ProjectsForStaff
         {
             get
@@ -50,7 +20,23 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Schneekönigin,
                     Chorwerkstatt,
                     ChorwerkstattFreiburg,
-                    ChorwerkstattBerlin
+                    ChorwerkstattBerlin,
+                    ChorwerkstattStuttgart
+                };
+            }
+        }
+
+        public static IList<ProjectDto> NotCompletedProjectsForStaff
+        {
+            get
+            {
+                return new List<ProjectDto>
+                {
+                    HoorayForHollywood,
+                    Schneekönigin,
+                    Chorwerkstatt,
+                    ChorwerkstattBerlin,
+                    ChorwerkstattStuttgart
                 };
             }
         }
@@ -214,6 +200,30 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Title = "Chorwerkstatt Berlin",
                     Type = SelectValueDtoData.Concert,
                     ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7")
+                };
+            }
+        }
+
+        public static ProjectDto ChorwerkstattStuttgart
+        {
+            get
+            {
+                return new ProjectDto
+                {
+                    Code = "1008",
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CreatedBy = "anonymous",
+                    Description = "Ein Blick hinter die Kulissen…",
+                    EndDate = new DateTime(2020, 11, 20),
+                    Genre = SelectValueDtoData.FilmMusic,
+                    Id = Guid.Parse("483927b5-19de-4677-8af4-482c271ffae4"),
+                    ShortTitle = "ChWeS",
+                    StartDate = new DateTime(2020, 11, 10),
+                    Status = ProjectStatus.Pending,
+                    Title = "Chorwerkstatt Stuttgart",
+                    Type = SelectValueDtoData.Concert,
+                    ParentId = Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
+                    IsHiddenForPerformers = true,
                 };
             }
         }

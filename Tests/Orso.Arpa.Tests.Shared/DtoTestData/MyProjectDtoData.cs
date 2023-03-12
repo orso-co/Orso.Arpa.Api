@@ -15,7 +15,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new List<MyProjectDto>()
                 {
                     PerformerSchneekoeniginDto,
-                    PerformerChorwerkstattDto,
+                    PerformerChorwerkstattBerlinDto,
                     PerformerHoorayForHollywoodDto
                 };
             }
@@ -43,25 +43,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static MyProjectDto PerformerChorwerkstattDto
+        public static MyProjectDto PerformerChorwerkstattBerlinDto
         {
             get
             {
-                var dto = new MyProjectDto
+                return new MyProjectDto
                 {
-                    Project = ProjectDtoData.Chorwerkstatt
+                    Project = ProjectDtoData.ChorwerkstattBerlin,
+                    ParentProject = ProjectDtoData.Chorwerkstatt
                 };
-                dto.Participations.Add(new MyProjectParticipationDto
-                {
-                    CommentByStaffInner = "Comment by staff",
-                    CreatedAt = FakeDateTime.UtcNow,
-                    CreatedBy = "anonymous",
-                    Id = Guid.Parse("014b7ae4-9c6a-4273-b54e-c40a911d41a3"),
-                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
-                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,
-                });
-                return dto;
             }
         }
 
