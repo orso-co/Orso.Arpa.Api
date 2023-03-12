@@ -5,13 +5,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logging;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
+using Orso.Arpa.Misc.Logging;
 
 namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 {
@@ -40,9 +39,9 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 {
                     { "Project", notification.ProjectParticipation.Project },
                     { "Musician Profile", notification.ProjectParticipation.MusicianProfile },
-                    { "Project Participation Status Inner", notification.ProjectParticipation.ParticipationStatusInner },
+                    { "Participation Status Inner", notification.ProjectParticipation.ParticipationStatusInner },
                     { "Comment by Performer", notification.ProjectParticipation.CommentByStaffInner },
-                    { "Project Participation Status Internal", notification.ProjectParticipation.ParticipationStatusInternal },
+                    { "Participation Status Internal", notification.ProjectParticipation.ParticipationStatusInternal },
                     { "Comment by Staff", notification.ProjectParticipation.CommentByStaffInner },
                     { "Invitation Status", notification.ProjectParticipation.InvitationStatus },
                     { "Modified by", notification.ProjectParticipation.ModifiedBy }
@@ -55,7 +54,6 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
     {
         private readonly IEmailSender _emailSender;
         private readonly ILogger<SendProjectParticipationChangedMailToPerformer> _logger;
-        private readonly ClubConfiguration _clubConfiguration;
 
         public SendProjectParticipationChangedMailToPerformer(
             IEmailSender emailSender,
@@ -132,27 +130,12 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
             IEnumerable<ProjectParticipation> participationStatusOfChildrenProjects = parentProject.Children
                 .Select(child => child.ProjectParticipations
                     .FirstOrDefault(pp => musicianProfileId.Equals(pp.MusicianProfileId)));
-            IEnumerable<ProjectParticipationStatusInner?> participationStatusInnerOfChildrenProjects = participationStatusOfChildrenProjects
-                .Select(pp => pp?.ParticipationStatusInner);
 
-            ProjectParticipationStatusInner expectedParticipationStatusInner = ProjectParticipationStatusInheritanceEvaluator
-                .EvaluateNewParticpationStatusInner(participationStatusInnerOfChildrenProjects);
-            bool shouldSetParticipationStatusInner = participationOfParentProject is null
-                || !expectedParticipationStatusInner.Equals(participationOfParentProject.ParticipationStatusInner);
+            EvaluatedParticipationStatusInner(participationOfParentProject, participationStatusOfChildrenProjects, out ProjectParticipationStatusInner expectedParticipationStatusInner, out bool shouldSetParticipationStatusInner);
 
-            IEnumerable<ProjectParticipationStatusInternal?> participationStatusInternalOfChildrenProjects = participationStatusOfChildrenProjects
-                .Select(pp => pp?.ParticipationStatusInternal);
-            ProjectParticipationStatusInternal expectedParticipationStatusInternal = ProjectParticipationStatusInheritanceEvaluator
-                    .EvaluateNewParticipationStatusInternal(participationStatusInternalOfChildrenProjects);
-            bool shouldSetParticipationStatusInternal = participationOfParentProject is null
-            || !expectedParticipationStatusInternal.Equals(participationOfParentProject.ParticipationStatusInternal);
+            EvaluateParticipationStatusInternal(participationOfParentProject, participationStatusOfChildrenProjects, out ProjectParticipationStatusInternal expectedParticipationStatusInternal, out bool shouldSetParticipationStatusInternal);
 
-            IEnumerable<ProjectInvitationStatus?> invitationStatusOfChildrenProjects = participationStatusOfChildrenProjects
-                .Select(pp => pp?.InvitationStatus);
-            ProjectInvitationStatus expectedInvitationStatus = ProjectParticipationStatusInheritanceEvaluator
-                    .EvaluateNewInvitationStatus(invitationStatusOfChildrenProjects);
-            bool shouldSetInvitationStatus = participationOfParentProject is null
-                 || !expectedInvitationStatus.Equals(participationOfParentProject.InvitationStatus);
+            EvaluateInvitationStatus(participationOfParentProject, participationStatusOfChildrenProjects, out ProjectInvitationStatus expectedInvitationStatus, out bool shouldSetInvitationStatus);
 
             if (shouldSetParticipationStatusInner
                 || shouldSetParticipationStatusInternal
@@ -172,6 +155,48 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                     await UpdateParentProjectAsync(participationOfParentProject, cancellationToken);
                 }
             }
+        }
+
+        private static void EvaluateInvitationStatus(
+            ProjectParticipation participationOfParentProject,
+            IEnumerable<ProjectParticipation> participationStatusOfChildrenProjects,
+            out ProjectInvitationStatus expectedInvitationStatus,
+            out bool shouldSetInvitationStatus)
+        {
+            IEnumerable<ProjectInvitationStatus?> invitationStatusOfChildrenProjects = participationStatusOfChildrenProjects
+                            .Select(pp => pp?.InvitationStatus);
+            expectedInvitationStatus = ProjectParticipationStatusInheritanceEvaluator
+                    .EvaluateNewInvitationStatus(invitationStatusOfChildrenProjects);
+            shouldSetInvitationStatus = participationOfParentProject is null
+                 || !expectedInvitationStatus.Equals(participationOfParentProject.InvitationStatus);
+        }
+
+        private static void EvaluateParticipationStatusInternal(
+            ProjectParticipation participationOfParentProject,
+            IEnumerable<ProjectParticipation> participationStatusOfChildrenProjects,
+            out ProjectParticipationStatusInternal expectedParticipationStatusInternal,
+            out bool shouldSetParticipationStatusInternal)
+        {
+            IEnumerable<ProjectParticipationStatusInternal?> participationStatusInternalOfChildrenProjects = participationStatusOfChildrenProjects
+                            .Select(pp => pp?.ParticipationStatusInternal);
+            expectedParticipationStatusInternal = ProjectParticipationStatusInheritanceEvaluator
+                    .EvaluateNewParticipationStatusInternal(participationStatusInternalOfChildrenProjects);
+            shouldSetParticipationStatusInternal = participationOfParentProject is null
+            || !expectedParticipationStatusInternal.Equals(participationOfParentProject.ParticipationStatusInternal);
+        }
+
+        private static void EvaluatedParticipationStatusInner(
+            ProjectParticipation participationOfParentProject,
+            IEnumerable<ProjectParticipation> participationStatusOfChildrenProjects,
+            out ProjectParticipationStatusInner expectedParticipationStatusInner,
+            out bool shouldSetParticipationStatusInner)
+        {
+            IEnumerable<ProjectParticipationStatusInner?> participationStatusInnerOfChildrenProjects = participationStatusOfChildrenProjects
+                .Select(pp => pp?.ParticipationStatusInner);
+            expectedParticipationStatusInner = ProjectParticipationStatusInheritanceEvaluator
+                .EvaluateNewParticpationStatusInner(participationStatusInnerOfChildrenProjects);
+            shouldSetParticipationStatusInner = participationOfParentProject is null
+                || !expectedParticipationStatusInner.Equals(participationOfParentProject.ParticipationStatusInner);
         }
 
         private async Task CreateOrUpdateProjectParticipationAsync(

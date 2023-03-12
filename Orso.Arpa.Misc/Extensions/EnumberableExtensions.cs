@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Orso.Arpa.Misc
+namespace Orso.Arpa.Misc.Extensions
 {
     public static class EnumberableExtensions
     {

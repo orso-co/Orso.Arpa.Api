@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using Orso.Arpa.Misc;
+using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Infrastructure.PipelineBehaviors
 {

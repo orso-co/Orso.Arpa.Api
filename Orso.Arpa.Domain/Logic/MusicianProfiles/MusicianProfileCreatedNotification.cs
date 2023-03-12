@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logging;
+using Orso.Arpa.Misc.Logging;
 
 namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 {
