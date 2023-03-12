@@ -34,12 +34,17 @@ public static class SetProjectParticipationStatus
                     Project project = await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation);
                     if (project.IsCompleted || ProjectStatus.Cancelled.Equals(project.Status))
                     {
-                        context.AddFailure(nameof(Command.ProjectId), "The project is cancelled or completed. You must not set the participation of such a project");
+                        context.AddFailure("The project is cancelled or completed. You must not set the participation of such a project");
+                        return;
+                    }
+                    if (project.IsHiddenForPerformers)
+                    {
+                        context.AddFailure("The project is not accessible for your role");
                         return;
                     }
                     if (project.Children.Any())
                     {
-                        context.AddFailure(nameof(Command.ProjectId), "You may not set the participation of a parent project");
+                        context.AddFailure("You may not set the participation of a parent project");
                     }
                 });
 

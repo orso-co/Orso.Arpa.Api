@@ -22,6 +22,7 @@ namespace Orso.Arpa.Domain.Entities
             Status = command.Status;
             ParentId = command.ParentId;
             IsCompleted = command.IsCompleted;
+            IsHiddenForPerformers = command.IsHiddenForPerformers;
         }
 
         [JsonConstructor]
@@ -42,6 +43,7 @@ namespace Orso.Arpa.Domain.Entities
             Status = command.Status;
             ParentId = command.ParentId;
             IsCompleted = command.IsCompleted;
+            IsHiddenForPerformers = command.IsHiddenForPerformers;
         }
 
         public string Title { get; private set; }
@@ -54,6 +56,7 @@ namespace Orso.Arpa.Domain.Entities
         public virtual SelectValueMapping Genre { get; private set; }
         public DateTime? StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
+        public bool IsHiddenForPerformers { get; private set; }
 
         [CascadingSoftDelete]
         public virtual ICollection<Url> Urls { get; private set; } = new HashSet<Url>();
