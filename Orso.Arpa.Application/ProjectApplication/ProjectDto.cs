@@ -23,6 +23,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         public ProjectStatus Status { get; set; }
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }
+        public bool IsHiddenForPerformers { get; set; }
     }
 
     public class ProjectDtoMappingProfile : Profile

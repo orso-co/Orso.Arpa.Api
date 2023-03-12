@@ -24,15 +24,18 @@ namespace Orso.Arpa.Domain.Logic.Projects
             public ProjectStatus? Status { get; set; }
             public Guid? ParentId { get; set; }
             public bool IsCompleted { get; set; }
+            public bool IsHiddenForPerformers { get; set; }
         }
         public class Validator : AbstractValidator<Command>
         {
             public Validator(IArpaContext arpaContext)
             {
+#pragma warning disable RCS1155 // Use StringComparison when comparing strings. (this won't work with ef core server side query execution)
                 _ = RuleFor(d => d.Code)
                     .MustAsync(async (code, cancellation) =>
                         !await arpaContext.Projects.AnyAsync(project => project.Code.ToLower() == code.ToLower(), cancellation))
                     .WithMessage("The specified project code is already in use. The project code needs to be unique.");
+#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
 
                 _ = RuleFor(c => c.ParentId)
                     .EntityExists<Command, Project>(arpaContext);

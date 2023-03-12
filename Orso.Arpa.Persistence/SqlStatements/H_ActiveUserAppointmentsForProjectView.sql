@@ -26,6 +26,7 @@ CREATE OR REPLACE VIEW public.active_user_appointments_for_projects
   AND pa.deleted = false
   AND p.deleted = false
   AND pp.deleted = false
+  AND p.is_hidden_for_performers = false
   AND (pp.participation_status_inner <> 'Refusal' OR pp.participation_status_inner is null)
   AND (pp.participation_status_internal <> 'Refusal' OR pp.participation_status_internal is null)
   AND (p.status <> 'Cancelled' OR p.status is null)

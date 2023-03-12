@@ -137,7 +137,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 StartDate = new DateTime(2021, 02, 02),
                 EndDate = new DateTime(2021, 02, 28),
                 Status = ProjectStatus.Cancelled,
-                ParentId = ProjectSeedData.RockingXMas.Id
+                ParentId = ProjectSeedData.RockingXMas.Id,
+                IsHiddenForPerformers = true
             };
 
             var expectedDto = new ProjectDto
@@ -156,7 +157,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = "anonymous",
                 Type = SelectValueDtoData.Workshop,
                 Genre = SelectValueDtoData.ChamberMusic,
-                Status = ProjectStatus.Cancelled
+                Status = ProjectStatus.Cancelled,
+                IsHiddenForPerformers = true
             };
 
             // Act
@@ -230,6 +232,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 EndDate = new DateTime(2021, 01, 31),
                 Status = ProjectStatus.Pending,
                 ParentId = ProjectSeedData.HoorayForHollywood.Id,
+                IsHiddenForPerformers = true,
+                IsCompleted = true
             };
 
             var expectedDto = new ProjectDto
@@ -244,9 +248,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 EndDate = createDto.EndDate,
                 Status = ProjectStatus.Pending,
                 ParentId = createDto.ParentId,
-                IsCompleted = false,
+                IsCompleted = true,
                 CreatedBy = _staff.DisplayName,
-                CreatedAt = FakeDateTime.UtcNow
+                CreatedAt = FakeDateTime.UtcNow,
+                IsHiddenForPerformers = true
             };
 
             // Act

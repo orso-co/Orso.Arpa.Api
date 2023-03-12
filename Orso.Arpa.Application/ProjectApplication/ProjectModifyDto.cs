@@ -25,6 +25,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         public ProjectStatus? Status { get; set; }
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }
+        public bool IsHiddenForPerformers { get; set; }
     }
 
     public class ProjectModifyDtoMappingProfile : Profile
@@ -33,6 +34,7 @@ namespace Orso.Arpa.Application.ProjectApplication
         {
             _ = CreateMap<ProjectModifyDto, Command>()
                 .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.Body.IsCompleted))
+                .ForMember(dest => dest.IsHiddenForPerformers, opt => opt.MapFrom(src => src.Body.IsHiddenForPerformers))
                 .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.Body.ParentId))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Body.Status))
                 .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.Body.EndDate))
@@ -80,7 +82,7 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .Sepa()
                 .MaximumLength(15);
 
-            RuleFor(p => p.Status)
+            _ = RuleFor(p => p.Status)
                 .IsInEnum();
 
             _ = When(p => p.StartDate != null && p.EndDate != null, () =>
