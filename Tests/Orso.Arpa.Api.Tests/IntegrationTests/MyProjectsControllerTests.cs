@@ -67,6 +67,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
             CreatedBy = "anonymous",
             Id = Guid.Parse("2b3503d3-9061-4110-85e6-88e864842ece"),
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Pending
         });
         var expectedResult = new List<MyProjectDto>
         {

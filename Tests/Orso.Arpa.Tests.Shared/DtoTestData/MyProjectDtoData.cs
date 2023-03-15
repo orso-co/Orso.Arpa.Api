@@ -38,6 +38,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                     ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Refusal
                 });
                 return dto;
             }
@@ -72,6 +73,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                     ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending
                 });
                 return dto;
             }

@@ -32,6 +32,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                     ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Acceptance,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Acceptance,
                     Project = ReducedProjectDtoData.ChorwerkstattFreiburg
                 };
             }
@@ -62,6 +63,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                     ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending,
                     Project = ReducedProjectDtoData.HoorayForHollywood
                 };
             }
@@ -92,6 +94,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                     ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Refusal,
                     Project = ReducedProjectDtoData.ChorwerkstattTour
                 };
             }
@@ -118,6 +121,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
             ParticipationStatusInner = ProjectParticipationStatusInner.Refusal,
             ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Refusal,
             Project = ReducedProjectDtoData.Schneekönigin
         };
 
@@ -137,7 +141,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             CreatedBy = "anonymous",
             Id = Guid.Parse("2b3503d3-9061-4110-85e6-88e864842ece"),
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-            Project = ReducedProjectDtoData.RockingXMas
+            Project = ReducedProjectDtoData.RockingXMas,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Pending
         };
 
         public static ProjectParticipationDto AdminRockingXMasParticipation => new()
@@ -147,7 +152,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Id = Guid.Parse("55cb5f7d-2fd7-4328-9d27-413dab753e62"),
             MusicianProfile = ReducedMusicianProfileDtoData.AdminProfile1,
             Person = ReducedPersonDtoData.Admin,
-            Project = ReducedProjectDtoData.RockingXMas
+            Project = ReducedProjectDtoData.RockingXMas,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Pending
         };
 
         public static ProjectParticipationDto StaffRockingXMasBassParticipation => new()
@@ -157,7 +163,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Id = Guid.Parse("4b9666cf-2d06-43cc-bd9f-f2d665562471"),
             MusicianProfile = ReducedMusicianProfileDtoData.StaffProfile2,
             Person = ReducedPersonDtoData.Staff,
-            Project = ReducedProjectDtoData.RockingXMas
+            Project = ReducedProjectDtoData.RockingXMas,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Pending
         };
 
         public static ProjectParticipationDto StaffRockingXMasTenorParticipation => new()
@@ -167,7 +174,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Id = Guid.Parse("da5eb778-b907-45ce-955a-2af2e6c0b60f"),
             MusicianProfile = ReducedMusicianProfileDtoData.StaffProfile1,
             Person = ReducedPersonDtoData.Staff,
-            Project = ReducedProjectDtoData.RockingXMas
+            Project = ReducedProjectDtoData.RockingXMas,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Pending
         };
     }
 }

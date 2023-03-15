@@ -442,14 +442,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CommentTeam = "Team comment",
                 InvitationStatus = ProjectInvitationStatus.NotInvited,
                 ParticipationStatusInner = ProjectParticipationStatusInner.Pending,
-                ParticipationStatusInternal = ProjectParticipationStatusInternal.Pending,
+                ParticipationStatusInternal = ProjectParticipationStatusInternal.Pending
             };
             ProjectParticipationDto expectedDto = ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff;
             expectedDto.CommentByStaffInner = dto.CommentByStaffInner;
             expectedDto.CommentTeam = dto.CommentTeam;
             expectedDto.InvitationStatus = dto.InvitationStatus;
-            expectedDto.ParticipationStatusInner = (ProjectParticipationStatusInner)dto.ParticipationStatusInner;
+            expectedDto.ParticipationStatusInner = dto.ParticipationStatusInner.Value;
             expectedDto.ParticipationStatusInternal = dto.ParticipationStatusInternal;
+            expectedDto.ParticipationStatusResult = ProjectParticipationStatusResult.Pending;
             expectedDto.ModifiedAt = FakeDateTime.UtcNow;
             expectedDto.ModifiedBy = "Staff Member";
             _fakeSmtpServer.ClearReceivedEmail();
