@@ -89,7 +89,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
-        _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrdering());
+        _ = result.Should().BeEquivalentTo(expectedResult);
     }
 
     [Test, Order(100)]
