@@ -24,6 +24,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var services = new ServiceCollection();
             _ = services.AddSingleton<RoleBasedSetNullAction<ProjectParticipation, ProjectParticipationDto>>();
+            _ = services.AddSingleton<ProjectParticipationStatusResultResolver>();
             _ = services.AddSingleton(_tokenAccessor);
             _ = services.AddAutoMapper(cfg =>
             {
@@ -58,7 +59,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 ParticipationStatusInner = projectParticipation.ParticipationStatusInner,
                 MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                 Project = ReducedProjectDtoData.Schneekönigin,
-                Person = ReducedPersonDtoData.Performer
+                Person = ReducedPersonDtoData.Performer,
+                ParticipationStatusResult = Domain.Enums.ProjectParticipationStatusResult.Pending
             };
 
             // Act
@@ -69,7 +71,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         }
 
         [Test]
-        [System.Obsolete]
         public void Should_Map_For_Performer()
         {
             // Arrange
@@ -86,6 +87,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 ParticipationStatusInner = projectParticipation.ParticipationStatusInner,
                 MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                 Project = ReducedProjectDtoData.Schneekönigin,
+                ParticipationStatusResult = Domain.Enums.ProjectParticipationStatusResult.Pending,
                 Person = null
             };
 
