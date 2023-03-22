@@ -8,7 +8,6 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Domain.Logic.MyProjects;
 
@@ -24,7 +23,7 @@ public static class SetProjectParticipationStatus
 
     public class Validator : AbstractValidator<Command>
     {
-        public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor, IDateTimeProvider dateTimeProvider)
+        public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor)
         {
             _ = RuleFor(c => c.ProjectId)
                 .Cascade(CascadeMode.Stop)

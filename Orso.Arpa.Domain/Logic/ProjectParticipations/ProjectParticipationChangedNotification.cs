@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                     { "Project", notification.ProjectParticipation.Project },
                     { "Musician Profile", notification.ProjectParticipation.MusicianProfile },
                     { "Participation Status Inner", notification.ProjectParticipation.ParticipationStatusInner },
-                    { "Comment by Performer", notification.ProjectParticipation.CommentByStaffInner },
+                    { "Comment by Performer", notification.ProjectParticipation.CommentByPerformerInner },
                     { "Participation Status Internal", notification.ProjectParticipation.ParticipationStatusInternal },
                     { "Comment by Staff", notification.ProjectParticipation.CommentByStaffInner },
                     { "Invitation Status", notification.ProjectParticipation.InvitationStatus },
