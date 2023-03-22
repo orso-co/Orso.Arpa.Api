@@ -50,6 +50,10 @@ namespace Orso.Arpa.Application.General
                     {
                         newValueList.Add(newVal);
                     }
+                    else
+                    {
+                        newValueList.Add(val);
+                    }
                 }
                 prop.SetValue(destination, newValueList);
             }
