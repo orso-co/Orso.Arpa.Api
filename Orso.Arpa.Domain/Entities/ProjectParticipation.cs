@@ -28,6 +28,14 @@ namespace Orso.Arpa.Domain.Entities
             InvitationStatus = ProjectInvitationStatus.Candidate;
         }
 
+        internal ProjectParticipation(Project project, MusicianProfile musicianProfile) : base(Guid.Empty)
+        {
+            MusicianProfile = musicianProfile;
+            Project = project;
+            MusicianProfileId = musicianProfile.Id;
+            ProjectId = project.Id;
+        }
+
         protected ProjectParticipation() { }
 
         public void Update(SetProjectParticipationStatus.Command command)

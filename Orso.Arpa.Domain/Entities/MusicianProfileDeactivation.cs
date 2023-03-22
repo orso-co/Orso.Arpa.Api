@@ -1,9 +1,11 @@
 using System;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.Attributes;
 using Orso.Arpa.Domain.Logic.MusicianProfileDeactivations;
 
 namespace Orso.Arpa.Domain.Entities
 {
+    [HardDelete]
     public class MusicianProfileDeactivation : BaseEntity
     {
         public MusicianProfileDeactivation(Guid? id, Create.Command command) : base(id)
