@@ -23,7 +23,7 @@
         "Email already exists": "Die Email existiert bereits",
         "A region with the requested name does already exist": "Eine Region mit diesem Namen existiert bereits"
     },
-    "SectionDto": {
+    "Section": {
         "Performers": "Mitwirkende",
         "Orchestra": "Orchester",
         "Members": "Mitglieder",
@@ -135,7 +135,7 @@
         "Band": "Band",
         "Soloists":  "Solisten"
     },
-    "SelectValueDto": {
+    "SelectValue": {
         "Present": "Anwesend",
         "Absent": "Nicht anwesend",
         "Inapplicable": "Unzutreffend",

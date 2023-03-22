@@ -8,7 +8,7 @@ namespace Orso.Arpa.Application.SectionApplication
 {
     public class SectionDto
     {
-        [Translate]
+        [Translate(LocalizationKeys.SECTION)]
         public string Name { get; set; }
         public Guid Id { get; set; }
         public byte InstrumentPartCount { get; set; }
@@ -18,10 +18,10 @@ namespace Orso.Arpa.Application.SectionApplication
     {
         public SectionDtoMappingProfile()
         {
-            CreateMap<Section, SectionDto>()
+            _ = CreateMap<Section, SectionDto>()
                 .AfterMap<LocalizeAction<Section, SectionDto>>();
 
-            CreateMap<SectionDto, Section>();
+            _ = CreateMap<SectionDto, Section>();
         }
     }
 }
