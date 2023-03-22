@@ -1,7 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
+using NUnit.Framework;
+using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.MyProjectApplication;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.FakeData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests;
 
@@ -90,10 +100,10 @@ public class MyProjectsControllerTests : IntegrationTestBase
         {
             rockingXMasDto
         };
-        epectedList.AddRange(MyProjectDtoData.PerformerProjects);
+        expectedList.AddRange(MyProjectDtoData.PerformerProjects);
         var expectedDto = new MyProjectListDto
         {
-            UserProjects = epectedList,
+            UserProjects = expectedList,
             TotalRecordsCount = 4
         };
 
