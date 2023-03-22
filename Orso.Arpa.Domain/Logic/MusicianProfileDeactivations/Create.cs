@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Misc;
@@ -38,10 +39,13 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfileDeactivations
                             context.AddFailure(nameof(Command.MusicianProfileId), "The musician profile is already deactivated");
                             return;
                         }
-                        if (musicianProfile.ProjectParticipations.Select(pp => pp.Project).Any(project =>
-                                project.EndDate >= start
+                        if (musicianProfile.ProjectParticipations
+                        .Where(pp => ProjectParticipationStatusInner.Acceptance.Equals(pp.ParticipationStatusInner))
+                        .Select(pp => pp.Project).Any(project =>
+                                project.EndDate.GetValueOrDefault().Date >= start.Date
                                 && !project.IsCompleted
-                                && project.Status != Enums.ProjectStatus.Cancelled))
+                                && project.Status != Enums.ProjectStatus.Cancelled
+                                && !project.IsHiddenForPerformers))
                         {
                             context.AddFailure("You may not deactivate a musician profile which is participating in an active project");
                         }

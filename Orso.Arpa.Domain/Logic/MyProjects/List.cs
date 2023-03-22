@@ -64,7 +64,11 @@ public static class List
                 {
                     Project = project,
                     ProjectParticipations = musicianProfileIds.Any()
-                        ? project.ProjectParticipations.Where(pp => musicianProfileIds.Contains(pp.MusicianProfileId))
+                        ? musicianProfileIds.Select(muproId =>
+                        {
+                            ProjectParticipation existingParticipation = project.ProjectParticipations.FirstOrDefault(pp => pp.MusicianProfileId.Equals(muproId));
+                            return existingParticipation ?? new ProjectParticipation(project, _arpaContext.MusicianProfiles.Find(muproId));
+                        })
                         : new List<ProjectParticipation>()
                 });
             }

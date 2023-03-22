@@ -44,16 +44,17 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                         {
                             context.AddFailure(nameof(Command.ProjectId), "You may not set the participation of a parent project");
                         }
+                        if (await arpaContext.EntityExistsAsync<MusicianProfileDeactivation>(
+                         d => d.MusicianProfileId == context.InstanceToValidate.MusicianProfileId && d.DeactivationStart.Date < project.EndDate.GetValueOrDefault().Date,
+                        cancellation))
+                        {
+                            context.AddFailure(nameof(Command.MusicianProfileId), "The musician profile is deactivated during the duration of the project.");
+                        }
                     });
 
                 _ = RuleFor(c => c.MusicianProfileId)
                     .Cascade(CascadeMode.Stop)
-                    .EntityExists<Command, MusicianProfile>(arpaContext)
-                    .MustAsync(async (musicianProfileId, cancellation) =>
-                        !await arpaContext.EntityExistsAsync<MusicianProfileDeactivation>(
-                            d => d.MusicianProfileId == musicianProfileId && d.DeactivationStart <= dateTimeProvider.GetUtcNow(),
-                            cancellation))
-                    .WithMessage("The musician profile is deactivated. A deactivated musician profile may not participate in a project");
+                    .EntityExists<Command, MusicianProfile>(arpaContext);
             }
         }
 

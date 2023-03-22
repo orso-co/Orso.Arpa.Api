@@ -38,7 +38,8 @@ public class MyProjectsControllerTests : IntegrationTestBase
         // Arrange
         MyProjectDto dto = MyProjectDtoData.PerformerHoorayForHollywoodDto;
         dto.Project.Type.Name = "Konzertreise (Tour)";
-        dto.Participations[0].MusicianProfile.InstrumentName = "Alt";
+        dto.Participations[0].MusicianProfile.InstrumentName = "Tuba";
+        dto.Participations[1].MusicianProfile.InstrumentName = "Alt";
         var expectedResult = new List<MyProjectDto>
         {
             dto
@@ -68,10 +69,20 @@ public class MyProjectsControllerTests : IntegrationTestBase
         };
         rockingXMasDto.Participations.Add(new MyProjectParticipationDto
         {
+            MusicianProfile = ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+        });
+        rockingXMasDto.Participations.Add(new MyProjectParticipationDto
+        {
             CreatedAt = FakeDateTime.UtcNow,
             CreatedBy = "anonymous",
             Id = Guid.Parse("2b3503d3-9061-4110-85e6-88e864842ece"),
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+        });
+        rockingXMasDto.Participations.Add(new MyProjectParticipationDto
+        {
+            MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
             ParticipationStatusResult = ProjectParticipationStatusResult.Pending
         });
         var expectedResult = new List<MyProjectDto>

@@ -101,7 +101,7 @@ namespace Orso.Arpa.Domain.Entities
 
         [CascadingSoftDelete]
         public virtual MusicianProfileDeactivation Deactivation { get; private set; }
-        public bool IsDeactivated(DateTime date) => Deactivation != null && Deactivation.DeactivationStart <= date;
+        public bool IsDeactivated(DateTime date) => Deactivation != null && Deactivation.DeactivationStart.Date < date.Date;
 
         #endregion
 

@@ -1,5 +1,4 @@
 using System;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation.TestHelper;
@@ -93,15 +92,6 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.ValidatorTests
             _ = _arpaContext.FindAsync<Project>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(ProjectSeedData.Schneekönigin);
             _ = _arpaContext.FindAsync<MusicianProfile>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(MusicianProfileSeedData.AdminMusicianSopranoProfile);
             await _validator.ShouldHaveNotFoundErrorForAsync(c => c.MusicianProfileId, Guid.Empty, nameof(MusicianProfile));
-        }
-
-        [Test]
-        public async Task Should_Have_Validation_Error_If_MusicianProfile_Is_Deactivated()
-        {
-            _ = _arpaContext.EntityExistsAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _ = _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<MusicianProfileDeactivation, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
-            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.MusicianProfileId, Guid.Empty))
-                .WithErrorMessage("The musician profile is deactivated. A deactivated musician profile may not participate in a project");
         }
 
         [Test]

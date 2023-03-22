@@ -29,6 +29,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Project = ProjectDtoData.Schneekönigin
                 };
+                dto.Participations.Add(new MyProjectParticipationDto()
+                {
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+                });
                 dto.Participations.Add(new MyProjectParticipationDto
                 {
                     CommentByStaffInner = "Comment by staff",
@@ -40,6 +45,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
                     ParticipationStatusResult = ProjectParticipationStatusResult.Refusal
                 });
+                dto.Participations.Add(new MyProjectParticipationDto()
+                {
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+                });
                 return dto;
             }
         }
@@ -48,11 +58,27 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new MyProjectDto
+                var dto = new MyProjectDto
                 {
                     Project = ProjectDtoData.ChorwerkstattBerlin,
                     ParentProject = ProjectDtoData.Chorwerkstatt
                 };
+                dto.Participations.Add(new MyProjectParticipationDto()
+                {
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+                });
+                dto.Participations.Add(new MyProjectParticipationDto
+                {
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+                });
+                dto.Participations.Add(new MyProjectParticipationDto()
+                {
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+                });
+                return dto;
             }
         }
 
@@ -64,6 +90,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Project = ProjectDtoData.HoorayForHollywood
                 };
+                dto.Participations.Add(new MyProjectParticipationDto()
+                {
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+                });
                 dto.Participations.Add(new MyProjectParticipationDto
                 {
                     CommentByStaffInner = "Comment by staff",
@@ -73,6 +104,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                     ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
                     ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending
+                });
+                dto.Participations.Add(new MyProjectParticipationDto()
+                {
+                    MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
                     ParticipationStatusResult = ProjectParticipationStatusResult.Pending
                 });
                 return dto;

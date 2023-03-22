@@ -152,9 +152,13 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         private async Task DeleteWithNavigationsAsync(string currentUserDisplayName, EntityEntry entry, CancellationToken cancellationToken)
         {
-            entry.State = EntityState.Modified;
-            (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
             Type entityType = entry.Entity.GetType();
+
+            if (entityType.GetCustomAttribute<HardDeleteAttribute>() == null)
+            {
+                entry.State = EntityState.Modified;
+                (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
+            }
 
             foreach (NavigationEntry navigationEntry in entry.Navigations)
             {
