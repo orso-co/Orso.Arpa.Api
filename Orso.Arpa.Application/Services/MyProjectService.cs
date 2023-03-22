@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,6 +9,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.MyProjects;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using static Orso.Arpa.Domain.Logic.MyProjects.List;
 
 namespace Orso.Arpa.Application.Services;
 
@@ -24,7 +26,7 @@ public class MyProjectService : IMyProjectService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<MyProjectDto>> GetMyProjectsAsync(int? offset, int? limit, bool includeCompleted)
+    public async Task<MyProjectListDto> GetMyProjectsAsync(int? offset, int? limit, bool includeCompleted)
     {
         var query = new List.Query
         {
@@ -33,9 +35,13 @@ public class MyProjectService : IMyProjectService
             Limit = limit,
             IncludeCompleted = includeCompleted
         };
-        IEnumerable<List.MyProjectGrouping> result = await _mediator.Send(query);
+        Tuple<IEnumerable<MyProjectGrouping>, int> result = await _mediator.Send(query);
 
-        return _mapper.Map<IEnumerable<MyProjectDto>>(result);
+        return new MyProjectListDto
+        {
+            UserProjects = _mapper.Map<IList<MyProjectDto>>(result.Item1),
+            TotalRecordsCount = result.Item2
+        };
     }
 
     public async Task<MyProjectParticipationDto> SetProjectParticipationStatus(MyProjectParticipationModifyDto myProjectParticipationModifyDto)
