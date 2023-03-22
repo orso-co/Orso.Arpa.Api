@@ -10,7 +10,7 @@ namespace Orso.Arpa.Infrastructure.Localization
     {
         private static IServiceCollection _services;
         private static readonly object _syncLock = new();
-        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> _localizations = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> _localizations = new();
 
         public LocalizerCache(IServiceCollection services)
         {
@@ -61,7 +61,7 @@ namespace Orso.Arpa.Infrastructure.Localization
             return new Dictionary<string, string>();
         }
 
-        private Dictionary<string, Dictionary<string, Dictionary<string, string>>> GetDbLocalizationList()
+        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> GetDbLocalizationList()
         {
             lock (_syncLock)
             {

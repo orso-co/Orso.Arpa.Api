@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Infrastructure.Localization;
@@ -11,12 +12,12 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     public class ReducedMusicianProfileDto
     {
         public Guid Id { get; set; }
-        [Translate]
+        [Translate(LocalizationKeys.SECTION)]
         public string InstrumentName { get; set; }
-        [Translate]
+        [Translate(LocalizationKeys.SELECT_VALUE)]
         public string Qualification { get; set; }
 
-        [Translate]
+        [Translate(LocalizationKeys.SECTION)]
         public List<string> DoublingInstrumentNames { get; set; } = new List<string>();
         public MusicianProfileDeactivationDto Deactivation { get; set; }
     }
@@ -25,10 +26,11 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public ReducedMusicianProfileDtoMappingProfile()
         {
-            CreateMap<MusicianProfile, ReducedMusicianProfileDto>()
+            _ = CreateMap<MusicianProfile, ReducedMusicianProfileDto>()
                 .ForMember(dest => dest.Qualification, opt => opt.MapFrom(src => src.Qualification == null ? string.Empty : src.Qualification.SelectValue.Name))
                 .ForMember(dest => dest.InstrumentName, opt => opt.MapFrom(src => src.Instrument.Name))
-                .ForMember(dest => dest.DoublingInstrumentNames, opt => opt.MapFrom(src => src.DoublingInstruments.Select(di => di.Section.Name)));
+                .ForMember(dest => dest.DoublingInstrumentNames, opt => opt.MapFrom(src => src.DoublingInstruments.Select(di => di.Section.Name)))
+                .AfterMap<LocalizeAction<MusicianProfile, ReducedMusicianProfileDto>>();
         }
     }
 }

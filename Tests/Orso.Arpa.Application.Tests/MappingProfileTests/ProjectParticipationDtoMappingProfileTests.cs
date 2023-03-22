@@ -11,6 +11,7 @@ using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -26,6 +27,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             _ = services.AddSingleton<RoleBasedSetNullAction<ProjectParticipation, ProjectParticipationDto>>();
             _ = services.AddSingleton<ProjectParticipationStatusResultResolver>();
             _ = services.AddSingleton(_tokenAccessor);
+            _ = services.AddSingleton(_localizerCache);
+            _ = services.AddSingleton<LocalizeAction<MusicianProfile, ReducedMusicianProfileDto>>();
             _ = services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<ProjectParticipationDtoMappingProfile>();
@@ -41,6 +44,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
         private IMapper _mapper;
         private readonly ITokenAccessor _tokenAccessor = Substitute.For<ITokenAccessor>();
+        private readonly ILocalizerCache _localizerCache = Substitute.For<ILocalizerCache>();
 
         [Test]
         public void Should_Map_For_Staff()

@@ -33,19 +33,24 @@ public class MyProjectsControllerTests : IntegrationTestBase
     }
 
     [Test, Order(2)]
-    public async Task Should_Get_My_Projects_With_Pagination()
+    public async Task Should_Get_My_Projects_With_Pagination_In_German()
     {
         // Arrange
+        MyProjectDto dto = MyProjectDtoData.PerformerHoorayForHollywoodDto;
+        dto.Project.Type.Name = "Konzertreise (Tour)";
+        dto.Participations[0].MusicianProfile.InstrumentName = "Alt";
         var expectedResult = new List<MyProjectDto>
         {
-            MyProjectDtoData.PerformerChorwerkstattBerlinDto
+            dto
         };
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.MyProjectsController.Get(offset: 2, limit: 1));
+        requestMessage.Headers.Add("Accept-Language", "de");
 
         // Act
         HttpResponseMessage responseMessage = await _authenticatedServer
             .CreateClient()
             .AuthenticateWith(_performer)
-            .GetAsync(ApiEndpoints.MyProjectsController.Get(offset: 1, limit: 1));
+            .SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -84,7 +89,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
-        _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrdering());
+        _ = result.Should().BeEquivalentTo(expectedResult);
     }
 
     [Test, Order(100)]

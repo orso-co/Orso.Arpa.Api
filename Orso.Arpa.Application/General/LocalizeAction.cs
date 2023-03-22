@@ -23,20 +23,39 @@ namespace Orso.Arpa.Application.General
         {
             IEnumerable<PropertyInfo> props = typeof(TDestination)
                 .GetProperties()
-                .Where(prop => Attribute.IsDefined(prop, typeof(TranslateAttribute)) && prop.PropertyType == typeof(string));
+                .Where(prop =>
+                    Attribute.IsDefined(prop, typeof(TranslateAttribute))
+                    && (prop.PropertyType == typeof(string) || prop.PropertyType.IsAssignableFrom(typeof(List<string>))));
 
             foreach (PropertyInfo prop in props)
             {
                 var value = prop.GetValue(destination) as string;
-                if (string.IsNullOrWhiteSpace(value))
+                TranslateAttribute attr = prop.GetCustomAttribute<TranslateAttribute>();
+
+                if (!string.IsNullOrWhiteSpace(value) && _localizerCache.TryGetTranslation(value, attr.LocalizationKey, _uiCulture, out var newValue))
+                {
+                    prop.SetValue(destination, newValue);
+                    continue;
+                }
+
+                if (prop.GetValue(destination) is not IEnumerable<string> valueCollection)
                 {
                     continue;
                 }
 
-                if (_localizerCache.TryGetTranslation(value, typeof(TDestination).Name, _uiCulture, out var newValue))
+                var newValueList = new List<string>();
+                foreach (var val in valueCollection)
                 {
-                    prop.SetValue(destination, newValue);
+                    if (_localizerCache.TryGetTranslation(value, attr.LocalizationKey, _uiCulture, out var newVal))
+                    {
+                        newValueList.Add(newVal);
+                    }
+                    else
+                    {
+                        newValueList.Add(val);
+                    }
                 }
+                prop.SetValue(destination, newValueList);
             }
         }
     }

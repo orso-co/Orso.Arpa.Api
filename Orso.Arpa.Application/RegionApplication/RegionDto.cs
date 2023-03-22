@@ -7,7 +7,7 @@ namespace Orso.Arpa.Application.RegionApplication
 {
     public class RegionDto : BaseEntityDto
     {
-        [Translate]
+        [Translate(LocalizationKeys.REGION)]
         public string Name { get; set; }
         public bool IsForRehearsal { get; set; }
         public bool IsForPerformance { get; set; }
@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.RegionApplication
     {
         public RegionDtoMappingProfile()
         {
-            CreateMap<Region, RegionDto>()
+            _ = CreateMap<Region, RegionDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>()
                 .AfterMap<LocalizeAction<Region, RegionDto>>();
         }

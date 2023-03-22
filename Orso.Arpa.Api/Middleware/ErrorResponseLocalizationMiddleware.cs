@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Orso.Arpa.Infrastructure.Localization;
 
 namespace Orso.Arpa.Api.Middleware
 {
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Api.Middleware
         public async Task Invoke(HttpContext context)
         {
             var culture = CultureInfo.CurrentUICulture.Name;
-            IStringLocalizer localizer = _localizerFactory.Create("Validator", culture);
+            IStringLocalizer localizer = _localizerFactory.Create(LocalizationKeys.VALIDATION, culture);
 
             Stream originalBody = context.Response.Body;
 
