@@ -46,7 +46,7 @@ namespace Orso.Arpa.Application.General
                 var newValueList = new List<string>();
                 foreach (var val in valueCollection)
                 {
-                    if (_localizerCache.TryGetTranslation(value, attr.LocalizationKey, _uiCulture, out var newVal))
+                    if (_localizerCache.TryGetTranslation(val, attr.LocalizationKey, _uiCulture, out var newVal))
                     {
                         newValueList.Add(newVal);
                     }
