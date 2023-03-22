@@ -37,7 +37,7 @@ public class MyProjectsControllerTests : IntegrationTestBase
         dto.Project.Type.Name = "Konzertreise (Tour)";
         dto.Participations[0].MusicianProfile.InstrumentName = "Tuba";
         dto.Participations[1].MusicianProfile.InstrumentName = "Alt";
-        var expectedResult = new List<MyProjectDto>
+        var expectedResult = new MyProjectListDto
         {
             UserProjects = new List<MyProjectDto>
             {
