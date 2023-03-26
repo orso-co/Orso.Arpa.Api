@@ -19,7 +19,7 @@ public static class List
         public IEnumerable<ProjectParticipation> ProjectParticipations { get; set; }
     }
 
-    public class Query : IRequest<IEnumerable<MyProjectGrouping>>
+    public class Query : IRequest<Tuple<IEnumerable<MyProjectGrouping>, int>>
     {
         public Guid PersonId { get; set; }
         public int? Limit { get; set; }
@@ -27,7 +27,7 @@ public static class List
         public bool IncludeCompleted { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, IEnumerable<MyProjectGrouping>>
+    public class Handler : IRequestHandler<Query, Tuple<IEnumerable<MyProjectGrouping>, int>>
     {
         private readonly IArpaContext _arpaContext;
 
@@ -36,7 +36,7 @@ public static class List
             _arpaContext = arpaContext;
         }
 
-        public async Task<IEnumerable<MyProjectGrouping>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Tuple<IEnumerable<MyProjectGrouping>, int>> Handle(Query request, CancellationToken cancellationToken)
         {
             List<Guid> musicianProfileIds = await _arpaContext.MusicianProfiles
                 .Where(mp => mp.PersonId == request.PersonId)
@@ -48,8 +48,14 @@ public static class List
                     && !p.IsHiddenForPerformers
                     && !ProjectStatus.Cancelled.Equals(p.Status)
                     && !p.Children.Any())
-                .OrderByDescending(p => p.StartDate)
-                .Skip(request.Offset ?? 0);
+                .OrderByDescending(p => p.StartDate);
+
+            var totalRecordsCount = await projectQuery.CountAsync(cancellationToken);
+
+            if (request.Offset.HasValue)
+            {
+                projectQuery = projectQuery.Skip(request.Offset ?? 0);
+            }
 
             if (request.Limit.HasValue)
             {
@@ -73,7 +79,7 @@ public static class List
                 });
             }
 
-            return result;
+            return new Tuple<IEnumerable<MyProjectGrouping>, int>(result, totalRecordsCount);
         }
     }
 }

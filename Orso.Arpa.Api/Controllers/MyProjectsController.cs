@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +26,7 @@ public class MyProjectsController : BaseController
     [HttpGet]
     [Authorize(Roles = RoleNames.Performer)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<MyProjectDto>>> Get(
+    public async Task<ActionResult<MyProjectListDto>> Get(
             [FromQuery] int? limit,
             [FromQuery] int? offset,
             [FromQuery] bool includeCompleted = false)

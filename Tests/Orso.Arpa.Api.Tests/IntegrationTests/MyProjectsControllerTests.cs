@@ -20,6 +20,13 @@ public class MyProjectsControllerTests : IntegrationTestBase
     [Test, Order(1)]
     public async Task Should_Get_My_Projects()
     {
+        // Arrange
+        var expectedResult = new MyProjectListDto
+        {
+            TotalRecordsCount = 3,
+            UserProjects = MyProjectDtoData.PerformerProjects
+        };
+
         // Act
         HttpResponseMessage responseMessage = await _authenticatedServer
             .CreateClient()
@@ -28,8 +35,8 @@ public class MyProjectsControllerTests : IntegrationTestBase
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
-        _ = result.Should().BeEquivalentTo(MyProjectDtoData.PerformerProjects, opt => opt.WithStrictOrdering());
+        MyProjectListDto result = await DeserializeResponseMessageAsync<MyProjectListDto>(responseMessage);
+        _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.UserProjects));
     }
 
     [Test, Order(2)]
@@ -40,9 +47,13 @@ public class MyProjectsControllerTests : IntegrationTestBase
         dto.Project.Type.Name = "Konzertreise (Tour)";
         dto.Participations[0].MusicianProfile.InstrumentName = "Tuba";
         dto.Participations[1].MusicianProfile.InstrumentName = "Alt";
-        var expectedResult = new List<MyProjectDto>
+        var expectedResult = new MyProjectListDto
         {
-            dto
+            UserProjects = new List<MyProjectDto>
+            {
+                dto
+            },
+            TotalRecordsCount = 3
         };
         var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.MyProjectsController.Get(offset: 2, limit: 1));
         requestMessage.Headers.Add("Accept-Language", "de");
@@ -55,8 +66,8 @@ public class MyProjectsControllerTests : IntegrationTestBase
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
-        _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrdering());
+        MyProjectListDto result = await DeserializeResponseMessageAsync<MyProjectListDto>(responseMessage);
+        _ = result.Should().BeEquivalentTo(expectedResult);
     }
 
     [Test, Order(3)]
@@ -85,11 +96,16 @@ public class MyProjectsControllerTests : IntegrationTestBase
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
             ParticipationStatusResult = ProjectParticipationStatusResult.Pending
         });
-        var expectedResult = new List<MyProjectDto>
+        var expectedList = new List<MyProjectDto>
         {
             rockingXMasDto
         };
-        expectedResult.AddRange(MyProjectDtoData.PerformerProjects);
+        expectedList.AddRange(MyProjectDtoData.PerformerProjects);
+        var expectedDto = new MyProjectListDto
+        {
+            UserProjects = expectedList,
+            TotalRecordsCount = 4
+        };
 
         // Act
         HttpResponseMessage responseMessage = await _authenticatedServer
@@ -99,8 +115,8 @@ public class MyProjectsControllerTests : IntegrationTestBase
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        IList<MyProjectDto> result = await DeserializeResponseMessageAsync<IList<MyProjectDto>>(responseMessage);
-        _ = result.Should().BeEquivalentTo(expectedResult);
+        MyProjectListDto result = await DeserializeResponseMessageAsync<MyProjectListDto>(responseMessage);
+        _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.WithStrictOrderingFor(dto => dto.UserProjects));
     }
 
     [Test, Order(100)]
