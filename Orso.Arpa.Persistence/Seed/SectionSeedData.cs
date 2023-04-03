@@ -170,10 +170,10 @@ namespace Orso.Arpa.Persistence.Seed
         public static Section Performers => new(Guid.Parse("8bba816f-2315-43c0-b18e-99a27b1c9668"), "Performers", null, false);
 
         // Conductor
-        public static Section Conductor => new(Guid.Parse("4E7A61C5-D2E4-4E3B-B21D-34A90CF958B2"), "Conductor", Performers.Id, false);
-        public static Section AssistantConductor => new(Guid.Parse("18f1e750-f50d-4f06-8205-21203981bff6"), "Assistant Conductor", Conductor.Id, false);
-        public static Section Repetiteur => new(Guid.Parse("6fc908f0-da26-4237-80ca-dfe30453123c"), "Répétiteur", Conductor.Id, false);
-        public static Section VocalCoach => new(Guid.Parse("94c42496-fdb6-4341-b82f-735fd1706d39"), "Vocal Coach", Conductor.Id, false);
+        public static Section Conductor => new(Guid.Parse("4E7A61C5-D2E4-4E3B-B21D-34A90CF958B2"), "Conductor", Performers.Id, true);
+        public static Section AssistantConductor => new(Guid.Parse("18f1e750-f50d-4f06-8205-21203981bff6"), "Assistant Conductor", Conductor.Id, true);
+        public static Section Repetiteur => new(Guid.Parse("6fc908f0-da26-4237-80ca-dfe30453123c"), "Répétiteur", Conductor.Id, true);
+        public static Section VocalCoach => new(Guid.Parse("94c42496-fdb6-4341-b82f-735fd1706d39"), "Vocal Coach", Conductor.Id, true);
 
         // CHOIR VOICES
         public static Section Choir => new(Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"), "Choir", Performers.Id, false);
