@@ -350,3 +350,6 @@ healthchecksdb
 #MAC system files
 .DS_Store
 *.playlist
+
+#IDE Settings Jetbrains Rider
+/Orso.Arpa.Api.sln.DotSettings
