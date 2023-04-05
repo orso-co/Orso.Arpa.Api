@@ -247,7 +247,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             ElectricGuitarBand,
             ElectricBassBand,
             DrumSetBand,
-            KeyboardsBand
+            KeyboardsBand,
+            Conductor,
+            AssistantConductor,
+            Repetiteur,
+            VocalCoach
         };
 
         public static SectionDto Performers => new() { Id = Guid.Parse("8bba816f-2315-43c0-b18e-99a27b1c9668"), Name = "Performers", };
