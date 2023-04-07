@@ -25,7 +25,6 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var services = new ServiceCollection();
             _ = services.AddSingleton<RoleBasedSetNullAction<ProjectParticipation, ProjectParticipationDto>>();
-            _ = services.AddSingleton<ProjectParticipationStatusResultResolver>();
             _ = services.AddSingleton(_tokenAccessor);
             _ = services.AddSingleton(_localizerCache);
             _ = services.AddSingleton<LocalizeAction<MusicianProfile, ReducedMusicianProfileDto>>();

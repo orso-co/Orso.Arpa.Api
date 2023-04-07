@@ -9,13 +9,8 @@ using Orso.Arpa.Domain.Logic.ProjectParticipations;
 namespace Orso.Arpa.Application.Tests.ProjectApplication
 {
     [TestFixture]
-    public class ProjectParticipationStatusResultResolverTests
+    public class ProjectParticipationTests
     {
-        private ProjectParticipationStatusResultResolver CreateProjectParticipationStatusResultResolver()
-        {
-            return new ProjectParticipationStatusResultResolver();
-        }
-
         private static IEnumerable<TestCaseData> s_testData
         {
             get
@@ -40,23 +35,16 @@ namespace Orso.Arpa.Application.Tests.ProjectApplication
             ProjectParticipationStatusResult expectedResult)
         {
             // Arrange
-            ProjectParticipationStatusResultResolver projectParticipationStatusResultResolver = CreateProjectParticipationStatusResultResolver();
-            var source = new ProjectParticipation(new SetProjectParticipation.Command
+            var projectParticipation = new ProjectParticipation(new SetProjectParticipation.Command
             {
                 ParticipationStatusInner = projectParticipationStatusInner,
                 ParticipationStatusInternal = projectParticipationStatusInternal
             });
-            IHasProjectParticipationStatusDto destination = new ProjectParticipationDto();
 
-            // Act
-            ProjectParticipationStatusResult result = projectParticipationStatusResultResolver.Resolve(
-                source,
-                destination,
-                default,
-                null);
+            _ = new ProjectParticipationDto();
 
             // Assert
-            _ = result.Should().Be(expectedResult);
+            _ = projectParticipation.ParticipationStatusResult.Should().Be(expectedResult);
         }
     }
 }
