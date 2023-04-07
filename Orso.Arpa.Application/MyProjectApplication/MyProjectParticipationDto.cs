@@ -26,8 +26,7 @@ namespace Orso.Arpa.Application.MyProjectApplication
     {
         public MyProjectParticipationDtoMappingProfile()
         {
-            _ = CreateMap<ProjectParticipation, MyProjectParticipationDto>()
-                .ForMember(dest => dest.ParticipationStatusResult, opt => opt.MapFrom<ProjectParticipationStatusResultResolver>());
+            _ = CreateMap<ProjectParticipation, MyProjectParticipationDto>();
         }
     }
 }

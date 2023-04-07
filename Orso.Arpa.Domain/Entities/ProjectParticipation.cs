@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Logic.MyProjects;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
@@ -64,5 +65,15 @@ namespace Orso.Arpa.Domain.Entities
         public ProjectParticipationStatusInner? ParticipationStatusInner { get; set; }
         public ProjectParticipationStatusInternal? ParticipationStatusInternal { get; set; }
         public ProjectInvitationStatus? InvitationStatus { get; set; }
+
+        [NotMapped]
+        public ProjectParticipationStatusResult ParticipationStatusResult =>
+           ProjectParticipationStatusInner.Acceptance.Equals(ParticipationStatusInner)
+                && ProjectParticipationStatusInternal.Acceptance.Equals(ParticipationStatusInternal)
+                ? ProjectParticipationStatusResult.Acceptance
+                : ProjectParticipationStatusInner.Refusal.Equals(ParticipationStatusInner)
+                || ProjectParticipationStatusInternal.Refusal.Equals(ParticipationStatusInternal)
+                ? ProjectParticipationStatusResult.Refusal
+                : ProjectParticipationStatusResult.Pending;
     }
 }

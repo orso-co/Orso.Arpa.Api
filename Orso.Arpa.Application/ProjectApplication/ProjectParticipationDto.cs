@@ -52,7 +52,7 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .ForMember(dest => dest.MusicianProfile, opt => opt.MapFrom(src => src.MusicianProfile))
                 .ForMember(dest => dest.Project, opt => opt.MapFrom(src => src.Project))
                 .ForMember(dest => dest.Person, opt => opt.MapFrom(src => src.MusicianProfile.Person))
-                .ForMember(dest => dest.ParticipationStatusResult, opt => opt.MapFrom<ProjectParticipationStatusResultResolver>())
+                .ForMember(dest => dest.ParticipationStatusResult, opt => opt.MapFrom(src => src.ParticipationStatusResult))
                 .IncludeBase<BaseEntity, BaseEntityDto>()
                 .AfterMap<RoleBasedSetNullAction<ProjectParticipation, ProjectParticipationDto>>();
         }
