@@ -1,4 +1,6 @@
-$ git checkout master
+$ git switch develop
+$ git pull
+$ git switch master
 $ git pull
 $ git merge develop --ff-only
 $ git push
