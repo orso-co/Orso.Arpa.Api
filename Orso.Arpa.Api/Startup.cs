@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AspNetCoreRateLimit;
+using Azure.Storage.Blobs;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using HotChocolate.Execution.Configuration;
@@ -45,6 +46,7 @@ using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+using Orso.Arpa.Infrastructure.FileManagement;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
 using Orso.Arpa.Mail;
@@ -126,6 +128,15 @@ namespace Orso.Arpa.Api
             ConfigureGraphQL(services);
 
             ConfigureIpRateLimiting(services);
+
+            ConfigureAzureStorageAccount(services);
+        }
+
+        private void ConfigureAzureStorageAccount(IServiceCollection services)
+        {
+            _ = services.AddScoped(_ => new BlobServiceClient(Configuration.GetConnectionString("AzureStorageConnection")));
+            _ = AddConfiguration<AzureStorageConfiguration>(services);
+            services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
         }
 
         private void ConfigureIpRateLimiting(IServiceCollection services)

@@ -6,11 +6,15 @@
 
   <ItemGroup>
     <Compile Remove="Authorization\AuthorizationHandlers\**" />
+    <Compile Remove="AzureStorage\**" />
     <EmbeddedResource Remove="Authorization\AuthorizationHandlers\**" />
+    <EmbeddedResource Remove="AzureStorage\**" />
     <None Remove="Authorization\AuthorizationHandlers\**" />
+    <None Remove="AzureStorage\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.16.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.5" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
   </ItemGroup>

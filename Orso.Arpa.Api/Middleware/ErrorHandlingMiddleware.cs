@@ -142,6 +142,16 @@ namespace Orso.Arpa.Api.Middleware
                     _logger.LogWarning(aze, "AUTHORIZATION ERROR");
                     break;
 
+                case Azure.RequestFailedException arfe:
+                    errorMessage = new ValidationProblemDetails
+                    {
+                        Title = arfe.ErrorCode,
+                        Status = arfe.Status,
+                        Detail = arfe.Message
+                    };
+                    errorLogMessage = "NOT FOUND ERROR";
+                    break;
+
                 case Exception e:
                     errorMessage = new ValidationProblemDetails
                     {
