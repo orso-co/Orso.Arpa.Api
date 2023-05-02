@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
@@ -47,7 +48,7 @@ namespace Orso.Arpa.Persistence
         private async Task SeedViewsAndFunctionsAsync()
         {
             var sqlDirectory = Path.Combine(AppContext.BaseDirectory, "SqlStatements");
-            foreach (var sqlFile in Directory.EnumerateFiles(sqlDirectory, "*.sql"))
+            foreach (var sqlFile in Directory.EnumerateFiles(sqlDirectory, "*.sql").OrderBy(filename => filename))
             {
                 var sqlStatement = File.ReadAllText(Path.Combine(sqlDirectory, sqlFile));
                 _ = await _arpaContext.ExecuteSqlAsync(sqlStatement);
