@@ -217,7 +217,10 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<IActionResult> SetProfilePicture(ProfilePictureCreateDto profilePictureCreateDto)
         {
             IFileResult fileResult = await _personService.SetProfilePictureAsync(profilePictureCreateDto);
-            return CreatedAtAction(nameof(GetProfilePicture), new { id = profilePictureCreateDto.Id.ToString() }, File(fileResult.Content, fileResult.ContentType, fileResult.Name));
+            return CreatedAtAction(
+                nameof(GetProfilePicture),
+                new { id = profilePictureCreateDto.Id.ToString() },
+                File(fileResult.Content, fileResult.ContentType, $"Arpa_Profile_Picture_{profilePictureCreateDto.Id}{fileResult.Extension}"));
         }
 
         /// <summary>
@@ -226,6 +229,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
+        [AllowAnonymous]
         [HttpGet("{id}/profilepicture")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -235,26 +239,6 @@ namespace Orso.Arpa.Api.Controllers
             IFileResult fileResult = await _personService.GetProfilePictureAsync(id);
 
             return File(fileResult.Content, fileResult.ContentType, $"Arpa_Profile_Picture_{id}{fileResult.Extension}");
-            // return File(fileResult.Content, "image/webp", $"Arpa_Profile_Picture_{id}{fileResult.Extension}");
-        }
-
-        /// <summary>
-        /// Gets downloadable profile picture for the given person
-        /// </summary>
-        /// <response code="200"></response>
-        /// <response code="404">If entity could not be found</response>
-        /// <response code="422">If validation fails</response>
-        [HttpGet("{id}/profilepicture/download")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> DownloadProfilePicture([FromRoute] Guid id)
-        {
-            IFileResult fileResult = await _personService.GetProfilePictureAsync(id);
-            return new FileContentResult(fileResult.Content, "application/octet-stream")
-            {
-                FileDownloadName = $"Arpa_Profile_Picture_{id}{fileResult.Extension}"
-            };
         }
 
         /// <summary>
