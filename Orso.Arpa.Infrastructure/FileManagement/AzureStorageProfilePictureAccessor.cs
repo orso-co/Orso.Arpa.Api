@@ -4,6 +4,7 @@ using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Orso.Arpa.Domain.Configuration;
 
 namespace Orso.Arpa.Infrastructure.FileManagement
@@ -19,20 +20,39 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             _azureStorageConfiguration = azureStorageConfiguration;
         }
 
-        public async Task<byte[]> SaveAsync(IFormFile model, string fileName = null)
+        public async Task<FileResult> SaveAsync(IFormFile file, string fileName = null)
         {
             BlobContainerClient blobContainer = await GetProfilePictureContainerAsync();
 
-            BlobClient blobClient = blobContainer.GetBlobClient(fileName ?? model.FileName);
+            BlobClient blobClient = blobContainer.GetBlobClient(fileName ?? file.FileName);
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
 
-            _ = await blobClient.UploadAsync(model.OpenReadStream());
+            if (!new FileExtensionContentTypeProvider().TryGetContentType(fileName, out var mimeType))
+            {
+                mimeType = "image/webp";
+            }
+
+            Response<BlobContentInfo> response = await blobClient.UploadAsync(file.OpenReadStream(), new BlobHttpHeaders
+            {
+                ContentType = mimeType,
+                ContentDisposition = file.ContentDisposition,
+                ContentLanguage = extension
+            });
 
             using var ms = new MemoryStream();
-            await model.CopyToAsync(ms);
-            return ms.ToArray();
+            await file.CopyToAsync(ms);
+
+            return new FileResult
+            {
+                Content = ms.ToArray(),
+                Name = fileName,
+                ContentType = mimeType,
+                Extension = extension,
+                LastModified = response.Value.LastModified
+            };
         }
 
-        public async Task<byte[]> GetAsync(string fileName)
+        public async Task<FileResult> GetAsync(string fileName)
         {
             BlobContainerClient blobContainer = await GetProfilePictureContainerAsync();
 
@@ -40,7 +60,15 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             Response<BlobDownloadInfo> downloadContent = await blobClient.DownloadAsync();
             using var ms = new MemoryStream();
             await downloadContent.Value.Content.CopyToAsync(ms);
-            return ms.ToArray();
+
+            return new FileResult
+            {
+                Content = ms.ToArray(),
+                Name = fileName,
+                ContentType = downloadContent.Value.Details.ContentType,
+                Extension = downloadContent.Value.Details.ContentLanguage,
+                LastModified = downloadContent.Value.Details.LastModified
+            };
         }
 
         public async Task DeleteAsync(string fileName)

@@ -5,8 +5,8 @@ namespace Orso.Arpa.Infrastructure.FileManagement
 {
     public interface IFileAccessor
     {
-        Task<byte[]> SaveAsync(IFormFile model, string fileName = null);
-        Task<byte[]> GetAsync(string fileName);
+        Task<FileResult> SaveAsync(IFormFile model, string fileName = null);
+        Task<FileResult> GetAsync(string fileName);
         Task DeleteAsync(string fileName);
     }
 }

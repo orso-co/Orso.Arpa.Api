@@ -217,10 +217,10 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> SetProfilePicture([FromRoute] Guid id, IFormFile file)
+        public async Task<IActionResult> SetProfilePicture(ProfilePictureCreateDto profilePictureCreateDto)
         {
-            var result = await _fileAccessor.SaveAsync(file, id.ToString());
-            return CreatedAtAction(nameof(GetProfilePicture), new { id = id.ToString() }, File(result, "image/webp"));
+            Infrastructure.FileManagement.FileResult fileResult = await _fileAccessor.SaveAsync(profilePictureCreateDto.File, $"{profilePictureCreateDto.Id}.jpeg");
+            return CreatedAtAction(nameof(GetProfilePicture), new { id = profilePictureCreateDto.Id.ToString() }, File(fileResult.Content, fileResult.ContentType, fileResult.Name));
         }
 
         /// <summary>
@@ -236,11 +236,11 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> GetProfilePicture([FromRoute] Guid id)
         {
-            var imgBytes = await _fileAccessor.GetAsync(id.ToString());
+            Infrastructure.FileManagement.FileResult fileResult = await _fileAccessor.GetAsync($"{id}.jpeg");
 
-            return File(imgBytes, "image/webp");
+            return File(fileResult.Content, fileResult.ContentType, fileResult.Name);
+            // return File(fileResult.Content, "image/webp", fileResult.Name);
         }
-
 
         /// <summary>
         /// Gets downloadable profile picture for the given person
@@ -255,10 +255,10 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> DownloadProfilePicture([FromRoute] Guid id)
         {
-            var imagBytes = await _fileAccessor.GetAsync(id.ToString());
-            return new FileContentResult(imagBytes, "application/octet-stream")
+            Infrastructure.FileManagement.FileResult fileResult = await _fileAccessor.GetAsync($"{id}.jpeg");
+            return new FileContentResult(fileResult.Content, "application/octet-stream")
             {
-                FileDownloadName = Guid.NewGuid().ToString() + ".webp",
+                FileDownloadName = Guid.NewGuid().ToString() + fileResult.Extension,
             };
         }
 
@@ -278,7 +278,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteProfilePicture([FromRoute] Guid id)
         {
-            await _fileAccessor.DeleteAsync(id.ToString());
+            await _fileAccessor.DeleteAsync($"{id}.jpeg");
             return NoContent();
         }
     }
