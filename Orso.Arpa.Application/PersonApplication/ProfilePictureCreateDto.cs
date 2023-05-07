@@ -1,9 +1,11 @@
 using System;
 using System.IO;
 using System.Linq;
+using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Domain.Logic.Persons;
 
 namespace Orso.Arpa.Application.PersonApplication
 {
@@ -14,6 +16,16 @@ namespace Orso.Arpa.Application.PersonApplication
 
         [FromForm]
         public IFormFile File { get; set; }
+    }
+
+    public class ProfilePictureCreateDtoMappingProfile : Profile
+    {
+        public ProfilePictureCreateDtoMappingProfile()
+        {
+            CreateMap<ProfilePictureCreateDto, UploadProfilePicture.Command>()
+                .ForMember(cmd => cmd.PersonId, opt => opt.MapFrom(dto => dto.Id))
+                .ForMember(cmd => cmd.FormFile, opt => opt.MapFrom(dto => dto.File));
+        }
     }
 
     public class ProfilePictureCreateDtoValidator : AbstractValidator<ProfilePictureCreateDto>

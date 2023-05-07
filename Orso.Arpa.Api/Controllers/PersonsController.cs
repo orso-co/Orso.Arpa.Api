@@ -8,9 +8,9 @@ using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.PersonApplication;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authorization;
-using Orso.Arpa.Infrastructure.FileManagement;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -18,13 +18,11 @@ namespace Orso.Arpa.Api.Controllers
     {
         private readonly IPersonService _personService;
         private readonly IMusicianProfileService _musicianProfileService;
-        private readonly IFileAccessor _fileAccessor;
 
-        public PersonsController(IPersonService personService, IMusicianProfileService musicianProfileService, IFileAccessor fileAccessor)
+        public PersonsController(IPersonService personService, IMusicianProfileService musicianProfileService)
         {
             _personService = personService;
             _musicianProfileService = musicianProfileService;
-            _fileAccessor = fileAccessor;
         }
 
         /// <summary>
@@ -211,15 +209,14 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="201"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        //[Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
-        [AllowAnonymous]
+        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
         [HttpPost("{id}/profilepicture")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> SetProfilePicture(ProfilePictureCreateDto profilePictureCreateDto)
         {
-            Infrastructure.FileManagement.FileResult fileResult = await _fileAccessor.SaveAsync(profilePictureCreateDto.File, $"{profilePictureCreateDto.Id}.jpeg");
+            IFileResult fileResult = await _personService.SetProfilePictureAsync(profilePictureCreateDto);
             return CreatedAtAction(nameof(GetProfilePicture), new { id = profilePictureCreateDto.Id.ToString() }, File(fileResult.Content, fileResult.ContentType, fileResult.Name));
         }
 
@@ -229,17 +226,16 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [AllowAnonymous]
         [HttpGet("{id}/profilepicture")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> GetProfilePicture([FromRoute] Guid id)
         {
-            Infrastructure.FileManagement.FileResult fileResult = await _fileAccessor.GetAsync($"{id}.jpeg");
+            IFileResult fileResult = await _personService.GetProfilePictureAsync(id);
 
-            return File(fileResult.Content, fileResult.ContentType, fileResult.Name);
-            // return File(fileResult.Content, "image/webp", fileResult.Name);
+            return File(fileResult.Content, fileResult.ContentType, $"Arpa_Profile_Picture_{id}{fileResult.Extension}");
+            // return File(fileResult.Content, "image/webp", $"Arpa_Profile_Picture_{id}{fileResult.Extension}");
         }
 
         /// <summary>
@@ -248,17 +244,16 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        [AllowAnonymous]
         [HttpGet("{id}/profilepicture/download")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> DownloadProfilePicture([FromRoute] Guid id)
         {
-            Infrastructure.FileManagement.FileResult fileResult = await _fileAccessor.GetAsync($"{id}.jpeg");
+            IFileResult fileResult = await _personService.GetProfilePictureAsync(id);
             return new FileContentResult(fileResult.Content, "application/octet-stream")
             {
-                FileDownloadName = Guid.NewGuid().ToString() + fileResult.Extension,
+                FileDownloadName = $"Arpa_Profile_Picture_{id}{fileResult.Extension}"
             };
         }
 
@@ -268,8 +263,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="204"></response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
-        // [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
-        [AllowAnonymous]
+        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
         [HttpDelete("{id}/profilepicture")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
@@ -278,7 +272,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteProfilePicture([FromRoute] Guid id)
         {
-            await _fileAccessor.DeleteAsync($"{id}.jpeg");
+            await _personService.DeleteProfilePictureAsync(id);
             return NoContent();
         }
     }

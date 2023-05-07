@@ -8,41 +8,45 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Person> builder)
         {
-            builder
+            _ = builder
                 .Property(e => e.GivenName)
                 .HasMaxLength(50);
 
-            builder
+            _ = builder
                 .Property(e => e.Surname)
                 .HasMaxLength(50);
 
-            builder
+            _ = builder
                 .Property(e => e.BirthName)
                 .HasMaxLength(50);
 
-            builder
+            _ = builder
                 .Property(e => e.AboutMe)
                 .HasMaxLength(1000);
 
-            builder
+            _ = builder
                 .Property(e => e.Birthplace)
                 .HasMaxLength(50);
 
-            builder
+            _ = builder
                 .Property(e => e.PersonBackgroundTeam)
                 .HasMaxLength(500);
 
-            builder
+            _ = builder
                 .Property(e => e.MovingBox)
                 .HasMaxLength(10000);
 
-            builder
+            _ = builder
+                .Property(e => e.ProfilePictureFileName)
+                .HasMaxLength(100);
+
+            _ = builder
                 .HasOne(e => e.Gender)
                 .WithMany()
                 .HasForeignKey(e => e.GenderId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder
+            _ = builder
                .HasOne(e => e.ContactVia)
                .WithMany(e => e.ContactsRecommended)
                .HasForeignKey(e => e.ContactViaId)

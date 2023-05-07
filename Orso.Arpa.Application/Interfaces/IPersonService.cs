@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.PersonApplication;
+using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Application.Interfaces
 {
@@ -19,5 +20,8 @@ namespace Orso.Arpa.Application.Interfaces
         Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addstakeholderGroupDto);
         Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto);
         Task<PersonInviteResultDto> InviteAsync(PersonInviteDto dto);
+        Task<IFileResult> SetProfilePictureAsync(ProfilePictureCreateDto profilePictureCreateDto);
+        Task<IFileResult> GetProfilePictureAsync(Guid personId);
+        Task DeleteProfilePictureAsync(Guid personId);
     }
 }

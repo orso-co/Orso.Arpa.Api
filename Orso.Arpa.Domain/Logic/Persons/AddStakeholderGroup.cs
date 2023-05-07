@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
         {
             public MappingProfile()
             {
-                CreateMap<Command, PersonSection>()
+                _ = CreateMap<Command, PersonSection>()
                     .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                     .ForMember(dest => dest.SectionId, opt => opt.MapFrom(src => src.StakeholderGroupId));
             }
@@ -33,14 +33,14 @@ namespace Orso.Arpa.Domain.Logic.Persons
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(d => d.Id)
+                _ = RuleFor(d => d.Id)
                     .EntityExists<Command, Person>(arpaContext);
 
-                RuleFor(d => d.StakeholderGroupId)
+                _ = RuleFor(d => d.StakeholderGroupId)
                     .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, Section>(arpaContext)
-                    .MustAsync(async (dto, stakeholderGroupId, cancellation) => !(await arpaContext.Set<PersonSection>()
-                        .AnyAsync(ar => ar.SectionId == stakeholderGroupId && ar.PersonId == dto.Id, cancellation)))
+                    .MustAsync(async (dto, stakeholderGroupId, cancellation) => !await arpaContext.Set<PersonSection>()
+                        .AnyAsync(ar => ar.SectionId == stakeholderGroupId && ar.PersonId == dto.Id, cancellation))
                     .WithMessage("The stakeholder group is already linked to the person");
             }
         }
@@ -48,14 +48,11 @@ namespace Orso.Arpa.Domain.Logic.Persons
         public class Handler : IRequestHandler<Command>
         {
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
             public Handler(
-                IArpaContext arpaContext,
-                IMapper mapper)
+                IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -65,14 +62,11 @@ namespace Orso.Arpa.Domain.Logic.Persons
 
                 var personSection = new PersonSection(null, existingPerson, existingSection);
 
-                _arpaContext.Set<PersonSection>().Add(personSection);
+                _ = _arpaContext.Set<PersonSection>().Add(personSection);
 
-                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
-                {
-                    return Unit.Value;
-                }
-
-                throw new Exception("Problem creating person section");
+                return await _arpaContext.SaveChangesAsync(cancellationToken) > 0
+                    ? Unit.Value
+                    : throw new Exception("Problem creating person section");
             }
         }
     }

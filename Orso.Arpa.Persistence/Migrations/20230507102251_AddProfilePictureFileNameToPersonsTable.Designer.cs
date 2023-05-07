@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -11,9 +12,11 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20230507102251_AddProfilePictureFileNameToPersonsTable")]
+    partial class AddProfilePictureFileNameToPersonsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3271,105 +3274,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             LocalizationCulture = "de",
                             ResourceKey = "SelectValueDto",
                             Text = "Ausstehend"
-                        },
-                        new
-                        {
-                            Id = new Guid("8e360068-a09e-401f-91dd-24762adead14"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 467, DateTimeKind.Local).AddTicks(8393),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Vocal (Soloist)",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Gesang (Solist)"
-                        },
-                        new
-                        {
-                            Id = new Guid("313b91ae-bd55-4c91-9238-3ce6a1eca0b6"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 469, DateTimeKind.Local).AddTicks(347),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Moderator",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Moderator"
-                        },
-                        new
-                        {
-                            Id = new Guid("191fed69-5173-44ae-bfda-0c973d036097"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 470, DateTimeKind.Local).AddTicks(1841),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Narrator",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Sprecher/Erzähler"
-                        },
-                        new
-                        {
-                            Id = new Guid("34ed8754-87cf-42c8-abba-9c45ff00222e"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 471, DateTimeKind.Local).AddTicks(4046),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Bass (Soloist)",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Bass (Solist)"
-                        },
-                        new
-                        {
-                            Id = new Guid("6bec3344-2767-47b3-8889-1b07fe8b9b6f"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 472, DateTimeKind.Local).AddTicks(5163),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Baritone (Soloist)",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Bariton (Solist)"
-                        },
-                        new
-                        {
-                            Id = new Guid("f3f5c713-c37e-4059-a8f0-13fca7a8eaa7"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 473, DateTimeKind.Local).AddTicks(6048),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Tenor (Soloist)",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Tenor (Solist)"
-                        },
-                        new
-                        {
-                            Id = new Guid("6623a7ea-87b6-4a21-8317-3a672414f770"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 474, DateTimeKind.Local).AddTicks(7322),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Alto (Soloist)",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Alt (Solist)"
-                        },
-                        new
-                        {
-                            Id = new Guid("134efd01-4c4e-42dc-8c9a-f5f355578094"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 475, DateTimeKind.Local).AddTicks(8601),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Mezzo Soprano (Soloist)",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Mezzosopran (Solist)"
-                        },
-                        new
-                        {
-                            Id = new Guid("cd278f65-7762-4339-a1db-838d5c49760f"),
-                            CreatedAt = new DateTime(2023, 5, 9, 15, 59, 26, 477, DateTimeKind.Local).AddTicks(709),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Soprano (Soloist)",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SectionDto",
-                            Text = "Sopran (Solist)"
                         });
                 });
 
@@ -5659,96 +5563,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             IsInstrument = false,
                             Name = "Soloists",
                             ParentId = new Guid("8bba816f-2315-43c0-b18e-99a27b1c9668")
-                        },
-                        new
-                        {
-                            Id = new Guid("54cef8d8-e891-4d27-be25-94e44d3c365a"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Soprano (Soloist)",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
-                        },
-                        new
-                        {
-                            Id = new Guid("e84ffc93-fc24-481c-916f-b5aef4ba2d1f"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Mezzo Soprano (Soloist)",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
-                        },
-                        new
-                        {
-                            Id = new Guid("d0762cb0-4a6b-4935-b560-af4f148c949a"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Alto (Soloist)",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
-                        },
-                        new
-                        {
-                            Id = new Guid("71738278-1583-4875-9830-b182043e4ac3"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Tenor (Soloist)",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
-                        },
-                        new
-                        {
-                            Id = new Guid("08afd287-82b6-4259-b4f4-c40b78d3b69d"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Baritone (Soloist)",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
-                        },
-                        new
-                        {
-                            Id = new Guid("d1f8bd21-efa8-41d8-96ac-fe87e2b0092f"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Bass (Soloist)",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
-                        },
-                        new
-                        {
-                            Id = new Guid("ac157b00-106e-4277-99f1-9404f0df96b8"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Vocal (Soloist)",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
-                        },
-                        new
-                        {
-                            Id = new Guid("5c9d7048-1c80-4e16-b783-e39cd99dfc89"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Narrator",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
-                        },
-                        new
-                        {
-                            Id = new Guid("f33d5126-4cd8-41d7-8d35-4c188591ec3b"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            InstrumentPartCount = (byte)0,
-                            IsInstrument = true,
-                            Name = "Moderator",
-                            ParentId = new Guid("e0fdb057-c9b7-4477-be75-cbf920a26af6")
                         },
                         new
                         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Orso.Arpa.Application.AppointmentApplication;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Application.PersonApplication;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.Persons;
 
 namespace Orso.Arpa.Application.Services
@@ -27,7 +29,7 @@ namespace Orso.Arpa.Application.Services
         public async Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addStakeholderGroupDto)
         {
             AddStakeholderGroup.Command command = _mapper.Map<AddStakeholderGroup.Command>(addStakeholderGroupDto);
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
         }
 
         public Task<IEnumerable<PersonDto>> GetAsync()
@@ -45,7 +47,31 @@ namespace Orso.Arpa.Application.Services
         public async Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
         {
             RemoveStakeholderGroup.Command command = _mapper.Map<RemoveStakeholderGroup.Command>(removeStakeholderGroupDto);
-            await _mediator.Send(command);
+            _ = await _mediator.Send(command);
+        }
+
+        public async Task<IFileResult> SetProfilePictureAsync(ProfilePictureCreateDto profilePictureCreateDto)
+        {
+            var oldFileName = await _mediator.Send(new GetProfilePictureFileName.Query(profilePictureCreateDto.Id));
+            IFileResult fileResult = await _mediator.Send(_mapper.Map<UploadProfilePicture.Command>(profilePictureCreateDto));
+
+            await _mediator.Publish(new ProfilePictureUploadedNotification
+            {
+                PersonId = profilePictureCreateDto.Id,
+                OldFileName = oldFileName,
+                NewFileName = fileResult.Name
+            });
+            return fileResult;
+        }
+
+        public async Task<IFileResult> GetProfilePictureAsync(Guid personId)
+        {
+            return await _mediator.Send(new LoadProfilePicture.Query(personId));
+        }
+
+        public async Task DeleteProfilePictureAsync(Guid personId)
+        {
+            _ = await _mediator.Send(new DeleteProfilePicture.Command(personId));
         }
     }
 }

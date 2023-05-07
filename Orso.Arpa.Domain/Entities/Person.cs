@@ -77,6 +77,11 @@ namespace Orso.Arpa.Domain.Entities
             GeneralPreference = command.GeneralPreference;
         }
 
+        public void SetProfilePitureName(string profilePitureName)
+        {
+            ProfilePictureFileName = profilePitureName;
+        }
+
         public string GetPreferredEMailAddress()
         {
             return User?.Email ??
@@ -124,6 +129,8 @@ namespace Orso.Arpa.Domain.Entities
         public string Birthplace { get; private set; }
 
         public byte ExperienceLevel { get; private set; }
+
+        public string ProfilePictureFileName { get; private set; }
 
         /// <summary>
         /// Contains data from podio and filemaker migration in json format

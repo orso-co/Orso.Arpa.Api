@@ -6,6 +6,7 @@ using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Orso.Arpa.Domain.Configuration;
+using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.FileManagement
 {
@@ -20,7 +21,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             _azureStorageConfiguration = azureStorageConfiguration;
         }
 
-        public async Task<FileResult> SaveAsync(IFormFile file, string fileName = null)
+        public async Task<IFileResult> SaveAsync(IFormFile file, string fileName = null)
         {
             BlobContainerClient blobContainer = await GetProfilePictureContainerAsync();
 
@@ -42,7 +43,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             using var ms = new MemoryStream();
             await file.CopyToAsync(ms);
 
-            return new FileResult
+            return (IFileResult)new FileResult
             {
                 Content = ms.ToArray(),
                 Name = fileName,
@@ -52,7 +53,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             };
         }
 
-        public async Task<FileResult> GetAsync(string fileName)
+        public async Task<IFileResult> GetAsync(string fileName)
         {
             BlobContainerClient blobContainer = await GetProfilePictureContainerAsync();
 
@@ -61,7 +62,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             using var ms = new MemoryStream();
             await downloadContent.Value.Content.CopyToAsync(ms);
 
-            return new FileResult
+            return (IFileResult)new FileResult
             {
                 Content = ms.ToArray(),
                 Name = fileName,
