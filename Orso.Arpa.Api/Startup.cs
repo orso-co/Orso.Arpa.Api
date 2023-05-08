@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using AspNetCoreRateLimit;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using HotChocolate.Execution.Configuration;
@@ -55,6 +56,8 @@ using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Orso.Arpa.Persistence.GraphQL;
+using SixLabors.ImageSharp.Web.Caching.Azure;
+using SixLabors.ImageSharp.Web.DependencyInjection;
 using Yoh.Text.Json.NamingPolicies;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
 
@@ -134,9 +137,18 @@ namespace Orso.Arpa.Api
 
         private void ConfigureAzureStorageAccount(IServiceCollection services)
         {
-            _ = services.AddScoped(_ => new BlobServiceClient(Configuration.GetConnectionString("AzureStorageConnection")));
+            var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
+            _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
             _ = AddConfiguration<AzureStorageConfiguration>(services);
-            services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
+            _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
+            _ = services.AddImageSharp()
+                .AddProvider<ArpaProfilePictureProvider>()
+                .Configure<AzureBlobStorageCacheOptions>(options =>
+                {
+                    options.ConnectionString = connectionString;
+                    options.ContainerName = "ImageSharpCache";
+                    _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
+                }).SetCache<AzureBlobStorageCache>();
         }
 
         private void ConfigureIpRateLimiting(IServiceCollection services)
@@ -328,7 +340,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IMyContactDetailService, MyContactDetailService>();
             _ = services.AddScoped<IAddressService, AddressService>();
             _ = services.AddScoped<IMyProjectService, MyProjectService>();
-            services.AddScoped<IFileNameGenerator, FileNameGenerator>();
+            _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 
             _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
@@ -483,6 +495,8 @@ namespace Orso.Arpa.Api
             EnsureDatabaseMigrations(app);
 
             PreloadTranslationsFromDb(app);
+
+            _ = app.UseImageSharp();
         }
 
         private static void ConfigureSecurityHeaders(IApplicationBuilder app, IWebHostEnvironment env)

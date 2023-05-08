@@ -233,6 +233,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProfilePicture([FromRoute] Guid id)
         {
             IFileResult fileResult = await _personService.GetProfilePictureAsync(id);
