@@ -133,7 +133,16 @@
         "Violoncello": "Cello",
         "Double Bass": "Kontrabass",
         "Band": "Band",
-        "Soloists":  "Solisten"
+        "Soloists": "Solisten",
+        "Vocal (Soloist)": "Gesang (Solist)",
+        "Moderator": "Moderator",
+        "Narrator": "Sprecher/Erzähler",
+        "Bass (Soloist)": "Bass (Solist)",
+        "Baritone (Soloist)": "Bariton (Solist)",
+        "Tenor (Soloist)": "Tenor (Solist)",
+        "Alto (Soloist)": "Alt (Solist)",
+        "Mezzo Soprano (Soloist)": "Mezzosopran (Solist)",
+        "Soprano (Soloist)": "Sopran (Solist)"
     },
     "SelectValueDto": {
         "Present": "Anwesend",

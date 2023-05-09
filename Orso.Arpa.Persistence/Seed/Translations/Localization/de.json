@@ -2542,5 +2542,113 @@
     "ModifiedBy": null,
     "ModifiedAt": null,
     "Deleted": false
+  },
+  {
+    "Key": "Vocal (Soloist)",
+    "Text": "Gesang (Solist)",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "8e360068-a09e-401f-91dd-24762adead14",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4678393+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Moderator",
+    "Text": "Moderator",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "313b91ae-bd55-4c91-9238-3ce6a1eca0b6",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4690347+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Narrator",
+    "Text": "Sprecher/Erzähler",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "191fed69-5173-44ae-bfda-0c973d036097",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4701841+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Bass (Soloist)",
+    "Text": "Bass (Solist)",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "34ed8754-87cf-42c8-abba-9c45ff00222e",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4714046+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Baritone (Soloist)",
+    "Text": "Bariton (Solist)",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "6bec3344-2767-47b3-8889-1b07fe8b9b6f",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4725163+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Tenor (Soloist)",
+    "Text": "Tenor (Solist)",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "f3f5c713-c37e-4059-a8f0-13fca7a8eaa7",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4736048+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Alto (Soloist)",
+    "Text": "Alt (Solist)",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "6623a7ea-87b6-4a21-8317-3a672414f770",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4747322+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Mezzo Soprano (Soloist)",
+    "Text": "Mezzosopran (Solist)",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "134efd01-4c4e-42dc-8c9a-f5f355578094",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4758601+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Soprano (Soloist)",
+    "Text": "Sopran (Solist)",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SectionDto",
+    "Id": "cd278f65-7762-4339-a1db-838d5c49760f",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2023-05-09T15:59:26.4770709+02:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
   }
 ]
