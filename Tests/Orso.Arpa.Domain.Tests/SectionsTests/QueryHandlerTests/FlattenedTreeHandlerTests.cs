@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
             IEnumerable<ITree<Section>> tree = await _handler.Handle(treeQuery, new CancellationToken());
 
             // Assert
-            _ = tree.Count().Should().Be(24);
+            _ = tree.Count().Should().Be(33);
             _ = tree.Select(t => t.Level).Distinct().Count().Should().Be(3);
             _ = tree.First().Data.Name.Should().Be("Assistant Conductor");
             _ = tree.Last().Data.Name.Should().Be("Contractors");

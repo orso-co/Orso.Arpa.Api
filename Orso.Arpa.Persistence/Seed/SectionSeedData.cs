@@ -119,16 +119,15 @@ namespace Orso.Arpa.Persistence.Seed
                     KeyboardsBand,
 
                 Soloists,
-/* Soloists - work in progress
                     SoloSoprano,
                     SoloMezzoSoprano,
                     SoloAlto,
                     SoloTenor,
                     SoloBaritone,
                     SoloBass,
+                    SoloVocal,
                     Narrator,
                     Moderator,
-*/
 
 /* Crew, etc. noch nicht fertig!
 
@@ -290,6 +289,15 @@ namespace Orso.Arpa.Persistence.Seed
 
         // SOLOISTS
         public static Section Soloists => new(Guid.Parse("e0fdb057-c9b7-4477-be75-cbf920a26af6"), "Soloists", Performers.Id, false);
+        public static Section SoloSoprano => new(Guid.Parse("54cef8d8-e891-4d27-be25-94e44d3c365a"), "Soprano (Soloist)", Soloists.Id, true);
+        public static Section SoloMezzoSoprano => new(Guid.Parse("e84ffc93-fc24-481c-916f-b5aef4ba2d1f"), "Mezzo Soprano (Soloist)", Soloists.Id, true);
+        public static Section SoloAlto => new(Guid.Parse("d0762cb0-4a6b-4935-b560-af4f148c949a"), "Alto (Soloist)", Soloists.Id, true);
+        public static Section SoloTenor => new(Guid.Parse("71738278-1583-4875-9830-b182043e4ac3"), "Tenor (Soloist)", Soloists.Id, true);
+        public static Section SoloBaritone => new(Guid.Parse("08afd287-82b6-4259-b4f4-c40b78d3b69d"), "Baritone (Soloist)", Soloists.Id, true);
+        public static Section SoloBass => new(Guid.Parse("d1f8bd21-efa8-41d8-96ac-fe87e2b0092f"), "Bass (Soloist)", Soloists.Id, true);
+        public static Section Narrator => new(Guid.Parse("5c9d7048-1c80-4e16-b783-e39cd99dfc89"), "Narrator", Soloists.Id, true);
+        public static Section Moderator => new(Guid.Parse("f33d5126-4cd8-41d7-8d35-4c188591ec3b"), "Moderator", Soloists.Id, true);
+        public static Section SoloVocal => new(Guid.Parse("ac157b00-106e-4277-99f1-9404f0df96b8"), "Vocal (Soloist)", Soloists.Id, true);
 
         // MEMBERS
         public static Section Members => new(Guid.Parse("067647c0-3f25-449e-9212-03f39fa88f0f"), "Members", null, false);
