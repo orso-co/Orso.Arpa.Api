@@ -43,7 +43,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             using var ms = new MemoryStream();
             await file.CopyToAsync(ms);
 
-            return (IFileResult)new FileResult
+            return new FileResult
             {
                 Content = ms.ToArray(),
                 Name = fileName,
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             using var ms = new MemoryStream();
             await downloadContent.Value.Content.CopyToAsync(ms);
 
-            return (IFileResult)new FileResult
+            return new FileResult
             {
                 Content = ms.ToArray(),
                 Name = fileName,
@@ -70,6 +70,13 @@ namespace Orso.Arpa.Infrastructure.FileManagement
                 Extension = downloadContent.Value.Details.ContentLanguage,
                 LastModified = downloadContent.Value.Details.LastModified
             };
+        }
+
+        public async Task<BlobClient> GetAsBlobAsync(string fileName)
+        {
+            BlobContainerClient blobContainer = await GetProfilePictureContainerAsync();
+
+            return blobContainer.GetBlobClient(fileName);
         }
 
         public async Task DeleteAsync(string fileName)

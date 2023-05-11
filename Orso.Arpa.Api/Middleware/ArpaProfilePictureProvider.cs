@@ -1,10 +1,13 @@
 using System;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
-using SixLabors.ImageSharp.Web;
+using Microsoft.Extensions.DependencyInjection;
+using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Interfaces;
 using SixLabors.ImageSharp.Web.Providers;
 using SixLabors.ImageSharp.Web.Resolvers;
+using SixLabors.ImageSharp.Web.Resolvers.Azure;
 
 namespace Orso.Arpa.Api.Middleware
 {
@@ -12,31 +15,59 @@ namespace Orso.Arpa.Api.Middleware
     {
         private static readonly char[] SlashChars = { '\\', '/' };
 
-        private Func<HttpContext, bool> match;
-
-        private readonly FormatUtilities formatUtilities;
+        private Func<HttpContext, bool> _match;
 
         public Func<HttpContext, bool> Match
         {
-            get => match ?? IsMatch;
-            set => match = value;
+            get => _match ?? IsMatch;
+            set => _match = value;
         }
         public ProcessingBehavior ProcessingBehavior { get; } = ProcessingBehavior.All;
 
-        public ArpaProfilePictureProvider(
-        FormatUtilities formatUtilities)
+        public async Task<IImageResolver> GetAsync(HttpContext context)
         {
-            this.formatUtilities = formatUtilities;
-        }
+            string path = context.Request.Path.Value?.TrimStart(SlashChars);
+            string personIdAsString = path.Replace("api/persons/", "").Replace("/profilepicture", "");
 
-        public Task<IImageResolver> GetAsync(HttpContext context)
-        {
-            // ToDo: Get profile picture by persons service
-            // https://github1s.com/SixLabors/ImageSharp.Web/blob/main/src/ImageSharp.Web.Providers.Azure/Providers/AzureBlobStorageImageProvider.cs
+            if (string.IsNullOrEmpty(personIdAsString) || !Guid.TryParse(personIdAsString, out Guid personId))
+            {
+                return null;
+            }
+
+            IArpaContext arpaContext = context.RequestServices.GetService<IArpaContext>();
+
+            string profilePictureFileName = (await arpaContext.Persons.FindAsync(personId))?.ProfilePictureFileName;
+
+            if (string.IsNullOrWhiteSpace(profilePictureFileName))
+            {
+                return null;
+            }
+
+            IFileAccessor fileAccessor = context.RequestServices.GetService<IFileAccessor>();
+
+            BlobClient blob = await fileAccessor.GetAsBlobAsync(profilePictureFileName);
+
+            return !await blob.ExistsAsync() ? null : (IImageResolver)new AzureBlobStorageImageResolver(blob);
         }
 
         public bool IsValidRequest(HttpContext context)
-        => formatUtilities.TryGetExtensionFromUri(context.Request.GetDisplayUrl(), out _);
+        {
+            if (!context.User.Identity.IsAuthenticated)
+            {
+                return false;
+            }
+
+            string path = context.Request.Path.Value?.TrimStart(SlashChars);
+            string personIdAsString = path.Replace("api/persons/", "").Replace("/profilepicture", "");
+
+            if (string.IsNullOrEmpty(personIdAsString) || !Guid.TryParse(personIdAsString, out Guid personId))
+            {
+                return false;
+            }
+
+            IArpaContext arpaContext = context.RequestServices.GetService<IArpaContext>();
+            return arpaContext.EntityExists<Person>(personId);
+        }
 
         private bool IsMatch(HttpContext context)
         {
@@ -44,8 +75,7 @@ namespace Orso.Arpa.Api.Middleware
             // Path matching conflicts should be dealt with by configuration.
             string path = context.Request.Path.Value?.TrimStart(SlashChars);
 
-            return path is not null
-                && path.StartsWith("persons", StringComparison.OrdinalIgnoreCase)
+            return path?.StartsWith("api/persons", StringComparison.OrdinalIgnoreCase) == true
                 && path.EndsWith("profilepicture", StringComparison.OrdinalIgnoreCase);
         }
     }

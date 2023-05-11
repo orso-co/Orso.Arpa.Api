@@ -284,6 +284,13 @@ namespace Orso.Arpa.Persistence.DataAccess
                 .AnyAsync(entity => entity.Id == id, cancellationToken);
         }
 
+        public bool EntityExists<TEntity>(Guid id) where TEntity : BaseEntity
+        {
+            return Set<TEntity>()
+                .AsQueryable()
+                .Any(entity => entity.Id == id);
+        }
+
         public async Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class
         {
             return await Set<TEntity>()

@@ -58,6 +58,7 @@ using Orso.Arpa.Persistence.DataAccess;
 using Orso.Arpa.Persistence.GraphQL;
 using SixLabors.ImageSharp.Web.Caching.Azure;
 using SixLabors.ImageSharp.Web.DependencyInjection;
+using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
 
@@ -142,11 +143,12 @@ namespace Orso.Arpa.Api
             _ = AddConfiguration<AzureStorageConfiguration>(services);
             _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
             _ = services.AddImageSharp()
+                .RemoveProvider<PhysicalFileSystemProvider>()
                 .AddProvider<ArpaProfilePictureProvider>()
                 .Configure<AzureBlobStorageCacheOptions>(options =>
                 {
                     options.ConnectionString = connectionString;
-                    options.ContainerName = "ImageSharpCache";
+                    options.ContainerName = "image-sharp-cache";
                     _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
                 }).SetCache<AzureBlobStorageCache>();
         }
@@ -480,6 +482,8 @@ namespace Orso.Arpa.Api
             _ = app.UseAuthentication();
             _ = app.UseAuthorization();
 
+            _ = app.UseImageSharp();
+
             _ = app.UseDefaultFiles(); // use index.html
             _ = app.UseStaticFiles();
 
@@ -495,8 +499,6 @@ namespace Orso.Arpa.Api
             EnsureDatabaseMigrations(app);
 
             PreloadTranslationsFromDb(app);
-
-            _ = app.UseImageSharp();
         }
 
         private static void ConfigureSecurityHeaders(IApplicationBuilder app, IWebHostEnvironment env)

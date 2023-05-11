@@ -57,5 +57,6 @@ namespace Orso.Arpa.Domain.Interfaces
         IQueryable<SqlFunctionIdResult> GetMusicianProfilesForAppointment(Guid appointmentId);
         bool IsPersonEligibleForAppointment(Guid personId, Guid appointmentId);
         Task<int> ExecuteSqlAsync(string sqlStatement);
+        bool EntityExists<TEntity>(Guid id) where TEntity : BaseEntity;
     }
 }
