@@ -8,13 +8,14 @@ namespace Orso.Arpa.Api.GraphQL
     {
         protected override void Configure(IFilterConventionDescriptor descriptor)
         {
-            descriptor.AddDefaults();
-            descriptor.Operation(DefaultFilterOperations.Equals).Name("equals");
-            descriptor.AddProviderExtension(
-                new QueryableFilterProviderExtension(x => {
-                x.AddFieldHandler<QueryableStringInvariantEqualsHandler>()
-                    .AddFieldHandler<QueryableStringInvariantContainsHandler>();
-            }));
+            _ = descriptor.AddDefaults();
+            _ = descriptor.Operation(DefaultFilterOperations.Equals).Name("equals");
+            _ = descriptor.AddProviderExtension(
+                new QueryableFilterProviderExtension(x =>
+                {
+                    _ = x.AddFieldHandler<QueryableStringInvariantEqualsHandler>()
+                     .AddFieldHandler<QueryableStringInvariantContainsHandler>();
+                }));
         }
     }
 }

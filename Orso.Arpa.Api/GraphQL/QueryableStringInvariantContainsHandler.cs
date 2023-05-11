@@ -34,14 +34,17 @@ namespace Orso.Arpa.Api.GraphQL
             {
                 // Bad way of doing it but Using ILIKE on DB level is somehow not working.
                 // https://github.com/npgsql/efcore.pg/issues/618
-                return Expression.NotEqual(
-                    Expression.Call(
-                        property,
-                        typeof(string).GetMethod("IndexOf", new[] { typeof(string), typeof(StringComparison) }),
-                        Expression.Constant(str),
-                        Expression.Constant(StringComparison.OrdinalIgnoreCase)
-                    ),
-                    Expression.Constant(-1)
+                return Expression.AndAlso(
+                    Expression.NotEqual(property, Expression.Constant(null, typeof(object))),
+                    Expression.NotEqual(
+                        Expression.Call(
+                            property,
+                            typeof(string).GetMethod("IndexOf", new[] { typeof(string), typeof(StringComparison) }),
+                            Expression.Constant(str),
+                            Expression.Constant(StringComparison.OrdinalIgnoreCase)
+                        ),
+                        Expression.Constant(-1)
+                    )
                 );
             }
 
