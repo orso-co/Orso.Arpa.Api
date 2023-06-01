@@ -25,7 +25,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         {
             _configuration = new JwtConfiguration
             {
-                TokenKey = "qwertzuiopaasdfghjklxcvbnm",
+                TokenKey = "42 1e 0a a9 da a9 1c 11 25 33 45 e4 57 3b 98 59 4b 85 65 42 cb 9d 59 4d af 2d 3d 13 9f d6 a5 c9 f4 42 59 3c e2 8d 72 68 08 b6 d1 94 9f 9d fb 93 7a b8 19 71 f8 f1 bb 01 55 10 98 42 9b e0 bb d1",
                 Audience = "audience",
                 Issuer = "issuer",
                 AccessTokenExpiryInMinutes = 60
@@ -52,20 +52,20 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         {
             // Arrange
             User user = FakeUsers.Performer;
-            _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
+            _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
             var token = await _jwtGenerator.CreateTokensAsync(user, "127.0.0.1");
 
             // Assert
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            decryptedToken.Claims.First(c => c.Type == "nameid").Value.Should().Be(user.UserName);
-            decryptedToken.Claims.First(c => c.Type == "name").Value.Should().Be(user.DisplayName);
-            decryptedToken.Claims.First(c => c.Type == "sub").Value.Should().Be(user.Id.ToString());
-            decryptedToken.Claims.First(c => c.Type == "issuer/person_id").Value.Should().Be(user.PersonId.ToString());
-            decryptedToken.Claims.First(c => c.Type == "role").Value.Should().BeEquivalentTo(RoleSeedData.Performer.Name);
-            decryptedToken.Issuer.Should().Be(_configuration.Issuer);
-            decryptedToken.Audiences.First().Should().Be(_configuration.Audience);
+            _ = decryptedToken.Claims.First(c => c.Type == "nameid").Value.Should().Be(user.UserName);
+            _ = decryptedToken.Claims.First(c => c.Type == "name").Value.Should().Be(user.DisplayName);
+            _ = decryptedToken.Claims.First(c => c.Type == "sub").Value.Should().Be(user.Id.ToString());
+            _ = decryptedToken.Claims.First(c => c.Type == "issuer/person_id").Value.Should().Be(user.PersonId.ToString());
+            _ = decryptedToken.Claims.First(c => c.Type == "role").Value.Should().BeEquivalentTo(RoleSeedData.Performer.Name);
+            _ = decryptedToken.Issuer.Should().Be(_configuration.Issuer);
+            _ = decryptedToken.Audiences.First().Should().Be(_configuration.Audience);
         }
     }
 }
