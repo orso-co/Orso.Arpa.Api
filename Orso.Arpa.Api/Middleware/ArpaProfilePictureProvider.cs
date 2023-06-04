@@ -71,6 +71,11 @@ namespace Orso.Arpa.Api.Middleware
 
         private bool IsMatch(HttpContext context)
         {
+            if (!context.Request.Method.Equals(HttpMethods.Get))
+            {
+                return false;
+            }
+
             // Only match loosly here for performance.
             // Path matching conflicts should be dealt with by configuration.
             string path = context.Request.Path.Value?.TrimStart(SlashChars);
