@@ -37,7 +37,8 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             {
                 ContentType = mimeType,
                 ContentDisposition = file.ContentDisposition,
-                ContentLanguage = extension
+                ContentLanguage = extension,
+                CacheControl = "public, must-revalidate, max-age=1"
             });
 
             using var ms = new MemoryStream();
