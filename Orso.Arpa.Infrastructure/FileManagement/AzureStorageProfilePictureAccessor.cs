@@ -5,7 +5,6 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
-using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.FileManagement
@@ -13,12 +12,11 @@ namespace Orso.Arpa.Infrastructure.FileManagement
     public class AzureStorageProfilePictureAccessor : IFileAccessor
     {
         private readonly BlobServiceClient _blobServiceClient;
-        private readonly AzureStorageConfiguration _azureStorageConfiguration;
+        private const string ContainerName = "profile-pictures";
 
-        public AzureStorageProfilePictureAccessor(BlobServiceClient blobServiceClient, AzureStorageConfiguration azureStorageConfiguration)
+        public AzureStorageProfilePictureAccessor(BlobServiceClient blobServiceClient)
         {
             _blobServiceClient = blobServiceClient;
-            _azureStorageConfiguration = azureStorageConfiguration;
         }
 
         public async Task<IFileResult> SaveAsync(IFormFile file, string fileName = null)
@@ -91,7 +89,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
 
         private async Task<BlobContainerClient> GetProfilePictureContainerAsync()
         {
-            BlobContainerClient client = _blobServiceClient.GetBlobContainerClient(_azureStorageConfiguration.ProfilePictureContainerName);
+            BlobContainerClient client = _blobServiceClient.GetBlobContainerClient(ContainerName);
             _ = await client.CreateIfNotExistsAsync();
             return client;
         }

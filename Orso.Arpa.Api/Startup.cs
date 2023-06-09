@@ -140,7 +140,6 @@ namespace Orso.Arpa.Api
         {
             var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
             _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
-            _ = AddConfiguration<AzureStorageConfiguration>(services);
             _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
             _ = services.AddImageSharp()
                 .RemoveProvider<PhysicalFileSystemProvider>()
