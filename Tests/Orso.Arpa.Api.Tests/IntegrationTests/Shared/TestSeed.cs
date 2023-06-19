@@ -30,6 +30,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await SeedAppointmentParticipationsAsync(arpaContext);
             await SeedUrlAsync(arpaContext);
             await SeedAuditLogAsync(arpaContext);
+            await SeedNewsAsync(arpaContext);
 
             if (await arpaContext.SaveChangesAsync(default) <= 0)
             {
@@ -100,6 +101,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         private static async Task SeedAuditLogAsync(IArpaContext arpaContext)
         {
             await arpaContext.AuditLogs.AddRangeAsync(AuditLogSeedData.AuditLogs);
+        }
+        private static async Task SeedNewsAsync(IArpaContext arpaContext)
+        {
+            await arpaContext.News.AddRangeAsync(NewsSeedData.News);
         }
 
         private static async Task SeedUsersAsync(ArpaUserManager userManager, SignInManager<User> signInManager)

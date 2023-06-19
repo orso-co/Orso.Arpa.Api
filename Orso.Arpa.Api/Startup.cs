@@ -317,6 +317,8 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IMyContactDetailService, MyContactDetailService>();
             _ = services.AddScoped<IAddressService, AddressService>();
             _ = services.AddScoped<IMyProjectService, MyProjectService>();
+            _ = services.AddScoped<INewsService, NewsService>();
+
 
             _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
