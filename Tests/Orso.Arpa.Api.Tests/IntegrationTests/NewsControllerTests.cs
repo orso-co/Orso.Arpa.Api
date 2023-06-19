@@ -21,7 +21,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
     {
         [Test, Order(1)]
         public async Task Should_Get_All()
+
         {
+            // Arrange
+            List<NewsDto> expectedDtos = new List<NewsDto> { NewsDtoData.SecondNews };
+
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
@@ -31,14 +35,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<NewsDto> result = await DeserializeResponseMessageAsync<IEnumerable<NewsDto>>(responseMessage);
-            _ = result.Should().BeEquivalentTo(NewsDtoData.News, opt => opt.WithStrictOrdering());
+            _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
         }
 
         [Test, Order(2)]
         public async Task Should_Get_ById()
         {
             // Arrange
-            NewsDto expectedDto = NewsDtoData.Performer;
+            NewsDto expectedDto = NewsDtoData.SecondNews;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -60,7 +64,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 NewsText = "ErsteNewsModifiziert",
                 Url = "http://orsopolis.com",
-                Show = false,
+                Show = false
             };
 
             var expectedDto = new NewsDto
@@ -69,6 +73,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 NewsText = "ErsteNewsModifiziert",
                 Url = "http://orsopolis.com",
                 Show = false,
+                CreatedBy = "anonymous",
+                CreatedAt = FakeDateTime.UtcNow,
+                ModifiedAt = FakeDateTime.UtcNow,
+                ModifiedBy = "Staff Member"
             };
 
             // Act

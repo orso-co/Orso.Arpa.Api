@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.NewsApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -15,13 +13,13 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new List<NewsDto>
                 {
-                    Performer,
-                    Staff
+                    FirstNews,
+                    SecondNews
                 };
             }
         }
 
-        public static NewsDto Staff
+        public static NewsDto FirstNews
         {
             get
             {
@@ -37,7 +35,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static NewsDto Performer
+        public static NewsDto SecondNews
         {
             get
             {
