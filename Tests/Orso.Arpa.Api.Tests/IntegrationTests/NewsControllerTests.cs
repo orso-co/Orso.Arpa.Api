@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.MessageApplication;
+using Orso.Arpa.Application.NewsApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -17,7 +17,7 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     [TestFixture]
-    public class MessagesControllerTests : IntegrationTestBase
+    public class NewsControllerTests : IntegrationTestBase
     {
         [Test, Order(1)]
         public async Task Should_Get_All()
@@ -26,47 +26,47 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MessagesController.Get());
+                .GetAsync(ApiEndpoints.NewsController.Get(1,1,true));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            IEnumerable<MessageDto> result = await DeserializeResponseMessageAsync<IEnumerable<MessageDto>>(responseMessage);
-            _ = result.Should().BeEquivalentTo(MessageDtoData.Messages, opt => opt.WithStrictOrdering());
+            IEnumerable<NewsDto> result = await DeserializeResponseMessageAsync<IEnumerable<NewsDto>>(responseMessage);
+            _ = result.Should().BeEquivalentTo(NewsDtoData.News, opt => opt.WithStrictOrdering());
         }
 
         [Test, Order(2)]
         public async Task Should_Get_ById()
         {
             // Arrange
-            MessageDto expectedDto = MessageDtoData.Performer;
+            NewsDto expectedDto = NewsDtoData.Performer;
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MessagesController.Get(expectedDto.Id));
+                .GetAsync(ApiEndpoints.NewsController.Get(expectedDto.Id));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-           MessageDto result = await DeserializeResponseMessageAsync<MessageDto>(responseMessage);
+           NewsDto result = await DeserializeResponseMessageAsync<NewsDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto);
         }
         [Test, Order(100)]
         public async Task Should_Modify()
         {
             // Arrange
-            Message messageToModify = MessageSeedData.ErsteMessage;
-            var modifyDto = new MessageModifyBodyDto
+            News newsToModify = NewsSeedData.ErsteNews;
+            var modifyDto = new NewsModifyBodyDto
             {
-                MessageText = "ErsteMessage",
-                Url = "http://orsopolis.de",
-                Show = true,
+                NewsText = "ErsteNewsModifiziert",
+                Url = "http://orsopolis.com",
+                Show = false,
             };
 
-            var expectedDto = new MessageDto
+            var expectedDto = new NewsDto
             {
-                Id = messageToModify.Id,
-                MessageText = "ErsteMessageModifiziert",
+                Id = newsToModify.Id,
+                NewsText = "ErsteNewsModifiziert",
                 Url = "http://orsopolis.com",
                 Show = false,
             };
@@ -77,16 +77,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_staff);
 
             HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.MessagesController.Put(messageToModify.Id), BuildStringContent(modifyDto));
+                .PutAsync(ApiEndpoints.NewsController.Put(newsToModify.Id), BuildStringContent(modifyDto));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             HttpResponseMessage getMessage = await client
-                .GetAsync(ApiEndpoints.MessagesController.Get(messageToModify.Id));
+                .GetAsync(ApiEndpoints.NewsController.Get(newsToModify.Id));
 
             _ = getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            MessageDto result = await DeserializeResponseMessageAsync<MessageDto>(getMessage);
+            NewsDto result = await DeserializeResponseMessageAsync<NewsDto>(getMessage);
 
             _ = result.Should().BeEquivalentTo(expectedDto);
         }
@@ -100,7 +100,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.MessagesController.Delete(MessageSeedData.ZweiteMessage.Id));
+                .DeleteAsync(ApiEndpoints.NewsController.Delete(NewsSeedData.ZweiteNews.Id));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

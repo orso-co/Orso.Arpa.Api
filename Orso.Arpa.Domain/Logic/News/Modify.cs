@@ -1,17 +1,18 @@
 using System;
 using FluentValidation;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.GenericHandlers.Modify;
 
-namespace Orso.Arpa.Domain.Logic.Messages
+namespace Orso.Arpa.Domain.Logic.News
 {
     public static class Modify
     {
-        public class Command : IModifyCommand<Message>
+        public class Command : IModifyCommand<Entities.News>
         {
             public Guid Id { get; set; }
-            public string MessageText { get; set; }
+            public string NewsText { get; set; }
             public string Url { get; set; }
             public bool Show { get; set; }
         }
@@ -20,10 +21,9 @@ namespace Orso.Arpa.Domain.Logic.Messages
         {
             public Validator(IArpaContext arpaContext)
             {
-                RuleFor(c => c.Id)
-                    .MustAsync(async (id, cancellation) => await arpaContext.EntityExistsAsync<Message>(message => message.Id == id, cancellation))
-                    .WithMessage("Message could not be found")
-                    .WithErrorCode("404");
+                _ = RuleFor(d => d.Id)
+                    .EntityExists<Command, Entities.News>(arpaContext);
+
             }
         }
     }

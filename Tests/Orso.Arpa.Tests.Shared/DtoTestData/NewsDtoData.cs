@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.MessageApplication;
+using Orso.Arpa.Application.NewsApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
-    public static class MessageDtoData
+    public static class NewsDtoData
     {
-        public static IList<MessageDto> Messages
+        public static IList<NewsDto> News
         {
             get
             {
-                return new List<MessageDto>
+                return new List<NewsDto>
                 {
                     Performer,
                     Staff
@@ -21,14 +21,14 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static MessageDto Staff
+        public static NewsDto Staff
         {
             get
             {
-                return new MessageDto
+                return new NewsDto
                 {
                     Id = Guid.Parse("416981c5-2512-442f-8b2e-dd9364faf40f"),
-                    MessageText = "ErsteMessage",
+                    NewsText = "ErsteMessage",
                     Url = "https://orsopolis.de",
                     Show = true,
                     CreatedBy = "anonymous",
@@ -37,14 +37,14 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             }
         }
 
-        public static MessageDto Performer
+        public static NewsDto Performer
         {
             get
             {
-                return new MessageDto
+                return new NewsDto
                 {
                     Id = Guid.Parse("116232e3-f972-4d3e-bd98-5ead7b76cff8"),
-                    MessageText = "ZweiteMessage",
+                    NewsText = "ZweiteMessage",
                     Url = "https://orso.co",
                     Show = false,
                     CreatedBy = "anonymous",

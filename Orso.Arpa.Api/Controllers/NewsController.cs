@@ -6,76 +6,74 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Interfaces;
 using Orso.Arpa.Domain.Roles;
-using Orso.Arpa.Application.MessageApplication;
+using Orso.Arpa.Application.NewsApplication;
 
 namespace Orso.Arpa.Api.Controllers
 {
-    public class MessagesController : BaseController
+    public class NewsController : BaseController
     {
-        private readonly IMessageService _messageService;
+        private readonly INewsService _newsService;
 
-        public MessagesController(IMessageService messageService)
+        public NewsController(INewsService newsService)
         {
-            _messageService = messageService;
+            _newsService = newsService;
         }
 
-        // Gets a message by id
-        [Authorize(Roles = RoleNames.Performer)]
-        [HttpGet("{id}")]
+        [Authorize(Roles = RoleNames.PerformerOrStaff)]
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<MessageDto>> GetById([FromRoute] Guid id)
+        public async Task<ActionResult<NewsDto>> GetById([FromRoute] Guid id)
         {
-            return await _messageService.GetByIdAsync(id);
+            return await _newsService.GetByIdAsync(id);
         }
 
-        // Get all messages
-        [Authorize(Roles = RoleNames.Performer)]
+        [Authorize(Roles = RoleNames.PerformerOrStaff)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<MessageDto>>> Get()
+        public async Task<ActionResult<IEnumerable<NewsDto>>> Get(
+            [FromQuery] int? limit,
+            [FromQuery] int? offset,
+            [FromQuery] bool includeHidden)
         {
-            return Ok(await _messageService.GetAsync());
+            return Ok(await _newsService.GetAsync(limit, offset, includeHidden));
         }
 
-        // Creates a new message
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<MessageDto>> Post([FromBody] MessageCreateDto createDto)
+        public async Task<ActionResult<NewsDto>> Post([FromBody] NewsCreateDto createDto)
         {
-            MessageDto createdDto = await _messageService.CreateAsync(createDto);
+            NewsDto createdDto = await _newsService.CreateAsync(createDto);
 
             return CreatedAtAction(nameof(GetById), new{ id = createdDto.Id }, createdDto);
         }
 
-        // Modifies existing message
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails),
             StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> Put(MessageModifyDto modifyDto)
+        public async Task<IActionResult> Put(NewsModifyDto modifyDto)
         {
-            await _messageService.ModifyAsync(modifyDto);
+            await _newsService.ModifyAsync(modifyDto);
 
             return NoContent();
 
         }
 
-        //Deletes existing message by id
         [Authorize(Roles = RoleNames.Staff)]
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails),
             StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
-            await _messageService.DeleteAsync(id);
+            await _newsService.DeleteAsync(id);
 
             return NoContent();
         }

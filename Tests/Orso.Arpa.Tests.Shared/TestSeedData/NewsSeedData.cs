@@ -1,50 +1,50 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Messages;
+using Orso.Arpa.Domain.Logic.News;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
-    public static class MessageSeedData
+    public static class NewsSeedData
     {
-        public static IList<Message> Messages
+        public static IList<News> News
         {
             get
             {
-                return new List<Message>
+                return new List<News>
                 {
-                    ErsteMessage,
-                    ZweiteMessage
+                    ErsteNews,
+                    ZweiteNews
                 };
             }
         }
 
-        public static Message ErsteMessage
+        public static News ErsteNews
         {
             get
             {
-                return new Message
+                return new News
                 (
                  Guid.Parse("416981c5-2512-442f-8b2e-dd9364faf40f"),
                     new Create.Command
                     {
-                        MessageText = "ErsteMessage",
+                        NewsText = "ErsteMessage",
                         Url = "https://orsopolis.de",
                         Show = true
                     }
                 );
             }
         }
-        public static Message ZweiteMessage
+        public static News ZweiteNews
         {
             get
             {
-                return new Message
+                return new News
                 (
                     Guid.Parse("116232e3-f972-4d3e-bd98-5ead7b76cff8"),
                     new Create.Command
                     {
-                        MessageText = "ZweiteMessage",
+                        NewsText = "ZweiteMessage",
                         Url = "https://orso.co",
                         Show = false
                     }
