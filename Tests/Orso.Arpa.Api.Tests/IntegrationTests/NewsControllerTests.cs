@@ -79,7 +79,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Modify()
         {
             // Arrange
-            News newsToModify = NewsSeedData.ErsteNews;
+            News newsToModify = NewsSeedData.FirstNews;
             var modifyDto = new NewsModifyBodyDto
             {
                 NewsText = "ErsteNewsModifiziert",
@@ -128,7 +128,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.NewsController.Delete(NewsSeedData.ZweiteNews.Id));
+                .DeleteAsync(ApiEndpoints.NewsController.Delete(NewsSeedData.SecondNews.Id));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
