@@ -38,23 +38,43 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
         }
 
-        [Test, Order(2)]
-        public async Task Should_Get_ById()
+        [Test, Order(20)]
+        public async Task Should_Create()
         {
             // Arrange
-            NewsDto expectedDto = NewsDtoData.SecondNews;
+            var createDto = new NewsCreateDto
+            {
+                NewsText = "New News Text",
+                Url = "https://backstage.orso.co",
+                Show = true
+            };
 
-            // Act
+            var expectedDto = new NewsDto
+            {
+                NewsText = createDto.NewsText,
+                Url = createDto.Url,
+                Show = true,
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = _staff.DisplayName
+            };
+
+               // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.NewsController.Get(expectedDto.Id));
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.NewsController.Post(), BuildStringContent(createDto));
 
             // Assert
-            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
            NewsDto result = await DeserializeResponseMessageAsync<NewsDto>(responseMessage);
-            _ = result.Should().BeEquivalentTo(expectedDto);
+
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should()
+                .Be($"/{ApiEndpoints.NewsController.Get(result.Id)}");
         }
+
+
         [Test, Order(100)]
         public async Task Should_Modify()
         {

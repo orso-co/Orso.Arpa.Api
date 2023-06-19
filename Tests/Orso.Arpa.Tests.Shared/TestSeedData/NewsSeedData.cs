@@ -19,7 +19,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static News ErsteNews
+        public static News FirstNews
         {
             get
             {
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 );
             }
         }
-        public static News ZweiteNews
+        public static News SecondNews
         {
             get
             {
