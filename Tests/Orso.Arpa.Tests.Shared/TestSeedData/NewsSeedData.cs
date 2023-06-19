@@ -13,8 +13,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new List<News>
                 {
-                    ErsteNews,
-                    ZweiteNews
+                    FirstNews,
+                    SecondNews
                 };
             }
         }
