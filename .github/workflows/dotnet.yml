@@ -14,7 +14,7 @@ jobs:
     - name: Setup .NET 7
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x 
+        dotnet-version: 7.0.x
     - name: Clean
       run: dotnet clean ./Orso.Arpa.Api.sln --configuration Release && dotnet nuget locals all --clear
     - name: Restore dependencies
@@ -31,6 +31,13 @@ jobs:
       run: dotnet test ./Tests/Orso.Arpa.Domain.Tests/Orso.Arpa.Domain.Tests.csproj --no-build --verbosity normal --configuration Release
     - name: Run Application Unit Tests
       run: dotnet test ./Tests/Orso.Arpa.Application.Tests/Orso.Arpa.Application.Tests.csproj --no-build --verbosity normal --configuration Release
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v3
+    - name: Install Azurite Emulator
+      run: npm install -g azurite
+    - name: Run Azurite in Background
+      shell: bash
+      run: azurite &
     - name: Start PostgreSQL on Windows
       run: |
         $pgService = Get-Service -Name postgresql*

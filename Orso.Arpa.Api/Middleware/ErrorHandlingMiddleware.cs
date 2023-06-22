@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
@@ -142,12 +141,22 @@ namespace Orso.Arpa.Api.Middleware
                     _logger.LogWarning(aze, "AUTHORIZATION ERROR");
                     break;
 
-                case Exception e:
+                case Azure.RequestFailedException arfe:
+                    errorMessage = new ValidationProblemDetails
+                    {
+                        Title = arfe.ErrorCode,
+                        Status = arfe.Status,
+                        Detail = arfe.Message
+                    };
+                    errorLogMessage = "NOT FOUND ERROR";
+                    break;
+
+                default:
                     errorMessage = new ValidationProblemDetails
                     {
                         Status = (int)HttpStatusCode.InternalServerError,
                         Title = "An unexpected error occured",
-                        Detail = e.Message
+                        Detail = ex.Message
                     };
                     errorLogMessage = "SERVER ERROR";
                     break;

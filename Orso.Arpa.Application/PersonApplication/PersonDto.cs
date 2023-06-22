@@ -65,7 +65,7 @@ namespace Orso.Arpa.Application.PersonApplication
     {
         public PersonDtoMappingProfile()
         {
-            CreateMap<Person, PersonDto>()
+            _ = CreateMap<Person, PersonDto>()
                 .ForMember(dest => dest.StakeholderGroups, opt => opt.MapFrom(src => src.StakeholderGroups.Select(g => g.Section)))
                 .IncludeBase<BaseEntity, BaseEntityDto>()
                 .AfterMap<RoleBasedSetNullAction<Person, PersonDto>>();

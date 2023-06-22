@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
     postgres:
@@ -30,6 +30,7 @@ services:
         depends_on:
             - postgres
             - mail
+            - azurite
     mail:
         image: mailhog/mailhog
         environment:
@@ -40,6 +41,16 @@ services:
         ports:
             - 1025:1025
             - 8025:8025
+    azurite:
+        image: mcr.microsoft.com/azure-storage/azurite
+        container_name: "azurite"
+        hostname: azurite
+        restart: always
+        ports:
+          - "10000:10000"
+          - "10001:10001"
+          - "10002:10002"
+        command: "azurite --blobHost 0.0.0.0 --blobPort 10000 --queueHost 0.0.0.0 --queuePort 10001"
 # Docker for Mac requires a mounted volume because filesystem mounts are not supported.
 # https://github.com/microsoft/mssql-docker/issues/12
 # https://adilsoncarvalho.com/using-mssql-on-linux-using-docker-for-mac-a5d4ac81e57f

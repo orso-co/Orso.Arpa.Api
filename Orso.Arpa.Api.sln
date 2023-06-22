@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build-prod.yml = build-prod.yml
 		build-staging.yml = build-staging.yml
 		.github\workflows\codeql.yml = .github\workflows\codeql.yml
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		LICENSE.txt = LICENSE.txt
 		README.MD = README.MD
@@ -47,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Mail.Tests", "Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Misc", "Orso.Arpa.Misc\Orso.Arpa.Misc.csproj", "{CBD4D73A-437D-47B4-A1B8-71B230C460AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orso.Arpa.Misc.Tests", "Tests\Orso.Arpa.Misc.Tests\Orso.Arpa.Misc.Tests.csproj", "{CB26B733-699A-4559-975F-CE0B92DB54DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orso.Arpa.Misc.Tests", "Tests\Orso.Arpa.Misc.Tests\Orso.Arpa.Misc.Tests.csproj", "{CB26B733-699A-4559-975F-CE0B92DB54DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,6 +7,8 @@ using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AspNetCoreRateLimit;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using HotChocolate.Execution.Configuration;
@@ -45,6 +47,7 @@ using Orso.Arpa.Domain.Roles;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+using Orso.Arpa.Infrastructure.FileManagement;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
 using Orso.Arpa.Mail;
@@ -53,6 +56,9 @@ using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Orso.Arpa.Persistence.GraphQL;
+using SixLabors.ImageSharp.Web.Caching.Azure;
+using SixLabors.ImageSharp.Web.DependencyInjection;
+using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
 using static Orso.Arpa.Domain.Logic.Regions.Create;
 
@@ -126,6 +132,24 @@ namespace Orso.Arpa.Api
             ConfigureGraphQL(services);
 
             ConfigureIpRateLimiting(services);
+
+            ConfigureAzureStorageAccount(services);
+        }
+
+        private void ConfigureAzureStorageAccount(IServiceCollection services)
+        {
+            var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
+            _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
+            _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
+            _ = services.AddImageSharp()
+                .RemoveProvider<PhysicalFileSystemProvider>()
+                .AddProvider<ArpaProfilePictureProvider>()
+                .Configure<AzureBlobStorageCacheOptions>(options =>
+                {
+                    options.ConnectionString = connectionString;
+                    options.ContainerName = "image-sharp-cache";
+                    _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
+                }).SetCache<AzureBlobStorageCache>();
         }
 
         private void ConfigureIpRateLimiting(IServiceCollection services)
@@ -319,6 +343,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IMyProjectService, MyProjectService>();
             _ = services.AddScoped<INewsService, NewsService>();
 
+            _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 
             _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
             _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
@@ -457,6 +482,8 @@ namespace Orso.Arpa.Api
 
             _ = app.UseAuthentication();
             _ = app.UseAuthorization();
+
+            _ = app.UseImageSharp();
 
             _ = app.UseDefaultFiles(); // use index.html
             _ = app.UseStaticFiles();
