@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication
     {
         public ContactDetailModifyDtoMappingProfile()
         {
-            CreateMap<MyContactDetailModifyDto, Modify.Command>()
+            _ = CreateMap<MyContactDetailModifyDto, Modify.Command>()
                 .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Body.Key))
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Body.Value))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Body.TypeId))
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication
     {
         public MyContactDetailModifyDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                  .SetValidator(new MyContactDetailModifyBodyDtoValidator());
         }
     }
@@ -47,30 +47,29 @@ namespace Orso.Arpa.Application.MyContactDetailApplication
     {
         public MyContactDetailModifyBodyDtoValidator()
         {
-            RuleFor(c => c.Key)
-                 .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.Key)
                  .NotEmpty()
                  .IsInEnum();
 
-            RuleFor(c => c.Value)
+            _ = RuleFor(c => c.Value)
                 .NotEmpty();
 
-            RuleFor(c => c.Value)
+            _ = RuleFor(c => c.Value)
                 .ValidUri(1000)
                 .When(dto => ContactDetailKey.Url.Equals(dto?.Key));
 
-            RuleFor(c => c.Value)
+            _ = RuleFor(c => c.Value)
                 .EmailAddress()
                 .When(dto => ContactDetailKey.EMail.Equals(dto?.Key));
 
-            RuleFor(c => c.Value)
+            _ = RuleFor(c => c.Value)
                 .PhoneNumber()
                 .When(dto => ContactDetailKey.PhoneNumber.Equals(dto?.Key));
 
-            RuleFor(c => c.CommentInner)
+            _ = RuleFor(c => c.CommentInner)
                 .RestrictedFreeText(500);
 
-            RuleFor(c => c.Preference)
+            _ = RuleFor(c => c.Preference)
                 .FiveStarRating();
         }
     }

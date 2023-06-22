@@ -216,6 +216,7 @@ namespace Orso.Arpa.Api
                 .AddFluentValidationClientsideAdapters()
                 .AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
                 .AddValidatorsFromAssemblyContaining<Validator>();
+            ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
         }
 
         private static void ConfigureAuthorization(IServiceCollection services)

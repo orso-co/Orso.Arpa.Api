@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.AddressApplication
     {
         public PersonAddressCreateDtoMappingProfile()
         {
-            CreateMap<PersonAddressCreateDto, Create.Command>()
+            _ = CreateMap<PersonAddressCreateDto, Create.Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Address1, opt => opt.MapFrom(src => src.Body.Address1))
                 .ForMember(dest => dest.Address2, opt => opt.MapFrom(src => src.Body.Address2))
@@ -46,7 +46,7 @@ namespace Orso.Arpa.Application.AddressApplication
     {
         public PersonAddressCreateDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new PersonAddressCreateBodyDtoValidator());
         }
     }
@@ -54,34 +54,31 @@ namespace Orso.Arpa.Application.AddressApplication
     {
         public PersonAddressCreateBodyDtoValidator()
         {
-            RuleFor(c => c.Country)
-                 .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.Country)
                  .NotEmpty()
                  .PlaceName(100);
 
-            RuleFor(c => c.City)
-                 .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.City)
                  .NotEmpty()
                  .PlaceName(100);
 
-            RuleFor(c => c.Zip)
-                 .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.Zip)
                  .NotEmpty()
                  .PlaceName(20);
 
-            RuleFor(c => c.Address1)
+            _ = RuleFor(c => c.Address1)
                 .PlaceName(100);
 
-            RuleFor(c => c.Address2)
+            _ = RuleFor(c => c.Address2)
                 .PlaceName(100);
 
-            RuleFor(c => c.State)
+            _ = RuleFor(c => c.State)
                 .PlaceName(100);
 
-            RuleFor(c => c.UrbanDistrict)
+            _ = RuleFor(c => c.UrbanDistrict)
                 .PlaceName(100);
 
-            RuleFor(c => c.CommentInner)
+            _ = RuleFor(c => c.CommentInner)
                 .RestrictedFreeText(500);
         }
     }

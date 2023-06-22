@@ -1,8 +1,6 @@
-using System;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.News.Create;
 
 namespace Orso.Arpa.Application.NewsApplication
@@ -20,7 +18,7 @@ namespace Orso.Arpa.Application.NewsApplication
     {
         public NewsCreateDtoMappingProfile()
         {
-            CreateMap<NewsCreateDto, Command>();
+            _ = CreateMap<NewsCreateDto, Command>();
         }
     }
 
@@ -36,8 +34,9 @@ namespace Orso.Arpa.Application.NewsApplication
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .FreeText(1000);
-            RuleFor(c => c.Url)
-                .ValidUri(1000);
+            _ = RuleFor(c => c.Url)
+                .ValidUri(1000)
+                .When(dto => !string.IsNullOrEmpty(dto.Url));
 
         }
     }

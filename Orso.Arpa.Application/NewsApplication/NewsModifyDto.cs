@@ -34,7 +34,7 @@ namespace Orso.Arpa.Application.NewsApplication
     {
         public NewsModifyDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new NewsModifyBodyDtoValidator());
         }
     }
@@ -51,9 +51,9 @@ namespace Orso.Arpa.Application.NewsApplication
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .FreeText(1000);
-
-            RuleFor(c => c.Url)
-                .ValidUri(1000);
+            _ = RuleFor(c => c.Url)
+                .ValidUri(1000)
+                .When(dto => !string.IsNullOrEmpty(dto.Url));
         }
     }
 }

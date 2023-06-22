@@ -3,6 +3,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AddressApplication;
@@ -28,9 +30,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.VenuesController.Get());
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<VenueDto> result = await DeserializeResponseMessageAsync<IEnumerable<VenueDto>>(responseMessage);
-            result.Should().BeEquivalentTo(VenueDtoData.Venues);
+            _ = result.Should().BeEquivalentTo(VenueDtoData.Venues);
         }
 
         [Test, Order(2)]
@@ -43,9 +45,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.VenuesController.GetRooms(VenueDtoData.WeiherhofSchule.Id));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<RoomDto> result = await DeserializeResponseMessageAsync<IEnumerable<RoomDto>>(responseMessage);
-            result.Should().BeEquivalentTo(VenueDtoData.WeiherhofSchule.Rooms);
+            _ = result.Should().BeEquivalentTo(VenueDtoData.WeiherhofSchule.Rooms);
         }
 
         [Test, Order(100)]
@@ -91,13 +93,49 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_staff)
                 .PostAsync(ApiEndpoints.VenuesController.Post(), BuildStringContent(dto));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             VenueDto result = await DeserializeResponseMessageAsync<VenueDto>(responseMessage);
-            result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id).Excluding(dto => dto.Address).Excluding(dto => dto.AddressId));
-            result.Id.Should().NotBeEmpty();
-            result.Address.Should().BeEquivalentTo(expectedDto.Address, opt => opt.Excluding(dto => dto.Id));
-            result.Address.Id.Should().NotBeEmpty();
-            result.AddressId.Should().Be(result.Address.Id);
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id).Excluding(dto => dto.Address).Excluding(dto => dto.AddressId));
+            _ = result.Id.Should().NotBeEmpty();
+            _ = result.Address.Should().BeEquivalentTo(expectedDto.Address, opt => opt.Excluding(dto => dto.Id));
+            _ = result.Address.Id.Should().NotBeEmpty();
+            _ = result.AddressId.Should().Be(result.Address.Id);
+        }
+
+        [Test, Order(100)]
+        public async Task Should_Not_Create_Venue_Return_Validation_Error()
+        {
+            var dto = new VenueCreateDto
+            {
+                UrbanDistrict = "Westend Süd",
+                Address1 = "Bockenheimer Warte 33",
+                Address2 = "c/o Frau Rotkohl",
+                City = "+~#'*`?|",
+                State = "Hessen",
+                Country = "Deutschland",
+                Zip = null,
+                AddressCommentInner = "Kommentar Adresse",
+                Name = "Super Venue",
+                Description = "Tolle Beschreibung des super Venues"
+            };
+
+            var modelStateDictionary = new ModelStateDictionary();
+            modelStateDictionary.AddModelError("Zip", "'Zip' must not be empty.");
+            modelStateDictionary.AddModelError("City", "Invalid character supplied. Please use only alphanumeric and space characters or one of the following: '-./(),");
+            var expectedDto = new ValidationProblemDetails(modelStateDictionary)
+            {
+                Type = "https://tools.ietf.org/html/rfc4918#section-11.2",
+                Status = 422
+            };
+
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.VenuesController.Post(), BuildStringContent(dto));
+
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails result = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Extensions));
         }
 
         [Test, Order(1000)]
@@ -125,7 +163,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PutAsync(ApiEndpoints.VenuesController
                     .Put(venue.Id), BuildStringContent(dto));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
         [Test, Order(10000)]
@@ -139,7 +177,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .DeleteAsync(ApiEndpoints.VenuesController
                     .Delete(venue.Id));
 
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }
