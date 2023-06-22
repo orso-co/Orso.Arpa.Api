@@ -35,6 +35,7 @@ namespace Orso.Arpa.Domain.Interfaces
         DbSet<Room> Rooms { get; set; }
         DbSet<AuditLog> AuditLogs { get; set; }
         DbSet<Localization> Localizations { get; set; }
+        DbSet<News> News { get; set; }
 
         DbSet<MusicianProfileDocument> MusicianProfileDocuments { get; set; }
         DbSet<MusicianProfileDeactivation> MusicianProfileDeactivations { get; set; }

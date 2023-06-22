@@ -313,6 +313,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Invite() => $"{Persons}/invite";
         }
 
+        public static class NewsController
+        {
+            private static string News => $"{Base}/News";
+            public static string Get(int? limit, int? offset, bool includeHidden) => $"{News}?limit={limit}&offset{offset}&includeHidden={includeHidden}";
+            public static string Post() => News;
+            public static string Put(Guid id) => $"{News}/{id}";
+            public static string Get(Guid id) => $"{News}/{id}";
+            public static string Delete(Guid id) => $"{News}/{id}";
+        }
+
         public static class TranslationController
         {
             private static readonly string Translations = $"{Base}/translations";
