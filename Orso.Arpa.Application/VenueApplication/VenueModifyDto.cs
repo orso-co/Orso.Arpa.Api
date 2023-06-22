@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.VenueApplication
     {
         public VenueModifyDtoMappingProfile()
         {
-            CreateMap<VenueModifyDto, Modify.Command>()
+            _ = CreateMap<VenueModifyDto, Modify.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Body.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Body.Description))
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Application.VenueApplication
     {
         public VenueModifyDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new VenueModifyBodyDtoValidator());
         }
     }
@@ -56,41 +56,38 @@ namespace Orso.Arpa.Application.VenueApplication
     {
         public VenueModifyBodyDtoValidator()
         {
-            RuleFor(v => v.Name)
+            _ = RuleFor(v => v.Name)
                 .NotEmpty()
                 .RestrictedFreeText(50);
 
-            RuleFor(v => v.Description)
+            _ = RuleFor(v => v.Description)
                 .RestrictedFreeText(255);
 
-            RuleFor(c => c.Country)
-                 .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.Country)
                  .NotEmpty()
                  .PlaceName(100);
 
-            RuleFor(c => c.City)
-                 .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.City)
                  .NotEmpty()
                  .PlaceName(100);
 
-            RuleFor(c => c.Zip)
-                 .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.Zip)
                  .NotEmpty()
                  .PlaceName(20);
 
-            RuleFor(c => c.Address1)
+            _ = RuleFor(c => c.Address1)
                 .PlaceName(100);
 
-            RuleFor(c => c.Address2)
+            _ = RuleFor(c => c.Address2)
                 .PlaceName(100);
 
-            RuleFor(c => c.State)
+            _ = RuleFor(c => c.State)
                 .PlaceName(100);
 
-            RuleFor(c => c.UrbanDistrict)
+            _ = RuleFor(c => c.UrbanDistrict)
                 .PlaceName(100);
 
-            RuleFor(c => c.AddressCommentInner)
+            _ = RuleFor(c => c.AddressCommentInner)
                 .RestrictedFreeText(500);
         }
     }
