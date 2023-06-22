@@ -16,6 +16,7 @@ namespace Orso.Arpa.Persistence.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    news_title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     news_text = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     url = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     show = table.Column<bool>(type: "boolean", nullable: false),

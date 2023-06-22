@@ -6,6 +6,7 @@ namespace Orso.Arpa.Application.NewsApplication
 {
     public class NewsDto : BaseEntityDto
     {
+        public string NewsTitle { get; set; }
         public string NewsText { get; set; }
         public string Url { get; set; }
         public bool Show { get; set; }

@@ -44,6 +44,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var createDto = new NewsCreateDto
             {
+                NewsTitle = "This is the news title!",
                 NewsText = "New News Text",
                 Url = "https://backstage.orso.co",
                 Show = true
@@ -51,6 +52,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var expectedDto = new NewsDto
             {
+                NewsTitle = createDto.NewsTitle,
                 NewsText = createDto.NewsText,
                 Url = createDto.Url,
                 Show = true,
@@ -82,6 +84,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             News newsToModify = NewsSeedData.FirstNews;
             var modifyDto = new NewsModifyBodyDto
             {
+                NewsTitle = "This is the first news title!",
                 NewsText = "ErsteNewsModifiziert",
                 Url = "http://orsopolis.com",
                 Show = false
@@ -90,6 +93,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new NewsDto
             {
                 Id = newsToModify.Id,
+                NewsTitle = "This is the first news title!",
                 NewsText = "ErsteNewsModifiziert",
                 Url = "http://orsopolis.com",
                 Show = false,
