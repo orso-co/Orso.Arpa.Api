@@ -10,8 +10,8 @@ namespace Orso.Arpa.Application.NewsApplication
 
     public class NewsCreateDto
     {
-        public string NewsTitle { get; set; }
-        public string NewsText { get; set; }
+        public string Title { get; set; }
+        public string Text { get; set; }
         public string Url { get; set; }
         public bool Show { get; set; }
     }
@@ -28,11 +28,11 @@ namespace Orso.Arpa.Application.NewsApplication
     {
         public NewsCreateDtoValidator()
         {
-            RuleFor(c => c.NewsTitle)
+            RuleFor(c => c.Title)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .RestrictedFreeText(200);
-            RuleFor(c => c.NewsText)
+            RuleFor(c => c.Text)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .FreeText(1000);

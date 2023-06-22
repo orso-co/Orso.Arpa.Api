@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {
@@ -10,7 +9,11 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<News> builder)
         {
             builder
-                .Property(e => e.NewsText)
+                .Property(e => e.Title)
+                .HasMaxLength(200);
+
+            builder
+                .Property(e => e.Text)
                 .HasMaxLength(1000);
 
             builder

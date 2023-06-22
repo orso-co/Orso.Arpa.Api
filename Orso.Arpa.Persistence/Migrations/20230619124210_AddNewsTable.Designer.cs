@@ -3794,10 +3794,10 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(110)")
                         .HasColumnName("modified_by");
 
-                    b.Property<string>("NewsText")
+                    b.Property<string>("Text")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")
-                        .HasColumnName("news_text");
+                        .HasColumnName("text");
 
                     b.Property<bool>("Show")
                         .HasColumnType("boolean")

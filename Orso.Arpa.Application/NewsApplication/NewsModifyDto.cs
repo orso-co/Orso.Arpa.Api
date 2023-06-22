@@ -12,8 +12,8 @@ namespace Orso.Arpa.Application.NewsApplication
 
     public class NewsModifyBodyDto
     {
-        public string NewsTitle { get; set; }
-        public string NewsText { get; set; }
+        public string Title { get; set; }
+        public string Text { get; set; }
         public string Url { get; set; }
         public bool Show { get; set; }
     }
@@ -23,8 +23,8 @@ namespace Orso.Arpa.Application.NewsApplication
         public NewsModifyDtoMappingProfile()
         {
             CreateMap<NewsModifyDto, Command>()
-                .ForMember(dest => dest.NewsTitle, opt => opt.MapFrom(src => src.Body.NewsTitle))
-                .ForMember(dest => dest.NewsText, opt => opt.MapFrom(src => src.Body.NewsText))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Body.Title))
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Body.Text))
                 .ForMember(dest => dest.Url, opt => opt.MapFrom(src => src.Body.Url))
                 .ForMember(dest => dest.Show, opt => opt.MapFrom(src => src.Body.Show))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
@@ -43,11 +43,11 @@ namespace Orso.Arpa.Application.NewsApplication
     {
         public NewsModifyBodyDtoValidator()
         {
-            RuleFor(c => c.NewsTitle)
+            RuleFor(c => c.Title)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .RestrictedFreeText(200);
-            RuleFor(c => c.NewsText)
+            RuleFor(c => c.Text)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .FreeText(1000);

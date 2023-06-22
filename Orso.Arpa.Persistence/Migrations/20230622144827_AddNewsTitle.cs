@@ -5,13 +5,13 @@
 namespace Orso.Arpa.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNewsTitle : Migration
+    public partial class AddTitle : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "news_title",
+                name: "title",
                 table: "news",
                 type: "text",
                 nullable: true);
@@ -21,7 +21,7 @@ namespace Orso.Arpa.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "news_title",
+                name: "title",
                 table: "news");
         }
     }

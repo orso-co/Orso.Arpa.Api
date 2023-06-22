@@ -12,8 +12,8 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20230622144827_AddNewsTitle")]
-    partial class AddNewsTitle
+    [Migration("20230622144827_AddTitle")]
+    partial class AddTitle
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -3794,14 +3794,14 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(110)")
                         .HasColumnName("modified_by");
 
-                    b.Property<string>("NewsText")
+                    b.Property<string>("Text")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")
-                        .HasColumnName("news_text");
+                        .HasColumnName("text");
 
-                    b.Property<string>("NewsTitle")
+                    b.Property<string>("Title")
                         .HasColumnType("text")
-                        .HasColumnName("news_title");
+                        .HasColumnName("title");
 
                     b.Property<bool>("Show")
                         .HasColumnType("boolean")

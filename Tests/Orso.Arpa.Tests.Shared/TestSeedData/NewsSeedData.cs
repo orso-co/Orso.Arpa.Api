@@ -27,8 +27,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 (
                  Guid.Parse("416981c5-2512-442f-8b2e-dd9364faf40f"),
                     new Create.Command
-                    {   NewsTitle = "This is the first news title!",
-                        NewsText = "ErsteMessage",
+                    {   Title = "This is the first news title!",
+                        Text = "ErsteMessage",
                         Url = "https://orsopolis.de",
                         Show = true
                     }
@@ -44,8 +44,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Guid.Parse("116232e3-f972-4d3e-bd98-5ead7b76cff8"),
                     new Create.Command
                     {
-                            NewsTitle = "This is the second news title!",
-                        NewsText = "ZweiteMessage",
+                            Title = "This is the second news title!",
+                        Text = "ZweiteMessage",
                         Url = "https://orso.co",
                         Show = false
                     }

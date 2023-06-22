@@ -11,8 +11,8 @@ namespace Orso.Arpa.Domain.Logic.News
         public class Command : IModifyCommand<Entities.News>
         {
             public Guid Id { get; set; }
-            public string NewsTitle { get; set; }
-            public string NewsText { get; set; }
+            public string Title { get; set; }
+            public string Text { get; set; }
             public string Url { get; set; }
             public bool Show { get; set; }
         }
