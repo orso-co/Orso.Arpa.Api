@@ -22,7 +22,7 @@ namespace Orso.Arpa.Application.BankAccountApplication
     {
         public BankAccountCreateDtoMappingProfile()
         {
-            CreateMap<BankAccountCreateDto, Command>()
+            _ = CreateMap<BankAccountCreateDto, Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Iban, opt => opt.MapFrom(src => src.Body.Iban))
                 .ForMember(dest => dest.Bic, opt => opt.MapFrom(src => src.Body.Bic))
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Application.BankAccountApplication
     {
         public BankAccountCreateDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new BankAccountCreateBodyDtoValidator());
         }
     }
@@ -43,22 +43,20 @@ namespace Orso.Arpa.Application.BankAccountApplication
     {
         public BankAccountCreateBodyDtoValidator()
         {
-            RuleFor(c => c.Iban)
-                 .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.Iban)
                  .NotEmpty()
                  .Iban();
 
-            RuleFor(c => c.Bic)
-                .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.Bic)
                 .NotEmpty()
                 .When(dto => !dto.Iban.StartsWith("de", StringComparison.InvariantCultureIgnoreCase), ApplyConditionTo.CurrentValidator)
                 .Bic()
                 .When(dto => !string.IsNullOrWhiteSpace(dto.Bic), ApplyConditionTo.CurrentValidator);
 
-            RuleFor(c => c.CommentInner)
+            _ = RuleFor(c => c.CommentInner)
                 .RestrictedFreeText(500);
 
-            RuleFor(c => c.AccountOwner)
+            _ = RuleFor(c => c.AccountOwner)
                 .PersonName(50);
         }
     }

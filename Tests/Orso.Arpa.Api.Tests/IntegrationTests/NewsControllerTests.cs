@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -9,7 +7,6 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.NewsApplication;
 using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -24,13 +21,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
         {
             // Arrange
-            List<NewsDto> expectedDtos = new List<NewsDto> { NewsDtoData.SecondNews };
+            var expectedDtos = new List<NewsDto> { NewsDtoData.SecondNews };
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.NewsController.Get(1,1,true));
+                .GetAsync(ApiEndpoints.NewsController.Get(1, 1, true));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -39,26 +36,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(20)]
-        public async Task Should_Create()
+        public async Task Should_Create([Values(null, "https://backstage.orso.co")] string url)
         {
             // Arrange
             var createDto = new NewsCreateDto
             {
                 NewsText = "New News Text",
-                Url = "https://backstage.orso.co",
+                Url = url,
                 Show = true
             };
 
             var expectedDto = new NewsDto
             {
                 NewsText = createDto.NewsText,
-                Url = createDto.Url,
+                Url = url,
                 Show = true,
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = _staff.DisplayName
             };
 
-               // Act
+            // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
@@ -66,7 +63,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
-           NewsDto result = await DeserializeResponseMessageAsync<NewsDto>(responseMessage);
+            NewsDto result = await DeserializeResponseMessageAsync<NewsDto>(responseMessage);
 
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id));
             _ = result.Id.Should().NotBeEmpty();
@@ -76,14 +73,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
 
         [Test, Order(100)]
-        public async Task Should_Modify()
+        public async Task Should_Modify([Values(null, "http://orsopolis.com")] string url)
         {
             // Arrange
             News newsToModify = NewsSeedData.FirstNews;
             var modifyDto = new NewsModifyBodyDto
             {
                 NewsText = "ErsteNewsModifiziert",
-                Url = "http://orsopolis.com",
+                Url = url,
                 Show = false
             };
 
@@ -91,7 +88,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Id = newsToModify.Id,
                 NewsText = "ErsteNewsModifiziert",
-                Url = "http://orsopolis.com",
+                Url = url,
                 Show = false,
                 CreatedBy = "anonymous",
                 CreatedAt = FakeDateTime.UtcNow,

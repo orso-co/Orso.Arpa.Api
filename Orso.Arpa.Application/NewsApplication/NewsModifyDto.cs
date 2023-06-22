@@ -1,7 +1,5 @@
-using System;
 using AutoMapper;
 using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.Extensions;
 using Orso.Arpa.Application.General;
 using static Orso.Arpa.Domain.Logic.News.Modify;
@@ -23,7 +21,7 @@ namespace Orso.Arpa.Application.NewsApplication
     {
         public NewsModifyDtoMappingProfile()
         {
-            CreateMap<NewsModifyDto, Command>()
+            _ = CreateMap<NewsModifyDto, Command>()
                 .ForMember(dest => dest.NewsText,
                     opt => opt.MapFrom(src => src.Body.NewsText))
                 .ForMember(dest => dest.Url, opt => opt.MapFrom(src => src.Body.Url))
@@ -35,7 +33,7 @@ namespace Orso.Arpa.Application.NewsApplication
     {
         public NewsModifyDtoValidator()
         {
-            RuleFor(d => d.Body)
+            _ = RuleFor(d => d.Body)
                 .SetValidator(new NewsModifyBodyDtoValidator());
         }
     }
@@ -44,13 +42,13 @@ namespace Orso.Arpa.Application.NewsApplication
     {
         public NewsModifyBodyDtoValidator()
         {
-            RuleFor(c => c.NewsText)
-                .Cascade(CascadeMode.Stop)
+            _ = RuleFor(c => c.NewsText)
                 .NotEmpty()
                 .FreeText(1000);
 
-            RuleFor(c => c.Url)
-                .ValidUri(1000);
+            _ = RuleFor(c => c.Url)
+                .ValidUri(1000)
+                .When(dto => !string.IsNullOrEmpty(dto.Url));
         }
     }
 }
