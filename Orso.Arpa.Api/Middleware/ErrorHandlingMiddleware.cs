@@ -119,7 +119,7 @@ namespace Orso.Arpa.Api.Middleware
                         Status = (int)HttpStatusCode.NotFound
                     };
                     errorMessage.Errors.Add(nfe.PropertyName, new string[] { nfe.Message });
-                    errorLogMessage = "NOT FOUND ERROR";
+                    _logger.LogWarning(nfe, "NOT FOUND ERROR");
                     break;
 
                 case EmailException ee:
@@ -148,7 +148,7 @@ namespace Orso.Arpa.Api.Middleware
                         Status = arfe.Status,
                         Detail = arfe.Message
                     };
-                    errorLogMessage = "NOT FOUND ERROR";
+                    _logger.LogWarning(arfe, "NOT FOUND ERROR");
                     break;
 
                 default:
@@ -169,7 +169,9 @@ namespace Orso.Arpa.Api.Middleware
                 context.Items.Add(
                     SensibleRequestDataShadower.ASPNET_REQUEST_POSTED_BODY_SHADOWED,
                     await SensibleRequestDataShadower.ShadowSensibleDataForLoggingAsync(context.Request.Body));
-                _logger.LogError(ex, errorLogMessage);
+#pragma warning disable CA2254 // Template should be a static expression
+                _logger.LogError(ex, message: errorLogMessage);
+#pragma warning restore CA2254 // Template should be a static expression
             }
 
             if (errorMessage != null)

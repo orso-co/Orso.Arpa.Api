@@ -44,7 +44,10 @@ public class NewsControllerTests : IntegrationTestBase
         // Arrange
         var createDto = new NewsCreateDto
         {
-            Title = "New News Title", Content = "New News Text", Url = url, Show = true
+            Title = "New News Title",
+            Content = "New News Text",
+            Url = url,
+            Show = true
         };
 
         var expectedDto = new NewsDto
@@ -72,7 +75,6 @@ public class NewsControllerTests : IntegrationTestBase
         _ = responseMessage.Headers.Location.AbsolutePath.Should()
             .Be($"/{ApiEndpoints.NewsController.Get(result.Id)}");
     }
-
 
     [Test]
     [Order(100)]

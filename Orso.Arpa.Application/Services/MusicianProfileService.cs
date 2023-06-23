@@ -12,6 +12,7 @@ using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.ProjectApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Application.Services
@@ -83,7 +84,7 @@ namespace Orso.Arpa.Application.Services
         public async Task<IEnumerable<ProjectParticipationDto>> GetProjectParticipationsAsync(Guid id, bool includeCompleted)
         {
             var query = new Domain.Logic.ProjectParticipations.GetForMusicianProfile.Query { IncludeCompletedProjects = includeCompleted, MusicianProfileId = id };
-            IEnumerable<ProjectParticipation> participations = await _mediator.Send(query);
+            IEnumerable<MusicianProfileProjectParticipationGrouping> participations = await _mediator.Send(query);
 
             // Cannot use .ProjectTo here because .ProjectTo does not suppert After Mapping Actions
             return _mapper.Map<IEnumerable<ProjectParticipationDto>>(participations);

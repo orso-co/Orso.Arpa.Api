@@ -9,7 +9,7 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.MyProjects;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
-using static Orso.Arpa.Domain.Logic.MyProjects.List;
+using static Orso.Arpa.Domain.Logic.ProjectParticipations.GetForPerson;
 
 namespace Orso.Arpa.Application.Services;
 
@@ -28,14 +28,14 @@ public class MyProjectService : IMyProjectService
 
     public async Task<MyProjectListDto> GetMyProjectsAsync(int? offset, int? limit, bool includeCompleted)
     {
-        var query = new List.Query
+        var query = new GetForPerson.Query
         {
             PersonId = _userAccessor.PersonId,
             Offset = offset,
             Limit = limit,
             IncludeCompleted = includeCompleted
         };
-        Tuple<IEnumerable<MyProjectGrouping>, int> result = await _mediator.Send(query);
+        Tuple<IEnumerable<PersonProjectParticipationGrouping>, int> result = await _mediator.Send(query);
 
         return new MyProjectListDto
         {

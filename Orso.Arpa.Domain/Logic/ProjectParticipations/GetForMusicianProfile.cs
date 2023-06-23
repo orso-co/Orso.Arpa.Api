@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -16,7 +15,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 {
     public static class GetForMusicianProfile
     {
-        public class Query : IRequest<IEnumerable<ProjectParticipation>>
+        public class Query : IRequest<IEnumerable<MusicianProfileProjectParticipationGrouping>>
         {
             public Guid MusicianProfileId { get; set; }
             public bool IncludeCompletedProjects { get; set; }
@@ -31,7 +30,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
             }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<ProjectParticipation>>
+        public class Handler : IRequestHandler<Query, IEnumerable<MusicianProfileProjectParticipationGrouping>>
         {
             private readonly IArpaContext _arpaContext;
 
@@ -40,18 +39,36 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 _arpaContext = arpaContext;
             }
 
-            public async Task<IEnumerable<ProjectParticipation>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<MusicianProfileProjectParticipationGrouping>> Handle(Query request, CancellationToken cancellationToken)
             {
-                Expression<Func<ProjectParticipation, bool>> query = request.IncludeCompletedProjects
-                    ? pp => pp.MusicianProfileId == request.MusicianProfileId
-                    : pp => pp.MusicianProfileId == request.MusicianProfileId
-                        && !pp.Project.IsCompleted
-                        && pp.Project.Status != ProjectStatus.Cancelled;
+                IQueryable<Project> projectQuery = _arpaContext.Projects
+                                .Where(p => (!p.IsCompleted || request.IncludeCompletedProjects)
+                                    && !p.IsHiddenForPerformers
+                                    && !ProjectStatus.Cancelled.Equals(p.Status)
+                                    && !p.Children.Any())
+                                .OrderByDescending(p => p.StartDate);
 
-                return await _arpaContext.ProjectParticipations
-                    .Where(query)
-                    .OrderByDescending(pp => pp.Project.StartDate)
-                    .ToListAsync(cancellationToken);
+                var result = new List<MusicianProfileProjectParticipationGrouping>();
+
+                MusicianProfile musicianProfile = _arpaContext.MusicianProfiles.Find(request.MusicianProfileId);
+
+                foreach (Project project in await projectQuery.ToListAsync(cancellationToken))
+                {
+                    result.Add(new MusicianProfileProjectParticipationGrouping
+                    {
+                        Project = project,
+                        ProjectParticipation = LoadProjectParticipation(project, musicianProfile),
+                        MusicianProfile = musicianProfile
+                    });
+                }
+
+                return result;
+            }
+
+            private static ProjectParticipation LoadProjectParticipation(Project project, MusicianProfile musicianProfile)
+            {
+                ProjectParticipation existingParticipation = project.ProjectParticipations.FirstOrDefault(pp => pp.MusicianProfileId.Equals(musicianProfile.Id));
+                return existingParticipation ?? new ProjectParticipation(project, musicianProfile);
             }
         }
     }
