@@ -74,8 +74,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 ProjectParticipationDto dto = PerformerChorwerkstattForPerformer;
-                dto.CommentTeam = "Comment by team";
-                dto.InvitationStatus = ProjectInvitationStatus.Invited;
                 dto.Person = ReducedPersonDtoData.Performer;
                 return dto;
             }
@@ -87,15 +85,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new ProjectParticipationDto
                 {
-                    CommentByStaffInner = "Comment by staff",
-                    CreatedAt = FakeDateTime.UtcNow,
-                    CreatedBy = "anonymous",
-                    Id = Guid.Parse("014b7ae4-9c6a-4273-b54e-c40a911d41a3"),
+                    Id = Guid.Empty,
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-                    ParticipationStatusInner = ProjectParticipationStatusInner.Acceptance,
-                    ParticipationStatusInternal = ProjectParticipationStatusInternal.Refusal,
-                    ParticipationStatusResult = ProjectParticipationStatusResult.Refusal,
-                    Project = ReducedProjectDtoData.ChorwerkstattTour
+                    ParticipationStatusResult = ProjectParticipationStatusResult.Pending,
+                    Project = ReducedProjectDtoData.ChorwerkstattBerlin
                 };
             }
         }

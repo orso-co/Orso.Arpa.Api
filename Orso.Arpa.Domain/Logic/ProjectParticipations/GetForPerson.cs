@@ -3,23 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
-namespace Orso.Arpa.Domain.Logic.MyProjects;
+namespace Orso.Arpa.Domain.Logic.ProjectParticipations;
 
-public static class List
+public static class GetForPerson
 {
-    public class MyProjectGrouping
-    {
-        public Project Project { get; set; }
-        public IEnumerable<ProjectParticipation> ProjectParticipations { get; set; }
-    }
-
-    public class Query : IRequest<Tuple<IEnumerable<MyProjectGrouping>, int>>
+    public class Query : IRequest<Tuple<IEnumerable<PersonProjectParticipationGrouping>, int>>
     {
         public Guid PersonId { get; set; }
         public int? Limit { get; set; }
@@ -27,7 +23,16 @@ public static class List
         public bool IncludeCompleted { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Tuple<IEnumerable<MyProjectGrouping>, int>>
+    public class Validator : AbstractValidator<Query>
+    {
+        public Validator(IArpaContext arpaContext)
+        {
+            _ = RuleFor(c => c.PersonId)
+            .EntityExists<Query, Person>(arpaContext);
+        }
+    }
+
+    public class Handler : IRequestHandler<Query, Tuple<IEnumerable<PersonProjectParticipationGrouping>, int>>
     {
         private readonly IArpaContext _arpaContext;
 
@@ -36,7 +41,7 @@ public static class List
             _arpaContext = arpaContext;
         }
 
-        public async Task<Tuple<IEnumerable<MyProjectGrouping>, int>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Tuple<IEnumerable<PersonProjectParticipationGrouping>, int>> Handle(Query request, CancellationToken cancellationToken)
         {
             List<Guid> musicianProfileIds = await _arpaContext.MusicianProfiles
                 .Where(mp => mp.PersonId == request.PersonId)
@@ -62,11 +67,11 @@ public static class List
                 projectQuery = projectQuery.Take(request.Limit.Value);
             }
 
-            var result = new List<MyProjectGrouping>();
+            var result = new List<PersonProjectParticipationGrouping>();
 
             foreach (Project project in await projectQuery.ToListAsync(cancellationToken))
             {
-                result.Add(new MyProjectGrouping
+                result.Add(new PersonProjectParticipationGrouping
                 {
                     Project = project,
                     ProjectParticipations = musicianProfileIds.Any()
@@ -79,7 +84,7 @@ public static class List
                 });
             }
 
-            return new Tuple<IEnumerable<MyProjectGrouping>, int>(result, totalRecordsCount);
+            return new Tuple<IEnumerable<PersonProjectParticipationGrouping>, int>(result, totalRecordsCount);
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.ProjectApplication;
-using static Orso.Arpa.Domain.Logic.MyProjects.List;
+using Orso.Arpa.Domain.Logic.ProjectParticipations;
 
 namespace Orso.Arpa.Application.MyProjectApplication;
 
@@ -16,7 +16,7 @@ public class MyProjectDtoMappingProfile : Profile
 {
     public MyProjectDtoMappingProfile()
     {
-        CreateMap<MyProjectGrouping, MyProjectDto>()
+        _ = CreateMap<PersonProjectParticipationGrouping, MyProjectDto>()
             .ForMember(d => d.Participations, opt => opt.MapFrom(src => src.ProjectParticipations))
             .ForMember(d => d.ParentProject, opt => opt.MapFrom(src => src.Project.Parent));
     }

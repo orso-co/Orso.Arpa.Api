@@ -45,7 +45,7 @@ public static class SetProjectParticipationStatus
                     {
                         context.AddFailure("You may not set the participation of a parent project");
                     }
-                    if (await arpaContext.EntityExistsAsync<MusicianProfileDeactivation>(
+                    if (!ProjectParticipationStatusInner.Refusal.Equals(context.InstanceToValidate.ParticipationStatusInner) && await arpaContext.EntityExistsAsync<MusicianProfileDeactivation>(
                          d => d.MusicianProfileId == context.InstanceToValidate.MusicianProfileId && d.DeactivationStart.Date < project.EndDate.GetValueOrDefault().Date,
                         cancellation))
                     {
@@ -96,5 +96,3 @@ public static class SetProjectParticipationStatus
         }
     }
 }
-
-

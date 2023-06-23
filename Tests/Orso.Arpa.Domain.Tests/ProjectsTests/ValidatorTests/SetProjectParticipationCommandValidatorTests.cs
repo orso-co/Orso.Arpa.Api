@@ -9,7 +9,6 @@ using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.ProjectParticipations;
-using Orso.Arpa.Misc;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -20,7 +19,6 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.ValidatorTests
     public class SetProjectParticipationCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private IDateTimeProvider _dateTimeProvider;
         private SetProjectParticipation.Validator _validator;
         private DbSet<Project> _mockProjectDbSet;
         private DbSet<SelectValueCategory> _mockSelectValueCategoryDbSet;
@@ -29,8 +27,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _dateTimeProvider = new FakeDateTimeProvider();
-            _validator = new SetProjectParticipation.Validator(_arpaContext, _dateTimeProvider);
+            _validator = new SetProjectParticipation.Validator(_arpaContext);
             _mockProjectDbSet = MockDbSets.Projects;
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
             _ = _arpaContext.SelectValueCategories.Returns(_mockSelectValueCategoryDbSet);

@@ -64,8 +64,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                         ProjectParticipationDtoData.PerformerRockingXMasParticipationForPerformer,
                         ProjectParticipationDtoData.PerformerSchneeköniginParticipationForPerformer,
                         ProjectParticipationDtoData.PerformerChorwerkstattForPerformer,
-                        ProjectParticipationDtoData.PerformerHoorayForHollywoodForPerformer,
-                        ProjectParticipationDtoData.PerformerChorwerkstattFreiburgForPerformer
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodForPerformer
                     });
                 yield return new TestCaseData(
                     FakeUsers.Staff,
@@ -86,8 +85,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                         ProjectParticipationDtoData.PerformerRockingXMasParticipationForStaff,
                         ProjectParticipationDtoData.PerformerSchneeköniginParticipationForStaff,
                         ProjectParticipationDtoData.PerformerChorwerkstattParticipationForStaff,
-                        ProjectParticipationDtoData.PerformerHoorayForHollywoodParticipationForStaff,
-                        ProjectParticipationDtoData.PerformerChorwerkstattFreiburgParticipationForStaff
+                        ProjectParticipationDtoData.PerformerHoorayForHollywoodParticipationForStaff
                     });
             }
         }
@@ -176,7 +174,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             IEnumerable<GroupedMusicianProfileDto> result = await DeserializeResponseMessageAsync<IEnumerable<GroupedMusicianProfileDto>>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrderingFor(r => r.Person));
         }
-
 
         private static IEnumerable<TestCaseData> s_appointmentParticipationData
         {
