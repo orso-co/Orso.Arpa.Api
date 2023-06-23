@@ -10,7 +10,11 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<News> builder)
         {
             builder
-                .Property(e => e.NewsText)
+                .Property(e => e.Title)
+                .HasMaxLength(200);
+
+            builder
+                .Property(e => e.Content)
                 .HasMaxLength(1000);
 
             builder

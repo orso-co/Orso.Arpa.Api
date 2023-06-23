@@ -41,14 +41,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
             var createDto = new NewsCreateDto
             {
-                NewsText = "New News Text",
+                Title = "New News Title",
+                Content = "New News Text",
                 Url = url,
                 Show = true
             };
 
             var expectedDto = new NewsDto
             {
-                NewsText = createDto.NewsText,
+                Title = createDto.Title,
+                Content = createDto.Content,
                 Url = url,
                 Show = true,
                 CreatedAt = FakeDateTime.UtcNow,
@@ -73,13 +75,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
 
         [Test, Order(100)]
-        public async Task Should_Modify([Values(null, "http://orsopolis.com")] string url)
+        public async Task Should_Modify([Values(null, "https://orsopolis.com")] string url)
         {
             // Arrange
             News newsToModify = NewsSeedData.FirstNews;
             var modifyDto = new NewsModifyBodyDto
             {
-                NewsText = "ErsteNewsModifiziert",
+                Title = "Title der ersten Message modifiziert",
+                Content = "ErsteNewsModifiziert",
                 Url = url,
                 Show = false
             };
@@ -87,7 +90,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var expectedDto = new NewsDto
             {
                 Id = newsToModify.Id,
-                NewsText = "ErsteNewsModifiziert",
+                Title = "Title der ersten Message modifiziert",
+                Content = "ErsteNewsModifiziert",
                 Url = url,
                 Show = false,
                 CreatedBy = "anonymous",

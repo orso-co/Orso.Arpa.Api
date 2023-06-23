@@ -26,7 +26,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new NewsDto
                 {
                     Id = Guid.Parse("416981c5-2512-442f-8b2e-dd9364faf40f"),
-                    NewsText = "ErsteMessage",
+                    Title = "Titel der ersten Message",
+                    Content = "ErsteMessage",
                     Url = "https://orsopolis.de",
                     Show = true,
                     CreatedBy = "anonymous",
@@ -42,7 +43,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 return new NewsDto
                 {
                     Id = Guid.Parse("116232e3-f972-4d3e-bd98-5ead7b76cff8"),
-                    NewsText = "ZweiteMessage",
+                    Title = "Titel der zweiten Message",
+                    Content = "ZweiteMessage",
                     Url = "https://orso.co",
                     Show = false,
                     CreatedBy = "anonymous",

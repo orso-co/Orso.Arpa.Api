@@ -11,7 +11,8 @@ namespace Orso.Arpa.Domain.Logic.News
     {
         public class Command : ICreateCommand<Entities.News>
         {
-            public string NewsText { get; set; }
+            public string Title { get; set; }
+            public string Content { get; set; }
             public string Url { get; set; }
             public bool Show { get; set; }
 

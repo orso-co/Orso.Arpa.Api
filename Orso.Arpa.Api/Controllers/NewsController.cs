@@ -28,6 +28,11 @@ namespace Orso.Arpa.Api.Controllers
             return await _newsService.GetByIdAsync(id);
         }
 
+        /// <summary>
+        /// Gets all news
+        /// </summary>
+        /// <returns>All news</returns>
+        /// <response code="200"></response>
         [Authorize(Roles = RoleNames.PerformerOrStaff)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]

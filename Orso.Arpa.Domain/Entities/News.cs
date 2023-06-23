@@ -7,7 +7,8 @@ namespace Orso.Arpa.Domain.Entities
     {
         public News(Guid? id, Create.Command command) : base(id)
         {
-            NewsText = command.NewsText;
+            Title = command.Title;
+            Content = command.Content;
             Url = command.Url;
             Show = command.Show;
         }
@@ -15,12 +16,13 @@ namespace Orso.Arpa.Domain.Entities
 
         public void Update(Modify.Command command)
         {
-            NewsText = command.NewsText;
+            Title = command.Title;
+            Content = command.Content;
             Url = command.Url;
             Show = command.Show;
         }
-
-        public string NewsText { get; private set; }
+        public string Title { get; private set; }
+        public string Content { get; private set; }
         public string Url { get; private set; }
         public bool Show { get; private set; }
     }
