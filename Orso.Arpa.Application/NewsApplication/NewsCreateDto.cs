@@ -3,39 +3,38 @@ using FluentValidation;
 using Orso.Arpa.Application.Extensions;
 using static Orso.Arpa.Domain.Logic.News.Create;
 
-namespace Orso.Arpa.Application.NewsApplication
+namespace Orso.Arpa.Application.NewsApplication;
+
+public class NewsCreateDto
 {
+    public string Title { get; set; }
+    public string Content { get; set; }
+    public string Url { get; set; }
+    public bool Show { get; set; }
+}
 
-    public class NewsCreateDto
+public class NewsCreateDtoMappingProfile : Profile
+{
+    public NewsCreateDtoMappingProfile()
     {
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Url { get; set; }
-        public bool Show { get; set; }
+        _ = CreateMap<NewsCreateDto, Command>();
     }
+}
 
-    public class NewsCreateDtoMappingProfile : Profile
+public class NewsCreateDtoValidator : AbstractValidator<NewsCreateDto>
+{
+    public NewsCreateDtoValidator()
     {
-        public NewsCreateDtoMappingProfile()
-        {
-            _ = CreateMap<NewsCreateDto, Command>();
-        }
-    }
+        _ = RuleFor(c => c.Title)
+            .NotEmpty()
+            .FreeText(200);
 
-    public class NewsCreateDtoValidator : AbstractValidator<NewsCreateDto>
-    {
-        public NewsCreateDtoValidator()
-        {
-            _ = RuleFor((c => c.Title))
-                .NotEmpty()
-                .FreeText(200);
-            _ = RuleFor(c => c.Content)
-                .NotEmpty()
-                .FreeText(1000);
-            _ = RuleFor(c => c.Url)
-                .ValidUri(1000)
-                .When(dto => !string.IsNullOrEmpty(dto.Url));
+        _ = RuleFor(c => c.Content)
+            .NotEmpty()
+            .FreeText(1000);
 
-        }
+        _ = RuleFor(c => c.Url)
+            .ValidUri(1000)
+            .When(dto => !string.IsNullOrEmpty(dto.Url));
     }
 }
