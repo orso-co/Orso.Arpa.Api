@@ -4,7 +4,6 @@ using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
 using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -19,7 +18,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Id = Guid.Parse("9a609084-a5b6-485f-8960-724a8b470b13"),
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
-                    InstrumentId = SectionSeedData.Alto.Id,
+                    Instrument = SectionDtoData.Alto,
                     CreatedAt = FakeDateTime.UtcNow,
                     CreatedBy = "anonymous",
                     IsMainProfile = true,
@@ -52,7 +51,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
-                    InstrumentId = Guid.Parse("b9532add-efec-4510-831c-902c32ef7dbb"),
+                    Instrument = SectionDtoData.Horn,
                     LevelAssessmentInner = 1,
                     InquiryStatusInner = MusicianProfileInquiryStatus.EmergencyOnly,
                     BackgroundInner = "Background Trombonist",
@@ -91,7 +90,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Id = Guid.Parse("056a27f0-cd88-4cd9-8729-ce2f23b8b0ef"),
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
-                    InstrumentId = SectionSeedData.Tuba.Id,
+                    Instrument = SectionDtoData.Tuba,
                     CreatedAt = FakeDateTime.UtcNow,
                     CreatedBy = "anonymous",
                     IsMainProfile = false,
@@ -113,7 +112,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    InstrumentId = SectionSeedData.Bass.Id,
+                    Instrument = SectionDtoData.Bass,
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
@@ -128,7 +127,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    InstrumentId = SectionSeedData.Tenor.Id,
+                    Instrument = SectionDtoData.Tenor,
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
@@ -143,7 +142,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    InstrumentId = SectionSeedData.Soprano.Id,
+                    Instrument = SectionDtoData.Soprano,
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
@@ -158,7 +157,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             {
                 return new MusicianProfileDto
                 {
-                    InstrumentId = SectionSeedData.Bass.Id,
+                    Instrument = SectionDtoData.Bass,
 
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,

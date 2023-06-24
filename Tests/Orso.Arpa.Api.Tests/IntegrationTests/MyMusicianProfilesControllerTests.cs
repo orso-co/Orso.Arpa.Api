@@ -212,7 +212,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+            MyMusicianProfileDto result = await DeserializeResponseMessageAsync<MyMusicianProfileDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto);
 
             // check if former main profile is not main profile anymore

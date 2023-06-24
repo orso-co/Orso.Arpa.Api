@@ -70,7 +70,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
                     appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.ProjectAppointments.Any(pa => pa.ProjectId.Equals(request.ProjectId)));
                 }
 
-                return await appointmentParticipations.ToListAsync();
+                return await appointmentParticipations.ToListAsync(cancellationToken);
             }
         }
     }

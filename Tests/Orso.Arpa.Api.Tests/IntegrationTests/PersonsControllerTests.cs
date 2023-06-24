@@ -291,7 +291,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var expectedDto = new MusicianProfileDto
             {
-                InstrumentId = createDto.InstrumentId,
+                Instrument = SectionDtoData.Clarinet,
                 QualificationId = createDto.QualificationId,
                 PersonId = PersonDtoData.UnconfirmedUser.Id,
                 CreatedBy = _staff.DisplayName,
@@ -344,7 +344,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var expectedDto = new MusicianProfileDto
             {
-                InstrumentId = createDto.InstrumentId,
+                Instrument = SectionDtoData.AcousticGuitar,
                 QualificationId = createDto.QualificationId,
                 PersonId = PersonDtoData.PersonWithMultipleEmails.Id,
                 CreatedBy = _staff.DisplayName,
