@@ -390,7 +390,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InquiryStatusInner = (Domain.Enums.MusicianProfileInquiryStatus)modifyDto.InquiryStatusInner,
                 Id = musicianProfileToModify.Id,
                 InquiryStatusTeam = (Domain.Enums.MusicianProfileInquiryStatus)modifyDto.InquiryStatusTeam,
-                InstrumentId = musicianProfileToModify.InstrumentId,
+                Instrument = musicianProfileToModify.Instrument,
                 IsMainProfile = true,
                 LevelAssessmentInner = modifyDto.LevelAssessmentInner,
                 LevelAssessmentTeam = modifyDto.LevelAssessmentTeam,

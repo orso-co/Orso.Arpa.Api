@@ -7,6 +7,7 @@ using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MusicianProfileApplication;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
+using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
 
@@ -19,7 +20,7 @@ namespace Orso.Arpa.Application.MeApplication
         public byte ProfilePreferenceInner { get; set; }
         public string BackgroundInner { get; set; }
         public Guid PersonId { get; set; }
-        public Guid InstrumentId { get; set; }
+        public SectionDto Instrument { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
         public IList<MyDoublingInstrumentDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentDto>();
         public IList<EducationDto> Educations { get; set; } = new List<EducationDto>();
@@ -53,7 +54,7 @@ namespace Orso.Arpa.Application.MeApplication
                 .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.BackgroundInner))
 
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
-                .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
+                .ForMember(dest => dest.Instrument, opt => opt.MapFrom(src => src.Instrument))
                 .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.InquiryStatusInner))
 
                 .ForMember(dest => dest.DoublingInstruments, opt => opt.MapFrom(src => src.DoublingInstruments))

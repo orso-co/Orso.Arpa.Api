@@ -7,6 +7,7 @@ using Orso.Arpa.Application.DoublingInstrumentApplication;
 using Orso.Arpa.Application.EducationApplication;
 using Orso.Arpa.Application.General;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
+using Orso.Arpa.Application.SectionApplication;
 using Orso.Arpa.Application.SelectValueApplication;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
@@ -25,7 +26,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
         public string BackgroundTeam { get; set; }
         public string SalaryComment { get; set; }
         public Guid PersonId { get; set; }
-        public Guid InstrumentId { get; set; }
+        public SectionDto Instrument { get; set; }
         public Guid? QualificationId { get; set; }
         public Guid? SalaryId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
@@ -61,7 +62,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
                 .ForMember(dest => dest.SalaryComment, opt => opt.MapFrom(src => src.SalaryComment))
 
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
-                .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
+                .ForMember(dest => dest.Instrument, opt => opt.MapFrom(src => src.Instrument))
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.QualificationId))
                 .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.SalaryId))
                 .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.InquiryStatusInner))

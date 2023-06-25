@@ -20,7 +20,6 @@ namespace Orso.Arpa.Application.ProjectApplication
         public string CommentByStaffInner { get; set; }
         public string CommentTeam { get; set; }
         public Guid MusicianProfileId { get; set; }
-
     }
 
     public class SetProjectParticipationDtoMappingProfile : Profile

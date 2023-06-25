@@ -125,7 +125,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var expectedDto = new MyMusicianProfileDto
             {
-                InstrumentId = createDto.InstrumentId,
+                Instrument = SectionDtoData.Clarinet,
                 LevelAssessmentInner = createDto.LevelAssessmentInner,
                 CreatedBy = _performer.DisplayName,
                 CreatedAt = FakeDateTime.UtcNow,
@@ -189,7 +189,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = musicianProfileToModify.CreatedBy,
                 InquiryStatusInner = (MusicianProfileInquiryStatus)modifyDto.InquiryStatusInner,
                 Id = musicianProfileToModify.Id,
-                InstrumentId = musicianProfileToModify.InstrumentId,
+                Instrument = musicianProfileToModify.Instrument,
                 IsMainProfile = true,
                 LevelAssessmentInner = modifyDto.LevelAssessmentInner,
                 ModifiedAt = FakeDateTime.UtcNow,
@@ -212,7 +212,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            MusicianProfileDto result = await DeserializeResponseMessageAsync<MusicianProfileDto>(responseMessage);
+            MyMusicianProfileDto result = await DeserializeResponseMessageAsync<MyMusicianProfileDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto);
 
             // check if former main profile is not main profile anymore
