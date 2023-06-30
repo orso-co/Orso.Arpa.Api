@@ -68,7 +68,7 @@ namespace Orso.Arpa.Api.Middleware
                             Title = "Resource not found.",
                             Status = (int)HttpStatusCode.NotFound
                         };
-                        errorLogMessage = "NOT FOUND ERROR";
+                        _logger.LogWarning(ve, "NOT FOUND ERROR");
                     }
                     else if (errorCodes.Contains("403"))
                     {
