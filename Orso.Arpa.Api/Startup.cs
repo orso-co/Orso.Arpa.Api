@@ -91,6 +91,10 @@ namespace Orso.Arpa.Api
 
             ConfigureCors(services);
 
+            if (_hostingEnvironment.IsProduction())
+            {
+                _ = services.AddApplicationInsightsTelemetry();
+            }
             _ = services.AddMediatR(typeof(Login.Handler).Assembly);
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
