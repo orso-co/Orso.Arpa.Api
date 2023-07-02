@@ -37,7 +37,8 @@ namespace Orso.Arpa.Api.Tests.UnitTests
             };
             var json = JsonSerializer.Serialize(dto, jso);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
-            const string expectedResult = "{\r\n  \"UserName\": \"Username\",\r\n  \"Password\": \"**********\",\r\n  \"Email\": \"my@test.mail\",\r\n  \"GivenName\": \"Givennamewithäü\",\r\n  \"Surname\": \"Surname\",\r\n  \"GenderId\": \"d69ed12f-bb0c-4577-8432-8460bfceb7d6\",\r\n  \"DateOfBirth\": \"2030-02-02T00:00:00\",\r\n  \"ClientUri\": \"my/client/uri\",\r\n  \"StakeholderGroupIds\": [\r\n    \"fd8a2aea-42ee-4718-99d0-c759b89feb48\"\r\n  ]\r\n}";
+            
+            string expectedResult = $"{{{Environment.NewLine}  \"UserName\": \"Username\",{Environment.NewLine}  \"Password\": \"**********\",{Environment.NewLine}  \"Email\": \"my@test.mail\",{Environment.NewLine}  \"GivenName\": \"Givennamewithäü\",{Environment.NewLine}  \"Surname\": \"Surname\",{Environment.NewLine}  \"GenderId\": \"d69ed12f-bb0c-4577-8432-8460bfceb7d6\",{Environment.NewLine}  \"DateOfBirth\": \"2030-02-02T00:00:00\",{Environment.NewLine}  \"ClientUri\": \"my/client/uri\",{Environment.NewLine}  \"StakeholderGroupIds\": [{Environment.NewLine}    \"fd8a2aea-42ee-4718-99d0-c759b89feb48\"{Environment.NewLine}  ]{Environment.NewLine}}}";
 
             var result = await SensibleRequestDataShadower.ShadowSensibleDataForLoggingAsync(stream);
 

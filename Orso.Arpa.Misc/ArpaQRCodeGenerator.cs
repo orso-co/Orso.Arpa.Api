@@ -1,7 +1,6 @@
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using QRCoder;
+using SixLabors.ImageSharp;
 
 namespace Orso.Arpa.Misc
 {
@@ -12,14 +11,14 @@ namespace Orso.Arpa.Misc
             var qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(textToEncode, QRCodeGenerator.ECCLevel.Q);
             var qrCode = new QRCoder.QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(20);
+            Image qrCodeImage = qrCode.GetGraphic(20);
             return BitmapToBytes(qrCodeImage);
         }
 
-        private static byte[] BitmapToBytes(Bitmap img)
+        private static byte[] BitmapToBytes(Image image)
         {
             using var stream = new MemoryStream();
-            img.Save(stream, ImageFormat.Png);
+            image.SaveAsPng(stream);
             return stream.ToArray();
         }
     }
