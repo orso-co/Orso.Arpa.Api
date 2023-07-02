@@ -1,4 +1,6 @@
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using QRCoder;
 using SixLabors.ImageSharp;
 
@@ -6,19 +8,19 @@ namespace Orso.Arpa.Misc
 {
     public static class ArpaQRCodeGenerator
     {
-        public static byte[] GetQRCode(string textToEncode)
+        public static async Task<byte[]> GetQRCodeAsync(string textToEncode, CancellationToken cancellationToken)
         {
             var qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(textToEncode, QRCodeGenerator.ECCLevel.Q);
-            var qrCode = new QRCoder.QRCode(qrCodeData);
+            var qrCode = new QRCode(qrCodeData);
             Image qrCodeImage = qrCode.GetGraphic(20);
-            return BitmapToBytes(qrCodeImage);
+            return await ImageToBytesAsync(qrCodeImage, cancellationToken);
         }
 
-        private static byte[] BitmapToBytes(Image image)
+        private static async Task<byte[]> ImageToBytesAsync(Image image, CancellationToken cancellationToken)
         {
             using var stream = new MemoryStream();
-            image.SaveAsPng(stream);
+            await image.SaveAsPngAsync(stream, cancellationToken);
             return stream.ToArray();
         }
     }

@@ -66,7 +66,7 @@ namespace Orso.Arpa.Domain.Logic.Me
 
                 var qrCode = new QrCodeFile()
                 {
-                    Content = ArpaQRCodeGenerator.GetQRCode(user.PersonId.ToString()),
+                    Content = await ArpaQRCodeGenerator.GetQRCodeAsync(user.PersonId.ToString(), cancellationToken),
                     FileName = $"ARPA_QRCode_{user.DisplayName.Replace(' ', '_')}.png"
                 };
 
