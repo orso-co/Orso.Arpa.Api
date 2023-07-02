@@ -13,7 +13,7 @@ namespace Orso.Arpa.Misc
             var qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(textToEncode, QRCodeGenerator.ECCLevel.Q);
             var qrCode = new QRCode(qrCodeData);
-            Image qrCodeImage = qrCode.GetGraphic(20);
+            using Image qrCodeImage = qrCode.GetGraphic(20);
             return await ImageToBytesAsync(qrCodeImage, cancellationToken);
         }
 
