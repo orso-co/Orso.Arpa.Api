@@ -6,7 +6,13 @@ namespace Orso.Arpa.Domain.Entities
 {
     public class Address : BaseEntity
     {
-        public Address(Guid? id, IAddressCreateCommand command) : base(id)
+        public Address(Guid? id, Create.Command command) : this(id, (BaseAddressCreateCommand)command) {
+            PersonId = command.PersonId;
+        }
+
+        public Address(Guid? id, Domain.Logic.Venues.Create.Command command) : this(id, (BaseAddressCreateCommand)command) {}
+
+        private Address(Guid? id, BaseAddressCreateCommand command) : base(id)
         {
             Address1 = command.Address1;
             Address2 = command.Address2;
