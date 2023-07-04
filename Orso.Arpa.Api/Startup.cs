@@ -356,6 +356,7 @@ namespace Orso.Arpa.Api
             _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
 
             _ = services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
+            _ = services.AddScoped(provider => provider.GetService<GraphQLContext>());
 
             _ = AddConfiguration<EmailConfiguration>(services);
             _ = AddConfiguration<ClubConfiguration>(services);

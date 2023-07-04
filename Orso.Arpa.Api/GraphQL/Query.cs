@@ -17,31 +17,31 @@ namespace Orso.Arpa.Api.GraphQL
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<MusicianProfile>> GetMusicianProfiles([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<MusicianProfile>>(context.MusicianProfiles.ToListAsync());
+        public ValueTask<List<MusicianProfile>> GetMusicianProfiles(GraphQLContext context) =>
+            new(context.MusicianProfiles.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<Person>> GetPersons([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<Person>>(context.Persons.ToListAsync());
+        public ValueTask<List<Person>> GetPersons(GraphQLContext context) =>
+            new(context.Persons.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<Project>> GetProjects([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<Project>>(context.Projects.ToListAsync());
+        public ValueTask<List<Project>> GetProjects(GraphQLContext context) =>
+            new(context.Projects.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<AuditLog>> GetAuditLogs([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<AuditLog>>(context.AuditLogs.ToListAsync());
+        public ValueTask<List<AuditLog>> GetAuditLogs(GraphQLContext context) =>
+            new(context.AuditLogs.ToListAsync());
     }
 }

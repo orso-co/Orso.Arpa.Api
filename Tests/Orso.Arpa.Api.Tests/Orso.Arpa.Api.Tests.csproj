@@ -20,4 +20,7 @@
     <ProjectReference Include="..\..\Orso.Arpa.Api\Orso.Arpa.Api.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Tests.Shared\Orso.Arpa.Tests.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="HotChocolate.Execution.Abstractions, Version=13.3.0.0, Culture=neutral, PublicKeyToken=null" />
+  </ItemGroup>
 </Project>
