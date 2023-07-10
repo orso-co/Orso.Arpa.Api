@@ -21,9 +21,9 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="12.19.2" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.19.2" />
-    <PackageReference Include="HotChocolate.Data" Version="12.19.2" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="12.20.0" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.20.0" />
+    <PackageReference Include="HotChocolate.Data" Version="12.20.0" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.21.0" />
