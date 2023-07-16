@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace Orso.Arpa.Misc.Extensions
 {
@@ -6,7 +7,13 @@ namespace Orso.Arpa.Misc.Extensions
     {
         public static string ToIsoString(this DateTime dateTime)
         {
-            return dateTime == DateTime.MinValue ? null : dateTime.ToString("s", System.Globalization.CultureInfo.InvariantCulture) + "Z";
+            return dateTime == DateTime.MinValue ? null : dateTime.ToString("s", CultureInfo.InvariantCulture) + "Z";
+        }
+
+        public static string ToGermanDateTimeString(this DateTime dateTime) {
+            TimeZoneInfo berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+            DateTime berlinDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, berlinTimeZone);
+            return berlinDateTime.ToString("dddd, dd.MM.yyyy HH:mm", new CultureInfo("en-GB"));
         }
     }
 }

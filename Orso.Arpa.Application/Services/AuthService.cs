@@ -33,8 +33,12 @@ namespace Orso.Arpa.Application.Services
         {
             UserRegister.Command registerCommand = _mapper.Map<UserRegister.Command>(registerDto);
             await _mediator.Send(registerCommand);
+            
             CreateEmailConfirmationToken.Command command = _mapper.Map<CreateEmailConfirmationToken.Command>(registerDto);
             await _mediator.Send(command);
+
+            UserRegisteredNotification userRegisteredNotification = new UserRegisteredNotification { UserName = registerDto.UserName };
+            await _mediator.Publish(userRegisteredNotification);
         }
 
         public async Task ChangePasswordAsync(ChangePasswordDto changePasswordDto)
@@ -82,6 +86,9 @@ namespace Orso.Arpa.Application.Services
         {
             ConfirmEmail.Command command = _mapper.Map<ConfirmEmail.Command>(confirmEmailDto);
             await _mediator.Send(command);
+
+            EmailConfirmedNotification emailConfirmedNotification = new EmailConfirmedNotification { Email = confirmEmailDto.Email };
+            await _mediator.Publish(emailConfirmedNotification);
         }
 
         public async Task CreateNewEmailConfirmationTokenAsync(CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
