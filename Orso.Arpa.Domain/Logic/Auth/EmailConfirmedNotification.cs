@@ -14,7 +14,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 {
     public class EmailConfirmedNotification : INotification
     {
-        public string UserName { get; set; }
+        public string Email { get; set; }
     }
 
     public class SendUEmailConfirmedInfoToKbb : INotificationHandler<EmailConfirmedNotification>
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
         public async Task Handle(EmailConfirmedNotification notification, CancellationToken cancellationToken)
         {
-            User user = await _userManager.FindByNameAsync(notification.UserName);
+            User user = await _userManager.FindByEmailAsync(notification.Email);
 
             KbbInfoLogger.LogInfoForKbb(
                 _logger,
