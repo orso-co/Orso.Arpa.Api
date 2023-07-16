@@ -87,7 +87,7 @@ namespace Orso.Arpa.Application.Services
             ConfirmEmail.Command command = _mapper.Map<ConfirmEmail.Command>(confirmEmailDto);
             await _mediator.Send(command);
 
-            EmailConfirmedNotification emailConfirmedNotification = new EmailConfirmedNotification { UserName = confirmEmailDto.Email };
+            EmailConfirmedNotification emailConfirmedNotification = new EmailConfirmedNotification { Email = confirmEmailDto.Email };
             await _mediator.Publish(emailConfirmedNotification);
         }
 
