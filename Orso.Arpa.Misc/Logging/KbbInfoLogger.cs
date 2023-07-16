@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Orso.Arpa.Misc.Logging
 {
-    public static partial class KbbInfoLogger
+    public static class KbbInfoLogger
     {
         public static void LogInfoForKbb(
             ILogger logger,
