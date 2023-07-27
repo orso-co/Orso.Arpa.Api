@@ -4,6 +4,10 @@ Digital development in the cultural sector
 ORSO Berlin develops choir and orchestra management software
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
 
 ## Deployment
 [![Build Status](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_apis/build/status/orso-arpa%20-%201%20-%20CI?branchName=master)](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_build/latest?definitionId=2&branchName=master)
