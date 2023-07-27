@@ -89,7 +89,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
             private RefreshToken GetValidRefreshToken(string token, User user)
             {
                 RefreshToken existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == token);
-                return existingToken.IsActive(_dateTimeProvider.GetUtcNow()) ? existingToken : null;
+                return existingToken?.IsActive(_dateTimeProvider.GetUtcNow()) == true ? existingToken : null;
             }
         }
     }

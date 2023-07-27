@@ -29,8 +29,8 @@ namespace Orso.Arpa.Domain.Logic.Addresses
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.Id)
-                    .MustAsync(async (_, id, cancellation) => await arpaContext
-                        .EntityExistsAsync<Address>(cd => cd.Id == id && cd.PersonId == cd.PersonId, cancellation))
+                    .MustAsync(async (cmd, id, cancellation) => await arpaContext
+                        .EntityExistsAsync<Address>(address => address.Id == id && address.PersonId == cmd.PersonId, cancellation))
                     .WithMessage("Address could not be found")
                     .WithErrorCode("404");
 
