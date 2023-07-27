@@ -57,7 +57,7 @@ namespace Orso.Arpa.Api.Middleware
                 return false;
             }
 
-            string path = context.Request.Path.Value?.TrimStart(SlashChars);
+            string path = context.Request.Path.Value?.TrimStart(SlashChars) ?? "";
             string personIdAsString = path.Replace("api/persons/", "").Replace("/profilepicture", "");
 
             if (string.IsNullOrEmpty(personIdAsString) || !Guid.TryParse(personIdAsString, out Guid personId))
