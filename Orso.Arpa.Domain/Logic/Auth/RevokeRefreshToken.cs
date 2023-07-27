@@ -48,17 +48,16 @@ namespace Orso.Arpa.Domain.Logic.Auth
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 User user = await _userManager.Users.Include(x => x.RefreshTokens)
-                    .SingleOrDefaultAsync(x => x.RefreshTokens.Any(y => y.Token == request.RefreshToken && y.UserId == x.Id), cancellationToken);
-
-                if (user == null)
-                {
-                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.RefreshToken), "No user found for supplied refresh token") });
-                }
+                    .SingleOrDefaultAsync(x => x.RefreshTokens.Any(y => y.Token == request.RefreshToken && y.UserId == x.Id), cancellationToken) ?? throw new ValidationException(new[] { new ValidationFailure(nameof(request.RefreshToken), "No user found for supplied refresh token") });
 
                 RefreshToken existingToken = user.RefreshTokens.FirstOrDefault(x => x.Token == request.RefreshToken);
 
-                existingToken.Revoke(request, _dateTimeProvider.GetUtcNow());
+                if (existingToken == null) 
+                {
+                    return Unit.Value;
+                }
 
+                existingToken.Revoke(request, _dateTimeProvider.GetUtcNow());
                 _arpaContext.Set<RefreshToken>().Update(existingToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)

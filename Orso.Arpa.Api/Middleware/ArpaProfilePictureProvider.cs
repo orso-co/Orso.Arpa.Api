@@ -26,7 +26,7 @@ namespace Orso.Arpa.Api.Middleware
 
         public async Task<IImageResolver> GetAsync(HttpContext context)
         {
-            string path = context.Request.Path.Value?.TrimStart(SlashChars);
+            string path = context.Request.Path.Value?.TrimStart(SlashChars) ?? "";
             string personIdAsString = path.Replace("api/persons/", "").Replace("/profilepicture", "");
 
             if (string.IsNullOrEmpty(personIdAsString) || !Guid.TryParse(personIdAsString, out Guid personId))
