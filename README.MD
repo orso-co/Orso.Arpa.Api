@@ -3,15 +3,16 @@
 Digital development in the cultural sector
 ORSO Berlin develops choir and orchestra management software
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
+
 ## Deployment
 [![Build Status](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_apis/build/status/orso-arpa%20-%201%20-%20CI?branchName=master)](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_build/latest?definitionId=2&branchName=master)
 
 [Dev](https://orso-arpa-dev.azurewebsites.net/)
+
 [Staging](https://orso-arpa-staging.azurewebsites.net/)
 
 [Build and Release Pipelines](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api)
-
-[Azure Resources](https://portal.azure.com/#@azureorso.onmicrosoft.com/resource/subscriptions/c0b08a7a-5482-41e5-a89a-8805790176c5/resourceGroups/Orso.Arpa/overview)
 
 ## Running the app using Docker
 >  Make sure to have the latest docker version installed for your OS: [Docker](https://www.docker.com/get-started)
