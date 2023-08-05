@@ -151,6 +151,14 @@ namespace Orso.Arpa.Api.Middleware
                     _logger.LogWarning(arfe, "NOT FOUND ERROR");
                     break;
 
+                case AffectedRowCountMismatchException arcme:
+                    errorMessage = new ValidationProblemDetails {
+                        Status = (int)HttpStatusCode.UnprocessableEntity,
+                        Title = "The requested action could not be performed correctly on the database. Fewer changes were executed on the database than expected. Possibly, the sent object was already up to date."
+                    };
+                    errorLogMessage = arcme.Message;
+                    break;
+
                 default:
                     errorMessage = new ValidationProblemDetails
                     {
@@ -174,16 +182,13 @@ namespace Orso.Arpa.Api.Middleware
 #pragma warning restore CA2254 // Template should be a static expression
             }
 
-            if (errorMessage != null)
+            context.Response.ContentType = MediaTypeNames.Application.Json;
+            var serializeOptions = new JsonSerializerOptions
             {
-                context.Response.ContentType = MediaTypeNames.Application.Json;
-                var serializeOptions = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                };
-                var serializedErrorMessage = JsonSerializer.Serialize(errorMessage, serializeOptions);
-                await context.Response.WriteAsync(serializedErrorMessage);
-            }
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
+            var serializedErrorMessage = JsonSerializer.Serialize(errorMessage, serializeOptions);
+            await context.Response.WriteAsync(serializedErrorMessage);
         }
     }
 }

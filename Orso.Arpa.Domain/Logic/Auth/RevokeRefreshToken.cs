@@ -7,6 +7,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Misc;
@@ -65,7 +66,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     return Unit.Value;
                 }
 
-                throw new Exception($"Problem updating {existingToken.GetType().Name}");
+                throw new AffectedRowCountMismatchException(nameof(RefreshToken));
             }
         }
     }

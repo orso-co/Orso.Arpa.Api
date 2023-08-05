@@ -124,7 +124,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 }));
 
                 return (await _arpaContext.SaveChangesAsync(cancellationToken)) < request.StakeholderGroupIds.Count + 1
-                    ? throw new Exception("Problem creating stakeholder groups")
+                    ? throw new AffectedRowCountMismatchException(nameof(PersonSection))
                     : Unit.Value;
             }
         }

@@ -6,6 +6,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.GenericHandlers
@@ -29,24 +30,17 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
             public async Task<Unit> Handle(IModifyCommand<TEntity> request, CancellationToken cancellationToken)
             {
-                TEntity existingEntity = await _context.FindAsync<TEntity>(new object[] { request.Id }, cancellationToken);
-
-                if (existingEntity == null)
-                {
-                    throw new ValidationException(new[]
+                TEntity existingEntity = await _context.FindAsync<TEntity>(new object[] { request.Id }, cancellationToken) 
+                ?? throw new ValidationException(new[]
                     {
                         new ValidationFailure(nameof(request.Id), $"The {typeof(TEntity).Name} could not be found.")
                         {
                             ErrorCode = "404"
                         }
                     });
-                }
 
-                MethodInfo updateMethod = typeof(TEntity).GetMethod("Update", BindingFlags.Public | BindingFlags.Instance, new Type[] { request.GetType() });
-                if (updateMethod is null)
-                {
-                    throw new Exception($"No 'Update' method found for type '{typeof(TEntity)}' and command '{request.GetType()}");
-                }
+                MethodInfo updateMethod = typeof(TEntity).GetMethod("Update", BindingFlags.Public | BindingFlags.Instance, new Type[] { request.GetType() }) 
+                    ?? throw new NotFoundException($"No 'Update' method found for type '{typeof(TEntity)}' and command '{request.GetType()}");
 
                 updateMethod.Invoke(existingEntity, new[] { request });
 
@@ -57,7 +51,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
                     return Unit.Value;
                 }
 
-                throw new Exception($"Problem updating {existingEntity.GetType().Name}");
+                throw new AffectedRowCountMismatchException(existingEntity.GetType().Name);
             }
         }
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -39,7 +40,7 @@ namespace Orso.Arpa.Domain.Logic.Venues
 
             if ((await _arpaContext.SaveChangesAsync(cancellationToken)) < appointmentsWithVenue.Count)
             {
-                throw new Exception($"Problem updating {nameof(Appointment)}");
+                throw new AffectedRowCountMismatchException(nameof(Appointment));
             }
         }
     }

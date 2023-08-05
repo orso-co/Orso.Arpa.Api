@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -81,7 +82,7 @@ namespace Orso.Arpa.Domain.Logic.Urls
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem removing role from url");
+                throw new AffectedRowCountMismatchException(nameof(UrlRole));
             }
         }
     }

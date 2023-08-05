@@ -70,7 +70,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 if (result.Succeeded)
                 {
-                    return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress);
+                    return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
                 }
 
                 if (result.IsLockedOut)

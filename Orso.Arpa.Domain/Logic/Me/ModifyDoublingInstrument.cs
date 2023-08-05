@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -59,7 +60,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     return Unit.Value;
                 }
 
-                throw new Exception($"Problem updating doubling instrument");
+                throw new AffectedRowCountMismatchException(nameof(MusicianProfileSection));
             }
         }
     }

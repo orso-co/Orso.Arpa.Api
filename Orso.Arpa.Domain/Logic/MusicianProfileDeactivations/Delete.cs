@@ -5,6 +5,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.MusicianProfileDeactivations
@@ -49,7 +50,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfileDeactivations
                     return Unit.Value;
                 }
 
-                throw new Exception($"Problem deleting {typeof(MusicianProfileDeactivation).Name}");
+                throw new AffectedRowCountMismatchException(nameof(MusicianProfileDeactivation));
             }
         }
     }

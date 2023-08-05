@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using Orso.Arpa.Application.General;
@@ -68,7 +69,7 @@ namespace Orso.Arpa.Application.ProjectApplication
                 .ForMember(dest => dest.Project, opt => opt.MapFrom(src => src.Project))
                 .ForMember(dest => dest.Person, opt => opt.MapFrom(src => src.MusicianProfile.Person))
                 .ForMember(dest => dest.ParticipationStatusResult, opt => opt.MapFrom(src => src.ProjectParticipation != null ? src.ProjectParticipation.ParticipationStatusResult : ProjectParticipationStatusResult.Pending))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProjectParticipation != null ? src.ProjectParticipation.Id : default))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProjectParticipation != null ? src.ProjectParticipation.Id : Guid.Empty))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.ProjectParticipation != null ? src.ProjectParticipation.CreatedAt : default))
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.ProjectParticipation != null ? src.ProjectParticipation.CreatedBy : default))
                 .ForMember(dest => dest.ModifiedAt, opt => opt.MapFrom(src => src.ProjectParticipation != null ? src.ProjectParticipation.ModifiedAt : default))

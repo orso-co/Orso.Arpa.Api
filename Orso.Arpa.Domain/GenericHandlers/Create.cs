@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using static Orso.Arpa.Domain.Extensions.EntityCreator;
 
@@ -12,7 +13,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
 {
     public static class Create
     {
-        public interface ICreateCommand<TEntity> : IRequest<TEntity> where TEntity : BaseEntity
+        public interface ICreateCommand<out TEntity> : IRequest<TEntity> where TEntity : BaseEntity
         {
         }
 
@@ -46,7 +47,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
                     return _arpaContext.Set<TEntity>().Find(new object[] { createResult.Entity.Id });
                 }
 
-                throw new Exception($"Problem creating {newEntity.GetType().Name}");
+                throw new AffectedRowCountMismatchException(newEntity.GetType().Name);
             }
         }
     }

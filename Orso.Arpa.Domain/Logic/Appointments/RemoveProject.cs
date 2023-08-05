@@ -5,6 +5,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.Logic.Appointments
@@ -60,7 +61,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem removing project appointment");
+                throw new AffectedRowCountMismatchException(nameof(ProjectAppointment));
             }
         }
     }

@@ -5,6 +5,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.GenericHandlers
@@ -53,7 +54,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
                     return Unit.Value;
                 }
 
-                throw new Exception($"Problem deleting {typeof(TEntity).Name}");
+                throw new AffectedRowCountMismatchException(typeof(TEntity).Name);
             }
         }
     }

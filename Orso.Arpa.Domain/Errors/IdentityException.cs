@@ -1,19 +1,51 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Identity;
 
 namespace Orso.Arpa.Domain.Errors
 {
-#pragma warning disable RCS1194 // Implement exception constructors.
-
+    [Serializable]
     public class IdentityException : Exception
-#pragma warning restore RCS1194 // Implement exception constructors.
     {
+        private readonly IEnumerable<IdentityError> _identityErrors;
+        
         public IdentityException(string message, IEnumerable<IdentityError> identityErrors) : base(message)
         {
-            IdentityErrors = identityErrors ?? new List<IdentityError>();
+            _identityErrors = identityErrors ?? new List<IdentityError>();
         }
 
-        public IEnumerable<IdentityError> IdentityErrors { get; }
+        public IEnumerable<IdentityError> IdentityErrors { get { return _identityErrors; } }
+
+        protected IdentityException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _identityErrors = (IEnumerable<IdentityError>)info.GetValue(nameof(IdentityErrors), typeof(IList<string>));
+        }
+
+        public IdentityException()
+        {
+        }
+
+        public IdentityException(string message) : base(message)
+        {
+        }
+
+        public IdentityException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            if (info == null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
+            info.AddValue(nameof(IdentityErrors), IdentityErrors, typeof(IEnumerable<IdentityError>));
+
+            base.GetObjectData(info, context);
+        }
     }
 }

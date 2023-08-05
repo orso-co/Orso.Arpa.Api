@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.GenericHandlers;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
@@ -40,7 +41,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
 
             if ((await _arpaContext.SaveChangesAsync(cancellationToken)) < personsWithContactVia.Count)
             {
-                throw new Exception($"Problem updating {nameof(Person)}");
+                throw new AffectedRowCountMismatchException(nameof(Person));
             }
         }
     }

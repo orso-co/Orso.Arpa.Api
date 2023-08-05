@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -82,7 +83,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
 
                 return await _arpaContext.SaveChangesAsync(cancellationToken) == 2 // participation + audtit trail
                     ? Unit.Value
-                    : throw new Exception("Problem updating appointment participation");
+                    : throw new AffectedRowCountMismatchException(appointmentParticipation.GetType().Name);
             }
         }
     }

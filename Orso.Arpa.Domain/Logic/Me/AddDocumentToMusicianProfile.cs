@@ -5,6 +5,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -55,7 +56,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem creating musician profile document");
+                throw new AffectedRowCountMismatchException(nameof(MusicianProfileDocument));
             }
         }
     }

@@ -6,6 +6,7 @@ using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -92,7 +93,7 @@ public static class SetProjectParticipationStatus
 
             return await _arpaContext.SaveChangesAsync(cancellationToken) > 0
                 ? participation
-                : throw new Exception("Problem setting project participation");
+                : throw new AffectedRowCountMismatchException(nameof(ProjectParticipation));
         }
     }
 }
