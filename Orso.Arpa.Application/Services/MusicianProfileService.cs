@@ -28,11 +28,11 @@ namespace Orso.Arpa.Application.Services
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task<MusicianProfileDto> CreateAsync(MusicianProfileCreateDto createDto)
+        public async Task<MusicianProfileDto> CreateAsync(MusicianProfileCreateDto musicianProfileCreateDto)
         {
-            Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfiles.Create.Command>(createDto);
+            Create.Command command = _mapper.Map<Create.Command>(musicianProfileCreateDto);
             MusicianProfile createdEntity = await _mediator.Send(command);
-            foreach (DoublingInstrumentCreateBodyDto doublingInstrument in createDto.Body.DoublingInstruments)
+            foreach (DoublingInstrumentCreateBodyDto doublingInstrument in musicianProfileCreateDto.Body.DoublingInstruments)
             {
                 Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;

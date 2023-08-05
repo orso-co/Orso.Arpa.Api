@@ -50,7 +50,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerSchneeköniginParticipation;
-            _ = _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Staff });
+            _ = _tokenAccessor.GetUserRoles().Returns(new List<string> { RoleNames.Staff });
             var expectedDto = new ProjectParticipationDto
             {
                 Id = projectParticipation.Id,
@@ -78,7 +78,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerSchneeköniginParticipation;
-            _ = _tokenAccessor.UserRoles.Returns(new List<string> { RoleNames.Performer });
+            _ = _tokenAccessor.GetUserRoles().Returns(new List<string> { RoleNames.Performer });
             var expectedDto = new ProjectParticipationDto
             {
                 Id = projectParticipation.Id,

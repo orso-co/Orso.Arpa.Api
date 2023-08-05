@@ -44,9 +44,9 @@ namespace Orso.Arpa.Application.Services
             return _mapper.Map<MyUserProfileDto>(user);
         }
 
-        public async Task ModifyMyUserProfileAsync(MyUserProfileModifyDto userProfileModifyDto)
+        public async Task ModifyMyUserProfileAsync(MyUserProfileModifyDto modifyDto)
         {
-            Orso.Arpa.Domain.Logic.Me.Modify.Command command = _mapper.Map<Domain.Logic.Me.Modify.Command>(userProfileModifyDto);
+            Orso.Arpa.Domain.Logic.Me.Modify.Command command = _mapper.Map<Domain.Logic.Me.Modify.Command>(modifyDto);
             _ = await _mediator.Send(command);
         }
 
@@ -95,14 +95,14 @@ namespace Orso.Arpa.Application.Services
             return await _mediator.Send(command);
         }
 
-        public async Task<MyMusicianProfileDto> CreateMusicianProfileAsync(MyMusicianProfileCreateDto createDto)
+        public async Task<MyMusicianProfileDto> CreateMusicianProfileAsync(MyMusicianProfileCreateDto musicianProfileCreateDto)
         {
-            Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfiles.Create.Command>(createDto);
+            Domain.Logic.MusicianProfiles.Create.Command command = _mapper.Map<Domain.Logic.MusicianProfiles.Create.Command>(musicianProfileCreateDto);
 
             command.PersonId = _userAccessor.PersonId;
 
             MusicianProfile createdEntity = await _mediator.Send(command);
-            foreach (MyDoublingInstrumentCreateBodyDto doublingInstrument in createDto.DoublingInstruments)
+            foreach (MyDoublingInstrumentCreateBodyDto doublingInstrument in musicianProfileCreateDto.DoublingInstruments)
             {
                 Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;

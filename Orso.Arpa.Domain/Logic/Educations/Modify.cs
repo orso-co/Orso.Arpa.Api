@@ -24,7 +24,7 @@ namespace Orso.Arpa.Domain.Logic.Educations
         {
             public Validator(IArpaContext arpaContext, ITokenAccessor tokenAccessor)
             {
-                if (tokenAccessor.UserRoles.Contains(RoleNames.Staff))
+                if (tokenAccessor.GetUserRoles().Contains(RoleNames.Staff))
                 {
                     RuleFor(d => d.Id)
                         .EntityExists<Command, Education>(arpaContext);

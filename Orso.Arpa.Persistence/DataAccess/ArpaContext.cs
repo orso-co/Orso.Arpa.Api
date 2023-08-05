@@ -96,8 +96,8 @@ namespace Orso.Arpa.Persistence.DataAccess
             _ = builder.Entity<Url>()
                 .HasQueryFilter(url => !url.Deleted
                     && (url.UrlRoles.Count == 0
-                    || _tokenAccessor.UserRoles.Contains(RoleNames.Staff)
-                    || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.UserRoles.Contains(name))));
+                    || _tokenAccessor.GetUserRoles().Contains(RoleNames.Staff)
+                    || url.UrlRoles.Select(r => r.Role.Name).Any(name => _tokenAccessor.GetUserRoles().Contains(name))));
 
             _ = builder
                 .HasDbFunction(typeof(ArpaContext)
@@ -155,12 +155,27 @@ namespace Orso.Arpa.Persistence.DataAccess
         {
             Type entityType = entry.Entity.GetType();
 
-            if (entityType.GetCustomAttribute<HardDeleteAttribute>() == null)
-            {
-                entry.State = EntityState.Modified;
-                (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
-            }
+            DeleteEntity(currentUserDisplayName, entry, entityType);
 
+            await DeleteNavigationEntriesAsync(currentUserDisplayName, entry, entityType, cancellationToken);
+
+            SetNullableForeignKeysToNull(entry);
+        }
+
+        private static void SetNullableForeignKeysToNull(EntityEntry entry)
+        {
+            foreach (IProperty property in entry.CurrentValues.Properties)
+            {
+                if (property.IsColumnNullable() && property.IsForeignKey())
+                {
+                    entry.CurrentValues[property] = null;
+                }
+            }
+        }
+
+
+        private async Task DeleteNavigationEntriesAsync(string currentUserDisplayName, EntityEntry entry, Type entityType, CancellationToken cancellationToken)
+        {
             foreach (NavigationEntry navigationEntry in entry.Navigations)
             {
                 var shouldBeDeleted = entityType
@@ -187,14 +202,18 @@ namespace Orso.Arpa.Persistence.DataAccess
                     await DeleteNavigationEntry(currentUserDisplayName, referenceEntry.CurrentValue, cancellationToken);
                 }
             }
-            foreach (IProperty property in entry.CurrentValues.Properties)
+        }
+
+
+        private void DeleteEntity(string currentUserDisplayName, EntityEntry entry, Type entityType)
+        {
+            if (entityType.GetCustomAttribute<HardDeleteAttribute>() == null)
             {
-                if (property.IsColumnNullable() && property.IsForeignKey())
-                {
-                    entry.CurrentValues[property] = null;
-                }
+                entry.State = EntityState.Modified;
+                (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
             }
         }
+
 
         private async Task DeleteNavigationEntry(string currentUserDisplayName, object navigationEntryCurrentValue, CancellationToken cancellationToken)
         {
@@ -223,55 +242,61 @@ namespace Orso.Arpa.Persistence.DataAccess
                     continue;
                 }
 
-                var auditEntry = new AuditLog()
-                {
-                    TableName = entityType.Name,
-                    CreatedBy = currentUserDisplayName,
-                    CreatedAt = _dateTimeProvider.GetUtcNow()
-                };
-
-                foreach (PropertyEntry property in entry.Properties)
-                {
-                    string propertyName = property.Metadata.Name;
-                    if (property.Metadata.IsPrimaryKey())
-                    {
-                        Dictionary<string, Guid> keyValues = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, (JsonSerializerOptions)null);
-                        keyValues[propertyName] = (Guid)property.CurrentValue;
-                        auditEntry.KeyValues = JsonSerializer.Serialize(keyValues);
-                        continue;
-                    }
-
-                    var isShadowed =
-                        property.Metadata.ClrType == typeof(string)
-                        && property.Metadata.PropertyInfo?.GetCustomAttribute<AuditLogIgnoreAttribute>() != null;
-
-                    switch (entry.State)
-                    {
-                        case EntityState.Added:
-                            auditEntry.Type = AuditLogType.Create;
-                            auditEntry.NewValues[propertyName] = isShadowed ? SHADOW_VALUE : property.CurrentValue;
-                            break;
-                        case EntityState.Deleted:
-                            auditEntry.Type = AuditLogType.Delete;
-                            auditEntry.OldValues[propertyName] = isShadowed ? SHADOW_VALUE : property.OriginalValue;
-                            break;
-                        case EntityState.Modified:
-                            if (property.IsModified)
-                            {
-                                auditEntry.ChangedColumns.Add(propertyName);
-                                auditEntry.Type = AuditLogType.Update;
-                                auditEntry.OldValues[propertyName] = isShadowed ? SHADOW_VALUE : property.OriginalValue;
-                                auditEntry.NewValues[propertyName] = isShadowed ? SHADOW_VALUE : property.CurrentValue;
-                            }
-                            break;
-                    }
-
-                    auditLogs.Add(auditEntry);
-                }
+                auditLogs.Add(createAuditTrailEntry(currentUserDisplayName, entry, entityType));
             }
             // Das kann nicht direkt in der oberen foreach Schleife erfolgen, weil sonst der Changetracker während der Iteration verändert wird und eine Exception schmeißt
             AuditLogs.AddRange(auditLogs);
         }
+
+        private AuditLog createAuditTrailEntry(string currentUserDisplayName, EntityEntry entry, Type entityType)
+        {
+            var auditEntry = new AuditLog()
+            {
+                TableName = entityType.Name,
+                CreatedBy = currentUserDisplayName,
+                CreatedAt = _dateTimeProvider.GetUtcNow()
+            };
+
+            foreach (PropertyEntry property in entry.Properties)
+            {
+                string propertyName = property.Metadata.Name;
+                
+                if (property.Metadata.IsPrimaryKey())
+                {
+                    Dictionary<string, Guid> keyValues = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, (JsonSerializerOptions)null);
+                    keyValues[propertyName] = (Guid)property.CurrentValue;
+                    auditEntry.KeyValues = JsonSerializer.Serialize(keyValues);
+                    continue;
+                }
+
+                var isShadowed =
+                    property.Metadata.ClrType == typeof(string)
+                    && property.Metadata.PropertyInfo?.GetCustomAttribute<AuditLogIgnoreAttribute>() != null;
+
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        auditEntry.Type = AuditLogType.Create;
+                        auditEntry.NewValues[propertyName] = isShadowed ? SHADOW_VALUE : property.CurrentValue;
+                        break;
+                    case EntityState.Deleted:
+                        auditEntry.Type = AuditLogType.Delete;
+                        auditEntry.OldValues[propertyName] = isShadowed ? SHADOW_VALUE : property.OriginalValue;
+                        break;
+                    case EntityState.Modified:
+                        if (property.IsModified)
+                        {
+                            auditEntry.ChangedColumns.Add(propertyName);
+                            auditEntry.Type = AuditLogType.Update;
+                            auditEntry.OldValues[propertyName] = isShadowed ? SHADOW_VALUE : property.OriginalValue;
+                            auditEntry.NewValues[propertyName] = isShadowed ? SHADOW_VALUE : property.CurrentValue;
+                        }
+                        break;
+                }
+            }
+            return auditEntry;
+        }
+
 
         public void ClearChangeTracker()
         {

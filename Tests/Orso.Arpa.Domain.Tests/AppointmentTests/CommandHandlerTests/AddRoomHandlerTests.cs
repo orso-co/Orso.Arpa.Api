@@ -18,15 +18,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     public class AddRoomHandlerTests
     {
         private IArpaContext _arpaContext;
-        private IMapper _mapper;
         private AddRoom.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _mapper = Substitute.For<IMapper>();
-            _handler = new AddRoom.Handler(_arpaContext, _mapper);
+            _handler = new AddRoom.Handler(_arpaContext);
         }
 
         [Test]
