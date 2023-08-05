@@ -88,7 +88,6 @@ namespace Orso.Arpa.Mail
             finally
             {
                 await client.DisconnectAsync(true);
-                client.Dispose();
             }
         }
     }

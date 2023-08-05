@@ -43,7 +43,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .NotEmpty();
 
                 _ = RuleFor(c => c.IsMainProfile)
-                    .Must((command, isMainProfile) => isMainProfile || (!isMainProfile && !command.ExistingMusicianProfile.IsMainProfile))
+                    .Must((command, isMainProfile) => isMainProfile || !command.ExistingMusicianProfile.IsMainProfile)
                     .WithMessage("You may not turn off the IsMainProfile flag");
 
                 _ = RuleForEach(c => c.PreferredPositionsInnerIds)

@@ -1,7 +1,10 @@
 using System;
+using System.Runtime.Serialization;
+
 
 namespace Orso.Arpa.Mail
 {
+    [Serializable]
     public class EmailException : Exception
     {
         public EmailException() : base()
@@ -13,6 +16,11 @@ namespace Orso.Arpa.Mail
         }
 
         public EmailException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected EmailException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
     }

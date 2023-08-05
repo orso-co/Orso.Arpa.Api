@@ -10,9 +10,11 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         public static ProjectParticipationStatusInner EvaluateNewParticpationStatusInner(
             IEnumerable<ProjectParticipationStatusInner?> childrenStatus)
         {
-            return childrenStatus.Any(status => ProjectParticipationStatusInner.Acceptance.Equals(status))
-                ? ProjectParticipationStatusInner.Acceptance
-                : childrenStatus.AreAllSame()
+            if (childrenStatus.Any(status => ProjectParticipationStatusInner.Acceptance.Equals(status)))
+            {
+                return ProjectParticipationStatusInner.Acceptance;
+            }
+            return childrenStatus.AreAllSame()
                 ? childrenStatus.First() ?? ProjectParticipationStatusInner.Pending
                 : ProjectParticipationStatusInner.Pending;
         }
@@ -20,9 +22,11 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         public static ProjectParticipationStatusInternal EvaluateNewParticipationStatusInternal(
             IEnumerable<ProjectParticipationStatusInternal?> childrenStatus)
         {
-            return childrenStatus.Any(status => ProjectParticipationStatusInternal.Acceptance.Equals(status))
-                ? ProjectParticipationStatusInternal.Acceptance
-                : childrenStatus.AreAllSame()
+            if (childrenStatus.Any(status => ProjectParticipationStatusInternal.Acceptance.Equals(status)))
+            {
+                return ProjectParticipationStatusInternal.Acceptance;
+            }
+            return childrenStatus.AreAllSame()
                 ? childrenStatus.First() ?? ProjectParticipationStatusInternal.Pending
                 : ProjectParticipationStatusInternal.Pending;
         }
@@ -30,9 +34,11 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
         public static ProjectInvitationStatus EvaluateNewInvitationStatus(
             IEnumerable<ProjectInvitationStatus?> childrenStatus)
         {
-            return childrenStatus.Any(status => ProjectInvitationStatus.Invited.Equals(status))
-                ? ProjectInvitationStatus.Invited
-                : childrenStatus.AreAllSame()
+            if (childrenStatus.Any(status => ProjectInvitationStatus.Invited.Equals(status)))
+            {
+                return ProjectInvitationStatus.Invited;
+            }
+            return childrenStatus.AreAllSame()
                 ? childrenStatus.First() ?? ProjectInvitationStatus.Unclear
                 : ProjectInvitationStatus.Unclear;
         }
