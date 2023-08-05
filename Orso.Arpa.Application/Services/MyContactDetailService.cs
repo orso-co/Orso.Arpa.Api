@@ -23,9 +23,9 @@ namespace Orso.Arpa.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ContactDetailDto> CreateAsync(MyContactDetailCreateDto createDto)
+        public async Task<ContactDetailDto> CreateAsync(MyContactDetailCreateDto contactDetailCreateDto)
         {
-            Create.Command command = _mapper.Map<Create.Command>(createDto);
+            Create.Command command = _mapper.Map<Create.Command>(contactDetailCreateDto);
             command.PersonId = _tokenAccessor.PersonId;
             ContactDetail createdEntity = await _mediator.Send(command);
             return _mapper.Map<ContactDetailDto>(createdEntity);
@@ -38,9 +38,9 @@ namespace Orso.Arpa.Application.Services
             await _mediator.Send(command);
         }
 
-        public async Task ModifyAsync(MyContactDetailModifyDto modifyDto)
+        public async Task ModifyAsync(MyContactDetailModifyDto contactDetailModifyDto)
         {
-            Modify.Command command = _mapper.Map<Modify.Command>(modifyDto);
+            Modify.Command command = _mapper.Map<Modify.Command>(contactDetailModifyDto);
             command.PersonId = _tokenAccessor.PersonId;
             await _mediator.Send(command);
         }

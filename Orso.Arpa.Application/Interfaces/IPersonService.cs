@@ -17,7 +17,7 @@ namespace Orso.Arpa.Application.Interfaces
 
         Task ModifyAsync(PersonModifyDto modifyDto);
         Task DeleteAsync(Guid id);
-        Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addstakeholderGroupDto);
+        Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addStakeholderGroupDto);
         Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto);
         Task<PersonInviteResultDto> InviteAsync(PersonInviteDto dto);
         Task<IFileResult> SetProfilePictureAsync(ProfilePictureCreateDto profilePictureCreateDto);

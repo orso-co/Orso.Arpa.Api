@@ -55,7 +55,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
-            var token = await _jwtGenerator.CreateTokensAsync(user, "127.0.0.1");
+            var token = await _jwtGenerator.CreateTokensAsync(user, "127.0.0.1", new CancellationToken());
 
             // Assert
             JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);

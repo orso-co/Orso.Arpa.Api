@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Orso.Arpa.Domain.Configuration;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Misc;
@@ -38,10 +39,10 @@ namespace Orso.Arpa.Infrastructure.Authentication
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task<string> CreateTokensAsync(User user, string remoteIpAddress)
+        public async Task<string> CreateTokensAsync(User user, string remoteIpAddress, CancellationToken cancellationToken)
         {
             var accessToken = await CreateAccessTokenAsync(user);
-            await CreateRefreshTokenAsync(user, remoteIpAddress);
+            await CreateRefreshTokenAsync(user, remoteIpAddress, cancellationToken);
             return accessToken;
         }
 
@@ -80,7 +81,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             return tokenHandler.WriteToken(token);
         }
 
-        private async Task CreateRefreshTokenAsync(User user, string remoteIpAddress)
+        private async Task CreateRefreshTokenAsync(User user, string remoteIpAddress, CancellationToken cancellationToken)
         {
             RefreshToken refreshToken = GernerateRefreshToken(user, remoteIpAddress);
 
@@ -98,9 +99,9 @@ namespace Orso.Arpa.Infrastructure.Authentication
             user.RefreshTokens.Add(refreshToken);
             _arpaContext.Add(refreshToken);
 
-            if (!(await _arpaContext.SaveChangesAsync(new CancellationToken()) > 0))
+            if (await _arpaContext.SaveChangesAsync(cancellationToken) < 1)
             {
-                throw new Exception($"Problem creating {refreshToken.GetType().Name}");
+                throw new AffectedRowCountMismatchException(nameof(RefreshToken));
             }
         }
 

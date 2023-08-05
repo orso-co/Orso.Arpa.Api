@@ -59,7 +59,7 @@ namespace Orso.Arpa.Application.AuthApplication
 
             body.Position = 0;
 
-            IList<string> currentUserRoles = _userAccessor.UserRoles;
+            IList<string> currentUserRoles = _userAccessor.GetUserRoles();
 
             if (currentUserRoles.Count == 0)
             {

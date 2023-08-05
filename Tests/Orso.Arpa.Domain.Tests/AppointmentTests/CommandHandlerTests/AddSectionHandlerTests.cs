@@ -19,15 +19,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     public class AddSectionHandlerTests
     {
         private IArpaContext _arpaContext;
-        private IMapper _mapper;
         private AddSection.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _mapper = Substitute.For<IMapper>();
-            _handler = new AddSection.Handler(_arpaContext, _mapper);
+            _handler = new AddSection.Handler(_arpaContext);
         }
 
         [Test]

@@ -11,12 +11,6 @@ namespace Orso.Arpa.Api.GraphQL
 {
     public class QueryableStringInvariantContainsHandler : QueryableStringOperationHandler
     {
-        private static readonly MethodInfo _toLower = typeof(string)
-            .GetMethods()
-            .Single(
-                x => x.Name == nameof(string.ToLower) &&
-                x.GetParameters().Length == 0);
-
         public QueryableStringInvariantContainsHandler(InputParser inputParser) : base(inputParser)
         {
         }

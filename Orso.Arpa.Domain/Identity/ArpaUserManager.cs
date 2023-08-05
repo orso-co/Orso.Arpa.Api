@@ -41,9 +41,10 @@ namespace Orso.Arpa.Domain.Identity
 
         public async Task<User> FindUserByUsernameOrEmailAsync(string usernameOrEmail)
         {
-            return string.IsNullOrWhiteSpace(usernameOrEmail)
-                ? null
-                : usernameOrEmail.Contains('@') ? await FindByEmailAsync(usernameOrEmail) : await FindByNameAsync(usernameOrEmail);
+            if (string.IsNullOrWhiteSpace(usernameOrEmail)) {
+                return null;
+            }
+            return usernameOrEmail.Contains('@') ? await FindByEmailAsync(usernameOrEmail) : await FindByNameAsync(usernameOrEmail);
         }
 
         public virtual Task<User> FindByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -76,7 +77,7 @@ namespace Orso.Arpa.Domain.Identity
         private async Task<bool> CheckIfLastAdminWillBeRemovedAsync(Guid userId)
         {
             IList<User> adminUsers = await GetUsersInRoleAsync(RoleNames.Admin);
-            return adminUsers.Count == 1 && adminUsers.First().Id.Equals(userId);
+            return adminUsers.Count == 1 && adminUsers[0].Id.Equals(userId);
         }
     }
 }

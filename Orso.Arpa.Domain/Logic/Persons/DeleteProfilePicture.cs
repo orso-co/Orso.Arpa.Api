@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -54,9 +55,9 @@ namespace Orso.Arpa.Domain.Logic.Persons
                 person.SetProfilePitureName(null);
                 _ = _arpaContext.Persons.Update(person);
 
-                if (await _arpaContext.SaveChangesAsync(cancellationToken) <= 0)
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) < 1)
                 {
-                    throw new Exception("Problem setting profile picture");
+                    throw new AffectedRowCountMismatchException(nameof(Person));
                 }
 
                 await _fileAccessor.DeleteAsync(profilePictureFileName);

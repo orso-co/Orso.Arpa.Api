@@ -2,10 +2,9 @@ on:
   pull_request:
     branches:
       - develop
-
 jobs:
   build:
-
+    name: Build and test
     runs-on: windows-latest
 
     steps:

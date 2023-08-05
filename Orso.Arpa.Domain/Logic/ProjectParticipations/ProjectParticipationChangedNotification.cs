@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
@@ -222,23 +223,22 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 
                 _ = _arpaContext.Add(newParticipation);
 
-                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) < 1)
                 {
-                    KbbInfoLogger.LogInfoForKbb(
-                        _logger,
-                        "Participation of parent project created due to inheritance",
-                        new Dictionary<string, object>
-                        {
+                    throw new AffectedRowCountMismatchException(nameof(projectParticipation));
+                }
+
+                KbbInfoLogger.LogInfoForKbb(
+                    _logger,
+                    "Participation of parent project created due to inheritance",
+                    new Dictionary<string, object>
+                    {
                             { "Parent Project", parentProject },
                             { "Musician Profile", musicianProfile },
                             { "Participation Status Inner", projectParticipationStatusInner },
                             { "Participation Status Internal", projectParticipationStatusInternal },
                             { "Invitation Status", projectInvitationStatus }
-                        });
-                    return;
-                }
-
-                throw new Exception($"Problem creating {nameof(ProjectParticipation)}");
+                    });
             }
             else
             {
@@ -256,24 +256,22 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                 }
                 _arpaContext.Entry(projectParticipation)?.CurrentValues?.SetValues(projectParticipation);
 
-                if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) < 1)
                 {
-                    KbbInfoLogger.LogInfoForKbb(
-                        _logger,
-                        "Participation of parent project updated due to inheritance",
-                        new Dictionary<string, object>
-                        {
+                    throw new AffectedRowCountMismatchException(nameof(ProjectParticipation));
+                }
+                KbbInfoLogger.LogInfoForKbb(
+                    _logger,
+                    "Participation of parent project updated due to inheritance",
+                    new Dictionary<string, object>
+                    {
                             { "Parent Project", parentProject },
                             { "Musician Profile", musicianProfile },
                             { "Participation Status Inner", projectParticipationStatusInner },
                             { "Participation Status Internal", projectParticipationStatusInternal },
                             { "Invitation Status", projectInvitationStatus }
-                        },
-                        "NONE value means no update");
-                    return;
-                }
-
-                throw new Exception($"Problem updating {nameof(ProjectParticipation)}");
+                    },
+                    "NONE value means no update");
             }
         }
     }

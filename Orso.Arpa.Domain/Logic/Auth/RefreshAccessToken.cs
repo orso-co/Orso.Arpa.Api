@@ -83,7 +83,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                         "than the one with which the token was created. The refresh token has been revoked. Please log in again.");
                 }
 
-                return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress);
+                return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
             }
 
             private RefreshToken GetValidRefreshToken(string token, User user)

@@ -6,6 +6,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -59,14 +60,11 @@ namespace Orso.Arpa.Domain.Logic.Appointments
         public class Handler : IRequestHandler<Command>
         {
             private readonly IArpaContext _arpaContext;
-            private readonly IMapper _mapper;
 
             public Handler(
-                IArpaContext arpaContext,
-                IMapper mapper)
+                IArpaContext arpaContext)
             {
                 _arpaContext = arpaContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -83,7 +81,7 @@ namespace Orso.Arpa.Domain.Logic.Appointments
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem creating appointment room");
+                throw new AffectedRowCountMismatchException(nameof(AppointmentRoom));
             }
         }
     }

@@ -67,13 +67,26 @@ namespace Orso.Arpa.Domain.Entities
         public ProjectInvitationStatus? InvitationStatus { get; set; }
 
         [NotMapped]
-        public ProjectParticipationStatusResult ParticipationStatusResult =>
-           ProjectParticipationStatusInner.Acceptance.Equals(ParticipationStatusInner)
-                && ProjectParticipationStatusInternal.Acceptance.Equals(ParticipationStatusInternal)
-                ? ProjectParticipationStatusResult.Acceptance
-                : ProjectParticipationStatusInner.Refusal.Equals(ParticipationStatusInner)
-                || ProjectParticipationStatusInternal.Refusal.Equals(ParticipationStatusInternal)
-                ? ProjectParticipationStatusResult.Refusal
-                : ProjectParticipationStatusResult.Pending;
+        public ProjectParticipationStatusResult ParticipationStatusResult
+        {
+            get
+            {
+                if (HasOnlyAcceptanceStatus)
+                {
+                    return ProjectParticipationStatusResult.Acceptance;
+                }
+                if (HasAtLeastOneRefusalStatus)
+                {
+                    return ProjectParticipationStatusResult.Refusal;
+                }
+                return ProjectParticipationStatusResult.Pending;
+            }
+        }
+
+        private bool HasAtLeastOneRefusalStatus => ProjectParticipationStatusInner.Refusal.Equals(ParticipationStatusInner)
+                || ProjectParticipationStatusInternal.Refusal.Equals(ParticipationStatusInternal);
+
+        private bool HasOnlyAcceptanceStatus => ProjectParticipationStatusInner.Acceptance.Equals(ParticipationStatusInner)
+                && ProjectParticipationStatusInternal.Acceptance.Equals(ParticipationStatusInternal);
     }
 }

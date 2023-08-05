@@ -5,6 +5,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Interfaces;
 
 namespace Orso.Arpa.Domain.GenericHandlers
@@ -32,18 +33,14 @@ namespace Orso.Arpa.Domain.GenericHandlers
 
             public async Task<Unit> Handle(IDeleteCommand<TEntity> request, CancellationToken cancellationToken)
             {
-                TEntity entityToDelete = await _arpaContext.FindAsync<TEntity>(new object[] { request.Id }, cancellationToken);
-
-                if (entityToDelete == null)
-                {
-                    throw new ValidationException(new[]
+                TEntity entityToDelete = await _arpaContext.FindAsync<TEntity>(new object[] { request.Id }, cancellationToken) 
+                    ?? throw new ValidationException(new[]
                     {
                         new ValidationFailure(nameof(request.Id), $"The {typeof(TEntity).Name} could not be found.")
                         {
                             ErrorCode = "404"
                         }
                     });
-                }
 
                 _arpaContext.Remove(entityToDelete);
 
@@ -53,7 +50,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
                     return Unit.Value;
                 }
 
-                throw new Exception($"Problem deleting {typeof(TEntity).Name}");
+                throw new AffectedRowCountMismatchException(typeof(TEntity).Name);
             }
         }
     }

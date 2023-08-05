@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Net;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Orso.Arpa.Domain.Entities;
@@ -33,7 +34,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 context.Request.Headers["username"].FirstOrDefault() ?? string.Empty;
 
             User loadedUser = await _arpaUserManager.FindByNameAsync(username);
-            var token = await _jwtGenerator.CreateTokensAsync(loadedUser, context.Connection.RemoteIpAddress.ToString());
+            var token = await _jwtGenerator.CreateTokensAsync(loadedUser, context.Connection.RemoteIpAddress.ToString(), new CancellationToken());
 
             context.Request.Headers.Add("Authorization", "Bearer " + token);
             context.Request.Headers.Remove("username");

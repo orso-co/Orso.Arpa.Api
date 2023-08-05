@@ -50,7 +50,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var queryResult = result as QueryResult;
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
             _ = serializedResult.Should().Be("{\"auditLogs\":" +
-                "{\"pageInfo\":{\"hasNextPage\":true,\"hasPreviousPage\":true,\"__typename\":\"CollectionSegmentInfo\"},\"totalCount\":108,\"items\":[" +
+                "{\"pageInfo\":{\"hasNextPage\":true,\"hasPreviousPage\":true,\"__typename\":\"CollectionSegmentInfo\"},\"totalCount\":111,\"items\":[" +
                 "[{\"Name\":\"type\",\"Value\":{\"Value\":\"CREATE\",\"HasValue\":true,\"IsEmpty\":false},\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"tableName\",\"Value\":\"User\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"createdBy\",\"Value\":\"anonymous\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"__typename\",\"Value\":\"AuditLog\",\"IsNullable\":false,\"IsInitialized\":true}]," +
                 "[{\"Name\":\"type\",\"Value\":{\"Value\":\"CREATE\",\"HasValue\":true,\"IsEmpty\":false},\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"tableName\",\"Value\":\"User\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"createdBy\",\"Value\":\"anonymous\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"__typename\",\"Value\":\"AuditLog\",\"IsNullable\":false,\"IsInitialized\":true}]]," +
                 "\"__typename\":\"AuditLogCollectionSegment\"}}");

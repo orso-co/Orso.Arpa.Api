@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 using Orso.Arpa.Domain.Logic.MusicianProfiles;
@@ -42,7 +43,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     .NotEmpty();
 
                 _ = RuleFor(c => c.IsMainProfile)
-                    .Must((command, isMainProfile) => isMainProfile || (!isMainProfile && !command.ExistingMusicianProfile.IsMainProfile))
+                    .Must((command, isMainProfile) => isMainProfile || !command.ExistingMusicianProfile.IsMainProfile)
                     .WithMessage("You may not turn off the IsMainProfile flag");
 
                 _ = RuleForEach(c => c.PreferredPositionsInnerIds)
@@ -84,7 +85,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                     return Unit.Value;
                 }
 
-                throw new Exception("Problem updating musician profile");
+                throw new AffectedRowCountMismatchException(nameof(MusicianProfile));
             }
 
             private void UpdatePreferredPositionsInner(ICollection<MusicianProfilePositionInner> collectionToUpdate, IList<Guid> updateList, Guid musicianProfileId)

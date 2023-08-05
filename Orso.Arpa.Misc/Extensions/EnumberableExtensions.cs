@@ -41,25 +41,24 @@ namespace Orso.Arpa.Misc.Extensions
                 throw new ArgumentNullException(nameof(enumerable));
             }
 
-            using (IEnumerator<T> enumerator = enumerable.GetEnumerator())
+            using IEnumerator<T> enumerator = enumerable.GetEnumerator();
+            var toCompare = default(T);
+            if (enumerator.MoveNext())
             {
-                var toCompare = default(T);
-                if (enumerator.MoveNext())
+                toCompare = enumerator.Current;
+            }
+
+            while (enumerator.MoveNext())
+            {
+                if (toCompare == null && enumerator.Current != null)
                 {
-                    toCompare = enumerator.Current;
+                    return false;
+                }
+                if (toCompare != null && !toCompare.Equals(enumerator.Current))
+                {
+                    return false;
                 }
 
-                while (enumerator.MoveNext())
-                {
-                    if (toCompare == null && enumerator.Current != null)
-                    {
-                        return false;
-                    }
-                    if (toCompare != null && !toCompare.Equals(enumerator.Current))
-                    {
-                        return false;
-                    }
-                }
             }
 
             return true;

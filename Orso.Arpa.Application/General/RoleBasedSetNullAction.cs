@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.General
             foreach (PropertyInfo prop in props)
             {
                 IncludeForRolesAttribute attr = prop.GetCustomAttribute<IncludeForRolesAttribute>();
-                if (!_tokenAccessor.UserRoles.Intersect(attr.RoleNames).Any())
+                if (!_tokenAccessor.GetUserRoles().Intersect(attr.RoleNames).Any())
                 {
                     prop.SetValue(destination, null);
                 }

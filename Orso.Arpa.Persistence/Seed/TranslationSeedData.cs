@@ -94,32 +94,37 @@ namespace Orso.Arpa.Persistence.Seed
             JsonElement rootElement = jsonDocument.RootElement;
             foreach (JsonElement t in rootElement.EnumerateArray())
             {
-                string key = t.TryGetProperty("Key", out JsonElement element) ? element.GetString() : null;
-                string text = t.TryGetProperty("Text", out element) ? element.GetString() : null;
-                string localizationCulture = t.TryGetProperty("LocalizationCulture", out element)
-                    ? element.GetString()
-                    : null;
-                string resourceKey = t.TryGetProperty("ResourceKey", out element)
-                    ? element.GetString()
-                    : null;
-                Guid id = t.TryGetProperty("Id", out element) ? element.GetGuid() : Guid.Empty;
-                string createdBy = t.TryGetProperty("CreatedBy", out element) ? element.GetString() : null;
-                DateTime createdAt = t.TryGetProperty("CreatedAt", out element)
-                    ? (element.TryGetDateTime(out DateTime cdt) ? cdt : DateTime.Now)
-                    : DateTime.Now;
-                string modifiedBy = t.TryGetProperty("ModifiedBy", out element)
-                    ? element.GetString()
-                    : null;
-                DateTime? modifiedAt = t.TryGetProperty("ModifiedAt", out element)
-                        ? (element.GetString() == null ? null
-                    : element.TryGetDateTime(out DateTime mdt) ? mdt : null)
-                    : null;
-                bool deleted = t.TryGetProperty("Deleted", out element) && element.GetBoolean();
-
-                translations.Add(new Localization(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted));
+                translations.Add(ParseLocalization(t));
             }
             return translations;
         }
+
+        private static Localization ParseLocalization(JsonElement t)
+        {
+            var key = t.TryGetProperty(nameof(Localization.Key), out JsonElement element) ? element.GetString() : null;
+            var text = t.TryGetProperty(nameof(Localization.Text), out element) ? element.GetString() : null;
+            var localizationCulture = t.TryGetProperty(nameof(Localization.LocalizationCulture), out element)
+                ? element.GetString()
+                : null;
+            var resourceKey = t.TryGetProperty(nameof(Localization.ResourceKey), out element)
+                ? element.GetString()
+                : null;
+            Guid id = t.TryGetProperty(nameof(Localization.Id), out element) ? element.GetGuid() : Guid.Empty;
+            var createdBy = t.TryGetProperty(nameof(Localization.CreatedBy), out element) ? element.GetString() : null;
+            DateTime createdAt = t.TryGetProperty(nameof(Localization.CreatedAt), out element)
+                ? (element.TryGetDateTime(out DateTime cdt) ? cdt : DateTime.Now)
+                : DateTime.Now;
+            var modifiedBy = t.TryGetProperty(nameof(Localization.ModifiedBy), out element)
+                ? element.GetString()
+                : null;
+            DateTime? modifiedAt = t.TryGetProperty(nameof(Localization.ModifiedAt), out element)
+                    ? (element.GetString() == null ? null
+                : element.TryGetDateTime(out DateTime mdt) ? mdt : null)
+                : null;
+            var deleted = t.TryGetProperty(nameof(Localization.Deleted), out element) && element.GetBoolean();
+            return new Localization(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted);
+        }
+
 
         private static List<Localization> MergeTranslationToLocalication(IList<Localization> translations,
             List<Localization> localizations)

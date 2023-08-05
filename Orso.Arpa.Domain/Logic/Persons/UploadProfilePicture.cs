@@ -5,6 +5,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -50,8 +51,8 @@ namespace Orso.Arpa.Domain.Logic.Persons
                 person.SetProfilePitureName(fileResult.Name);
                 _ = _arpaContext.Persons.Update(person);
 
-                return await _arpaContext.SaveChangesAsync(cancellationToken) <= 0
-                    ? throw new Exception("Problem setting profile picture")
+                return await _arpaContext.SaveChangesAsync(cancellationToken) < 1
+                    ? throw new AffectedRowCountMismatchException(nameof(Person))
                     : fileResult;
             }
         }

@@ -42,7 +42,7 @@ namespace Orso.Arpa.Application.AuthApplication
                 return;
             }
 
-            if (_tokenAccessor.UserRoles.Contains(RoleNames.Staff))
+            if (_tokenAccessor.GetUserRoles().Contains(RoleNames.Staff))
             {
                 context.Succeed(requirement);
                 return;

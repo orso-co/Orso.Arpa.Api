@@ -26,9 +26,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
                 var username = _httpContextAccessor?.HttpContext?.User?.Claims?
                     .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
                     .Value;
-                return username == null
-                    ? throw new AuthenticationException("No user name found in the JWT token")
-                    : username;
+                return username ?? throw new AuthenticationException("No user name found in the JWT token");
             }
         }
 
@@ -42,15 +40,12 @@ namespace Orso.Arpa.Infrastructure.Authentication
             }
         }
 
-        public IList<string> UserRoles
+        public IList<string> GetUserRoles()
         {
-            get
-            {
-                return _httpContextAccessor?.HttpContext?.User?.Claims?
-                    .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)?
-                    .Select(claim => claim.Value)
-                    .ToList();
-            }
+            return _httpContextAccessor?.HttpContext?.User?.Claims?
+                .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)?
+                .Select(claim => claim.Value)
+                .ToList();
         }
 
         public Guid UserId

@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.Extensions
     /// <see cref="https://rogerjohansson.blog/2008/02/28/linq-expressions-creating-objects/"/>
     public static class EntityCreator
     {
-        public delegate T ObjectActivator<T>(params object[] args);
+        public delegate T ObjectActivator<out T>(params object[] args);
 
         public static ObjectActivator<T> GetActivator<T>(ConstructorInfo ctor)
         {

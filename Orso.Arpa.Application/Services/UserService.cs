@@ -15,16 +15,13 @@ namespace Orso.Arpa.Application.Services
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IUserAccessor _userAccessor;
 
         public UserService(
             IMediator mediator,
-            IMapper mapper,
-            IUserAccessor userAccessor)
+            IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _userAccessor = userAccessor;
         }
 
         public async Task<IEnumerable<UserDto>> GetAsync()

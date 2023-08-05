@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Orso.Arpa.Domain.Entities;
 using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Interfaces;
 
@@ -76,7 +77,7 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfiles
 
                 return await _arpaContext.SaveChangesAsync(cancellationToken) > 0
                     ? createResult.Entity
-                    : throw new Exception($"Problem creating {nameof(MusicianProfile)}");
+                    : throw new AffectedRowCountMismatchException(nameof(MusicianProfile));
             }
         }
     }

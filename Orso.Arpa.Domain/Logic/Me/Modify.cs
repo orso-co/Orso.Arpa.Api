@@ -5,6 +5,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.Errors;
 using Orso.Arpa.Domain.Extensions;
 using Orso.Arpa.Domain.Identity;
 using Orso.Arpa.Domain.Interfaces;
@@ -63,7 +64,7 @@ namespace Orso.Arpa.Domain.Logic.Me
 
                 IdentityResult result = await _userManager.UpdateAsync(existingUser);
 
-                return result.Succeeded ? Unit.Value : throw new Exception("Problem updating user");
+                return result.Succeeded ? Unit.Value : throw new IdentityException("Problem updating user", result.Errors);
             }
         }
     }

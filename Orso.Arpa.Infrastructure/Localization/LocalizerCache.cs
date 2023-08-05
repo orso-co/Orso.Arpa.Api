@@ -8,9 +8,9 @@ namespace Orso.Arpa.Infrastructure.Localization
 {
     public class LocalizerCache : ILocalizerCache
     {
-        private static IServiceCollection _services;
-        private static readonly object _syncLock = new();
-        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> _localizations = new();
+        private readonly IServiceCollection _services;
+        private readonly object _syncLock = new();
+        private Dictionary<string, Dictionary<string, Dictionary<string, string>>> _localizations = new();
 
         public LocalizerCache(IServiceCollection services)
         {
@@ -31,19 +31,13 @@ namespace Orso.Arpa.Infrastructure.Localization
                 _localizations = GetDbLocalizationList();
             }
 
-            if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict))
+            if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict)
+                && languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict) 
+                && keyDict.TryGetValue(key, out var text) 
+                && text != null)
             {
-                if (languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict))
-                {
-                    if (keyDict.TryGetValue(key, out var text))
-                    {
-                        if (text != null)
-                        {
-                            translatedString = text;
-                            return true;
-                        }
-                    }
-                }
+                translatedString = text;
+                return true;
             }
 
             return false;
@@ -51,17 +45,16 @@ namespace Orso.Arpa.Infrastructure.Localization
 
         public virtual Dictionary<string, string> GetAllTranslations(string resourceKey, string culture)
         {
-            if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict))
+            if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict) 
+                && languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict))
             {
-                if (languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict))
-                {
-                    return keyDict;
-                }
+                return keyDict;
+
             }
             return new Dictionary<string, string>();
         }
 
-        private static Dictionary<string, Dictionary<string, Dictionary<string, string>>> GetDbLocalizationList()
+        private Dictionary<string, Dictionary<string, Dictionary<string, string>>> GetDbLocalizationList()
         {
             lock (_syncLock)
             {

@@ -7,7 +7,7 @@ namespace Orso.Arpa.Domain.Interfaces
     {
         string UserName { get; }
         string DisplayName { get; }
-        IList<string> UserRoles { get; }
+        IList<string> GetUserRoles();
 
         Guid UserId { get; }
         Guid PersonId { get; }
