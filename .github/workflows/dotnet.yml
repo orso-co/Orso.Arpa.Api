@@ -4,7 +4,7 @@ on:
       - develop
 jobs:
   build:
-    name: Build ans test
+    name: Build and test
     runs-on: windows-latest
 
     steps:
