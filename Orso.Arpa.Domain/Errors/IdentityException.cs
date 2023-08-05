@@ -20,7 +20,8 @@ namespace Orso.Arpa.Domain.Errors
         protected IdentityException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _identityErrors = (IEnumerable<IdentityError>)info.GetValue(nameof(IdentityErrors), typeof(IList<string>));
+            _identityErrors = (IEnumerable<IdentityError>)info.GetValue(nameof(IdentityErrors), typeof(IList<string>)) 
+                ?? new List<IdentityError>();
         }
 
         public IdentityException()

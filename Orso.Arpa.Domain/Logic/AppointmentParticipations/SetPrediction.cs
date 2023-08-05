@@ -83,7 +83,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
 
                 return await _arpaContext.SaveChangesAsync(cancellationToken) == 2 // participation + audtit trail
                     ? Unit.Value
-                    : throw new AffectedRowCountMismatchException(appointmentParticipation.GetType().Name);
+                    : throw new AffectedRowCountMismatchException(nameof(AppointmentParticipation));
             }
         }
     }
