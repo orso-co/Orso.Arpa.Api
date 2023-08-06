@@ -23,8 +23,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         public static DbSet<Section> Sections => SectionSeedData.Sections.AsQueryable().BuildMockDbSet();
         public static DbSet<Venue> Venues => VenueSeedData.Venues.AsQueryable().BuildMockDbSet();
         public static DbSet<Region> Regions => RegionSeedData.Regions.AsQueryable().BuildMockDbSet();
-
         public static DbSet<MusicianProfile> MusicianProfiles => MusicianProfileSeedData.MusicianProfiles.AsQueryable().BuildMockDbSet();
-        public static DbSet<ProjectParticipation> ProjectParticipations = FakeProjectParticipations.ProjectParticipations.AsQueryable().BuildMockDbSet();
+        public static readonly DbSet<ProjectParticipation> ProjectParticipations = FakeProjectParticipations.ProjectParticipations.AsQueryable().BuildMockDbSet();
     }
 }

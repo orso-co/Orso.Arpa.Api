@@ -56,7 +56,6 @@ namespace Orso.Arpa.Application.AuthApplication
             }
 
             context.Fail();
-            return;
         }
     }
 }

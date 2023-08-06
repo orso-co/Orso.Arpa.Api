@@ -38,14 +38,14 @@ namespace Orso.Arpa.Domain.Logic.Sections
                 }
                 return result.OrderBy(s => s.Name).ToList();
             }
-        }
 
-        private static void AddChildren(Section section, List<Section> result)
-        {
-            result.AddRange(section.Children);
-            foreach (Section child in section.Children)
+            private static void AddChildren(Section section, List<Section> result)
             {
-                AddChildren(child, result);
+                result.AddRange(section.Children);
+                foreach (Section child in section.Children)
+                {
+                    AddChildren(child, result);
+                }
             }
         }
     }

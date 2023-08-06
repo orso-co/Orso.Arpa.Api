@@ -27,10 +27,9 @@ namespace Orso.Arpa.Application.Services
 
         public virtual async Task DeleteAsync(Guid id)
         {
-            Type entityDeleteNotificationType = Assembly
+            Type entityDeleteNotificationType = Array.Find(Assembly
                 .GetAssembly(typeof(BaseEntity))
-                .GetTypes()
-                .FirstOrDefault(t => t.GetInterfaces().Any(x =>
+                .GetTypes(), t => Array.Exists(t.GetInterfaces(), x =>
                                     x.IsGenericType &&
                                     x.GetGenericTypeDefinition() == typeof(IEntityDeleteNotification<>) &&
                                     x.GetGenericArguments().Contains(typeof(TEntity))));

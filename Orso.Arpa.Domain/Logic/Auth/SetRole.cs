@@ -79,7 +79,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
 
                 IList<User> adminUsers = await _userManager.GetUsersInRoleAsync(RoleNames.Admin);
 
-                return adminUsers.Count == 1 && adminUsers.First().Id.Equals(userId);
+                return adminUsers.Count == 1 && adminUsers[0].Id.Equals(userId);
             }
         }
     }

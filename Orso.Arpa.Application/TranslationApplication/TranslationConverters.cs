@@ -38,10 +38,7 @@ namespace Orso.Arpa.Application.TranslationApplication
                 }
 
                 root.TryGetValue(t.ResourceKey, out Dictionary<string, string> entries);
-                if (entries!.ContainsKey(t.Key))
-                {
-                    entries.Remove(t.Key);
-                }
+                entries.Remove(t.Key);
                 entries!.Add(t.Key, t.Text);
             }
 

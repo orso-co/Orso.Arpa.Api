@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Logic.Auth
                 _ = RuleFor(c => c.CurrentPassword)
                     .MustAsync(async (oldPassword, cancellation) =>
                     {
-                        User user = await userAccessor.GetCurrentUserAsync();
+                        User user = await userAccessor.GetCurrentUserAsync(cancellation);
                         return await userManager.CheckPasswordAsync(user, oldPassword);
                     })
                     .WithMessage("Incorrect password supplied");

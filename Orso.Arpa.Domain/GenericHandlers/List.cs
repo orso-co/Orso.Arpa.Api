@@ -24,7 +24,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
                 Skip = skip;
                 Take = take;
                 Predicate = predicate;
-                AsSplitQuery = asSplitQuery == true ? true : false;
+                AsSplitQuery = asSplitQuery == true;
             }
 
             public Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> OrderBy { get; }

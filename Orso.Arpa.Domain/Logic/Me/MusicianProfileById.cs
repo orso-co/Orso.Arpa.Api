@@ -30,16 +30,11 @@ namespace Orso.Arpa.Domain.Logic.Me
             public async Task<MusicianProfile> Handle(Query request, CancellationToken cancellationToken)
             {
                 MusicianProfile musicianProfile = await _arpaContext.MusicianProfiles.SingleOrDefaultAsync(
-                    mp => mp.PersonId == request.PersonId && mp.Id == request.Id);
-
-                if (musicianProfile == null)
-                {
-                    throw new NotFoundException(nameof(MusicianProfile), nameof(Query.Id));
-                }
+                    mp => mp.PersonId == request.PersonId && mp.Id == request.Id, cancellationToken) 
+                    ?? throw new NotFoundException(nameof(MusicianProfile), nameof(Query.Id));
 
                 return musicianProfile;
             }
         }
     }
-
 }

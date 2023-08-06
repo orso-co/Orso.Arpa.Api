@@ -18,9 +18,9 @@ namespace Orso.Arpa.Misc.Logging
                 _ = messageStringBuilder.AppendItalic(subHeader).AppendUnixLine();
             }
             _ = messageStringBuilder.AppendUnixLine();
-            foreach (KeyValuePair<string, object> line in infoLines)
+            foreach (string key in infoLines.Keys)
             {
-                _ = messageStringBuilder.AppendQuote(line.Key).Append(": {").Append(line.Key.RemoveAllWhitespaces()).Append('}').AppendUnixLine();
+                _ = messageStringBuilder.AppendQuote(key).Append(": {").Append(key.RemoveAllWhitespaces()).Append('}').AppendUnixLine();
             }
             _ = messageStringBuilder.AppendUnixLine();
             _ = messageStringBuilder.Append("#KBB#"); // this is the marker for the nlog filter

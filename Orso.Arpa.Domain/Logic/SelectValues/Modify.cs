@@ -9,7 +9,6 @@ namespace Orso.Arpa.Domain.Logic.SelectValues
         public class Command : IModifyCommand<SelectValue>
         {
             public Guid Id { get; set; }
-            // ToDo: Add properties
         }
     }
 }

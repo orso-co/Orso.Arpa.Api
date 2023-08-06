@@ -7,7 +7,6 @@ namespace Orso.Arpa.Domain.Logic.Sections
     {
         public class Command : ICreateCommand<Section>
         {
-            // ToDo: Add properties
         }
     }
 }

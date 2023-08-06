@@ -45,7 +45,7 @@ namespace Orso.Arpa.Domain.Logic.Me
 
             public async Task<(IList<Appointment> userAppointments, int totalCount)> Handle(Query request, CancellationToken cancellationToken)
             {
-                IList<Guid> appointmentIds = await _arpaContext.GetAppointmentIdsForPerson(request.Person.Id).Select(a => a.Id).ToListAsync();
+                IList<Guid> appointmentIds = await _arpaContext.GetAppointmentIdsForPerson(request.Person.Id).Select(a => a.Id).ToListAsync(cancellationToken);
                 var count = appointmentIds.Count;
 
                 IQueryable<Appointment> userAppointments = request.Passed
@@ -56,7 +56,7 @@ namespace Orso.Arpa.Domain.Logic.Me
                         .Where(appointment => appointmentIds.Contains(appointment.Id) && appointment.EndTime > _dateTimeProvider.GetUtcNow())
                         .OrderBy(p => p.StartTime);
 
-                return (await userAppointments.Skip(request.Offset ?? 0).Take(request.Limit ?? count).ToListAsync(), userAppointments.Count());
+                return (await userAppointments.Skip(request.Offset ?? 0).Take(request.Limit ?? count).ToListAsync(cancellationToken), userAppointments.Count());
             }
         }
     }

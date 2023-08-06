@@ -30,7 +30,6 @@ namespace Orso.Arpa.Domain.Logic.Auth
                     .MustAsync(async (email, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(email) != null)
                     .WithErrorCode("404")
                     .WithMessage("User could not be found.");
-                ;
             }
         }
 

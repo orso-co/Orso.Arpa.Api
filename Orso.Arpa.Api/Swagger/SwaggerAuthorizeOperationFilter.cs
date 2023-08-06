@@ -30,7 +30,7 @@ namespace Orso.Arpa.Api.Swagger
             {
                 operation.Responses.Add("403 a", new OpenApiResponse
                 {
-                    Description = $"If current user does not have the role of '{roleAttributes.First()}'",
+                    Description = $"If current user does not have the role of '{string.Join(", ", roleAttributes)}'",
                     Content = new Dictionary<string, OpenApiMediaType>()
                     {
                         { "application/json", new OpenApiMediaType() { Schema = new OpenApiSchema() { Type = "object", Properties = new Dictionary<string, OpenApiSchema>() {
@@ -38,12 +38,9 @@ namespace Orso.Arpa.Api.Swagger
                             { "description", new OpenApiSchema() {Type="string" } },
                             { "status", new OpenApiSchema() { Type = "integer" } }
                         } } } }
-                    }
-                });
-                var oAuthScheme = new OpenApiSecurityScheme
-                {
+                    },
                     Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
-                };
+                });
             }
         }
 
@@ -58,7 +55,7 @@ namespace Orso.Arpa.Api.Swagger
             {
                 operation.Responses.Add("403 b", new OpenApiResponse
                 {
-                    Description = $"If current user does not meet policy '{policyAttributes.First()}'",
+                    Description = $"If current user does not meet policy '{string.Join(", ", policyAttributes)}'",
                     Content = new Dictionary<string, OpenApiMediaType>()
                     {
                         { "application/json", new OpenApiMediaType() { Schema = new OpenApiSchema() { Type = "object", Properties = new Dictionary<string, OpenApiSchema>() {
@@ -66,12 +63,9 @@ namespace Orso.Arpa.Api.Swagger
                             { "description", new OpenApiSchema() {Type="string" } },
                             { "status", new OpenApiSchema() { Type = "integer" } }
                         } } } }
-                    }
-                });
-                var oAuthScheme = new OpenApiSecurityScheme
-                {
+                    },
                     Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
-                };
+                });
             }
         }
     }
