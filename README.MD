@@ -1,6 +1,7 @@
 # Orso Arpa 2.0 Backend
 
 Digital development in the cultural sector
+
 ORSO Berlin develops choir and orchestra management software
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
