@@ -9,6 +9,9 @@ ORSO Berlin develops choir and orchestra management software
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
 
 ## Deployment
 [![Build Status](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_apis/build/status/orso-arpa%20-%201%20-%20CI?branchName=master)](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_build/latest?definitionId=2&branchName=master)
