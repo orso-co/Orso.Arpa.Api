@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
             // Arrange
             Venue venue = VenueSeedData.WeiherhofSchule;
             Microsoft.EntityFrameworkCore.DbSet<Venue> mockVenues = MockDbSets.Venues;
-            mockVenues.FindAsync(Arg.Any<Guid>()).Returns(venue);
+            mockVenues.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(venue);
             _arpaContext.Venues.Returns(mockVenues);
 
             // Act
