@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Logic.Venues
             public async Task<IImmutableList<Room>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return (await _arpaContext
-                    .Venues.FindAsync(request.Id))
+                    .Venues.FindAsync(new object[] { request.Id }, cancellationToken))
                     .Rooms
                     .ToImmutableList();
             }

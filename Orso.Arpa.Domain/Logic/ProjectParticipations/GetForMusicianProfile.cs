@@ -50,7 +50,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
 
                 var result = new List<MusicianProfileProjectParticipationGrouping>();
 
-                MusicianProfile musicianProfile = _arpaContext.MusicianProfiles.Find(request.MusicianProfileId);
+                MusicianProfile musicianProfile = await _arpaContext.MusicianProfiles.FindAsync(keyValues: new object[] { request.MusicianProfileId }, cancellationToken: cancellationToken);
 
                 foreach (Project project in await projectQuery.ToListAsync(cancellationToken))
                 {

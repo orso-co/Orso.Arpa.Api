@@ -10,8 +10,6 @@ namespace Orso.Arpa.Application.SectionApplication
 
     public class SectionModifyBodyDto
     {
-        // ToDo: Add properties
-
         public string Name { get; set; }
     }
 

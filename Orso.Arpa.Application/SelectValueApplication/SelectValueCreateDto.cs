@@ -5,7 +5,6 @@ namespace Orso.Arpa.Application.SelectValueApplication
 {
     public class SelectValueCreateDto
     {
-        // ToDo: Add properties
         public string Name { get; set; }
 
         public string Description { get; set; }

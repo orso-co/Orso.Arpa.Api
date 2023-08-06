@@ -122,7 +122,6 @@ namespace Orso.Arpa.Domain.Entities
         [CascadingSoftDelete]
         public virtual ICollection<MusicianProfilePositionTeam> PreferredPositionsTeam { get; private set; } = new HashSet<MusicianProfilePositionTeam>();
 
-        //Todo: ARPA-326
         [CascadingSoftDelete]
         public virtual ICollection<PreferredGenre> PreferredGenres { get; private set; } = new HashSet<PreferredGenre>();
 

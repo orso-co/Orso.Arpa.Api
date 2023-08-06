@@ -69,7 +69,7 @@ namespace Orso.Arpa.Domain.Logic.Persons
                 List<Person> persons = await _arpaContext.Persons
                     .AsQueryable()
                     .Where(person => request.PersonIds.Contains(person.Id))
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
 
                 foreach (Person person in persons)
                 {

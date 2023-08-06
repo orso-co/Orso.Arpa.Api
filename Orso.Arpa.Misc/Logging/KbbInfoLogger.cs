@@ -13,7 +13,9 @@ namespace Orso.Arpa.Misc.Logging
             string subHeader = null)
         {
             logger.LogInformation(
+#pragma warning disable CA2254 // Template should be a static expression
                 KbbInfoLogFormatter.FormatLog(header, infoLines, subHeader),
+#pragma warning restore CA2254 // Template should be a static expression
                 infoLines.Values.Select(v => v ?? "-- NONE --".FormatItalic()).ToArray());
         }
     }

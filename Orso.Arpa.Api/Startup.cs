@@ -199,7 +199,7 @@ namespace Orso.Arpa.Api
             _ = services.AddLocalization();
 
             LocalizationConfiguration localizationConfiguration = Configuration
-                .GetSection("LocalizationConfiguration")
+                .GetSection(nameof(LocalizationConfiguration))
                 .Get<LocalizationConfiguration>();
 
             _ = services.Configure<RequestLocalizationOptions>(options =>
@@ -251,8 +251,10 @@ namespace Orso.Arpa.Api
             });
         }
 
-        private static void ConfigureSwagger(IServiceCollection services)
+        private void ConfigureSwagger(IServiceCollection services)
         {
+            ClubConfiguration clubConfig = Configuration.GetSection(nameof(ClubConfiguration)).Get<ClubConfiguration>();
+
             _ = services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
@@ -262,13 +264,13 @@ namespace Orso.Arpa.Api
                     License = new OpenApiLicense
                     {
                         Name = "EUPL-1.2 License",
-                        Url = new Uri("https://github.com/orso-co/Orso.Arpa.Api/blob/master/LICENSE.txt")
+                        Url = Configuration.GetSection("SwaggerConfiguration").GetValue<Uri>("LicenseUrl")
                     },
                     Contact = new OpenApiContact
                     {
-                        Name = "ORSO – Orchestra & Choral Society Freiburg | Berlin e. V.",
-                        Url = new Uri("https://www.orso.co/"),
-                        Email = "mail@orso.co"
+                        Name = clubConfig.Name,
+                        Url = clubConfig.Url,
+                        Email = clubConfig.ContactEmail,
                     }
                 });
 

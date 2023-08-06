@@ -44,7 +44,7 @@ namespace Orso.Arpa.Domain.GenericHandlers
                 {
                     // if we return createResult.Entity directly, some navigation properties may not be loaded properly
                     _arpaContext.ClearChangeTracker();
-                    return _arpaContext.Set<TEntity>().Find(new object[] { createResult.Entity.Id });
+                    return await _arpaContext.Set<TEntity>().FindAsync(new object[] { createResult.Entity.Id }, cancellationToken);
                 }
 
                 throw new AffectedRowCountMismatchException(newEntity.GetType().Name);

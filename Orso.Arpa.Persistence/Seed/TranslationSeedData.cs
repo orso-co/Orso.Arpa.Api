@@ -111,16 +111,21 @@ namespace Orso.Arpa.Persistence.Seed
                 : null;
             Guid id = t.TryGetProperty(nameof(Localization.Id), out element) ? element.GetGuid() : Guid.Empty;
             var createdBy = t.TryGetProperty(nameof(Localization.CreatedBy), out element) ? element.GetString() : null;
-            DateTime createdAt = t.TryGetProperty(nameof(Localization.CreatedAt), out element)
-                ? (element.TryGetDateTime(out DateTime cdt) ? cdt : DateTime.Now)
-                : DateTime.Now;
+
+            DateTime createdAt = DateTime.Now;
+            if(t.TryGetProperty(nameof(Localization.CreatedAt), out element) && element.TryGetDateTime(out DateTime cdt)) {
+                createdAt = cdt;
+            }
+
             var modifiedBy = t.TryGetProperty(nameof(Localization.ModifiedBy), out element)
                 ? element.GetString()
                 : null;
-            DateTime? modifiedAt = t.TryGetProperty(nameof(Localization.ModifiedAt), out element)
-                    ? (element.GetString() == null ? null
-                : element.TryGetDateTime(out DateTime mdt) ? mdt : null)
-                : null;
+            
+            DateTime? modifiedAt = null;
+            if(t.TryGetProperty(nameof(Localization.ModifiedAt), out element) && element.TryGetDateTime(out DateTime mdt)) {
+                modifiedAt = mdt;
+            }
+            
             var deleted = t.TryGetProperty(nameof(Localization.Deleted), out element) && element.GetBoolean();
             return new Localization(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted);
         }
@@ -139,7 +144,7 @@ namespace Orso.Arpa.Persistence.Seed
 
                 if (!query.Any())  // if entry was removed.
                 {
-                    if (a.Deleted == false)
+                    if (!a.Deleted)
                     {
                         a.Delete(nameof(LocalizationSeedData), DateTime.Now);
                     }
@@ -169,7 +174,7 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 IQueryable<Localization> query = localizations.AsQueryable().Where(a =>
                     a.ResourceKey.Equals(b.ResourceKey) && a.Key.Equals(b.Key) &&
-                    a.Deleted == false);
+                    !a.Deleted);
 
                 if (!query.Any())
                 {

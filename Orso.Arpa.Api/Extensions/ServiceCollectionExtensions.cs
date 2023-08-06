@@ -44,15 +44,6 @@ namespace Orso.Arpa.Api.Extensions
             services.AddTransient(handlerInterfaceType, handlerType);
         }
 
-        private static void AddGenericDeleteHandler(this IServiceCollection services, Type entityType)
-        {
-            Type commandType = typeof(Domain.GenericHandlers.Delete.Command<>).MakeGenericType(entityType);
-            Type handlerType = typeof(Domain.GenericHandlers.Delete.Handler<>).MakeGenericType(entityType);
-            Type responseType = typeof(Unit);
-            Type handlerInterfaceType = typeof(IRequestHandler<,>).MakeGenericType(commandType, responseType);
-            services.AddTransient(handlerInterfaceType, handlerType);
-        }
-
         private static void AddGenericModifyHandler(this IServiceCollection services, Type entityType, Assembly assembly)
         {
             Type commandInterfaceType = typeof(Domain.GenericHandlers.Modify.IModifyCommand<>).MakeGenericType(entityType);
@@ -78,10 +69,19 @@ namespace Orso.Arpa.Api.Extensions
             }
         }
 
+        private static void AddGenericDeleteHandler(this IServiceCollection services, Type entityType)
+        {
+            Type commandType = typeof(Domain.GenericHandlers.Delete.Command<>).MakeGenericType(entityType);
+            Type handlerType = typeof(Domain.GenericHandlers.Delete.Handler<>).MakeGenericType(entityType);
+            Type responseType = typeof(Unit);
+            Type handlerInterfaceType = typeof(IRequestHandler<,>).MakeGenericType(commandType, responseType);
+            services.AddTransient(handlerInterfaceType, handlerType);
+        }
+
         private static void AddGenericDeleteHandler(this IServiceCollection services, Type entityType, Assembly assembly)
         {
             Type commandInterfaceType = typeof(Domain.GenericHandlers.Delete.IDeleteCommand<>).MakeGenericType(entityType);
-            Type commandType = assembly.GetTypes().FirstOrDefault(t => t.GetTypeInfo().ImplementedInterfaces.Contains(commandInterfaceType));
+            Type commandType = Array.Find(assembly.GetTypes(), t => t.GetTypeInfo().ImplementedInterfaces.Contains(commandInterfaceType));
             if (commandType != null)
             {
                 Type handlerType = typeof(Domain.GenericHandlers.Delete.Handler<>).MakeGenericType(entityType);

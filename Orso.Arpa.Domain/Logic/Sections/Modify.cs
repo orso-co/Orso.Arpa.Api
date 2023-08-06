@@ -9,7 +9,6 @@ namespace Orso.Arpa.Domain.Logic.Sections
         public class Command : IModifyCommand<Section>
         {
             public Guid Id { get; set; }
-            // ToDo: Add properties
         }
     }
 }

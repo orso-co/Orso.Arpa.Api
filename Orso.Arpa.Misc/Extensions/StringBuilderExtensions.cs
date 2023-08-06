@@ -4,7 +4,7 @@ namespace Orso.Arpa.Misc.Extensions
 {
     public static class StringBuilderExtensions
     {
-        private const string UNIX_LINE_BREAK = "\n";
+        private const char UNIX_LINE_BREAK = '\n';
 
         public static StringBuilder AppendBold(this StringBuilder builder, string text)
         {

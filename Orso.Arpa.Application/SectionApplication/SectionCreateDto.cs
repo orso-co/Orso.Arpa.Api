@@ -5,7 +5,6 @@ namespace Orso.Arpa.Application.SectionApplication
 {
     public class SectionCreateDto
     {
-        // ToDo: Add properties
         public string Name { get; set; }
     }
 

@@ -7,7 +7,6 @@ namespace Orso.Arpa.Domain.Logic.SelectValues
     {
         public class Command : ICreateCommand<SelectValue>
         {
-            // ToDo: Add Properties
         }
     }
 }

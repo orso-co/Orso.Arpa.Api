@@ -64,9 +64,6 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
 
                 if (appointmentParticipations.Any() && request.ProjectId.HasValue)
                 {
-                    IQueryable<ProjectParticipation> projectParticipations = _arpaContext.ProjectParticipations
-                        .Where(pp => pp.MusicianProfileId.Equals(request.MusicianProfileId) && pp.ProjectId.Equals(request.ProjectId.Value));
-
                     appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.ProjectAppointments.Any(pa => pa.ProjectId.Equals(request.ProjectId)));
                 }
 

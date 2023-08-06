@@ -44,19 +44,20 @@ namespace Orso.Arpa.Domain.Logic.MusicianProfileSections
                             && s.SectionId == instrumentId, cancellation)))
                     .WithMessage("A doubling instrument with this instrument does already exist");
             }
-        }
-        private static async Task<bool> IsValidDoublingInstrumentAsync(Guid musicianProfileId, Guid doublingInstrumentId, IArpaContext arpaContext, CancellationToken cancellationToken)
-        {
-            Section mainInstrument = (await arpaContext.GetByIdAsync<MusicianProfile>(musicianProfileId, cancellationToken)).Instrument;
-            if (mainInstrument.IsInstrument)
+
+            private static async Task<bool> IsValidDoublingInstrumentAsync(Guid musicianProfileId, Guid doublingInstrumentId, IArpaContext arpaContext, CancellationToken cancellationToken)
             {
-                return mainInstrument.Children.Select(c => c.Id).Contains(doublingInstrumentId);
+                Section mainInstrument = (await arpaContext.GetByIdAsync<MusicianProfile>(musicianProfileId, cancellationToken)).Instrument;
+                if (mainInstrument.IsInstrument)
+                {
+                    return mainInstrument.Children.Select(c => c.Id).Contains(doublingInstrumentId);
+                }
+                if (mainInstrument.ParentId == doublingInstrumentId)
+                {
+                    return true;
+                }
+                return mainInstrument.Parent.Children.Select(c => c.Id).Contains(doublingInstrumentId);
             }
-            if (mainInstrument.ParentId == doublingInstrumentId)
-            {
-                return true;
-            }
-            return mainInstrument.Parent.Children.Select(c => c.Id).Contains(doublingInstrumentId);
         }
     }
 }

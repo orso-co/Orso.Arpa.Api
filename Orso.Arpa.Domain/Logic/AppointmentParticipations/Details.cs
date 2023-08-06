@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Logic.AppointmentParticipations
             public async Task<AppointmentParticipation> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _arpaContext.AppointmentParticipations
-                    .SingleOrDefaultAsync(ap => ap.AppointmentId == request.AppointmentId && ap.PersonId == request.PersonId);
+                    .SingleOrDefaultAsync(ap => ap.AppointmentId == request.AppointmentId && ap.PersonId == request.PersonId, cancellationToken);
             }
         }
     }

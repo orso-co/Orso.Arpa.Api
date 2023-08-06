@@ -39,7 +39,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             DbSet<Appointment> mockData = MockDbSets.Appointments;
             Appointment appointment = AppointmentSeedData.RockingXMasRehearsal;
             mockData.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(appointment);
-            // ToDo: Could not find a way to mock EntityEntry<Appointment> as it does not provide a suitable constructor. If you know a way how to mock it, feel free to improve this test.
+            // Could not find a way to mock EntityEntry<Appointment> as it does not provide a suitable constructor. If you know a way how to mock it, feel free to improve this test.
             //EntityEntry<Appointment> mockedEntityEntry = Substitute.For<EntityEntry<Appointment>>();
             //mockedEntityEntry.Entity.Returns(expectedAppointment);
             //mockData.Update(Arg.Any<Appointment>()).Returns(mockedEntityEntry);

@@ -173,7 +173,6 @@ namespace Orso.Arpa.Persistence.DataAccess
             }
         }
 
-
         private async Task DeleteNavigationEntriesAsync(string currentUserDisplayName, EntityEntry entry, Type entityType, CancellationToken cancellationToken)
         {
             foreach (NavigationEntry navigationEntry in entry.Navigations)
@@ -204,7 +203,6 @@ namespace Orso.Arpa.Persistence.DataAccess
             }
         }
 
-
         private void DeleteEntity(string currentUserDisplayName, EntityEntry entry, Type entityType)
         {
             if (entityType.GetCustomAttribute<HardDeleteAttribute>() == null)
@@ -213,7 +211,6 @@ namespace Orso.Arpa.Persistence.DataAccess
                 (entry.Entity as BaseEntity)?.Delete(currentUserDisplayName, _dateTimeProvider.GetUtcNow());
             }
         }
-
 
         private async Task DeleteNavigationEntry(string currentUserDisplayName, object navigationEntryCurrentValue, CancellationToken cancellationToken)
         {
@@ -260,7 +257,7 @@ namespace Orso.Arpa.Persistence.DataAccess
             foreach (PropertyEntry property in entry.Properties)
             {
                 string propertyName = property.Metadata.Name;
-                
+
                 if (property.Metadata.IsPrimaryKey())
                 {
                     Dictionary<string, Guid> keyValues = JsonSerializer.Deserialize<Dictionary<string, Guid>>(auditEntry.KeyValues, (JsonSerializerOptions)null);
@@ -297,17 +294,9 @@ namespace Orso.Arpa.Persistence.DataAccess
             return auditEntry;
         }
 
-
         public void ClearChangeTracker()
         {
             ChangeTracker.Clear();
-        }
-
-        public async Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
-        {
-            return await Set<TEntity>()
-                .AsQueryable()
-                .AnyAsync(entity => entity.Id == id, cancellationToken);
         }
 
         public bool EntityExists<TEntity>(Guid id) where TEntity : BaseEntity
@@ -315,6 +304,13 @@ namespace Orso.Arpa.Persistence.DataAccess
             return Set<TEntity>()
                 .AsQueryable()
                 .Any(entity => entity.Id == id);
+        }
+
+        public async Task<bool> EntityExistsAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
+        {
+            return await Set<TEntity>()
+                .AsQueryable()
+                .AnyAsync(entity => entity.Id == id, cancellationToken);
         }
 
         public async Task<bool> EntityExistsAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) where TEntity : class
