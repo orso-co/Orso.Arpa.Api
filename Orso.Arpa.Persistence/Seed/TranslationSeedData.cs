@@ -113,19 +113,21 @@ namespace Orso.Arpa.Persistence.Seed
             var createdBy = t.TryGetProperty(nameof(Localization.CreatedBy), out element) ? element.GetString() : null;
 
             DateTime createdAt = DateTime.Now;
-            if(t.TryGetProperty(nameof(Localization.CreatedAt), out element) && element.TryGetDateTime(out DateTime cdt)) {
+            if (t.TryGetProperty(nameof(Localization.CreatedAt), out element) && element.TryGetDateTime(out DateTime cdt))
+            {
                 createdAt = cdt;
             }
 
             var modifiedBy = t.TryGetProperty(nameof(Localization.ModifiedBy), out element)
                 ? element.GetString()
                 : null;
-            
+
             DateTime? modifiedAt = null;
-            if(t.TryGetProperty(nameof(Localization.ModifiedAt), out element) && element.TryGetDateTime(out DateTime mdt)) {
+            if (t.TryGetProperty(nameof(Localization.ModifiedAt), out element) && element.GetString() != null && element.TryGetDateTime(out DateTime mdt))
+            {
                 modifiedAt = mdt;
             }
-            
+
             var deleted = t.TryGetProperty(nameof(Localization.Deleted), out element) && element.GetBoolean();
             return new Localization(id, key, text, localizationCulture, resourceKey, createdBy, createdAt, modifiedBy, modifiedAt, deleted);
         }
