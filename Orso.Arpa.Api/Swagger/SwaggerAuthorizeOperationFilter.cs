@@ -38,8 +38,7 @@ namespace Orso.Arpa.Api.Swagger
                             { "description", new OpenApiSchema() {Type="string" } },
                             { "status", new OpenApiSchema() { Type = "integer" } }
                         } } } }
-                    },
-                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                    }
                 });
             }
         }
@@ -63,8 +62,7 @@ namespace Orso.Arpa.Api.Swagger
                             { "description", new OpenApiSchema() {Type="string" } },
                             { "status", new OpenApiSchema() { Type = "integer" } }
                         } } } }
-                    },
-                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                    }
                 });
             }
         }
