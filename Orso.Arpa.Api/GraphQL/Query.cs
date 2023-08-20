@@ -12,36 +12,37 @@ namespace Orso.Arpa.Api.GraphQL
 {
     public class Query
     {
-        [UseApplicationDbContext]
-        [UsePaging]
-        [UseOffsetPaging]
-        [UseFiltering]
-        [UseSorting]
-        public ValueTask<List<MusicianProfile>> GetMusicianProfiles(GraphQLContext context) =>
-            new(context.MusicianProfiles.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<Person>> GetPersons(GraphQLContext context) =>
-            new(context.Persons.ToListAsync());
+        public ValueTask<List<MusicianProfile>> GetMusicianProfiles(GraphQLContext graphQLContext) =>
+            new(graphQLContext.MusicianProfiles.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<Project>> GetProjects(GraphQLContext context) =>
-            new(context.Projects.ToListAsync());
+        public ValueTask<List<Person>> GetPersons(GraphQLContext graphQLContext) =>
+            new(graphQLContext.Persons.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<AuditLog>> GetAuditLogs(GraphQLContext context) =>
-            new(context.AuditLogs.ToListAsync());
+        public ValueTask<List<Project>> GetProjects(GraphQLContext graphQLContext) =>
+            new(graphQLContext.Projects.ToListAsync());
+
+        [UseApplicationDbContext]
+        [UsePaging]
+        [UseOffsetPaging]
+        [UseFiltering]
+        [UseSorting]
+        public ValueTask<List<AuditLog>> GetAuditLogs(GraphQLContext graphQLContext) =>
+            new(graphQLContext.AuditLogs.ToListAsync());
     }
 }
