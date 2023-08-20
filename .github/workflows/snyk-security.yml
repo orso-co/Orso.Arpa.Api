@@ -1,4 +1,4 @@
-name: Example workflow for dotNET using Snyk
+name: Run snyk analysis
 on:
   pull_request:
     branches:
@@ -9,12 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/dotnet@master
+        uses: snyk/actions/dotnet@master --file=./Orso.Arpa.Api.sln --severity-threshold=medium
         continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif --all-projects
+          args: --sarif-file-output=snyk.sarif
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
