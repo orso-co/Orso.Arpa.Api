@@ -349,4 +349,8 @@ healthchecksdb
 
 #MAC system files
 .DS_Store
+**/.DS_Store
 *.playlist
+
+#azurite
+c:azurite
