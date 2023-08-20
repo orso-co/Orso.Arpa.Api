@@ -49,9 +49,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
             _ = serializedResult.Should().Be("{\"auditLogs\":" +
                 "{\"pageInfo\":{\"hasNextPage\":true,\"hasPreviousPage\":true,\"__typename\":\"CollectionSegmentInfo\"},\"totalCount\":111,\"items\":[" +
-                "[{\"Name\":\"type\",\"Value\":{\"Value\":\"CREATE\",\"HasValue\":true,\"IsEmpty\":false},\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"tableName\",\"Value\":\"User\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"createdBy\",\"Value\":\"anonymous\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"__typename\",\"Value\":\"AuditLog\",\"IsNullable\":false,\"IsInitialized\":true}]," +
-                "[{\"Name\":\"type\",\"Value\":{\"Value\":\"CREATE\",\"HasValue\":true,\"IsEmpty\":false},\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"tableName\",\"Value\":\"User\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"createdBy\",\"Value\":\"anonymous\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"__typename\",\"Value\":\"AuditLog\",\"IsNullable\":false,\"IsInitialized\":true}]]," +
-                "\"__typename\":\"AuditLogCollectionSegment\"}}");
+                "{\"type\":\"CREATE\",\"tableName\":\"User\",\"createdBy\":\"anonymous\",\"__typename\":\"AuditLog\"}," +
+                "{\"type\":\"CREATE\",\"tableName\":\"User\",\"createdBy\":\"anonymous\",\"__typename\":\"AuditLog\"}]," +
+                "\"__typename\":\"AuditLogsCollectionSegment\"}}");
         }
 
         [Test]
@@ -68,8 +68,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             _ = serializedResult.Should().Be("{\"persons\":" +
                 "{\"pageInfo\":{\"hasNextPage\":true,\"hasPreviousPage\":true,\"__typename\":\"CollectionSegmentInfo\"},\"totalCount\":12,\"items\":[" +
-                "[{\"Name\":\"id\",\"Value\":\"c0c8470b-e6a0-4a0b-8a4c-24d503636248\",\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"givenName\",\"Value\":\"Staff\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"surname\",\"Value\":\"Member\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"aboutMe\",\"Value\":null,\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"reliability\",\"Value\":0,\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"generalPreference\",\"Value\":0,\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"experienceLevel\",\"Value\":0,\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"createdBy\",\"Value\":\"anonymous\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"modifiedBy\",\"Value\":null,\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"__typename\",\"Value\":\"Person\",\"IsNullable\":false,\"IsInitialized\":true}]]," +
-                "\"__typename\":\"PersonCollectionSegment\"}}");
+                "{\"id\":\"c0c8470b-e6a0-4a0b-8a4c-24d503636248\",\"givenName\":\"Staff\",\"surname\":\"Member\",\"aboutMe\":null,\"reliability\":0,\"generalPreference\":0,\"experienceLevel\":0,\"createdBy\":\"anonymous\",\"modifiedBy\":null,\"__typename\":\"Person\"}]," +
+                "\"__typename\":\"PersonsCollectionSegment\"}}");
         }
 
         [Test]
@@ -85,8 +85,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
             _ = serializedResult.Should().Be("{\"projects\":" +
                 "{\"pageInfo\":{\"hasNextPage\":false,\"hasPreviousPage\":true,\"__typename\":\"CollectionSegmentInfo\"},\"totalCount\":7,\"items\":[" +
-                "[{\"Name\":\"id\",\"Value\":\"a19d84f1-4ac1-49c3-abfe-527092b80b6d\",\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"title\",\"Value\":\"Rocking X-mas Freiburg\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"status\",\"Value\":{\"Value\":\"PENDING\",\"HasValue\":true,\"IsEmpty\":false},\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"isCompleted\",\"Value\":true,\"IsNullable\":false,\"IsInitialized\":true},{\"Name\":\"genreId\",\"Value\":\"d733e38d-1d80-4054-b654-4ea4a128b0a8\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"genre\",\"Value\":{\"selectValue\":{\"name\":\"Classical Music\",\"__typename\":\"SelectValue\"},\"__typename\":\"SelectValueMapping\"},\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"typeId\",\"Value\":\"34f05f05-ef23-4f36-94e7-73b917530c51\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"parentId\",\"Value\":null,\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"shortTitle\",\"Value\":\"RockXmas\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"description\",\"Value\":\"Rocking around the christmas tree\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"code\",\"Value\":\"1005\",\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"parent\",\"Value\":null,\"IsNullable\":true,\"IsInitialized\":true},{\"Name\":\"__typename\",\"Value\":\"Project\",\"IsNullable\":false,\"IsInitialized\":true}]]" +
-                ",\"__typename\":\"ProjectCollectionSegment\"}}");
+                "{\"id\":\"a19d84f1-4ac1-49c3-abfe-527092b80b6d\",\"title\":\"Rocking X-mas Freiburg\",\"status\":\"PENDING\",\"isCompleted\":true,\"genreId\":\"d733e38d-1d80-4054-b654-4ea4a128b0a8\",\"genre\":{\"selectValue\":{\"name\":\"Classical Music\",\"__typename\":\"SelectValue\"},\"__typename\":\"SelectValueMapping\"},\"typeId\":\"34f05f05-ef23-4f36-94e7-73b917530c51\",\"parentId\":null,\"shortTitle\":\"RockXmas\",\"description\":\"Rocking around the christmas tree\",\"code\":\"1005\",\"parent\":null,\"__typename\":\"Project\"}]" +
+                ",\"__typename\":\"ProjectsCollectionSegment\"}}");
         }
     }
 }
