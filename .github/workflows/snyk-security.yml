@@ -1,10 +1,14 @@
 name: Snyk
 on:
-  pull_request:
-    branches:
-      - develop
+  push:	
+    branches:	
+      - develop	
+  pull_request:	
+    branches:	
+      - develop	
 jobs:
   snyk:
+    name: Build and run snyk analysis
     runs-on: ubuntu-latest
     steps:
       - name: Check out code

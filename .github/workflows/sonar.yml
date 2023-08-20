@@ -9,7 +9,7 @@ on:
       - develop	
 jobs:	
   build:	
-    name: Build and analyze	
+    name: Build and run sonar analysis
     runs-on: windows-latest	
     steps:	
       - name: Set up JDK 17	
