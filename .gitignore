@@ -348,6 +348,7 @@ healthchecksdb
 .docker/
 
 #MAC system files
+**/.DS_Store
 .DS_Store
 **/.DS_Store
 *.playlist
