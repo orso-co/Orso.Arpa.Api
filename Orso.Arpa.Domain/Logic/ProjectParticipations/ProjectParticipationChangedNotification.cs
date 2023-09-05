@@ -44,6 +44,7 @@ namespace Orso.Arpa.Domain.Logic.ProjectParticipations
                     { "Comment by Performer", notification.ProjectParticipation.CommentByPerformerInner },
                     { "Participation Status Internal", notification.ProjectParticipation.ParticipationStatusInternal },
                     { "Comment by Staff", notification.ProjectParticipation.CommentByStaffInner },
+                    { "Comment Team", notification.ProjectParticipation.CommentTeam },
                     { "Invitation Status", notification.ProjectParticipation.InvitationStatus },
                     { "Modified by", notification.ProjectParticipation.ModifiedBy }
                 });

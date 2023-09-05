@@ -65,7 +65,7 @@ namespace Orso.Arpa.Domain.Entities
 
         public override string ToString()
         {
-            return $"{Person.DisplayName} ({Instrument.Name})";
+            return $"{Person} ({Instrument}, {(Qualification is null ? "qualification unknown" : Qualification)})";
         }
 
         #region Native
