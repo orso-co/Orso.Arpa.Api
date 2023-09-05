@@ -24,5 +24,10 @@ namespace Orso.Arpa.Domain.Entities
 
         [CascadingSoftDelete]
         public virtual ICollection<SelectValueSection> InstrumentParts { get; set; } = new HashSet<SelectValueSection>();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

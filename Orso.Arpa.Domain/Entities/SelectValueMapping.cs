@@ -20,5 +20,10 @@ namespace Orso.Arpa.Domain.Entities
         public Guid SelectValueCategoryId { get; private set; }
         public virtual SelectValueCategory SelectValueCategory { get; private set; }
         public int? SortOrder { get; private set; }
+
+        public override string ToString()
+        {
+            return SelectValue?.ToString();
+        }
     }
 }
