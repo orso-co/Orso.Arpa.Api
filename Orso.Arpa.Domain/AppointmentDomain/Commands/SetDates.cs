@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -23,7 +22,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
         public class Validator : AbstractValidator<Command>
         {
-            public Validator(IArpaContext arpaContext, IMapper mapper)
+            public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext);
