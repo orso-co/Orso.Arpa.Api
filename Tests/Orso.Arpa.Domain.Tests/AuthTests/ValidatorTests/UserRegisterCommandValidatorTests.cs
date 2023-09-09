@@ -14,7 +14,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
     [TestFixture]
     public class UserRegisterCommandValidatorTests
     {
-        private UserRegister.Validator _validator;
+        private RegisterUser.Validator _validator;
         private ArpaUserManager _userManager;
         private IArpaContext _context;
 
@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _userManager = new FakeUserManager();
             _context = Substitute.For<IArpaContext>();
-            _validator = new UserRegister.Validator(_userManager, _context);
+            _validator = new RegisterUser.Validator(_userManager, _context);
         }
 
         [Test]

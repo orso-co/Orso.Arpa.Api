@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.UserApplication.Services
             foreach (User user in users)
             {
                 UserDto dto = _mapper.Map<UserDto>(user);
-                dto.RoleNames = await _mediator.Send(new UserRoles.Query(user));
+                dto.RoleNames = await _mediator.Send(new ListUserRoles.Query(user));
                 dtos.Add(dto);
             }
 
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Application.UserApplication.Services
 
         public async Task<UserDto> GetByIdAsync(Guid id)
         {
-            return _mapper.Map<UserDto>(await _mediator.Send(new UserDetails.Query(id)));
+            return _mapper.Map<UserDto>(await _mediator.Send(new GetUser.Query(id)));
         }
 
         public async Task DeleteAsync(string userName)

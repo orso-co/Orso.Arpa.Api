@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            RemoveProject.Command command = _mapper.Map<RemoveProject.Command>(dto);
+            RemoveProjectFromAppointment.Command command = _mapper.Map<RemoveProjectFromAppointment.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

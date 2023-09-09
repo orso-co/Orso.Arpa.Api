@@ -17,13 +17,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     public class AddProjectHandlerTests
     {
         private IArpaContext _arpaContext;
-        private AddProject.Handler _handler;
+        private AddProjectToAppointment.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new AddProject.Handler(_arpaContext);
+            _handler = new AddProjectToAppointment.Handler(_arpaContext);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
-            Unit result = await _handler.Handle(new AddProject.Command(
+            Unit result = await _handler.Handle(new AddProjectToAppointment.Command(
                 appointment.Id,
                 ProjectSeedData.HoorayForHollywood.Id), new CancellationToken());
 

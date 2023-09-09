@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication.Services
 
         public async Task<ContactDetailDto> CreateAsync(MyContactDetailCreateDto contactDetailCreateDto)
         {
-            CreateMyContactDetails.Command command = _mapper.Map<CreateMyContactDetails.Command>(contactDetailCreateDto);
+            CreateMyContactDetail.Command command = _mapper.Map<CreateMyContactDetail.Command>(contactDetailCreateDto);
             command.PersonId = _tokenAccessor.PersonId;
             ContactDetail createdEntity = await _mediator.Send(command);
             return _mapper.Map<ContactDetailDto>(createdEntity);
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication.Services
 
         public async Task DeleteAsync(MyContactDetailDeleteDto deleteDto)
         {
-            DeleteMyContactDetails.Command command = _mapper.Map<DeleteMyContactDetails.Command>(deleteDto);
+            DeleteMyContactDetail.Command command = _mapper.Map<DeleteMyContactDetail.Command>(deleteDto);
             command.PersonId = _tokenAccessor.PersonId;
             await _mediator.Send(command);
         }

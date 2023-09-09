@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.AuthApplication.Model
     {
         public ForgotPasswordDtoMappingProfile()
         {
-            CreateMap<ForgotPasswordDto, ForgotPassword.Command>();
+            CreateMap<ForgotPasswordDto, CreateResetPasswordToken.Command>();
         }
     }
 

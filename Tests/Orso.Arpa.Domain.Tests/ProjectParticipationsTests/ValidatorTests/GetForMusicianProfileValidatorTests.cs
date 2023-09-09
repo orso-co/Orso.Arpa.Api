@@ -14,13 +14,13 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
     public class GetForMusicianProfileValidatorTests
     {
         private IArpaContext _arpaContext;
-        private GetProjectParticipationsForMusicianProfile.Validator _validator;
+        private ListProjectParticipationsForMusicianProfile.Validator _validator;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new GetProjectParticipationsForMusicianProfile.Validator(_arpaContext);
+            _validator = new ListProjectParticipationsForMusicianProfile.Validator(_arpaContext);
         }
 
         [Test]

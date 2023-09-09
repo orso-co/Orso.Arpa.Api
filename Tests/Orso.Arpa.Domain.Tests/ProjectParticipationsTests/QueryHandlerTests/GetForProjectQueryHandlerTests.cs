@@ -19,7 +19,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.QueryHandlerTests
     public class GetForProjectQueryHandlerTests
     {
         private IArpaContext _arpaContext;
-        private GetProjectParticipationsForProject.Handler _handler;
+        private ListProjectParticipationsForProject.Handler _handler;
 
         [SetUp]
         public void Setup()
@@ -27,14 +27,14 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.QueryHandlerTests
             _arpaContext = Substitute.For<IArpaContext>();
             DbSet<ProjectParticipation> projectParticipations = MockDbSets.ProjectParticipations;
             _arpaContext.ProjectParticipations.Returns(projectParticipations);
-            _handler = new GetProjectParticipationsForProject.Handler(_arpaContext);
+            _handler = new ListProjectParticipationsForProject.Handler(_arpaContext);
         }
 
         [Test]
         public async Task Should_Get_ProjectParticipations()
         {
             // Arrange
-            var query = new GetProjectParticipationsForProject.Query
+            var query = new ListProjectParticipationsForProject.Query
             {
                 ProjectId = ProjectSeedData.RockingXMas.Id
             };

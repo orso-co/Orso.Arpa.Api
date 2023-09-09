@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            RemoveRoom.Command command = _mapper.Map<RemoveRoom.Command>(dto);
+            RemoveRoomFromAppointment.Command command = _mapper.Map<RemoveRoomFromAppointment.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

@@ -20,7 +20,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication.Model
     {
         public MyContactDetailCreateDtoMappingProfile()
         {
-            _ = CreateMap<MyContactDetailCreateDto, CreateMyContactDetails.Command>();
+            _ = CreateMap<MyContactDetailCreateDto, CreateMyContactDetail.Command>();
         }
     }
 

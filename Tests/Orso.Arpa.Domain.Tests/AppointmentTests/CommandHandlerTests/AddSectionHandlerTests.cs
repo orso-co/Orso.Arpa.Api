@@ -18,13 +18,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     public class AddSectionHandlerTests
     {
         private IArpaContext _arpaContext;
-        private AddSection.Handler _handler;
+        private AddSectionToAppointment.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new AddSection.Handler(_arpaContext);
+            _handler = new AddSectionToAppointment.Handler(_arpaContext);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
-            Unit result = await _handler.Handle(new AddSection.Command(
+            Unit result = await _handler.Handle(new AddSectionToAppointment.Command(
                 appointment.Id,
                 SectionSeedData.Choir.Id), new CancellationToken());
 

@@ -16,13 +16,13 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
     public class RoomHandlerTests
     {
         private IArpaContext _arpaContext;
-        private Rooms.Handler _handler;
+        private ListRooms.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new Rooms.Handler(_arpaContext);
+            _handler = new ListRooms.Handler(_arpaContext);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
 
             // Act
             IImmutableList<Room> result = await _handler.Handle(
-                new Rooms.Query(venue.Id),
+                new ListRooms.Query(venue.Id),
                 new CancellationToken());
 
             // Assert

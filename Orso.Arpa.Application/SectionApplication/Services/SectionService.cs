@@ -34,7 +34,7 @@ namespace Orso.Arpa.Application.SectionApplication.Services
         {
             if (instrumentsWithChildrenOnly)
             {
-                var query = new InstrumentsWithChildren.Query();
+                var query = new ListInstrumentsWithChildren.Query();
                 IEnumerable<Section> instruments = await _mediator.Send(query);
                 return _mapper.Map<IEnumerable<SectionDto>>(instruments);
             }
@@ -43,14 +43,14 @@ namespace Orso.Arpa.Application.SectionApplication.Services
 
         public async Task<IEnumerable<SectionDto>> GetDoublingInstrumentsAsync(Guid id)
         {
-            var query = new DoublingInstruments.Query { Id = id };
+            var query = new ListDoublingInstruments.Query { Id = id };
             IEnumerable<Section> doublingInstruments = await _mediator.Send(query);
             return _mapper.Map<IEnumerable<SectionDto>>(doublingInstruments);
         }
 
         public async Task<IEnumerable<SelectValueDto>> GetPositionsAsync(Guid id)
         {
-            var query = new Positions.Query { Id = id };
+            var query = new ListPositionsForSection.Query { Id = id };
             IQueryable<SelectValueSection> positions = await _mediator.Send(query);
 
             List<SelectValueSection> list = await positions.ToListAsync();
@@ -59,7 +59,7 @@ namespace Orso.Arpa.Application.SectionApplication.Services
 
         public async Task<SectionTreeDto> GetTreeAsync(int? maxLevel)
         {
-            var query = new Tree.Query() { MaxLevel = maxLevel };
+            var query = new GetSectionTree.Query() { MaxLevel = maxLevel };
             ITree<Section> tree = await _mediator.Send(query);
             return _mapper.Map<SectionTreeDto>(tree);
         }

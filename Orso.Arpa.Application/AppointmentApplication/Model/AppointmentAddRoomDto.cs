@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
     {
         public AppointmentAddRoomDtoMappingProfile()
         {
-            CreateMap<AppointmentAddRoomDto, AddRoom.Command>()
+            CreateMap<AppointmentAddRoomDto, AddRoomToAppointment.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.RoomId, opt => opt.MapFrom(src => src.RoomId));
         }

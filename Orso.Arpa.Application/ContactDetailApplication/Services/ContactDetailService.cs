@@ -12,7 +12,7 @@ namespace Orso.Arpa.Application.ContactDetailApplication.Services
         ContactDetailDto,
         ContactDetail,
         ContactDetailCreateDto,
-        CreateContactDetails.Command,
+        CreateContactDetail.Command,
         ContactDetailModifyDto,
         ContactDetailModifyBodyDto,
         ModifyContactDetails.Command>, IContactDetailService

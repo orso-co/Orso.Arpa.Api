@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            Login.Command command = _mapper.Map<Login.Command>(dto);
+            LoginUser.Command command = _mapper.Map<LoginUser.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

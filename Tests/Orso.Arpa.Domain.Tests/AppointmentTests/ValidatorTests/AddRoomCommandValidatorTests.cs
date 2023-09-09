@@ -18,7 +18,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class AddRoomCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private AddRoom.Validator _validator;
+        private AddRoomToAppointment.Validator _validator;
         private DbSet<AppointmentRoom> _mockAppointmentRooms;
         private Guid _validAppointmentId;
         private Guid _validRoomId;
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new AddRoom.Validator(_arpaContext);
+            _validator = new AddRoomToAppointment.Validator(_arpaContext);
             _mockAppointmentRooms = MockDbSets.AppointmentRooms;
             _arpaContext.AppointmentRooms.Returns(_mockAppointmentRooms);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
@@ -46,7 +46,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new AddRoom.Command(_validAppointmentId, _validRoomId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new AddRoomToAppointment.Command(_validAppointmentId, _validRoomId));
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             Guid linkedRoomId = RoomSeedData.AulaWeiherhofSchule.Id;
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoomId, new AddRoom.Command(_validAppointmentId, linkedRoomId));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoomId, new AddRoomToAppointment.Command(_validAppointmentId, linkedRoomId));
         }
     }
 }

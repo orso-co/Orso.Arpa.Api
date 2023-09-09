@@ -14,13 +14,13 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
     public class UserProfileHandlerTests
     {
         private IUserAccessor _userAccessor;
-        private MyUserProfile.Handler _handler;
+        private GetMyUser.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _userAccessor = Substitute.For<IUserAccessor>();
-            _handler = new MyUserProfile.Handler(_userAccessor);
+            _handler = new GetMyUser.Handler(_userAccessor);
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.QueryHandlerTests
             _ = _userAccessor.GetCurrentUserAsync(Arg.Any<CancellationToken>()).Returns(user);
 
             // Act
-            User result = await _handler.Handle(new MyUserProfile.Query(), new CancellationToken());
+            User result = await _handler.Handle(new GetMyUser.Query(), new CancellationToken());
 
             // Assert
             _ = result.Should().BeEquivalentTo(user);

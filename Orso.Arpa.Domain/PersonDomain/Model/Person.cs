@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             GeneralPreference = command.GeneralPreference;
         }
 
-        public Person(Guid? id, UserRegister.Command command) : base(id)
+        public Person(Guid? id, RegisterUser.Command command) : base(id)
         {
             GivenName = command.GivenName;
             Surname = command.Surname;
@@ -48,7 +48,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
         {
         }
 
-        public void Update(UserRegister.Command command)
+        public void Update(RegisterUser.Command command)
         {
             GivenName = command.GivenName;
             Surname = command.Surname;

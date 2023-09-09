@@ -19,17 +19,17 @@ namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
         public void Setup()
         {
             _context = Substitute.For<IArpaContext>();
-            _handler = new Tree.Handler(_context);
+            _handler = new GetSectionTree.Handler(_context);
         }
 
         private IArpaContext _context;
-        private Tree.Handler _handler;
+        private GetSectionTree.Handler _handler;
 
         [Test]
         public async Task Should_Get_Section_Tree()
         {
             // Arrange
-            var treeQuery = new Tree.Query { MaxLevel = 3 };
+            var treeQuery = new GetSectionTree.Query { MaxLevel = 3 };
             DbSet<Section> mockSections = MockDbSets.Sections;
             _ = _context.Sections.Returns(mockSections);
 

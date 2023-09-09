@@ -13,21 +13,21 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
     [TestFixture]
     public class LoginCommandValidatorTests
     {
-        private Login.Validator _validator;
+        private LoginUser.Validator _validator;
         private ArpaUserManager _userManager;
 
         [SetUp]
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _validator = new Login.Validator(_userManager);
+            _validator = new LoginUser.Validator(_userManager);
         }
 
         [Test]
         public async Task Should_Have_Validation_Error_If_Email_Does_Not_Exist()
         {
-            TestValidationResult<Login.Command> result = await _validator
-                .TestValidateAsync(new Login.Command { UsernameOrEmail = "test", Password = UserSeedData.ValidPassword });
+            TestValidationResult<LoginUser.Command> result = await _validator
+                .TestValidateAsync(new LoginUser.Command { UsernameOrEmail = "test", Password = UserSeedData.ValidPassword });
 
             result.ShouldHaveValidationErrorFor(c => c.UsernameOrEmail)
                 .WithErrorCode("401")

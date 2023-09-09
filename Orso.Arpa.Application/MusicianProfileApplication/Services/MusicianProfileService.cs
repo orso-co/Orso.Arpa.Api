@@ -60,7 +60,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Services
 
         public async Task<IEnumerable<MusicianProfileAppointmentParticipationDto>> GetAppointmentParticipationsAsync(Guid id, Guid? projectId, DateTime? startTime, DateTime? endTime)
         {
-            var query = new GetAppointmentParticipationsForMusicianProfile.Query
+            var query = new ListAppointmentParticipationsForMusicianProfile.Query
             {
                 MusicianProfileId = id,
                 ProjectId = projectId,
@@ -82,7 +82,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Services
 
         public async Task<IEnumerable<GroupedMusicianProfileDto>> GetGroupedAsync()
         {
-            var query = new GetGrouped.Query();
+            var query = new ListPersonsWithAtLeastOneMusicianProfile.Query();
             IQueryable<Person> persons = await _mediator.Send(query);
 
             List<Person> list = await persons.ToListAsync();
@@ -91,7 +91,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Services
 
         public async Task<IEnumerable<ProjectParticipationDto>> GetProjectParticipationsAsync(Guid id, bool includeCompleted)
         {
-            var query = new GetProjectParticipationsForMusicianProfile.Query { IncludeCompletedProjects = includeCompleted, MusicianProfileId = id };
+            var query = new ListProjectParticipationsForMusicianProfile.Query { IncludeCompletedProjects = includeCompleted, MusicianProfileId = id };
             IEnumerable<MusicianProfileProjectParticipationGrouping> participations = await _mediator.Send(query);
 
             // Cannot use .ProjectTo here because .ProjectTo does not suppert After Mapping Actions

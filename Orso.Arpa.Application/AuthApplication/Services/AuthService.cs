@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
 
         public async Task<TokenDto> LoginAsync(LoginDto loginDto, string remoteIpAddress)
         {
-            Login.Command command = _mapper.Map<Login.Command>(loginDto);
+            LoginUser.Command command = _mapper.Map<LoginUser.Command>(loginDto);
             command.RemoteIpAddress = remoteIpAddress;
             var token = await _mediator.Send(command);
             return _mapper.Map<TokenDto>(token);
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
 
         public async Task RegisterAsync(UserRegisterDto registerDto)
         {
-            UserRegister.Command registerCommand = _mapper.Map<UserRegister.Command>(registerDto);
+            RegisterUser.Command registerCommand = _mapper.Map<RegisterUser.Command>(registerDto);
             await _mediator.Send(registerCommand);
             
             CreateEmailConfirmationToken.Command command = _mapper.Map<CreateEmailConfirmationToken.Command>(registerDto);
@@ -70,7 +70,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
 
         public async Task ForgotPasswordAsync(ForgotPasswordDto forgotPassswordDto)
         {
-            ForgotPassword.Command command = _mapper.Map<ForgotPassword.Command>(forgotPassswordDto);
+            CreateResetPasswordToken.Command command = _mapper.Map<CreateResetPasswordToken.Command>(forgotPassswordDto);
             await _mediator.Send(command);
         }
 

@@ -19,7 +19,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class AddSectionCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private AddSection.Validator _validator;
+        private AddSectionToAppointment.Validator _validator;
         private Guid _validAppointmentId;
         private Guid _validSectionId;
         private DbSet<SectionAppointment> _mockSectionAppointments;
@@ -28,7 +28,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new AddSection.Validator(_arpaContext);
+            _validator = new AddSectionToAppointment.Validator(_arpaContext);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validSectionId = SectionSeedData.LowFemaleVoices.Id;
             _mockSectionAppointments = MockDbSets.SectionAppointments;
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new AddSection.Command(_validAppointmentId, _validSectionId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new AddSectionToAppointment.Command(_validAppointmentId, _validSectionId));
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.SectionId, new AddSection.Command(_validAppointmentId, SectionSeedData.Alto.Id));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.SectionId, new AddSectionToAppointment.Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
     }
 }

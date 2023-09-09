@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication.Model
     {
         public MyContactDetailDeleteDtoMappingProfile()
         {
-            CreateMap<MyContactDetailDeleteDto, DeleteMyContactDetails.Command>();
+            CreateMap<MyContactDetailDeleteDto, DeleteMyContactDetail.Command>();
         }
     }
 

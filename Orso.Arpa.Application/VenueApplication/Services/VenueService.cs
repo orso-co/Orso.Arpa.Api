@@ -35,7 +35,7 @@ namespace Orso.Arpa.Application.VenueApplication.Services
 
         public async Task<IEnumerable<RoomDto>> GetRoomsAsync(Guid id)
         {
-            IImmutableList<Room> rooms = await _mediator.Send(new Rooms.Query(id));
+            IImmutableList<Room> rooms = await _mediator.Send(new ListRooms.Query(id));
             return _mapper.Map<IEnumerable<RoomDto>>(rooms);
         }
     }

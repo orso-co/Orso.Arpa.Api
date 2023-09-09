@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.PersonApplication.Model
     {
         public PersonRemoveStakeholderGroupDtoMappingProfile()
         {
-            CreateMap<PersonRemoveStakeholderGroupDto, RemoveStakeholderGroup.Command>();
+            CreateMap<PersonRemoveStakeholderGroupDto, RemoveStakeholderGroupFromPerson.Command>();
         }
     }
 

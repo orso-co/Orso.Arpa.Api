@@ -22,21 +22,21 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _emailSender = Substitute.For<IEmailSender>();
             _jwtConfiguration = new JwtConfiguration();
             _clubConfiguration = new ClubConfiguration();
-            _handler = new ForgotPassword.Handler(_userManager, _clubConfiguration, _jwtConfiguration, _emailSender);
+            _handler = new CreateResetPasswordToken.Handler(_userManager, _clubConfiguration, _jwtConfiguration, _emailSender);
         }
 
         private ArpaUserManager _userManager;
         private IEmailSender _emailSender;
         private JwtConfiguration _jwtConfiguration;
         private ClubConfiguration _clubConfiguration;
-        private ForgotPassword.Handler _handler;
+        private CreateResetPasswordToken.Handler _handler;
 
         [Test]
         public async Task Should_Handle_Forgot_Password()
         {
             // Arrange
             User user = Arpa.Tests.Shared.FakeData.FakeUsers.Performer;
-            var command = new ForgotPassword.Command
+            var command = new CreateResetPasswordToken.Command
             {
                 UsernameOrEmail = user.UserName,
                 ClientUri = "http://localhost:4200"

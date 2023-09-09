@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class RemoveSectionCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private RemoveSection.Validator _validator;
+        private RemoveSectionFromAppointment.Validator _validator;
         private DbSet<SectionAppointment> _mockSectionAppointments;
         private Guid _validAppointmentId;
 
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new RemoveSection.Validator(_arpaContext);
+            _validator = new RemoveSectionFromAppointment.Validator(_arpaContext);
             _mockSectionAppointments = MockDbSets.SectionAppointments;
             _arpaContext.SectionAppointments.Returns(_mockSectionAppointments);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new RemoveSection.Command(_validAppointmentId, SectionSeedData.Alto.Id));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new RemoveSectionFromAppointment.Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Section section = SectionSeedData.HighFemaleVoices;
 
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.SectionId, new RemoveSection.Command(_validAppointmentId, section.Id));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.SectionId, new RemoveSectionFromAppointment.Command(_validAppointmentId, section.Id));
         }
     }
 }

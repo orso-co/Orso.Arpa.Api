@@ -12,14 +12,14 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
     [TestFixture]
     public class ForgotPasswordCommandValidatorTests
     {
-        private ForgotPassword.Validator _validator;
+        private CreateResetPasswordToken.Validator _validator;
         private ArpaUserManager _userManager;
 
         [SetUp]
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _validator = new ForgotPassword.Validator(_userManager);
+            _validator = new CreateResetPasswordToken.Validator(_userManager);
         }
 
         [Test]

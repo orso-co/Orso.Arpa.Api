@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
     {
         public AppointmentRemoveSectionDtoMappingProfile()
         {
-            CreateMap<AppointmentRemoveSectionDto, RemoveSection.Command>()
+            CreateMap<AppointmentRemoveSectionDto, RemoveSectionFromAppointment.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.SectionId, opt => opt.MapFrom(src => src.SectionId));
         }

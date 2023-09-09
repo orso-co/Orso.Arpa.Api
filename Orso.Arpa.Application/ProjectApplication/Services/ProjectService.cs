@@ -41,7 +41,7 @@ namespace Orso.Arpa.Application.ProjectApplication.Services
 
         public async Task<IEnumerable<ProjectParticipationDto>> GetParticipationsByIdAsync(Guid id)
         {
-            var query = new GetProjectParticipationsForProject.Query { ProjectId = id };
+            var query = new ListProjectParticipationsForProject.Query { ProjectId = id };
             IOrderedQueryable<ProjectParticipation> projectParticipations = await _mediator.Send(query);
 
             List<ProjectParticipation> list = await projectParticipations.ToListAsync();

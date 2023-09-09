@@ -52,7 +52,7 @@ namespace Orso.Arpa.Application.MeApplication.Services
 
         public async Task<MyUserProfileDto> GetMyUserProfileAsync()
         {
-            User user = await _mediator.Send(new MyUserProfile.Query());
+            User user = await _mediator.Send(new GetMyUser.Query());
             return _mapper.Map<MyUserProfileDto>(user);
         }
 
@@ -64,18 +64,18 @@ namespace Orso.Arpa.Application.MeApplication.Services
 
         public async Task<MyAppointmentListDto> GetMyAppointmentsAsync(int? limit, int? offset, bool passed)
         {
-            var treeQuery = new FlattenedTree.Query();
+            var treeQuery = new ListFlattenedSectionTree.Query();
             IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
             Person currentPerson = await _userAccessor.GetCurrentPersonAsync();
 
             (IList<Appointment> userAppointments, int totalCount) = await _mediator.Send(
-                new MyAppointmentList.Query(limit, offset, passed, flattenedTree, currentPerson));
+                new ListMyAppointments.Query(limit, offset, passed, flattenedTree, currentPerson));
 
             IList<MyAppointmentDto> myAppointmentDtos = _mapper.Map<IList<MyAppointmentDto>>(userAppointments);
 
             foreach (MyAppointmentDto dto in myAppointmentDtos)
             {
-                AppointmentParticipation participation = await _mediator.Send(new AppointmentParticipationDetails.Query(
+                AppointmentParticipation participation = await _mediator.Send(new GetAppointmentParticipation.Query(
                     dto.Id, currentPerson.Id));
                 if (participation != null)
                 {
@@ -129,7 +129,7 @@ namespace Orso.Arpa.Application.MeApplication.Services
 
         public async Task<MyMusicianProfileDto> GetMyMusicianProfileAsync(Guid id)
         {
-            var query = new MyMusicianProfileById.Query { Id = id, PersonId = _userAccessor.PersonId };
+            var query = new GetMyMusicianProfile.Query { Id = id, PersonId = _userAccessor.PersonId };
             MusicianProfile musicialProfile = await _mediator.Send(query);
             return _mapper.Map<MyMusicianProfileDto>(musicialProfile);
         }
@@ -151,7 +151,7 @@ namespace Orso.Arpa.Application.MeApplication.Services
 
         public async Task<MyMusicianProfileDto> UpdateMusicianProfileAsync(MyMusicianProfileModifyDto musicianProfileModifyDto)
         {
-            MusicianProfile existingMusicianProfile = await _mediator.Send(new MyMusicianProfileById.Query { Id = musicianProfileModifyDto.Id, PersonId = _userAccessor.PersonId });
+            MusicianProfile existingMusicianProfile = await _mediator.Send(new GetMyMusicianProfile.Query { Id = musicianProfileModifyDto.Id, PersonId = _userAccessor.PersonId });
 
             ModifyMusicianProfile.Command command = _mapper.Map<ModifyMusicianProfile.Command>(musicianProfileModifyDto);
 

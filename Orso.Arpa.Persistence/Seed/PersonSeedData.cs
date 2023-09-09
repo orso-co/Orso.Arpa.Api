@@ -16,7 +16,7 @@ namespace Orso.Arpa.Persistence.Seed
 
             return new Person(
                     AdminPersonId,
-                    new UserRegister.Command
+                    new RegisterUser.Command
                     {
                         GivenName = initialAdminConfiguration.GivenName,
                         Surname = initialAdminConfiguration.Surname,
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 return new Person(
                     AdminPersonId,
-                    new UserRegister.Command
+                    new RegisterUser.Command
                     {
                         GivenName = "Initial",
                         Surname = "Admin",

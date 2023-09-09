@@ -17,17 +17,17 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _handler = new UserRoles.Handler(_userManager);
+            _handler = new ListUserRoles.Handler(_userManager);
         }
 
         private ArpaUserManager _userManager;
-        private UserRoles.Handler _handler;
+        private ListUserRoles.Handler _handler;
 
         [Test]
         public async Task Should_Get_Roles()
         {
             // Arrange
-            var rolesQuery = new UserRoles.Query(FakeUsers.Performer);
+            var rolesQuery = new ListUserRoles.Query(FakeUsers.Performer);
             IEnumerable<string> expectedRoles = new[] { RoleNames.Performer };
 
             // Act

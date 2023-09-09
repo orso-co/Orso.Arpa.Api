@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class RemoveRoomCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private RemoveRoom.Validator _validator;
+        private RemoveRoomFromAppointment.Validator _validator;
         private DbSet<AppointmentRoom> _mockAppointmentRooms;
         private Guid _validAppointmentId;
 
@@ -27,14 +27,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _mockAppointmentRooms = MockDbSets.AppointmentRooms;
             _arpaContext.AppointmentRooms.Returns(_mockAppointmentRooms);
-            _validator = new RemoveRoom.Validator(_arpaContext);
+            _validator = new RemoveRoomFromAppointment.Validator(_arpaContext);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
         }
 
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new RemoveRoom.Command(_validAppointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new RemoveRoomFromAppointment.Command(_validAppointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Room room = RoomSeedData.MusikraumWeiherhofSchule;
 
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoomId, new RemoveRoom.Command(_validAppointmentId, room.Id));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoomId, new RemoveRoomFromAppointment.Command(_validAppointmentId, room.Id));
         }
     }
 }

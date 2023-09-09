@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            AddProject.Command command = _mapper.Map<AddProject.Command>(dto);
+            AddProjectToAppointment.Command command = _mapper.Map<AddProjectToAppointment.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

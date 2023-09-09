@@ -18,7 +18,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class AddProjectCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private AddProject.Validator _validator;
+        private AddProjectToAppointment.Validator _validator;
         private Guid _validAppointmentId;
         private Guid _validProjectId;
         private DbSet<ProjectAppointment> _mockProjectAppointments;
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new AddProject.Validator(_arpaContext);
+            _validator = new AddProjectToAppointment.Validator(_arpaContext);
 
             _mockProjectAppointments = MockDbSets.ProjectAppointments;
             _arpaContext.ProjectAppointments.Returns(_mockProjectAppointments);
@@ -48,7 +48,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, new AddProject.Command(_validAppointmentId, _validProjectId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, new AddProjectToAppointment.Command(_validAppointmentId, _validProjectId));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             Guid linkedProjectId = ProjectSeedData.RockingXMas.Id;
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, new AddProject.Command(_validAppointmentId, linkedProjectId));
+            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, new AddProjectToAppointment.Command(_validAppointmentId, linkedProjectId));
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.MusicianProfileApplication.Model;
 using Orso.Arpa.Application.PersonApplication.Model;
-using static Orso.Arpa.Domain.MusicianProfileDomain.Queries.GetForAppointment;
+using static Orso.Arpa.Domain.MusicianProfileDomain.Queries.ListParticipationsForAppointment;
 
 namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
 {

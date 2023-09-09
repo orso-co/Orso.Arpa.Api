@@ -16,7 +16,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class RemoveProjectCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private RemoveProject.Validator _validator;
+        private RemoveProjectFromAppointment.Validator _validator;
         private DbSet<ProjectAppointment> _mockProjectAppointments;
         private Guid _validAppointmentId;
 
@@ -26,14 +26,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _mockProjectAppointments = MockDbSets.ProjectAppointments;
             _arpaContext.ProjectAppointments.Returns(_mockProjectAppointments);
-            _validator = new RemoveProject.Validator(_arpaContext);
+            _validator = new RemoveProjectFromAppointment.Validator(_arpaContext);
             _validAppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id;
         }
 
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_Ids_Are_Supplied()
         {
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new RemoveProject.Command(_validAppointmentId, ProjectSeedData.RockingXMas.Id));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new RemoveProjectFromAppointment.Command(_validAppointmentId, ProjectSeedData.RockingXMas.Id));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Project project = ProjectSeedData.HoorayForHollywood;
 
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.ProjectId, new RemoveProject.Command(_validAppointmentId, project.Id));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.ProjectId, new RemoveProjectFromAppointment.Command(_validAppointmentId, project.Id));
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             Project project = ProjectSeedData.RockingXMas;
 
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.ProjectId, new RemoveProject.Command(_validAppointmentId, project.Id));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.ProjectId, new RemoveProjectFromAppointment.Command(_validAppointmentId, project.Id));
         }
     }
 }

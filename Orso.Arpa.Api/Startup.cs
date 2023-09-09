@@ -148,7 +148,7 @@ namespace Orso.Arpa.Api
             {
                 _ = services.AddApplicationInsightsTelemetry();
             }
-            _ = services.AddMediatR(typeof(Login.Handler).Assembly);
+            _ = services.AddMediatR(typeof(LoginUser.Handler).Assembly);
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
@@ -272,7 +272,7 @@ namespace Orso.Arpa.Api
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters()
                 .AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
-                .AddValidatorsFromAssemblyContaining<Login.Validator>();
+                .AddValidatorsFromAssemblyContaining<LoginUser.Validator>();
             ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
         }
 

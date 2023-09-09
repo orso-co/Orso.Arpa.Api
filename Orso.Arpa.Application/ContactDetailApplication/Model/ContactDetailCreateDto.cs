@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.ContactDetailApplication.Model
     {
         public ContactDetailCreateDtoMappingProfile()
         {
-            _ = CreateMap<ContactDetailCreateDto, CreateContactDetails.Command>()
+            _ = CreateMap<ContactDetailCreateDto, CreateContactDetail.Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Body.Key))
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Body.Value))

@@ -20,17 +20,17 @@ namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
         public void Setup()
         {
             _context = Substitute.For<IArpaContext>();
-            _handler = new FlattenedTree.Handler(_context);
+            _handler = new ListFlattenedSectionTree.Handler(_context);
         }
 
         private IArpaContext _context;
-        private FlattenedTree.Handler _handler;
+        private ListFlattenedSectionTree.Handler _handler;
 
         [Test]
         public async Task Should_Get_Flattened_Section_Tree()
         {
             // Arrange
-            var treeQuery = new FlattenedTree.Query { MaxLevel = 3 };
+            var treeQuery = new ListFlattenedSectionTree.Query { MaxLevel = 3 };
             DbSet<Section> mockSections = MockDbSets.Sections;
             _ = _context.Sections.Returns(mockSections);
 

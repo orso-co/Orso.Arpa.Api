@@ -29,7 +29,7 @@ namespace Orso.Arpa.Application.PersonApplication.Services
 
         public async Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addStakeholderGroupDto)
         {
-            AddStakeholderGroup.Command command = _mapper.Map<AddStakeholderGroup.Command>(addStakeholderGroupDto);
+            AddStakeholderGroupToPerson.Command command = _mapper.Map<AddStakeholderGroupToPerson.Command>(addStakeholderGroupDto);
             _ = await _mediator.Send(command);
         }
 
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Application.PersonApplication.Services
 
         public async Task RemoveStakeholderGroupAsync(PersonRemoveStakeholderGroupDto removeStakeholderGroupDto)
         {
-            RemoveStakeholderGroup.Command command = _mapper.Map<RemoveStakeholderGroup.Command>(removeStakeholderGroupDto);
+            RemoveStakeholderGroupFromPerson.Command command = _mapper.Map<RemoveStakeholderGroupFromPerson.Command>(removeStakeholderGroupDto);
             _ = await _mediator.Send(command);
         }
 

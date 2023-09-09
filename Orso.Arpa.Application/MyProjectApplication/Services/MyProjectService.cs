@@ -28,7 +28,7 @@ public class MyProjectService : IMyProjectService
 
     public async Task<MyProjectListDto> GetMyProjectsAsync(int? offset, int? limit, bool includeCompleted)
     {
-        var query = new GetProjectParticipationsForPerson.Query
+        var query = new ListProjectParticipationsForPerson.Query
         {
             PersonId = _userAccessor.PersonId,
             Offset = offset,

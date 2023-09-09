@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            RemoveSection.Command command = _mapper.Map<RemoveSection.Command>(dto);
+            RemoveSectionFromAppointment.Command command = _mapper.Map<RemoveSectionFromAppointment.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

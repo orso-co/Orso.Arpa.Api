@@ -13,7 +13,7 @@ namespace Orso.Arpa.Api.Extensions
     {
         public static IServiceCollection AddGenericMediatorHandlers(this IServiceCollection services)
         {
-            Assembly assembly = typeof(Login.Handler).Assembly;
+            Assembly assembly = typeof(LoginUser.Handler).Assembly;
             foreach (Type entityType in assembly.GetTypes().Where(n => n.BaseType == typeof(BaseEntity)))
             {
                 services.AddGenericDetailsHandler(entityType);

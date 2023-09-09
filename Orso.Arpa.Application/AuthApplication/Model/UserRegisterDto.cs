@@ -53,7 +53,7 @@ namespace Orso.Arpa.Application.AuthApplication.Model
     {
         public UserRegisterDtoMappingProfile()
         {
-            CreateMap<UserRegisterDto, UserRegister.Command>();
+            CreateMap<UserRegisterDto, RegisterUser.Command>();
             CreateMap<UserRegisterDto, CreateEmailConfirmationToken.Command>()
                 .ForMember(cmd => cmd.UsernameOrEmail, opt => opt.MapFrom(dto => dto.Email));
         }

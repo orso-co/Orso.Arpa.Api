@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            ForgotPassword.Command command = _mapper.Map<ForgotPassword.Command>(dto);
+            CreateResetPasswordToken.Command command = _mapper.Map<CreateResetPasswordToken.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

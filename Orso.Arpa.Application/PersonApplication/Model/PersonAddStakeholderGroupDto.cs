@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.PersonApplication.Model
     {
         public PersonAddStakeholderGroupDtoMappingProfile()
         {
-            CreateMap<PersonAddStakeholderGroupDto, AddStakeholderGroup.Command>();
+            CreateMap<PersonAddStakeholderGroupDto, AddStakeholderGroupToPerson.Command>();
         }
     }
 

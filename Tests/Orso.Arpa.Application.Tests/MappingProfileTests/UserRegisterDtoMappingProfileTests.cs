@@ -36,7 +36,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            UserRegister.Command command = _mapper.Map<UserRegister.Command>(dto);
+            RegisterUser.Command command = _mapper.Map<RegisterUser.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);
