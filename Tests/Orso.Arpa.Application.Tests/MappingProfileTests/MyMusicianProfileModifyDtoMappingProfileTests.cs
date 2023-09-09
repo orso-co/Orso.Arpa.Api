@@ -44,7 +44,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     PreferredPositionsInnerIds = new List<Guid> { Guid.NewGuid() },
                 }
             };
-            var expectedCommand = new ModifyMusicianProfile.Command
+            var expectedCommand = new ModifyMyMusicianProfile.Command
             {
                 Id = dto.Id,
                 IsMainProfile = dto.Body.IsMainProfile,
@@ -61,7 +61,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            ModifyMusicianProfile.Command command = _mapper.Map<ModifyMusicianProfile.Command>(dto);
+            ModifyMyMusicianProfile.Command command = _mapper.Map<ModifyMyMusicianProfile.Command>(dto);
 
             // Assert
             _ = command.Should().BeEquivalentTo(expectedCommand);
