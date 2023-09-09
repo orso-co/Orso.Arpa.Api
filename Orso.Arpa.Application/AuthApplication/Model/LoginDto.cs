@@ -1,7 +1,7 @@
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.General.Extensions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Orso.Arpa.Domain.UserDomain.Commands;
 
 namespace Orso.Arpa.Application.AuthApplication.Model
 {
@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.AuthApplication.Model
     {
         public LoginDtoMappingProfile()
         {
-            CreateMap<LoginDto, Command>();
+            CreateMap<LoginDto, LoginUser.Command>();
         }
     }
 

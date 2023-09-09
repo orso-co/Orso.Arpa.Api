@@ -1,8 +1,8 @@
 using System;
 using AutoMapper;
 using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Infrastructure.Localization;
-using static System.Collections.Specialized.BitVector32;
 
 namespace Orso.Arpa.Application.SectionApplication.Model
 {
