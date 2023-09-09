@@ -1,10 +1,10 @@
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.Regions.Modify;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.RegionDomain.Commands;
 
-namespace Orso.Arpa.Application.RegionApplication
+namespace Orso.Arpa.Application.RegionApplication.Model
 {
     public class RegionModifyDto : IdFromRouteDto<RegionModifyBodyDto>
     {
@@ -21,7 +21,7 @@ namespace Orso.Arpa.Application.RegionApplication
     {
         public RegionModifyDtoMappingProfile()
         {
-            CreateMap<RegionModifyDto, Command>()
+            CreateMap<RegionModifyDto, ModifyRegion.Command>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Body.Name))
                 .ForMember(dest => dest.IsForPerformance, opt => opt.MapFrom(src => src.Body.IsForPerformance))
                 .ForMember(dest => dest.IsForRehearsal, opt => opt.MapFrom(src => src.Body.IsForRehearsal));

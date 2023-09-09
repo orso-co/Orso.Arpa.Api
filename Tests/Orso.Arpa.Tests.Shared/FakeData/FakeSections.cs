@@ -1,4 +1,4 @@
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.FakeData

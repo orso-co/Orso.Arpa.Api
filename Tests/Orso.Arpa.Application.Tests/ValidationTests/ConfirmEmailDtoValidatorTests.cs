@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuthApplication;
+using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Http;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.FileManagement
 {

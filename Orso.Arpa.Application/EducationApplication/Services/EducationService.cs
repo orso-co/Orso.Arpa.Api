@@ -1,25 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.EducationApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Educations;
+using Orso.Arpa.Application.EducationApplication.Interfaces;
+using Orso.Arpa.Application.EducationApplication.Model;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.EducationApplication.Services
 {
     public class EducationService : BaseService<
         EducationDto,
         Education,
         EducationCreateDto,
-        Create.Command,
+        CreateEducation.Command,
         EducationModifyDto,
         EducationModifyBodyDto,
-        Modify.Command
+        ModifyEducation.Command
         >, IEducationService
     {
         public EducationService(IMediator mediator, IMapper mapper) : base(mediator, mapper)

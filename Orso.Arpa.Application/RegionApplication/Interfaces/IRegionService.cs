@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.RegionApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.RegionApplication.Model;
+using Orso.Arpa.Domain.RegionDomain.Enums;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.RegionApplication.Interfaces
 {
     public interface IRegionService
     {

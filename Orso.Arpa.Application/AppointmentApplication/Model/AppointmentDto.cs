@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using AutoMapper;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Application.RoomApplication;
-using Orso.Arpa.Application.SectionApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Application.RoomApplication.Model;
+using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.AppointmentApplication.Model
 {
     public class AppointmentDto : BaseEntityDto
     {

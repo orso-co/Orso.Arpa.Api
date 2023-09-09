@@ -2,9 +2,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MyProjectApplication;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.MyProjectApplication.Interfaces;
+using Orso.Arpa.Application.MyProjectApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers;
 

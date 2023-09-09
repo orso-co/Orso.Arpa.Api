@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.MeApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Application.MeApplication.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.MeApplication.Interfaces
 {
     public interface IMeService
     {
         Task<MyAppointmentListDto> GetMyAppointmentsAsync(int? limit, int? offset, bool passed);
         Task<MyUserProfileDto> GetMyUserProfileAsync();
         Task ModifyMyUserProfileAsync(MyUserProfileModifyDto modifyDto);
-        Task<SendQRCode.QrCodeFile> GetMyQrCodeAsync(bool sendEmail);
+        Task<SendMyQRCode.QrCodeFile> GetMyQrCodeAsync(bool sendEmail);
         Task SetMyAppointmentParticipationPredictionAsync(SetMyAppointmentParticipationPredictionDto setParticipationPredictionDto);
         Task<MyMusicianProfileDto> CreateMusicianProfileAsync(MyMusicianProfileCreateDto musicianProfileCreateDto);
         Task<MyMusicianProfileDto> GetMyMusicianProfileAsync(Guid id);

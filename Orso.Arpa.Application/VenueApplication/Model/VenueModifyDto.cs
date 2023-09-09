@@ -1,10 +1,10 @@
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Logic.Venues;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.VenueDomain.Commands;
 
-namespace Orso.Arpa.Application.VenueApplication
+namespace Orso.Arpa.Application.VenueApplication.Model
 {
     public class VenueModifyDto : IdFromRouteDto<VenueModifyBodyDto>
     {
@@ -28,7 +28,7 @@ namespace Orso.Arpa.Application.VenueApplication
     {
         public VenueModifyDtoMappingProfile()
         {
-            _ = CreateMap<VenueModifyDto, Modify.Command>()
+            _ = CreateMap<VenueModifyDto, ModifyVenue.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Body.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Body.Description))

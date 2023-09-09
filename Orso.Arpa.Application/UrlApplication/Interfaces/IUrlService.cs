@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.UrlApplication;
+using Orso.Arpa.Application.UrlApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.UrlApplication.Interfaces
 {
     public interface IUrlService
     {

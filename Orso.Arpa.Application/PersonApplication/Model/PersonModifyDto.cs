@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.Persons.Modify;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.PersonApplication
+namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class PersonModifyDto : IdFromRouteDto<PersonModifyBodyDto>
     {
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.PersonApplication
     {
         public PersonModifyDtoMappingProfile()
         {
-            CreateMap<PersonModifyDto, Command>()
+            CreateMap<PersonModifyDto, ModifyPerson.Command>()
                 .ForMember(dest => dest.GivenName, opt => opt.MapFrom(src => src.Body.GivenName))
                 .ForMember(dest => dest.Surname, opt => opt.MapFrom(src => src.Body.Surname))
                 .ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.Body.GenderId))

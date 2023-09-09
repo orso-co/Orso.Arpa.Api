@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Infrastructure.Localization;
 
-namespace Orso.Arpa.Application.MusicianProfileApplication
+namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 {
     public class ReducedMusicianProfileDto
     {

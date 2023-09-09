@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.MyContactDetails;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Domain.PersonDomain.Enums;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.MyContactDetailApplication
+namespace Orso.Arpa.Application.MyContactDetailApplication.Model
 {
     public class MyContactDetailCreateDto
     {
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication
     {
         public MyContactDetailCreateDtoMappingProfile()
         {
-            _ = CreateMap<MyContactDetailCreateDto, Create.Command>();
+            _ = CreateMap<MyContactDetailCreateDto, CreateMyContactDetails.Command>();
         }
     }
 

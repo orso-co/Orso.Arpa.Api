@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.AuditLogApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.AuditLogApplication.Model;
+using Orso.Arpa.Domain.AuditLogDomain.Enums;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests

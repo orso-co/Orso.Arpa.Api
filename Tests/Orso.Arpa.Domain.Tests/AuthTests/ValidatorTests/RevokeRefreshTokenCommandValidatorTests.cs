@@ -1,19 +1,19 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Tests.Shared.Extensions;
-using static Orso.Arpa.Domain.Logic.Auth.RevokeRefreshToken;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
 {
     [TestFixture]
     public class RevokeRefreshTokenCommandValidatorTests
     {
-        private Validator _validator;
+        private RevokeRefreshToken.Validator _validator;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new Validator();
+            _validator = new RevokeRefreshToken.Validator();
         }
 
         [Test]

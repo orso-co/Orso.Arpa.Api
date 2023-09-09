@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.MusicianProfileDeactivationApplication.Interfaces
 {
     public interface IMusicianProfileDeactivationService
     {

@@ -1,10 +1,10 @@
 using System;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.MappingActions;
 using Orso.Arpa.Infrastructure.Localization;
+using static System.Collections.Specialized.BitVector32;
 
-namespace Orso.Arpa.Application.SectionApplication
+namespace Orso.Arpa.Application.SectionApplication.Model
 {
     public class SectionDto
     {

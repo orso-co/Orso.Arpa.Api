@@ -1,4 +1,4 @@
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 

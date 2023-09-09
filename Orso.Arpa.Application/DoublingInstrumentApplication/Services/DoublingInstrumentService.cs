@@ -1,15 +1,26 @@
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.MusicianProfileSections;
 
-namespace Orso.Arpa.Application.Services
+using AutoMapper;
+using MediatR;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Interfaces;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+
+namespace Orso.Arpa.Application.DoublingInstrumentApplication.Services
 {
     public class DoublingInstrumentService
-        : BaseService<DoublingInstrumentDto, MusicianProfileSection, DoublingInstrumentCreateDto, Create.Command, DoublingInstrumentModifyDto, DoublingInstrumentModifyBodyDto, Modify.Command>,
+        : BaseService<
+            DoublingInstrumentDto,
+            MusicianProfileSection,
+            DoublingInstrumentCreateDto,
+            CreateMusicianProfileSection.Command,
+            DoublingInstrumentModifyDto,
+            DoublingInstrumentModifyBodyDto,
+            ModifyMusicianProfileSection.Command>,
         IDoublingInstrumentService
     {
-        public DoublingInstrumentService(MediatR.IMediator mediator, AutoMapper.IMapper mapper) : base(mediator, mapper)
+        public DoublingInstrumentService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
         }
     }

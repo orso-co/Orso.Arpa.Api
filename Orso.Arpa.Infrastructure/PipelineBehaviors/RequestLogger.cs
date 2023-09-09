@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.PipelineBehaviors
 {

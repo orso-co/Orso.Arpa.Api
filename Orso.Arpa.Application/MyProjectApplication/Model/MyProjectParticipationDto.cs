@@ -1,11 +1,11 @@
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.ProjectApplication.Interfaces;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 
-namespace Orso.Arpa.Application.MyProjectApplication
+namespace Orso.Arpa.Application.MyProjectApplication.Model
 {
     public class MyProjectParticipationDto : BaseEntityDto, IHasProjectParticipationStatusDto
     {

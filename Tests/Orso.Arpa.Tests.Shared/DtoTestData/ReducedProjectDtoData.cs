@@ -1,5 +1,5 @@
 using System;
-using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.ProjectApplication.Model;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {

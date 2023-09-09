@@ -1,9 +1,9 @@
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.RegionApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.RegionApplication.Model;
+using Orso.Arpa.Domain.RegionDomain.Model;
 
-namespace Orso.Arpa.Application.MusicianProfileApplication
+namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 {
     public class RegionPreferenceDto : BaseEntityDto
     {

@@ -1,25 +1,25 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Auth.ForgotPassword;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
 {
     [TestFixture]
     public class ForgotPasswordCommandValidatorTests
     {
-        private Validator _validator;
+        private ForgotPassword.Validator _validator;
         private ArpaUserManager _userManager;
 
         [SetUp]
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _validator = new Validator(_userManager);
+            _validator = new ForgotPassword.Validator(_userManager);
         }
 
         [Test]

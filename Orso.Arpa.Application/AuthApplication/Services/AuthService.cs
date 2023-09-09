@@ -2,13 +2,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Domain.Logic.Me;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.AuthApplication.Interfaces;
+using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Notifications;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.AuthApplication.Services
 {
     public class AuthService : IAuthService
     {
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Application.Services
 
             if (setRoleDto.RoleNames.Contains(RoleNames.Performer))
             {
-                SendQRCode.Command codeCommand = _mapper.Map<SendQRCode.Command>(setRoleDto);
+                SendMyQRCode.Command codeCommand = _mapper.Map<SendMyQRCode.Command>(setRoleDto);
                 codeCommand.SendEmail = true;
                 await _mediator.Send(codeCommand);
             }

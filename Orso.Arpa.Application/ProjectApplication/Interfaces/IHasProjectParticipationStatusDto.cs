@@ -1,6 +1,6 @@
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 
-namespace Orso.Arpa.Application.ProjectApplication
+namespace Orso.Arpa.Application.ProjectApplication.Interfaces
 {
     public interface IHasProjectParticipationStatusDto
     {

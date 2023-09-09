@@ -5,9 +5,9 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Domain.Logic.Persons;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.PersonApplication
+namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class ProfilePictureCreateDto
     {

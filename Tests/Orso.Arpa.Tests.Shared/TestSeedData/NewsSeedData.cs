@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.News;
+using Orso.Arpa.Domain.NewsDomain.Commands;
+using Orso.Arpa.Domain.NewsDomain.Model;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -13,7 +13,7 @@ public static class NewsSeedData
     public static News FirstNews =>
         new(
             Guid.Parse("416981c5-2512-442f-8b2e-dd9364faf40f"),
-            new Create.Command
+            new CreateNews.Command
             {
                 Title = "Titel der ersten Message",
                 Content = "ErsteMessage",
@@ -25,7 +25,7 @@ public static class NewsSeedData
     public static News SecondNews =>
         new(
             Guid.Parse("116232e3-f972-4d3e-bd98-5ead7b76cff8"),
-            new Create.Command
+            new CreateNews.Command
             {
                 Title = "Titel der zweiten Message",
                 Content = "ZweiteMessage",

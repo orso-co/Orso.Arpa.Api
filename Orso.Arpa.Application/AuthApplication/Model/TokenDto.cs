@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace Orso.Arpa.Application.AuthApplication
+namespace Orso.Arpa.Application.AuthApplication.Model
 {
     public class TokenDto
     {

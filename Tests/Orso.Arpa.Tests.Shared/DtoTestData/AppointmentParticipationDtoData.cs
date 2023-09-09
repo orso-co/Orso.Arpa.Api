@@ -1,5 +1,5 @@
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

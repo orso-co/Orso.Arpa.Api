@@ -10,7 +10,7 @@ namespace Orso.Arpa.Persistence.GraphQL
             this IObjectFieldDescriptor descriptor)
             where TDbContext : DbContext
         {
-            return descriptor.UseScopedService<TDbContext>(
+            return descriptor.UseScopedService(
                 create: s => s.GetRequiredService<IDbContextFactory<TDbContext>>().CreateDbContext());
         }
     }

@@ -1,12 +1,12 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using static Orso.Arpa.Domain.Logic.Appointments.Modify;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.AppointmentApplication.Model
 {
     public class AppointmentModifyDto : IdFromRouteDto<AppointmentModifyBodyDto>
     {
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentModifyDtoMappingProfile()
         {
-            _ = CreateMap<AppointmentModifyDto, Command>()
+            _ = CreateMap<AppointmentModifyDto, ModifyAppointment.Command>()
                 .ForMember(dest => dest.ExpectationId, opt => opt.MapFrom(src => src.Body.ExpectationId))
                 .ForMember(dest => dest.SalaryPatternId, opt => opt.MapFrom(src => src.Body.SalaryPatternId))
                 .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.Body.SalaryId))

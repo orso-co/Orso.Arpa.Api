@@ -1,7 +1,7 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

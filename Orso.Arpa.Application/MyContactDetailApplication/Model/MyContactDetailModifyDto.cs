@@ -1,12 +1,12 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.MyContactDetails;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Enums;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.MyContactDetailApplication
+namespace Orso.Arpa.Application.MyContactDetailApplication.Model
 {
     public class MyContactDetailModifyDto : IdFromRouteDto<MyContactDetailModifyBodyDto>
     {
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication
     {
         public ContactDetailModifyDtoMappingProfile()
         {
-            _ = CreateMap<MyContactDetailModifyDto, Modify.Command>()
+            _ = CreateMap<MyContactDetailModifyDto, ModifyMyContactDetails.Command>()
                 .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Body.Key))
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Body.Value))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Body.TypeId))

@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.RoleApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Roles;
+using Orso.Arpa.Application.RoleApplication.Interfaces;
+using Orso.Arpa.Application.RoleApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Queries;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.RoleApplication.Services
 {
     public class RoleService : IRoleService
     {
@@ -22,7 +22,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<RoleDto>> GetAsync()
         {
-            IEnumerable<Role> roles = await _mediator.Send(new List.Query());
+            IEnumerable<Role> roles = await _mediator.Send(new ListRoles.Query());
             return _mapper.Map<IEnumerable<RoleDto>>(roles);
         }
     }

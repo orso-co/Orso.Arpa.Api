@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MyProjectApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.MyProjects;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
-using static Orso.Arpa.Domain.Logic.ProjectParticipations.GetForPerson;
+using Orso.Arpa.Application.MyProjectApplication.Interfaces;
+using Orso.Arpa.Application.MyProjectApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Notifications;
+using Orso.Arpa.Domain.ProjectDomain.Queries;
 
-namespace Orso.Arpa.Application.Services;
+namespace Orso.Arpa.Application.MyProjectApplication.Services;
 
 public class MyProjectService : IMyProjectService
 {
@@ -28,7 +28,7 @@ public class MyProjectService : IMyProjectService
 
     public async Task<MyProjectListDto> GetMyProjectsAsync(int? offset, int? limit, bool includeCompleted)
     {
-        var query = new GetForPerson.Query
+        var query = new GetProjectParticipationsForPerson.Query
         {
             PersonId = _userAccessor.PersonId,
             Offset = offset,
@@ -46,8 +46,8 @@ public class MyProjectService : IMyProjectService
 
     public async Task<MyProjectParticipationDto> SetProjectParticipationStatus(MyProjectParticipationModifyDto myProjectParticipationModifyDto)
     {
-        SetProjectParticipationStatus.Command command = _mapper
-            .Map<SetProjectParticipationStatus.Command>(myProjectParticipationModifyDto);
+        SetMyProjectParticipationStatus.Command command = _mapper
+            .Map<SetMyProjectParticipationStatus.Command>(myProjectParticipationModifyDto);
 
         ProjectParticipation projectParticipation = await _mediator.Send(command);
 

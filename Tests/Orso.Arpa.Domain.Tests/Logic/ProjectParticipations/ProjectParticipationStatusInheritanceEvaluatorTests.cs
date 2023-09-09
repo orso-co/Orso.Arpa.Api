@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
+using Orso.Arpa.Domain.ProjectDomain.Util;
 
 namespace Orso.Arpa.Domain.Tests.Logic.ProjectParticipations
 {

@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.RegionApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Regions;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Application.RegionApplication.Interfaces;
+using Orso.Arpa.Application.RegionApplication.Model;
+using Orso.Arpa.Domain.RegionDomain.Commands;
+using Orso.Arpa.Domain.RegionDomain.Enums;
+using Orso.Arpa.Domain.RegionDomain.Model;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.RegionApplication.Services
 {
     public class RegionService : BaseService<
         RegionDto,
         Region,
         RegionCreateDto,
-        Create.Command,
+        CreateRegion.Command,
         RegionModifyDto,
         RegionModifyBodyDto,
-        Modify.Command>, IRegionService
+        ModifyRegion.Command>, IRegionService
     {
         public RegionService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {

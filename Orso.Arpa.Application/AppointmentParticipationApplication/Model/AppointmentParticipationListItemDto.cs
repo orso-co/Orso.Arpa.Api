@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.PersonApplication;
-using static Orso.Arpa.Domain.Logic.MusicianProfiles.GetForAppointment;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Model;
+using static Orso.Arpa.Domain.MusicianProfileDomain.Queries.GetForAppointment;
 
-namespace Orso.Arpa.Application.AppointmentParticipationApplication
+namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
 {
     public class AppointmentParticipationListItemDto
     {

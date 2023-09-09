@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 
-namespace Orso.Arpa.Application.MyProjectApplication;
+namespace Orso.Arpa.Application.MyProjectApplication.Model;
 
 public class MyProjectDto
 {

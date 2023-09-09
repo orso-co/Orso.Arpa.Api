@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Orso.Arpa.Application.MyProjectApplication
+namespace Orso.Arpa.Application.MyProjectApplication.Model
 {
     public class MyProjectListDto
     {

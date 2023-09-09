@@ -1,7 +1,5 @@
 using System;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using HotChocolate.Data.Filters;
 using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Language;

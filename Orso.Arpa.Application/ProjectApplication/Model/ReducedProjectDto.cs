@@ -1,8 +1,8 @@
 using System;
 using AutoMapper;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 
-namespace Orso.Arpa.Application.ProjectApplication
+namespace Orso.Arpa.Application.ProjectApplication.Model
 {
     public class ReducedProjectDto
     {

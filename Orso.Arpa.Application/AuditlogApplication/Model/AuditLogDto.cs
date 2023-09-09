@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using AutoMapper;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.AuditLogDomain.Enums;
+using Orso.Arpa.Domain.AuditLogDomain.Model;
 
-namespace Orso.Arpa.Application.AuditLogApplication
+namespace Orso.Arpa.Application.AuditLogApplication.Model
 {
     public class AuditLogDto
     {

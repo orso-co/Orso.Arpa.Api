@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.Educations.Create;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
 
-namespace Orso.Arpa.Application.EducationApplication
+namespace Orso.Arpa.Application.EducationApplication.Model
 {
     public class EducationCreateDto : IdFromRouteDto<EducationCreateBodyDto>
     {
@@ -24,7 +24,7 @@ namespace Orso.Arpa.Application.EducationApplication
     {
         public EducationCreateDtoMappingProfile()
         {
-            CreateMap<EducationCreateDto, Command>()
+            CreateMap<EducationCreateDto, CreateEducation.Command>()
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.TimeSpan, opt => opt.MapFrom(src => src.Body.TimeSpan))
                 .ForMember(dest => dest.Institution, opt => opt.MapFrom(src => src.Body.Institution))

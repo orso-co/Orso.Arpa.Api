@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Extensions;
+using Orso.Arpa.Domain.General.Extensions;
+using Orso.Arpa.Domain.SectionDomain.Model;
 
-namespace Orso.Arpa.Application.SectionApplication
+namespace Orso.Arpa.Application.SectionApplication.Model
 {
     public class SectionTreeDto
     {

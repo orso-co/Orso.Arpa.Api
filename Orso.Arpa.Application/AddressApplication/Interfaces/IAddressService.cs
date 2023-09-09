@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.AddressApplication;
+using Orso.Arpa.Application.AddressApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.AddressApplication.Interfaces
 {
     public interface IAddressService
     {

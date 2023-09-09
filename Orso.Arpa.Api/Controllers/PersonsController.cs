@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Interfaces;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers

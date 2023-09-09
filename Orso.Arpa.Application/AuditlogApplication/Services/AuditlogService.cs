@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.AuditLogApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.GenericHandlers;
+using Orso.Arpa.Application.AuditLogApplication.Interfaces;
+using Orso.Arpa.Application.AuditLogApplication.Model;
+using Orso.Arpa.Domain.AuditLogDomain.Model;
+using Orso.Arpa.Domain.General.GenericHandlers;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.AuditLogApplication.Services
 {
     public class AuditLogService : IAuditLogService
     {

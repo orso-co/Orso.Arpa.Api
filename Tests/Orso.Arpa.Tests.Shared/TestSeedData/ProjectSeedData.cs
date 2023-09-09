@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Project(
                     Guid.Parse("a19d84f1-4ac1-49c3-abfe-527092b80b6d"),
-                    new Create.Command
+                    new CreateProject.Command
                     {
                         Title = "Rocking X-mas Freiburg",
                         ShortTitle = "RockXmas",
@@ -55,7 +55,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Project(
                     Guid.Parse("8f8c500f-71f5-49be-92c8-150ac9e88219"),
-                    new Create.Command
+                    new CreateProject.Command
                     {
                         Title = "Hooray for Hollywood Freiburg",
                         ShortTitle = "Hollywood",
@@ -78,7 +78,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Project(
                     Guid.Parse("b781c54d-8115-4561-b01e-9836fa05175e"),
-                    new Create.Command
+                    new CreateProject.Command
                     {
                         Title = "Die Schneekönigin",
                         ShortTitle = "Schnee",
@@ -101,7 +101,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Project(
                     Guid.Parse("785f48b6-0f55-406f-8180-ec60501407d7"),
-                    new Create.Command
+                    new CreateProject.Command
                     {
                         Title = "Chorwerkstatt",
                         ShortTitle = "ChWeTour",
@@ -124,7 +124,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Project(
                     Guid.Parse("a9668e17-e6df-4b08-8db5-30c88f89d78c"),
-                    new Create.Command
+                    new CreateProject.Command
                     {
                         Title = "Chorwerkstatt Freiburg",
                         ShortTitle = "ChWeFr",
@@ -147,7 +147,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Project(
                     Guid.Parse("f1bea5ee-6569-4db1-9a46-c425a5571be2"),
-                    new Create.Command
+                    new CreateProject.Command
                     {
                         Title = "Chorwerkstatt Berlin",
                         ShortTitle = "ChWeB",
@@ -170,7 +170,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Project(
                     Guid.Parse("483927b5-19de-4677-8af4-482c271ffae4"),
-                    new Create.Command
+                    new CreateProject.Command
                     {
                         Title = "Chorwerkstatt Stuttgart",
                         ShortTitle = "ChWeS",

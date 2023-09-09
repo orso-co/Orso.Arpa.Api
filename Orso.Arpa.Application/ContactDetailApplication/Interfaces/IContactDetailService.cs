@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.ContactDetailApplication;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.ContactDetailApplication.Interfaces
 {
     public interface IContactDetailService
     {

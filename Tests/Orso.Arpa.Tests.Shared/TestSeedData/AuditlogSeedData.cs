@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.AuditLogDomain.Enums;
+using Orso.Arpa.Domain.AuditLogDomain.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData

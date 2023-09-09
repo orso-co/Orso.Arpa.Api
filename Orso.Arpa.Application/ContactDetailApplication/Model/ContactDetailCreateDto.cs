@@ -1,12 +1,12 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.ContactDetails;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Enums;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.ContactDetailApplication
+namespace Orso.Arpa.Application.ContactDetailApplication.Model
 {
     public class ContactDetailCreateDto : IdFromRouteDto<ContactDetailCreateBodyDto>
     {
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.ContactDetailApplication
     {
         public ContactDetailCreateDtoMappingProfile()
         {
-            _ = CreateMap<ContactDetailCreateDto, Create.Command>()
+            _ = CreateMap<ContactDetailCreateDto, CreateContactDetails.Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Key, opt => opt.MapFrom(src => src.Body.Key))
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Body.Value))

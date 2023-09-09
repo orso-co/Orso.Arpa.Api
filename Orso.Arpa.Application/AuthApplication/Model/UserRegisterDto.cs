@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Domain.UserDomain.Commands;
 
-namespace Orso.Arpa.Application.AuthApplication
+namespace Orso.Arpa.Application.AuthApplication.Model
 {
     public class UserRegisterDto
     {

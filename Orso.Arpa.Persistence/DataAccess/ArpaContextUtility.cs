@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.General.Model;
 
 namespace Orso.Arpa.Persistence.DataAccess
 {

@@ -1,7 +1,7 @@
 using System;
-using Orso.Arpa.Domain.Configuration;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.General.Configuration;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
 
 namespace Orso.Arpa.Persistence.Seed
 {

@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Domain.UserDomain.Commands;
 
-namespace Orso.Arpa.Application.AuthApplication
+namespace Orso.Arpa.Application.AuthApplication.Model
 {
     public class SetRoleDto
     {
@@ -19,7 +18,7 @@ namespace Orso.Arpa.Application.AuthApplication
         {
             CreateMap<SetRoleDto, SetRole.Command>();
             CreateMap<SetRoleDto, SendActivationInfo.Command>();
-            CreateMap<SetRoleDto, SendQRCode.Command>();
+            CreateMap<SetRoleDto, SendMyQRCode.Command>();
         }
     }
 

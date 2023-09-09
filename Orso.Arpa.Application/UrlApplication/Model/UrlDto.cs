@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.RoleApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.RoleApplication.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 
-namespace Orso.Arpa.Application.UrlApplication
+namespace Orso.Arpa.Application.UrlApplication.Model
 {
     public class UrlDto : BaseEntityDto
     {

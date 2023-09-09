@@ -1,10 +1,9 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Domain.Logic.Me;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -67,7 +66,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            SendQRCode.Command command = _mapper.Map<SendQRCode.Command>(dto);
+            SendMyQRCode.Command command = _mapper.Map<SendMyQRCode.Command>(dto);
 
             // Assert
             command.Username.Should().BeEquivalentTo(dto.Username);

@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Appointments.AddRoom;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {
@@ -17,7 +18,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class AddRoomCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private Validator _validator;
+        private AddRoom.Validator _validator;
         private DbSet<AppointmentRoom> _mockAppointmentRooms;
         private Guid _validAppointmentId;
         private Guid _validRoomId;
@@ -26,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Validator(_arpaContext);
+            _validator = new AddRoom.Validator(_arpaContext);
             _mockAppointmentRooms = MockDbSets.AppointmentRooms;
             _arpaContext.AppointmentRooms.Returns(_mockAppointmentRooms);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
@@ -45,7 +46,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, _validRoomId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new AddRoom.Command(_validAppointmentId, _validRoomId));
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             Guid linkedRoomId = RoomSeedData.AulaWeiherhofSchule.Id;
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Room>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoomId, new Command(_validAppointmentId, linkedRoomId));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoomId, new AddRoom.Command(_validAppointmentId, linkedRoomId));
         }
     }
 }

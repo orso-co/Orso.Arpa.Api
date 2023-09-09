@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Venues;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.VenueDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Queries;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

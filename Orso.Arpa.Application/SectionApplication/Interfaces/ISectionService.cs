@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.SectionApplication;
-using Orso.Arpa.Application.SelectValueApplication;
+using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.SectionApplication.Interfaces
 {
     public interface ISectionService
     {

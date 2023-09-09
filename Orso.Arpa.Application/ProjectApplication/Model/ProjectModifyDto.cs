@@ -1,12 +1,13 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using static Orso.Arpa.Domain.Logic.Projects.Modify;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Orso.Arpa.Application.ProjectApplication
+namespace Orso.Arpa.Application.ProjectApplication.Model
 {
     public class ProjectModifyDto : IdFromRouteDto<ProjectModifyBodyDto>
     {
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public ProjectModifyDtoMappingProfile()
         {
-            _ = CreateMap<ProjectModifyDto, Command>()
+            _ = CreateMap<ProjectModifyDto, ModifyProject.Command>()
                 .ForMember(dest => dest.IsCompleted, opt => opt.MapFrom(src => src.Body.IsCompleted))
                 .ForMember(dest => dest.IsHiddenForPerformers, opt => opt.MapFrom(src => src.Body.IsHiddenForPerformers))
                 .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.Body.ParentId))

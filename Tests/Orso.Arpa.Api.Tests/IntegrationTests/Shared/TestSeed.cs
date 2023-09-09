@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

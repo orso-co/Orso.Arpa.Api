@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Logic.MusicianProfileSections;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
 
-namespace Orso.Arpa.Application.DoublingInstrumentApplication
+namespace Orso.Arpa.Application.DoublingInstrumentApplication.Model
 {
     public class DoublingInstrumentCreateDto : IdFromRouteDto<DoublingInstrumentCreateBodyDto>
     {
@@ -24,7 +24,7 @@ namespace Orso.Arpa.Application.DoublingInstrumentApplication
     {
         public DoublingInstrumentCreateDtoMappingProfile()
         {
-            CreateMap<DoublingInstrumentCreateDto, Create.Command>()
+            CreateMap<DoublingInstrumentCreateDto, CreateMusicianProfileSection.Command>()
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.DoublingInstrumentApplication
                 .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Body.Comment))
                 .ForMember(dest => dest.AvailabilityId, opt => opt.MapFrom(src => src.Body.AvailabilityId));
 
-            CreateMap<DoublingInstrumentCreateBodyDto, Create.Command>();
+            CreateMap<DoublingInstrumentCreateBodyDto, CreateMusicianProfileSection.Command>();
         }
     }
 

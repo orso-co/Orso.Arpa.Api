@@ -6,16 +6,24 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.MusicianProfiles;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Queries;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.GenericHandlers;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Notifications;
+using Orso.Arpa.Domain.MusicianProfileDomain.Queries;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Queries;
 using Orso.Arpa.Misc;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.MusicianProfileApplication.Services
 {
     public class MusicianProfileService : BaseReadOnlyService<
         MusicianProfileDto,
@@ -30,11 +38,11 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<MusicianProfileDto> CreateAsync(MusicianProfileCreateDto musicianProfileCreateDto)
         {
-            Create.Command command = _mapper.Map<Create.Command>(musicianProfileCreateDto);
+            CreateMusicianProfile.Command command = _mapper.Map<CreateMusicianProfile.Command>(musicianProfileCreateDto);
             MusicianProfile createdEntity = await _mediator.Send(command);
             foreach (DoublingInstrumentCreateBodyDto doublingInstrument in musicianProfileCreateDto.Body.DoublingInstruments)
             {
-                Domain.Logic.MusicianProfileSections.Create.Command doublingInstrumentCommand = _mapper.Map<Domain.Logic.MusicianProfileSections.Create.Command>(doublingInstrument);
+                CreateMusicianProfileSection.Command doublingInstrumentCommand = _mapper.Map<CreateMusicianProfileSection.Command>(doublingInstrument);
                 doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
                 _ = await _mediator.Send(doublingInstrumentCommand);
             }
@@ -47,12 +55,12 @@ namespace Orso.Arpa.Application.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            _ = await _mediator.Send(new Domain.GenericHandlers.Delete.Command<MusicianProfile>() { Id = id });
+            _ = await _mediator.Send(new Delete.Command<MusicianProfile>() { Id = id });
         }
 
         public async Task<IEnumerable<MusicianProfileAppointmentParticipationDto>> GetAppointmentParticipationsAsync(Guid id, Guid? projectId, DateTime? startTime, DateTime? endTime)
         {
-            var query = new Domain.Logic.AppointmentParticipations.GetForMusicianProfile.Query
+            var query = new GetAppointmentParticipationsForMusicianProfile.Query
             {
                 MusicianProfileId = id,
                 ProjectId = projectId,
@@ -83,7 +91,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<ProjectParticipationDto>> GetProjectParticipationsAsync(Guid id, bool includeCompleted)
         {
-            var query = new Domain.Logic.ProjectParticipations.GetForMusicianProfile.Query { IncludeCompletedProjects = includeCompleted, MusicianProfileId = id };
+            var query = new GetProjectParticipationsForMusicianProfile.Query { IncludeCompletedProjects = includeCompleted, MusicianProfileId = id };
             IEnumerable<MusicianProfileProjectParticipationGrouping> participations = await _mediator.Send(query);
 
             // Cannot use .ProjectTo here because .ProjectTo does not suppert After Mapping Actions
@@ -92,9 +100,9 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<MusicianProfileDto> UpdateAsync(MusicianProfileModifyDto musicianProfileModifyDto)
         {
-            MusicianProfile existingMusicianProfile = await _mediator.Send(new Domain.GenericHandlers.Details.Query<MusicianProfile>(musicianProfileModifyDto.Id));
+            MusicianProfile existingMusicianProfile = await _mediator.Send(new Details.Query<MusicianProfile>(musicianProfileModifyDto.Id));
 
-            Modify.Command command = _mapper.Map<Modify.Command>(musicianProfileModifyDto);
+            ModifyMusicianProfile.Command command = _mapper.Map<ModifyMusicianProfile.Command>(musicianProfileModifyDto);
 
             command.InstrumentId = existingMusicianProfile.InstrumentId;
             command.ExistingMusicianProfile = existingMusicianProfile;

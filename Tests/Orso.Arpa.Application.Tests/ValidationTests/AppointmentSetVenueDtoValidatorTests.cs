@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Orso.Arpa.Application.AppointmentApplication;
+using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests

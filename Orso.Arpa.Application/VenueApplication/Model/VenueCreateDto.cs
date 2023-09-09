@@ -1,9 +1,9 @@
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Domain.Logic.Venues;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Domain.VenueDomain.Commands;
 
-namespace Orso.Arpa.Application.VenueApplication
+namespace Orso.Arpa.Application.VenueApplication.Model
 {
     public class VenueCreateDto
     {
@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.VenueApplication
     {
         public VenueCreateDtoMappingProfile()
         {
-            _ = CreateMap<VenueCreateDto, Create.Command>()
+            _ = CreateMap<VenueCreateDto, CreateVenue.Command>()
                 .ForMember(dest => dest.CommentInner, opt => opt.MapFrom(src => src.AddressCommentInner));
         }
     }

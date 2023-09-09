@@ -2,17 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.EducationApplication;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
-using Orso.Arpa.Application.SectionApplication;
-using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Model;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Application.EducationApplication.Model;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
+using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.RegionDomain.Enums;
 
-namespace Orso.Arpa.Application.MusicianProfileApplication
+namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 {
     public class MusicianProfileDto : BaseEntityDto
     {

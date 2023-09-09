@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Interfaces
 {
     public interface ICurriculumVitaeReferenceService
     {

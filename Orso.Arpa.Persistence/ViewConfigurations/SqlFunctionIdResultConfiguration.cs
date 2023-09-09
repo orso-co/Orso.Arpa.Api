@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Orso.Arpa.Domain.Views;
+using Orso.Arpa.Domain.General.Model;
 
 namespace Orso.Arpa.Persistence.ViewConfigurations
 {

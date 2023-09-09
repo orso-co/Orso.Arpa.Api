@@ -4,23 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Persons;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Application.PersonApplication.Interfaces;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.PersonDomain.Commands;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.PersonDomain.Queries;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.PersonApplication.Services
 {
     public class PersonService : BaseService<
         PersonDto,
         Person,
         PersonCreateDto,
-        Create.Command,
+        CreatePerson.Command,
         PersonModifyDto,
         PersonModifyBodyDto,
-        Modify.Command>, IPersonService
+        ModifyPerson.Command>, IPersonService
     {
         public PersonService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
@@ -39,7 +40,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<PersonInviteResultDto> InviteAsync(PersonInviteDto dto)
         {
-            Invite.Command command = _mapper.Map<Invite.Command>(dto);
+            InvitePersonToApp.Command command = _mapper.Map<InvitePersonToApp.Command>(dto);
             PersonInviteResult result = await _mediator.Send(command);
             return _mapper.Map<PersonInviteResultDto>(result);
         }

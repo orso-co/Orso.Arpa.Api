@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using static Orso.Arpa.Domain.Logic.Appointments.RemoveRoom;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.AppointmentApplication.Model
 {
     public class AppointmentRemoveRoomDto
     {
@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentRemoveRoomDtoMappingProfile()
         {
-            CreateMap<AppointmentRemoveRoomDto, Command>()
+            CreateMap<AppointmentRemoveRoomDto, RemoveRoom.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.RoomId, opt => opt.MapFrom(src => src.RoomId));
         }

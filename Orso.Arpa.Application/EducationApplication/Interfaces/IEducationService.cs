@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.EducationApplication;
+using Orso.Arpa.Application.EducationApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.EducationApplication.Interfaces
 {
     public interface IEducationService
     {

@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.BankAccounts.Create;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.BankAccountApplication
+namespace Orso.Arpa.Application.BankAccountApplication.Model
 {
     public class BankAccountCreateDto : IdFromRouteDto<BankAccountCreateBodyDto>
     {
@@ -22,7 +22,7 @@ namespace Orso.Arpa.Application.BankAccountApplication
     {
         public BankAccountCreateDtoMappingProfile()
         {
-            _ = CreateMap<BankAccountCreateDto, Command>()
+            _ = CreateMap<BankAccountCreateDto, CreateBankAccount.Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Iban, opt => opt.MapFrom(src => src.Body.Iban))
                 .ForMember(dest => dest.Bic, opt => opt.MapFrom(src => src.Body.Bic))

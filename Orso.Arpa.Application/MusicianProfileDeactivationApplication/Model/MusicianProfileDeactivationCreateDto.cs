@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Logic.MusicianProfileDeactivations;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
 
-namespace Orso.Arpa.Application.MusicianProfileDeactivationApplication
+namespace Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model
 {
     public class MusicianProfileDeactivationCreateDto : IdFromRouteDto<MusicianProfileDeactivationCreateBodyDto>
     {
@@ -21,7 +21,7 @@ namespace Orso.Arpa.Application.MusicianProfileDeactivationApplication
     {
         public MusicianProfileDeactivationCreateDtoMappingProfile()
         {
-            CreateMap<MusicianProfileDeactivationCreateDto, Create.Command>()
+            CreateMap<MusicianProfileDeactivationCreateDto, CreateMusicianProfileDeactivation.Command>()
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.DeactivationStart, opt => opt.MapFrom(src => src.Body.DeactivationStart))
                 .ForMember(dest => dest.Purpose, opt => opt.MapFrom(src => src.Body.Purpose));

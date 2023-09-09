@@ -1,12 +1,12 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.MyProjects;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 
-namespace Orso.Arpa.Application.MyProjectApplication;
+namespace Orso.Arpa.Application.MyProjectApplication.Model;
 
 public class MyProjectParticipationModifyDto : IdFromRouteDto<MyProjectParticipationModifyBodyDto>
 {
@@ -23,7 +23,7 @@ public class MyProjectParticipationModifyDtoMappingProfile : Profile
 {
     public MyProjectParticipationModifyDtoMappingProfile()
     {
-        _ = CreateMap<MyProjectParticipationModifyDto, SetProjectParticipationStatus.Command>()
+        _ = CreateMap<MyProjectParticipationModifyDto, SetMyProjectParticipationStatus.Command>()
             .ForMember(dest => dest.CommentByPerformerInner,
                 opt => opt.MapFrom(src => src.Body.CommentByPerformerInner))
             .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.Id))

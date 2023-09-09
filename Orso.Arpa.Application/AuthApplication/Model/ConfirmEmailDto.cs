@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.UserDomain.Commands;
 
-namespace Orso.Arpa.Application.AuthApplication
+namespace Orso.Arpa.Application.AuthApplication.Model
 {
     public class ConfirmEmailDto
     {

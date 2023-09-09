@@ -1,9 +1,10 @@
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Model;
 
-namespace Orso.Arpa.Application.AppointmentParticipationApplication
+namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
 {
     public class AppointmentParticipationDto : BaseEntityDto
     {

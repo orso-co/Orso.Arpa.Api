@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.ContactDetailApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Enums;
+using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -19,7 +20,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(100)]
         public async Task Should_Add_New_Contact_Detail_To_Existing_Person()
         {
-            Domain.Entities.Person person = PersonTestSeedData.Performer;
+            Person person = PersonTestSeedData.Performer;
 
             var dto = new ContactDetailCreateBodyDto
             {
@@ -56,7 +57,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1000)]
         public async Task Should_Modify_Contact_Detail()
         {
-            Domain.Entities.Person person = PersonTestSeedData.PersonWithoutUser;
+            Person person = PersonTestSeedData.PersonWithoutUser;
 
             var dto = new ContactDetailModifyBodyDto
             {
@@ -79,7 +80,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(10000)]
         public async Task Should_Delete_Contact_Detail()
         {
-            Domain.Entities.Person person = PersonTestSeedData.PersonWithoutUser;
+            Person person = PersonTestSeedData.PersonWithoutUser;
 
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()

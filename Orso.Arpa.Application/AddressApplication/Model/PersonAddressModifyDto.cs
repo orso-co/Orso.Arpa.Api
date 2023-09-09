@@ -2,11 +2,11 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Logic.Addresses;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.AddressDomain.Commands;
 
-namespace Orso.Arpa.Application.AddressApplication
+namespace Orso.Arpa.Application.AddressApplication.Model
 {
     public class PersonAddressModifyDto : IdFromRouteDto<PersonAddressModifyBodyDto>
     {
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.AddressApplication
     {
         public PersonAddressModifyDtoMappingProfile()
         {
-            _ = CreateMap<PersonAddressModifyDto, Modify.Command>()
+            _ = CreateMap<PersonAddressModifyDto, ModifyAddress.Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AddressId))
                 .ForMember(dest => dest.Address1, opt => opt.MapFrom(src => src.Body.Address1))

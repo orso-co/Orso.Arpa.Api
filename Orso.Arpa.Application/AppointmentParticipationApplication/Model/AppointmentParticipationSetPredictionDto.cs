@@ -2,12 +2,12 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetPrediction;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
-namespace Orso.Arpa.Application.AppointmentParticipationApplication
+namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
 {
     public class AppointmentParticipationSetPredictionDto : IdFromRouteDto<AppointmentParticipationSetPredictionBodyDto>
     {
@@ -47,7 +47,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public AppointmentParticipationSetPredictionDtoMappingProfile()
         {
-            _ = CreateMap<AppointmentParticipationSetPredictionDto, Command>()
+            _ = CreateMap<AppointmentParticipationSetPredictionDto, SetAppointmentParticipationPrediction.Command>()
                 .ForMember(dest => dest.CommentByPerformerInner, opt => opt.MapFrom(src => src.Body.CommentByPerformerInner))
                 .ForMember(dest => dest.Prediction, opt => opt.MapFrom(src => src.Body.Prediction));
 

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.AppointmentApplication.Interfaces
 {
     public interface IAppointmentService
     {

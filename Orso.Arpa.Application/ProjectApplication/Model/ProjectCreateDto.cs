@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Domain.Enums;
-using static Orso.Arpa.Domain.Logic.Projects.Create;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 
-namespace Orso.Arpa.Application.ProjectApplication
+namespace Orso.Arpa.Application.ProjectApplication.Model
 {
     public class ProjectCreateDto
     {
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.ProjectApplication
     {
         public ProjectCreateDtoMappingProfile()
         {
-            _ = CreateMap<ProjectCreateDto, Command>();
+            _ = CreateMap<ProjectCreateDto, CreateProject.Command>();
         }
     }
 

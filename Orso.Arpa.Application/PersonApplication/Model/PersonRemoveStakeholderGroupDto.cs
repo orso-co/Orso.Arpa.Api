@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Domain.Logic.Persons;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class PersonRemoveStakeholderGroupDto
     {

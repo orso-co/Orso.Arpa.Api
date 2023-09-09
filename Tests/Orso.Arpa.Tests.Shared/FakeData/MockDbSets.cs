@@ -1,7 +1,14 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MockQueryable.NSubstitute;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.RegionDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

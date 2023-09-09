@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.MeApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Application.MeApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {

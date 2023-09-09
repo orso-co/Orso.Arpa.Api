@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.RoomApplication;
-using Orso.Arpa.Application.VenueApplication;
+using Orso.Arpa.Application.RoomApplication.Model;
+using Orso.Arpa.Application.VenueApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.VenueApplication.Interfaces
 {
     public interface IVenueService
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Rooms;
+using Orso.Arpa.Domain.VenueDomain.Commands;
+using Orso.Arpa.Domain.VenueDomain.Model;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new Room
                 (
                     Guid.Parse("4f5767a8-0c2d-4bf0-8623-47f040be857b"),
-                    new Create.Command
+                    new CreateRoom.Command
                     {
                         Building = "Anbau",
                         Floor = "EG",
@@ -44,7 +44,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 return new Room
                 (
                     Guid.Parse("1516e919-4088-4d95-aeb7-ff47a0c36215"),
-                    new Create.Command
+                    new CreateRoom.Command
                     {
                         Building = "Hauptgebäude",
                         Floor = "OG",

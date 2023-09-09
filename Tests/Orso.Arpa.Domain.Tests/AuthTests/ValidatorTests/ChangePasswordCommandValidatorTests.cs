@@ -2,19 +2,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
-using static Orso.Arpa.Domain.Logic.Auth.ChangePassword;
 
 namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
 {
     [TestFixture]
     public class ChangePasswordCommandValidatorTests
     {
-        private Validator _validator;
+        private ChangePassword.Validator _validator;
         private ArpaUserManager _userManager;
         private IUserAccessor _userAccessor;
 
@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         {
             _userManager = new FakeUserManager();
             _userAccessor = Substitute.For<IUserAccessor>();
-            _validator = new Validator(_userManager, _userAccessor);
+            _validator = new ChangePassword.Validator(_userManager, _userAccessor);
         }
 
         [Test]

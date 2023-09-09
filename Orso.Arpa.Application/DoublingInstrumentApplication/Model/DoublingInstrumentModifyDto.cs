@@ -2,11 +2,11 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Logic.MusicianProfileSections;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
 
-namespace Orso.Arpa.Application.DoublingInstrumentApplication
+namespace Orso.Arpa.Application.DoublingInstrumentApplication.Model
 {
     public class DoublingInstrumentModifyDto : IdFromRouteDto<DoublingInstrumentModifyBodyDto>
     {
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.DoublingInstrumentApplication
     {
         public DoublingInstrumentModifyDtoMappingProfile()
         {
-            CreateMap<DoublingInstrumentModifyDto, Modify.Command>()
+            CreateMap<DoublingInstrumentModifyDto, ModifyMusicianProfileSection.Command>()
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.DoublingInstrumentId))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))

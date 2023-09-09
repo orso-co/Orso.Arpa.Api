@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Domain.UserDomain.Model;
 
-namespace Orso.Arpa.Application.RoleApplication
+namespace Orso.Arpa.Application.RoleApplication.Model
 {
     public class RoleDto
     {

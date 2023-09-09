@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.AppointmentApplication.Model
 {
     public class AppointmentAddRoomDto
     {

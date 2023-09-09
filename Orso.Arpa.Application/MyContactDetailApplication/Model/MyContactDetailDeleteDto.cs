@@ -2,9 +2,9 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Domain.Logic.MyContactDetails;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.MyContactDetailApplication
+namespace Orso.Arpa.Application.MyContactDetailApplication.Model
 {
     public class MyContactDetailDeleteDto
     {
@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.MyContactDetailApplication
     {
         public MyContactDetailDeleteDtoMappingProfile()
         {
-            CreateMap<MyContactDetailDeleteDto, Delete.Command>();
+            CreateMap<MyContactDetailDeleteDto, DeleteMyContactDetails.Command>();
         }
     }
 

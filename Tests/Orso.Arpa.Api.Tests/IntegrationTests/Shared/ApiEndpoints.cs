@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.WebUtilities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.RegionDomain.Enums;
 using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared

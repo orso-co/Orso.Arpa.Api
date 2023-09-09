@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
 
-namespace Orso.Arpa.Application.MusicianProfileApplication
+namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 {
     public class GroupedMusicianProfileDto
     {

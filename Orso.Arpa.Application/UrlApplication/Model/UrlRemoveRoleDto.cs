@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using static Orso.Arpa.Domain.Logic.Urls.RemoveRole;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
 
-namespace Orso.Arpa.Application.UrlApplication
+namespace Orso.Arpa.Application.UrlApplication.Model
 {
     public class UrlRemoveRoleDto
     {
@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.UrlApplication
     {
         public UrlRemoveRoleDtoMappingProfile()
         {
-            CreateMap<UrlRemoveRoleDto, Command>()
+            CreateMap<UrlRemoveRoleDto, RemoveRoleFromUrl.Command>()
                 .ForMember(dest => dest.UrlId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.RoleId));
         }

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.UserApplication;
+using Orso.Arpa.Application.UserApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.UserApplication.Interfaces
 {
     public interface IUserService
     {

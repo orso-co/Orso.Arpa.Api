@@ -1,9 +1,10 @@
 using System;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 
-namespace Orso.Arpa.Application.EducationApplication
+namespace Orso.Arpa.Application.EducationApplication.Model
 {
     public class EducationDto : BaseEntityDto
     {

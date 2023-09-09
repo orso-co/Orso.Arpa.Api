@@ -1,8 +1,8 @@
 using System;
 using AutoMapper;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.PersonDomain.Model;
 
-namespace Orso.Arpa.Application.PersonApplication
+namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class ReducedPersonDto
     {

@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using static Orso.Arpa.Domain.Logic.Appointments.SetVenue;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.AppointmentApplication.Model
 {
     public class AppointmentSetVenueDto
     {
@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentSetVenueDtoMappingProfile()
         {
-            CreateMap<AppointmentSetVenueDto, Command>()
+            CreateMap<AppointmentSetVenueDto, SetVenue.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.VenueId, opt => opt.MapFrom(src => src.VenueId));
         }

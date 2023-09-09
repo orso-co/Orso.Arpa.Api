@@ -5,9 +5,10 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Extensions;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Extensions;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Queries;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
@@ -18,17 +19,17 @@ namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
         public void Setup()
         {
             _context = Substitute.For<IArpaContext>();
-            _handler = new Domain.Logic.Sections.Tree.Handler(_context);
+            _handler = new Tree.Handler(_context);
         }
 
         private IArpaContext _context;
-        private Domain.Logic.Sections.Tree.Handler _handler;
+        private Tree.Handler _handler;
 
         [Test]
         public async Task Should_Get_Section_Tree()
         {
             // Arrange
-            var treeQuery = new Domain.Logic.Sections.Tree.Query { MaxLevel = 3 };
+            var treeQuery = new Tree.Query { MaxLevel = 3 };
             DbSet<Section> mockSections = MockDbSets.Sections;
             _ = _context.Sections.Returns(mockSections);
 

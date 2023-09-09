@@ -1,20 +1,21 @@
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.ContactDetailApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.ContactDetails;
+using Orso.Arpa.Application.ContactDetailApplication.Interfaces;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Domain.PersonDomain.Commands;
+using Orso.Arpa.Domain.PersonDomain.Model;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.ContactDetailApplication.Services
 {
     public class ContactDetailService : BaseService<
         ContactDetailDto,
         ContactDetail,
         ContactDetailCreateDto,
-        Create.Command,
+        CreateContactDetails.Command,
         ContactDetailModifyDto,
         ContactDetailModifyBodyDto,
-        Modify.Command>, IContactDetailService
+        ModifyContactDetails.Command>, IContactDetailService
     {
         public ContactDetailService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {

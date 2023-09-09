@@ -4,26 +4,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Extensions;
-using Orso.Arpa.Domain.GenericHandlers;
-using Orso.Arpa.Domain.Logic.Appointments;
-using AppointmentParticipations = Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using Orso.Arpa.Application.AppointmentApplication.Interfaces;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Util;
+using Orso.Arpa.Domain.General.Extensions;
+using Orso.Arpa.Domain.General.GenericHandlers;
+using Orso.Arpa.Domain.MusicianProfileDomain.Queries;
+using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Queries;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.AppointmentApplication.Services
 {
     public class AppointmentService : BaseService<
         AppointmentDto,
         Appointment,
         AppointmentCreateDto,
-        Domain.Logic.Appointments.Create.Command,
+        CreateAppointment.Command,
         AppointmentModifyDto,
         AppointmentModifyBodyDto,
-        Domain.Logic.Appointments.Modify.Command>, IAppointmentService
+        ModifyAppointment.Command>, IAppointmentService
     {
         public AppointmentService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {
@@ -71,7 +75,7 @@ namespace Orso.Arpa.Application.Services
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
             if (includeParticipations)
             {
-                var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
+                var treeQuery = new FlattenedTree.Query();
                 IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
                 await AddParticipationsAsync(dto, appointment, flattenedTree);
             }
@@ -83,13 +87,13 @@ namespace Orso.Arpa.Application.Services
             Appointment appointment,
             IEnumerable<ITree<Section>> flattenedTree)
         {
-            var query = new Domain.Logic.MusicianProfiles.GetForAppointment.Query
+            var query = new GetForAppointment.Query
             {
                 Appointment = appointment,
                 SectionTree = flattenedTree,
             };
 
-            IEnumerable<Domain.Logic.MusicianProfiles.GetForAppointment.PersonGrouping> personGrouping = await _mediator.Send(query);
+            IEnumerable<GetForAppointment.PersonGrouping> personGrouping = await _mediator.Send(query);
 
             dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(personGrouping);
         }
@@ -119,7 +123,7 @@ namespace Orso.Arpa.Application.Services
             SetDates.Command command = _mapper.Map<SetDates.Command>(setDatesDto);
             Appointment appointment = await _mediator.Send(command);
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
-            var treeQuery = new Domain.Logic.Sections.FlattenedTree.Query();
+            var treeQuery = new FlattenedTree.Query();
             IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
             await AddParticipationsAsync(dto, appointment, flattenedTree);
             return dto;
@@ -133,13 +137,13 @@ namespace Orso.Arpa.Application.Services
 
         public async Task SetParticipationResultAsync(AppointmentParticipationSetResultDto setParticipationResult)
         {
-            AppointmentParticipations.SetResult.Command command = _mapper.Map<AppointmentParticipations.SetResult.Command>(setParticipationResult);
+            SetAppointmentParticipationResult.Command command = _mapper.Map<SetAppointmentParticipationResult.Command>(setParticipationResult);
             await _mediator.Send(command);
         }
 
         public async Task SetParticipationPredictionAsync(AppointmentParticipationSetPredictionDto setParticipationPrediction)
         {
-            AppointmentParticipations.SetPrediction.Command command = _mapper.Map<AppointmentParticipations.SetPrediction.Command>(setParticipationPrediction);
+            SetAppointmentParticipationPrediction.Command command = _mapper.Map<SetAppointmentParticipationPrediction.Command>(setParticipationPrediction);
             await _mediator.Send(command);
         }
     }

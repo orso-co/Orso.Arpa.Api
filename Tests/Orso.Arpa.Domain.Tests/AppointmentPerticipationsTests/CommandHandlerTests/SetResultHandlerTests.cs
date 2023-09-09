@@ -6,9 +6,9 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTests
@@ -18,14 +18,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTe
     {
         private IMapper _mapper;
         private IArpaContext _arpaContext;
-        private SetResult.Handler _handler;
+        private SetAppointmentParticipationResult.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
             _mapper = Substitute.For<IMapper>();
-            _handler = new SetResult.Handler(_arpaContext, _mapper);
+            _handler = new SetAppointmentParticipationResult.Handler(_arpaContext, _mapper);
         }
 
         [Test]
@@ -37,12 +37,12 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTe
                 .Returns(AppointmentSeedData.RockingXMasConcert);
             _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
                 .Returns(1);
-            _ = _mapper.Map<SetResult.Command, Create.Command>(Arg.Any<SetResult.Command>())
-                .Returns(new Create.Command());
+            _ = _mapper.Map<SetAppointmentParticipationResult.Command, CreateAppointmentParticipation.Command>(Arg.Any<SetAppointmentParticipationResult.Command>())
+                .Returns(new CreateAppointmentParticipation.Command());
 
             // Act
             Unit result = await _handler.Handle(
-                new SetResult.Command
+                new SetAppointmentParticipationResult.Command
                 {
                     PersonId = Guid.NewGuid(),
                     Result = AppointmentParticipationResult.Present,

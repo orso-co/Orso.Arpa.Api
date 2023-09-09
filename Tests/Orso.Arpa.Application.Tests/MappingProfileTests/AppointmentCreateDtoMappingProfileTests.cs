@@ -3,9 +3,9 @@ using AutoMapper;
 using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -40,7 +40,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .Generate();
 
             // Act
-            Create.Command command = _mapper.Map<Create.Command>(dto);
+            CreateAppointment.Command command = _mapper.Map<CreateAppointment.Command>(dto);
 
             // Assert
             _ = command.Should().BeEquivalentTo(dto);

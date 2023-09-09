@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.TranslationApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Localizations;
+using Orso.Arpa.Application.TranslationApplication.Interfaces;
+using Orso.Arpa.Application.TranslationApplication.Model;
+using Orso.Arpa.Domain.LocalizationDomain.Commands;
+using Orso.Arpa.Domain.LocalizationDomain.Model;
+using Orso.Arpa.Domain.LocalizationDomain.Queries;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.TranslationApplication.Services
 {
     public class TranslationService : ITranslationService
     {
@@ -24,7 +25,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<TranslationDto> GetAsync(string culture)
         {
-            IEnumerable<Localization> localizations = await _mediator.Send(new List.Query { Culture = culture });
+            IEnumerable<Localization> localizations = await _mediator.Send(new ListLocalizations.Query { Culture = culture });
             return _mapper.Map<TranslationDto>(localizations);
         }
 
@@ -32,7 +33,7 @@ namespace Orso.Arpa.Application.Services
         {
             List<Localization> localizations = _mapper.Map<List<Localization>>(modifyDto);
             localizations.ForEach(l => l.LocalizationCulture = culture);
-            await _mediator.Send(new Modify.Query { Culture = culture, Localizations = localizations });
+            await _mediator.Send(new ModifyLocalization.Query { Culture = culture, Localizations = localizations });
         }
     }
 }

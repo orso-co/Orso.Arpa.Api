@@ -2,11 +2,11 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using static Orso.Arpa.Domain.Logic.AppointmentParticipations.SetResult;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
-namespace Orso.Arpa.Application.AppointmentParticipationApplication
+namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
 {
     public class AppointmentParticipationSetResultDto : IdFromRouteDto<AppointmentParticipationSetResultBodyDto>
     {
@@ -43,7 +43,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication
     {
         public AppointmentParticipationSetResultDtoMappingProfile()
         {
-            _ = CreateMap<AppointmentParticipationSetResultDto, Command>()
+            _ = CreateMap<AppointmentParticipationSetResultDto, SetAppointmentParticipationResult.Command>()
                 .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Body.Result));
         }
     }

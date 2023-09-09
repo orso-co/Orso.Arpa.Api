@@ -1,15 +1,17 @@
 using System;
 using System.Text.Json.Serialization;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Application.ProjectApplication.Interfaces;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 
-namespace Orso.Arpa.Application.ProjectApplication
+namespace Orso.Arpa.Application.ProjectApplication.Model
 {
     public class ProjectParticipationDto : BaseEntityDto, IHasProjectParticipationStatusDto
     {

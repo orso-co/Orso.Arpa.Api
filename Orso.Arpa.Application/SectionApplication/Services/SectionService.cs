@@ -5,16 +5,26 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.SectionApplication;
-using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Extensions;
-using Orso.Arpa.Domain.Logic.Sections;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Application.SectionApplication.Interfaces;
+using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Domain.General.Extensions;
+using Orso.Arpa.Domain.SectionDomain.Commands;
+using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Queries;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.SectionApplication.Services
 {
-    public class SectionService : BaseService<SectionDto, Section, SectionCreateDto, Create.Command, SectionModifyDto, SectionModifyBodyDto, Modify.Command>, ISectionService
+    public class SectionService : BaseService<
+        SectionDto,
+        Section,
+        SectionCreateDto,
+        CreateSection.Command,
+        SectionModifyDto,
+        SectionModifyBodyDto,
+        ModifySection.Command>, ISectionService
     {
         public SectionService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {

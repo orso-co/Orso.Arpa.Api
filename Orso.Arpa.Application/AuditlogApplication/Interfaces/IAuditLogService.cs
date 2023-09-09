@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.AuditLogApplication;
+using Orso.Arpa.Application.AuditLogApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.AuditLogApplication.Interfaces
 {
     public interface IAuditLogService
     {

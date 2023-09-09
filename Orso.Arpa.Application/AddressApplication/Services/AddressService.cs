@@ -1,20 +1,21 @@
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.AddressApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Addresses;
+using Orso.Arpa.Application.AddressApplication.Interfaces;
+using Orso.Arpa.Application.AddressApplication.Model;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Domain.AddressDomain.Commands;
+using Orso.Arpa.Domain.AddressDomain.Model;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.AddressApplication.Services
 {
     public class AddressService : BaseService<
         AddressDto,
         Address,
         PersonAddressCreateDto,
-        Create.Command,
+        CreateAddress.Command,
         PersonAddressModifyDto,
         PersonAddressModifyBodyDto,
-        Modify.Command>, IAddressService
+        ModifyAddress.Command>, IAddressService
     {
         public AddressService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {

@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Application.UrlApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Application.UrlApplication.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 
-namespace Orso.Arpa.Application.ProjectApplication
+namespace Orso.Arpa.Application.ProjectApplication.Model
 {
     public class ProjectDto : BaseEntityDto
     {

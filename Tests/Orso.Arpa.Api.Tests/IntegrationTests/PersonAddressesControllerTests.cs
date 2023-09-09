@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.AddressApplication;
+using Orso.Arpa.Application.AddressApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -62,7 +63,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1000)]
         public async Task Should_Modify_Address()
         {
-            Domain.Entities.Person person = PersonTestSeedData.UserWithoutRole;
+            Person person = PersonTestSeedData.UserWithoutRole;
 
             var dto = new PersonAddressModifyBodyDto
             {
@@ -89,7 +90,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(10000)]
         public async Task Should_Delete_Address()
         {
-            Domain.Entities.Person person = PersonTestSeedData.UserWithoutRole;
+            Person person = PersonTestSeedData.UserWithoutRole;
 
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()

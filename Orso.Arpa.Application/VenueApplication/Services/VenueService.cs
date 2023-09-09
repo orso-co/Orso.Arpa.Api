@@ -5,22 +5,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.RoomApplication;
-using Orso.Arpa.Application.VenueApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Venues;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Application.RoomApplication.Model;
+using Orso.Arpa.Application.VenueApplication.Interfaces;
+using Orso.Arpa.Application.VenueApplication.Model;
+using Orso.Arpa.Domain.VenueDomain.Commands;
+using Orso.Arpa.Domain.VenueDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Queries;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.VenueApplication.Services
 {
     public class VenueService : BaseService<
         VenueDto,
         Venue,
         VenueCreateDto,
-        Create.Command,
+        CreateVenue.Command,
         VenueModifyDto,
         VenueModifyBodyDto,
-        Modify.Command>, IVenueService
+        ModifyVenue.Command>, IVenueService
     {
         public VenueService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {

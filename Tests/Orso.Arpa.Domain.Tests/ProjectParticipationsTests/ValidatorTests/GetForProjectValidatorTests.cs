@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Queries;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
@@ -14,13 +14,13 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
     public class GetForProjectValidatorTests
     {
         private IArpaContext _arpaContext;
-        private GetForProject.Validator _validator;
+        private GetProjectParticipationsForProject.Validator _validator;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new GetForProject.Validator(_arpaContext);
+            _validator = new GetProjectParticipationsForProject.Validator(_arpaContext);
         }
 
         [Test]

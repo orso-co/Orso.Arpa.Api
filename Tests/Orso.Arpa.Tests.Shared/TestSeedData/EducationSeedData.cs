@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Educations;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
@@ -17,7 +17,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command("1990-1996",
+                var command = new CreateEducation.Command("1990-1996",
                    "Hochschule für Musik und Darstellende Kunst Stuttgart",
                    SelectValueMappingSeedData.EducationTypeMappings[0].Id,
                    "Theater- und Orchestermanagement Master",

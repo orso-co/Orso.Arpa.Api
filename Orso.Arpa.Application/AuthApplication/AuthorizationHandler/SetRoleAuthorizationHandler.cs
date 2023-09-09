@@ -8,13 +8,14 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 
-namespace Orso.Arpa.Application.AuthApplication
+namespace Orso.Arpa.Application.AuthApplication.AuthorizationHandler
 {
     public class SetRoleAuthorizationHandler : AuthorizationHandler<SetRoleAuthorizationRequirement>
     {

@@ -1,7 +1,7 @@
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
+using Orso.Arpa.Application.General.Extensions;
 
-namespace Orso.Arpa.Application.SectionApplication
+namespace Orso.Arpa.Application.SectionApplication.Model
 {
     public class SectionCreateDto
     {

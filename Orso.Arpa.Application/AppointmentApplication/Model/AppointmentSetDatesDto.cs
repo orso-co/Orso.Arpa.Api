@@ -1,10 +1,10 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.Appointments.SetDates;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.AppointmentApplication.Model
 {
     public class AppointmentSetDatesDto : IdFromRouteDto<AppointmentSetDatesBodyDto>
     {
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentSetDatesDtoMappingProfile()
         {
-            CreateMap<AppointmentSetDatesDto, Command>()
+            CreateMap<AppointmentSetDatesDto, SetDates.Command>()
                 .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.Body.StartTime))
                 .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.Body.EndTime));
         }

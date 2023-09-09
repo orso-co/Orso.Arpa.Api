@@ -1,9 +1,9 @@
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using static Orso.Arpa.Domain.Logic.News.Create;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Domain.NewsDomain.Commands;
 
-namespace Orso.Arpa.Application.NewsApplication;
+namespace Orso.Arpa.Application.NewsApplication.Model;
 
 public class NewsCreateDto
 {
@@ -17,7 +17,7 @@ public class NewsCreateDtoMappingProfile : Profile
 {
     public NewsCreateDtoMappingProfile()
     {
-        _ = CreateMap<NewsCreateDto, Command>();
+        _ = CreateMap<NewsCreateDto, CreateNews.Command>();
     }
 }
 

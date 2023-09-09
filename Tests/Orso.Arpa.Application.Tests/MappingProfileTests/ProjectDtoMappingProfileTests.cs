@@ -4,12 +4,15 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Application.RoleApplication;
-using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Application.UrlApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Application.RoleApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Application.UrlApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -47,7 +50,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Domain.Entities.Project project = FakeProjects.RockingXMas;
+            Project project = FakeProjects.RockingXMas;
             project.Urls.Remove(project.Urls.First());
             ProjectDto expectedDto = ProjectDtoData.RockingXMasForPerformer;
 

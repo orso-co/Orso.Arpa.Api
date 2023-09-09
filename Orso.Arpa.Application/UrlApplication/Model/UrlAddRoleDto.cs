@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using static Orso.Arpa.Domain.Logic.Urls.AddRole;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
 
-namespace Orso.Arpa.Application.UrlApplication
+namespace Orso.Arpa.Application.UrlApplication.Model
 {
     public class UrlAddRoleDto
     {
@@ -15,7 +15,7 @@ namespace Orso.Arpa.Application.UrlApplication
     {
         public UrlAddRoleDtoMappingProfile()
         {
-            CreateMap<UrlAddRoleDto, Command>()
+            CreateMap<UrlAddRoleDto, AddRoleToUrl.Command>()
                 .ForMember(dest => dest.UrlId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.RoleId));
         }

@@ -1,9 +1,10 @@
 using System;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.VenueDomain.Model;
 
-namespace Orso.Arpa.Application.RoomApplication
+namespace Orso.Arpa.Application.RoomApplication.Model
 {
     public class RoomDto : BaseEntityDto
     {

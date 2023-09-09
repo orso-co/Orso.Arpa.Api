@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Orso.Arpa.Application.MyProjectApplication;
+using Orso.Arpa.Application.MyProjectApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.MyProjectApplication.Interfaces
 {
     public interface IMyProjectService
     {

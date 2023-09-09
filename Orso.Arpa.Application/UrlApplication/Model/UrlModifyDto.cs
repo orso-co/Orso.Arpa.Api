@@ -1,10 +1,10 @@
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.Urls.Modify;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
 
-namespace Orso.Arpa.Application.UrlApplication
+namespace Orso.Arpa.Application.UrlApplication.Model
 {
     public class UrlModifyDto : IdFromRouteDto<UrlModifyBodyDto>
     {
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Application.UrlApplication
     {
         public UrlModifyDtoMappingProfile()
         {
-            CreateMap<UrlModifyDto, Command>()
+            CreateMap<UrlModifyDto, ModifyUrl.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Href, opt => opt.MapFrom(src => src.Body.Href))
                 .ForMember(dest => dest.AnchorText, opt => opt.MapFrom(src => src.Body.AnchorText));

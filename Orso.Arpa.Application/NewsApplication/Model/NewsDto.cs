@@ -1,8 +1,9 @@
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.NewsDomain.Model;
 
-namespace Orso.Arpa.Application.NewsApplication;
+namespace Orso.Arpa.Application.NewsApplication.Model;
 
 public class NewsDto : BaseEntityDto
 {

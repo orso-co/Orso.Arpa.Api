@@ -1,10 +1,10 @@
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.News.Modify;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.NewsDomain.Commands;
 
-namespace Orso.Arpa.Application.NewsApplication;
+namespace Orso.Arpa.Application.NewsApplication.Model;
 
 public class NewsModifyDto : IdFromRouteDto<NewsModifyBodyDto>
 {
@@ -22,7 +22,7 @@ public class NewsModifyDtoMappingProfile : Profile
 {
     public NewsModifyDtoMappingProfile()
     {
-        _ = CreateMap<NewsModifyDto, Command>()
+        _ = CreateMap<NewsModifyDto, ModifyNews.Command>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Body.Title))
             .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Body.Content))
             .ForMember(dest => dest.Url, opt => opt.MapFrom(src => src.Body.Url))

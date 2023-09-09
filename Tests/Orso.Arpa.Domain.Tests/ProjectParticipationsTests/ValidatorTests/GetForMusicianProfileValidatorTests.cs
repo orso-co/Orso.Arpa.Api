@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Queries;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
@@ -14,13 +14,13 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
     public class GetForMusicianProfileValidatorTests
     {
         private IArpaContext _arpaContext;
-        private GetForMusicianProfile.Validator _validator;
+        private GetProjectParticipationsForMusicianProfile.Validator _validator;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new GetForMusicianProfile.Validator(_arpaContext);
+            _validator = new GetProjectParticipationsForMusicianProfile.Validator(_arpaContext);
         }
 
         [Test]

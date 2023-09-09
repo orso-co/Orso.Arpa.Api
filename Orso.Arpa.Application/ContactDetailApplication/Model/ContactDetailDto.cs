@@ -1,10 +1,11 @@
 using System;
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Enums;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
 
-namespace Orso.Arpa.Application.ContactDetailApplication
+namespace Orso.Arpa.Application.ContactDetailApplication.Model
 {
     public class ContactDetailDto : BaseEntityDto
     {

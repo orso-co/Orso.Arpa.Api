@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.DoublingInstrumentApplication.Interfaces
 {
     public interface IDoublingInstrumentService
     {

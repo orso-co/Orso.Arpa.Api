@@ -1,5 +1,5 @@
-using Orso.Arpa.Application.MeApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.MeApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

@@ -3,16 +3,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.NewsApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.News;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Application.NewsApplication.Interfaces;
+using Orso.Arpa.Application.NewsApplication.Model;
+using Orso.Arpa.Domain.NewsDomain.Commands;
+using Orso.Arpa.Domain.NewsDomain.Model;
 
-namespace Orso.Arpa.Application.Services;
+namespace Orso.Arpa.Application.NewsApplication.Services;
 
 public class NewsService :
-    BaseService<NewsDto, News, NewsCreateDto, Create.Command,
-        NewsModifyDto, NewsModifyBodyDto, Modify.Command>, INewsService
+    BaseService<
+        NewsDto,
+        News,
+        NewsCreateDto,
+        CreateNews.Command,
+        NewsModifyDto,
+        NewsModifyBodyDto,
+        ModifyNews.Command>, INewsService
 {
     public NewsService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
     {

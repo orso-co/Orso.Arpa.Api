@@ -1,9 +1,9 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using static Orso.Arpa.Domain.Logic.Appointments.AddSection;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.AppointmentApplication.Model
 {
     public class AppointmentAddSectionDto
     {
@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentAddSectionDtoMappingProfile()
         {
-            CreateMap<AppointmentAddSectionDto, Command>()
+            CreateMap<AppointmentAddSectionDto, AddSection.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.SectionId, opt => opt.MapFrom(src => src.SectionId));
         }

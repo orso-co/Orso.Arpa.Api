@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.SelectValueApplication;
+using Orso.Arpa.Application.SelectValueApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.SelectValueApplication.Interfaces
 {
     public interface ISelectValueService
     {

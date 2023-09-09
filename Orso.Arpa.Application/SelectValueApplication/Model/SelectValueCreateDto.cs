@@ -1,7 +1,7 @@
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
+using Orso.Arpa.Application.General.Extensions;
 
-namespace Orso.Arpa.Application.SelectValueApplication
+namespace Orso.Arpa.Application.SelectValueApplication.Model
 {
     public class SelectValueCreateDto
     {

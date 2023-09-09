@@ -1,23 +1,21 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.BankAccountApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.BankAccounts;
+using Orso.Arpa.Application.BankAccountApplication.Interfaces;
+using Orso.Arpa.Application.BankAccountApplication.Model;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Domain.PersonDomain.Commands;
+using Orso.Arpa.Domain.PersonDomain.Model;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.BankAccountApplication.Services
 {
     public class BankAccountService : BaseService<
         BankAccountDto,
         BankAccount,
         BankAccountCreateDto,
-        Create.Command,
+        CreateBankAccount.Command,
         BankAccountModifyDto,
         BankAccountModifyBodyDto,
-        Modify.Command>, IBankAccountService
+        ModifyBankAccount.Command>, IBankAccountService
     {
         public BankAccountService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
         {

@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Appointments.AddSection;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {
@@ -18,7 +19,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class AddSectionCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private Validator _validator;
+        private AddSection.Validator _validator;
         private Guid _validAppointmentId;
         private Guid _validSectionId;
         private DbSet<SectionAppointment> _mockSectionAppointments;
@@ -27,7 +28,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Validator(_arpaContext);
+            _validator = new AddSection.Validator(_arpaContext);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validSectionId = SectionSeedData.LowFemaleVoices.Id;
             _mockSectionAppointments = MockDbSets.SectionAppointments;
@@ -46,7 +47,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new Command(_validAppointmentId, _validSectionId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Id, new AddSection.Command(_validAppointmentId, _validSectionId));
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Section>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.SectionId, new Command(_validAppointmentId, SectionSeedData.Alto.Id));
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.SectionId, new AddSection.Command(_validAppointmentId, SectionSeedData.Alto.Id));
         }
     }
 }

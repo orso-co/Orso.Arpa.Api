@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.UserApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Users;
+using Orso.Arpa.Application.UserApplication.Interfaces;
+using Orso.Arpa.Application.UserApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Queries;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.UserApplication.Services
 {
     public class UserService : IUserService
     {
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<UserDto>> GetAsync()
         {
-            IEnumerable<User> users = await _mediator.Send(new List.Query());
+            IEnumerable<User> users = await _mediator.Send(new ListUsers.Query());
 
             var dtos = new List<UserDto>();
             foreach (User user in users)
@@ -41,12 +41,12 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<UserDto> GetByIdAsync(Guid id)
         {
-            return _mapper.Map<UserDto>(await _mediator.Send(new Details.Query(id)));
+            return _mapper.Map<UserDto>(await _mediator.Send(new UserDetails.Query(id)));
         }
 
         public async Task DeleteAsync(string userName)
         {
-            await _mediator.Send(new Delete.Command(userName));
+            await _mediator.Send(new DeleteUser.Command(userName));
         }
     }
 }

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.PersonApplication.Interfaces
 {
     public interface IPersonService
     {

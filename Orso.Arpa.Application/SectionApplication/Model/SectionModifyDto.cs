@@ -1,8 +1,8 @@
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
 
-namespace Orso.Arpa.Application.SectionApplication
+namespace Orso.Arpa.Application.SectionApplication.Model
 {
     public class SectionModifyDto : IdFromRouteDto<SectionModifyBodyDto>
     {

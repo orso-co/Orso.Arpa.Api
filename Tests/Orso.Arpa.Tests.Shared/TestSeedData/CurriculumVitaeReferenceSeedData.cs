@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.CurriculumVitaeReferences;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
@@ -17,7 +17,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command("1998-2000",
+                var command = new CreateCurriculumVitaeReference.Command("1998-2000",
                    "Mozarteum Salzburg",
                    SelectValueMappingSeedData.CurriculumVitaeReferenceTypeMappings[0].Id,
                    "Preis für außergewöhnliche Leistung bei der Interpretation der Werke von Mozart",

@@ -2,11 +2,11 @@ using System;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.BankAccounts.Modify;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.BankAccountApplication
+namespace Orso.Arpa.Application.BankAccountApplication.Model
 {
     public class BankAccountModifyDto : IdFromRouteDto<BankAccountModifyBodyDto>
     {
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.BankAccountApplication
     {
         public BankAccountModifyDtoMappingProfile()
         {
-            _ = CreateMap<BankAccountModifyDto, Command>()
+            _ = CreateMap<BankAccountModifyDto, ModifyBankAccount.Command>()
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Iban, opt => opt.MapFrom(src => src.Body.Iban))
                 .ForMember(dest => dest.Bic, opt => opt.MapFrom(src => src.Body.Bic))

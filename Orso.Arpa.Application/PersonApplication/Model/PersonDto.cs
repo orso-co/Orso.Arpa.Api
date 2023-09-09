@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using AutoMapper;
-using Orso.Arpa.Application.AddressApplication;
-using Orso.Arpa.Application.BankAccountApplication;
-using Orso.Arpa.Application.ContactDetailApplication;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.SectionApplication;
-using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.AddressApplication.Model;
+using Orso.Arpa.Application.BankAccountApplication.Model;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 
-namespace Orso.Arpa.Application.PersonApplication
+namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class PersonDto : BaseEntityDto
     {

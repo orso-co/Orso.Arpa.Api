@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.MusicianProfiles;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
 
-namespace Orso.Arpa.Application.MusicianProfileApplication
+namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 {
     public class MusicianProfileCreateDto : IdFromRouteDto<MusicianProfileCreateBodyDto>
     {
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication
     {
         public MusicianProfileCreateDtoMappingProfile()
         {
-            _ = CreateMap<MusicianProfileCreateDto, Create.Command>()
+            _ = CreateMap<MusicianProfileCreateDto, CreateMusicianProfile.Command>()
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
 

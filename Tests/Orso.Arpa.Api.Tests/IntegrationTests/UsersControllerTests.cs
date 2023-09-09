@@ -7,8 +7,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.UserApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.UserApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 

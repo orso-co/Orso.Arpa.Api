@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Orso.Arpa.Domain.Logic.Persons;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.PersonApplication
+namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class PersonInviteResultDto
     {

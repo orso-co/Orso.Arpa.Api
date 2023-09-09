@@ -1,20 +1,20 @@
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Auth.UserRegister;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests
 {
     [TestFixture]
     public class UserRegisterCommandValidatorTests
     {
-        private Validator _validator;
+        private UserRegister.Validator _validator;
         private ArpaUserManager _userManager;
         private IArpaContext _context;
 
@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         {
             _userManager = new FakeUserManager();
             _context = Substitute.For<IArpaContext>();
-            _validator = new Validator(_userManager, _context);
+            _validator = new UserRegister.Validator(_userManager, _context);
         }
 
         [Test]

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.ProjectApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.MusicianProfileApplication.Interfaces
 {
     public interface IMusicianProfileService
     {

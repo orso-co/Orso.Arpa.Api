@@ -1,9 +1,9 @@
 using AutoMapper;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
 
-namespace Orso.Arpa.Application.MusicianProfileApplication
+namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 {
     public class MusicianProfileAppointmentParticipationDto
     {

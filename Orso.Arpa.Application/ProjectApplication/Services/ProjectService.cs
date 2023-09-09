@@ -6,22 +6,25 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Application.General.Services;
+using Orso.Arpa.Application.ProjectApplication.Interfaces;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Notifications;
+using Orso.Arpa.Domain.ProjectDomain.Queries;
 
-namespace Orso.Arpa.Application.Services
+namespace Orso.Arpa.Application.ProjectApplication.Services
 {
     public class ProjectService : BaseService<
         ProjectDto,
         Project,
         ProjectCreateDto,
-        Domain.Logic.Projects.Create.Command,
+        CreateProject.Command,
         ProjectModifyDto,
         ProjectModifyBodyDto,
-        Domain.Logic.Projects.Modify.Command
+        ModifyProject.Command
         >, IProjectService
     {
         public ProjectService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
@@ -38,7 +41,7 @@ namespace Orso.Arpa.Application.Services
 
         public async Task<IEnumerable<ProjectParticipationDto>> GetParticipationsByIdAsync(Guid id)
         {
-            var query = new GetForProject.Query { ProjectId = id };
+            var query = new GetProjectParticipationsForProject.Query { ProjectId = id };
             IOrderedQueryable<ProjectParticipation> projectParticipations = await _mediator.Send(query);
 
             List<ProjectParticipation> list = await projectParticipations.ToListAsync();

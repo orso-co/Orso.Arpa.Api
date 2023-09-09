@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Orso.Arpa.Application.AuthApplication;
+using Orso.Arpa.Application.AuthApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.AuthApplication.Interfaces
 {
     public interface IAuthService
     {

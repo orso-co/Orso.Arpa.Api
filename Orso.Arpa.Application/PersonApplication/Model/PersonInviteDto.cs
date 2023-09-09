@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
-using static Orso.Arpa.Domain.Logic.Persons.Invite;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.PersonApplication
+namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class PersonInviteDto
     {
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.PersonApplication
     {
         public PersonInviteDtoMappingProfile()
         {
-            CreateMap<PersonInviteDto, Command>();
+            CreateMap<PersonInviteDto, InvitePersonToApp.Command>();
         }
     }
 }

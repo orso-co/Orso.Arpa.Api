@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Application.General;
-using static Orso.Arpa.Domain.Logic.CurriculumVitaeReferences.Create;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
 
-namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication
+namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Model
 {
     public class CurriculumVitaeReferenceModifyDto : IdFromRouteDto<CurriculumVitaeReferenceModifyBodyDto>
     {
@@ -24,7 +24,7 @@ namespace Orso.Arpa.Application.CurriculumVitaeReferenceApplication
     {
         public CurriculumVitaeReferenceModifyDtoMappingProfile()
         {
-            CreateMap<CurriculumVitaeReferenceModifyDto, Command>()
+            CreateMap<CurriculumVitaeReferenceModifyDto, ModifyCurriculumVitaeReference.Command>()
                 .ForMember(dest => dest.TimeSpan, opt => opt.MapFrom(src => src.Body.TimeSpan))
                 .ForMember(dest => dest.Institution, opt => opt.MapFrom(src => src.Body.Institution))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Body.TypeId))

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.UserDomain.Model;
 
-namespace Orso.Arpa.Application.UserApplication
+namespace Orso.Arpa.Application.UserApplication.Model
 {
     public class UserDto
     {

@@ -1,11 +1,11 @@
 using System;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using Orso.Arpa.Domain.Enums;
-using static Orso.Arpa.Domain.Logic.Appointments.Create;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
-namespace Orso.Arpa.Application.AppointmentApplication
+namespace Orso.Arpa.Application.AppointmentApplication.Model
 {
     public class AppointmentCreateDto
     {
@@ -25,7 +25,7 @@ namespace Orso.Arpa.Application.AppointmentApplication
     {
         public AppointmentCreateDtoMappingProfile()
         {
-            _ = CreateMap<AppointmentCreateDto, Command>();
+            _ = CreateMap<AppointmentCreateDto, CreateAppointment.Command>();
         }
     }
 

@@ -1,9 +1,9 @@
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using static Orso.Arpa.Domain.Logic.Regions.Create;
+using Orso.Arpa.Application.General.Extensions;
+using Orso.Arpa.Domain.RegionDomain.Commands;
 
-namespace Orso.Arpa.Application.RegionApplication
+namespace Orso.Arpa.Application.RegionApplication.Model
 {
     public class RegionCreateDto
     {
@@ -16,7 +16,7 @@ namespace Orso.Arpa.Application.RegionApplication
     {
         public RegionCreateDtoMappingProfile()
         {
-            CreateMap<RegionCreateDto, Command>();
+            CreateMap<RegionCreateDto, CreateRegion.Command>();
         }
     }
 

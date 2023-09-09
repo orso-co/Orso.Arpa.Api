@@ -1,9 +1,9 @@
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.Extensions;
-using static Orso.Arpa.Domain.Logic.Auth.Login;
+using Orso.Arpa.Application.General.Extensions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Orso.Arpa.Application.AuthApplication
+namespace Orso.Arpa.Application.AuthApplication.Model
 {
     public class LoginDto
     {

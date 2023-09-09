@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.ProjectApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.ProjectApplication.Interfaces
 {
     public interface IProjectService
     {

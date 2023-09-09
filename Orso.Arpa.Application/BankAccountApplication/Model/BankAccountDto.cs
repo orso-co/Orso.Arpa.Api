@@ -1,9 +1,10 @@
 using AutoMapper;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
 
-namespace Orso.Arpa.Application.BankAccountApplication
+namespace Orso.Arpa.Application.BankAccountApplication.Model
 {
     public class BankAccountDto : BaseEntityDto
     {

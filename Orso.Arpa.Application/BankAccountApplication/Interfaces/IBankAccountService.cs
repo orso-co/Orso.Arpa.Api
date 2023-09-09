@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Orso.Arpa.Application.BankAccountApplication;
+using Orso.Arpa.Application.BankAccountApplication.Model;
 
-namespace Orso.Arpa.Application.Interfaces
+namespace Orso.Arpa.Application.BankAccountApplication.Interfaces
 {
     public interface IBankAccountService
     {
