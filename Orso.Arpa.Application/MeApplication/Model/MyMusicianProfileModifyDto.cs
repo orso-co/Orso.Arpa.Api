@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.MeApplication.Model
     {
         public MyMusicianProfileModifyDtoMappingProfile()
         {
-            _ = CreateMap<MyMusicianProfileModifyDto, ModifyMusicianProfile.Command>()
+            _ = CreateMap<MyMusicianProfileModifyDto, ModifyMyMusicianProfile.Command>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
 
                 .ForMember(dest => dest.IsMainProfile, opt => opt.MapFrom(src => src.Body.IsMainProfile))

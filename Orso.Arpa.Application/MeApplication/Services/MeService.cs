@@ -153,7 +153,7 @@ namespace Orso.Arpa.Application.MeApplication.Services
         {
             MusicianProfile existingMusicianProfile = await _mediator.Send(new GetMyMusicianProfile.Query { Id = musicianProfileModifyDto.Id, PersonId = _userAccessor.PersonId });
 
-            ModifyMusicianProfile.Command command = _mapper.Map<ModifyMusicianProfile.Command>(musicianProfileModifyDto);
+            ModifyMyMusicianProfile.Command command = _mapper.Map<ModifyMyMusicianProfile.Command>(musicianProfileModifyDto);
 
             command.InstrumentId = existingMusicianProfile.InstrumentId;
             command.ExistingMusicianProfile = existingMusicianProfile;
