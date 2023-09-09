@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            ForgotPassword.Command command = _mapper.Map<ForgotPassword.Command>(dto);
+            CreateResetPasswordToken.Command command = _mapper.Map<CreateResetPasswordToken.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

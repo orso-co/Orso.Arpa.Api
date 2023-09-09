@@ -1,6 +1,6 @@
 using System;
-using Orso.Arpa.Domain.Configuration;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.General.Configuration;
+using Orso.Arpa.Domain.UserDomain.Model;
 
 namespace Orso.Arpa.Persistence.Seed
 {

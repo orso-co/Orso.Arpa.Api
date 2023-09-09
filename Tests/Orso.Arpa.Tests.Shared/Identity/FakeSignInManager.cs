@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.Identity

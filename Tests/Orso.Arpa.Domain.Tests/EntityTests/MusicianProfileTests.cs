@@ -1,5 +1,6 @@
 using FluentAssertions;
 using NUnit.Framework;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.EntityTests
@@ -10,7 +11,7 @@ namespace Orso.Arpa.Domain.Tests.EntityTests
         [Test]
         public void Should_Set_Is_Main_Profile_To_False()
         {
-            Entities.MusicianProfile profile = MusicianProfileSeedData.PerformerMusicianProfile;
+            MusicianProfile profile = MusicianProfileSeedData.PerformerMusicianProfile;
             profile.IsMainProfile.Should().BeTrue();
 
             profile.TurnOffIsMainProfileFlag();

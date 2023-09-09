@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests

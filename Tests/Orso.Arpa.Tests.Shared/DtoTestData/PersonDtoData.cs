@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.BankAccountApplication;
-using Orso.Arpa.Application.ContactDetailApplication;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.AddressApplication.Model;
+using Orso.Arpa.Application.BankAccountApplication.Model;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Enums;
+using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -101,7 +102,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Person person = PersonTestSeedData.UserWithoutRole;
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.Gender = SelectValueDtoData.Diverse;
-                dto.Addresses.Add(new Application.AddressApplication.AddressDto
+                dto.Addresses.Add(new AddressDto
                 {
                     Address1 = "Viktualienmarkt 4",
                     Address2 = "3. Etage rechts",

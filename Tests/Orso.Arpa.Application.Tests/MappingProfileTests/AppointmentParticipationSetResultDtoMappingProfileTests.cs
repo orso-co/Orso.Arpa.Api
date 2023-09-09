@@ -2,9 +2,9 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.AppointmentParticipations;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -34,7 +34,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     Result = AppointmentParticipationResult.Absent
                 }
             };
-            var expectedCommand = new SetResult.Command
+            var expectedCommand = new SetAppointmentParticipationResult.Command
             {
                 Id = dto.Id,
                 PersonId = dto.PersonId,
@@ -42,7 +42,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            SetResult.Command command = _mapper.Map<SetResult.Command>(dto);
+            SetAppointmentParticipationResult.Command command = _mapper.Map<SetAppointmentParticipationResult.Command>(dto);
 
             // Assert
             _ = command.Should().BeEquivalentTo(expectedCommand);

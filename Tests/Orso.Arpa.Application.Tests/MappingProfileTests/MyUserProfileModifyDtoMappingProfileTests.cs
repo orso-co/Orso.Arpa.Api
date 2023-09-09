@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.MeApplication;
-using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Application.MeApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            Modify.Command command = _mapper.Map<Modify.Command>(dto);
+            ModifyMyUser.Command command = _mapper.Map<ModifyMyUser.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

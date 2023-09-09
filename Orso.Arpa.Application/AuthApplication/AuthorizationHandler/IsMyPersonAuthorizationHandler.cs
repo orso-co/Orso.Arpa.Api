@@ -1,0 +1,61 @@
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+
+namespace Orso.Arpa.Application.AuthApplication.AuthorizationHandler
+{
+    public class IsMyPersonAuthorizationHandler : AuthorizationHandler<IsMyPersonRequirement>
+    {
+        private readonly IArpaContext _arpaContext;
+        private readonly ITokenAccessor _tokenAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public IsMyPersonAuthorizationHandler(
+            IHttpContextAccessor httpContextAccessor,
+            ITokenAccessor tokenAccessor,
+            IArpaContext arpaContext)
+        {
+            _arpaContext = arpaContext;
+            _tokenAccessor = tokenAccessor;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        protected override async Task HandleRequirementAsync(
+            AuthorizationHandlerContext context,
+            IsMyPersonRequirement requirement)
+
+        {
+            if (!context.User.Identity.IsAuthenticated)
+            {
+                context.Fail(new AuthorizationFailureReason(this, "User is not authenticated"));
+                return;
+            }
+
+            if (!_httpContextAccessor.HttpContext.Request.RouteValues.TryGetValue("id", out object personId))
+            {
+                context.Fail(new AuthorizationFailureReason(this, "No id supplied"));
+                return;
+            }
+
+            if (_tokenAccessor.GetUserRoles().Contains(RoleNames.Staff))
+            {
+                context.Succeed(requirement);
+                return;
+            }
+
+            var personIdAsGuid = Guid.Parse((string)personId);
+            if (_tokenAccessor.PersonId.Equals(personIdAsGuid) && await _arpaContext.EntityExistsAsync<Person>(personIdAsGuid, default))
+            {
+                context.Succeed(requirement);
+                return;
+            }
+
+            context.Fail();
+        }
+    }
+}

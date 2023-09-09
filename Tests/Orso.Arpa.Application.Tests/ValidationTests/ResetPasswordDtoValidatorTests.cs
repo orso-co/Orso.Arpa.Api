@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuthApplication;
+using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 

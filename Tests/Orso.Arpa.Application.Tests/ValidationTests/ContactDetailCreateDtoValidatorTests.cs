@@ -1,7 +1,7 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.ContactDetailApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Enums;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests

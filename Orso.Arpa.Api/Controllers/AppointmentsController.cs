@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.AppointmentApplication.Interfaces;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers
 {

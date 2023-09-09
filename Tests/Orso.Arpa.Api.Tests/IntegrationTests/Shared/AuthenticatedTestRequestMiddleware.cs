@@ -1,12 +1,11 @@
 using System.Linq;
 using System.Net;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {

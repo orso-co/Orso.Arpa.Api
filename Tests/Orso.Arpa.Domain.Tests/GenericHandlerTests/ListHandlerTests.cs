@@ -7,10 +7,11 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using List = Orso.Arpa.Domain.General.GenericHandlers.List;
 
 namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
 {
@@ -18,13 +19,13 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
     public class ListHandlerTests
     {
         private IArpaContext _arpaContext;
-        private GenericHandlers.List.Handler<Appointment> _handler;
+        private List.Handler<Appointment> _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new GenericHandlers.List.Handler<Appointment>(_arpaContext);
+            _handler = new List.Handler<Appointment>(_arpaContext);
         }
 
         [Test]
@@ -38,7 +39,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
 
             // Act
             IQueryable<Appointment> result = await _handler.Handle(
-                new GenericHandlers.List.Query<Appointment>(a => a.StartTime >= DateTime.MinValue && a.StartTime <= DateTime.MaxValue),
+                new List.Query<Appointment>(a => a.StartTime >= DateTime.MinValue && a.StartTime <= DateTime.MaxValue),
                 new CancellationToken());
 
             // Assert

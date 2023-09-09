@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Configuration;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Domain.General.Configuration;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -25,14 +25,14 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _emailSender = Substitute.For<IEmailSender>();
             _jwtConfiguration = new JwtConfiguration();
             _clubConfiguration = new ClubConfiguration();
-            _handler = new SendQRCode.Handler(_userManager, _jwtConfiguration, _clubConfiguration, _emailSender);
+            _handler = new SendMyQRCode.Handler(_userManager, _jwtConfiguration, _clubConfiguration, _emailSender);
         }
 
         private ArpaUserManager _userManager;
         private IEmailSender _emailSender;
         private JwtConfiguration _jwtConfiguration;
         private ClubConfiguration _clubConfiguration;
-        private SendQRCode.Handler _handler;
+        private SendMyQRCode.Handler _handler;
 
         [Test]
         public async Task Should_Send_QRCode()
@@ -43,20 +43,20 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                 "Files",
                 expectedFileName));
-            var expectedQrCodeFile = new SendQRCode.QrCodeFile
+            var expectedQrCodeFile = new SendMyQRCode.QrCodeFile
             {
                 Content = expectedFile,
                 FileName = expectedFileName
             };
 
-            var command = new SendQRCode.Command
+            var command = new SendMyQRCode.Command
             {
                 Username = UserTestSeedData.Performer.UserName,
                 SendEmail = true
             };
 
             // Act
-            SendQRCode.QrCodeFile result = await _handler.Handle(command, new CancellationToken());
+            SendMyQRCode.QrCodeFile result = await _handler.Handle(command, new CancellationToken());
 
             // Assert
             result.Should().BeEquivalentTo(expectedQrCodeFile);

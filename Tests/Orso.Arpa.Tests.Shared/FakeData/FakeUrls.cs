@@ -1,5 +1,5 @@
 using System.Linq;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;

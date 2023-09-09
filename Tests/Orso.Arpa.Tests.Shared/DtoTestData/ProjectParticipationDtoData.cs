@@ -1,6 +1,6 @@
 using System;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

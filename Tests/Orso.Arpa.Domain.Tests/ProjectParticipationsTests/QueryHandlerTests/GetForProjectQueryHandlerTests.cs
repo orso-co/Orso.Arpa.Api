@@ -7,9 +7,9 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Queries;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -19,7 +19,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.QueryHandlerTests
     public class GetForProjectQueryHandlerTests
     {
         private IArpaContext _arpaContext;
-        private GetForProject.Handler _handler;
+        private ListProjectParticipationsForProject.Handler _handler;
 
         [SetUp]
         public void Setup()
@@ -27,14 +27,14 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.QueryHandlerTests
             _arpaContext = Substitute.For<IArpaContext>();
             DbSet<ProjectParticipation> projectParticipations = MockDbSets.ProjectParticipations;
             _arpaContext.ProjectParticipations.Returns(projectParticipations);
-            _handler = new GetForProject.Handler(_arpaContext);
+            _handler = new ListProjectParticipationsForProject.Handler(_arpaContext);
         }
 
         [Test]
         public async Task Should_Get_ProjectParticipations()
         {
             // Arrange
-            var query = new GetForProject.Query
+            var query = new ListProjectParticipationsForProject.Query
             {
                 ProjectId = ProjectSeedData.RockingXMas.Id
             };

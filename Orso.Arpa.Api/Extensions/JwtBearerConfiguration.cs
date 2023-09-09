@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Orso.Arpa.Domain.Configuration;
+using Orso.Arpa.Domain.General.Configuration;
 
 namespace Orso.Arpa.Api.Extensions
 {

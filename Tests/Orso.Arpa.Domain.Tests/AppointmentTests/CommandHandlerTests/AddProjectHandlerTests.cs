@@ -5,8 +5,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -16,27 +17,27 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     public class AddProjectHandlerTests
     {
         private IArpaContext _arpaContext;
-        private AddProject.Handler _handler;
+        private AddProjectToAppointment.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new AddProject.Handler(_arpaContext);
+            _handler = new AddProjectToAppointment.Handler(_arpaContext);
         }
 
         [Test]
         public async Task Should_Add_Project()
         {
             // Arrange
-            DbSet<Entities.Appointment> mockData = MockDbSets.Appointments;
-            Entities.Appointment appointment = AppointmentSeedData.RockingXMasConcert;
+            DbSet<Appointment> mockData = MockDbSets.Appointments;
+            Appointment appointment = AppointmentSeedData.RockingXMasConcert;
             mockData.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(appointment);
             _arpaContext.Appointments.Returns(mockData);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
-            Unit result = await _handler.Handle(new AddProject.Command(
+            Unit result = await _handler.Handle(new AddProjectToAppointment.Command(
                 appointment.Id,
                 ProjectSeedData.HoorayForHollywood.Id), new CancellationToken());
 

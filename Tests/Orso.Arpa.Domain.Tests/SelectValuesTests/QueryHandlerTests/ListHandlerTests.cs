@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.NSubstitute;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.SelectValueCategories;
+using Orso.Arpa.Domain.AddressDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Queries;
+using Orso.Arpa.Domain.SelectValueDomain.Util;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 
@@ -20,13 +22,13 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
     public class ListHandlerTests
     {
         private IArpaContext _arpaContext;
-        private Domain.Logic.SelectValues.List.Handler _handler;
+        private ListSelectValues.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new Domain.Logic.SelectValues.List.Handler(_arpaContext);
+            _handler = new ListSelectValues.Handler(_arpaContext);
         }
 
         [Test]
@@ -54,7 +56,7 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
 
             // Act
             IImmutableList<SelectValueMapping> result = await _handler.Handle(
-                new Domain.Logic.SelectValues.List.Query
+                new ListSelectValues.Query
                 {
                     TableName = nameof(Address),
                     PropertyName = nameof(Address.Type)

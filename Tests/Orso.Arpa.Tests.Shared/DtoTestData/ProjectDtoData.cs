@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Application.UrlApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Application.UrlApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

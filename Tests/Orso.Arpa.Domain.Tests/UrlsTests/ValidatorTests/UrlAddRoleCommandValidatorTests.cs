@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
-using static Orso.Arpa.Domain.Logic.Urls.AddRole;
 
 namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
 {
@@ -18,7 +19,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
     public class UrlAddRoleCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private Validator _validator;
+        private AddRoleToUrl.Validator _validator;
         private RoleManager<Role> _roleManager;
 
         [SetUp]
@@ -26,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         {
             _arpaContext = Substitute.For<IArpaContext>();
             _roleManager = new FakeRoleManager();
-            _validator = new Validator(_arpaContext, _roleManager);
+            _validator = new AddRoleToUrl.Validator(_arpaContext, _roleManager);
         }
 
         [Test]
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Admin.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            await _validator.ShouldHaveValidationErrorForExactAsync(command => command.RoleId, new AddRoleToUrl.Command { RoleId = RoleDtoData.Admin.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }
 
         [Test]
@@ -42,8 +43,8 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<UrlRole>(Arg.Any<Expression<Func<UrlRole, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
             _arpaContext.EntityExistsAsync<Url>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new AddRoleToUrl.Command { RoleId = RoleDtoData.Staff.Id, UrlId = UrlDtoData.GoogleDe.Id });
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.RoleId, new AddRoleToUrl.Command { RoleId = RoleDtoData.Performer.Id, UrlId = UrlDtoData.GoogleDe.Id });
         }
     }
 }

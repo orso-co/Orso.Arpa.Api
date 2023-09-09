@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
-using static Orso.Arpa.Domain.Logic.Appointments.Create;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {
@@ -17,14 +17,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class AppointmentCreateCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private Validator _validator;
+        private CreateAppointment.Validator _validator;
         private DbSet<SelectValueCategory> _mockSelectValueCategoryDbSet;
 
         [SetUp]
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Validator(_arpaContext);
+            _validator = new CreateAppointment.Validator(_arpaContext);
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
             _ = _arpaContext.SelectValueCategories.Returns(_mockSelectValueCategoryDbSet);
         }

@@ -2,8 +2,8 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            AddRoom.Command command = _mapper.Map<AddRoom.Command>(dto);
+            AddRoomToAppointment.Command command = _mapper.Map<AddRoomToAppointment.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

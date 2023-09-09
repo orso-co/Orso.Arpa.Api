@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Orso.Arpa.Application.SectionApplication;
+using Orso.Arpa.Application.SectionApplication.Model;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {

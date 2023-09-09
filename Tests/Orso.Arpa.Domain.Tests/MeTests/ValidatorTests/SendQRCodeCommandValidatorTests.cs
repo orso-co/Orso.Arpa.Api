@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Logic.Me;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -12,14 +12,14 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
     [TestFixture]
     public class SendQRCodeCommandValidatorTests
     {
-        private SendQRCode.Validator _validator;
+        private SendMyQRCode.Validator _validator;
         private ArpaUserManager _userManager;
 
         [SetUp]
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _validator = new SendQRCode.Validator(_userManager);
+            _validator = new SendMyQRCode.Validator(_userManager);
         }
 
         [Test]

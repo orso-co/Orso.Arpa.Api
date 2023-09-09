@@ -14,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using netDumbster.smtp;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Yoh.Text.Json.NamingPolicies;
 

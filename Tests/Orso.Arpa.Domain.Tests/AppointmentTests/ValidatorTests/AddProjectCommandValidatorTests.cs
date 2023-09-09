@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Appointments.AddProject;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {
@@ -17,7 +18,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class AddProjectCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private Validator _validator;
+        private AddProjectToAppointment.Validator _validator;
         private Guid _validAppointmentId;
         private Guid _validProjectId;
         private DbSet<ProjectAppointment> _mockProjectAppointments;
@@ -26,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Validator(_arpaContext);
+            _validator = new AddProjectToAppointment.Validator(_arpaContext);
 
             _mockProjectAppointments = MockDbSets.ProjectAppointments;
             _arpaContext.ProjectAppointments.Returns(_mockProjectAppointments);
@@ -47,7 +48,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, new Command(_validAppointmentId, _validProjectId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, new AddProjectToAppointment.Command(_validAppointmentId, _validProjectId));
         }
 
         [Test]
@@ -64,7 +65,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             Guid linkedProjectId = ProjectSeedData.RockingXMas.Id;
             _arpaContext.EntityExistsAsync<Project>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, new Command(_validAppointmentId, linkedProjectId));
+            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.ProjectId, new AddProjectToAppointment.Command(_validAppointmentId, linkedProjectId));
         }
     }
 }

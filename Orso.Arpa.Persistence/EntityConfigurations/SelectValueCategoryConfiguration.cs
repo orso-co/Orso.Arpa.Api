@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.SelectValueCategories;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Util;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {

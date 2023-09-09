@@ -1,6 +1,6 @@
 using System;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 

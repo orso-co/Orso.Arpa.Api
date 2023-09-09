@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.RoleApplication;
-using Orso.Arpa.Application.UrlApplication;
+using Orso.Arpa.Application.RoleApplication.Model;
+using Orso.Arpa.Application.UrlApplication.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

@@ -6,11 +6,11 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Configuration;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.General.Configuration;
+using Orso.Arpa.Domain.General.Errors;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -25,13 +25,13 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _signInManager = new FakeSignInManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _identityConfiguration = new IdentityConfiguration() { LockoutExpiryInMinutes = 10 };
-            _handler = new Login.Handler(_signInManager, _jwtGenerator, _identityConfiguration);
+            _handler = new LoginUser.Handler(_signInManager, _jwtGenerator, _identityConfiguration);
         }
 
         private SignInManager<User> _signInManager;
         private IJwtGenerator _jwtGenerator;
         private IdentityConfiguration _identityConfiguration;
-        private Login.Handler _handler;
+        private LoginUser.Handler _handler;
 
         [Test]
         public async Task Should_Login_User()
@@ -39,7 +39,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             // Arrange
             const string expectedToken = "TestToken";
             User user = FakeUsers.Performer;
-            var query = new Login.Command { UsernameOrEmail = user.UserName, Password = UserSeedData.ValidPassword };
+            var query = new LoginUser.Command { UsernameOrEmail = user.UserName, Password = UserSeedData.ValidPassword };
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(expectedToken);
 
             // Act
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             // Arrange
             User user = FakeUsers.Performer;
-            var command = new Login.Command { UsernameOrEmail = user.UserName, Password = "wrongpassword" };
+            var command = new LoginUser.Command { UsernameOrEmail = user.UserName, Password = "wrongpassword" };
 
             for (int i = 0; i < 3; i++)
             {

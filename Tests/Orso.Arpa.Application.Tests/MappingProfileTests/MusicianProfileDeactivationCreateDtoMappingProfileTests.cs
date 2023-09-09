@@ -2,8 +2,8 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
-using Orso.Arpa.Domain.Logic.MusicianProfileDeactivations;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -35,7 +35,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            Create.Command command = _mapper.Map<Create.Command>(dto);
+            CreateMusicianProfileDeactivation.Command command = _mapper.Map<CreateMusicianProfileDeactivation.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto.Body);

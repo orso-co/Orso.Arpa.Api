@@ -4,13 +4,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
-using Orso.Arpa.Application.EducationApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Interfaces;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Model;
+using Orso.Arpa.Application.EducationApplication.Interfaces;
+using Orso.Arpa.Application.EducationApplication.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Interfaces;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers

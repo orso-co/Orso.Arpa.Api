@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AddressApplication;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.AddressApplication.Interfaces;
+using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers

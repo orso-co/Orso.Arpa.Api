@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests

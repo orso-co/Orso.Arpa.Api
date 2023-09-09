@@ -3,11 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Appointments.SetVenue;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {
@@ -15,7 +16,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
     public class SetVenueCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private Validator _validator;
+        private SetVenue.Validator _validator;
         private Guid _validAppointmentId;
         private Guid _validVenueId;
 
@@ -23,7 +24,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Validator(_arpaContext);
+            _validator = new SetVenue.Validator(_arpaContext);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validVenueId = VenueSeedData.WeiherhofSchule.Id;
         }
@@ -40,7 +41,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _arpaContext.EntityExistsAsync<Venue>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, new Command(_validAppointmentId, _validVenueId));
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.Id, new SetVenue.Command(_validAppointmentId, _validVenueId));
         }
 
         [Test]

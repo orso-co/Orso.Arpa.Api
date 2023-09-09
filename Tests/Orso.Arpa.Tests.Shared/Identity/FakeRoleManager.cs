@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using MockQueryable.NSubstitute;
 using NSubstitute;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.Identity

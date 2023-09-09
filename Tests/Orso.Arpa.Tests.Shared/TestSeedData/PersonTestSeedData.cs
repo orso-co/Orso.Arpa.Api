@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Domain.Logic.BankAccounts;
+using Orso.Arpa.Domain.AddressDomain.Commands;
+using Orso.Arpa.Domain.AddressDomain.Model;
+using Orso.Arpa.Domain.PersonDomain.Commands;
+using Orso.Arpa.Domain.PersonDomain.Enums;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 
@@ -39,7 +41,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person = new Person(
                     Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
-                    new UserRegister.Command { GivenName = "Per", Surname = "Former", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                    new RegisterUser.Command { GivenName = "Per", Surname = "Former", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
                 person.SetProperty(nameof(Person.Reliability), (byte)3);
                 person.SetProperty(nameof(Person.GeneralPreference), (byte)2);
                 person.SetProperty(nameof(Person.ExperienceLevel), (byte)5);
@@ -63,7 +65,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Person(
                     Guid.Parse("c0c8470b-e6a0-4a0b-8a4c-24d503636248"),
-                    new UserRegister.Command { GivenName = "Staff", Surname = "Member", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                    new RegisterUser.Command { GivenName = "Staff", Surname = "Member", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
             }
         }
 
@@ -73,8 +75,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person = new Person(
                     Guid.Parse("32e46032-125d-463a-87ed-67d9a34154c4"),
-                    new UserRegister.Command { GivenName = "Without", Surname = "Role", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
-                person.Addresses.Add(new Address(Guid.Parse("df196870-5045-4a1c-b7fe-40473889830d"), new Domain.Logic.Addresses.Create.Command
+                    new RegisterUser.Command { GivenName = "Without", Surname = "Role", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                person.Addresses.Add(new Address(Guid.Parse("df196870-5045-4a1c-b7fe-40473889830d"), new CreateAddress.Command
                 {
                     UrbanDistrict = "Altstadt-Lehel",
                     Address1 = "Viktualienmarkt 4",
@@ -87,7 +89,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     TypeId = SelectValueMappingSeedData.AddressTypeMappings[1].Id,
                     Zip = "80331"
                 }));
-                var contactDetail = new ContactDetail(Guid.Parse("252335a7-58ef-431b-ad1e-cc0ca53ebeaf"), new Domain.Logic.ContactDetails.Create.Command
+                var contactDetail = new ContactDetail(Guid.Parse("252335a7-58ef-431b-ad1e-cc0ca53ebeaf"), new CreateContactDetail.Command
                 {
                     PersonId = person.Id,
                     TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
@@ -105,7 +107,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Person(
                     Guid.Parse("4d98408b-620e-4ea5-9661-ab8efcad4495"),
-                    new UserRegister.Command { GivenName = "Deleted", Surname = "User", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                    new RegisterUser.Command { GivenName = "Deleted", Surname = "User", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
             }
         }
 
@@ -115,7 +117,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Person(
                     Guid.Parse("860e9e57-e213-4cc1-aa7c-49918d5b75dd"),
-                    new UserRegister.Command { GivenName = "LockedOut", Surname = "User", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
+                    new RegisterUser.Command { GivenName = "LockedOut", Surname = "User", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
             }
         }
 
@@ -125,7 +127,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person = new Person(
                     Guid.Parse("16c09865-f0ba-40cc-b845-e83686a2c7d3"),
-                    new Domain.Logic.Persons.Create.Command
+                    new CreatePerson.Command
                     {
                         GivenName = "Person",
                         Surname = "Without",
@@ -136,7 +138,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Birthplace = "Wherethepfefferwächst",
                         PersonBackgroundTeam = "Staff only background information"
                     });
-                var contactDetail = new ContactDetail(Guid.Parse("c56fb43d-6500-4cc7-957c-d64baf049df2"), new Domain.Logic.ContactDetails.Create.Command
+                var contactDetail = new ContactDetail(Guid.Parse("c56fb43d-6500-4cc7-957c-d64baf049df2"), new CreateContactDetail.Command
                 {
                     PersonId = person.Id,
                     TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
@@ -154,7 +156,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person = new Person(
                     Guid.Parse("0bf0bd72-abda-458b-a783-403b8ba51850"),
-                    new UserRegister.Command
+                    new RegisterUser.Command
                     {
                         GivenName = "Unconfirmed",
                         Surname = "User",
@@ -163,7 +165,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 person.SetProperty(nameof(Person.ContactViaId), LockedOutUser.Id);
                 person.BankAccounts.Add(new BankAccount(
                         Guid.Parse("1fa6a1f9-963c-4539-a3d3-e9e9b9430882"),
-                        new Create.Command
+                        new CreateBankAccount.Command
                         {
                             PersonId = person.Id,
                             Iban = "DE95680900000037156400",
@@ -181,7 +183,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person = new Person(
                     Guid.Parse("e7c09d3e-8bd6-48b7-aedd-886b3ec1c323"),
-                    new Domain.Logic.Persons.Create.Command
+                    new CreatePerson.Command
                     {
                         GivenName = "Person1",
                         Surname = "With",
@@ -190,7 +192,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         BirthName = "Same Email",
                         Birthplace = "Cottbus",
                     });
-                var contactDetail = new ContactDetail(Guid.Parse("2d81d902-6d5f-4d15-bc20-27e3d54d3484"), new Domain.Logic.ContactDetails.Create.Command
+                var contactDetail = new ContactDetail(Guid.Parse("2d81d902-6d5f-4d15-bc20-27e3d54d3484"), new CreateContactDetail.Command
                 {
                     PersonId = person.Id,
                     TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
@@ -208,7 +210,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person = new Person(
                     Guid.Parse("93bd7667-ea91-435b-9d7a-23d71dee46b9"),
-                    new Domain.Logic.Persons.Create.Command
+                    new CreatePerson.Command
                     {
                         GivenName = "Person2",
                         Surname = "With",
@@ -217,7 +219,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         BirthName = "Same Email",
                         Birthplace = "Zwickau",
                     });
-                var contactDetail = new ContactDetail(Guid.Parse("6638dcab-d415-4803-930f-ea13ead4e720"), new Domain.Logic.ContactDetails.Create.Command
+                var contactDetail = new ContactDetail(Guid.Parse("6638dcab-d415-4803-930f-ea13ead4e720"), new CreateContactDetail.Command
                 {
                     PersonId = person.Id,
                     TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
@@ -235,7 +237,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person = new Person(
                     Guid.Parse("d4cf390f-c48f-4405-8979-2e2cfc227fed"),
-                    new Domain.Logic.Persons.Create.Command
+                    new CreatePerson.Command
                     {
                         GivenName = "Person",
                         Surname = "Withoutemail",
@@ -253,7 +255,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 var person = new Person(
                     Guid.Parse("6291f056-bd7e-4e2f-984a-85ef64f01b7c"),
-                    new Domain.Logic.Persons.Create.Command
+                    new CreatePerson.Command
                     {
                         GivenName = "Person",
                         Surname = "Multiple",
@@ -262,7 +264,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         BirthName = "Emails",
                         Birthplace = "Charkiw",
                     });
-                var contactDetail1 = new ContactDetail(Guid.Parse("acc05ffa-877b-49a0-be2c-0e6b49b99252"), new Domain.Logic.ContactDetails.Create.Command
+                var contactDetail1 = new ContactDetail(Guid.Parse("acc05ffa-877b-49a0-be2c-0e6b49b99252"), new CreateContactDetail.Command
                 {
                     PersonId = person.Id,
                     TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,
@@ -270,7 +272,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Value = "person@withmultiple.email"
                 });
                 person.ContactDetails.Add(contactDetail1);
-                var contactDetail2 = new ContactDetail(Guid.Parse("40f18ff9-90cf-46be-9e06-6d288a27171d"), new Domain.Logic.ContactDetails.Create.Command
+                var contactDetail2 = new ContactDetail(Guid.Parse("40f18ff9-90cf-46be-9e06-6d288a27171d"), new CreateContactDetail.Command
                 {
                     PersonId = person.Id,
                     TypeId = SelectValueMappingSeedData.ContactDetailTypeMappings[0].Id,

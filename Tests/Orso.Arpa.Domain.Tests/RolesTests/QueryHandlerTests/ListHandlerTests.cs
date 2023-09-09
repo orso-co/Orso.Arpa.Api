@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Queries;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -16,17 +17,17 @@ namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
         public void Setup()
         {
             _roleManager = new FakeRoleManager();
-            _handler = new Domain.Logic.Roles.List.Handler(_roleManager);
+            _handler = new ListRoles.Handler(_roleManager);
         }
 
         private RoleManager<Role> _roleManager;
-        private Domain.Logic.Roles.List.Handler _handler;
+        private ListRoles.Handler _handler;
 
         [Test]
         public async Task Should_Get_Role_List()
         {
             // Arrange
-            var listQuery = new Domain.Logic.Roles.List.Query();
+            var listQuery = new ListRoles.Query();
             IEnumerable<Role> expectedRoles = RoleSeedData.Roles;
 
             // Act

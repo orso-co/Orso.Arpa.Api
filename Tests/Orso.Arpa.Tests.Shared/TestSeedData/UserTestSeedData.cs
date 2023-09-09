@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData

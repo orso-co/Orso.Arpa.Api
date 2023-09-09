@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.SelectValueCategories;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Util;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.FakeData

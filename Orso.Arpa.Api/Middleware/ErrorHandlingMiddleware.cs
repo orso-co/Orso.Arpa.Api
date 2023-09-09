@@ -10,7 +10,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Orso.Arpa.Domain.Errors;
+using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Mail;
 
 namespace Orso.Arpa.Api.Middleware

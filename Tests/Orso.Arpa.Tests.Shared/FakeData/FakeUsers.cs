@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

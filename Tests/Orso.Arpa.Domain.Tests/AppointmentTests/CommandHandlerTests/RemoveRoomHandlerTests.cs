@@ -6,9 +6,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -18,13 +18,13 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
     public class RemoveRoomHandlerTests
     {
         private IArpaContext _arpaContext;
-        private RemoveRoom.Handler _handler;
+        private RemoveRoomFromAppointment.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new RemoveRoom.Handler(_arpaContext);
+            _handler = new RemoveRoomFromAppointment.Handler(_arpaContext);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act
-            Unit result = await _handler.Handle(new RemoveRoom.Command(
+            Unit result = await _handler.Handle(new RemoveRoomFromAppointment.Command(
                 appointmentRoom.AppointmentId,
                appointmentRoom.RoomId), new CancellationToken());
 

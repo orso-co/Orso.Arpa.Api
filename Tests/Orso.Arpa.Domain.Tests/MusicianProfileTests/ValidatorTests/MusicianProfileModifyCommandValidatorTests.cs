@@ -6,9 +6,11 @@ using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.MusicianProfiles;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -19,7 +21,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
     [TestFixture]
     public class MusicianProfileModifyValidatorTests
     {
-        private Modify.Validator _validator;
+        private ModifyMusicianProfile.Validator _validator;
         private IArpaContext _arpaContext;
         private DbSet<SelectValueCategory> _mockSelectValueCategoryDbSet;
         private DbSet<Section> _mockSectionDbSet;
@@ -28,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Modify.Validator(_arpaContext);
+            _validator = new ModifyMusicianProfile.Validator(_arpaContext);
             DbSet<MusicianProfile> mockMusicianProfiles = MockDbSets.MusicianProfiles;
             _ = _arpaContext.MusicianProfiles.Returns(mockMusicianProfiles);
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
@@ -48,7 +50,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             await _validator.ShouldNotHaveValidationErrorForExactAsync(
                 c => c.ExistingMusicianProfile,
-                new Modify.Command() { ExistingMusicianProfile = new MusicianProfile() });
+                new ModifyMusicianProfile.Command() { ExistingMusicianProfile = new MusicianProfile() });
         }
 
         [Test]
@@ -56,7 +58,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             _ = (await _validator.ShouldHaveValidationErrorForExactAsync(
                 c => c.IsMainProfile,
-                new Modify.Command { IsMainProfile = false, ExistingMusicianProfile = MusicianProfileSeedData.AdminMusicianSopranoProfile }))
+                new ModifyMusicianProfile.Command { IsMainProfile = false, ExistingMusicianProfile = MusicianProfileSeedData.AdminMusicianSopranoProfile }))
                 .WithErrorMessage("You may not turn off the IsMainProfile flag");
         }
 
@@ -65,7 +67,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             await _validator.ShouldNotHaveValidationErrorForExactAsync(
                 c => c.IsMainProfile,
-                new Modify.Command { IsMainProfile = true, ExistingMusicianProfile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile });
+                new ModifyMusicianProfile.Command { IsMainProfile = true, ExistingMusicianProfile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile });
         }
 
         [Test]
@@ -73,7 +75,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             await _validator.ShouldNotHaveValidationErrorForExactAsync(
                 c => c.IsMainProfile,
-                new Modify.Command { IsMainProfile = false, ExistingMusicianProfile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile });
+                new ModifyMusicianProfile.Command { IsMainProfile = false, ExistingMusicianProfile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile });
         }
 
         [Test]
@@ -137,7 +139,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
-            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new Modify.Command
+            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
@@ -147,7 +149,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         [Test]
         public async Task Should_Throw_NotFoundException_If_Preferred_Position_Inner_Does_Not_Exist()
         {
-            await _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsInnerIds, new Modify.Command
+            await _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
@@ -159,7 +161,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Horn);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new Modify.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
                 PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.HornLow.Id }
@@ -171,7 +173,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
-            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsTeamIds, new Modify.Command
+            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsTeamIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPositionsTeamIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
@@ -181,7 +183,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         [Test]
         public async Task Should_Throw_NotFoundException_If_Preferred_Position_Team_Does_Not_Exist()
         {
-            await _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsTeamIds, new Modify.Command
+            await _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsTeamIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPositionsTeamIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
@@ -193,7 +195,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueSection>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Horn);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsTeamIds, new Modify.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsTeamIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
                 PreferredPositionsTeamIds = new List<Guid> { SelectValueSectionSeedData.HornLow.Id }
@@ -204,7 +206,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Invalid_Preferred_Part_Inner_Is_Supplied()
         {
             _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Accordion);
-            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new Modify.Command
+            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
                 PreferredPartsInner = new List<byte> { 8 }
@@ -215,7 +217,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         public async Task Should_Not_Have_Validation_Error_If_Valid_Preferred_Part_Inner_Is_Supplied()
         {
             _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(SectionSeedData.Horn);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new Modify.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
                 PreferredPartsInner = new List<byte> { 2 }

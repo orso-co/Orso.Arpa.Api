@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
 
 namespace Orso.Arpa.Infrastructure.Authentication
 {

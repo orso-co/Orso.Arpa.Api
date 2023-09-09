@@ -1,5 +1,5 @@
 using System;
-using Orso.Arpa.Application.RoomApplication;
+using Orso.Arpa.Application.RoomApplication.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Model;
 
 namespace Orso.Arpa.Persistence.Seed
 {

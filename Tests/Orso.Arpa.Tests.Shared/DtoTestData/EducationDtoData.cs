@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.EducationApplication;
+using Orso.Arpa.Application.EducationApplication.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 

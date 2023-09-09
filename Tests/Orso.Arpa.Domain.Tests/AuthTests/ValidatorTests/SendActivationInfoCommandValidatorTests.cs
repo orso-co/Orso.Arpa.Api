@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.Identity;
 using Orso.Arpa.Tests.Shared.TestSeedData;

@@ -3,8 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -16,17 +17,17 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _handler = new Domain.Logic.Users.UserRoles.Handler(_userManager);
+            _handler = new ListUserRoles.Handler(_userManager);
         }
 
         private ArpaUserManager _userManager;
-        private Domain.Logic.Users.UserRoles.Handler _handler;
+        private ListUserRoles.Handler _handler;
 
         [Test]
         public async Task Should_Get_Roles()
         {
             // Arrange
-            var rolesQuery = new Domain.Logic.Users.UserRoles.Query(FakeUsers.Performer);
+            var rolesQuery = new ListUserRoles.Query(FakeUsers.Performer);
             IEnumerable<string> expectedRoles = new[] { RoleNames.Performer };
 
             // Act

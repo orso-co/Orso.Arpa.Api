@@ -35,15 +35,67 @@ using Orso.Arpa.Api.GraphQL;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Api.Swagger;
-using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.Services;
-using Orso.Arpa.Domain.Configuration;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Auth;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.AddressApplication.Interfaces;
+using Orso.Arpa.Application.AddressApplication.Services;
+using Orso.Arpa.Application.AppointmentApplication.Interfaces;
+using Orso.Arpa.Application.AppointmentApplication.Services;
+using Orso.Arpa.Application.AuditLogApplication.Interfaces;
+using Orso.Arpa.Application.AuditLogApplication.Services;
+using Orso.Arpa.Application.AuthApplication.AuthorizationHandler;
+using Orso.Arpa.Application.AuthApplication.Interfaces;
+using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Application.AuthApplication.Services;
+using Orso.Arpa.Application.BankAccountApplication.Interfaces;
+using Orso.Arpa.Application.BankAccountApplication.Services;
+using Orso.Arpa.Application.ContactDetailApplication.Interfaces;
+using Orso.Arpa.Application.ContactDetailApplication.Services;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Interfaces;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Services;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Interfaces;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Services;
+using Orso.Arpa.Application.EducationApplication.Interfaces;
+using Orso.Arpa.Application.EducationApplication.Services;
+using Orso.Arpa.Application.MeApplication.Interfaces;
+using Orso.Arpa.Application.MeApplication.Services;
+using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
+using Orso.Arpa.Application.MusicianProfileApplication.Services;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Interfaces;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Services;
+using Orso.Arpa.Application.MyContactDetailApplication.Interfaces;
+using Orso.Arpa.Application.MyContactDetailApplication.Services;
+using Orso.Arpa.Application.MyProjectApplication.Interfaces;
+using Orso.Arpa.Application.MyProjectApplication.Services;
+using Orso.Arpa.Application.NewsApplication.Interfaces;
+using Orso.Arpa.Application.NewsApplication.Services;
+using Orso.Arpa.Application.PersonApplication.Interfaces;
+using Orso.Arpa.Application.PersonApplication.Services;
+using Orso.Arpa.Application.ProjectApplication.Interfaces;
+using Orso.Arpa.Application.ProjectApplication.Services;
+using Orso.Arpa.Application.RegionApplication.Interfaces;
+using Orso.Arpa.Application.RegionApplication.Services;
+using Orso.Arpa.Application.RoleApplication.Interfaces;
+using Orso.Arpa.Application.RoleApplication.Services;
+using Orso.Arpa.Application.SectionApplication.Interfaces;
+using Orso.Arpa.Application.SectionApplication.Services;
+using Orso.Arpa.Application.SelectValueApplication.Interfaces;
+using Orso.Arpa.Application.SelectValueApplication.Services;
+using Orso.Arpa.Application.TranslationApplication.Interfaces;
+using Orso.Arpa.Application.TranslationApplication.Services;
+using Orso.Arpa.Application.UrlApplication.Interfaces;
+using Orso.Arpa.Application.UrlApplication.Services;
+using Orso.Arpa.Application.UserApplication.Interfaces;
+using Orso.Arpa.Application.UserApplication.Services;
+using Orso.Arpa.Application.VenueApplication.Interfaces;
+using Orso.Arpa.Application.VenueApplication.Services;
+using Orso.Arpa.Domain.AuditLogDomain.Model;
+using Orso.Arpa.Domain.General.Configuration;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.LocalizationDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -60,7 +112,8 @@ using SixLabors.ImageSharp.Web.Caching.Azure;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
-using static Orso.Arpa.Domain.Logic.Regions.Create;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+using User = Orso.Arpa.Domain.UserDomain.Model.User;
 
 namespace Orso.Arpa.Api
 {
@@ -95,11 +148,11 @@ namespace Orso.Arpa.Api
             {
                 _ = services.AddApplicationInsightsTelemetry();
             }
-            _ = services.AddMediatR(typeof(Login.Handler).Assembly);
+            _ = services.AddMediatR(typeof(LoginUser.Handler).Assembly);
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
-                typeof(Domain.Logic.Urls.AddRole.MappingProfile).Assembly);
+                typeof(AddRoleToUrl.MappingProfile).Assembly);
             _ = services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
             _ = services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
@@ -219,7 +272,7 @@ namespace Orso.Arpa.Api
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters()
                 .AddValidatorsFromAssemblyContaining<LoginDtoValidator>()
-                .AddValidatorsFromAssemblyContaining<Validator>();
+                .AddValidatorsFromAssemblyContaining<LoginUser.Validator>();
             ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
         }
 
