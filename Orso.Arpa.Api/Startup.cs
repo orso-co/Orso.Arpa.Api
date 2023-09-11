@@ -35,6 +35,7 @@ using Orso.Arpa.Api.GraphQL;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Api.Swagger;
+using Orso.Arpa.Api.Workers;
 using Orso.Arpa.Application.AddressApplication.Interfaces;
 using Orso.Arpa.Application.AddressApplication.Services;
 using Orso.Arpa.Application.AppointmentApplication.Interfaces;
@@ -112,7 +113,6 @@ using SixLabors.ImageSharp.Web.Caching.Azure;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
 
 namespace Orso.Arpa.Api
@@ -191,6 +191,8 @@ namespace Orso.Arpa.Api
             ConfigureIpRateLimiting(services);
 
             ConfigureAzureStorageAccount(services);
+
+            services.AddHostedService<BirthdayWorker>();
         }
 
         private void ConfigureAzureStorageAccount(IServiceCollection services)

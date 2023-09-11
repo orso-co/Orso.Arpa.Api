@@ -15,5 +15,10 @@ namespace Orso.Arpa.Misc.Extensions
             DateTime berlinDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, berlinTimeZone);
             return berlinDateTime.ToString("dddd, dd.MM.yyyy HH:mm", new CultureInfo("en-GB"));
         }
+
+        public static DateTime GetNextMidnight(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 23, 59, 59, DateTimeKind.Local);
+        }
     }
 }
