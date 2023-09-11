@@ -53,6 +53,11 @@ public sealed class BirthdayWorker : BackgroundService
 
                 IList<Person> persons = await mediator.Send(new ListBirthdayChildren.Query { Date = midnightInBerlin }, stoppingToken);
 
+                if (persons is null)
+                {
+                    continue;
+                }
+
                 foreach (Person person in persons)
                 {
                     try
@@ -71,7 +76,6 @@ public sealed class BirthdayWorker : BackgroundService
                     catch (Exception e)
                     {
                         _logger.LogError(e, "{prefix} An erroc occured while sending birthday e-mail for {person}", person);
-                        continue;
                     }
 
                 }
