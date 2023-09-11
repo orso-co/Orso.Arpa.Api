@@ -39,8 +39,7 @@ public sealed class BirthdayWorker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             try
-            {
-                using IServiceScope scope = _serviceProvider.CreateScope();
+            {                
                 DateTime currentTimeInBerlin = GetCurrentTimeInBerlin();
                 DateTime midnightInBerlin = currentTimeInBerlin.GetNextMidnight();
                 TimeSpan waitTime = midnightInBerlin - currentTimeInBerlin;
@@ -49,14 +48,10 @@ public sealed class BirthdayWorker : BackgroundService
 
                 await Task.Delay(waitTime, stoppingToken);
 
+                using IServiceScope scope = _serviceProvider.CreateScope();
                 IMediator mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-                IList<Person> persons = await mediator.Send(new ListBirthdayChildren.Query { Date = midnightInBerlin }, stoppingToken);
-
-                if (persons is null)
-                {
-                    continue;
-                }
+                IList<Person> persons = (await mediator.Send(new ListBirthdayChildren.Query { Date = midnightInBerlin }, stoppingToken)) ?? new List<Person>();
 
                 foreach (Person person in persons)
                 {
