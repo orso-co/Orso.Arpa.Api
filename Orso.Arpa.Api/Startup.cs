@@ -192,7 +192,7 @@ namespace Orso.Arpa.Api
 
             ConfigureAzureStorageAccount(services);
 
-            services.AddHostedService<BirthdayWorker>();
+            // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
         }
 
         private void ConfigureAzureStorageAccount(IServiceCollection services)
