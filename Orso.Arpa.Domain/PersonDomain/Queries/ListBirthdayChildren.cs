@@ -8,7 +8,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Model;
-using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Domain.PersonDomain.Queries;
 
@@ -18,6 +17,14 @@ public static class ListBirthdayChildren
     public class Query : IRequest<IList<Person>>
     {
         public DateTime Date { get; set; }
+    }
+
+    public class Validator : AbstractValidator<Query> {
+        public Validator()
+        {
+            RuleFor(q => q.Date)
+                .NotEmpty();
+        }
     }
 
     public class Handler : IRequestHandler<Query, IList<Person>>
