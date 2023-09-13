@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,6 +74,11 @@ namespace Orso.Arpa.Application.PersonApplication.Services
         public async Task DeleteProfilePictureAsync(Guid personId)
         {
             _ = await _mediator.Send(new DeleteProfilePicture.Command(personId));
+        }
+    
+        public async Task<IList<ReducedPersonDto>> GetBirthdayChildrenAsync(DateTime date) {
+            var persons = await _mediator.Send(new ListBirthdayChildren.Query { Date = date });
+            return _mapper.Map<IList<ReducedPersonDto>>(persons);
         }
     }
 }

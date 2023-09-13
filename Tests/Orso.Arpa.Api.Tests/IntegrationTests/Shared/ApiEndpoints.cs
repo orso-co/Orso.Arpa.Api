@@ -299,6 +299,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Get() => Persons;
 
+            public static string GetReduced(DateTime date) => $"{Persons}/reduced?birthday={date.ToIsoString()}";
+
             public static string Post() => Persons;
 
             public static string Put(Guid id) => $"{Persons}/{id}";

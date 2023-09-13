@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.PersonApplication.Model;
 using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.PersonDomain.Model;
 
 namespace Orso.Arpa.Application.PersonApplication.Interfaces
 {
@@ -22,5 +23,6 @@ namespace Orso.Arpa.Application.PersonApplication.Interfaces
         Task<IFileResult> SetProfilePictureAsync(ProfilePictureCreateDto profilePictureCreateDto);
         Task<IFileResult> GetProfilePictureAsync(Guid personId);
         Task DeleteProfilePictureAsync(Guid personId);
+        Task<IList<ReducedPersonDto>> GetBirthdayChildrenAsync(DateTime date);
     }
 }

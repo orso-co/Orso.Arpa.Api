@@ -36,6 +36,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(PersonDtoData.Persons, opt => opt.WithStrictOrdering());
         }
 
+        [Test, Order(1)]
+        public async Task Should_Get_Reduced()
+        {
+            // Arrange
+            var expectedResult = new List<ReducedPersonDto> {
+                ReducedPersonDtoData.Performer
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.PersonsController.GetReduced(new DateTime(2023, 5, 5)));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<ReducedPersonDto> result = await DeserializeResponseMessageAsync<IEnumerable<ReducedPersonDto>>(responseMessage);
+            _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrdering());
+        }
+
         [Test, Order(2)]
         public async Task Should_Get_ById()
         {

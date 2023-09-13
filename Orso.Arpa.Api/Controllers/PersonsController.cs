@@ -55,6 +55,19 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Gets all persons with a given date of birth
+        /// </summary>
+        /// <returns>A list of persons (reduced data)</returns>
+        /// <response code="200"></response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpGet("reduced")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ReducedPersonDto>>> GetReducedPersonData([FromQuery]DateTime birthday)
+        {
+            return Ok(await _personService.GetBirthdayChildrenAsync(birthday));
+        }
+
+        /// <summary>
         /// Creates a new person
         /// </summary>
         /// <param name="createDto"></param>
