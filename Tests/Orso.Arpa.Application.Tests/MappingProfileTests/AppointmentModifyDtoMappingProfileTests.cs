@@ -2,9 +2,9 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     Status = AppointmentStatus.Ambiguous
                 }
             };
-            var expectedCommand = new Modify.Command
+            var expectedCommand = new ModifyAppointment.Command
             {
                 Id = dto.Id,
                 InternalDetails = dto.Body.InternalDetails,
@@ -56,7 +56,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            Modify.Command command = _mapper.Map<Modify.Command>(dto);
+            ModifyAppointment.Command command = _mapper.Map<ModifyAppointment.Command>(dto);
 
             // Assert
             _ = command.Should().BeEquivalentTo(expectedCommand);

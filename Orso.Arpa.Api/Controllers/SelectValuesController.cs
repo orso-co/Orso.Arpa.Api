@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.SelectValueApplication;
+using Orso.Arpa.Application.SelectValueApplication.Interfaces;
+using Orso.Arpa.Application.SelectValueApplication.Model;
 
 namespace Orso.Arpa.Api.Controllers
 {

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
 
 namespace Orso.Arpa.Persistence.Seed
 {

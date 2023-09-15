@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.MusicianProfiles;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -53,7 +53,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     PreferredPositionsTeamIds = new List<Guid> { Guid.NewGuid() }
                 }
             };
-            var expectedCommand = new Modify.Command
+            var expectedCommand = new ModifyMusicianProfile.Command
             {
                 Id = dto.Id,
                 IsMainProfile = dto.Body.IsMainProfile,
@@ -79,7 +79,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            Modify.Command command = _mapper.Map<Modify.Command>(dto);
+            ModifyMusicianProfile.Command command = _mapper.Map<ModifyMusicianProfile.Command>(dto);
 
             // Assert
             _ = command.Should().BeEquivalentTo(expectedCommand);

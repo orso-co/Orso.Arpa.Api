@@ -1,9 +1,11 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.VenueApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.AddressApplication.Model;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.RoomApplication.Model;
+using Orso.Arpa.Application.VenueApplication.Model;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -18,8 +20,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<VenueDtoMappingProfile>();
-                cfg.AddProfile<AddressApplication.AddressDtoMappingProfile>();
-                cfg.AddProfile<RoomApplication.RoomDtoMappingProfile>();
+                cfg.AddProfile<AddressDtoMappingProfile>();
+                cfg.AddProfile<RoomDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
             });
 

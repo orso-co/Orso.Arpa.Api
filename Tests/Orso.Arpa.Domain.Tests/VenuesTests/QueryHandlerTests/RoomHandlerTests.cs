@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.Venues;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.VenueDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Queries;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -17,13 +16,13 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
     public class RoomHandlerTests
     {
         private IArpaContext _arpaContext;
-        private Rooms.Handler _handler;
+        private ListRooms.Handler _handler;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new Rooms.Handler(_arpaContext);
+            _handler = new ListRooms.Handler(_arpaContext);
         }
 
         [Test]
@@ -37,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.VenuesTests.QueryHandlerTests
 
             // Act
             IImmutableList<Room> result = await _handler.Handle(
-                new Rooms.Query(venue.Id),
+                new ListRooms.Query(venue.Id),
                 new CancellationToken());
 
             // Assert

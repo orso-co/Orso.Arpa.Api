@@ -1,4 +1,5 @@
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.AddressDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

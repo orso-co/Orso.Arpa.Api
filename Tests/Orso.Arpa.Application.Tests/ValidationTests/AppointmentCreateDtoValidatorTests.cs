@@ -1,8 +1,8 @@
 using System;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 

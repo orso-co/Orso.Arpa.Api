@@ -1,5 +1,6 @@
 using System.Linq;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -52,6 +53,7 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 profile.SetProperty(nameof(MusicianProfile.Deactivation), MusicianProfileDeactivationSeedData.PerformerTubaMusicianProfileDeactivation);
                 profile.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
                 profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
+                profile.SetProperty(nameof(MusicianProfile.Instrument), SectionSeedData.Tuba);
                 profile.Deactivation.SetProperty(nameof(MusicianProfileDeactivation.CreatedBy), "anonymous");
                 profile.Deactivation.SetProperty(nameof(MusicianProfileDeactivation.CreatedAt), FakeDateTime.UtcNow);
                 return profile;

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.WebUtilities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.RegionDomain.Enums;
 using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
@@ -297,6 +298,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             private static string Persons => $"{Base}/Persons";
 
             public static string Get() => Persons;
+
+            public static string GetReduced(DateTime date) => $"{Persons}/reduced?birthday={date.ToIsoString()}";
 
             public static string Post() => Persons;
 

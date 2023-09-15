@@ -1,7 +1,7 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuthApplication;
+using Orso.Arpa.Application.AuthApplication.Model;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {

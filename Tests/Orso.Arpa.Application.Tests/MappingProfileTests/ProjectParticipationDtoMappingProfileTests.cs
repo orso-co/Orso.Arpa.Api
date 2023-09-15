@@ -4,13 +4,16 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -63,7 +66,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                 Project = ReducedProjectDtoData.Schneekönigin,
                 Person = ReducedPersonDtoData.Performer,
-                ParticipationStatusResult = Domain.Enums.ProjectParticipationStatusResult.Pending
+                ParticipationStatusResult = ProjectParticipationStatusResult.Pending
             };
 
             // Act
@@ -90,7 +93,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 ParticipationStatusInner = projectParticipation.ParticipationStatusInner,
                 MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
                 Project = ReducedProjectDtoData.Schneekönigin,
-                ParticipationStatusResult = Domain.Enums.ProjectParticipationStatusResult.Pending,
+                ParticipationStatusResult = ProjectParticipationStatusResult.Pending,
                 Person = null
             };
 

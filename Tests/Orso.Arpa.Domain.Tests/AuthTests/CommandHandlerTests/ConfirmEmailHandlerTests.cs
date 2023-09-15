@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Domain.UserDomain.Commands;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 

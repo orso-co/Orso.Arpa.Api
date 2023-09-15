@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Domain.Logic.Auth;
+using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -36,7 +36,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            UserRegister.Command command = _mapper.Map<UserRegister.Command>(dto);
+            RegisterUser.Command command = _mapper.Map<RegisterUser.Command>(dto);
 
             // Assert
             command.Should().BeEquivalentTo(dto);

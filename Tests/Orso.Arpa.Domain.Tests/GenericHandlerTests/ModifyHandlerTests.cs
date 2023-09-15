@@ -4,9 +4,10 @@ using FluentAssertions;
 using MediatR;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.GenericHandlers;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.GenericHandlers;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
@@ -35,7 +36,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
                 .Returns(1);
 
             // Act
-            Unit result = await _handler.Handle(new Domain.Logic.Appointments.Modify.Command(), new CancellationToken());
+            Unit result = await _handler.Handle(new ModifyAppointment.Command(), new CancellationToken());
 
             // Assert
             _ = result.Should().BeEquivalentTo(Unit.Value);

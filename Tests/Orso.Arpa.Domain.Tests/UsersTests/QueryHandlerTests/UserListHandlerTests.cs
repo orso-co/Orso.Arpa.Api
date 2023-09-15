@@ -4,8 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Identity;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Queries;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -17,17 +18,17 @@ namespace Orso.Arpa.Domain.Tests.UsersTests.QueryHandlerTests
         public void Setup()
         {
             _userManager = new FakeUserManager();
-            _handler = new Domain.Logic.Users.List.Handler(_userManager);
+            _handler = new ListUsers.Handler(_userManager);
         }
 
         private ArpaUserManager _userManager;
-        private Domain.Logic.Users.List.Handler _handler;
+        private ListUsers.Handler _handler;
 
         [Test]
         public async Task Should_Get_User_List()
         {
             // Arrange
-            var listQuery = new Domain.Logic.Users.List.Query();
+            var listQuery = new ListUsers.Query();
             IList<User> expectedUsers = FakeUsers.Users.ToList();
 
             // Act

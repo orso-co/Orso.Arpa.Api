@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.RegionApplication;
-using Orso.Arpa.Domain.Logic.Regions;
+using Orso.Arpa.Application.RegionApplication.Model;
+using Orso.Arpa.Domain.RegionDomain.Commands;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -24,10 +24,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             var regionDto = new RegionCreateDto { Name = "Name" };
-            var expectedCommand = new Create.Command { Name = regionDto.Name };
+            var expectedCommand = new CreateRegion.Command { Name = regionDto.Name };
 
             // Act
-            Create.Command command = _mapper.Map<Create.Command>(regionDto);
+            CreateRegion.Command command = _mapper.Map<CreateRegion.Command>(regionDto);
 
             // Assert
             command.Should().BeEquivalentTo(expectedCommand);

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.LocalizationDomain.Model;
 
 namespace Orso.Arpa.Persistence.Seed
 {

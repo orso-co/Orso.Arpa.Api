@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Me;
-using Orso.Arpa.Domain.Logic.MusicianProfiles;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.RegionDomain.Commands;
+using Orso.Arpa.Domain.RegionDomain.Enums;
+using Orso.Arpa.Domain.RegionDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 
@@ -33,7 +35,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var profile = new MusicianProfile(new Create.Command
+                var profile = new MusicianProfile(new CreateMusicianProfile.Command
                 {
                     PersonId = PersonTestSeedData.Performer.Id,
                     InstrumentId = SectionSeedData.Alto.Id,
@@ -43,7 +45,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     profile.Id,
                     SelectValueMappingSeedData.MusicianProfileDocumentsMappings[0].Id,
                     Guid.Parse("b1d10592-4106-46d8-8c78-eedc77c0e3bf")));
-                profile.RegionPreferences.Add(new RegionPreference(Guid.Parse("0f3de639-a287-4246-b939-24780877030e"), new CreateRegionPreference.Command
+                profile.RegionPreferences.Add(new RegionPreference(Guid.Parse("0f3de639-a287-4246-b939-24780877030e"), new CreateMyRegionPreference.Command
                 {
                     Comment = "Loving Freiburg so much...",
                     Rating = 5,
@@ -59,7 +61,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command
+                var command = new CreateMusicianProfile.Command
                 {
                     PersonId = PersonTestSeedData.Performer.Id,
                     InstrumentId = SectionSeedData.Horn.Id,
@@ -74,7 +76,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var profile = new MusicianProfile(command, false, Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"));
                 profile.SetProperty(nameof(MusicianProfile.BackgroundInner), "Background Trombonist");
                 profile.SetProperty(nameof(MusicianProfile.ProfilePreferenceInner), (byte)3);
-                profile.DoublingInstruments.Add(new MusicianProfileSection(Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d"), new Domain.Logic.MusicianProfileSections.Create.Command
+                profile.DoublingInstruments.Add(new MusicianProfileSection(Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d"), new CreateMusicianProfileSection.Command
                 {
                     AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
                     Comment = "Wagner rocks",
@@ -91,7 +93,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(new Create.Command
+                return new MusicianProfile(new CreateMusicianProfile.Command
                 {
                     PersonId = Guid.Parse("cb441176-eecb-4c56-908d-5a6afec36a95"),
                     InstrumentId = SectionSeedData.Tuba.Id,
@@ -102,7 +104,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(new Create.Command
+                return new MusicianProfile(new CreateMusicianProfile.Command
                 {
                     PersonId = PersonTestSeedData.Staff.Id,
                     InstrumentId = SectionSeedData.Tenor.Id
@@ -114,7 +116,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(new Create.Command
+                return new MusicianProfile(new CreateMusicianProfile.Command
                 {
                     PersonId = PersonTestSeedData.Staff.Id,
                     InstrumentId = SectionSeedData.Bass.Id
@@ -126,7 +128,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(new Create.Command
+                return new MusicianProfile(new CreateMusicianProfile.Command
                 {
                     PersonId = PersonSeedData.Admin.Id,
                     InstrumentId = SectionSeedData.Soprano.Id
@@ -138,7 +140,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(new Create.Command
+                return new MusicianProfile(new CreateMusicianProfile.Command
                 {
                     PersonId = PersonSeedData.Admin.Id,
                     InstrumentId = SectionSeedData.Flute.Id
@@ -150,7 +152,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new MusicianProfile(new Create.Command
+                return new MusicianProfile(new CreateMusicianProfile.Command
                 {
                     PersonId = PersonTestSeedData.UserWithoutRole.Id,
                     InstrumentId = SectionSeedData.Bass.Id

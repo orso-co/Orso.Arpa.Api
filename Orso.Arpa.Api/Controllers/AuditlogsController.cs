@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AuditLogApplication;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.AuditLogApplication.Interfaces;
+using Orso.Arpa.Application.AuditLogApplication.Model;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers

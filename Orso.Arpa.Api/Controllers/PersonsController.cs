@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Interfaces;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -52,6 +52,19 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<IEnumerable<PersonDto>>> Get()
         {
             return Ok(await _personService.GetAsync());
+        }
+
+        /// <summary>
+        /// Gets all persons with a given date of birth
+        /// </summary>
+        /// <returns>A list of persons (reduced data)</returns>
+        /// <response code="200"></response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpGet("reduced")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ReducedPersonDto>>> GetReducedPersonData([FromQuery]DateTime birthday)
+        {
+            return Ok(await _personService.GetBirthdayChildrenAsync(birthday));
         }
 
         /// <summary>

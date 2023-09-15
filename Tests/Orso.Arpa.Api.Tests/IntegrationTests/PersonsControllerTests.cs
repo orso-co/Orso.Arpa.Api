@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -34,6 +34,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<PersonDto> result = await DeserializeResponseMessageAsync<IEnumerable<PersonDto>>(responseMessage);
             _ = result.Should().BeEquivalentTo(PersonDtoData.Persons, opt => opt.WithStrictOrdering());
+        }
+
+        [Test, Order(1)]
+        public async Task Should_Get_Reduced()
+        {
+            // Arrange
+            var expectedResult = new List<ReducedPersonDto> {
+                ReducedPersonDtoData.Performer
+            };
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.PersonsController.GetReduced(new DateTime(2023, 5, 5)));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<ReducedPersonDto> result = await DeserializeResponseMessageAsync<IEnumerable<ReducedPersonDto>>(responseMessage);
+            _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrdering());
         }
 
         [Test, Order(2)]

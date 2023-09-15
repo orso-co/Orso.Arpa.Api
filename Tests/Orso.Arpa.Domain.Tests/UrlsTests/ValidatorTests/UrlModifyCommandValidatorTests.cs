@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Urls.Modify;
 
 namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
 {
@@ -15,14 +15,14 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
     public class UrlModifyCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private Validator _validator;
+        private ModifyUrl.Validator _validator;
 
         [SetUp]
         public void SetUp()
         {
             _arpaContext = Substitute.For<IArpaContext>();
 
-            _validator = new Validator(_arpaContext);
+            _validator = new ModifyUrl.Validator(_arpaContext);
         }
 
         [Test]

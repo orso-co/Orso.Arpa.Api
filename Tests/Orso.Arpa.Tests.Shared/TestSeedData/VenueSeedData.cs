@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Venues;
+using Orso.Arpa.Domain.VenueDomain.Commands;
+using Orso.Arpa.Domain.VenueDomain.Model;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -24,7 +24,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             {
                 return new Venue(
                     Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
-                    new Create.Command
+                    new CreateVenue.Command
                     {
                         Name = "Weiherhof Schule",
                         Address1 = "Schlüsselstraße 5",

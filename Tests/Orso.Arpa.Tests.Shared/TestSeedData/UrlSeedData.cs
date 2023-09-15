@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Logic.Urls;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command("https://arpa2.orso.co", "Our great ARPA 2.0 Website", ProjectSeedData.RockingXMas.Id);
+                var command = new CreateUrl.Command("https://arpa2.orso.co", "Our great ARPA 2.0 Website", ProjectSeedData.RockingXMas.Id);
                 var id = Guid.Parse("a009cea6-031c-4f0c-ac05-931b2826127d");
                 var url = new Url(id, command);
                 url.UrlRoles.Add(new(id, RoleSeedData.Staff.Id));
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command("https://www.orso.co", "ORSO website", ProjectSeedData.RockingXMas.Id);
+                var command = new CreateUrl.Command("https://www.orso.co", "ORSO website", ProjectSeedData.RockingXMas.Id);
                 var id = Guid.Parse("2d7c6ac5-5b1c-42ef-9c3d-1edd3f46b33f");
                 var url = new Url(id, command);
                 url.UrlRoles.Add(new(id, RoleSeedData.Staff.Id));
@@ -43,7 +43,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command("https://www.google.com", "Google", ProjectSeedData.RockingXMas.Id);
+                var command = new CreateUrl.Command("https://www.google.com", "Google", ProjectSeedData.RockingXMas.Id);
                 var id = Guid.Parse("fa8d667d-3bb6-4482-91ed-20754be6d539");
                 var url = new Url(id, command);
                 url.UrlRoles.Add(new(id, RoleSeedData.Performer.Id));
@@ -54,7 +54,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var command = new Create.Command("https://www.google.de", "Google DE", ProjectSeedData.HoorayForHollywood.Id);
+                var command = new CreateUrl.Command("https://www.google.de", "Google DE", ProjectSeedData.HoorayForHollywood.Id);
                 return new Url(Guid.Parse("be021bf0-db90-4a05-9d7c-0e98c9a3f893"), command);
             }
         }

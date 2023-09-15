@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AuthApplication;
-using Orso.Arpa.Application.Interfaces;
+using Orso.Arpa.Application.AuthApplication.Interfaces;
+using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Middleware;
-using Orso.Arpa.Application.AuthApplication;
+using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Api.Tests.UnitTests

@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Extensions;
+using Orso.Arpa.Domain.General.Extensions;
+using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Domain.Tests.Extensions
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Tests.Extensions
             tree.Children.Select(c => c.Data.Name).Should().Equal("Performers", "Members", "Visitors", "Volunteers", "Suppliers", "Contractors");
 
             // Assert a specific sub-tree
-            Orso.Arpa.Domain.Extensions.ITree<Orso.Arpa.Domain.Entities.Section> subtree = tree.Children.First();            // navigate to first element in root tree, which is "Performers"
+            ITree<Section> subtree = tree.Children.First();            // navigate to first element in root tree, which is "Performers"
             subtree = subtree.Children.Skip(1).First(); // skip "Conductor", which makes "Choir" the first in the sub list now
             subtree.Children.Count.Should().Be(2);      // the "Choir" has two sub nodes called "Female Voices" and "Male Voices"
             subtree.Children.Select(c => c.Data.Name).Should().Equal("Female Voices", "Male Voices");

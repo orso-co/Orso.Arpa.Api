@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.ContactDetailApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.ContactDetailApplication.Interfaces;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers
 {

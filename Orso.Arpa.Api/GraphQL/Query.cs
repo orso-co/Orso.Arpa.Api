@@ -5,7 +5,10 @@ using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.AuditLogDomain.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Persistence.GraphQL;
 
 namespace Orso.Arpa.Api.GraphQL

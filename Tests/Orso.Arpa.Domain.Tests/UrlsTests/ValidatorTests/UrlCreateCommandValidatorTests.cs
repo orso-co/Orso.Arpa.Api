@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
-using static Orso.Arpa.Domain.Logic.Urls.Create;
 
 namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
 {
@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
     public class UrlCreateCommandValidatorTests
     {
         private IArpaContext _arpaContext;
-        private Validator _validator;
+        private CreateUrl.Validator _validator;
         private DbSet<Project> _mockProjectDbSet;
 
         [SetUp]
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
             _mockProjectDbSet = MockDbSets.Projects;
 
             _arpaContext.Projects.Returns(_mockProjectDbSet);
-            _validator = new Validator(_arpaContext);
+            _validator = new CreateUrl.Validator(_arpaContext);
         }
 
         [Test]

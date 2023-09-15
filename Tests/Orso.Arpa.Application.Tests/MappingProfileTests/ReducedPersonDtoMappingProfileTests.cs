@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.PersonApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests

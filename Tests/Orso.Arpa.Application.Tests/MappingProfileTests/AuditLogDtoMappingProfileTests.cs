@@ -1,8 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuditLogApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.AuditLogApplication.Model;
+using Orso.Arpa.Domain.AuditLogDomain.Model;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 

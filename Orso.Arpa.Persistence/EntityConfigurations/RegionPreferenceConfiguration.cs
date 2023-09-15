@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.RegionDomain.Model;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {

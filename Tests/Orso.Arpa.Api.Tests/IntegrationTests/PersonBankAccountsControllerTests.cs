@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.BankAccountApplication;
+using Orso.Arpa.Application.BankAccountApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -18,7 +19,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(100)]
         public async Task Should_Add_New_Bank_Account_To_Existing_Person_As_Staff()
         {
-            Domain.Entities.Person person = PersonTestSeedData.Performer;
+            Person person = PersonTestSeedData.Performer;
 
             var dto = new BankAccountCreateBodyDto
             {
@@ -53,7 +54,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(101)]
         public async Task Should_Add_New_Bank_Account_To_Existing_Person_As_Performer()
         {
-            Domain.Entities.Person person = PersonTestSeedData.Performer;
+            Person person = PersonTestSeedData.Performer;
 
             var dto = new BankAccountCreateBodyDto
             {
@@ -88,7 +89,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(102)]
         public async Task Should_Not_Add_New_Bank_Account_To_Existing_Person_When_User_Is_Not_Authenticated()
         {
-            Domain.Entities.Person person = PersonTestSeedData.Performer;
+            Person person = PersonTestSeedData.Performer;
 
             var dto = new BankAccountCreateBodyDto
             {
@@ -119,7 +120,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1000)]
         public async Task Should_Modify_Bank_Account()
         {
-            Domain.Entities.Person person = PersonTestSeedData.UnconfirmedUser;
+            Person person = PersonTestSeedData.UnconfirmedUser;
 
             var dto = new BankAccountModifyBodyDto
             {
@@ -142,7 +143,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(10000)]
         public async Task Should_Delete_Bank_Account()
         {
-            Domain.Entities.Person person = PersonTestSeedData.UnconfirmedUser;
+            Person person = PersonTestSeedData.UnconfirmedUser;
 
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()

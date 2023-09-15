@@ -1,5 +1,5 @@
 using System.Net.Http;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Domain.UserDomain.Model;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 {

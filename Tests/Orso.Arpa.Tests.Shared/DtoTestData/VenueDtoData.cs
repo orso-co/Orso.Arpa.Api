@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.AddressApplication;
-using Orso.Arpa.Application.VenueApplication;
+using Orso.Arpa.Application.AddressApplication.Model;
+using Orso.Arpa.Application.VenueApplication.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

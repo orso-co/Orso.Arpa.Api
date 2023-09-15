@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.MeApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
+using Orso.Arpa.Application.MeApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -18,7 +18,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(100)]
         public async Task Should_Add_New_Doubling_Instrument_To_Musician_Profile()
         {
-            Domain.Entities.MusicianProfile profile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile;
+            MusicianProfile profile = MusicianProfileSeedData.PerformersDeactivatedTubaProfile;
 
             var dto = new MyDoublingInstrumentCreateBodyDto
             {
@@ -53,7 +53,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1000)]
         public async Task Should_Modify_Doubling_Instrument()
         {
-            Domain.Entities.MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
+            MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
 
             var dto = new MyDoublingInstrumentModifyBodyDto
             {

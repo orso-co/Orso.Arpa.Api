@@ -2,10 +2,9 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.MeApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.MusicianProfiles;
+using Orso.Arpa.Application.MeApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -43,7 +42,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             dto.PreferredPartsInner.Add(4);
 
             // Act
-            Create.Command command = _mapper.Map<Create.Command>(dto);
+            CreateMusicianProfile.Command command = _mapper.Map<CreateMusicianProfile.Command>(dto);
 
             // Assert
             _ = command.Should().BeEquivalentTo(dto, opt => opt.Excluding(dto => dto.DoublingInstruments));

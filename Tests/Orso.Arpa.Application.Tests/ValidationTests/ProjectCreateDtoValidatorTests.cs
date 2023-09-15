@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Tests.Shared.Extensions;
 
 namespace Orso.Arpa.Application.Tests.ValidationTests

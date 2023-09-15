@@ -8,6 +8,7 @@
     <Compile Remove="Logic\SelectValueMappings\**" />
     <EmbeddedResource Remove="Logic\SelectValueMappings\**" />
     <None Remove="Logic\SelectValueMappings\**" />
+    <None Remove="PersonDomain\Notifications\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,5 +23,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Orso.Arpa.Mail\Orso.Arpa.Mail.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Misc\Orso.Arpa.Misc.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PersonDomain\Notifications\" />
   </ItemGroup>
 </Project>

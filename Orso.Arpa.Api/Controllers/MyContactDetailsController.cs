@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.ContactDetailApplication;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.MyContactDetailApplication;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
+using Orso.Arpa.Application.MyContactDetailApplication.Interfaces;
+using Orso.Arpa.Application.MyContactDetailApplication.Model;
 
 namespace Orso.Arpa.Api.Controllers
 {

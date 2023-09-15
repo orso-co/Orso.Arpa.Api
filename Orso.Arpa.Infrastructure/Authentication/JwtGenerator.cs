@@ -8,11 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
-using Orso.Arpa.Domain.Configuration;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Errors;
-using Orso.Arpa.Domain.Identity;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Configuration;
+using Orso.Arpa.Domain.General.Errors;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Infrastructure.Authentication

@@ -2,9 +2,9 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -43,7 +43,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                     IsCompleted = true
                 }
             };
-            var expectedCommand = new Modify.Command
+            var expectedCommand = new ModifyProject.Command
             {
                 Id = dto.Id,
                 Title = dto.Body.Title,
@@ -60,7 +60,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             };
 
             // Act
-            Modify.Command command = _mapper.Map<Modify.Command>(dto);
+            ModifyProject.Command command = _mapper.Map<ModifyProject.Command>(dto);
 
             // Assert
             _ = command.Should().BeEquivalentTo(expectedCommand);

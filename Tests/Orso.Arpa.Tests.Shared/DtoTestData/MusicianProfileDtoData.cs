@@ -1,9 +1,9 @@
 using System;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
-using Orso.Arpa.Application.SelectValueApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

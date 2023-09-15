@@ -5,8 +5,8 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Domain.AuditLogDomain.Enums;
+using Orso.Arpa.Domain.AuditLogDomain.Model;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {

@@ -4,26 +4,26 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.RegionDomain.Commands;
+using Orso.Arpa.Domain.RegionDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
-using static Orso.Arpa.Domain.Logic.Regions.Modify;
 
 namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
 {
     [TestFixture]
     public class RegionModifyCommandValidatorTests
     {
-        private Validator _validator;
+        private ModifyRegion.Validator _validator;
         private IArpaContext _arpaContext;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Validator(_arpaContext);
+            _validator = new ModifyRegion.Validator(_arpaContext);
             DbSet<Region> mockRegions = MockDbSets.Regions;
             _arpaContext.Set<Region>().Returns(mockRegions);
             _arpaContext.Regions.Returns(mockRegions);
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Id_Does_Not_Exist()
         {
             await _validator.ShouldHaveNotFoundErrorFor(command => command.Id,
-                new Command { Id = Guid.NewGuid(), Name = "Name" }, nameof(Region));
+                new ModifyRegion.Command { Id = Guid.NewGuid(), Name = "Name" }, nameof(Region));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Region>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             await _validator.ShouldHaveValidationErrorForExactAsync(command => command.Name,
-                new Command { Id = RegionSeedData.Freiburg.Id, Name = RegionSeedData.StuttgartCity.Name });
+                new ModifyRegion.Command { Id = RegionSeedData.Freiburg.Id, Name = RegionSeedData.StuttgartCity.Name });
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
         {
             _arpaContext.EntityExistsAsync<Region>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.Name,
-                new Command { Id = RegionSeedData.Freiburg.Id, Name = "Honolulu" });
+                new ModifyRegion.Command { Id = RegionSeedData.Freiburg.Id, Name = "Honolulu" });
         }
     }
 }

@@ -3,9 +3,9 @@ using AutoMapper;
 using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Projects;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -41,7 +41,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 .Generate();
 
             // Act
-            Create.Command command = _mapper.Map<Create.Command>(dto);
+            CreateProject.Command command = _mapper.Map<CreateProject.Command>(dto);
 
             // Assert
             _ = command.Should().BeEquivalentTo(dto);

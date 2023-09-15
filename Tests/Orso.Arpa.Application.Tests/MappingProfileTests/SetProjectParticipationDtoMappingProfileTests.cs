@@ -2,9 +2,9 @@ using System;
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.ProjectParticipations;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Commands;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {

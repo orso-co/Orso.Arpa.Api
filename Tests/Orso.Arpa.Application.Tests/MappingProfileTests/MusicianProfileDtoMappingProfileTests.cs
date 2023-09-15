@@ -1,14 +1,20 @@
 using System.Collections.Generic;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
-using Orso.Arpa.Application.EducationApplication;
-using Orso.Arpa.Application.General;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
-using Orso.Arpa.Domain.Entities;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Model;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Application.EducationApplication.Model;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
+using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -20,7 +26,10 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg =>
+            var services = new ServiceCollection();
+            services.AddSingleton<LocalizeAction<Section, SectionDto>>();
+            services.AddSingleton(_localizerCache);
+            services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile<MusicianProfileDtoMappingProfile>();
                 cfg.AddProfile<BaseEntityDtoMappingProfile>();
@@ -28,12 +37,16 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<CurriculumVitaeReferenceDtoMappingProfile>();
                 cfg.AddProfile<EducationDtoMappingProfile>();
                 cfg.AddProfile<MusicianProfileDeactivationDtoMappingProfile>();
+                cfg.AddProfile<SectionDtoMappingProfile>();
             });
 
-            _mapper = new Mapper(config);
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            _mapper = serviceProvider.GetService<IMapper>();
         }
 
         private IMapper _mapper;
+
+        private readonly ILocalizerCache _localizerCache = Substitute.For<ILocalizerCache>();
 
         private static IEnumerable<TestCaseData> _testData
         {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.AuditLogApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.AuditLogApplication.Model;
+using Orso.Arpa.Domain.AuditLogDomain.Enums;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.CurriculumVitaeReferenceApplication;
-using Orso.Arpa.Application.EducationApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Application.MusicianProfileDeactivationApplication;
-using Orso.Arpa.Application.ProjectApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Model;
+using Orso.Arpa.Application.EducationApplication.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -387,9 +387,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = musicianProfileToModify.CreatedBy,
                 SalaryComment = modifyDto.SalaryComment,
                 SalaryId = modifyDto.SalaryId,
-                InquiryStatusInner = (Domain.Enums.MusicianProfileInquiryStatus)modifyDto.InquiryStatusInner,
+                InquiryStatusInner = (MusicianProfileInquiryStatus)modifyDto.InquiryStatusInner,
                 Id = musicianProfileToModify.Id,
-                InquiryStatusTeam = (Domain.Enums.MusicianProfileInquiryStatus)modifyDto.InquiryStatusTeam,
+                InquiryStatusTeam = (MusicianProfileInquiryStatus)modifyDto.InquiryStatusTeam,
                 Instrument = musicianProfileToModify.Instrument,
                 IsMainProfile = true,
                 LevelAssessmentInner = modifyDto.LevelAssessmentInner,

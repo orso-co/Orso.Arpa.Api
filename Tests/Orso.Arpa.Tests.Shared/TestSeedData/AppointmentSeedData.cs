@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
-using Orso.Arpa.Domain.Logic.Appointments;
+using Orso.Arpa.Domain.AppointmentDomain.Commands;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 
@@ -37,7 +39,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
                         Status = AppointmentStatus.Confirmed,
@@ -68,7 +70,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[1].Id,
                         Status = AppointmentStatus.Scheduled,
@@ -95,7 +97,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     appointmentId,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[2].Id,
                         Status = AppointmentStatus.Confirmed,
@@ -131,7 +133,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[0].Id,
                         Status = AppointmentStatus.Confirmed,
@@ -162,7 +164,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
                         Status = AppointmentStatus.Confirmed,
@@ -192,7 +194,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
                         Status = AppointmentStatus.Confirmed,
@@ -222,7 +224,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
                         Status = AppointmentStatus.Confirmed,
@@ -256,7 +258,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
                         Status = AppointmentStatus.Confirmed,
@@ -290,7 +292,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
                         Status = AppointmentStatus.Confirmed,
@@ -324,7 +326,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var appointment = new Appointment
                 (
                     id,
-                    new Create.Command
+                    new CreateAppointment.Command
                     {
                         CategoryId = SelectValueMappingSeedData.AppointmentCategoryMappings[4].Id,
                         Status = AppointmentStatus.Refused,

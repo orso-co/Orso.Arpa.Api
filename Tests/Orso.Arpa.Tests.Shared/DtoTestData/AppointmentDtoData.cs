@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.AppointmentApplication;
-using Orso.Arpa.Application.AppointmentParticipationApplication;
-using Orso.Arpa.Application.MusicianProfileApplication;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData

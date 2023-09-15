@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.ContactDetailApplication;
-using Orso.Arpa.Application.MyContactDetailApplication;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Enums;
+using Orso.Arpa.Application.ContactDetailApplication.Model;
+using Orso.Arpa.Application.MyContactDetailApplication.Model;
+using Orso.Arpa.Domain.PersonDomain.Enums;
+using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -79,7 +79,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(10000)]
         public async Task Should_Delete_Contact_Detail()
         {
-            Domain.Entities.Person person = PersonTestSeedData.UserWithoutRole;
+            Person person = PersonTestSeedData.UserWithoutRole;
 
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()

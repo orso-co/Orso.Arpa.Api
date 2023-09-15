@@ -1,7 +1,8 @@
 using AutoMapper;
 using FluentAssertions;
 using NUnit.Framework;
-using Orso.Arpa.Application.ProjectApplication;
+using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -23,7 +24,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         public void Should_Map()
         {
             // Arrange
-            Domain.Entities.Project project = ProjectSeedData.HoorayForHollywood;
+            Project project = ProjectSeedData.HoorayForHollywood;
             var expectedDto = new ReducedProjectDto
             {
                 Description = project.Description,

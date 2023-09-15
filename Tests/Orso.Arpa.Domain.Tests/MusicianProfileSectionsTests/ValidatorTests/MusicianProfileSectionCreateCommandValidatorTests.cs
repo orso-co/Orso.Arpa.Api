@@ -6,9 +6,11 @@ using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.Entities;
-using Orso.Arpa.Domain.Interfaces;
-using Orso.Arpa.Domain.Logic.MusicianProfileSections;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -18,7 +20,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
     [TestFixture]
     public class MusicianProfileSectionsCreateValidatorTests
     {
-        private Create.Validator _validator;
+        private CreateMusicianProfileSection.Validator _validator;
         private IArpaContext _arpaContext;
         private DbSet<SelectValueCategory> _mockSelectValueCategoryDbSet;
         private DbSet<Section> _mockSectionDbSet;
@@ -27,7 +29,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new Create.Validator(_arpaContext);
+            _validator = new CreateMusicianProfileSection.Validator(_arpaContext);
             DbSet<MusicianProfile> mockMusicianProfiles = MockDbSets.MusicianProfiles;
             _ = _arpaContext.MusicianProfiles.Returns(mockMusicianProfiles);
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
@@ -42,7 +44,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
             MusicianProfile profile = FakeMusicianProfiles.PerformerHornMusicianProfile;
             _ = _arpaContext.GetByIdAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
                 .Returns(profile, profile);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.InstrumentId, new Create.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.InstrumentId, new CreateMusicianProfileSection.Command
             {
                 InstrumentId = SectionSeedData.WagnerTuba.Id,
                 MusicianProfileId = profile.Id
@@ -52,14 +54,14 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Valid_DoublingInstrumentId_Is_Supplied_Instrument()
         {
-            var profile = new MusicianProfile(new Domain.Logic.MusicianProfiles.Create.Command
+            var profile = new MusicianProfile(new CreateMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.PiccoloFlute.Id
             }, true, Guid.NewGuid());
             profile.SetProperty(nameof(MusicianProfile.Instrument), FakeSections.Flute.Children.First());
             _ = _arpaContext.GetByIdAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
                 .Returns(profile, profile);
-            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.InstrumentId, new Create.Command
+            await _validator.ShouldNotHaveValidationErrorForExactAsync(c => c.InstrumentId, new CreateMusicianProfileSection.Command
             {
                 InstrumentId = SectionSeedData.Flute.Id,
                 MusicianProfileId = profile.Id
@@ -81,7 +83,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
             MusicianProfile profile = FakeMusicianProfiles.PerformerHornMusicianProfile;
             _ = _arpaContext.GetByIdAsync<MusicianProfile>(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
                 .Returns(profile, profile);
-            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.InstrumentId, new Create.Command
+            _ = (await _validator.ShouldHaveValidationErrorForExactAsync(c => c.InstrumentId, new CreateMusicianProfileSection.Command
             {
                 MusicianProfileId = profile.Id,
                 InstrumentId = SectionSeedData.Piano.Id

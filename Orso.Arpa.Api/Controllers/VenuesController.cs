@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.Interfaces;
-using Orso.Arpa.Application.RoomApplication;
-using Orso.Arpa.Application.VenueApplication;
-using Orso.Arpa.Domain.Roles;
+using Orso.Arpa.Application.RoomApplication.Model;
+using Orso.Arpa.Application.VenueApplication.Interfaces;
+using Orso.Arpa.Application.VenueApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers

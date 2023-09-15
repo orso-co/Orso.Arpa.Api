@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
-using Orso.Arpa.Application.DoublingInstrumentApplication;
+using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -17,7 +18,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(100)]
         public async Task Should_Add_New_Doubling_Instrument_To_Musician_Profile()
         {
-            Domain.Entities.MusicianProfile profile = MusicianProfileSeedData.AdminMusicianFluteProfile;
+            MusicianProfile profile = MusicianProfileSeedData.AdminMusicianFluteProfile;
 
             var dto = new DoublingInstrumentCreateBodyDto
             {
@@ -54,7 +55,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1000)]
         public async Task Should_Modify_Doubling_Instrument()
         {
-            Domain.Entities.MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
+            MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
 
             var dto = new DoublingInstrumentModifyBodyDto
             {
@@ -76,7 +77,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(10000)]
         public async Task Should_Delete_Doubling_Instrument()
         {
-            Domain.Entities.MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
+            MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
 
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
