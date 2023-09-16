@@ -1,8 +1,6 @@
 using System;
-
 namespace Orso.Arpa.Domain.General.Errors
 {
-    [Serializable]
     public class AffectedRowCountMismatchException : Exception
     {
         public AffectedRowCountMismatchException(string entityName) : base(CreateMessage(entityName)) {
