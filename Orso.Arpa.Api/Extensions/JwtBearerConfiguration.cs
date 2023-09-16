@@ -13,7 +13,12 @@ namespace Orso.Arpa.Api.Extensions
 {
     public static class JwtBearerConfiguration
     {
-        public static AuthenticationBuilder AddJwtBearerConfiguration(this AuthenticationBuilder builder, JwtConfiguration jwtConfiguration)
+        private static readonly JsonSerializerOptions s_serializerOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+
+    public static AuthenticationBuilder AddJwtBearerConfiguration(this AuthenticationBuilder builder, JwtConfiguration jwtConfiguration)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.TokenKey));
 
@@ -61,16 +66,12 @@ namespace Orso.Arpa.Api.Extensions
                             context.ErrorDescription = $"The token expired on {authenticationException.Expires:o}";
                         }
 
-                        var serializeOptions = new JsonSerializerOptions
-                        {
-                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        };
                         return context.Response.WriteAsync(JsonSerializer.Serialize(new ValidationProblemDetails()
                         {
                             Title = context.Error,
                             Detail = context.ErrorDescription,
                             Status = 401
-                        }, serializeOptions));
+                        }, s_serializerOptions));
                     }
                 };
             });
