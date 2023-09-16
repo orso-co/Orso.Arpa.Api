@@ -15,36 +15,37 @@ namespace Orso.Arpa.Api.GraphQL
 {
     public class Query
     {
-        [UseApplicationDbContext]
-        [UsePaging]
-        [UseOffsetPaging]
-        [UseFiltering]
-        [UseSorting]
-        public ValueTask<List<MusicianProfile>> GetMusicianProfiles([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<MusicianProfile>>(context.MusicianProfiles.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<Person>> GetPersons([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<Person>>(context.Persons.ToListAsync());
+        public ValueTask<List<MusicianProfile>> GetMusicianProfiles(GraphQLContext graphQLContext) =>
+            new(graphQLContext.MusicianProfiles.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<Project>> GetProjects([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<Project>>(context.Projects.ToListAsync());
+        public ValueTask<List<Person>> GetPersons(GraphQLContext graphQLContext) =>
+            new(graphQLContext.Persons.ToListAsync());
 
         [UseApplicationDbContext]
         [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
-        public ValueTask<List<AuditLog>> GetAuditLogs([ScopedService] GraphQLContext context) =>
-            new ValueTask<List<AuditLog>>(context.AuditLogs.ToListAsync());
+        public ValueTask<List<Project>> GetProjects(GraphQLContext graphQLContext) =>
+            new(graphQLContext.Projects.ToListAsync());
+
+        [UseApplicationDbContext]
+        [UsePaging]
+        [UseOffsetPaging]
+        [UseFiltering]
+        [UseSorting]
+        public ValueTask<List<AuditLog>> GetAuditLogs(GraphQLContext graphQLContext) =>
+            new(graphQLContext.AuditLogs.ToListAsync());
     }
 }

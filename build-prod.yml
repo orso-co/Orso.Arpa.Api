@@ -61,9 +61,9 @@ steps:
     zipAfterPublish: false
 - task: NodeTool@0
   inputs:
-    versionSpec: '16.10'
+    versionSpec: '18.17'
   displayName: 'Install Node.js'
-- script: npm install
+- script: npm install --legacy-peer-deps
   displayName: 'Install Frontend Dependencies'
   workingDirectory: $(frontendWorkingDirectory)
 - script: npx ng build --configuration production --output-path $(frontendOutputPath)

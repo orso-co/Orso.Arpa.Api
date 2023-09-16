@@ -11,6 +11,7 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using HotChocolate.Data;
 using HotChocolate.Execution.Configuration;
 using HotChocolate.Types;
 using HotChocolate.Types.Pagination;
@@ -225,6 +226,7 @@ namespace Orso.Arpa.Api
         {
             RequestExecutorBuilder = services
                 .AddGraphQLServer()
+                .RegisterDbContext<GraphQLContext>(DbContextKind.Pooled)
                 .AddAuthorization()
                 .AddFiltering<CustomFilteringConvention>()
                 .AddQueryType<Query>()
