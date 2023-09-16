@@ -57,7 +57,7 @@ namespace Orso.Arpa.Api.Extensions
                         if (context.AuthenticateFailure != null && context.AuthenticateFailure.GetType() == typeof(SecurityTokenExpiredException))
                         {
                             var authenticationException = context.AuthenticateFailure as SecurityTokenExpiredException;
-                            context.Response.Headers.Add("x-token-expired", authenticationException.Expires.ToString("o"));
+                            context.Response.Headers.Append("x-token-expired", authenticationException.Expires.ToString("o"));
                             context.ErrorDescription = $"The token expired on {authenticationException.Expires:o}";
                         }
 

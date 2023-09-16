@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 
 
 namespace Orso.Arpa.Domain.General.Errors
@@ -16,11 +15,6 @@ namespace Orso.Arpa.Domain.General.Errors
         }
 
         public AuthorizationException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected AuthorizationException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
         {
         }
     }

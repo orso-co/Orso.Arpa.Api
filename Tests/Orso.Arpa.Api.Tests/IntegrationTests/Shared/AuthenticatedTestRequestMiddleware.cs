@@ -35,7 +35,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             User loadedUser = await _arpaUserManager.FindByNameAsync(username);
             var token = await _jwtGenerator.CreateTokensAsync(loadedUser, context.Connection.RemoteIpAddress.ToString(), new CancellationToken());
 
-            context.Request.Headers.Add("Authorization", "Bearer " + token);
+            context.Request.Headers.Append("Authorization", "Bearer " + token);
             context.Request.Headers.Remove("username");
 
             await _next(context);
