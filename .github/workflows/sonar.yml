@@ -46,10 +46,10 @@ jobs:
         shell: powershell	
         run: |	
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"orso-co_Orso.Arpa.Api" /o:"orso-co" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"	
-      - name: Setup .NET 7	
+      - name: Setup .NET 8	
         uses: actions/setup-dotnet@v4	
         with:	
-          dotnet-version: 7.0.x	
+          dotnet-version: 8.0.x	
       - name: Clean	
         run: dotnet clean ./Orso.Arpa.Api.sln --configuration Release && dotnet nuget locals all --clear	
       - name: Restore dependencies	
