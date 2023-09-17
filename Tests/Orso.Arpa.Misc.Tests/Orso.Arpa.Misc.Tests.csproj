@@ -19,4 +19,10 @@
     <ProjectReference Include="..\Orso.Arpa.Tests.Shared\Orso.Arpa.Tests.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
 </Project>
