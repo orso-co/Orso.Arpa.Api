@@ -6,6 +6,7 @@ using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Infrastructure.FileManagement
 {
@@ -34,7 +35,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             Response<BlobContentInfo> response = await blobClient.UploadAsync(file.OpenReadStream(), new BlobHttpHeaders
             {
                 ContentType = mimeType,
-                ContentDisposition = file.ContentDisposition,
+                ContentDisposition = file.ContentDisposition?.RemoveEverythingButAscii(),
                 ContentLanguage = extension,
                 CacheControl = "public, must-revalidate, max-age=1"
             });

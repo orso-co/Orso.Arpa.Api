@@ -9,9 +9,19 @@ namespace Orso.Arpa.Misc
 
         private static readonly Regex sWhitespace = WhitespaceRegex();
 
+        [GeneratedRegex(@"[^\u0000-\u007F]+")]
+        private static partial Regex AsciiRegex();
+
+        private static readonly Regex sAscii = AsciiRegex();
+
         public static string RemoveAllWhitespaces(this string str)
         {
             return sWhitespace.Replace(str, string.Empty);
+        }
+
+        public static string RemoveEverythingButAscii(this string str)
+        {
+            return sAscii.Replace(str, string.Empty);
         }
 
         public static string FormatItalic(this string str)
