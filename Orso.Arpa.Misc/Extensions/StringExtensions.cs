@@ -9,7 +9,7 @@ namespace Orso.Arpa.Misc
 
         private static readonly Regex sWhitespace = WhitespaceRegex();
 
-        [GeneratedRegex(@"[^\u0000-\u007F]+")]
+        [GeneratedRegex(@"[^\u0020-\u007F]+")]
         private static partial Regex AsciiRegex();
 
         private static readonly Regex sAscii = AsciiRegex();
