@@ -17,7 +17,6 @@ namespace Orso.Arpa.Api.GraphQL
     {
 
         [UseApplicationDbContext]
-        [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
@@ -25,7 +24,6 @@ namespace Orso.Arpa.Api.GraphQL
             new(graphQLContext.MusicianProfiles.ToListAsync());
 
         [UseApplicationDbContext]
-        [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
@@ -33,7 +31,6 @@ namespace Orso.Arpa.Api.GraphQL
             new(graphQLContext.Persons.ToListAsync());
 
         [UseApplicationDbContext]
-        [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
@@ -41,7 +38,6 @@ namespace Orso.Arpa.Api.GraphQL
             new(graphQLContext.Projects.ToListAsync());
 
         [UseApplicationDbContext]
-        [UsePaging]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
