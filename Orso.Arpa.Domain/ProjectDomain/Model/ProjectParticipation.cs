@@ -36,6 +36,8 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
             Project = project;
             MusicianProfileId = musicianProfile.Id;
             ProjectId = project.Id;
+            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate;
+            InvitationStatus = ProjectInvitationStatus.Candidate;
         }
 
         protected ProjectParticipation() { }
