@@ -43,6 +43,7 @@ namespace Orso.Arpa.Domain.UserDomain.Notifications
                 {
                     { "Person", user.Person },
                     { "E-Mail", user.Email },
+                    { "About Me", user.Person.AboutMe },
                     { "Link", $"{_jwtConfiguration.Audience}/arpa/dashboard/admin".FormatLink("Go to Admin Dashboard") }
                 },
                 "The user must now confirm their email address");

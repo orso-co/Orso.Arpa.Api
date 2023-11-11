@@ -28,7 +28,8 @@ namespace Orso.Arpa.Api.Tests.UnitTests
                 GivenName = "Givennamewithäü",
                 Password = "PasswordToBeShadowed",
                 Surname = "Surname",
-                UserName = "Username"
+                UserName = "Username",
+                AboutMe = "About me"
             };
             dto.StakeholderGroupIds.Add(Guid.Parse("fd8a2aea-42ee-4718-99d0-c759b89feb48"));
             var jso = new JsonSerializerOptions
@@ -38,7 +39,7 @@ namespace Orso.Arpa.Api.Tests.UnitTests
             var json = JsonSerializer.Serialize(dto, jso);
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
             
-            string expectedResult = $"{{{Environment.NewLine}  \"UserName\": \"Username\",{Environment.NewLine}  \"Password\": \"**********\",{Environment.NewLine}  \"Email\": \"my@test.mail\",{Environment.NewLine}  \"GivenName\": \"Givennamewithäü\",{Environment.NewLine}  \"Surname\": \"Surname\",{Environment.NewLine}  \"GenderId\": \"d69ed12f-bb0c-4577-8432-8460bfceb7d6\",{Environment.NewLine}  \"DateOfBirth\": \"2030-02-02T00:00:00\",{Environment.NewLine}  \"ClientUri\": \"my/client/uri\",{Environment.NewLine}  \"StakeholderGroupIds\": [{Environment.NewLine}    \"fd8a2aea-42ee-4718-99d0-c759b89feb48\"{Environment.NewLine}  ]{Environment.NewLine}}}";
+            string expectedResult = $"{{{Environment.NewLine}  \"UserName\": \"Username\",{Environment.NewLine}  \"Password\": \"**********\",{Environment.NewLine}  \"Email\": \"my@test.mail\",{Environment.NewLine}  \"GivenName\": \"Givennamewithäü\",{Environment.NewLine}  \"Surname\": \"Surname\",{Environment.NewLine}  \"AboutMe\": \"About me\",{Environment.NewLine}  \"GenderId\": \"d69ed12f-bb0c-4577-8432-8460bfceb7d6\",{Environment.NewLine}  \"DateOfBirth\": \"2030-02-02T00:00:00\",{Environment.NewLine}  \"ClientUri\": \"my/client/uri\",{Environment.NewLine}  \"StakeholderGroupIds\": [{Environment.NewLine}    \"fd8a2aea-42ee-4718-99d0-c759b89feb48\"{Environment.NewLine}  ]{Environment.NewLine}}}";
 
             var result = await SensibleRequestDataShadower.ShadowSensibleDataForLoggingAsync(stream);
 

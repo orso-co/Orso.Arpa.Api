@@ -49,6 +49,8 @@ using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Application.AuthApplication.Services;
 using Orso.Arpa.Application.BankAccountApplication.Interfaces;
 using Orso.Arpa.Application.BankAccountApplication.Services;
+using Orso.Arpa.Application.ClubApplication.Interfaces;
+using Orso.Arpa.Application.ClubApplication.Services;
 using Orso.Arpa.Application.ContactDetailApplication.Interfaces;
 using Orso.Arpa.Application.ContactDetailApplication.Services;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Interfaces;
@@ -406,6 +408,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IAddressService, AddressService>();
             _ = services.AddScoped<IMyProjectService, MyProjectService>();
             _ = services.AddScoped<INewsService, NewsService>();
+            _ = services.AddScoped<IClubService, ClubService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 

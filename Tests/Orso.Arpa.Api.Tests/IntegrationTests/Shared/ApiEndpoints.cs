@@ -36,6 +36,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Logout() => $"{Auth}/logout";
         }
 
+        public static class ClubController {
+            private static string Club => $"{Base}/club";
+            public static string Get() => Club;
+        }
+        
         public static class UsersController
         {
             private static string Users => $"{Base}/users";

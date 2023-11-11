@@ -186,7 +186,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 GivenName = "Ludmilla",
                 Surname = "Schneider",
                 ClientUri = "http://localhost:4200",
-                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
+                GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id,
+                AboutMe = null
             };
             registerDto.StakeholderGroupIds.Add(SectionSeedData.Volunteers.Id);
 
