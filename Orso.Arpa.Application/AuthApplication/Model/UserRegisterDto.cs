@@ -14,6 +14,7 @@ namespace Orso.Arpa.Application.AuthApplication.Model
         public string Email { get; set; }
         public string GivenName { get; set; }
         public string Surname { get; set; }
+        public string AboutMe { get; set; }
 
         public Guid GenderId { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -46,6 +47,8 @@ namespace Orso.Arpa.Application.AuthApplication.Model
                 .NotNull();
             RuleFor(c => c.GenderId)
                 .NotEmpty();
+            RuleFor(c => c.AboutMe)
+                .RestrictedFreeText(1000);
         }
     }
 

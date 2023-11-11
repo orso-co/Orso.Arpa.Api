@@ -32,6 +32,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             public DateTime DateOfBirth { get; set; }
             public Guid GenderId { get; set; }
             public string ClientUri { get; set; }
+            public string AboutMe { get; set; }
 
             public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
         }
@@ -100,7 +101,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                         break;
                     default:
                         throw new ValidationException(
-                            new ValidationFailure[] { new ValidationFailure(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.") });
+                            new ValidationFailure[] { new(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.") });
                 }
 
                 var user = new User

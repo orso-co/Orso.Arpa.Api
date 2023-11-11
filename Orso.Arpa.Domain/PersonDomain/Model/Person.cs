@@ -38,6 +38,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             Surname = command.Surname;
             GenderId = command.GenderId;
             DateOfBirth = command.DateOfBirth;
+            AboutMe = command.AboutMe;
         }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             Surname = command.Surname;
             DateOfBirth = command.DateOfBirth > DateTime.MinValue ? command.DateOfBirth : DateOfBirth;
             GenderId = command.GenderId;
+            AboutMe = command.AboutMe;
         }
 
         public void Update(ModifyMyUser.Command command)
