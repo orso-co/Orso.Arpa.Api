@@ -43,7 +43,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Person person = PersonTestSeedData.Performer;
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.Gender = SelectValueDtoData.Diverse;
-                dto.StakeholderGroups.Add(SectionDtoData.Choir);
+                dto.StakeholderGroups.Add(SectionDtoData.Performers);
                 dto.AboutMe = "Oh yes, I'm the great pretender!";
                 dto.PersonBackgroundTeam = "Staff only background information";
                 dto.BirthName = "Sil";
@@ -64,7 +64,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Person person = PersonTestSeedData.Performer;
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.Gender = SelectValueDtoData.Diverse;
-                dto.StakeholderGroups.Add(SectionDtoData.Choir);
+                dto.StakeholderGroups.Add(SectionDtoData.Performers);
                 dto.AboutMe = "Oh yes, I'm the great pretender!";
                 dto.BirthName = "Sil";
                 dto.Birthplace = "Pusemuckel";

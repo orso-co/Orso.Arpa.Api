@@ -222,7 +222,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .AuthenticateWith(_staff)
                 .DeleteAsync(ApiEndpoints.PersonsController.StakeholderGroups(
                     PersonTestSeedData.Performer.Id,
-                    SectionSeedData.Choir.Id));
+                    SectionSeedData.Performers.Id));
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
