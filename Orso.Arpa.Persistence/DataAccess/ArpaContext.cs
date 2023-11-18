@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -34,7 +35,7 @@ using Orso.Arpa.Persistence.EntityConfigurations;
 
 namespace Orso.Arpa.Persistence.DataAccess
 {
-    public class ArpaContext : IdentityDbContext<User, Role, Guid>, IArpaContext
+    public class ArpaContext : IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>, IArpaContext
     {
         private readonly ITokenAccessor _tokenAccessor;
         private readonly IDateTimeProvider _dateTimeProvider;

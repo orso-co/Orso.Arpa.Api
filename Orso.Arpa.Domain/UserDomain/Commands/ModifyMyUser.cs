@@ -61,7 +61,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             {
                 User existingUser = await _userAccessor.GetCurrentUserAsync(cancellationToken);
 
-                existingUser.Update(request);
+                existingUser.Update(request, _userManager.NormalizeEmail(request.Email));
 
                 IdentityResult result = await _userManager.UpdateAsync(existingUser);
 

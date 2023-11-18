@@ -10,9 +10,10 @@ namespace Orso.Arpa.Domain.UserDomain.Model
 {
     public class User : IdentityUser<Guid>
     {
-        public void Update(ModifyMyUser.Command command)
+        public void Update(ModifyMyUser.Command command, string normalizedEmail)
         {
             Email = command.Email;
+            NormalizedEmail = normalizedEmail;
             Person.Update(command);
         }
 
@@ -34,5 +35,7 @@ namespace Orso.Arpa.Domain.UserDomain.Model
 
         [AuditLogIgnore]
         public override string ConcurrencyStamp { get => base.ConcurrencyStamp; set => base.ConcurrencyStamp = value; }
+
+        public virtual ICollection<UserRole> UserRoles { get; private set; } = new HashSet<UserRole>();
     }
 }

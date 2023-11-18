@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Application.UserApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Tests.Shared.FakeData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
@@ -35,9 +37,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Per Former",
                     Email = "performer@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    PersonId = PersonDtoData.Performer.Id,
+                    Status = UserStatus.Active
                 };
-                user.StakeholderGroupIds.Add(Guid.Parse("c2cfb7a0-4981-4dda-b988-8ba74957f6a4"));
+                user.StakeholderGroups.Add(SectionDtoData.Performers);
                 return user;
             }
         }
@@ -54,7 +58,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Staff Member",
                     Email = "staff@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    PersonId = PersonDtoData.Staff.Id,
+                    Status = UserStatus.Active
                 };
             }
         }
@@ -71,7 +77,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Initial Admin",
                     Email = "admin@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = null
+                    CreatedAt = null,
+                    PersonId = PersonDtoData.Admin.Id,
+                    Status = UserStatus.Active
                 };
             }
         }
@@ -88,7 +96,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Without Role",
                     Email = "withoutrole@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    PersonId = PersonTestSeedData.UserWithoutRole.Id,
+                    Status = UserStatus.AwaitingRoleAssignment
                 };
             }
         }
@@ -105,7 +115,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "LockedOut User",
                     Email = "lockedout@test.com",
                     EmailConfirmed = true,
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    PersonId = PersonDtoData.LockedOutUser.Id,
+                    Status = UserStatus.AwaitingRoleAssignment
                 };
             }
         }
@@ -122,7 +134,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     DisplayName = "Unconfirmed User",
                     Email = "unconfirmed@test.com",
                     EmailConfirmed = false,
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    PersonId = PersonTestSeedData.UnconfirmedUser.Id,
+                    Status = UserStatus.AwaitingEmailConfirmation
                 };
             }
         }

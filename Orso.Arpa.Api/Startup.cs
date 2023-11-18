@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -164,7 +165,7 @@ namespace Orso.Arpa.Api
                 {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
                     options.JsonSerializerOptions.Converters.Add(new TrimmedStringConverter());
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicies.SnakeCaseUpper)); // https://github.com/dotnet/runtime/issues/782
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicies.SnakeCaseUpper)); // https://github.com/dotnet/runtime/issues/782 will be included in Text.Json in .NET 8
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 })
                 .AddApplicationPart(typeof(Startup).Assembly)
