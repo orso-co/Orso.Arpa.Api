@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.WebUtilities;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.RegionDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
@@ -45,7 +46,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             private static string Users => $"{Base}/users";
 
-            public static string Get() => Users;
+            public static string Get(UserStatus? userStatus) => userStatus is null ? Users : $"{Users}?userStatus={userStatus}";
 
             public static string GetById(Guid id) => $"{Users}/{id}";
 

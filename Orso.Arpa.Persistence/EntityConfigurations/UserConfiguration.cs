@@ -14,6 +14,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasForeignKey<User>(e => e.PersonId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
+            
+            builder
+                .HasMany(e => e.UserRoles)
+                .WithOne(p => p.User)
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
 
             builder
                 .Ignore(e => e.DisplayName);

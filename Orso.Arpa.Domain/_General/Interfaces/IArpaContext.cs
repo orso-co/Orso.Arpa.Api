@@ -17,6 +17,7 @@ using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.RegionDomain.Model;
 using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
@@ -47,6 +48,8 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<AuditLog> AuditLogs { get; set; }
         DbSet<Localization> Localizations { get; set; }
         DbSet<News> News { get; set; }
+
+        DbSet<User> Users { get; set; }
 
         DbSet<MusicianProfileDocument> MusicianProfileDocuments { get; set; }
         DbSet<MusicianProfileDeactivation> MusicianProfileDeactivations { get; set; }

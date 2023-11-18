@@ -50,11 +50,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 person.SetProperty(nameof(Person.Birthplace), "Pusemuckel");
                 person.SetProperty(nameof(Person.BirthName), "Sil");
                 person.SetProperty(nameof(Person.AboutMe), "Oh yes, I'm the great pretender!");
-                person.SetProperty(nameof(Person.PersonBackgroundTeam),"Staff only background information");
+                person.SetProperty(nameof(Person.PersonBackgroundTeam), "Staff only background information");
                 person.StakeholderGroups.Add(new PersonSection(
                     Guid.Parse("e94c3925-4edb-4a56-a8a0-a655500f8f4a"),
                     person.Id,
-                    SectionSeedData.Choir.Id));
+                    SectionSeedData.Performers.Id));
                 return person;
             }
         }

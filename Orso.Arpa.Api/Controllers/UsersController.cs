@@ -46,9 +46,9 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<UserDto>> Get()
+        public async Task<IEnumerable<UserDto>> Get([FromQuery]UserStatus? userStatus)
         {
-            return await _userService.GetAsync();
+            return await _userService.GetAsync(userStatus);
         }
 
         /// <summary>

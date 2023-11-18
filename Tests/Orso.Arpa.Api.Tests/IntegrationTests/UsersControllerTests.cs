@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.UserApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -66,17 +67,26 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
-        [Test, Order(1)]
-        public async Task Should_Get_All_Users()
+        private static IEnumerable<TestCaseData> s_getUserTestData
         {
-            // Arrange
-            IList<UserDto> expectedDtos = UserDtoData.Users;
-
+            get
+            {
+                yield return new TestCaseData(default(UserStatus?), UserDtoData.Users);
+                yield return new TestCaseData(UserStatus.AwaitingRoleAssignment, new List<UserDto> { UserDtoData.UserWithoutRole, UserDtoData.LockedOutUser });
+                yield return new TestCaseData(UserStatus.AwaitingEmailConfirmation, new List<UserDto> { UserDtoData.UnconfirmedUser });
+                yield return new TestCaseData(UserStatus.Active, new List<UserDto> { UserDtoData.Admin, UserDtoData.Performer, UserDtoData.Staff });
+            }
+        }
+        
+        [Test, Order(1)]
+        [TestCaseSource(nameof(s_getUserTestData))]
+        public async Task Should_Get_All_Users(UserStatus? userStatus, IList<UserDto> expectedDtos)
+        {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
                 .CreateClient()
                 .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.UsersController.Get());
+                .GetAsync(ApiEndpoints.UsersController.Get(userStatus));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -116,7 +126,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            UserDto result = (await DeserializeResponseMessageAsync<UserDto>(responseMessage));
+            UserDto result = await DeserializeResponseMessageAsync<UserDto>(responseMessage);
 
             result.Should().BeEquivalentTo(expectedDto);
         }

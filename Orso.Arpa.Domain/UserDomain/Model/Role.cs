@@ -13,5 +13,7 @@ namespace Orso.Arpa.Domain.UserDomain.Model
 
         [AuditLogIgnore]
         public override string ConcurrencyStamp { get => base.ConcurrencyStamp; set => base.ConcurrencyStamp = value; }
+
+        public virtual ICollection<UserRole> UserRoles { get; private set; } = new HashSet<UserRole>();
     }
 }

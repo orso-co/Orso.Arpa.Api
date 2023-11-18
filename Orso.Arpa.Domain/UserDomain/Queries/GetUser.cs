@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Orso.Arpa.Domain.General.Errors;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
 
@@ -22,22 +24,18 @@ namespace Orso.Arpa.Domain.UserDomain.Queries
 
         public class Handler : IRequestHandler<Query, User>
         {
-            private readonly ArpaUserManager _arpaUserManager;
+            private readonly IArpaContext _arpaContext;
 
-            public Handler(
-                ArpaUserManager arpaUserManager)
+
+            public Handler(IArpaContext arpaContext)
             {
-                _arpaUserManager = arpaUserManager;
+                _arpaContext = arpaContext;
             }
 
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
-                User user = await _arpaUserManager.FindByIdAsync(request.Id, cancellationToken);
-                if (user is null)
-                {
-                    throw new NotFoundException(nameof(User), nameof(Query.Id));
-                }
-                return user;
+                User user = await _arpaContext.FindAsync<User>(new object[] { request.Id }, cancellationToken);
+                return user ?? throw new NotFoundException(nameof(User), nameof(Query.Id));
             }
         }
     }

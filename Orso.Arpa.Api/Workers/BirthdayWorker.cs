@@ -70,7 +70,7 @@ public sealed class BirthdayWorker : BackgroundService
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError(e, "{prefix} An erroc occured while sending birthday e-mail for {person}", person);
+                        _logger.LogError(e, "{prefix} An erroc occured while sending birthday e-mail for {person}", LoggerPrefix, person);
                     }
 
                 }
