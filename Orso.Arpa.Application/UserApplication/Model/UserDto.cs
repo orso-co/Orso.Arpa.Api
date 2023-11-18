@@ -34,21 +34,21 @@ namespace Orso.Arpa.Application.UserApplication.Model
                 .ForMember(dest => dest.Status, opt => opt.MapFrom<UserStatusResolver>())
                 .ForMember(dest => dest.RoleNames, opt => opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.Name)));
         }
+    }
 
-        public class UserStatusResolver : IValueResolver<User, UserDto, UserStatus>
+    public class UserStatusResolver : IValueResolver<User, UserDto, UserStatus>
+    {
+        public UserStatus Resolve(User source, UserDto destination, UserStatus member, ResolutionContext context)
         {
-            public UserStatus Resolve(User source, UserDto destination, UserStatus member, ResolutionContext context)
+            if (!source.EmailConfirmed)
             {
-                if (!source.EmailConfirmed)
-                {
-                    return UserStatus.AwaitingEmailConfirmation;
-                }
-                if (!source.UserRoles.Any())
-                {
-                    return UserStatus.AwaitingRoleAssignment;
-                }
-                return UserStatus.Active;
+                return UserStatus.AwaitingEmailConfirmation;
             }
+            if (!source.UserRoles.Any())
+            {
+                return UserStatus.AwaitingRoleAssignment;
+            }
+            return UserStatus.Active;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Tests.Shared.FakeData
@@ -37,9 +38,16 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                     NormalizedEmail = "PERFORMER@TEST.COM",
                     NormalizedUserName = "PERFORMER",
                     EmailConfirmed = true,
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
                 };
                 user.RefreshTokens.Add(new RefreshToken("performer_valid_refresh_token", FakeDateTime.UtcNow.AddDays(5), "127.0.0.1", user.Id, FakeDateTime.UtcNow));
+                var userRole = new UserRole
+                {
+                    UserId = user.Id,
+                    RoleId = RoleSeedData.Performer.Id
+                };
+                userRole.SetProperty(nameof(UserRole.Role), RoleSeedData.Performer);
+                user.UserRoles.Add(userRole);
                 return user;
             }
         }

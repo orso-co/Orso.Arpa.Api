@@ -1,8 +1,15 @@
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Application.General.MappingActions;
+using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.SectionApplication.Model;
 using Orso.Arpa.Application.UserApplication.Model;
+using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 
@@ -14,15 +21,26 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<UserDtoMappingProfile>());
+            var services = new ServiceCollection();
+            services.AddSingleton<LocalizeAction<Section, SectionDto>>();
+            services.AddSingleton<UserStatusResolver>();
+            services.AddSingleton(_localizerCache);
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<BaseEntityDtoMappingProfile>();
+                cfg.AddProfile<UserDtoMappingProfile>();
+                cfg.AddProfile<SectionDtoMappingProfile>();
+            });
 
-            _mapper = new Mapper(config);
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            _mapper = serviceProvider.GetService<IMapper>();
         }
 
         private IMapper _mapper;
+        private readonly ILocalizerCache _localizerCache = Substitute.For<ILocalizerCache>();
 
         [Test]
-        public void Should_Map()
+        public void Should_Map_User_To_UserDto()
         {
             // Arrange
             User user = FakeUsers.Performer;
@@ -32,8 +50,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             UserDto dto = _mapper.Map<UserDto>(user);
 
             // Assert
-            dto.Should().BeEquivalentTo(expectedDto, opt => opt
-                .Excluding(dest => dest.RoleNames));
+            dto.Should().BeEquivalentTo(expectedDto);
         }
     }
 }
