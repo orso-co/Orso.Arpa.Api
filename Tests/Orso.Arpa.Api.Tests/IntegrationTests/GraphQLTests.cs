@@ -49,7 +49,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
             _ = serializedResult.Should().Be("{\"auditLogs\":" +
                 "{\"pageInfo\":{\"hasNextPage\":true,\"hasPreviousPage\":true,\"__typename\":\"CollectionSegmentInfo\"},\"totalCount\":111,\"items\":[" +
-                "{\"type\":\"CREATE\",\"tableName\":\"User\",\"createdBy\":\"anonymous\",\"__typename\":\"AuditLog\"}," +
+                "{\"type\":\"UPDATE\",\"tableName\":\"User\",\"createdBy\":\"anonymous\",\"__typename\":\"AuditLog\"}," +
                 "{\"type\":\"CREATE\",\"tableName\":\"User\",\"createdBy\":\"anonymous\",\"__typename\":\"AuditLog\"}]," +
                 "\"__typename\":\"AuditLogsCollectionSegment\"}}");
         }
