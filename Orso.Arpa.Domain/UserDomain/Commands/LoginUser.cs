@@ -57,7 +57,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 UserManager<User> userManager = _signInManager.UserManager;
                 User user = await userManager.Users
                     .Include(u => u.Person)
-                    .SingleOrDefaultAsync(u => (request.UsernameOrEmail.Contains('@'))
+                    .SingleOrDefaultAsync(u => request.UsernameOrEmail.Contains('@')
                         ? u.NormalizedEmail == userManager.NormalizeEmail(request.UsernameOrEmail)
                         : u.NormalizedUserName == userManager.NormalizeName(request.UsernameOrEmail), cancellationToken);
 

@@ -20,18 +20,6 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             public string ClientUri { get; set; }
         }
 
-        public class Validator : AbstractValidator<Command>
-        {
-            public Validator(
-                ArpaUserManager userManager)
-            {
-                RuleFor(c => c.UsernameOrEmail)
-                    .MustAsync(async (username, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(username) != null)
-                    .WithErrorCode("404")
-                    .WithMessage("User could not be found.");
-            }
-        }
-
         public class Handler : IRequestHandler<Command>
         {
             private readonly ArpaUserManager _userManager;
@@ -54,6 +42,10 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 User user = await _userManager.FindUserByUsernameOrEmailAsync(request.UsernameOrEmail);
+
+                if(user is null) {
+                    return Unit.Value;
+                }
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
