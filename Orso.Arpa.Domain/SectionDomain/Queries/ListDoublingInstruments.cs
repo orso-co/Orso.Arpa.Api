@@ -59,7 +59,7 @@ namespace Orso.Arpa.Domain.SectionDomain.Queries
                 return list;
             }
 
-            private Section GetInstrumentParent(Section section)
+            private static Section GetInstrumentParent(Section section)
             {
                 Section parent = section.Parent;
                 if (parent is null)
