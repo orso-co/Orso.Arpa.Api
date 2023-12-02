@@ -35,7 +35,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.14" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
-    <PackageReference Include="NLog" Version="5.2.6" />
+    <PackageReference Include="NLog" Version="5.2.7" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.5" />
     <PackageReference Include="NTRPRS.NLog.Slack" Version="5.0.4" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
