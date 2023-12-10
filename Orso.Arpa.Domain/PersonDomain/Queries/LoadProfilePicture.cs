@@ -1,8 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 using Orso.Arpa.Domain.General.Interfaces;
 
@@ -36,13 +34,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Queries
                 var profilePictureFileName = (await _arpaContext.Persons.FindAsync(new object[] { request.PersonId }, cancellationToken))?.ProfilePictureFileName;
 
                 return profilePictureFileName is null
-                    ? throw new ValidationException(new[]
-                                        {
-                        new ValidationFailure(nameof(request.PersonId), "No profile picture found for this person")
-                        {
-                            ErrorCode = "404"
-                        }
-                    })
+                    ? null
                     : await _fileAccessor.GetAsync(profilePictureFileName);
             }
         }

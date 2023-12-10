@@ -251,6 +251,11 @@ namespace Orso.Arpa.Api.Controllers
             // This implementation is only reached when ArpaProfilePictureProvider.IsValidRequest returns false
 
             IFileResult fileResult = await _personService.GetProfilePictureAsync(id);
+            
+            if (fileResult is null)
+            {
+                return NoContent();
+            }
 
             return File(fileResult.Content, fileResult.ContentType, $"Arpa_Profile_Picture_{id}{fileResult.Extension}");
         }
