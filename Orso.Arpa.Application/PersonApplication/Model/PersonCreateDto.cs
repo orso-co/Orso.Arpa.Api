@@ -26,8 +26,7 @@ namespace Orso.Arpa.Application.PersonApplication.Model
     {
         public PersonCreateDtoMappingProfile()
         {
-            CreateMap<PersonCreateDto, CreatePerson.Command>()
-                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth.HasValue ? src.DateOfBirth.Value.Date : (DateTime?)null));
+            CreateMap<PersonCreateDto, CreatePerson.Command>();
         }
     }
 

@@ -37,7 +37,7 @@ namespace Orso.Arpa.Application.PersonApplication.Model
                 .ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.Body.GenderId))
                 .ForMember(dest => dest.AboutMe, opt => opt.MapFrom(src => src.Body.AboutMe))
                 .ForMember(dest => dest.ContactViaId, opt => opt.MapFrom(src => src.Body.ContactViaId))
-                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.Body.DateOfBirth.HasValue ? src.Body.DateOfBirth.Value.Date : (DateTime?)null))
+                .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.Body.DateOfBirth))
                 .ForMember(dest => dest.Birthplace, opt => opt.MapFrom(src => src.Body.Birthplace))
                 .ForMember(dest => dest.PersonBackgroundTeam, opt => opt.MapFrom(src => src.Body.PersonBackgroundTeam))
                 .ForMember(dest => dest.ExperienceLevel, opt => opt.MapFrom(src => src.Body.ExperienceLevel))
