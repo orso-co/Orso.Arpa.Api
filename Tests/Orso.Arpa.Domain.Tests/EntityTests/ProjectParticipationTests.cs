@@ -16,14 +16,14 @@ namespace Orso.Arpa.Application.Tests.ProjectApplication
             get
             {
                 yield return new TestCaseData(null, null, ProjectParticipationStatusResult.Pending);
-                yield return new TestCaseData(ProjectParticipationStatusInner.RehearsalsOnly, null, ProjectParticipationStatusResult.Pending);
+                yield return new TestCaseData(ProjectParticipationStatusInner.RehearsalsOnly, null, ProjectParticipationStatusResult.Refusal);
                 yield return new TestCaseData(null, ProjectParticipationStatusInternal.Candidate, ProjectParticipationStatusResult.Pending);
                 yield return new TestCaseData(ProjectParticipationStatusInner.Interested, ProjectParticipationStatusInternal.Candidate, ProjectParticipationStatusResult.Pending);
                 yield return new TestCaseData(ProjectParticipationStatusInner.Acceptance, ProjectParticipationStatusInternal.Refusal, ProjectParticipationStatusResult.Refusal);
                 yield return new TestCaseData(ProjectParticipationStatusInner.Refusal, ProjectParticipationStatusInternal.Acceptance, ProjectParticipationStatusResult.Refusal);
                 yield return new TestCaseData(ProjectParticipationStatusInner.Acceptance, ProjectParticipationStatusInternal.Acceptance, ProjectParticipationStatusResult.Acceptance);
                 yield return new TestCaseData(ProjectParticipationStatusInner.Acceptance, ProjectParticipationStatusInternal.Candidate, ProjectParticipationStatusResult.Pending);
-                yield return new TestCaseData(ProjectParticipationStatusInner.RehearsalsOnly, ProjectParticipationStatusInternal.Acceptance, ProjectParticipationStatusResult.Pending);
+                yield return new TestCaseData(ProjectParticipationStatusInner.RehearsalsOnly, ProjectParticipationStatusInternal.Acceptance, ProjectParticipationStatusResult.Refusal);
             }
         }
 

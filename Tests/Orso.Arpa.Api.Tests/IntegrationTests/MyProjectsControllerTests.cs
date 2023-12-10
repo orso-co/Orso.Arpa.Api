@@ -178,7 +178,8 @@ public class MyProjectsControllerTests : IntegrationTestBase
             CreatedBy = "Per Former",
             CommentByPerformerInner = dto.CommentByPerformerInner,
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerProfile,
-            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate
+            ParticipationStatusInternal = ProjectParticipationStatusInternal.Candidate,
+            ParticipationStatusResult = ProjectParticipationStatusResult.Refusal
         };
 
         // Act
