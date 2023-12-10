@@ -84,7 +84,9 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
             }
         }
 
-        private bool HasAtLeastOneRefusalStatus => ProjectParticipationStatusInner.Refusal.Equals(ParticipationStatusInner)
+        private bool HasAtLeastOneRefusalStatus => 
+                ProjectParticipationStatusInner.Refusal.Equals(ParticipationStatusInner)
+                || ProjectParticipationStatusInner.RehearsalsOnly.Equals(ParticipationStatusInner)
                 || ProjectParticipationStatusInternal.Refusal.Equals(ParticipationStatusInternal);
 
         private bool HasOnlyAcceptanceStatus => ProjectParticipationStatusInner.Acceptance.Equals(ParticipationStatusInner)
