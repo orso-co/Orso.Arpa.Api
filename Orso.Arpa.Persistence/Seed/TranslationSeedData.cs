@@ -18,25 +18,41 @@ namespace Orso.Arpa.Persistence.Seed
 
                 try
                 {
-                    // Default English
-                    ApplyTranslation(
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
-                        "en").ForEach(result.Add);
-
-                    // German
-                    ApplyTranslation(
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
-                        "de").ForEach(result.Add);
+                    ApplyTranslations(result, GetRelativePath());
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
+                       Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
                 }
 
                 return result;
             }
+        }
+
+        private static string GetRelativePath() {
+            var currentDirectory = Directory.GetCurrentDirectory();
+
+            while(!currentDirectory.EndsWith("Orso.Arpa.Api"))
+            {
+                currentDirectory = Directory.GetParent(currentDirectory).FullName;
+            }
+
+            return currentDirectory;
+        }
+
+        private static void ApplyTranslations(IList<Localization> result, string relativePath)
+        {
+            // Default English
+            ApplyTranslation(
+                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
+                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
+                "en").ForEach(result.Add);
+
+            // German
+            ApplyTranslation(
+                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
+                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
+                "de").ForEach(result.Add);
         }
 
         private static List<Localization> ApplyTranslation(
@@ -55,7 +71,7 @@ namespace Orso.Arpa.Persistence.Seed
             string localizationsJson = File.ReadAllText(localizationPath);
             List<Localization> localizationsList = ParseLocalications(localizationsJson);
 
-            List<Localization> merge = MergeTranslationToLocalication(translationsList, localizationsList);
+            List<Localization> merge = MergeTranslationToLocalization(translationsList, localizationsList);
             string mergeJson = JsonSerializer.Serialize(merge,
                 new JsonSerializerOptions()
                 {
@@ -133,7 +149,7 @@ namespace Orso.Arpa.Persistence.Seed
         }
 
 
-        private static List<Localization> MergeTranslationToLocalication(IList<Localization> translations,
+        private static List<Localization> MergeTranslationToLocalization(IList<Localization> translations,
             List<Localization> localizations)
         {
             var result = new List<Localization>();
