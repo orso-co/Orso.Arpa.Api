@@ -78,9 +78,9 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                         p.User == null
                         && p.ContactDetails.Any(detail =>
                             detail.Key == ContactDetailKey.EMail
-#pragma warning disable RCS1155 // Use StringComparison when comparing strings.
+#pragma warning disable RCS1155, CA1862 // Use StringComparison when comparing strings.
                             && detail.Value.ToLower() == request.Email.ToLower()))
-#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
+#pragma warning restore RCS1155, CA1862 // Use StringComparison when comparing strings.
                     .ToList();
 
                 Person person;

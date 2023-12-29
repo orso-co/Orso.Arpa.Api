@@ -36,10 +36,7 @@ namespace Orso.Arpa.Misc.Extensions
 
         public static bool AreAllSame<T>(this IEnumerable<T> enumerable)
         {
-            if (enumerable == null)
-            {
-                throw new ArgumentNullException(nameof(enumerable));
-            }
+            ArgumentNullException.ThrowIfNull(enumerable);
 
             using IEnumerator<T> enumerator = enumerable.GetEnumerator();
             var toCompare = default(T);

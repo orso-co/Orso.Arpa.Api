@@ -19,7 +19,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             _mapper = new Mapper(config);
         }
 
-        private IMapper _mapper;
+        private Mapper _mapper;
 
         [Test]
         public void Should_Map()

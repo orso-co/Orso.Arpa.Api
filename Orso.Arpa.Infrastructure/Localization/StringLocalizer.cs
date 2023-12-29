@@ -19,7 +19,7 @@ namespace Orso.Arpa.Infrastructure.Localization
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
         {
-            IList<LocalizedString> localizedStrings = new List<LocalizedString>();
+            List<LocalizedString> localizedStrings = [];
 
             foreach (KeyValuePair<string, string> ls in _cache.GetAllTranslations(_resourceKey, _location))
             {

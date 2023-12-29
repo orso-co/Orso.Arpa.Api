@@ -16,6 +16,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
         private SetRole.Validator _validator;
         private ArpaUserManager _userManager;
         private RoleManager<Role> _roleManager;
+        private static readonly string[] s_doesNotExistMessage = ["DoesNotExist"];
+
 
         [SetUp]
         public void Setup()
@@ -31,7 +33,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.ValidatorTests
             await _validator.ShouldHaveNotFoundErrorFor(c => c.RoleNames, new SetRole.Command()
             {
                 Username = UserTestSeedData.Staff.UserName,
-                RoleNames = new[] { "DoesNotExist" }
+                RoleNames = s_doesNotExistMessage
+
             }, typeof(Role).Name);
         }
 

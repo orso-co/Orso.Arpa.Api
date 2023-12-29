@@ -42,7 +42,7 @@ public static class ListBirthdayChildren
                     .Where(p => p.DateOfBirth.HasValue 
                         && p.DateOfBirth.Value.Month == request.Date.Month 
                         && p.DateOfBirth.Value.Day == request.Date.Day 
-                        && p.MusicianProfiles.Any())
+                        && p.MusicianProfiles.Count > 0)
                     .ToListAsync(cancellationToken);
         }
     }

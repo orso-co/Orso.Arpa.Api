@@ -144,7 +144,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", new[] { "Your email address is not confirmed. Please confirm your email address first" } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", s_emailAddressNotConfirmedMessage } });
         }
 
         [Test]
@@ -247,7 +247,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", new[] { "Email aleady exists" } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", s_emailAlreadyExistsMessage } });
         }
 
         [Test]
@@ -275,7 +275,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", new[] { "Multiple persons found with this email address. Registration aborted. Please contact your system admin." } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", s_multiplePersonsFoundMessage } });
         }
 
         [Test]
@@ -303,7 +303,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "Username aleady exists" } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", s_usernameAlreadyExistsMessage } });
         }
 
         [Test]
@@ -350,7 +350,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "CurrentPassword", new[] { "Incorrect password supplied" } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "CurrentPassword", s_incorrectPasswordMessage } });
         }
 
         [Test]
@@ -396,6 +396,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Admin, RoleNames.Performer }, HttpStatusCode.NoContent, true);
             }
         }
+
+        private static readonly string[] s_incorrectPasswordMessage = ["Incorrect password supplied"];
+        private static readonly string[] s_emailAlreadyExistsMessage = ["The email address is already confirmed"];
+        private static readonly string[] s_usernameAlreadyExistsMessage = ["Username aleady exists"];
+        private static readonly string[] s_multiplePersonsFoundMessage = ["Multiple persons found with this email address. Registration aborted. Please contact your system admin."];
+        private static readonly string[] s_emailAddressNotConfirmedMessage = ["Your email address is not confirmed. Please confirm your email address first"];
+
 
         [Test]
         [TestCaseSource(nameof(SetRoleTestData))]
@@ -519,7 +526,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", new[] { "The email address is already confirmed" } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", s_emailAlreadyExistsMessage } });
         }
 
         [Test]

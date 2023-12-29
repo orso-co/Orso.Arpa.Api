@@ -246,10 +246,7 @@ namespace Orso.Arpa.Api
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
         {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
+            ArgumentNullException.ThrowIfNull(services);
 
             var lz = new LocalizerCache(services);
             _ = services.AddSingleton<ILocalizerCache>(_ => lz);

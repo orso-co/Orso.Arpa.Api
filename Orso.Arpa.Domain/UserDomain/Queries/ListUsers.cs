@@ -40,13 +40,13 @@ namespace Orso.Arpa.Domain.UserDomain.Queries
                 switch (request.UserStatus)
                 {
                     case UserStatus.Active:
-                        users = users.Where(u => u.EmailConfirmed && u.UserRoles.Any());
+                        users = users.Where(u => u.EmailConfirmed && u.UserRoles.Count > 0);
                         break;
                     case UserStatus.AwaitingEmailConfirmation:
                         users = users.Where(u => !u.EmailConfirmed);
                         break;
                     case UserStatus.AwaitingRoleAssignment:
-                        users = users.Where(u => u.EmailConfirmed && !u.UserRoles.Any());
+                        users = users.Where(u => u.EmailConfirmed && u.UserRoles.Count.Equals(0));
                         break;
                     default:
                         break;

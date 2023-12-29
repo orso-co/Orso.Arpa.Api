@@ -274,7 +274,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             _ = errorMessage.Title.Should().Be("One or more validation errors occurred.");
             _ = errorMessage.Status.Should().Be(422);
-            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Code", new[] { "The specified project code is already in use. The project code needs to be unique." } } });
+            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Code", s_projectCodeAlreadyInUseMessage } });
         }
 
         [Test, Order(103)]
@@ -328,7 +328,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = validationProblemDetails.Title.Should().Be("One or more validation errors occurred.");
             _ = validationProblemDetails.Type.Should().Be("https://tools.ietf.org/html/rfc4918#section-11.2");
             _ = validationProblemDetails.Status.Should().Be(422);
-            _ = validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "EndDate", new[] { "'EndDate' must be greater than 'StartDate'" } } });
+            _ = validationProblemDetails.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "EndDate", s_endDateMustBeGreaterThanStartDateMessage } });
         }
 
         [Test, Order(105)]
@@ -362,6 +362,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.UrlsController.Get(result.Id)}");
         }
 
+        private static readonly string[] s_projectNotFoundMessage = ["Project could not be found."];
+        private static readonly string[] s_endDateMustBeGreaterThanStartDateMessage = ["'EndDate' must be greater than 'StartDate'"];
+        private static readonly string[] s_projectCodeAlreadyInUseMessage = ["The specified project code is already in use. The project code needs to be unique."];
+
+
         [Test, Order(106)]
         public async Task Should_Not_Add_Url_Due_To_Project_Not_Found()
         {
@@ -382,7 +387,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             _ = errorMessage.Title.Should().Be("Resource not found.");
             _ = errorMessage.Status.Should().Be(404);
-            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "ProjectId", new[] { "Project could not be found." } } });
+            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "ProjectId", s_projectNotFoundMessage } });
         }
 
         [Test, Order(107)]

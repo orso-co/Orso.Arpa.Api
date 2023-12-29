@@ -229,6 +229,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             }
         }
 
+        private static readonly string[] s_appointmentNotFoundMessage = ["Appointment could not be found."];
+
+
         [Test, Order(105)]
         [TestCaseSource(nameof(PersonTestData))]
         public async Task Should_Set_Participation_Result(Person person, HttpStatusCode expectedStatusCode)
@@ -338,7 +341,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             _ = errorMessage.Title.Should().Be("Resource not found.");
             _ = errorMessage.Status.Should().Be(404);
-            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Id", new[] { "Appointment could not be found." } } });
+            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Id", s_appointmentNotFoundMessage } });
         }
 
         [Test, Order(108)]

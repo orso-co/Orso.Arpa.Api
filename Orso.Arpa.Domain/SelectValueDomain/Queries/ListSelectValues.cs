@@ -31,10 +31,10 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Queries
                     .SelectValueCategories
                     .AsQueryable()
                     .Where(c =>
-#pragma warning disable RCS1155 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
+#pragma warning disable RCS1155, CA1862 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server
                         c.Table.ToLower() == request.TableName.ToLower()
                         && c.Property.ToLower() == request.PropertyName.ToLower())
-#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
+#pragma warning restore RCS1155, CA1862 // Use StringComparison when comparing strings.
                     .SelectMany(c => c.SelectValueMappings)
                     .OrderBy(s => s.SortOrder ?? int.MaxValue)
                     .ThenBy(s => s.SelectValue.Name)

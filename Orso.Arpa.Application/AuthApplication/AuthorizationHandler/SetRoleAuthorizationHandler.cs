@@ -23,6 +23,25 @@ namespace Orso.Arpa.Application.AuthApplication.AuthorizationHandler
         private readonly IUserAccessor _userAccessor;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        private static JsonSerializerOptions s_serializerOptions;
+
+        private static JsonSerializerOptions SerializerOptions
+        {
+            get
+            {
+                if (s_serializerOptions == null)
+                {
+                    s_serializerOptions = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    s_serializerOptions.Converters.Add(new JsonStringEnumConverter());
+                }
+
+                return s_serializerOptions;
+            }
+        }
+
         public SetRoleAuthorizationHandler(
             IHttpContextAccessor httpContextAccessor,
             IUserAccessor userAccessor,
@@ -50,12 +69,7 @@ namespace Orso.Arpa.Application.AuthApplication.AuthorizationHandler
             using (var stream = new StreamReader(body, Encoding.UTF8, true, 1024, true))
             {
                 string bodyString = await stream.ReadToEndAsync();
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                options.Converters.Add(new JsonStringEnumConverter());
-                dto = JsonSerializer.Deserialize<SetRoleDto>(bodyString, options);
+                dto = JsonSerializer.Deserialize<SetRoleDto>(bodyString, SerializerOptions);
             }
 
             body.Position = 0;

@@ -53,7 +53,7 @@ public static class ListProjectParticipationsForPerson
                 .Where(p => (!p.IsCompleted || request.IncludeCompleted)
                     && !p.IsHiddenForPerformers
                     && !ProjectStatus.Cancelled.Equals(p.Status)
-                    && !p.Children.Any())
+                    && p.Children.Count.Equals(0))
                 .OrderByDescending(p => p.StartDate);
 
             var totalRecordsCount = await projectQuery.CountAsync(cancellationToken);
@@ -75,7 +75,7 @@ public static class ListProjectParticipationsForPerson
                 result.Add(new PersonProjectParticipationGrouping
                 {
                     Project = project,
-                    ProjectParticipations = musicianProfileIds.Any()
+                    ProjectParticipations = musicianProfileIds.Count > 0
                         ? musicianProfileIds.Select(muproId =>
                         {
                             ProjectParticipation existingParticipation = project.ProjectParticipations.FirstOrDefault(pp => pp.MusicianProfileId.Equals(muproId));

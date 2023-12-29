@@ -48,7 +48,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("Resource not found.");
             errorMessage.Status.Should().Be(404);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "User could not be found." } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", s_userNotFoundMessage } });
         }
 
         [Test, Order(10000)]
@@ -77,7 +77,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 yield return new TestCaseData(UserStatus.Active, new List<UserDto> { UserDtoData.Admin, UserDtoData.Performer, UserDtoData.Staff });
             }
         }
-        
+
+        private static readonly string[] s_userNotFoundMessage = ["User could not be found."];
+        private static readonly string[] s_removalOfLastAdministratorNotAllowedMessage = ["The operation is not allowed because it would remove the last administrator"];
+
         [Test, Order(1)]
         [TestCaseSource(nameof(s_getUserTestData))]
         public async Task Should_Get_All_Users(UserStatus? userStatus, IList<UserDto> expectedDtos)
@@ -109,7 +112,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", new[] { "The operation is not allowed because it would remove the last administrator" } } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", s_removalOfLastAdministratorNotAllowedMessage } });
         }
 
         [Test, Order(2)]

@@ -16,6 +16,12 @@ namespace Orso.Arpa.Api.Middleware
 
         public const string ASPNET_REQUEST_POSTED_BODY_SHADOWED = "aspnet-request-posted-body-shadowed";
 
+        private readonly static JsonSerializerOptions s_serializerOptions = new()
+        {
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            WriteIndented = true
+        };
+
         public static async Task<string> ShadowSensibleDataForLoggingAsync(Stream body)
         {
             if (body?.CanSeek != true)
@@ -56,12 +62,7 @@ namespace Orso.Arpa.Api.Middleware
                         ? new KeyValuePair<string, object>(item.Key, SHADOW_VALUE)
                         : item)
                     .ToDictionary(x => x.Key, y => y.Value);
-                var jso = new JsonSerializerOptions
-                {
-                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-                    WriteIndented = true
-                };
-                return JsonSerializer.Serialize(shadowedBody, jso);
+                return JsonSerializer.Serialize(shadowedBody, s_serializerOptions);
             }
             catch (Exception)
             {

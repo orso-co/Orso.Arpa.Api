@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Commands
                             context.AddFailure(nameof(Command.ProjectId), "The project is cancelled or completed. You must not set the participation of such a project");
                             return;
                         }
-                        if (project.Children.Any())
+                        if (project.Children.Count > 0)
                         {
                             context.AddFailure(nameof(Command.ProjectId), "You may not set the participation of a parent project");
                         }
