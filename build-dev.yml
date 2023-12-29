@@ -21,9 +21,9 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  backendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Backend'
-  frontendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Frontend'
-  solution: 'Backend\**\*.sln'
+  backendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Api'
+  frontendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Web'
+  solution: 'Orso.Arpa.Api\**\*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   frontendOutputPath: '..\a\Orso.Arpa.Api\wwwroot'
@@ -32,9 +32,9 @@ variables:
 
 steps:
 - checkout: self
-  path: 'Backend'
+  path: 'Orso.Arpa.Api'
 - checkout: Frontend
-  path: 'Frontend'
+  path: 'Orso.Arpa.Web'
 - task: UseDotNet@2
   displayName: Use .NET SDK $(targetFramework).x
   inputs:
