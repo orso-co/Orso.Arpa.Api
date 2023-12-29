@@ -10,29 +10,30 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class LocalizationSeedData
     {
+        private static JsonSerializerOptions s_serializerOptions =
+                new()
+                {
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                };
+
         public static IList<Localization> Localizations
         {
             get
             {
                 IList<Localization> result = new List<Localization>();
 
-                try
-                {
-                    ApplyTranslations(result, GetRelativePath());
-                }
-                catch (DirectoryNotFoundException)
-                {
-                       Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
-                }
+                ApplyTranslations(result, GetRelativePath());
 
                 return result;
             }
         }
 
-        private static string GetRelativePath() {
+        private static string GetRelativePath()
+        {
             var currentDirectory = Directory.GetCurrentDirectory();
 
-            while(!currentDirectory.EndsWith("Orso.Arpa.Api"))
+            while (!currentDirectory.EndsWith("Orso.Arpa.Api"))
             {
                 currentDirectory = Directory.GetParent(currentDirectory).FullName;
             }
@@ -60,10 +61,7 @@ namespace Orso.Arpa.Persistence.Seed
             string localizationPath,
             string culture)
         {
-            if (translationPath == null)
-            {
-                throw new ArgumentNullException(nameof(translationPath));
-            }
+            ArgumentNullException.ThrowIfNull(translationPath);
 
             string translationsJson = File.ReadAllText(translationPath);
             List<Localization> translationsList = ParseTranslations(translationsJson, culture);
@@ -72,12 +70,7 @@ namespace Orso.Arpa.Persistence.Seed
             List<Localization> localizationsList = ParseLocalications(localizationsJson);
 
             List<Localization> merge = MergeTranslationToLocalization(translationsList, localizationsList);
-            string mergeJson = JsonSerializer.Serialize(merge,
-                new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                });
+            string mergeJson = JsonSerializer.Serialize(merge, s_serializerOptions);
 
             File.WriteAllText(localizationPath, mergeJson);
 
