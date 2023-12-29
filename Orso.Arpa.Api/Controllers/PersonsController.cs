@@ -154,8 +154,9 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="id"></param>
         /// <returns>The user data of the person if it exists</returns>
         [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
-        [HttpGet("{id}/profiles/musician")]
+        [HttpGet("{id}/profiles/user")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<UserDto>> GetUser([FromRoute] Guid id)
         {
             return Ok(await _userService.GetByPersonIdAsync(id));

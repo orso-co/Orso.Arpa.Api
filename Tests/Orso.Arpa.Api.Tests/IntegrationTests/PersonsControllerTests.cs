@@ -111,14 +111,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             get
             {
-                yield return new TestCaseData(PersonTestSeedData.Performer.Id, UserDtoData.Performer);
-                yield return new TestCaseData(PersonTestSeedData.PersonWithoutUser.Id, default(UserDto));
+                yield return new TestCaseData(PersonTestSeedData.Performer.Id, UserDtoData.Performer, HttpStatusCode.OK);
+                yield return new TestCaseData(PersonTestSeedData.PersonWithoutUser.Id, default(UserDto), HttpStatusCode.NoContent);
             }
         }
 
         [Test, Order(3)]
         [TestCaseSource(nameof(s_userProfileData))]
-        public async Task Should_Get_User_Data_Of_A_Person(Guid personId, UserDto expectedDto)
+        public async Task Should_Get_User_Data_Of_A_Person(Guid personId, UserDto expectedDto, HttpStatusCode expectedStatusCode)
         {
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -127,9 +127,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .GetAsync(ApiEndpoints.PersonsController.GetUser(personId));
 
             // Assert
-            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            _ = responseMessage.StatusCode.Should().Be(expectedStatusCode);
             UserDto result = await DeserializeResponseMessageAsync<UserDto>(responseMessage);
-            _ = result.Should().Be(expectedDto);
+            _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
         [Test, Order(4)]
