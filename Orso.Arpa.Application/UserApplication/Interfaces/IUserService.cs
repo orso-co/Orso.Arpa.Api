@@ -12,6 +12,8 @@ namespace Orso.Arpa.Application.UserApplication.Interfaces
 
         Task<UserDto> GetByIdAsync(Guid id);
 
+        Task<UserDto> GetByPersonIdAsync(Guid personId);
+
         Task DeleteAsync(string userName);
     }
 }

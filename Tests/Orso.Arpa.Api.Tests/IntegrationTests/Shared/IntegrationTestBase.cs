@@ -78,6 +78,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             var responseString = await responseMessage.Content.ReadAsStringAsync();
 
+            if(string.IsNullOrEmpty(responseString)) {
+                return default;
+            }
+
             return JsonSerializer.Deserialize<T>(responseString, _jsonSerializerOptions);
         }
 

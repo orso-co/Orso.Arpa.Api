@@ -10,6 +10,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
 using Orso.Arpa.Application.MusicianProfileApplication.Model;
 using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Application.UserApplication.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -106,7 +107,32 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDtos, opt => opt.WithStrictOrdering());
         }
 
+        private static IEnumerable<TestCaseData> s_userProfileData
+        {
+            get
+            {
+                yield return new TestCaseData(PersonTestSeedData.Performer.Id, UserDtoData.Performer, HttpStatusCode.OK);
+                yield return new TestCaseData(PersonTestSeedData.PersonWithoutUser.Id, default(UserDto), HttpStatusCode.NoContent);
+            }
+        }
+
         [Test, Order(3)]
+        [TestCaseSource(nameof(s_userProfileData))]
+        public async Task Should_Get_User_Data_Of_A_Person(Guid personId, UserDto expectedDto, HttpStatusCode expectedStatusCode)
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.PersonsController.GetUser(personId));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(expectedStatusCode);
+            UserDto result = await DeserializeResponseMessageAsync<UserDto>(responseMessage);
+            _ = result.Should().BeEquivalentTo(expectedDto);
+        }
+
+        [Test, Order(4)]
         public async Task Should_Invite_Persons()
         {
             var inviteDto = new PersonInviteDto();
