@@ -37,7 +37,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
     <PackageReference Include="NLog" Version="5.2.7" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.7" />
-    <PackageReference Include="NTRPRS.NLog.Slack" Version="5.0.4" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
     <PackageReference Include="SixLabors.ImageSharp.Web" Version="3.1.0" />
     <PackageReference Include="SixLabors.ImageSharp.Web.Providers.Azure" Version="3.1.0" />
@@ -53,5 +52,11 @@
     <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NTRPRS.NLog.Slack">
+      <HintPath>..\libs\NTRPRS.NLog.Slack.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
