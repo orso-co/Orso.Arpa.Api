@@ -35,7 +35,14 @@ namespace Orso.Arpa.Persistence.Seed
 
             while (!currentDirectory.EndsWith("Orso.Arpa.Api"))
             {
-                currentDirectory = Directory.GetParent(currentDirectory).FullName;
+                DirectoryInfo parentDirectory = Directory.GetParent(currentDirectory);
+
+                if (parentDirectory == null)
+                {
+                    return "/..";
+                }
+
+                currentDirectory = parentDirectory.FullName;
             }
 
             return currentDirectory;
