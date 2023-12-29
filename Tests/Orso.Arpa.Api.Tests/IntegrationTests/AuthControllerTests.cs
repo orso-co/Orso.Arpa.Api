@@ -398,7 +398,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         private static readonly string[] s_incorrectPasswordMessage = ["Incorrect password supplied"];
-        private static readonly string[] s_emailAlreadyExistsMessage = ["The email address is already confirmed"];
+        private static readonly string[] s_emailAlreadyConfirmedMessage = ["The email address is already confirmed"];
+        private static readonly string[] s_emailAlreadyExistsMessage = ["Email aleady exists"];
         private static readonly string[] s_usernameAlreadyExistsMessage = ["Username aleady exists"];
         private static readonly string[] s_multiplePersonsFoundMessage = ["Multiple persons found with this email address. Registration aborted. Please contact your system admin."];
         private static readonly string[] s_emailAddressNotConfirmedMessage = ["Your email address is not confirmed. Please confirm your email address first"];
@@ -526,7 +527,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
-            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", s_emailAlreadyExistsMessage } });
+            errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", s_emailAlreadyConfirmedMessage } });
         }
 
         [Test]
