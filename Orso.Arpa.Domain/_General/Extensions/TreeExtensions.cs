@@ -64,10 +64,7 @@ namespace Orso.Arpa.Domain.General.Extensions
         /// <summary> Flatten tree to plain list of nodes </summary>
         public static IEnumerable<TNode> Flatten<TNode>(this IEnumerable<TNode> nodes, Func<TNode, IEnumerable<TNode>> childrenSelector)
         {
-            if (nodes == null)
-            {
-                throw new ArgumentNullException(nameof(nodes));
-            }
+            ArgumentNullException.ThrowIfNull(nodes);
 
             return nodes.SelectMany(c => childrenSelector(c).Flatten(childrenSelector)).Concat(nodes);
         }
@@ -78,10 +75,7 @@ namespace Orso.Arpa.Domain.General.Extensions
         /// <param name="parentSelector">Expression to select parent.</param>
         public static ITree<T> ToTree<T>(this IList<T> items, Func<T, T, bool> parentSelector, int? maxLevel = null)
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
+            ArgumentNullException.ThrowIfNull(items);
 
             ILookup<T, T> lookup = items.ToLookup(item => items.FirstOrDefault(parent => parentSelector(parent, item)), child => child);
             return Tree<T>.FromLookup(lookup, maxLevel);

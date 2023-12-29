@@ -44,7 +44,7 @@ namespace Orso.Arpa.Application.UserApplication.Model
             {
                 return UserStatus.AwaitingEmailConfirmation;
             }
-            if (!source.UserRoles.Any())
+            if (source.UserRoles.Count == 0)
             {
                 return UserStatus.AwaitingRoleAssignment;
             }

@@ -32,7 +32,7 @@ public static class SetMyProjectParticipationStatus
                 .EntityExists<Command, Project>(arpaContext)
                 .CustomAsync(async (projectId, context, cancellation) =>
                 {
-                    Project project = await arpaContext.FindAsync<Project>(new object[] { projectId }, cancellation);
+                    Project project = await arpaContext.FindAsync<Project>([projectId], cancellation);
                     if (project.IsCompleted || ProjectStatus.Cancelled.Equals(project.Status))
                     {
                         context.AddFailure("The project is cancelled or completed. You must not set the participation of such a project");
@@ -43,7 +43,7 @@ public static class SetMyProjectParticipationStatus
                         context.AddFailure("The project is not accessible for your role");
                         return;
                     }
-                    if (project.Children.Any())
+                    if (project.Children.Count > 0)
                     {
                         context.AddFailure("You may not set the participation of a parent project");
                     }

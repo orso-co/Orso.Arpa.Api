@@ -29,9 +29,9 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
                     .MustAsync(async (command, iban, cancellation) => !(await arpaContext
                         .EntityExistsAsync<BankAccount>(bankAccount =>
                             bankAccount.PersonId == command.PersonId
-#pragma warning disable RCS1155 // Use StringComparison when comparing strings.
+#pragma warning disable RCS1155, CA1862 // Use StringComparison when comparing strings.
                                 && bankAccount.Iban.ToLower() == iban.ToLower(), cancellation)))
-#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
+#pragma warning restore RCS1155, CA1862 // Use StringComparison when comparing strings.
                     .WithMessage("Bank account with this IBAN already taken");
             }
         }

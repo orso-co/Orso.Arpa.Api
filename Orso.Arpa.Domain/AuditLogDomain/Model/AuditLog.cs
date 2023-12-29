@@ -21,8 +21,14 @@ namespace Orso.Arpa.Domain.AuditLogDomain.Model
         public IList<string> ChangedColumns { get; } = new List<string>();
         public string KeyValues { get; set; } = "{}";
 
-        public string OldValuesJson => JsonSerializer.Serialize(OldValues, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) });
+        private static readonly JsonSerializerOptions s_serializerOptions = new()
+        {
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+        };
 
-        public string NewValuesJson => JsonSerializer.Serialize(NewValues, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) });
+        public string OldValuesJson => JsonSerializer.Serialize(OldValues, s_serializerOptions);
+
+        public string NewValuesJson => JsonSerializer.Serialize(NewValues, s_serializerOptions);
     }
 }

@@ -20,6 +20,11 @@ namespace Orso.Arpa.Api.Middleware
         private readonly RequestDelegate _next;
         private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
+        private readonly static JsonSerializerOptions s_serializerOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+
         public ErrorHandlingMiddleware(
             RequestDelegate next,
             ILogger<ErrorHandlingMiddleware> logger)
@@ -152,7 +157,8 @@ namespace Orso.Arpa.Api.Middleware
                     break;
 
                 case AffectedRowCountMismatchException arcme:
-                    errorMessage = new ValidationProblemDetails {
+                    errorMessage = new ValidationProblemDetails
+                    {
                         Status = (int)HttpStatusCode.UnprocessableEntity,
                         Title = "The requested action could not be performed correctly on the database. Fewer changes were executed on the database than expected. Possibly, the sent object was already up to date."
                     };
@@ -183,11 +189,8 @@ namespace Orso.Arpa.Api.Middleware
             }
 
             context.Response.ContentType = MediaTypeNames.Application.Json;
-            var serializeOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            };
-            var serializedErrorMessage = JsonSerializer.Serialize(errorMessage, serializeOptions);
+
+            var serializedErrorMessage = JsonSerializer.Serialize(errorMessage, s_serializerOptions);
             await context.Response.WriteAsync(serializedErrorMessage);
         }
     }

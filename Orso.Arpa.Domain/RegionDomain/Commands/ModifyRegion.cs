@@ -27,9 +27,9 @@ namespace Orso.Arpa.Domain.RegionDomain.Commands
 
                 RuleFor(c => c.Name)
                     .MustAsync(async (dto, name, cancellation) => !(await arpaContext.Regions
-#pragma warning disable RCS1155 // Use StringComparison when comparing strings.
+#pragma warning disable RCS1155, CA1862 // Use StringComparison when comparing strings.
                         .AnyAsync(r => r.Name.ToLower() == name.ToLower() && r.Id != dto.Id, cancellation)))
-#pragma warning restore RCS1155 // Use StringComparison when comparing strings.
+#pragma warning restore RCS1155, CA1862 // Use StringComparison when comparing strings.
                     .WithMessage("A region with the requested name does already exist");
             }
         }

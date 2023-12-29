@@ -46,12 +46,12 @@ namespace Orso.Arpa.Domain.ProjectDomain.Queries
                                 .Where(p => (!p.IsCompleted || request.IncludeCompletedProjects)
                                     && !p.IsHiddenForPerformers
                                     && !ProjectStatus.Cancelled.Equals(p.Status)
-                                    && !p.Children.Any())
+                                    && p.Children.Count.Equals(0))
                                 .OrderByDescending(p => p.StartDate);
 
                 var result = new List<MusicianProfileProjectParticipationGrouping>();
 
-                MusicianProfile musicianProfile = await _arpaContext.MusicianProfiles.FindAsync(keyValues: new object[] { request.MusicianProfileId }, cancellationToken: cancellationToken);
+                MusicianProfile musicianProfile = await _arpaContext.MusicianProfiles.FindAsync(keyValues: [request.MusicianProfileId], cancellationToken: cancellationToken);
 
                 foreach (Project project in await projectQuery.ToListAsync(cancellationToken))
                 {
