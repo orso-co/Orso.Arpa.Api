@@ -16,6 +16,11 @@ namespace Orso.Arpa.Api.Middleware
         private readonly RequestDelegate _next;
         private readonly IStringLocalizerFactory _localizerFactory;
 
+        private readonly JsonSerializerOptions _serializeOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+
 
         public ErrorResponseLocalizationMiddleware(RequestDelegate next,
             IStringLocalizerFactory localizerFactory)
@@ -52,7 +57,7 @@ namespace Orso.Arpa.Api.Middleware
                     try
                     {
                         ValidationProblemDetails deserializedErrorMessage =
-                            JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody);
+                            JsonSerializer.Deserialize<ValidationProblemDetails>(responseBody, _serializeOptions);
 
                         deserializedErrorMessage!.Detail =
                             string.IsNullOrEmpty(deserializedErrorMessage.Detail)
@@ -63,12 +68,9 @@ namespace Orso.Arpa.Api.Middleware
 
                         await using var streamWrite = new StreamWriter(originalBody);
 
-                        var serializeOptions = new JsonSerializerOptions
-                        {
-                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        };
+
                         await streamWrite.WriteAsync(
-                            JsonSerializer.Serialize(deserializedErrorMessage, serializeOptions));
+                            JsonSerializer.Serialize(deserializedErrorMessage, _serializeOptions));
                     }
                     catch (Exception)
                     {

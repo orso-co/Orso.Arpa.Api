@@ -1,15 +1,8 @@
 using System;
-using System.Runtime.Serialization;
-
 namespace Orso.Arpa.Domain.General.Errors
 {
-    [Serializable]
     public class AffectedRowCountMismatchException : Exception
     {
-        protected AffectedRowCountMismatchException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {}
-
         public AffectedRowCountMismatchException(string entityName) : base(CreateMessage(entityName)) {
         }
 

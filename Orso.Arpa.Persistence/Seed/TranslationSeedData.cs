@@ -10,33 +10,50 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class LocalizationSeedData
     {
+        private static JsonSerializerOptions s_serializerOptions =
+                new()
+                {
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                };
+
         public static IList<Localization> Localizations
         {
             get
             {
                 IList<Localization> result = new List<Localization>();
 
-                try
-                {
-                    // Default English
-                    ApplyTranslation(
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
-                        "en").ForEach(result.Add);
-
-                    // German
-                    ApplyTranslation(
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
-                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
-                        "de").ForEach(result.Add);
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
-                }
+                ApplyTranslations(result, GetRelativePath());
 
                 return result;
             }
+        }
+
+        private static string GetRelativePath()
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+
+            while (!currentDirectory.EndsWith("Orso.Arpa.Api"))
+            {
+                currentDirectory = Directory.GetParent(currentDirectory).FullName;
+            }
+
+            return currentDirectory;
+        }
+
+        private static void ApplyTranslations(IList<Localization> result, string relativePath)
+        {
+            // Default English
+            ApplyTranslation(
+                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
+                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
+                "en").ForEach(result.Add);
+
+            // German
+            ApplyTranslation(
+                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
+                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
+                "de").ForEach(result.Add);
         }
 
         private static List<Localization> ApplyTranslation(
@@ -44,10 +61,7 @@ namespace Orso.Arpa.Persistence.Seed
             string localizationPath,
             string culture)
         {
-            if (translationPath == null)
-            {
-                throw new ArgumentNullException(nameof(translationPath));
-            }
+            ArgumentNullException.ThrowIfNull(translationPath);
 
             string translationsJson = File.ReadAllText(translationPath);
             List<Localization> translationsList = ParseTranslations(translationsJson, culture);
@@ -55,13 +69,8 @@ namespace Orso.Arpa.Persistence.Seed
             string localizationsJson = File.ReadAllText(localizationPath);
             List<Localization> localizationsList = ParseLocalications(localizationsJson);
 
-            List<Localization> merge = MergeTranslationToLocalication(translationsList, localizationsList);
-            string mergeJson = JsonSerializer.Serialize(merge,
-                new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                });
+            List<Localization> merge = MergeTranslationToLocalization(translationsList, localizationsList);
+            string mergeJson = JsonSerializer.Serialize(merge, s_serializerOptions);
 
             File.WriteAllText(localizationPath, mergeJson);
 
@@ -133,7 +142,7 @@ namespace Orso.Arpa.Persistence.Seed
         }
 
 
-        private static List<Localization> MergeTranslationToLocalication(IList<Localization> translations,
+        private static List<Localization> MergeTranslationToLocalization(IList<Localization> translations,
             List<Localization> localizations)
         {
             var result = new List<Localization>();

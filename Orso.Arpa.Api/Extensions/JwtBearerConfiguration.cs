@@ -13,7 +13,12 @@ namespace Orso.Arpa.Api.Extensions
 {
     public static class JwtBearerConfiguration
     {
-        public static AuthenticationBuilder AddJwtBearerConfiguration(this AuthenticationBuilder builder, JwtConfiguration jwtConfiguration)
+        private static readonly JsonSerializerOptions s_serializerOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+
+    public static AuthenticationBuilder AddJwtBearerConfiguration(this AuthenticationBuilder builder, JwtConfiguration jwtConfiguration)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.TokenKey));
 
@@ -57,20 +62,16 @@ namespace Orso.Arpa.Api.Extensions
                         if (context.AuthenticateFailure != null && context.AuthenticateFailure.GetType() == typeof(SecurityTokenExpiredException))
                         {
                             var authenticationException = context.AuthenticateFailure as SecurityTokenExpiredException;
-                            context.Response.Headers.Add("x-token-expired", authenticationException.Expires.ToString("o"));
+                            context.Response.Headers.Append("x-token-expired", authenticationException.Expires.ToString("o"));
                             context.ErrorDescription = $"The token expired on {authenticationException.Expires:o}";
                         }
 
-                        var serializeOptions = new JsonSerializerOptions
-                        {
-                            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        };
                         return context.Response.WriteAsync(JsonSerializer.Serialize(new ValidationProblemDetails()
                         {
                             Title = context.Error,
                             Detail = context.ErrorDescription,
                             Status = 401
-                        }, serializeOptions));
+                        }, s_serializerOptions));
                     }
                 };
             });
