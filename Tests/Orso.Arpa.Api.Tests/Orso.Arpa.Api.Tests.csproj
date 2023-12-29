@@ -25,5 +25,5 @@
      <Reference Include="DoomedDatabases.Postgres">
        <HintPath>..\libs\DoomedDatabases.Postgres.dll</HintPath>
      </Reference>
-    </ItemGroup>
+  </ItemGroup>
 </Project>
