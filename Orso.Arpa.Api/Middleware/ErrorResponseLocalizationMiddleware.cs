@@ -44,7 +44,7 @@ namespace Orso.Arpa.Api.Middleware
 
                 await _next(context);
 
-                if (context.Response.StatusCode >= 400) // Error occurred
+                if (context.Response.StatusCode >= 400 && memStream.Length > 0) // Error occurred
                 {
                     memStream.Position = 0;
                     string responseBody = await new StreamReader(memStream).ReadToEndAsync();
