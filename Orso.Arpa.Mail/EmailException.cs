@@ -2,7 +2,6 @@ using System;
 
 namespace Orso.Arpa.Mail
 {
-    [Serializable]
     public class EmailException : Exception
     {
         public EmailException() : base()
