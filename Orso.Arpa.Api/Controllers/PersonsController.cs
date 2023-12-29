@@ -8,6 +8,8 @@ using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication.Model;
 using Orso.Arpa.Application.PersonApplication.Interfaces;
 using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Application.UserApplication.Interfaces;
+using Orso.Arpa.Application.UserApplication.Model;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
@@ -18,11 +20,15 @@ namespace Orso.Arpa.Api.Controllers
     {
         private readonly IPersonService _personService;
         private readonly IMusicianProfileService _musicianProfileService;
+        private readonly IUserService _userService;
 
-        public PersonsController(IPersonService personService, IMusicianProfileService musicianProfileService)
+
+        public PersonsController(IPersonService personService, IMusicianProfileService musicianProfileService, IUserService userService)
         {
             _personService = personService;
             _musicianProfileService = musicianProfileService;
+            _userService = userService;
+
         }
 
         /// <summary>
@@ -131,7 +137,6 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="id"></param>
         /// <param name="includeDeactivated">Default: false</param>
         /// <returns>The musician profiles of the person</returns>
-        /// <response code="201">Returns the created musicianProfile</response>
         /// <response code="404">If entity could not be found</response>
         /// <response code="422">If validation fails</response>
         [Authorize(Roles = RoleNames.Staff)]
@@ -141,6 +146,19 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<IEnumerable<MusicianProfileDto>>> GetMusicianProfiles([FromRoute] Guid id, [FromQuery] bool includeDeactivated = false)
         {
             return Ok(await _musicianProfileService.GetByPersonAsync(id, includeDeactivated));
+        }
+
+        /// <summary>
+        /// Gets the user profile of a person, if it exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The user data of the person if it exists</returns>
+        [Authorize(Policy = AuthorizationPolicies.IsMyPerson)]
+        [HttpGet("{id}/profiles/musician")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserDto>> GetUser([FromRoute] Guid id)
+        {
+            return Ok(await _userService.GetByPersonIdAsync(id));
         }
 
         /// <summary>

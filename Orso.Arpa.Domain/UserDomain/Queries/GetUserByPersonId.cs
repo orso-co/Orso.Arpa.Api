@@ -1,25 +1,24 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Orso.Arpa.Domain.General.Errors;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Model;
-using Orso.Arpa.Domain.UserDomain.Repositories;
 
 namespace Orso.Arpa.Domain.UserDomain.Queries
 {
-    public static class GetUser
+    public static class GetUserByPersonId
     {
         public class Query : IRequest<User>
         {
-            public Query(Guid id)
+            public Query(Guid personId)
             {
-                Id = id;
+                PersonId = personId;
             }
 
-            public Guid Id { get; set; }
+            public Guid PersonId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, User>
@@ -34,8 +33,7 @@ namespace Orso.Arpa.Domain.UserDomain.Queries
 
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
-                User user = await _arpaContext.FindAsync<User>(new object[] { request.Id }, cancellationToken);
-                return user ?? throw new NotFoundException(nameof(User), nameof(Query.Id));
+                return await _arpaContext.Set<User>().FirstOrDefaultAsync(u => u.PersonId == request.PersonId, cancellationToken);
             }
         }
     }
