@@ -37,9 +37,9 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 DirectoryInfo parentDirectory = Directory.GetParent(currentDirectory);
 
-                if (parentDirectory == null)
+                if (parentDirectory is null)
                 {
-                    return "/..";
+                    return $"{Directory.GetCurrentDirectory()}/.."; // for azure app service
                 }
 
                 currentDirectory = parentDirectory.FullName;
