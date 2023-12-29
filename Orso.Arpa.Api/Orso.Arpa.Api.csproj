@@ -5,7 +5,7 @@
     <StartupObject>Orso.Arpa.Api.Program</StartupObject>
     <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591</NoWarn>
+    <NoWarn>$(NoWarn);1591;AD0001</NoWarn>
     <UserSecretsId>5e8d1f3f-b24d-4094-b9cb-9e85f01b30ce</UserSecretsId>
   </PropertyGroup>
 

@@ -23,7 +23,15 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 IList<Localization> result = new List<Localization>();
 
-                ApplyTranslations(result, GetRelativePath());
+                try
+                {
+                    ApplyTranslations(result, GetRelativePath());
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
+                }
+
 
                 return result;
             }
@@ -39,7 +47,7 @@ namespace Orso.Arpa.Persistence.Seed
 
                 if (parentDirectory is null)
                 {
-                    return $"{Directory.GetCurrentDirectory()}/.."; // for azure app service
+                    return null;
                 }
 
                 currentDirectory = parentDirectory.FullName;
@@ -50,6 +58,8 @@ namespace Orso.Arpa.Persistence.Seed
 
         private static void ApplyTranslations(IList<Localization> result, string relativePath)
         {
+            relativePath ??= Directory.GetCurrentDirectory() + "/..";
+            
             // Default English
             ApplyTranslation(
                 $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
