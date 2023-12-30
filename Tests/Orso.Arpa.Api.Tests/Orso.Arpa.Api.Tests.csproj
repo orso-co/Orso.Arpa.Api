@@ -23,7 +23,7 @@
 
   <ItemGroup>
      <Reference Include="DoomedDatabases.Postgres">
-       <HintPath>..\libs\DoomedDatabases.Postgres.dll</HintPath>
+       <HintPath>..\Orso.Arpa.Tests.Libs\DoomedDatabases.Postgres.dll</HintPath>
      </Reference>
   </ItemGroup>
 </Project>

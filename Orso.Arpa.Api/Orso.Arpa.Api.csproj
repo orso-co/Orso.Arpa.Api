@@ -56,7 +56,7 @@
 
   <ItemGroup>
     <Reference Include="NTRPRS.NLog.Slack">
-      <HintPath>..\libs\NTRPRS.NLog.Slack.dll</HintPath>
+      <HintPath>..\Orso.Arpa.Libs\NTRPRS.NLog.Slack.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
