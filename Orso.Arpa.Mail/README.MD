@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This project contains the logic to send mails via a SMTP server. The server can be configured in the `appsettings*.json`file. If you run the app locally you can run the Orso.Arpa.FakeSmtp project which will start a fake SMTP server with a UI to display the sent e-mail messages.
+This project contains the logic to send mails via a SMTP server. The server can be configured in the `appsettings*.json`file.
 
 ## Subfolders
 

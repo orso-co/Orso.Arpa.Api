@@ -16,8 +16,7 @@ namespace Orso.Arpa.Mail
                             string content,
                             IList<EmailAttachment> emailAttachments)
         {
-            To = new List<MailboxAddress>();
-            To.AddRange(to.Select(x => new MailboxAddress(x, x)));
+            To = [.. to.Select(x => new MailboxAddress(x, x))];
             Subject = subject;
             Content = content;
             if (emailAttachments != null)
