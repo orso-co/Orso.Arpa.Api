@@ -10,7 +10,7 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class LocalizationSeedData
     {
-        private static JsonSerializerOptions s_serializerOptions =
+        private static readonly JsonSerializerOptions s_serializerOptions =
                 new()
                 {
                     WriteIndented = true,
@@ -25,52 +25,25 @@ namespace Orso.Arpa.Persistence.Seed
 
                 try
                 {
-                    ApplyTranslations(result, GetRelativePath());
+                    // Default English
+                    ApplyTranslation(
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
+                        "en").ForEach(result.Add);
+
+                    // German
+                    ApplyTranslation(
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
+                        Directory.GetCurrentDirectory() + "/../Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
+                        "de").ForEach(result.Add);
                 }
                 catch (DirectoryNotFoundException)
                 {
                     Console.WriteLine("Please make sure that you start the migration from Orso.Arpa.Api project directory");
                 }
 
-
                 return result;
             }
-        }
-
-        private static string GetRelativePath()
-        {
-            var currentDirectory = Directory.GetCurrentDirectory();
-
-            while (!currentDirectory.EndsWith("Orso.Arpa.Api"))
-            {
-                DirectoryInfo parentDirectory = Directory.GetParent(currentDirectory);
-
-                if (parentDirectory is null)
-                {
-                    return null;
-                }
-
-                currentDirectory = parentDirectory.FullName;
-            }
-
-            return currentDirectory;
-        }
-
-        private static void ApplyTranslations(IList<Localization> result, string relativePath)
-        {
-            relativePath ??= Directory.GetCurrentDirectory() + "/..";
-            
-            // Default English
-            ApplyTranslation(
-                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Translation/en.json",
-                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Localization/en.json",
-                "en").ForEach(result.Add);
-
-            // German
-            ApplyTranslation(
-                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Translation/de.json",
-                $"{relativePath}/Orso.Arpa.Persistence/Seed/Translations/Localization/de.json",
-                "de").ForEach(result.Add);
         }
 
         private static List<Localization> ApplyTranslation(
