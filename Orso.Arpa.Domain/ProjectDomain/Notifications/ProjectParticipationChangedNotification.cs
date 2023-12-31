@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
@@ -58,13 +59,19 @@ namespace Orso.Arpa.Domain.ProjectDomain.Notifications
 
     public class SendProjectParticipationChangedMailToPerformer : INotificationHandler<ProjectParticipationChangedNotification>
     {
+        private readonly JwtConfiguration _jwtConfiguration;
+        private readonly ClubConfiguration _clubConfiguration;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<SendProjectParticipationChangedMailToPerformer> _logger;
 
         public SendProjectParticipationChangedMailToPerformer(
+            JwtConfiguration jwtConfiguration,
+            ClubConfiguration _clubConfiguration,
             IEmailSender emailSender,
             ILogger<SendProjectParticipationChangedMailToPerformer> logger)
         {
+            _jwtConfiguration = jwtConfiguration;
+            this._clubConfiguration = _clubConfiguration;
             _emailSender = emailSender;
             _logger = logger;
         }
@@ -80,14 +87,20 @@ namespace Orso.Arpa.Domain.ProjectDomain.Notifications
 
             var template = new ProjectParticipationChangedByStaffTemplate
             {
+                ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
                 CommentByStaff = notification.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
                 Comment = notification.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
-                MusicianName = musician.DisplayName,
+                DisplayName = musician.DisplayName,
                 ParticipationStatusInner = notification.ProjectParticipation.ParticipationStatusInner?.ToString() ?? "- ohne -",
                 ParticipationStatusInternal = notification.ProjectParticipation.ParticipationStatusInternal?.ToString() ?? "- ohne -",
 
                 InvitationStatus = notification.ProjectParticipation?.InvitationStatus?.ToString() ?? "- ohne -",
-                ProjectName = notification.ProjectParticipation.Project.ToString()
+                ProjectName = notification.ProjectParticipation.Project.ToString(),
+
+                ClubAddress = _clubConfiguration.Address,
+                ClubMail = _clubConfiguration.ContactEmail,
+                ClubName = _clubConfiguration.Name,
+                ClubPhoneNumber = _clubConfiguration.Phone
             };
 
             var emailAddress = musician.GetPreferredEMailAddress();

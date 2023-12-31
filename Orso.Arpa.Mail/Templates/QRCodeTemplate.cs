@@ -1,15 +1,7 @@
-using Orso.Arpa.Mail.Interfaces;
-
 namespace Orso.Arpa.Mail.Templates
 {
-    public class QRCodeTemplate : ITemplate
+    public class QRCodeTemplate : BaseTemplate
     {
-        public string ArpaLogo { get; set; }
-        public string DisplayName { get; set; }
-        public string ClubName { get; set; }
-        public string ClubMail { get; set; }
-        public string ClubAddress { get; set; }
-        public string ClubPhoneNumber { get; set; }
-        public string Name => "QR_Code";
+        public override string Name => "QR_Code";
     }
 }

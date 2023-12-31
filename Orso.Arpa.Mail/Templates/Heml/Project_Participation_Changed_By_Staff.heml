@@ -46,7 +46,7 @@
           <h1>Arpa 2.0</h1>
         </column>
       </row>
-      <h2>Hallo {{MusicianName}},</h2>
+      <h2>Hallo {{DisplayName}},</h2>
       <h3>dein Teilnahmestatus wurde soeben aktualisiert!</h3>
       <h3>Dein neuer Status aus unserer Sicht lautet nun wie folgt:</h3>
       <row>
@@ -74,7 +74,17 @@
           <p><i>{{Comment}}</i></p>
         </column>
       </row>
-
+    </container>
+    <container>
+      <row>
+        <column>
+          <h5>{{ClubName}}</h5>
+          <h6 id="h61"><b>Phone:</b> <a href="tel:{{ClubPhoneNumber}}">{{ClubPhoneNumber}}</a></h6>
+          <h6 class="m-0"><b>E-Mail:</b> <a href="mailto:{{ClubMail}}">{{ClubMail}}</a></h6>
+          <h6><b>Address:</b> {{ClubAddress}}</h6>
+          <h5></h5>
+        </column>
+      </row>
     </container>
   </body>
 </heml>
