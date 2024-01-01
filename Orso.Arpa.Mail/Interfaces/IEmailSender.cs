@@ -7,7 +7,14 @@ namespace Orso.Arpa.Mail.Interfaces
     {
         Task SendEmailAsync(EmailMessage emailMessage);
 
-        Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail, IList<EmailAttachment> attachments = null);
-        Task SendTemplatedEmailAsync(ITemplate templateData, IEnumerable<string> recipientMailList, IList<EmailAttachment> attachments = null);
+        Task SendTemplatedEmailAsync(
+            ITemplate templateData, 
+            string receipientMail, 
+            IList<EmailAttachment> attachments = null);
+
+        Task SendTemplatedEmailAsync(
+            ITemplate templateData, 
+            IEnumerable<string> recipientMailList, 
+            IList<EmailAttachment> attachments = null);
     }
 }

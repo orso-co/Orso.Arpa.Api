@@ -2,14 +2,8 @@ using Orso.Arpa.Mail.Interfaces;
 
 namespace Orso.Arpa.Mail.Templates
 {
-    public class ActivationInfoTemplate : ITemplate
+    public class ActivationInfoTemplate : BaseTemplate
     {
-        public string ArpaLogo { get; set; }
-        public string DisplayName { get; set; }
-        public string ClubName { get; set; }
-        public string ClubMail { get; set; }
-        public string ClubAddress { get; set; }
-        public string ClubPhoneNumber { get; set; }
-        public string Name => "Activation_Info";
+        public override string Name => "Activation_Info";
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -28,12 +29,18 @@ namespace Orso.Arpa.Mail
             await SendAsync(mimeMessage);
         }
 
-        public async Task SendTemplatedEmailAsync(ITemplate templateData, string receipientMail, IList<EmailAttachment> attachments = null)
+        public async Task SendTemplatedEmailAsync(
+            ITemplate templateData, 
+            string receipientMail, 
+            IList<EmailAttachment> attachments = null)
         {
             await SendTemplatedEmailAsync(templateData, new string[1] { receipientMail }, attachments);
         }
 
-        public async Task SendTemplatedEmailAsync(ITemplate templateData, IEnumerable<string> recipientMailList, IList<EmailAttachment> attachments = null)
+        public async Task SendTemplatedEmailAsync(
+            ITemplate templateData,
+            IEnumerable<string> recipientMailList,
+            IList<EmailAttachment> attachments = null)
         {
             var templatedBody = _templateParser.Parse(templateData);
 
@@ -51,7 +58,16 @@ namespace Orso.Arpa.Mail
         {
             var mimeMessage = new MimeMessage();
             mimeMessage.From.Add(new MailboxAddress(_emailConfig.From, _emailConfig.From));
-            mimeMessage.To.AddRange(emailMessage.To);
+            if (emailMessage.To.Count > 1)
+            {
+                mimeMessage.Bcc.AddRange(emailMessage.To);
+                mimeMessage.To.Add(new MailboxAddress(_emailConfig.From, _emailConfig.From));
+            }
+            else
+            {
+                mimeMessage.To.AddRange(emailMessage.To);
+            }
+
             mimeMessage.Subject = emailMessage.Subject ?? _emailConfig.DefaultSubject;
 
             var bodyBuilder = new BodyBuilder { HtmlBody = emailMessage.Content };

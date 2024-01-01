@@ -109,5 +109,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"{Category.ToString().ToUpperInvariant()}: {Name}";
+        }
     }
 }

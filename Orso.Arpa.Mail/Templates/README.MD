@@ -1,8 +1,8 @@
-# Anpassen von bestehenden Templates
+# Change existing templates
 
-1. Editor öffnen unter <https://heml.io/editor/>
-2. Inhalt des entsprechenden txt-Files aus dem Heml Ordner in den Editor kopieren
-3. Gewünschte Anpassungen vornehmen
-4. Neuen Heml Code in das entsprechende txt-File zurückspeichern
-5. Im Editor auf die Code-Ansicht wechseln und das komplette Html kopieren und speichern
-6. Neues Html ins entsprechende html-File im Ordner Templates kopieren und speichern
+1. Install heml globally via `npm install heml -g`
+2. Open the preview of the heml template you want to change via `heml develop Orso.Arpa.Mail/Templates/Heml/<name-of-the-heml-template>.heml --open`
+3. Make the desired changes
+4. After having finished the changes execute `heml build Orso.Arpa.Mail/Templates/Heml<name-of-the-heml-template>.heml`
+5. Move the created .html file the the Orso.Arpa.Mail/Templates/Html folder.
+6. You can find further information in the heml docs: https://heml.io/docs/getting-started/usage

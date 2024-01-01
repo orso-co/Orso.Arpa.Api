@@ -99,7 +99,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
                     var template = new InvitePersonTemplate
                     {
                         DisplayName = item.Key,
-                        ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
+                        ArpaLogo = _jwtConfiguration.ArpaLogo,
                         ClubAddress = _clubConfiguration.Address,
                         ClubMail = _clubConfiguration.ContactEmail,
                         ClubName = _clubConfiguration.Name,

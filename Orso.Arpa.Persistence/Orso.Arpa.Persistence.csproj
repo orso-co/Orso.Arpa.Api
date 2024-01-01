@@ -24,7 +24,7 @@
     <None Update="SqlStatements\S_ActiveAppointmentsForPersonFunction.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="SqlStatements\O_ActiveMusicianProfilesForAppointmentFunction.sql">
+    <None Update="SqlStatements\O_PersonsForAppointmentFunction.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SqlStatements\H_ActiveUserAppointmentsForProjectView.sql">

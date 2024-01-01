@@ -75,7 +75,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     var template = new QRCodeTemplate
                     {
                         DisplayName = user.DisplayName,
-                        ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
+                        ArpaLogo = _jwtConfiguration.ArpaLogo,
                         ClubAddress = _clubConfiguration.Address,
                         ClubMail = _clubConfiguration.ContactEmail,
                         ClubName = _clubConfiguration.Name,

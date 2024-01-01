@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using netDumbster.smtp;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication.Model;
@@ -112,6 +114,36 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Participations));
             _ = result.Participations.Should().BeEmpty();
+        }
+
+        [Test, Order(4)]
+        public async Task Should_Send_Appointment_Changed_Notification() {
+            // Arrange
+            _fakeSmtpServer.ClearReceivedEmail();
+            // the fake smtp server does not distinguish between to and bcc
+            IEnumerable<string> expectedToAddresses = [
+                "arpa@test.smtp",
+                UserSeedData.Admin.Email,
+                UserTestSeedData.UserWithoutRole.Email,
+                UserTestSeedData.Staff.Email,
+                UserTestSeedData.Performer.Email
+            ];
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.AppointmentsController.SendAppointmentChangedNotification(
+                    AppointmentSeedData.PhotoSession.Id,
+                    true), null);
+            
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
+            SmtpMessage sentEmail = _fakeSmtpServer.ReceivedEmail[0];
+            sentEmail.ToAddresses.Length.Should().Be(expectedToAddresses.Count());
+            sentEmail.ToAddresses.Select(a => a.Address).Should().BeEquivalentTo(expectedToAddresses, opt => opt.WithoutStrictOrdering());
+            sentEmail.Subject.Should().Be("Ein Termin in ARPA wurde aktualisiert!");
         }
 
         [Test, Order(1000)]

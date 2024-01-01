@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using FluentValidation;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Configuration;
+using Orso.Arpa.Domain.General.Extensions;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Mail.Interfaces;
+using Orso.Arpa.Mail.Templates;
+using Orso.Arpa.Misc.Extensions;
+
+namespace Orso.Arpa.Domain.AppointmentDomain.Commands
+{
+    public static class SendAppointmentChangedNotification
+    {
+        public class Command : IRequest
+        {
+            public Guid AppointmentId { get; set; }
+            public bool ForceSending { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IArpaContext arpaContext)
+            {
+                RuleFor(x => x.AppointmentId)
+                    .Cascade(CascadeMode.Stop)
+                    .EntityExists<Command, Appointment>(arpaContext)
+                    .CustomAsync(async (start, context, cancellation) =>
+                    {
+                        Guid appointmentId = context.InstanceToValidate.AppointmentId;
+                        Appointment appointment = await arpaContext.FindAsync<Appointment>([appointmentId], cancellation);
+                        var appointmentSectionsCount = appointment.SectionAppointments.Count;
+                        var appointmentProjectCount = appointment.ProjectAppointments.Count;
+                        if(appointmentSectionsCount == 0 && appointmentProjectCount == 0)
+                        {
+                            context.AddFailure("The appointment has no sections or projects. Please add at least one section or project to the appointment to prevent sending too many e-mails.");
+                            return;
+                        }
+
+                        if (appointmentProjectCount == 0 && !context.InstanceToValidate.ForceSending)
+                        {
+                            context.AddFailure("The appointment has no projects. It is possible that this e-mail will be sent to a large number of people. Are you sure you want to do this?");
+                            return;
+                        }
+                    });
+            }
+        }
+
+        public class Handler(
+            JwtConfiguration jwtConfiguration,
+            ClubConfiguration clubConfiguration,
+            IEmailSender emailSender,
+            IArpaContext arpaContext) : IRequestHandler<Command>
+        {
+            private readonly JwtConfiguration _jwtConfiguration = jwtConfiguration;
+            private readonly ClubConfiguration _clubConfiguration = clubConfiguration;
+            private readonly IEmailSender _emailSender = emailSender;
+            private readonly IArpaContext _arpaContext = arpaContext;
+
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            {
+                List<Guid> personIds = await _arpaContext
+                    .GetPersonsForAppointment(request.AppointmentId)
+                    .Select(a => a.Id)
+                    .ToListAsync(cancellationToken);
+
+                List<Person> persons = await _arpaContext.Persons
+                    .AsQueryable()
+                    .Where(p => personIds.Contains(p.Id))
+                    .ToListAsync(cancellationToken);
+
+                Appointment appointment = await _arpaContext.FindAsync<Appointment>([request.AppointmentId], cancellationToken);
+
+                var template = new AppointmentChangedByStaffTemplate
+                {
+                    ArpaLogo = _jwtConfiguration.ArpaLogo,
+                    ClubAddress = _clubConfiguration.Address,
+                    ClubMail = _clubConfiguration.ContactEmail,
+                    ClubName = _clubConfiguration.Name,
+                    ClubPhoneNumber = _clubConfiguration.Phone,
+                    AppointmentName = appointment.ToString(),
+                    DateAndTime = $"{appointment.StartTime.ToGermanDateTimeString()} - {appointment.EndTime:HH:mm}",
+                    PublicDetails = appointment.PublicDetails ?? "- ohne -",
+                    Venue = appointment.Venue?.ToString() ?? "- ohne -",
+                    ArpaUrl = _jwtConfiguration.Audience
+                };
+
+                await _emailSender.SendTemplatedEmailAsync(template, persons.Select(person => person.GetPreferredEMailAddress()));
+
+                return Unit.Value;
+            }
+        }
+    }
+}

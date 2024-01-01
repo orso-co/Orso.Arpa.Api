@@ -190,6 +190,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 AboutMe = null
             };
             registerDto.StakeholderGroupIds.Add(SectionSeedData.Volunteers.Id);
+            _fakeSmtpServer.ClearReceivedEmail();
 
             HttpClient client = _unAuthenticatedServer
                 .CreateClient();
