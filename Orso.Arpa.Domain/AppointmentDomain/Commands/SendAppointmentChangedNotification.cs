@@ -80,15 +80,15 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
                 var template = new AppointmentChangedByStaffTemplate
                 {
-                    ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
+                    ArpaLogo = _jwtConfiguration.ArpaLogo,
                     ClubAddress = _clubConfiguration.Address,
                     ClubMail = _clubConfiguration.ContactEmail,
                     ClubName = _clubConfiguration.Name,
                     ClubPhoneNumber = _clubConfiguration.Phone,
                     AppointmentName = appointment.ToString(),
                     DateAndTime = $"{appointment.StartTime.ToGermanDateTimeString()} - {appointment.EndTime:HH:mm}",
-                    PublicDetails = appointment.PublicDetails,
-                    Venue = appointment.Venue?.ToString(),
+                    PublicDetails = appointment.PublicDetails ?? "- ohne -",
+                    Venue = appointment.Venue?.ToString() ?? "- ohne -",
                     ArpaUrl = _jwtConfiguration.Audience
                 };
 

@@ -87,7 +87,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Notifications
 
             var template = new ProjectParticipationChangedByStaffTemplate
             {
-                ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
+                ArpaLogo = _jwtConfiguration.ArpaLogo,
                 CommentByStaff = notification.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
                 Comment = notification.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
                 DisplayName = musician.DisplayName,

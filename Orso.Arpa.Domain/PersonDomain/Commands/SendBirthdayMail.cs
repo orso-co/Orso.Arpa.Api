@@ -36,7 +36,7 @@ public static class SendBirthdayMail {
                 var template = new BirthdayTemplate
                     {
                         DisplayName = request.RecipientName,
-                        ArpaLogo = $"{_jwtConfiguration.Audience}/images/arpa_logo.png",
+                        ArpaLogo = _jwtConfiguration.ArpaLogo,
                         ClubAddress = _clubConfiguration.Address,
                         ClubMail = _clubConfiguration.ContactEmail,
                         ClubName = _clubConfiguration.Name,

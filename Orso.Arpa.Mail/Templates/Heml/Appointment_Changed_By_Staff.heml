@@ -46,7 +46,7 @@
           <h1>Arpa 2.0</h1>
         </column>
       </row>
-      <h2>Hallo {{DisplayName}},</h2>
+      <h2>Hallo,</h2>
       <h3>wir möchten dich über eine Terminaktualisierung in ARPA informieren.</h3>
       <h3>Die neuen Daten lauten nun wie folgt:</h3>
       <row>

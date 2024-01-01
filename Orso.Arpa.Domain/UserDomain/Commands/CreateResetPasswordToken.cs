@@ -59,7 +59,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 var template = new ResetPasswordTemplate
                 {
                     DisplayName = user.DisplayName,
-                    ArpaLogo = $"{_jwtConfiguration.Audience}/assets/common/logos/arpa_logo.png",
+                    ArpaLogo = _jwtConfiguration.ArpaLogo,
                     ClientUri = uri,
                     ClubAddress = _clubConfiguration.Address,
                     ClubMail = _clubConfiguration.ContactEmail,
