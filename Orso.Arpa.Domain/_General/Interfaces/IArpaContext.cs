@@ -68,7 +68,7 @@ namespace Orso.Arpa.Domain.General.Interfaces
         EntityEntry Entry(object entity);
 
         IQueryable<SqlFunctionIdResult> GetAppointmentIdsForPerson(Guid personId);
-        IQueryable<SqlFunctionIdResult> GetActiveMusicianProfilesForAppointment(Guid appointmentId);
+        IQueryable<SqlFunctionIdResult> GetPersonsForAppointment(Guid appointmentId);
         IQueryable<SqlFunctionIdResult> GetMusicianProfilesForAppointment(Guid appointmentId);
         bool IsPersonEligibleForAppointment(Guid personId, Guid appointmentId);
         Task<int> ExecuteSqlAsync(string sqlStatement);
