@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
@@ -13,6 +12,7 @@ using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
 using Orso.Arpa.Misc.Extensions;
@@ -51,8 +51,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     {
                         var doesAppointmentProjectExist = await arpaContext
                             .EntityExistsAsync<ProjectAppointment>(pa => pa.AppointmentId == context.InstanceToValidate.AppointmentId, cancellation);
+                        var doesAppointmentSectionExist = await arpaContext
+                            .EntityExistsAsync<SectionAppointment>(pa => pa.AppointmentId == context.InstanceToValidate.AppointmentId, cancellation);
 
-                        if (!doesAppointmentProjectExist && !context.InstanceToValidate.ForceSending)
+                        if (doesAppointmentSectionExist && !doesAppointmentProjectExist && !context.InstanceToValidate.ForceSending)
                         {
                             context.AddFailure("The appointment has no projects. Are you sure you want to do this?");
                         }

@@ -12,6 +12,7 @@ using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 using Orso.Arpa.Domain.ProjectDomain.Model;
 using System.Linq.Expressions;
+using Orso.Arpa.Domain.SectionDomain.Model;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {
@@ -56,6 +57,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             Appointment appointment = AppointmentSeedData.PhotoSession;
             _ = _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<ProjectAppointment, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
+            _ = _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<SectionAppointment, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             var command = new SendAppointmentChangedNotification.Command {
                 AppointmentId = appointment.Id,
                 ForceSending = false
@@ -69,6 +71,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             Appointment appointment = AppointmentSeedData.PhotoSession;
             _ = _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<ProjectAppointment, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
+            _ = _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<SectionAppointment, bool>>>(), Arg.Any<CancellationToken>()).Returns(true);
             var command = new SendAppointmentChangedNotification.Command {
                 AppointmentId = appointment.Id,
                 ForceSending = true
