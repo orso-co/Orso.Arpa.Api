@@ -11,7 +11,7 @@ namespace Orso.Arpa.Misc.Extensions
         }
 
         public static string ToGermanDateTimeString(this DateTime dateTime) {
-            TimeZoneInfo berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+            var berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
             DateTime berlinDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, berlinTimeZone);
             return berlinDateTime.ToString("dddd, dd.MM.yyyy HH:mm", new CultureInfo("en-GB"));
         }

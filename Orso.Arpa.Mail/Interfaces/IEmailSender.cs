@@ -5,7 +5,7 @@ namespace Orso.Arpa.Mail.Interfaces
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(EmailMessage emailMessage, bool recipientsAsBcc = false);
+        Task SendEmailAsync(EmailMessage emailMessage);
 
         Task SendTemplatedEmailAsync(
             ITemplate templateData, 

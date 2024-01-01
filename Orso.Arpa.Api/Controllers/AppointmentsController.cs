@@ -128,6 +128,24 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Sends an appointment changed notification to all participants of the appointment
+        /// </summary>
+        /// <param name="sendAppointmentChangedNotificationDto"></param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("{id}/notification")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<AppointmentDto>> SendAppointmentChangedNotification(SendAppointmentChangedNotificationDto sendAppointmentChangedNotificationDto)
+        {
+            await _appointmentService.SendAppointmentChangedNotificationAsync(sendAppointmentChangedNotificationDto);
+            return NoContent();
+        }
+
+        /// <summary>
         /// Sets the venue of an existing appointment
         /// </summary>
         /// <param name="setVenueDto"></param>

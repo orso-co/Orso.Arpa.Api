@@ -227,6 +227,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string SetParticipationPrediction(Guid id, Guid personId) =>
                 $"{Appointments}/{id}/participations/{personId}/prediction";
+
+            public static string SendAppointmentChangedNotification(Guid id, bool forceSending) =>
+                $"{Appointments}/{id}/notification?forceSending={forceSending}";
         }
 
         public static class AuditLogsController

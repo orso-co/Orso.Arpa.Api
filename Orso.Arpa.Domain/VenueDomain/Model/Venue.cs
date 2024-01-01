@@ -41,5 +41,15 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
         [CascadingSoftDelete]
         public virtual ICollection<Room> Rooms { get; private set; } = new HashSet<Room>();
         public virtual ICollection<Appointment> Appointments { get; private set; } = new HashSet<Appointment>();
+
+        public override string ToString()
+        {
+            if (Address == null)
+            {
+                return Name;
+            }
+
+            return $"{Name} ({Address.City})";
+        }
     }
 }

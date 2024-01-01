@@ -23,9 +23,9 @@ namespace Orso.Arpa.Mail
             _templateParser = templateParser;
         }
 
-        public async Task SendEmailAsync(EmailMessage emailMessage, bool recipientsAsBcc = false)
+        public async Task SendEmailAsync(EmailMessage emailMessage)
         {
-            MimeMessage mimeMessage = CreateEmailMessage(emailMessage, recipientsAsBcc);
+            MimeMessage mimeMessage = CreateEmailMessage(emailMessage);
             await SendAsync(mimeMessage);
         }
 
@@ -51,14 +51,14 @@ namespace Orso.Arpa.Mail
             }
 
             var mailMessage = new EmailMessage(recipientMailList, subject, templatedBody, attachments);
-            await SendEmailAsync(mailMessage, recipientMailList.Count() > 1);
+            await SendEmailAsync(mailMessage);
         }
 
-        private MimeMessage CreateEmailMessage(EmailMessage emailMessage, bool recipientsAsBcc = false)
+        private MimeMessage CreateEmailMessage(EmailMessage emailMessage)
         {
             var mimeMessage = new MimeMessage();
             mimeMessage.From.Add(new MailboxAddress(_emailConfig.From, _emailConfig.From));
-            if (recipientsAsBcc)
+            if (emailMessage.To.Count > 1)
             {
                 mimeMessage.Bcc.AddRange(emailMessage.To);
                 mimeMessage.To.Add(new MailboxAddress(_emailConfig.From, _emailConfig.From));
