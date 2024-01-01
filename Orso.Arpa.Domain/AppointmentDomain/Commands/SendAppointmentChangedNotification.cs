@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
@@ -11,6 +12,7 @@ using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Mail.Templates;
 using Orso.Arpa.Misc.Extensions;
@@ -32,22 +34,27 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                 RuleFor(x => x.AppointmentId)
                     .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, Appointment>(arpaContext)
-                    .CustomAsync(async (start, context, cancellation) =>
+                    .CustomAsync(async (appointmentId, context, cancellation) =>
                     {
-                        Guid appointmentId = context.InstanceToValidate.AppointmentId;
                         Appointment appointment = await arpaContext.FindAsync<Appointment>([appointmentId], cancellation);
                         var appointmentSectionsCount = appointment.SectionAppointments.Count;
                         var appointmentProjectCount = appointment.ProjectAppointments.Count;
-                        if(appointmentSectionsCount == 0 && appointmentProjectCount == 0)
+                        if (appointmentSectionsCount == 0 && appointmentProjectCount == 0)
                         {
                             context.AddFailure("The appointment has no sections or projects. Please add at least one section or project to the appointment to prevent sending too many e-mails.");
                             return;
                         }
+                    });
+                
+                RuleFor(x => x.ForceSending)
+                    .CustomAsync(async (appointmentId, context, cancellation) =>
+                    {
+                        var doesAppointmentProjectExist = await arpaContext
+                            .EntityExistsAsync<ProjectAppointment>(pa => pa.AppointmentId == context.InstanceToValidate.AppointmentId, cancellation);
 
-                        if (appointmentProjectCount == 0 && !context.InstanceToValidate.ForceSending)
+                        if (!doesAppointmentProjectExist && !context.InstanceToValidate.ForceSending)
                         {
-                            context.AddFailure("The appointment has no projects. It is possible that this e-mail will be sent to a large number of people. Are you sure you want to do this?");
-                            return;
+                            context.AddFailure("The appointment has no projects. Are you sure you want to do this?");
                         }
                     });
             }

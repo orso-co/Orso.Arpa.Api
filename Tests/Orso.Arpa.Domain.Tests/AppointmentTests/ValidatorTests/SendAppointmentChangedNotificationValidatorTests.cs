@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +10,8 @@ using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
+using Orso.Arpa.Domain.ProjectDomain.Model;
+using System.Linq.Expressions;
 
 namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
 {
@@ -55,23 +55,26 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Appointment_Has_No_Projects_And_Force_Sending_Is_False() {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             Appointment appointment = AppointmentSeedData.PhotoSession;
-            _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(appointment);
+            _ = _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<ProjectAppointment, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
+            var command = new SendAppointmentChangedNotification.Command {
+                AppointmentId = appointment.Id,
+                ForceSending = false
+            };
             await _validator
-                .ShouldHaveValidationErrorForExactAsync(c => c.AppointmentId, appointment.Id)
-            ;
+                .ShouldHaveValidationErrorForExactAsync(c => c.ForceSending, command);
         }
 
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_Appointment_Has_No_Projects_And_Force_Sending_Is_True() {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
             Appointment appointment = AppointmentSeedData.PhotoSession;
-            _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(appointment);
+            _ = _arpaContext.EntityExistsAsync(Arg.Any<Expression<Func<ProjectAppointment, bool>>>(), Arg.Any<CancellationToken>()).Returns(false);
             var command = new SendAppointmentChangedNotification.Command {
                 AppointmentId = appointment.Id,
                 ForceSending = true
             };
             await _validator
-                .ShouldNotHaveValidationErrorForExactAsync(c => c.AppointmentId, command);
+                .ShouldNotHaveValidationErrorForExactAsync(c => c.ForceSending, command);
         }
 
         [Test]
