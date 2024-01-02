@@ -120,9 +120,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Send_Appointment_Changed_Notification() {
             // Arrange
             _fakeSmtpServer.ClearReceivedEmail();
-            // the fake smtp server does not distinguish between to and bcc
             IEnumerable<string> expectedToAddresses = [
-                "arpa@test.smtp",
+                "arpa@test.smtp"
+            ];
+            IEnumerable<string> expectedBccAddresses = [
                 UserSeedData.Admin.Email,
                 UserTestSeedData.UserWithoutRole.Email,
                 UserTestSeedData.Staff.Email,
@@ -141,8 +142,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
             SmtpMessage sentEmail = _fakeSmtpServer.ReceivedEmail[0];
-            sentEmail.ToAddresses.Length.Should().Be(expectedToAddresses.Count());
             sentEmail.ToAddresses.Select(a => a.Address).Should().BeEquivalentTo(expectedToAddresses, opt => opt.WithoutStrictOrdering());
+            sentEmail.BccAddresses.Select(a => a.Address).Should().BeEquivalentTo(expectedBccAddresses, opt => opt.WithoutStrictOrdering());
             sentEmail.Subject.Should().Be("Ein Termin in ARPA wurde aktualisiert!");
         }
 
