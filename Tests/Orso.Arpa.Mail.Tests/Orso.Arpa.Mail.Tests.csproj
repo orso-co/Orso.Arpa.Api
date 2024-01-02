@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
-    <PackageReference Include="netDumbster" Version="3.0.1" />
     <PackageReference Include="NSubstitute" Version="5.1.0" />
     <PackageReference Include="NUnit" Version="4.0.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
@@ -17,5 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Orso.Arpa.Mail\Orso.Arpa.Mail.csproj" />
+    <Reference Include="netDumbster">
+       <HintPath>..\Orso.Arpa.Tests.Libs\netDumbster.dll</HintPath>
+     </Reference>
   </ItemGroup>
 </Project>
