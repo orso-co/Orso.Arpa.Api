@@ -35,6 +35,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2019, 12, 21, 10, 0, 0),
                     Name = "Rocking X-mas Dress Rehearsal",
                     Status = AppointmentStatus.Confirmed,
+                    VenueName = "Weiherhof Schule (Freiburg)"
                 };
             }
         }
@@ -51,6 +52,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2019, 12, 22, 20, 00, 00),
                     Name = "Rocking X-mas Concert",
                     Status = AppointmentStatus.Scheduled,
+                    VenueName = "Weiherhof Schule (Freiburg)"
                 };
             }
         }
@@ -81,6 +83,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2020, 12, 22, 20, 00, 00),
                     Name = "Team Meeting",
                     Status = AppointmentStatus.Confirmed,
+                    VenueName = "Weiherhof Schule (Freiburg)"
                 };
             }
         }

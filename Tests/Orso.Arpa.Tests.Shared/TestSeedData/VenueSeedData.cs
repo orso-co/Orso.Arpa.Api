@@ -29,7 +29,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Name = "Weiherhof Schule",
                         Address1 = "Schlüsselstraße 5",
                         Zip = "79104",
-                        City = "Herdern",
+                        City = "Freiburg",
                         Description = "Proberäume",
                         Country = "Deutschland",
                         UrbanDistrict = "Herdern",
