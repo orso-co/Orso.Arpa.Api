@@ -5,6 +5,7 @@ using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Model;
 
 namespace Orso.Arpa.Domain.SectionDomain.Model
 {
@@ -50,5 +51,9 @@ namespace Orso.Arpa.Domain.SectionDomain.Model
 
         [CascadingSoftDelete]
         public virtual ICollection<SelectValueSection> SelectValueSections { get; private set; } = new HashSet<SelectValueSection>();
+
+        [CascadingSoftDelete]
+        public virtual ICollection<RoomSection> RoomSections { get; private set; }
+            = new HashSet<RoomSection>();
     }
 }

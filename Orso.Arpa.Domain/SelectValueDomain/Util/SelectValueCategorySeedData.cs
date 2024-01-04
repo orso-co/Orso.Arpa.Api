@@ -6,6 +6,7 @@ using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Model;
 
 namespace Orso.Arpa.Domain.SelectValueDomain.Util
 {
@@ -34,7 +35,9 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
                     CurriculumVitaeReferenceType,
                     PersonGender,
                     ContactDetailType,
-                    BankAccountStatus
+                    BankAccountStatus,
+                    RoomEquipmentType,
+                    RoomCapacity
                 };
             }
         }
@@ -146,5 +149,17 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
             nameof(BankAccount),
             nameof(BankAccount.Status),
             "Bank account status");
+
+        public static SelectValueCategory RoomEquipmentType => new(
+            Guid.Parse("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+            nameof(RoomEquipment),
+            nameof(RoomEquipment.Equipment),
+            "Room equipment type");
+
+        public static SelectValueCategory RoomCapacity => new(
+            Guid.Parse("a0f655d9-2044-4a79-b717-118e7397e697"),
+            nameof(Room),
+            nameof(Room.Capacity),
+            "Room capacity");
     }
 }

@@ -15,6 +15,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
+                .HasOne(e => e.Capacity)
+                .WithMany()
+                .HasForeignKey(e => e.CapacityId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
                 .Property(e => e.Name)
                 .HasMaxLength(50);
 
