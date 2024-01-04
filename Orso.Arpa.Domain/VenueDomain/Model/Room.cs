@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
         public CeilingHeight? CeilingHeight { get; private set; }
 
         public Guid? CapacityId { get; private set; }
-        public SelectValueMapping Capacity { get; private set; }
+        public virtual SelectValueMapping Capacity { get; private set; }
 
         [CascadingSoftDelete]
         public virtual ICollection<AppointmentRoom> AppointmentRooms { get; private set; }

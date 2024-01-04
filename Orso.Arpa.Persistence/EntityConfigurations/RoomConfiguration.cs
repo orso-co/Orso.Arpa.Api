@@ -31,6 +31,11 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(e => e.Floor)
                 .HasMaxLength(50);
+
+            _ = builder
+                .Property(s => s.CeilingHeight)
+                .HasConversion<string>()
+                .HasMaxLength(100);
         }
     }
 }
