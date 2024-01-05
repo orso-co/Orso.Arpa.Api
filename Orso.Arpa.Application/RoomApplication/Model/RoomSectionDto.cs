@@ -11,7 +11,7 @@ namespace Orso.Arpa.Application.RoomApplication.Model
         [Translate(LocalizationKeys.SECTION)]
         public string Name { get; set; }
         public Guid Id { get; set; }
-        public int Count { get; set; }
+        public int? Quantity { get; set; }
 
         [Translate(LocalizationKeys.ROOM_SECTION)]
         public string Description  { get; set; }
@@ -22,7 +22,7 @@ namespace Orso.Arpa.Application.RoomApplication.Model
         public RoomSectionDtoMappingProfile()
         {
             CreateMap<RoomSection, RoomSectionDto>()
-                .ForMember(dest => dest.Count, opt => opt.MapFrom(src => src.Count))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Section.Name))

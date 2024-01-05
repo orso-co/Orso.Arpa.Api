@@ -4,6 +4,7 @@ using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -21,6 +22,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             await SeedAppointmentsAsync(arpaContext);
             await SeedVenuesAsync(arpaContext);
             await SeedRoomsAsync(arpaContext);
+            await SeedRoomSectionsAsync(arpaContext);
+            await SeedRoomEquipmentsAsync(arpaContext);
             await SeedProjectsAsync(arpaContext);
             await SeedMusicianProfilesAsync(arpaContext);
             await SeedEducationsAsync(arpaContext);
@@ -56,6 +59,16 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         private static async Task SeedRoomsAsync(IArpaContext arpaContext)
         {
             await arpaContext.Rooms.AddRangeAsync(RoomSeedData.Rooms);
+        }
+
+        private static async Task SeedRoomSectionsAsync(IArpaContext arpaContext)
+        {
+            await arpaContext.Set<RoomSection>().AddRangeAsync(RoomSectionSeedData.RoomSections);
+        }
+
+        private static async Task SeedRoomEquipmentsAsync(IArpaContext arpaContext)
+        {
+            await arpaContext.Set<RoomEquipment>().AddRangeAsync(RoomEquipmentSeedData.RoomEquipments);
         }
 
         private static async Task SeedProjectsAsync(IArpaContext arpaContext)
@@ -118,13 +131,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             }
 
             User performer = await userManager.FindByEmailAsync(UserTestSeedData.Performer.Email);
-            if (!(await userManager.IsInRoleAsync(performer, RoleNames.Performer)))
+            if (!await userManager.IsInRoleAsync(performer, RoleNames.Performer))
             {
                 await userManager.AddToRoleAsync(performer, RoleNames.Performer);
             }
 
             User staff = await userManager.FindByEmailAsync(UserTestSeedData.Staff.Email);
-            if (!(await userManager.IsInRoleAsync(staff, RoleNames.Staff)))
+            if (!await userManager.IsInRoleAsync(staff, RoleNames.Staff))
             {
                 await userManager.AddToRoleAsync(staff, RoleNames.Staff);
             }

@@ -409,6 +409,8 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<INewsService, NewsService>();
             _ = services.AddScoped<IClubService, ClubService>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IRoomEquipmentService, RoomEquipmentService>();
+            services.AddScoped<IRoomSectionService, RoomSectionService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 

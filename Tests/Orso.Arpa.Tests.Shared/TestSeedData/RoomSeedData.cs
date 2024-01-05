@@ -25,7 +25,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                var room = new Room
+                return new Room
                 (
                     Guid.Parse("4f5767a8-0c2d-4bf0-8623-47f040be857b"),
                     new CreateRoom.Command
@@ -38,10 +38,6 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         CapacityId = SelectValueMappingSeedData.RoomCapacityMappings[3].Id
                     }
                 );
-                room.RoomEquipments.Add(new RoomEquipment(Guid.Parse("e508ddff-2a77-4019-bebe-6d301153edf7"), SelectValueMappingSeedData.RoomEquipmentTypeMappings[6].Id, room.Id, 100));
-                room.RoomEquipments.Add(new RoomEquipment(Guid.Parse("d8300d6e-93b7-48b8-b4ba-e3cbd293e6c1"), SelectValueMappingSeedData.RoomEquipmentTypeMappings[8].Id, room.Id, 1, "Bühne mit Beleuchtung"));
-                room.RoomSections.Add(new RoomSection(Guid.Parse("b68a15ac-2c98-45aa-8655-c17388771783"), SectionSeedData.Piano.Id, room.Id, 1));
-                return room;
             }
         }
 

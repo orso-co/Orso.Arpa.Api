@@ -1,6 +1,7 @@
 using System;
 using Orso.Arpa.Application.RoomApplication.Model;
 using Orso.Arpa.Domain.VenueDomain.Enums;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -22,27 +23,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CeilingHeight = CeilingHeight.High,
                     Capacity = SelectValueDtoData.Tutti
                 };
-                dto.AvailableInstruments.Add(new RoomSectionDto
-                {
-                    Id = Guid.Parse("b68a15ac-2c98-45aa-8655-c17388771783"),
-                    Name = "Piano",
-                    Count = 1,
-                    Description = null
-                });
-                dto.AvailableEquipment.Add(new RoomEquipmentDto
-                {
-                    Id = Guid.Parse("e508ddff-2a77-4019-bebe-6d301153edf7"),
-                    Name = "Chairs",
-                    Count = 100,
-                    Description = null
-                });
-                dto.AvailableEquipment.Add(new RoomEquipmentDto
-                {
-                    Id = Guid.Parse("d8300d6e-93b7-48b8-b4ba-e3cbd293e6c1"),
-                    Name = "Stage",
-                    Count = 1,
-                    Description = "Bühne mit Beleuchtung"
-                });
+                dto.AvailableInstruments.Add(RoomSectionDtoData.AulaWeiherhofSchulePiano);
+                dto.AvailableEquipment.Add(RoomEquipmentDtoData.AulaWeiherhofSchuleChairs);
+                dto.AvailableEquipment.Add(RoomEquipmentDtoData.AulaWeiherhofSchuleStage);
                 return dto;
             }
         }

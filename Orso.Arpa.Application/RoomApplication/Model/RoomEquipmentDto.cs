@@ -13,7 +13,7 @@ namespace Orso.Arpa.Application.RoomApplication.Model
         [Translate(LocalizationKeys.SELECT_VALUE)]
         public string Name { get; set; }
 
-        public int Count { get; set; }
+        public int? Quantity { get; set; }
 
         [Translate(LocalizationKeys.ROOM_EQUIPMENT)]
         public string Description  { get; set; }
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Application.RoomApplication.Model
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Equipment.SelectValue.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Count, opt => opt.MapFrom(src => src.Count))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
                 .AfterMap<LocalizeAction<RoomEquipment, RoomEquipmentDto>>();
         }
     }
