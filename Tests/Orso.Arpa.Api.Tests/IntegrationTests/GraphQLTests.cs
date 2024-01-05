@@ -48,7 +48,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = queryResult.Errors.Should().BeNull();
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
             _ = serializedResult.Should().Be("{\"auditLogs\":" +
-                "{\"pageInfo\":{\"hasNextPage\":true,\"hasPreviousPage\":true,\"__typename\":\"CollectionSegmentInfo\"},\"totalCount\":111,\"items\":[" +
+                "{\"pageInfo\":{\"hasNextPage\":true,\"hasPreviousPage\":true,\"__typename\":\"CollectionSegmentInfo\"},\"totalCount\":114,\"items\":[" +
                 "{\"type\":\"UPDATE\",\"tableName\":\"User\",\"createdBy\":\"anonymous\",\"__typename\":\"AuditLog\"}," +
                 "{\"type\":\"CREATE\",\"tableName\":\"User\",\"createdBy\":\"anonymous\",\"__typename\":\"AuditLog\"}]," +
                 "\"__typename\":\"AuditLogsCollectionSegment\"}}");
