@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -9,8 +10,11 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Application.RoomApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Application.VenueApplication.Model;
+using Orso.Arpa.Domain.VenueDomain.Enums;
 using Orso.Arpa.Domain.VenueDomain.Model;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
@@ -100,6 +104,42 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Address.Should().BeEquivalentTo(expectedDto.Address, opt => opt.Excluding(dto => dto.Id));
             _ = result.Address.Id.Should().NotBeEmpty();
             _ = result.AddressId.Should().Be(result.Address.Id);
+        }
+
+        [Test, Order(101)]
+        public async Task Should_Add_Room()
+        {
+            var createDto = new RoomCreateBodyDto
+            {
+                Name = "Super Room",
+                Building = "Hauptgebäude",
+                Floor = "1. OG",
+                CeilingHeight = CeilingHeight.High,
+                CapacityId = SelectValueMappingSeedData.RoomCapacityMappings[0].Id
+            };
+
+            var expectedDto = new RoomDto
+            {
+                Name = "Super Room",
+                Floor = "1. OG",
+                Building = "Hauptgebäude",
+                CeilingHeight = CeilingHeight.High,
+                Capacity = SelectValueDtoData.VoiceRehearsal,
+                CreatedAt = FakeDateTime.UtcNow,
+                CreatedBy = "Staff Member",
+            };
+            Venue venue = VenueSeedData.WeiherhofSchule;
+
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.VenuesController.GetRooms(venue.Id), BuildStringContent(createDto));
+
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+            RoomDto result = await DeserializeResponseMessageAsync<RoomDto>(responseMessage);
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
+            _ = result.Id.Should().NotBeEmpty();
+            responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.RoomsController.Get(result.Id)}");
         }
 
         [Test, Order(100)]

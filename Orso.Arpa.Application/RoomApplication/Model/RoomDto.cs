@@ -16,7 +16,6 @@ namespace Orso.Arpa.Application.RoomApplication.Model
         public string Building { get; set; }
         public string Floor { get; set; }
         public string Name { get; set; }
-        public Guid VenueId { get; set; }
         public CeilingHeight? CeilingHeight { get; set; }
         public SelectValueDto Capacity { get; set; }
         public List<RoomSectionDto> AvailableInstruments { get; set; } = [];

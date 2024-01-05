@@ -17,7 +17,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Building = "Anbau",
                     Floor = "EG",
                     Name = "Aula",
-                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
                     CreatedBy = "anonymous",
                     CreatedAt = FakeDateTime.UtcNow,
                     CeilingHeight = CeilingHeight.High,
@@ -59,7 +58,6 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Floor = "OG",
                     Name = "Musikraum",
-                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
                     CreatedAt = FakeDateTime.UtcNow,
                     CeilingHeight = CeilingHeight.MediumHigh,
                     Capacity = SelectValueDtoData.VoiceRehearsal

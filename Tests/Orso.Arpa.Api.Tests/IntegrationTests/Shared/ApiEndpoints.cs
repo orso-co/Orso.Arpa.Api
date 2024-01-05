@@ -196,6 +196,17 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Delete(Guid id) => $"{Regions}/{id}";
         }
 
+        public static class RoomsController
+        {
+            private static string Rooms => $"{Base}/Rooms";
+
+            public static string Put(Guid id) => $"{Rooms}/{id}";
+
+            public static string Get(Guid id) => $"{Rooms}/{id}";
+
+            public static string Delete(Guid id) => $"{Rooms}/{id}";
+        }
+
         public static class AppointmentsController
         {
             private static string Appointments => $"{Base}/Appointments";

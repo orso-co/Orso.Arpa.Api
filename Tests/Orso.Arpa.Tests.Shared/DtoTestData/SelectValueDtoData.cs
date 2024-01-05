@@ -215,5 +215,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Tutti",
             Description = ""
         };
+
+        public static SelectValueDto Choir => new() {
+            Id = Guid.Parse("cb08b618-a2f0-4c5b-872c-6b6821453429"),
+            Name = "Choir",
+            Description = ""
+        };
     }
 }

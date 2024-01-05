@@ -27,6 +27,15 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
         {
         }
 
+        public void Update(ModifyRoom.Command command)
+        {
+            Building = command.Building;
+            Floor = command.Floor;
+            Name = command.Name;
+            CapacityId = command.CapacityId;
+            CeilingHeight = command.CeilingHeight;
+        }
+
         public Guid VenueId { get; private set; }
         public virtual Venue Venue { get; private set; }
         public string Building { get; private set; }

@@ -5,7 +5,6 @@ using Orso.Arpa.Application.General.Extensions;
 using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Domain.ProjectDomain.Commands;
 using Orso.Arpa.Domain.ProjectDomain.Enums;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Orso.Arpa.Application.ProjectApplication.Model
 {
