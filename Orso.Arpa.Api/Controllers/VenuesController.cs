@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Application.RoomApplication.Interfaces;
 using Orso.Arpa.Application.RoomApplication.Model;
 using Orso.Arpa.Application.VenueApplication.Interfaces;
 using Orso.Arpa.Application.VenueApplication.Model;
@@ -15,10 +16,14 @@ namespace Orso.Arpa.Api.Controllers
     public class VenuesController : BaseController
     {
         private readonly IVenueService _venueService;
+        private readonly IRoomService _roomService;
 
-        public VenuesController(IVenueService venueService)
+
+        public VenuesController(IVenueService venueService, IRoomService roomService)
         {
             _venueService = venueService;
+            _roomService = roomService;
+
         }
 
         /// <summary>
@@ -65,6 +70,25 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<VenueDto>> Post([FromBody] VenueCreateDto venueCreateDto)
         {
             return Ok(await _venueService.CreateAsync(venueCreateDto));
+        }
+
+        /// <summary>
+        /// Adds a new room to an existing venue
+        /// </summary>
+        /// <param name="roomCreateDto"></param>
+        /// <returns>The created room</returns>
+        /// <response code="201"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("{id}/rooms")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<VenueDto>> AddRoom(RoomCreateDto roomCreateDto)
+        {
+            RoomDto createdDto = await _roomService.CreateAsync(roomCreateDto);
+            return CreatedAtAction(nameof(RoomsController.GetById), "Rooms", new { id = createdDto.Id }, createdDto);
         }
 
         /// <summary>

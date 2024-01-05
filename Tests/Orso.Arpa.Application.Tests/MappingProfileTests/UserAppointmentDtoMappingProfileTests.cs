@@ -17,6 +17,7 @@ using Orso.Arpa.Application.VenueApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -32,6 +33,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var services = new ServiceCollection();
             _ = services.AddSingleton<LocalizeAction<SelectValueMapping, SelectValueDto>>();
             _ = services.AddSingleton<LocalizeAction<Role, RoleDto>>();
+            services.AddSingleton<LocalizeAction<RoomSection, RoomSectionDto>>();
+            services.AddSingleton<LocalizeAction<RoomEquipment, RoomEquipmentDto>>();
             _ = services.AddSingleton(_localizerCache);
             _ = services.AddAutoMapper(cfg =>
             {
@@ -44,6 +47,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<UrlDtoMappingProfile>();
                 cfg.AddProfile<RoleDtoMappingProfile>();
                 cfg.AddProfile<SelectValueDtoMappingProfile>();
+                cfg.AddProfile<RoomSectionDtoMappingProfile>();
+                cfg.AddProfile<RoomEquipmentDtoMappingProfile>();
             });
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();

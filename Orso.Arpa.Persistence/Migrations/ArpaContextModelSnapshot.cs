@@ -17,7 +17,7 @@ namespace Orso.Arpa.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -3090,6 +3090,160 @@ namespace Orso.Arpa.Persistence.Migrations
                             LocalizationCulture = "de",
                             ResourceKey = "SectionDto",
                             Text = "Sopran (Solist)"
+                        },
+                        new
+                        {
+                            Id = new Guid("9bd3569b-8d70-4dc3-a95a-60f1515f237f"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 459, DateTimeKind.Local).AddTicks(7710),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "WLAN",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "WLAN"
+                        },
+                        new
+                        {
+                            Id = new Guid("8de7e728-100f-4a2b-9687-85decd703d2a"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 460, DateTimeKind.Local).AddTicks(1240),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Kitchen",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Küche"
+                        },
+                        new
+                        {
+                            Id = new Guid("66e772c7-cef9-4feb-8bcd-1c3faf3635bb"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 460, DateTimeKind.Local).AddTicks(4670),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Tableware",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Geschirr"
+                        },
+                        new
+                        {
+                            Id = new Guid("bbfae343-d69a-4538-8495-dae831ad0698"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 460, DateTimeKind.Local).AddTicks(8160),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Tables",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Tische"
+                        },
+                        new
+                        {
+                            Id = new Guid("19ad1ca5-f6d2-41ba-b914-5ecb618e5a47"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 461, DateTimeKind.Local).AddTicks(1600),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Chairs",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Stühle"
+                        },
+                        new
+                        {
+                            Id = new Guid("2b56278e-4c70-4c39-9873-d2988ce2f2e8"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 461, DateTimeKind.Local).AddTicks(5060),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Beamer",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Beamer"
+                        },
+                        new
+                        {
+                            Id = new Guid("3a03d196-411f-4029-b185-890ecb17e86a"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 461, DateTimeKind.Local).AddTicks(8520),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Flipchart",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Flipchart"
+                        },
+                        new
+                        {
+                            Id = new Guid("9b09794f-822b-4a8e-865b-350b2eb653f7"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 462, DateTimeKind.Local).AddTicks(2000),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Platforms",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Podeste"
+                        },
+                        new
+                        {
+                            Id = new Guid("6f3499ca-2600-4f52-910e-9e8efcc7f2a8"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 462, DateTimeKind.Local).AddTicks(5530),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Stage",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Bühne"
+                        },
+                        new
+                        {
+                            Id = new Guid("707c9863-5631-4da2-a594-337e850d6a29"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 462, DateTimeKind.Local).AddTicks(9210),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Drinking Fointain",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Trinkbrunnen"
+                        },
+                        new
+                        {
+                            Id = new Guid("713593d0-7a35-46ae-9de6-0e29e9036577"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 463, DateTimeKind.Local).AddTicks(3070),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Music Stands",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Notenpulte"
+                        },
+                        new
+                        {
+                            Id = new Guid("93117938-9c44-42ce-b8dd-8886dd59de7f"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 463, DateTimeKind.Local).AddTicks(6750),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Choir",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Chor"
+                        },
+                        new
+                        {
+                            Id = new Guid("203b17e0-a680-463c-8f58-bf83568303d2"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 464, DateTimeKind.Local).AddTicks(180),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Voice Rehearsal",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Stimmprobe"
+                        },
+                        new
+                        {
+                            Id = new Guid("735e6d6c-f28b-4889-af35-9c24ecad70ae"),
+                            CreatedAt = new DateTime(2024, 1, 4, 17, 42, 24, 464, DateTimeKind.Local).AddTicks(3690),
+                            CreatedBy = "LocalizationSeedData",
+                            Deleted = false,
+                            Key = "Orchestra",
+                            LocalizationCulture = "de",
+                            ResourceKey = "SelectValueDto",
+                            Text = "Orchester"
                         });
                 });
 
@@ -6670,6 +6824,118 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Description = "",
                             Name = "Other (see comment field)"
+                        },
+                        new
+                        {
+                            Id = new Guid("b1d0272b-25c0-4f16-b81e-7c33ba8c7d9b"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "WLAN"
+                        },
+                        new
+                        {
+                            Id = new Guid("1fc8766b-1693-4b6a-b1c3-e2ba25293175"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Kitchen"
+                        },
+                        new
+                        {
+                            Id = new Guid("172e5980-4381-4e7d-99e2-2dc7a9082579"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Tableware"
+                        },
+                        new
+                        {
+                            Id = new Guid("7c5479fb-dac2-444d-bce7-5652261148ae"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Flipchart"
+                        },
+                        new
+                        {
+                            Id = new Guid("115b0f67-f259-4b78-86d6-fd837a5b3986"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Beamer"
+                        },
+                        new
+                        {
+                            Id = new Guid("8fc47f52-825c-4084-beb2-6b135347a4ce"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Tables"
+                        },
+                        new
+                        {
+                            Id = new Guid("b26488c2-b4e8-485f-b3bd-cbded38fb1f4"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Chairs"
+                        },
+                        new
+                        {
+                            Id = new Guid("58e055b5-9f05-4989-8afa-244e9c759418"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Platforms"
+                        },
+                        new
+                        {
+                            Id = new Guid("3f2adf28-6ce1-4e13-a2ca-6a15c158bc3a"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Stage"
+                        },
+                        new
+                        {
+                            Id = new Guid("4d9bc543-ff88-496c-89ac-6e7ea38cc6de"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Music Stands"
+                        },
+                        new
+                        {
+                            Id = new Guid("c2e266e6-2245-4c87-9dbe-4ac478179b96"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Drinking Fountain"
+                        },
+                        new
+                        {
+                            Id = new Guid("2c506352-db12-4e03-9b3d-5ac1e527e268"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Choir"
+                        },
+                        new
+                        {
+                            Id = new Guid("b35fa703-962a-4dee-a593-742f2904d6b0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Voice Rehearsal"
+                        },
+                        new
+                        {
+                            Id = new Guid("e0317d1f-3d4d-4e23-9afb-c800f307a930"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Description = "",
+                            Name = "Orchestra"
                         });
                 });
 
@@ -6890,6 +7156,24 @@ namespace Orso.Arpa.Persistence.Migrations
                             Name = "Bank account status",
                             Property = "Status",
                             Table = "BankAccount"
+                        },
+                        new
+                        {
+                            Id = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Room equipment type",
+                            Property = "Equipment",
+                            Table = "RoomEquipment"
+                        },
+                        new
+                        {
+                            Id = new Guid("a0f655d9-2044-4a79-b717-118e7397e697"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            Name = "Room capacity",
+                            Property = "Capacity",
+                            Table = "Room"
                         });
                 });
 
@@ -7867,6 +8151,141 @@ namespace Orso.Arpa.Persistence.Migrations
                             SelectValueCategoryId = new Guid("d75c2fe5-dba6-475e-a0f1-dd71285c0269"),
                             SelectValueId = new Guid("b0f67138-7488-4c68-ad4c-63fce6f862cc"),
                             SortOrder = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("eec36685-52a5-42a4-969d-aa7946f3b14b"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("b1d0272b-25c0-4f16-b81e-7c33ba8c7d9b"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("2bf96d06-b639-45af-82f2-409d020e7fbb"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("1fc8766b-1693-4b6a-b1c3-e2ba25293175"),
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("e9a135f7-9894-42d0-9175-df1f0b53172b"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("172e5980-4381-4e7d-99e2-2dc7a9082579"),
+                            SortOrder = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("5d13ce58-e896-4443-9a63-5068ef6289b2"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("7c5479fb-dac2-444d-bce7-5652261148ae"),
+                            SortOrder = 40
+                        },
+                        new
+                        {
+                            Id = new Guid("5f1ce14f-7d85-465d-8cfb-dd551d09d4a5"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("115b0f67-f259-4b78-86d6-fd837a5b3986"),
+                            SortOrder = 50
+                        },
+                        new
+                        {
+                            Id = new Guid("006691f9-2948-4aa4-8d92-0f05643220e0"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("8fc47f52-825c-4084-beb2-6b135347a4ce"),
+                            SortOrder = 60
+                        },
+                        new
+                        {
+                            Id = new Guid("efe41455-e9d5-4bcc-94b8-086a5926df96"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("b26488c2-b4e8-485f-b3bd-cbded38fb1f4"),
+                            SortOrder = 70
+                        },
+                        new
+                        {
+                            Id = new Guid("d658dd90-c17d-4005-b6bd-6ede3e9166d6"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("58e055b5-9f05-4989-8afa-244e9c759418"),
+                            SortOrder = 80
+                        },
+                        new
+                        {
+                            Id = new Guid("5e49bb48-fadd-48d9-bac5-dd567002b978"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("3f2adf28-6ce1-4e13-a2ca-6a15c158bc3a"),
+                            SortOrder = 90
+                        },
+                        new
+                        {
+                            Id = new Guid("a348e3e6-d110-42b4-9865-1d8e96a746bc"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("4d9bc543-ff88-496c-89ac-6e7ea38cc6de"),
+                            SortOrder = 100
+                        },
+                        new
+                        {
+                            Id = new Guid("6b82e9fa-cb38-410d-a35d-1ed84cae902f"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("29a3e970-6650-4050-8cc8-2f5120b7fec9"),
+                            SelectValueId = new Guid("c2e266e6-2245-4c87-9dbe-4ac478179b96"),
+                            SortOrder = 110
+                        },
+                        new
+                        {
+                            Id = new Guid("9814654f-b7af-42f9-a77c-434899714652"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("a0f655d9-2044-4a79-b717-118e7397e697"),
+                            SelectValueId = new Guid("b35fa703-962a-4dee-a593-742f2904d6b0"),
+                            SortOrder = 10
+                        },
+                        new
+                        {
+                            Id = new Guid("cb08b618-a2f0-4c5b-872c-6b6821453429"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("a0f655d9-2044-4a79-b717-118e7397e697"),
+                            SelectValueId = new Guid("2c506352-db12-4e03-9b3d-5ac1e527e268"),
+                            SortOrder = 20
+                        },
+                        new
+                        {
+                            Id = new Guid("47faa760-b0a2-4900-9505-1b61d4ef99f2"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("a0f655d9-2044-4a79-b717-118e7397e697"),
+                            SelectValueId = new Guid("e0317d1f-3d4d-4e23-9afb-c800f307a930"),
+                            SortOrder = 30
+                        },
+                        new
+                        {
+                            Id = new Guid("4ed969a3-ba48-4116-b934-6ff1bb6719ac"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Deleted = false,
+                            SelectValueCategoryId = new Guid("a0f655d9-2044-4a79-b717-118e7397e697"),
+                            SelectValueId = new Guid("5a4a1318-2f23-45b0-8329-3eec0f446389"),
+                            SortOrder = 40
                         });
                 });
 
@@ -8760,6 +9179,15 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("building");
 
+                    b.Property<Guid?>("CapacityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("capacity_id");
+
+                    b.Property<string>("CeilingHeight")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("ceiling_height");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");
@@ -8799,10 +9227,129 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("pk_rooms");
 
+                    b.HasIndex("CapacityId")
+                        .HasDatabaseName("ix_rooms_capacity_id");
+
                     b.HasIndex("VenueId")
                         .HasDatabaseName("ix_rooms_venue_id");
 
                     b.ToTable("rooms", (string)null);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.RoomEquipment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("description");
+
+                    b.Property<Guid?>("EquipmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("equipment_id");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.Property<Guid?>("RoomId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("room_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_room_equipment");
+
+                    b.HasIndex("EquipmentId")
+                        .HasDatabaseName("ix_room_equipment_equipment_id");
+
+                    b.HasIndex("RoomId")
+                        .HasDatabaseName("ix_room_equipment_room_id");
+
+                    b.ToTable("room_equipment", (string)null);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.RoomSection", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("room_id");
+
+                    b.Property<Guid>("SectionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("section_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_room_section");
+
+                    b.HasIndex("RoomId")
+                        .HasDatabaseName("ix_room_section_room_id");
+
+                    b.HasIndex("SectionId")
+                        .HasDatabaseName("ix_room_section_section_id");
+
+                    b.ToTable("room_section", (string)null);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.Venue", b =>
@@ -9531,6 +10078,12 @@ namespace Orso.Arpa.Persistence.Migrations
 
             modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.Room", b =>
                 {
+                    b.HasOne("Orso.Arpa.Domain.SelectValueDomain.Model.SelectValueMapping", "Capacity")
+                        .WithMany()
+                        .HasForeignKey("CapacityId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("fk_rooms_select_value_mappings_capacity_id");
+
                     b.HasOne("Orso.Arpa.Domain.VenueDomain.Model.Venue", "Venue")
                         .WithMany("Rooms")
                         .HasForeignKey("VenueId")
@@ -9538,7 +10091,47 @@ namespace Orso.Arpa.Persistence.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_rooms_venues_venue_id");
 
+                    b.Navigation("Capacity");
+
                     b.Navigation("Venue");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.RoomEquipment", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.SelectValueDomain.Model.SelectValueMapping", "Equipment")
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("fk_room_equipment_select_value_mappings_equipment_id");
+
+                    b.HasOne("Orso.Arpa.Domain.VenueDomain.Model.Room", "Room")
+                        .WithMany("RoomEquipments")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("fk_room_equipment_rooms_room_id");
+
+                    b.Navigation("Equipment");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.RoomSection", b =>
+                {
+                    b.HasOne("Orso.Arpa.Domain.VenueDomain.Model.Room", "Room")
+                        .WithMany("RoomSections")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("fk_room_section_rooms_room_id");
+
+                    b.HasOne("Orso.Arpa.Domain.SectionDomain.Model.Section", "Section")
+                        .WithMany("RoomSections")
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("fk_room_section_sections_section_id");
+
+                    b.Navigation("Room");
+
+                    b.Navigation("Section");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.Venue", b =>
@@ -9636,6 +10229,8 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Navigation("MusicianProfiles");
 
+                    b.Navigation("RoomSections");
+
                     b.Navigation("SectionAppointments");
 
                     b.Navigation("SelectValueSections");
@@ -9679,6 +10274,10 @@ namespace Orso.Arpa.Persistence.Migrations
             modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.Room", b =>
                 {
                     b.Navigation("AppointmentRooms");
+
+                    b.Navigation("RoomEquipments");
+
+                    b.Navigation("RoomSections");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.VenueDomain.Model.Venue", b =>

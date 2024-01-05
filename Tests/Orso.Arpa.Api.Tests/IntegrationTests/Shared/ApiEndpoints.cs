@@ -196,6 +196,42 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Delete(Guid id) => $"{Regions}/{id}";
         }
 
+        public static class RoomsController
+        {
+            private static string Rooms => $"{Base}/Rooms";
+
+            public static string Put(Guid id) => $"{Rooms}/{id}";
+
+            public static string Get(Guid id) => $"{Rooms}/{id}";
+
+            public static string Delete(Guid id) => $"{Rooms}/{id}";
+
+            public static string AddSection(Guid id) => $"{Rooms}/{id}/instruments";
+            public static string AddEquipment(Guid id) => $"{Rooms}/{id}/equipments";
+        }
+
+        public static class RoomSectionsController
+        {
+            private static string RoomSections => $"{Base}/RoomSections";
+
+            public static string Put(Guid id) => $"{RoomSections}/{id}";
+
+            public static string Get(Guid id) => $"{RoomSections}/{id}";
+
+            public static string Delete(Guid id) => $"{RoomSections}/{id}";
+        }
+
+        public static class RoomEquipmentsController
+        {
+            private static string RoomEquipments => $"{Base}/RoomEquipments";
+
+            public static string Put(Guid id) => $"{RoomEquipments}/{id}";
+
+            public static string Get(Guid id) => $"{RoomEquipments}/{id}";
+
+            public static string Delete(Guid id) => $"{RoomEquipments}/{id}";
+        }
+
         public static class AppointmentsController
         {
             private static string Appointments => $"{Base}/Appointments";

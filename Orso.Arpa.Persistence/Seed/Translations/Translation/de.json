@@ -225,6 +225,20 @@
         "Gladly": "Gerne anfragen",
         "Emergency only": "Nur im Notfall",
         "For contacts only": "Aquisekontakt",
-        "Never again": "Nie wieder"
+        "Never again": "Nie wieder",
+        "WLAN": "WLAN",
+        "Kitchen": "Küche",
+        "Tableware": "Geschirr",
+        "Tables": "Tische",
+        "Chairs": "Stühle",
+        "Beamer": "Beamer",
+        "Flipchart": "Flipchart",
+        "Platforms": "Podeste",
+        "Stage": "Bühne",
+        "Drinking Fointain": "Trinkbrunnen",
+        "Music Stands": "Notenpulte",
+        "Choir": "Chor",
+        "Voice Rehearsal": "Stimmprobe",
+        "Orchestra": "Orchester"
     }
 }

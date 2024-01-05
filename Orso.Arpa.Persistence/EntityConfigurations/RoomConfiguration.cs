@@ -15,6 +15,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
+                .HasOne(e => e.Capacity)
+                .WithMany()
+                .HasForeignKey(e => e.CapacityId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
                 .Property(e => e.Name)
                 .HasMaxLength(50);
 
@@ -25,6 +31,11 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(e => e.Floor)
                 .HasMaxLength(50);
+
+            _ = builder
+                .Property(s => s.CeilingHeight)
+                .HasConversion<string>()
+                .HasMaxLength(100);
         }
     }
 }

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.VenueDomain.Commands;
+using Orso.Arpa.Domain.VenueDomain.Enums;
 using Orso.Arpa.Domain.VenueDomain.Model;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
@@ -31,7 +33,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Building = "Anbau",
                         Floor = "EG",
                         Name = "Aula",
-                        VenueId = VenueSeedData.WeiherhofSchule.Id
+                        VenueId = VenueSeedData.WeiherhofSchule.Id,
+                        CeilingHeight = CeilingHeight.High,
+                        CapacityId = SelectValueMappingSeedData.RoomCapacityMappings[3].Id
                     }
                 );
             }
@@ -49,7 +53,9 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         Building = "Hauptgebäude",
                         Floor = "OG",
                         Name = "Musikraum",
-                        VenueId = VenueSeedData.WeiherhofSchule.Id
+                        VenueId = VenueSeedData.WeiherhofSchule.Id,
+                        CeilingHeight = CeilingHeight.MediumHigh,
+                        CapacityId = SelectValueMappingSeedData.RoomCapacityMappings[0].Id
                     }
                 );
             }

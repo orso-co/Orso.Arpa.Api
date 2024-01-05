@@ -107,7 +107,21 @@ namespace Orso.Arpa.Persistence.Seed
                     BankAccountExpired,
                     IncorrectBankDetails,
                     ReturnDebitReceived,
-                    OtherSeeCommentField
+                    OtherSeeCommentField,
+                    Wlan,
+                    Kitchen,
+                    Tableware,
+                    Flipchart,
+                    Beamer,
+                    Tables,
+                    Chairs,
+                    Platforms,
+                    Stage,
+                    MusicStands,
+                    DrinkinFountain,
+                    Choir,
+                    VoiceRehearsal,
+                    Orchestra
                 };
             }
         }
@@ -424,5 +438,79 @@ namespace Orso.Arpa.Persistence.Seed
         /// Other (see comment field)
         /// </summary>
         public static SelectValue OtherSeeCommentField => new(Guid.Parse("b0f67138-7488-4c68-ad4c-63fce6f862cc"), "Other (see comment field)", string.Empty);
+
+        // ROOM EQUIPMENT
+
+        /// <summary>
+        /// WLAN
+        /// </summary>
+        public static SelectValue Wlan => new(Guid.Parse("b1d0272b-25c0-4f16-b81e-7c33ba8c7d9b"), "WLAN", string.Empty);
+
+        /// <summary>
+        /// Küche
+        /// </summary>
+        public static SelectValue Kitchen => new(Guid.Parse("1fc8766b-1693-4b6a-b1c3-e2ba25293175"), "Kitchen", string.Empty);
+
+        /// <summary>
+        /// Geschirr
+        /// </summary>
+        public static SelectValue Tableware => new(Guid.Parse("172e5980-4381-4e7d-99e2-2dc7a9082579"), "Tableware", string.Empty);
+
+        /// <summary>
+        /// Flipchart
+        /// </summary>
+        public static SelectValue Flipchart => new(Guid.Parse("7c5479fb-dac2-444d-bce7-5652261148ae"), "Flipchart", string.Empty);
+
+        /// <summary>
+        /// Beamer
+        /// </summary>
+        public static SelectValue Beamer => new(Guid.Parse("115b0f67-f259-4b78-86d6-fd837a5b3986"), "Beamer", string.Empty);
+
+        /// <summary>
+        /// Tische
+        /// </summary>
+        public static SelectValue Tables => new(Guid.Parse("8fc47f52-825c-4084-beb2-6b135347a4ce"), "Tables", string.Empty);
+
+        /// <summary>
+        /// Chairs
+        /// </summary>
+        public static SelectValue Chairs => new(Guid.Parse("b26488c2-b4e8-485f-b3bd-cbded38fb1f4"), "Chairs", string.Empty);
+
+        /// <summary>
+        /// Podeste
+        /// </summary>
+        public static SelectValue Platforms => new(Guid.Parse("58e055b5-9f05-4989-8afa-244e9c759418"), "Platforms", string.Empty);
+
+        /// <summary>
+        /// Bühne
+        /// </summary>
+        public static SelectValue Stage => new(Guid.Parse("3f2adf28-6ce1-4e13-a2ca-6a15c158bc3a"), "Stage", string.Empty);
+
+        /// <summary>
+        /// Notenpulte
+        /// </summary>
+        public static SelectValue MusicStands => new(Guid.Parse("4d9bc543-ff88-496c-89ac-6e7ea38cc6de"), "Music Stands", string.Empty);
+
+        /// <summary>
+        /// Trinkbrunnen
+        /// </summary>
+        public static SelectValue DrinkinFountain => new(Guid.Parse("c2e266e6-2245-4c87-9dbe-4ac478179b96"), "Drinking Fountain", string.Empty);
+
+        // ROOM CAPACITY
+
+        /// <summary>
+        /// Chor
+        /// </summary>
+        public static SelectValue Choir => new(Guid.Parse("2c506352-db12-4e03-9b3d-5ac1e527e268"), "Choir", string.Empty);
+
+        /// <summary>
+        /// Orchester
+        /// </summary>
+        public static SelectValue Orchestra => new(Guid.Parse("e0317d1f-3d4d-4e23-9afb-c800f307a930"), "Orchestra", string.Empty);
+
+        /// <summary>
+        /// Stimmprobe
+        /// </summary>
+        public static SelectValue VoiceRehearsal => new(Guid.Parse("b35fa703-962a-4dee-a593-742f2904d6b0"), "Voice Rehearsal", string.Empty);
     }
 }

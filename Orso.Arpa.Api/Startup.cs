@@ -78,6 +78,8 @@ using Orso.Arpa.Application.RegionApplication.Interfaces;
 using Orso.Arpa.Application.RegionApplication.Services;
 using Orso.Arpa.Application.RoleApplication.Interfaces;
 using Orso.Arpa.Application.RoleApplication.Services;
+using Orso.Arpa.Application.RoomApplication.Interfaces;
+using Orso.Arpa.Application.RoomApplication.Services;
 using Orso.Arpa.Application.SectionApplication.Interfaces;
 using Orso.Arpa.Application.SectionApplication.Services;
 using Orso.Arpa.Application.SelectValueApplication.Interfaces;
@@ -99,6 +101,7 @@ using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -405,6 +408,9 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IMyProjectService, MyProjectService>();
             _ = services.AddScoped<INewsService, NewsService>();
             _ = services.AddScoped<IClubService, ClubService>();
+            services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IRoomEquipmentService, RoomEquipmentService>();
+            services.AddScoped<IRoomSectionService, RoomSectionService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 

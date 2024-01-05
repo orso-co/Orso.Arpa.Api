@@ -1,5 +1,7 @@
 using System;
 using Orso.Arpa.Application.RoomApplication.Model;
+using Orso.Arpa.Domain.VenueDomain.Enums;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Tests.Shared.FakeData;
 
 namespace Orso.Arpa.Tests.Shared.DtoTestData
@@ -10,16 +12,21 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new RoomDto
+                var dto = new RoomDto
                 {
                     Id = Guid.Parse("4f5767a8-0c2d-4bf0-8623-47f040be857b"),
                     Building = "Anbau",
                     Floor = "EG",
                     Name = "Aula",
-                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
                     CreatedBy = "anonymous",
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CeilingHeight = CeilingHeight.High,
+                    Capacity = SelectValueDtoData.Tutti
                 };
+                dto.AvailableInstruments.Add(RoomSectionDtoData.AulaWeiherhofSchulePiano);
+                dto.AvailableEquipment.Add(RoomEquipmentDtoData.AulaWeiherhofSchuleChairs);
+                dto.AvailableEquipment.Add(RoomEquipmentDtoData.AulaWeiherhofSchuleStage);
+                return dto;
             }
         }
 
@@ -34,8 +41,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedBy = "anonymous",
                     Floor = "OG",
                     Name = "Musikraum",
-                    VenueId = Guid.Parse("54eb30ff-6ea3-4026-8a49-5f149c8ec7e1"),
-                    CreatedAt = FakeDateTime.UtcNow
+                    CreatedAt = FakeDateTime.UtcNow,
+                    CeilingHeight = CeilingHeight.MediumHigh,
+                    Capacity = SelectValueDtoData.VoiceRehearsal
                 };
             }
         }
