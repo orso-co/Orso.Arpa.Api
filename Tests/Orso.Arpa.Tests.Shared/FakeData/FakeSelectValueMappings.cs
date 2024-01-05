@@ -55,5 +55,45 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 return selectValueMapping;
             }
         }
+
+        public static SelectValueMapping Tutti
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.RoomCapacityMappings[3];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Tutti);
+                return selectValueMapping;
+            }
+        }
+
+        public static SelectValueMapping VoiceRehearsal
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.RoomCapacityMappings[0];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.VoiceRehearsal);
+                return selectValueMapping;
+            }
+        }
+
+        public static SelectValueMapping Chairs
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.RoomEquipmentTypeMappings[6];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Chairs);
+                return selectValueMapping;
+            }
+        }
+
+        public static SelectValueMapping Stage
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.RoomEquipmentTypeMappings[8];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.Stage);
+                return selectValueMapping;
+            }
+        }
     }
 }
