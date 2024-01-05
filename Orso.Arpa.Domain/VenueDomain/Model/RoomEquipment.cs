@@ -6,16 +6,20 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
 {
     public class RoomEquipment : BaseEntity
     {
-        public RoomEquipment(Guid? id, SelectValueMapping equipment, Room room) : base(id)
+        public RoomEquipment(Guid? id, SelectValueMapping equipment, Room room, int count, string description = null) : base(id)
         {
             Equipment = equipment;
             Room = room;
+            Count = count;
+            Description = description;
         }
 
-        public RoomEquipment(Guid equipmentId, Guid roomId)
+        public RoomEquipment(Guid? id, Guid equipmentId, Guid roomId, int count, string description = null) : base(id)
         {
             EquipmentId = equipmentId;
             RoomId = roomId;
+            Count = count;
+            Description = description;
         }
 
         public RoomEquipment()

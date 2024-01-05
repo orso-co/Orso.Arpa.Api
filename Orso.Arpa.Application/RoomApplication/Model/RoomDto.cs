@@ -1,7 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.VenueDomain.Enums;
 using Orso.Arpa.Domain.VenueDomain.Model;
 
 namespace Orso.Arpa.Application.RoomApplication.Model
@@ -12,6 +17,10 @@ namespace Orso.Arpa.Application.RoomApplication.Model
         public string Floor { get; set; }
         public string Name { get; set; }
         public Guid VenueId { get; set; }
+        public CeilingHeight? CeilingHeight { get; set; }
+        public SelectValueDto Capacity { get; set; }
+        public List<RoomSectionDto> AvailableInstruments { get; set; } = [];
+        public List<RoomEquipmentDto> AvailableEquipment { get; set; } = [];
     }
 
     public class RoomDtoMappingProfile : Profile
@@ -19,7 +28,10 @@ namespace Orso.Arpa.Application.RoomApplication.Model
         public RoomDtoMappingProfile()
         {
             CreateMap<Room, RoomDto>()
-                .IncludeBase<BaseEntity, BaseEntityDto>();
+                .IncludeBase<BaseEntity, BaseEntityDto>()
+                .ForMember(dest => dest.AvailableInstruments, opt => opt.MapFrom(src => src.RoomSections))
+                .ForMember(dest => dest.AvailableEquipment, opt => opt.MapFrom(src => src.RoomEquipments))
+                .ForMember(dest => dest.Capacity, opt => opt.MapFrom(src => src.Capacity));
         }
     }
 }

@@ -203,5 +203,17 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Rehearsal",
             Description = ""
         };
+
+        public static SelectValueDto VoiceRehearsal => new() {
+            Id = Guid.Parse("9814654f-b7af-42f9-a77c-434899714652"),
+            Name = "Voice Rehearsal",
+            Description = ""
+        };
+
+        public static SelectValueDto Tutti => new() {
+            Id = Guid.Parse("4ed969a3-ba48-4116-b934-6ff1bb6719ac"),
+            Name = "Tutti",
+            Description = ""
+        };
     }
 }

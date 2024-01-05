@@ -18,6 +18,8 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
             Building = command.Building;
             Floor = command.Floor;
             Name = command.Name;
+            CapacityId = command.CapacityId;
+            CeilingHeight = command.CeilingHeight;
         }
 
         [JsonConstructor]

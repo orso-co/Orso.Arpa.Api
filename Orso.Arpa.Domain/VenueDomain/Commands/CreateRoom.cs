@@ -1,4 +1,5 @@
 using System;
+using Orso.Arpa.Domain.VenueDomain.Enums;
 using Orso.Arpa.Domain.VenueDomain.Model;
 using static Orso.Arpa.Domain.General.GenericHandlers.Create;
 
@@ -12,6 +13,8 @@ namespace Orso.Arpa.Domain.VenueDomain.Commands
             public Guid VenueId { get; set; }
             public string Building { get; set; }
             public string Floor { get; set; }
+            public CeilingHeight? CeilingHeight { get; set; }
+            public Guid? CapacityId { get; set; }
         }
     }
 }
