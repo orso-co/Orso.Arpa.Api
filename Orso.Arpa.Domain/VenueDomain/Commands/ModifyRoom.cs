@@ -18,6 +18,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Commands
             public string Floor { get; set; }
             public CeilingHeight? CeilingHeight { get; set; }
             public Guid? CapacityId { get; set; }
+            public int? SizeInSquareMeters { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>

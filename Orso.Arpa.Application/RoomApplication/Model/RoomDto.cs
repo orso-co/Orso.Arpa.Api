@@ -18,6 +18,7 @@ namespace Orso.Arpa.Application.RoomApplication.Model
         public string Name { get; set; }
         public CeilingHeight? CeilingHeight { get; set; }
         public SelectValueDto Capacity { get; set; }
+        public int? SizeInSquareMeters { get; set; }
         public List<RoomSectionDto> AvailableInstruments { get; set; } = [];
         public List<RoomEquipmentDto> AvailableEquipment { get; set; } = [];
     }

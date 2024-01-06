@@ -20,6 +20,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
             Name = command.Name;
             CapacityId = command.CapacityId;
             CeilingHeight = command.CeilingHeight;
+            SizeInSquareMeters = command.SizeInSquareMeters;
         }
 
         [JsonConstructor]
@@ -34,6 +35,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
             Name = command.Name;
             CapacityId = command.CapacityId;
             CeilingHeight = command.CeilingHeight;
+            SizeInSquareMeters = command.SizeInSquareMeters;
         }
 
         public Guid VenueId { get; private set; }
@@ -41,6 +43,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
         public string Building { get; private set; }
         public string Floor { get; private set; }
         public string Name { get; private set; }
+        public int? SizeInSquareMeters { get; set; }
 
         public CeilingHeight? CeilingHeight { get; private set; }
 
