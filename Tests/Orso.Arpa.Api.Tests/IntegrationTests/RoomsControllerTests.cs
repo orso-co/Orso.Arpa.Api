@@ -79,6 +79,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Name = "WLAN",
                 Description = "Neue Beschreibung",
                 Quantity = 10,
+                EquipmentId = SelectValueMappingSeedData.RoomEquipmentTypeMappings[0].Id
             };
             RoomDto room = RoomDtoData.AulaWeiherhofSchule;
 
@@ -109,6 +110,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Name = "Drum Set (Orchestra)",
                 Description = "Neue Beschreibung",
                 Quantity = 1,
+                InstrumentId = SectionSeedData.DrumSet.Id
             };
             RoomDto room = RoomDtoData.AulaWeiherhofSchule;
 
