@@ -9,13 +9,12 @@ namespace Orso.Arpa.Application.RoomApplication.Model
     public class RoomEquipmentDto
     {
         public Guid Id { get; set; }
+        public Guid EquipmentId { get; set; }
         
         [Translate(LocalizationKeys.SELECT_VALUE)]
         public string Name { get; set; }
 
         public int? Quantity { get; set; }
-
-        [Translate(LocalizationKeys.ROOM_EQUIPMENT)]
         public string Description  { get; set; }
     }
 
@@ -28,6 +27,7 @@ namespace Orso.Arpa.Application.RoomApplication.Model
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                .ForMember(dest => dest.EquipmentId, opt => opt.MapFrom(src => src.EquipmentId))
                 .AfterMap<LocalizeAction<RoomEquipment, RoomEquipmentDto>>();
         }
     }
