@@ -15,6 +15,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
 
         public string Name { get; set; }
 
+        public string City { get; set; }
+
         public AppointmentStatus? Status { get; set; }
     }
 
@@ -22,7 +24,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
     {
         public AppointmentListDtoMappingProfile()
         {
-            _ = CreateMap<Appointment, AppointmentListDto>();
+            _ = CreateMap<Appointment, AppointmentListDto>()
+                .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Venue != null && src.Venue.Address != null ? src.Venue.Address.City : null));
         }
     }
 }
