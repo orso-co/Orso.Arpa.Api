@@ -18,6 +18,7 @@ namespace Orso.Arpa.Application.RoomApplication.Model
         public string Floor { get; set; }
         public CeilingHeight? CeilingHeight { get; set; }
         public Guid? CapacityId { get; set; }
+        public int? SizeInSquareMeters { get; set; }
     }
 
     public class RoomCreateDtoMappingProfile : Profile
@@ -30,6 +31,7 @@ namespace Orso.Arpa.Application.RoomApplication.Model
                 .ForMember(dest => dest.Building, opt => opt.MapFrom(src => src.Body.Building))
                 .ForMember(dest => dest.Floor, opt => opt.MapFrom(src => src.Body.Floor))
                 .ForMember(dest => dest.CeilingHeight, opt => opt.MapFrom(src => src.Body.CeilingHeight))
+                .ForMember(dest => dest.SizeInSquareMeters, opt => opt.MapFrom(src => src.Body.SizeInSquareMeters))
                 .ForMember(dest => dest.CapacityId, opt => opt.MapFrom(src => src.Body.CapacityId));
         }
     }
@@ -57,6 +59,9 @@ namespace Orso.Arpa.Application.RoomApplication.Model
             RuleFor(c => c.CeilingHeight)
                 .IsInEnum()
                 .When(c => c.CeilingHeight.HasValue);
+            RuleFor(c => c.SizeInSquareMeters)
+                .GreaterThan(0)
+                .When(c => c.SizeInSquareMeters.HasValue);
         }
     }
 }

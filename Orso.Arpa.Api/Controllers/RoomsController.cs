@@ -90,7 +90,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<RoomSectionDto>> AddRoom(RoomSectionCreateDto roomSectionCreateDto)
+        public async Task<ActionResult<RoomSectionDto>> AddRoomSection(RoomSectionCreateDto roomSectionCreateDto)
         {
             RoomSectionDto createdDto = await _roomSectionService.CreateAsync(roomSectionCreateDto);
             return CreatedAtAction(nameof(RoomSectionsController.GetById), "RoomSections", new { id = createdDto.Id }, createdDto);
