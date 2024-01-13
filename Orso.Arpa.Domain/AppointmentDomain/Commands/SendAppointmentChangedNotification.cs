@@ -101,7 +101,9 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     ArpaUrl = _jwtConfiguration.Audience
                 };
 
-                await _emailSender.SendTemplatedEmailAsync(template, persons.Select(person => person.GetPreferredEMailAddress()));
+                await _emailSender.SendTemplatedEmailAsync(template, persons
+                    .Select(person => person.GetPreferredEMailAddress())
+                    .Where(email => !string.IsNullOrWhiteSpace(email)));
 
                 return Unit.Value;
             }
