@@ -41,6 +41,7 @@ namespace Orso.Arpa.Application.AddressApplication.Model
                 .ForMember(dest => dest.UrbanDistrict, opt => opt.MapFrom(src => src.Body.UrbanDistrict))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Body.Country))
                 .ForMember(dest => dest.CommentInner, opt => opt.MapFrom(src => src.Body.CommentInner))
+                .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.Body.State))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Body.TypeId));
         }
     }
