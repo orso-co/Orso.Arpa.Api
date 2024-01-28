@@ -29,7 +29,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         public async Task Should_Modify()
         {
             // Arrange
-            Appointment expectedAppointment = AppointmentSeedData.RockingXMasConcert;
+            Appointment expectedAppointment = AppointmentSeedData.AppointmentWithoutProject;
             _ = _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
                 .Returns(expectedAppointment);
             _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())

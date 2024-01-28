@@ -28,7 +28,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         public async Task Should_Get_Details()
         {
             // Arrange
-            Appointment appointment = AppointmentSeedData.RockingXMasConcert;
+            Appointment appointment = AppointmentSeedData.AppointmentWithoutProject;
             _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
                 .Returns(appointment);
 

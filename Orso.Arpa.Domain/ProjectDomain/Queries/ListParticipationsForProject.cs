@@ -10,7 +10,7 @@ using Orso.Arpa.Domain.ProjectDomain.Model;
 
 namespace Orso.Arpa.Domain.ProjectDomain.Queries
 {
-    public static class ListProjectParticipationsForProject
+    public static class ListParticipationsForProject
     {
         public class Query : IRequest<IOrderedQueryable<ProjectParticipation>>
         {

@@ -94,7 +94,7 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Services
             var query = new ListProjectParticipationsForMusicianProfile.Query { IncludeCompletedProjects = includeCompleted, MusicianProfileId = id };
             IEnumerable<MusicianProfileProjectParticipationGrouping> participations = await _mediator.Send(query);
 
-            // Cannot use .ProjectTo here because .ProjectTo does not suppert After Mapping Actions
+            // Cannot use .ProjectTo here because .ProjectTo does not support After Mapping Actions
             return _mapper.Map<IEnumerable<ProjectParticipationDto>>(participations);
         }
 

@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.GenericHandlerTests
         {
             // Arrange
             var expectedAppointments = AppointmentSeedData.Appointments.ToImmutableList();
-            Appointment appointment = AppointmentSeedData.RockingXMasConcert;
+            Appointment appointment = AppointmentSeedData.AppointmentWithoutProject;
             DbSet<Appointment> mockAppointments = MockDbSets.Appointments;
             _arpaContext.Set<Appointment>().Returns(mockAppointments);
 

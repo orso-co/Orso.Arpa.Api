@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Application.ProjectApplication.Interfaces;
 using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Application.UrlApplication.Interfaces;
@@ -142,6 +143,22 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<IEnumerable<ProjectParticipationDto>>> GetParticipationsById([FromRoute] Guid id)
         {
             return Ok(await _projectService.GetParticipationsByIdAsync(id));
+        }
+
+        /// <summary>
+        /// Gets all appointments for a given project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The appointments</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [HttpGet("{id}/appointments")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> GetAppointmentsById([FromRoute] Guid id)
+        {
+            return Ok(await _projectService.GetAppointmentsByIdAsync(id));
         }
 
         /// <summary>

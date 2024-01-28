@@ -36,7 +36,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 // 16.-22.12.2019
                 yield return new TestCaseData(DateRange.Week, new DateTime(2019, 12, 21), new List<AppointmentListDto> {
                     AppointmentListDtoData.RockingXMasRehearsal,
-                    AppointmentListDtoData.RockingXMasConcert,
+                    AppointmentListDtoData.AppointmentWithoutProject,
                     AppointmentListDtoData.RehearsalWeekend
                 });
                 yield return new TestCaseData(DateRange.Month, new DateTime(2020, 12, 21), new List<AppointmentListDto> {
@@ -244,7 +244,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .AuthenticateWith(_staff)
                 .PostAsync(ApiEndpoints.AppointmentsController.Project(
-                    AppointmentSeedData.RockingXMasConcert.Id,
+                    AppointmentSeedData.AppointmentWithoutProject.Id,
                     ProjectSeedData.HoorayForHollywood.Id), null);
 
             // Assert
@@ -289,7 +289,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .AuthenticateWith(_staff)
                 .PutAsync(ApiEndpoints.AppointmentsController.SetVenue(
-                    AppointmentSeedData.RockingXMasConcert.Id,
+                    AppointmentSeedData.AppointmentWithoutProject.Id,
                     VenueSeedData.WeiherhofSchule.Id), null);
 
             // Assert
@@ -300,7 +300,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Modify()
         {
             // Arrange
-            Appointment appointmentToModify = AppointmentSeedData.RockingXMasConcert;
+            Appointment appointmentToModify = AppointmentSeedData.AppointmentWithoutProject;
 
             var modifyDto = new AppointmentModifyBodyDto
             {
@@ -329,7 +329,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Modify_With_Only_Mandatory_Fields_Specified()
         {
             // Arrange
-            Appointment appointmentToModify = AppointmentSeedData.RockingXMasConcert;
+            Appointment appointmentToModify = AppointmentSeedData.AppointmentWithoutProject;
 
             var modifyDto = new AppointmentModifyBodyDto
             {

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Application.General.Services;
 using Orso.Arpa.Application.ProjectApplication.Interfaces;
 using Orso.Arpa.Application.ProjectApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Commands;
 using Orso.Arpa.Domain.ProjectDomain.Enums;
 using Orso.Arpa.Domain.ProjectDomain.Model;
@@ -41,11 +43,20 @@ namespace Orso.Arpa.Application.ProjectApplication.Services
 
         public async Task<IEnumerable<ProjectParticipationDto>> GetParticipationsByIdAsync(Guid id)
         {
-            var query = new ListProjectParticipationsForProject.Query { ProjectId = id };
+            var query = new ListParticipationsForProject.Query { ProjectId = id };
             IOrderedQueryable<ProjectParticipation> projectParticipations = await _mediator.Send(query);
 
             List<ProjectParticipation> list = await projectParticipations.ToListAsync();
             return _mapper.Map<IEnumerable<ProjectParticipationDto>>(list);
+        }
+
+        public async Task<IEnumerable<AppointmentListDto>> GetAppointmentsByIdAsync(Guid id)
+        {
+            var query = new ListAppointmentsForProject.Query { ProjectId = id };
+            IOrderedQueryable<Appointment> appointments = await _mediator.Send(query);
+
+            List<Appointment> list = await appointments.ToListAsync();
+            return _mapper.Map<IEnumerable<AppointmentListDto>>(list);
         }
 
         public async Task<ProjectParticipationDto> SetProjectParticipationAsync(SetProjectParticipationDto myProjectParticipationDto)
