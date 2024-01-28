@@ -66,7 +66,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
                     || (a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime),
                 asSplitQuery: true));
 
-            return _mapper.ProjectTo<AppointmentListDto>(entities).ToList();
+            return [.. _mapper.ProjectTo<AppointmentListDto>(entities)];
         }
 
         public async Task<AppointmentDto> GetByIdAsync(Guid id, bool includeParticipations)

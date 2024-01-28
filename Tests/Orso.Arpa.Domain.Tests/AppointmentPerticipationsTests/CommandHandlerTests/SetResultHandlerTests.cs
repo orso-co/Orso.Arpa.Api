@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTe
             // Arrange
             _ = _arpaContext.Appointments
                     .FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
-                .Returns(AppointmentSeedData.RockingXMasConcert);
+                .Returns(AppointmentSeedData.AppointmentWithoutProject);
             _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())
                 .Returns(1);
             _ = _mapper.Map<SetAppointmentParticipationResult.Command, CreateAppointmentParticipation.Command>(Arg.Any<SetAppointmentParticipationResult.Command>())

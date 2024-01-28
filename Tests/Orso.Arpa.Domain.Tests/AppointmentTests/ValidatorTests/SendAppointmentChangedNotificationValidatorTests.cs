@@ -42,7 +42,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public async Task Should_Have_Validation_Error_If_Appointment_Has_No_Sections_Or_Projects() {
             _arpaContext.EntityExistsAsync<Appointment>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            Appointment appointment = AppointmentSeedData.RockingXMasConcert;
+            Appointment appointment = AppointmentSeedData.AppointmentWithoutProject;
             _arpaContext.FindAsync<Appointment>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(appointment);
             var command = new SendAppointmentChangedNotification.Command {
                 AppointmentId = appointment.Id,

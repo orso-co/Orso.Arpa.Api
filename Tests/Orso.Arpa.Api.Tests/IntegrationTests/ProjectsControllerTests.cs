@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
+using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Application.UrlApplication.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
@@ -97,6 +98,29 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<ProjectParticipationDto> result = await DeserializeResponseMessageAsync<IEnumerable<ProjectParticipationDto>>(responseMessage);
+            _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
+        }
+
+        [Test, Order(6)]
+        public async Task Should_Get_Appointments_By_ProjectId()
+        {
+            // Arrange
+            Project project = ProjectSeedData.RockingXMas;
+            IEnumerable<AppointmentListDto> expectedResult = [
+                AppointmentListDtoData.RockingXMasRehearsal,
+                AppointmentListDtoData.AfterShowParty,
+                AppointmentListDtoData.SopranoRehearsal
+            ];
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.ProjectsController.GetAppointments(project.Id));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<AppointmentListDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentListDto>>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
         }
 

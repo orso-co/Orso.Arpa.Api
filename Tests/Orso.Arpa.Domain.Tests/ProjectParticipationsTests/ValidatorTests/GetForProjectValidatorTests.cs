@@ -14,13 +14,13 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.ValidatorTests
     public class GetForProjectValidatorTests
     {
         private IArpaContext _arpaContext;
-        private ListProjectParticipationsForProject.Validator _validator;
+        private ListParticipationsForProject.Validator _validator;
 
         [SetUp]
         public void Setup()
         {
             _arpaContext = Substitute.For<IArpaContext>();
-            _validator = new ListProjectParticipationsForProject.Validator(_arpaContext);
+            _validator = new ListParticipationsForProject.Validator(_arpaContext);
         }
 
         [Test]

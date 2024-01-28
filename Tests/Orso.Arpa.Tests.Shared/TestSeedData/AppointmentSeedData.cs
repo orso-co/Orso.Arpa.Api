@@ -16,10 +16,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<Appointment>
-                {
+                return
+                [
                     RockingXMasRehearsal,
-                    RockingXMasConcert,
+                    AppointmentWithoutProject,
                     AfterShowParty,
                     StaffMeeting,
                     PhotoSession,
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     AuditionDays,
                     AltoRehearsal,
                     SopranoRehearsal
-                };
+                ];
             }
         }
 
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
             }
         }
 
-        public static Appointment RockingXMasConcert
+        public static Appointment AppointmentWithoutProject
         {
             get
             {

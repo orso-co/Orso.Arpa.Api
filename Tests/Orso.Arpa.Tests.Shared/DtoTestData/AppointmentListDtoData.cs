@@ -11,16 +11,16 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<AppointmentListDto>
-                {
+                return
+                [
                     RockingXMasRehearsal,
                     AfterShowParty,
-                    RockingXMasConcert,
+                    AppointmentWithoutProject,
                     StaffMeeting,
                     PhotoSession,
                     RehearsalWeekend,
                     AuditionDays
-                };
+                ];
             }
         }
 
@@ -35,13 +35,14 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2019, 12, 21, 10, 0, 0),
                     Name = "Rocking X-mas Dress Rehearsal",
                     Status = AppointmentStatus.Confirmed,
-                    City = "Freiburg"
+                    City = "Freiburg",
+                    Category = "Rehearsal"
                 };
             }
         }
 
 
-        public static AppointmentListDto RockingXMasConcert
+        public static AppointmentListDto AppointmentWithoutProject
         {
             get
             {
@@ -52,7 +53,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2019, 12, 22, 20, 00, 00),
                     Name = "Rocking X-mas Concert",
                     Status = AppointmentStatus.Scheduled,
-                    City = "Freiburg"
+                    City = "Freiburg",
+                    Category = "Sectional Rehearsal"
                 };
             }
         }
@@ -67,7 +69,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2019, 12, 24, 06, 00, 00),
                     StartTime = new DateTime(2019, 12, 24),
                     Name = "Rocking X-mas After Show Party",
-                    Status = AppointmentStatus.Refused,
+                    Status = AppointmentStatus.Confirmed,
+                    Category = "Rehearsal Weekend Choir",
+                    City = "Freiburg"
                 };
             }
         }
@@ -83,7 +87,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2020, 12, 22, 20, 00, 00),
                     Name = "Team Meeting",
                     Status = AppointmentStatus.Confirmed,
-                    City = "Freiburg"
+                    City = "Freiburg",
+                    Category = "Rehearsal"
                 };
             }
         }
@@ -99,6 +104,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2020, 12, 22, 15, 00, 00),
                     Name = "Photo session",
                     Status = AppointmentStatus.Confirmed,
+                    Category = "Warm-Up Rehearsal"
                 };
             }
         }
@@ -114,6 +120,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2019, 12, 20, 15, 00, 00),
                     Name = "Rehearsal weekend",
                     Status = AppointmentStatus.Confirmed,
+                    Category = "Warm-Up Rehearsal"
                 };
             }
         }
@@ -129,6 +136,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2020, 12, 2, 17, 00, 00),
                     Name = "Audition days",
                     Status = AppointmentStatus.Confirmed,
+                    Category = "Warm-Up Rehearsal"
                 };
             }
         }
@@ -144,6 +152,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartTime = new DateTime(2021, 12, 30, 8, 00, 00),
                     EndTime = new DateTime(2021, 12, 30, 17, 00, 00),
                     Status = AppointmentStatus.Confirmed,
+                    Category = "Warm-Up Rehearsal"
                 };
             }
         }
@@ -159,6 +168,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     EndTime = new DateTime(2021, 12, 29, 17, 00, 00),
                     Name = "Alto rehearsal",
                     Status = AppointmentStatus.Confirmed,
+                    Category = "Warm-Up Rehearsal"
                 };
             }
         }

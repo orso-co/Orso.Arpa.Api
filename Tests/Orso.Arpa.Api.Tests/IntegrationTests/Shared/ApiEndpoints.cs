@@ -110,6 +110,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Delete(Guid id) => $"{Projects}/{id}";
 
             public static string GetParticipations(Guid id) => $"{Get(id)}/participations";
+            public static string GetAppointments(Guid id) => $"{Get(id)}/appointments";
             public static string SetParticipation(Guid id) => $"{GetParticipations(id)}";
         }
 
