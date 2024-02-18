@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using AutoMapper;
-using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Application.BankAccountApplication.Model;
 using Orso.Arpa.Application.ContactDetailApplication.Model;
 using Orso.Arpa.Application.General.MappingActions;
@@ -58,7 +57,7 @@ namespace Orso.Arpa.Application.PersonApplication.Model
         [IncludeForRoles(RoleNames.Staff)]
         public byte GeneralPreference { get; set; }
 
-        public IList<AddressDto> Addresses { get; set; } = new List<AddressDto>();
+        public IList<PersonAddressDto> Addresses { get; set; } = new List<PersonAddressDto>();
 
         public IList<SectionDto> StakeholderGroups { get; set; } = new List<SectionDto>();
     }

@@ -29,9 +29,11 @@ namespace Orso.Arpa.Domain.LocalizationDomain.Queries
             public async Task<IEnumerable<Localization>> Handle(Query request,
                 CancellationToken cancellationToken)
             {
-                return await _arpaContext.Localizations
-                    .AsQueryable().Where(e =>
-                        e.LocalizationCulture.Equals(request.Culture)).ToListAsync(cancellationToken);
+                return await _arpaContext
+                    .Set<Localization>()
+                    .AsQueryable()
+                    .Where(e => e.LocalizationCulture.Equals(request.Culture))
+                    .ToListAsync(cancellationToken);
             }
         }
     }

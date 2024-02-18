@@ -66,7 +66,8 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
                 var result = new PersonInviteResult();
                 var toInvite = new Dictionary<string, string>();
 
-                List<Person> persons = await _arpaContext.Persons
+                List<Person> persons = await _arpaContext
+                    .Set<Person>()
                     .AsQueryable()
                     .Where(person => request.PersonIds.Contains(person.Id))
                     .ToListAsync(cancellationToken);

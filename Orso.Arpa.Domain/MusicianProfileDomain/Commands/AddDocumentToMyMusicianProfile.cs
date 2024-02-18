@@ -30,7 +30,8 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
                     .Cascade(CascadeMode.Stop)
                     .SelectValueMapping<Command, MusicianProfile>(arpaContext, m => m.Documents)
 
-                    .MustAsync(async (dto, documentId, cancellation) => !await arpaContext.MusicianProfileDocuments
+                    .MustAsync(async (dto, documentId, cancellation) => !await arpaContext
+                        .Set<MusicianProfileDocument>()
                         .AnyAsync(ar => ar.SelectValueMappingId == documentId && ar.MusicianProfileId == dto.Id, cancellation))
                     .WithMessage("The document is already linked to the musician profile");
             }
@@ -49,7 +50,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
             {
                 var availableDocument = new MusicianProfileDocument(request.Id, request.DocumentId);
 
-                _arpaContext.MusicianProfileDocuments.Add(availableDocument);
+                _arpaContext.Set<MusicianProfileDocument>().Add(availableDocument);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

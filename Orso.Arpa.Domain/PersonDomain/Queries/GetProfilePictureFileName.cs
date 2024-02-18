@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.PersonDomain.Model;
 
 namespace Orso.Arpa.Domain.PersonDomain.Queries
 {
@@ -29,7 +30,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Queries
 
             public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
-                return (await _arpaContext.Persons.FindAsync(new object[] { request.PersonId }, cancellationToken))?.ProfilePictureFileName;
+                return (await _arpaContext.Set<Person>().FindAsync([request.PersonId], cancellationToken))?.ProfilePictureFileName;
             }
         }
     }

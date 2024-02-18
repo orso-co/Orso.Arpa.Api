@@ -68,18 +68,20 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppointmentParticipation appointmentParticipation = await _arpaContext.AppointmentParticipations
+                AppointmentParticipation appointmentParticipation = await _arpaContext
+                    .Set<AppointmentParticipation>()
                     .SingleOrDefaultAsync(ap => ap.AppointmentId.Equals(request.Id) && ap.PersonId.Equals(request.PersonId), cancellationToken);
 
                 if (appointmentParticipation == null)
                 {
-                    _ = await _arpaContext.AppointmentParticipations
+                    _ = await _arpaContext
+                        .Set<AppointmentParticipation>()
                         .AddAsync(new AppointmentParticipation(Guid.NewGuid(), _mapper.Map<Command, CreateAppointmentParticipation.Command>(request)), cancellationToken);
                 }
                 else
                 {
                     appointmentParticipation.Update(request);
-                    _ = _arpaContext.AppointmentParticipations.Update(appointmentParticipation);
+                    _ = _arpaContext.Set<AppointmentParticipation>().Update(appointmentParticipation);
                 }
 
                 return await _arpaContext.SaveChangesAsync(cancellationToken) == 2 // participation + audtit trail

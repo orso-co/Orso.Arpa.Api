@@ -40,7 +40,8 @@ namespace Orso.Arpa.Domain.ProjectDomain.Queries
 
             public Task<IOrderedQueryable<Appointment>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(_arpaContext.ProjectAppointments
+                return Task.FromResult(_arpaContext
+                    .Set<ProjectAppointment>()
                     .AsQueryable()
                     .Where(pa => pa.ProjectId == request.ProjectId)
                     .Select(pa => pa.Appointment)

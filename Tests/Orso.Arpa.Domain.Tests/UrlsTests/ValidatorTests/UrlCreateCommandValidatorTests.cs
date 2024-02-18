@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.Tests.UrlTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _mockProjectDbSet = MockDbSets.Projects;
 
-            _arpaContext.Projects.Returns(_mockProjectDbSet);
+            _arpaContext.Set<Project>().Returns(_mockProjectDbSet);
             _validator = new CreateUrl.Validator(_arpaContext);
         }
 

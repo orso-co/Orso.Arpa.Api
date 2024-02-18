@@ -84,12 +84,12 @@ public static class SetMyProjectParticipationStatus
             if (participation == null)
             {
                 participation = new ProjectParticipation(request);
-                participation = (await _arpaContext.ProjectParticipations.AddAsync(participation, cancellationToken)).Entity;
+                participation = (await _arpaContext.Set<ProjectParticipation>().AddAsync(participation, cancellationToken)).Entity;
             }
             else
             {
                 participation.Update(request);
-                participation = _arpaContext.ProjectParticipations.Update(participation).Entity;
+                participation = _arpaContext.Set<ProjectParticipation>().Update(participation).Entity;
             }
 
             return await _arpaContext.SaveChangesAsync(cancellationToken) > 0

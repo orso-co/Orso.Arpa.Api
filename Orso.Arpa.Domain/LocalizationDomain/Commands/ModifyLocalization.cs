@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.Azure;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
 
@@ -33,7 +34,7 @@ namespace Orso.Arpa.Domain.LocalizationDomain.Commands
             {
                 lock (DbLock)
                 {
-                    var dbEntries = _arpaContext.Localizations.AsQueryable().Where(q => q.LocalizationCulture.Equals(request.Culture)).ToList();
+                    var dbEntries = _arpaContext.Set<Localization>().AsQueryable().Where(q => q.LocalizationCulture.Equals(request.Culture)).ToList();
                     dbEntries.ForEach(dbEntry =>
                     {
                         Localization result = request.Localizations.Count == 0
@@ -44,7 +45,7 @@ namespace Orso.Arpa.Domain.LocalizationDomain.Commands
                                 l.Key.Equals(dbEntry.Key));
                         if (result == null)
                         {
-                            _ = _arpaContext.Localizations.Remove(dbEntry);
+                            _ = _arpaContext.Remove(dbEntry);
                         }
                         else
                         {
@@ -58,7 +59,7 @@ namespace Orso.Arpa.Domain.LocalizationDomain.Commands
 
                     foreach (Localization l in request.Localizations)
                     {
-                        _ = _arpaContext.Localizations.Add(l);
+                        _ = _arpaContext.Set<Localization>().Add(l);
                     }
 
                     _ = _arpaContext.SaveChangesAsync(cancellationToken).GetAwaiter().GetResult();

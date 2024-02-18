@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
 {
     public static class CreateBankAccount
     {
-        public class Command : ICreateCommand<BankAccount>
+        public class Command : ICreateCommand<PersonBankAccount>
         {
             public string Iban { get; set; }
             public string Bic { get; set; }
@@ -27,10 +27,10 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
 
                 RuleFor(c => c.Iban)
                     .MustAsync(async (command, iban, cancellation) => !(await arpaContext
-                        .EntityExistsAsync<BankAccount>(bankAccount =>
+                        .EntityExistsAsync<PersonBankAccount>(bankAccount =>
                             bankAccount.PersonId == command.PersonId
 #pragma warning disable RCS1155, CA1862 // Use StringComparison when comparing strings.
-                                && bankAccount.Iban.ToLower() == iban.ToLower(), cancellation)))
+                                && bankAccount.BankAccount.Iban.ToLower() == iban.ToLower(), cancellation)))
 #pragma warning restore RCS1155, CA1862 // Use StringComparison when comparing strings.
                     .WithMessage("Bank account with this IBAN already taken");
             }

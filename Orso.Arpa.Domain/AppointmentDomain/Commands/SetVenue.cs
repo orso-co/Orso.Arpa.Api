@@ -53,11 +53,11 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
+                Appointment existingAppointment = await _arpaContext.Set<Appointment>().FindAsync(new object[] { request.Id }, cancellationToken);
 
                 existingAppointment.Update(request);
 
-                _arpaContext.Appointments.Update(existingAppointment);
+                _arpaContext.Set<Appointment>().Update(existingAppointment);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

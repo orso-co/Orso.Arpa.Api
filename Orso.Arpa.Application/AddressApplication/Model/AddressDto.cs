@@ -1,12 +1,10 @@
 using AutoMapper;
-using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Application.SelectValueApplication.Model;
-using Orso.Arpa.Domain.AddressDomain.Model;
-using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain._General.Model;
 
 namespace Orso.Arpa.Application.AddressApplication.Model
 {
-    public class AddressDto : BaseEntityDto
+    public class AddressDto
     {
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -19,12 +17,11 @@ namespace Orso.Arpa.Application.AddressApplication.Model
         public SelectValueDto Type { get; set; }
     }
 
-    public class AddressDtoMappingProfile : Profile
+        public class AddressDtoMappingProfile : Profile
     {
         public AddressDtoMappingProfile()
         {
-            CreateMap<Address, AddressDto>()
-                .IncludeBase<BaseEntity, BaseEntityDto>();
+            CreateMap<Address, AddressDto>();
         }
     }
 }

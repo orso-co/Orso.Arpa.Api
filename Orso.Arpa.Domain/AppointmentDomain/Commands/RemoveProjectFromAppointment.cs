@@ -33,8 +33,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.ProjectId)
-                    .MustAsync(async (dto, projectId, cancellation) => await arpaContext.ProjectAppointments
-                        .AnyAsync(pa => pa.AppointmentId == dto.Id && pa.ProjectId == projectId, cancellation))
+                    .MustAsync(async (dto, projectId, cancellation) => await arpaContext
+                        .EntityExistsAsync<ProjectAppointment>(pa => pa.AppointmentId == dto.Id && pa.ProjectId == projectId, cancellation))
                     .WithMessage("The project is not linked to the appointment");
             }
         }
@@ -50,10 +50,11 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                ProjectAppointment projectAppointment = await _arpaContext.ProjectAppointments
+                ProjectAppointment projectAppointment = await _arpaContext
+                    .Set<ProjectAppointment>()
                     .FirstOrDefaultAsync(pa => pa.ProjectId == request.ProjectId && pa.AppointmentId == request.Id, cancellationToken);
 
-                _arpaContext.ProjectAppointments.Remove(projectAppointment);
+                _arpaContext.Remove(projectAppointment);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

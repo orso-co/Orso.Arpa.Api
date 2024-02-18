@@ -3,7 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Application.General.Model;
-using Orso.Arpa.Domain.AddressDomain.Model;
+using Orso.Arpa.Domain._General.Model;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 

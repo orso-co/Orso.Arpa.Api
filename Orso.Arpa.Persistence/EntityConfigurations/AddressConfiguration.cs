@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Orso.Arpa.Domain.AddressDomain.Model;
+using Orso.Arpa.Domain._General.Model;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
 {
@@ -44,12 +44,6 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasOne(e => e.Type)
                 .WithMany()
                 .HasForeignKey(e => e.TypeId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder
-                .HasOne(e => e.Person)
-                .WithMany(p => p.Addresses)
-                .HasForeignKey(e => e.PersonId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

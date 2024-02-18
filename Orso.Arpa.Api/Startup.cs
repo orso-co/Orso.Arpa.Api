@@ -36,8 +36,6 @@ using Orso.Arpa.Api.GraphQL;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Api.Swagger;
-using Orso.Arpa.Application.AddressApplication.Interfaces;
-using Orso.Arpa.Application.AddressApplication.Services;
 using Orso.Arpa.Application.AppointmentApplication.Interfaces;
 using Orso.Arpa.Application.AppointmentApplication.Services;
 using Orso.Arpa.Application.AuditLogApplication.Interfaces;
@@ -404,7 +402,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IBankAccountService, BankAccountService>();
             _ = services.AddScoped<IContactDetailService, ContactDetailService>();
             _ = services.AddScoped<IMyContactDetailService, MyContactDetailService>();
-            _ = services.AddScoped<IAddressService, AddressService>();
+            _ = services.AddScoped<IPersonAddressService, PersonAddressService>();
             _ = services.AddScoped<IMyProjectService, MyProjectService>();
             _ = services.AddScoped<INewsService, NewsService>();
             _ = services.AddScoped<IClubService, ClubService>();

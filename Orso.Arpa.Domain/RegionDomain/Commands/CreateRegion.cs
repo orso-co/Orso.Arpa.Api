@@ -20,8 +20,8 @@ namespace Orso.Arpa.Domain.RegionDomain.Commands
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(c => c.Name)
-                    .MustAsync(async (name, cancellation) => !(await arpaContext.Regions
-                        .AnyAsync(r => r.Name == name, cancellation)))
+                    .MustAsync(async (name, cancellation) => !await arpaContext
+                        .EntityExistsAsync<Region>(r => r.Name == name, cancellation))
                     .WithMessage("A region with the requested name does already exist");
             }
         }

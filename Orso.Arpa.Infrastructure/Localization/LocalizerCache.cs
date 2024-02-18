@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Orso.Arpa.Domain.General.Interfaces;
 
@@ -60,7 +61,7 @@ namespace Orso.Arpa.Infrastructure.Localization
             {
                 using IServiceScope scope = _services.BuildServiceProvider().CreateScope();
                 IArpaContext context = scope.ServiceProvider.GetService<IArpaContext>();
-                return new Dictionary<string, Dictionary<string, Dictionary<string, string>>>(from item in context?.Localizations.ToList()
+                return new Dictionary<string, Dictionary<string, Dictionary<string, string>>>(from item in context?.Set<Domain.LocalizationDomain.Model.Localization>().ToList()
                                                                                               group item by item.ResourceKey into resourceKeyGroup
                                                                                               orderby resourceKeyGroup.Key
                                                                                               select new KeyValuePair<string, Dictionary<string, Dictionary<string, string>>>(

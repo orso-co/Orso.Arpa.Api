@@ -29,7 +29,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new AddRoomToAppointment.Validator(_arpaContext);
             _mockAppointmentRooms = MockDbSets.AppointmentRooms;
-            _arpaContext.AppointmentRooms.Returns(_mockAppointmentRooms);
+            _arpaContext.Set<AppointmentRoom>().Returns(_mockAppointmentRooms);
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validRoomId = RoomSeedData.MusikraumWeiherhofSchule.Id;
         }

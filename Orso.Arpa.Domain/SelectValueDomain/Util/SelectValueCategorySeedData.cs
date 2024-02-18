@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
@@ -44,8 +43,8 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
 
         public static SelectValueCategory AddressType => new(
             Guid.Parse("d438c160-0588-41fa-93c3-cd33c0f97063"),
-            nameof(Address),
-            nameof(Address.Type),
+            nameof(PersonAddress),
+            nameof(PersonAddress.Type),
             "Address Type");
 
         public static SelectValueCategory AppointmentExpectation => new(
@@ -146,8 +145,8 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
 
         public static SelectValueCategory BankAccountStatus => new(
             Guid.Parse("d75c2fe5-dba6-475e-a0f1-dd71285c0269"),
-            nameof(BankAccount),
-            nameof(BankAccount.Status),
+            nameof(PersonBankAccount),
+            nameof(PersonBankAccount.Status),
             "Bank account status");
 
         public static SelectValueCategory RoomEquipmentType => new(

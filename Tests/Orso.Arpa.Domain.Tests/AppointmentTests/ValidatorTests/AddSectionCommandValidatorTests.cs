@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _validAppointmentId = AppointmentSeedData.AfterShowParty.Id;
             _validSectionId = SectionSeedData.LowFemaleVoices.Id;
             _mockSectionAppointments = MockDbSets.SectionAppointments;
-            _arpaContext.SectionAppointments.Returns(_mockSectionAppointments);
+            _arpaContext.Set<SectionAppointment>().Returns(_mockSectionAppointments);
         }
 
         [Test]

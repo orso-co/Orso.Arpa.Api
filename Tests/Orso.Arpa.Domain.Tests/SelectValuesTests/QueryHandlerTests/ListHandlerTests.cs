@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using MockQueryable.NSubstitute;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Queries;
 using Orso.Arpa.Domain.SelectValueDomain.Util;
@@ -48,18 +48,18 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
                 }
             }
             ICollection<SelectValueMapping> expectedMappings = categories
-                .FirstOrDefault(c => c.Table == nameof(Address) && c.Property == nameof(Address.Type))?
+                .FirstOrDefault(c => c.Table == nameof(PersonAddress) && c.Property == nameof(PersonAddress.Type))?
                 .SelectValueMappings;
             DbSet<SelectValueCategory> categoriesToReturn = categories.AsQueryable().BuildMockDbSet();
             _ = categoriesToReturn.AsQueryable().Returns(categories.AsQueryable());
-            _ = _arpaContext.SelectValueCategories.Returns(categoriesToReturn);
+            _ = _arpaContext.Set<SelectValueCategory>().Returns(categoriesToReturn);
 
             // Act
             IImmutableList<SelectValueMapping> result = await _handler.Handle(
                 new ListSelectValues.Query
                 {
-                    TableName = nameof(Address),
-                    PropertyName = nameof(Address.Type)
+                    TableName = nameof(PersonAddress),
+                    PropertyName = nameof(PersonAddress.Type)
                 },
                 new CancellationToken());
 

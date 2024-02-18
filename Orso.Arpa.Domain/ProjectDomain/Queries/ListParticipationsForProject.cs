@@ -37,7 +37,8 @@ namespace Orso.Arpa.Domain.ProjectDomain.Queries
 
             public Task<IOrderedQueryable<ProjectParticipation>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(_arpaContext.ProjectParticipations
+                return Task.FromResult(_arpaContext
+                    .Set<ProjectParticipation>()
                     .AsQueryable()
                     .Where(pp => pp.ProjectId == request.ProjectId)
                     .OrderBy(pp => pp.MusicianProfile.Person.Surname));

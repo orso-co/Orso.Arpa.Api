@@ -28,7 +28,7 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Queries
             public Task<IImmutableList<SelectValueMapping>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return Task.FromResult(_arpaContext
-                    .SelectValueCategories
+                    .Set<SelectValueCategory>()
                     .AsQueryable()
                     .Where(c =>
 #pragma warning disable RCS1155, CA1862 // Use StringComparison when comparing strings. -> ToLower() is used to allow ef core to perform the query on db server

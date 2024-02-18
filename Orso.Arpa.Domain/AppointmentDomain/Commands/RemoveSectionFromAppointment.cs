@@ -33,7 +33,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.SectionId)
-                    .MustAsync(async (dto, sectionId, cancellation) => await arpaContext.SectionAppointments
+                    .MustAsync(async (dto, sectionId, cancellation) => await arpaContext
+                        .Set<SectionAppointment>()
                         .AnyAsync(sa => sa.SectionId == sectionId && sa.AppointmentId == dto.Id, cancellation))
                     .WithMessage("The section is not linked to the appointment");
             }
@@ -50,10 +51,11 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                SectionAppointment sectionAppointment = await _arpaContext.SectionAppointments
+                SectionAppointment sectionAppointment = await _arpaContext
+                    .Set<SectionAppointment>()
                     .FirstOrDefaultAsync(sa => sa.SectionId == request.SectionId && sa.AppointmentId == request.Id, cancellationToken);
 
-                _arpaContext.SectionAppointments.Remove(sectionAppointment);
+                _arpaContext.Remove(sectionAppointment);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

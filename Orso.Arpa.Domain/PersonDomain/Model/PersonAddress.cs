@@ -1,23 +1,20 @@
 using System;
 using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.AddressDomain.Commands;
-using Orso.Arpa.Domain.AddressDomain.Interfaces;
 using Orso.Arpa.Domain.General.Model;
-using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Commands;
 
-namespace Orso.Arpa.Domain.AddressDomain.Model
+namespace Orso.Arpa.Domain.PersonDomain.Model
 {
-    public class Address : BaseEntity
+    public class PersonAddress : BaseEntity
     {
-        public Address(Guid? id, CreateAddress.Command command) : this(id, (BaseAddressCreateCommand)command) {
+        public PersonAddress(Guid? id, CreateAddress.Command command) : this(id, (AddressCommand)command) {
             PersonId = command.PersonId;
         }
 
-        public Address(Guid? id, CreateVenue.Command command) : this(id, (BaseAddressCreateCommand)command) {}
-
-        private Address(Guid? id, BaseAddressCreateCommand command) : base(id)
+        private PersonAddress(Guid? id, AddressCommand command) : base(id)
         {
             Address1 = command.Address1;
             Address2 = command.Address2;
@@ -30,12 +27,12 @@ namespace Orso.Arpa.Domain.AddressDomain.Model
             TypeId = command.TypeId;
         }
 
-        internal Address(Guid? id) : base(id)
+        internal PersonAddress(Guid? id) : base(id)
         {
         }
 
         [JsonConstructor]
-        protected Address()
+        protected PersonAddress()
         {
         }
 

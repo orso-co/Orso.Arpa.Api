@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using Orso.Arpa.Domain.AddressDomain.Model;
+using Orso.Arpa.Domain._General.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Model;
@@ -15,8 +15,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
         {
             Name = command.Name;
             Description = command.Description;
-            Address = new Address(command.AddressId, command);
-            AddressId = Address.Id;
+            Address = new Address(command);
         }
 
         [JsonConstructor]
@@ -28,15 +27,19 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
         {
             Name = command.Name;
             Description = command.Description;
-            Address.Update(command);
+            Address.Address1 = command.Address1;
+            Address.Address2 = command.Address2;
+            Address.Zip = command.Zip;
+            Address.City = command.City;
+            Address.UrbanDistrict = command.UrbanDistrict;
+            Address.Country = command.Country;
+            Address.State = command.State;
+            Address.CommentInner = command.CommentInner;
         }
 
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public Guid? AddressId { get; private set; }
-
-        [CascadingSoftDelete]
-        public virtual Address Address { get; private set; }
+        public Address Address { get; private set; }
 
         [CascadingSoftDelete]
         public virtual ICollection<Room> Rooms { get; private set; } = new HashSet<Room>();

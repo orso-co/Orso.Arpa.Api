@@ -53,7 +53,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
                 }
 
                 person.SetProfilePitureName(null);
-                _ = _arpaContext.Persons.Update(person);
+                _ = _arpaContext.Set<Person>().Update(person);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) < 1)
                 {

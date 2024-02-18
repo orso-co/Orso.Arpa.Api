@@ -32,8 +32,8 @@ namespace Orso.Arpa.Domain.Tests.ProjectsTests.ValidatorTests
             _validator = new SetProjectParticipation.Validator(_arpaContext);
             _mockProjectDbSet = MockDbSets.Projects;
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
-            _ = _arpaContext.SelectValueCategories.Returns(_mockSelectValueCategoryDbSet);
-            _ = _arpaContext.Projects.Returns(_mockProjectDbSet);
+            _ = _arpaContext.Set<SelectValueCategory>().Returns(_mockSelectValueCategoryDbSet);
+            _ = _arpaContext.Set<Project>().Returns(_mockProjectDbSet);
         }
 
         [Test]

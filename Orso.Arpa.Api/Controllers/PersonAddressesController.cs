@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Orso.Arpa.Application.AddressApplication.Interfaces;
-using Orso.Arpa.Application.AddressApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Interfaces;
+using Orso.Arpa.Application.PersonApplication.Model;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -12,9 +12,9 @@ namespace Orso.Arpa.Api.Controllers
     [Route("api/persons/{id}/addresses")]
     public class PersonAddressesController : BaseController
     {
-        private readonly IAddressService _addressService;
+        private readonly IPersonAddressService _addressService;
 
-        public PersonAddressesController(IAddressService addressService)
+        public PersonAddressesController(IPersonAddressService addressService)
         {
             _addressService = addressService;
         }
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AddressDto>> Post(PersonAddressCreateDto addressCreateDto)
+        public async Task<ActionResult<PersonAddressDto>> Post(PersonAddressCreateDto addressCreateDto)
         {
             return Ok(await _addressService.CreateAsync(addressCreateDto));
         }

@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                MusicianProfileDeactivation entityToDelete = await _arpaContext.MusicianProfileDeactivations.SingleAsync(d => d.MusicianProfileId == request.MusicianProfileId, cancellationToken);
+                MusicianProfileDeactivation entityToDelete = await _arpaContext.Set<MusicianProfileDeactivation>().SingleAsync(d => d.MusicianProfileId == request.MusicianProfileId, cancellationToken);
 
                 _arpaContext.Remove(entityToDelete);
 

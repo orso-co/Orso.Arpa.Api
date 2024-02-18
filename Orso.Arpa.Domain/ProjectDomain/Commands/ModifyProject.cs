@@ -38,8 +38,8 @@ namespace Orso.Arpa.Domain.ProjectDomain.Commands
 
 #pragma warning disable RCS1155, CA1862 // Use StringComparison when comparing strings. (this won't work with ef core server side query execution)
                 _ = RuleFor(d => d.Code)
-                    .MustAsync(async (dto, code, cancellation) => !await arpaContext.Projects
-                        .AnyAsync(project => dto.Id != project.Id && project.Code.ToLower() == code.ToLower(), cancellation))
+                    .MustAsync(async (dto, code, cancellation) => !await arpaContext
+                        .EntityExistsAsync<Project>(project => dto.Id != project.Id && project.Code.ToLower() == code.ToLower(), cancellation))
                     .WithMessage("The specified project code is already in use. The project code needs to be unique.");
 #pragma warning restore RCS1155, CA1862 // Use StringComparison when comparing strings.
 

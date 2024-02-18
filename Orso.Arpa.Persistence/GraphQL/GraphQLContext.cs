@@ -2,7 +2,6 @@ using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.AuditLogDomain.Model;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
@@ -26,7 +25,7 @@ namespace Orso.Arpa.Persistence.GraphQL
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
-        public DbSet<Address> Addresses { get; set; }
+        public DbSet<PersonAddress> Addresses { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }

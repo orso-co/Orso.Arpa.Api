@@ -79,8 +79,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = "Staff Member",
                 Address = new AddressDto
                 {
-                    CreatedAt = FakeDateTime.UtcNow,
-                    CreatedBy = "Staff Member",
                     UrbanDistrict = "Westend Süd",
                     Address1 = "Bockenheimer Warte 33",
                     Address2 = "c/o Frau Rotkohl",
@@ -101,9 +99,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             VenueDto result = await DeserializeResponseMessageAsync<VenueDto>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id).Excluding(dto => dto.Address).Excluding(dto => dto.AddressId));
             _ = result.Id.Should().NotBeEmpty();
-            _ = result.Address.Should().BeEquivalentTo(expectedDto.Address, opt => opt.Excluding(dto => dto.Id));
-            _ = result.Address.Id.Should().NotBeEmpty();
-            _ = result.AddressId.Should().Be(result.Address.Id);
+            _ = result.Address.Should().BeEquivalentTo(expectedDto.Address);
         }
 
         [Test, Order(101)]

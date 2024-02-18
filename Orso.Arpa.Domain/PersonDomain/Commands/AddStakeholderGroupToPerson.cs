@@ -59,8 +59,8 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Person existingPerson = await _arpaContext.Persons.FindAsync(new object[] { request.Id }, cancellationToken);
-                Section existingSection = await _arpaContext.Sections.FindAsync(new object[] { request.StakeholderGroupId }, cancellationToken);
+                Person existingPerson = await _arpaContext.Set<Person>().FindAsync([request.Id], cancellationToken);
+                Section existingSection = await _arpaContext.Set<Section>().FindAsync([request.StakeholderGroupId], cancellationToken);
 
                 var personSection = new PersonSection(null, existingPerson, existingSection);
 

@@ -3,9 +3,9 @@ using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.General.Extensions;
 using Orso.Arpa.Application.General.Model;
-using Orso.Arpa.Domain.AddressDomain.Commands;
+using Orso.Arpa.Domain.PersonDomain.Commands;
 
-namespace Orso.Arpa.Application.AddressApplication.Model
+namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class PersonAddressCreateDto : IdFromRouteDto<PersonAddressCreateBodyDto>
     {

@@ -55,8 +55,8 @@ namespace Orso.Arpa.Domain.ProjectDomain.Commands
                     .WithErrorCode("404")
                     .WithMessage("Role could not be found.")
 
-                   .MustAsync(async (dto, roleId, cancellation) => await arpaContext.UrlRoles
-                        .AnyAsync(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation))
+                   .MustAsync(async (dto, roleId, cancellation) => await arpaContext
+                        .EntityExistsAsync<UrlRole>(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation))
                     .WithMessage("The role is not linked to the url");
             }
         }
@@ -72,10 +72,11 @@ namespace Orso.Arpa.Domain.ProjectDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                UrlRole roleToRemove = await _arpaContext.UrlRoles
-                   .FirstOrDefaultAsync(ar => ar.RoleId == request.RoleId && ar.UrlId == request.UrlId, cancellationToken);
+                UrlRole roleToRemove = await _arpaContext
+                    .Set<UrlRole>()
+                    .FirstOrDefaultAsync(ar => ar.RoleId == request.RoleId && ar.UrlId == request.UrlId, cancellationToken);
 
-                _ = _arpaContext.UrlRoles.Remove(roleToRemove);
+                _ = _arpaContext.Remove(roleToRemove);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

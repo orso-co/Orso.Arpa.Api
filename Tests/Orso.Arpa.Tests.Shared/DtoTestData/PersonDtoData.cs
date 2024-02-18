@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Application.BankAccountApplication.Model;
 using Orso.Arpa.Application.ContactDetailApplication.Model;
 using Orso.Arpa.Application.PersonApplication.Model;
@@ -102,7 +101,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 Person person = PersonTestSeedData.UserWithoutRole;
                 PersonDto dto = CreateDto(person, "anonymous", FakeDateTime.UtcNow);
                 dto.Gender = SelectValueDtoData.Diverse;
-                dto.Addresses.Add(new AddressDto
+                dto.Addresses.Add(new PersonAddressDto
                 {
                     Address1 = "Viktualienmarkt 4",
                     Address2 = "3. Etage rechts",

@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             DbSet<Appointment> mockData = MockDbSets.Appointments;
             Appointment appointment = AppointmentSeedData.AppointmentWithoutProject;
             mockData.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(appointment);
-            _arpaContext.Appointments.Returns(mockData);
+            _arpaContext.Set<Appointment>().Returns(mockData);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act

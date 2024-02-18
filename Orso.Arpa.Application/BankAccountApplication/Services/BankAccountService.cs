@@ -10,7 +10,7 @@ namespace Orso.Arpa.Application.BankAccountApplication.Services
 {
     public class BankAccountService : BaseService<
         BankAccountDto,
-        BankAccount,
+        PersonBankAccount,
         BankAccountCreateDto,
         CreateBankAccount.Command,
         BankAccountModifyDto,

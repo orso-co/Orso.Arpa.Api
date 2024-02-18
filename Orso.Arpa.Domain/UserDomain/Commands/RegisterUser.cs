@@ -72,7 +72,8 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var existingPersons = _arpaContext.Persons
+                var existingPersons = _arpaContext
+                    .Set<Person>()
                     .AsQueryable()
                     .Where(p =>
                         p.User == null

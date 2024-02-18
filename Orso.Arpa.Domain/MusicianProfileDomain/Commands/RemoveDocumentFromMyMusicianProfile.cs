@@ -23,8 +23,8 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.DocumentId)
-                    .MustAsync(async (dto, documentId, cancellation) => await arpaContext.MusicianProfileDocuments
-                        .AnyAsync(ar => ar.SelectValueMappingId == documentId && ar.MusicianProfileId == dto.Id, cancellation))
+                    .MustAsync(async (dto, documentId, cancellation) => await arpaContext
+                        .EntityExistsAsync<MusicianProfileDocument>(ar => ar.SelectValueMappingId == documentId && ar.MusicianProfileId == dto.Id, cancellation))
                     .WithMessage("The document is not linked to the musician profile");
             }
         }
@@ -40,10 +40,11 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                MusicianProfileDocument documentToRemove = await _arpaContext.MusicianProfileDocuments
-                                    .FirstOrDefaultAsync(ar => ar.SelectValueMappingId == request.DocumentId && ar.MusicianProfileId == request.Id, cancellationToken);
+                MusicianProfileDocument documentToRemove = await _arpaContext
+                    .Set<MusicianProfileDocument>()
+                    .FirstOrDefaultAsync(ar => ar.SelectValueMappingId == request.DocumentId && ar.MusicianProfileId == request.Id, cancellationToken);
 
-                _arpaContext.MusicianProfileDocuments.Remove(documentToRemove);
+                _arpaContext.Set<MusicianProfileDocument>().Remove(documentToRemove);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

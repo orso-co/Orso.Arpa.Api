@@ -80,7 +80,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     .Select(a => a.Id)
                     .ToListAsync(cancellationToken);
 
-                List<Person> persons = await _arpaContext.Persons
+                List<Person> persons = await _arpaContext
+                    .Set<Person>()
                     .AsQueryable()
                     .Where(p => personIds.Contains(p.Id))
                     .ToListAsync(cancellationToken);

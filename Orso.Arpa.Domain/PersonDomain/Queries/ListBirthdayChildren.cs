@@ -38,12 +38,13 @@ public static class ListBirthdayChildren
 
         public async Task<IList<Person>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _arpaContext.Persons
-                    .Where(p => p.DateOfBirth.HasValue 
-                        && p.DateOfBirth.Value.Month == request.Date.Month 
-                        && p.DateOfBirth.Value.Day == request.Date.Day 
-                        && p.MusicianProfiles.Count > 0)
-                    .ToListAsync(cancellationToken);
+            return await _arpaContext
+                .Set<Person>()
+                .Where(p => p.DateOfBirth.HasValue 
+                    && p.DateOfBirth.Value.Month == request.Date.Month 
+                    && p.DateOfBirth.Value.Day == request.Date.Day 
+                    && p.MusicianProfiles.Count > 0)
+                .ToListAsync(cancellationToken);
         }
     }
 

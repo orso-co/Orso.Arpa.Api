@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.PersonApplication.Model;
 using Orso.Arpa.Application.RoomApplication.Model;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;

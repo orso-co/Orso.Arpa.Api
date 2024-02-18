@@ -26,7 +26,8 @@ namespace Orso.Arpa.Domain.SectionDomain.Queries
             }
             public async Task<IEnumerable<Section>> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<Section> sections = await _arpaContext.Sections
+                List<Section> sections = await _arpaContext
+                    .Set<Section>()
                     .Where(s => s.IsInstrument)
                     .ToListAsync(cancellationToken);
 

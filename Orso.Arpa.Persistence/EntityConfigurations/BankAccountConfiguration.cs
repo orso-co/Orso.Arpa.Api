@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Orso.Arpa.Domain._General.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 
 namespace Orso.Arpa.Persistence.EntityConfigurations
@@ -15,22 +16,6 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(e => e.Bic)
                 .HasMaxLength(11);
-
-            builder
-                .Property(e => e.CommentInner)
-                .HasMaxLength(500);
-
-            builder
-                .HasOne(e => e.Person)
-                .WithMany(p => p.BankAccounts)
-                .HasForeignKey(e => e.PersonId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder
-                .HasOne(e => e.Status)
-                .WithMany()
-                .HasForeignKey(e => e.StatusId)
-                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Property(e => e.AccountOwner)

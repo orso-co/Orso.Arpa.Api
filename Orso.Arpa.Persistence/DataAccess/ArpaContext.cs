@@ -12,10 +12,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Orso.Arpa.Domain.AddressDomain.Model;
+using Orso.Arpa.Domain._General.Interfaces;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.AuditLogDomain.Enums;
 using Orso.Arpa.Domain.AuditLogDomain.Model;
+using Orso.Arpa.Domain.ClubDomain.Model;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.General.Model;
@@ -54,7 +55,7 @@ namespace Orso.Arpa.Persistence.DataAccess
             _translationCallBack = translationCallBack;
         }
 
-        public DbSet<Address> Addresses { get; set; }
+        public DbSet<PersonAddress> Addresses { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
@@ -89,6 +90,10 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Url> Urls { get; set; }
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
+        public DbSet<Club> Clubs { get; set; }
+        public DbSet<ClubMembershipType> ClubMembershipTypes { get; set; }
+        public DbSet<ClubMembershipSubType> ClubMembershipSubTypes { get; set; }
+        public DbSet<ClubMembershipProfile> ClubMembershipProfiles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -334,7 +339,15 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public async Task<TEntity> GetByIdAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
         {
-            return await FindAsync<TEntity>(new object[] { id }, cancellationToken);
+            return await FindAsync<TEntity>([id], cancellationToken);
+        }
+
+        public async Task<TVersionedEntity> GetCurrentAsync<TVersionedEntity>(CancellationToken cancellationToken) where TVersionedEntity : BaseEntity, IVersionedEntity {
+            return await Set<TVersionedEntity>()
+                .AsQueryable()
+                .Where(entity => entity.ValidFrom <= _dateTimeProvider.GetUtcNow())
+                .OrderByDescending(entity => entity.ValidFrom)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         /// <summary>

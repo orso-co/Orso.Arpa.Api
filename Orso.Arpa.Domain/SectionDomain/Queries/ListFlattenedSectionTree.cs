@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.SectionDomain.Queries
 
             public async Task<IEnumerable<ITree<Section>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                List<Section> sections = await _context.Sections.ToListAsync(cancellationToken);
+                List<Section> sections = await _context.Set<Section>().ToListAsync(cancellationToken);
                 return sections
                     .ToTree((parent, child) => child.ParentId == parent.Id, request.MaxLevel)
                     .Children

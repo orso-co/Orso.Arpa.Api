@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _validator = new AddProjectToAppointment.Validator(_arpaContext);
 
             _mockProjectAppointments = MockDbSets.ProjectAppointments;
-            _arpaContext.ProjectAppointments.Returns(_mockProjectAppointments);
+            _arpaContext.Set<ProjectAppointment>().Returns(_mockProjectAppointments);
 
             _validAppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id;
             _validProjectId = ProjectSeedData.HoorayForHollywood.Id;

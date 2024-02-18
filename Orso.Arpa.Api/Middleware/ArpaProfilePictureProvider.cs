@@ -36,7 +36,7 @@ namespace Orso.Arpa.Api.Middleware
 
             IArpaContext arpaContext = context.RequestServices.GetService<IArpaContext>();
 
-            string profilePictureFileName = (await arpaContext.Persons.FindAsync(personId))?.ProfilePictureFileName;
+            string profilePictureFileName = (await arpaContext.Set<Person>().FindAsync(personId))?.ProfilePictureFileName;
 
             if (string.IsNullOrWhiteSpace(profilePictureFileName))
             {

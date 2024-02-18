@@ -1,6 +1,13 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.AuditLogDomain.Model;
+using Orso.Arpa.Domain.ClubDomain.Model;
 using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.NewsDomain.Model;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
@@ -43,22 +50,22 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         private static async Task SeedPersonsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.Persons.AddRangeAsync(PersonTestSeedData.Persons);
+            await arpaContext.Set<Person>().AddRangeAsync(PersonTestSeedData.Persons);
         }
 
         private static async Task SeedAppointmentsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.Appointments.AddRangeAsync(AppointmentSeedData.Appointments);
+            await arpaContext.Set<Appointment>().AddRangeAsync(AppointmentSeedData.Appointments);
         }
 
         private static async Task SeedVenuesAsync(IArpaContext arpaContext)
         {
-            await arpaContext.Venues.AddRangeAsync(VenueSeedData.Venues);
+            await arpaContext.Set<Venue>().AddRangeAsync(VenueSeedData.Venues);
         }
 
         private static async Task SeedRoomsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.Rooms.AddRangeAsync(RoomSeedData.Rooms);
+            await arpaContext.Set<Room>().AddRangeAsync(RoomSeedData.Rooms);
         }
 
         private static async Task SeedRoomSectionsAsync(IArpaContext arpaContext)
@@ -73,51 +80,51 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
         private static async Task SeedProjectsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.Projects.AddRangeAsync(ProjectSeedData.Projects);
+            await arpaContext.Set<Project>().AddRangeAsync(ProjectSeedData.Projects);
         }
 
         private static async Task SeedMusicianProfilesAsync(IArpaContext arpaContext)
         {
-            await arpaContext.MusicianProfiles.AddRangeAsync(MusicianProfileSeedData.MusicianProfiles);
+            await arpaContext.Set<MusicianProfile>().AddRangeAsync(MusicianProfileSeedData.MusicianProfiles);
         }
 
         private static async Task SeedEducationsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.Educations.AddRangeAsync(EducationSeedData.Educations);
+            await arpaContext.Set<Education>().AddRangeAsync(EducationSeedData.Educations);
         }
 
         private static async Task SeedCurriculumVitaeReferencesAsync(IArpaContext arpaContext)
         {
-            await arpaContext.CurriculumVitaeReferences.AddRangeAsync(CurriculumVitaeReferenceSeedData.CurriculumVitaeReferences);
+            await arpaContext.Set<CurriculumVitaeReference>().AddRangeAsync(CurriculumVitaeReferenceSeedData.CurriculumVitaeReferences);
         }
 
         private static async Task SeedMusicianProfileDeactivationsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.MusicianProfileDeactivations.AddRangeAsync(MusicianProfileDeactivationSeedData.MusicianProfileDeactivations);
+            await arpaContext.Set<MusicianProfileDeactivation>().AddRangeAsync(MusicianProfileDeactivationSeedData.MusicianProfileDeactivations);
         }
 
         private static async Task SeedProjectParticipationsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.ProjectParticipations.AddRangeAsync(ProjectParticipationSeedData.ProjectParticipations);
+            await arpaContext.Set<ProjectParticipation>().AddRangeAsync(ProjectParticipationSeedData.ProjectParticipations);
         }
 
         private static async Task SeedAppointmentParticipationsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.AppointmentParticipations.AddRangeAsync(AppointmentParticipationSeedData.AppointmentParticipations);
+            await arpaContext.Set<AppointmentParticipation>().AddRangeAsync(AppointmentParticipationSeedData.AppointmentParticipations);
         }
 
         private static async Task SeedUrlAsync(IArpaContext arpaContext)
         {
-            await arpaContext.Urls.AddRangeAsync(UrlSeedData.Urls);
+            await arpaContext.Set<Url>().AddRangeAsync(UrlSeedData.Urls);
         }
 
         private static async Task SeedAuditLogAsync(IArpaContext arpaContext)
         {
-            await arpaContext.AuditLogs.AddRangeAsync(AuditLogSeedData.AuditLogs);
+            await arpaContext.Set<AuditLog>().AddRangeAsync(AuditLogSeedData.AuditLogs);
         }
         private static async Task SeedNewsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.News.AddRangeAsync(NewsSeedData.News);
+            await arpaContext.Set<News>().AddRangeAsync(NewsSeedData.News);
         }
 
         private static async Task SeedUsersAsync(ArpaUserManager userManager, SignInManager<User> signInManager)

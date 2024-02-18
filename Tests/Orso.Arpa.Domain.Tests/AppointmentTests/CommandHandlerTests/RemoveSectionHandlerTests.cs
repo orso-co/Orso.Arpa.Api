@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             // Arrange
             DbSet<SectionAppointment> mockData = MockDbSets.SectionAppointments;
             SectionAppointment sectionAppointment = AppointmentSeedData.AfterShowParty.SectionAppointments.First();
-            _arpaContext.SectionAppointments.Returns(mockData);
+            _arpaContext.Set<SectionAppointment>().Returns(mockData);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act

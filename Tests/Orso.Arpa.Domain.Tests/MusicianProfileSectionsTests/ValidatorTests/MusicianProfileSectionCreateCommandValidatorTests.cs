@@ -31,11 +31,11 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new CreateMusicianProfileSection.Validator(_arpaContext);
             DbSet<MusicianProfile> mockMusicianProfiles = MockDbSets.MusicianProfiles;
-            _ = _arpaContext.MusicianProfiles.Returns(mockMusicianProfiles);
+            _ = _arpaContext.Set<MusicianProfile>().Returns(mockMusicianProfiles);
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
-            _ = _arpaContext.SelectValueCategories.Returns(_mockSelectValueCategoryDbSet);
+            _ = _arpaContext.Set<SelectValueCategory>().Returns(_mockSelectValueCategoryDbSet);
             _mockSectionDbSet = MockDbSets.Sections;
-            _ = _arpaContext.Sections.Returns(_mockSectionDbSet);
+            _ = _arpaContext.Set<Section>().Returns(_mockSectionDbSet);
         }
 
         [Test]

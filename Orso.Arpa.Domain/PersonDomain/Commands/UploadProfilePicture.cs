@@ -46,10 +46,10 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
                 var fileName = _fileNameGenerator.GenerateRandomFileName(request.FormFile);
                 IFileResult fileResult = await _fileAccessor.SaveAsync(request.FormFile, fileName);
 
-                Person person = await _arpaContext.FindAsync<Person>(new object[] { request.PersonId }, cancellationToken);
+                Person person = await _arpaContext.FindAsync<Person>([request.PersonId], cancellationToken);
 
                 person.SetProfilePitureName(fileResult.Name);
-                _ = _arpaContext.Persons.Update(person);
+                _ = _arpaContext.Set<Person>().Update(person);
 
                 return await _arpaContext.SaveChangesAsync(cancellationToken) < 1
                     ? throw new AffectedRowCountMismatchException(nameof(Person))

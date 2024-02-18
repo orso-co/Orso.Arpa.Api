@@ -52,14 +52,17 @@ namespace Orso.Arpa.Domain.ProjectDomain.Commands
 
                 RuleFor(d => d.RoleId)
                     .Cascade(CascadeMode.Stop)
-                    .MustAsync(async (roleId, cancellation) => await roleManager.Roles.AnyAsync(r => r.Id == roleId, cancellation))
+                    .MustAsync(async (roleId, cancellation) => await roleManager.Roles
+                        .AnyAsync(r => r.Id == roleId, cancellation))
                     .WithErrorCode("404")
                     .WithMessage("Role could not be found.")
 
-                    .MustAsync(async (dto, roleId, cancellation) => !(await arpaContext.EntityExistsAsync<UrlRole>(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation)))
+                    .MustAsync(async (dto, roleId, cancellation) => !await arpaContext
+                        .EntityExistsAsync<UrlRole>(ar => ar.RoleId == roleId && ar.UrlId == dto.UrlId, cancellation))
                     .WithMessage("The role is already linked to the url")
 
-                    .MustAsync(async (roleId, cancellation) => !await roleManager.Roles.AnyAsync(r => r.Id == roleId && r.Name == RoleNames.Admin, cancellation))
+                    .MustAsync(async (roleId, cancellation) => !await roleManager.Roles
+                        .AnyAsync(r => r.Id == roleId && r.Name == RoleNames.Admin, cancellation))
                     .WithMessage("It is not allowed to set the url role to admin");
             }
         }
@@ -79,12 +82,12 @@ namespace Orso.Arpa.Domain.ProjectDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Url existingUrl = await _arpaContext.Urls.FindAsync(new object[] { request.UrlId }, cancellationToken);
+                Url existingUrl = await _arpaContext.Set<Url>().FindAsync([request.UrlId], cancellationToken);
                 Role existingRole = await _roleManager.Roles.SingleAsync(r => r.Id == request.RoleId, cancellationToken);
 
                 var urlRole = new UrlRole(null, existingUrl, existingRole);
 
-                _arpaContext.UrlRoles.Add(urlRole);
+                _arpaContext.Set<UrlRole>().Add(urlRole);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

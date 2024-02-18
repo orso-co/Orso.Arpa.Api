@@ -65,8 +65,9 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments
-                    .FindAsync(new object[] { request.Id }, cancellationToken);
+                Appointment existingAppointment = await _arpaContext
+                    .Set<Appointment>()
+                    .FindAsync([request.Id], cancellationToken);
 
                 AppointmentParticipation participation = existingAppointment.AppointmentParticipations
                     .FirstOrDefault(pa => pa.PersonId == request.PersonId);
@@ -74,12 +75,12 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                 if (participation == null)
                 {
                     participation = new AppointmentParticipation(Guid.NewGuid(), _mapper.Map<Command, CreateAppointmentParticipation.Command>(request));
-                    _ = await _arpaContext.AppointmentParticipations.AddAsync(participation, cancellationToken);
+                    _ = await _arpaContext.Set<AppointmentParticipation>().AddAsync(participation, cancellationToken);
                 }
                 else
                 {
                     participation.Update(request);
-                    _ = _arpaContext.AppointmentParticipations.Update(participation);
+                    _ = _arpaContext.Set<AppointmentParticipation>().Update(participation);
                 }
 
                 return await _arpaContext.SaveChangesAsync(cancellationToken) > 0

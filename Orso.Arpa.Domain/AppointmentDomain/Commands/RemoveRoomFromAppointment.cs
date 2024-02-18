@@ -33,8 +33,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
             public Validator(IArpaContext arpaContext)
             {
                 _ = RuleFor(d => d.RoomId)
-                    .MustAsync(async (dto, roomId, cancellation) => await arpaContext.AppointmentRooms
-                        .AnyAsync(ar => ar.RoomId == roomId && ar.AppointmentId == dto.Id, cancellation))
+                    .MustAsync(async (dto, roomId, cancellation) => await arpaContext
+                        .EntityExistsAsync<AppointmentRoom>(ar => ar.RoomId == roomId && ar.AppointmentId == dto.Id, cancellation))
                     .WithMessage("The room is not linked to the appointment");
             }
         }
@@ -50,10 +50,11 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppointmentRoom roomToRemove = await _arpaContext.AppointmentRooms
-                                    .FirstOrDefaultAsync(ar => ar.RoomId == request.RoomId && ar.AppointmentId == request.Id, cancellationToken);
+                AppointmentRoom roomToRemove = await _arpaContext
+                    .Set<AppointmentRoom>()
+                    .FirstOrDefaultAsync(ar => ar.RoomId == request.RoomId && ar.AppointmentId == request.Id, cancellationToken);
 
-                _ = _arpaContext.AppointmentRooms.Remove(roomToRemove);
+                _ = _arpaContext.Remove(roomToRemove);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

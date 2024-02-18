@@ -33,15 +33,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     CreatedAt = FakeDateTime.UtcNow,
                     Address = new AddressDto
                     {
-                        Id = Guid.Parse("9dfd22c2-41c6-463c-a4cd-334215584d56"),
                         Address1 = "Schlüsselstraße 5",
                         Zip = "79104",
                         City = "Freiburg",
                         Country = "Deutschland",
                         UrbanDistrict = "Herdern",
                         State = "Baden-Württemberg",
-                        CreatedBy = "anonymous",
-                        CreatedAt = FakeDateTime.UtcNow
                     }
                 };
                 dto.Rooms.Add(RoomDtoData.AulaWeiherhofSchule);

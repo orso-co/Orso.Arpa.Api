@@ -30,7 +30,9 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                 RuleFor(d => d.EndTime)
                     .MustAsync(async (request, _, cancellation) =>
                     {
-                        Appointment existingAppointment = await arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellation);
+                        Appointment existingAppointment = await arpaContext
+                            .Set<Appointment>()
+                            .FindAsync(new object[] { request.Id }, cancellation);
                         existingAppointment.Update(request);
                         return existingAppointment?.EndTime >= existingAppointment?.StartTime;
                     })
@@ -50,11 +52,11 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Appointment> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
+                Appointment existingAppointment = await _arpaContext.Set<Appointment>().FindAsync([request.Id], cancellationToken);
 
                 existingAppointment.Update(request);
 
-                EntityEntry<Appointment> changedAppointment = _arpaContext.Appointments.Update(existingAppointment);
+                EntityEntry<Appointment> changedAppointment = _arpaContext.Set<Appointment>().Update(existingAppointment);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

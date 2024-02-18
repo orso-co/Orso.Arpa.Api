@@ -23,7 +23,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _validator = new CreateRegion.Validator(_arpaContext);
             DbSet<Region> mockRegions = MockDbSets.Regions;
-            _arpaContext.Regions.Returns(mockRegions);
+            _arpaContext.Set<Region>().Returns(mockRegions);
         }
 
         [Test]

@@ -19,7 +19,7 @@ namespace Orso.Arpa.Application.BankAccountApplication.Model
     {
         public BankAccountDtoMappingProfile()
         {
-            CreateMap<BankAccount, BankAccountDto>()
+            CreateMap<PersonBankAccount, BankAccountDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }

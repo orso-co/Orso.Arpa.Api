@@ -25,7 +25,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext = Substitute.For<IArpaContext>();
             _mockProjectAppointments = MockDbSets.ProjectAppointments;
-            _arpaContext.ProjectAppointments.Returns(_mockProjectAppointments);
+            _arpaContext.Set<ProjectAppointment>().Returns(_mockProjectAppointments);
             _validator = new RemoveProjectFromAppointment.Validator(_arpaContext);
             _validAppointmentId = AppointmentSeedData.RockingXMasRehearsal.Id;
         }

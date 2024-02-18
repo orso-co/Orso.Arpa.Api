@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
             _existingAppointment = AppointmentSeedData.RockingXMasRehearsal;
             _mockAppointmentDbSet.FindAsync(Arg.Any<Guid>()).Returns(_existingAppointment);
             _arpaContext.Set<Appointment>().Returns(_mockAppointmentDbSet);
-            _arpaContext.Appointments.Returns(_mockAppointmentDbSet);
+            _arpaContext.Set<Appointment>().Returns(_mockAppointmentDbSet);
         }
 
         [Test]
@@ -50,14 +50,14 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         [Test]
         public async Task Should_Have_Validation_Error_If_EndDate_Is_Not_After_Begin_Date()
         {
-            _arpaContext.Appointments.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeAppointments.RockingXMasRehearsal);
+            _arpaContext.Set<Appointment>().FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeAppointments.RockingXMasRehearsal);
             await _validator.ShouldHaveValidationErrorForExactAsync(command => command.EndTime, new DateTime(2019, 12, 20, 10, 00, 00));
         }
 
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_EndDate_Is_After_Begin_Date()
         {
-            _arpaContext.Appointments.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeAppointments.RockingXMasRehearsal);
+            _arpaContext.Set<Appointment>().FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeAppointments.RockingXMasRehearsal);
             await _validator.ShouldNotHaveValidationErrorForExactAsync(command => command.EndTime, new DateTime(2019, 12, 31, 10, 00, 00));
         }
     }

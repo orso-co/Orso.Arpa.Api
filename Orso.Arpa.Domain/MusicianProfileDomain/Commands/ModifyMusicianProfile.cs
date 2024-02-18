@@ -93,9 +93,12 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
 
                 if (request.IsMainProfile && !existingMusicianProfile.IsMainProfile)
                 {
-                    MusicianProfile mainProfile = await _arpaContext.MusicianProfiles.AsQueryable().SingleOrDefaultAsync(mp => mp.PersonId == existingMusicianProfile.PersonId && mp.IsMainProfile, cancellationToken);
+                    MusicianProfile mainProfile = await _arpaContext
+                        .Set<MusicianProfile>()
+                        .AsQueryable()
+                        .SingleOrDefaultAsync(mp => mp.PersonId == existingMusicianProfile.PersonId && mp.IsMainProfile, cancellationToken);
                     mainProfile.TurnOffIsMainProfileFlag();
-                    _ = _arpaContext.MusicianProfiles.Update(mainProfile);
+                    _ = _arpaContext.Set<MusicianProfile>().Update(mainProfile);
                 }
 
                 existingMusicianProfile.Update(request);

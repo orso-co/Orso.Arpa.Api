@@ -43,7 +43,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.CommandHandlerTests
             //EntityEntry<Appointment> mockedEntityEntry = Substitute.For<EntityEntry<Appointment>>();
             //mockedEntityEntry.Entity.Returns(expectedAppointment);
             //mockData.Update(Arg.Any<Appointment>()).Returns(mockedEntityEntry);
-            _arpaContext.Appointments.Returns(mockData);
+            _arpaContext.Set<Appointment>().Returns(mockData);
             _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
 
             // Act

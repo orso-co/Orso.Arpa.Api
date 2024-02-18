@@ -8,6 +8,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Domain.AppointmentDomain.Commands;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -32,7 +33,8 @@ namespace Orso.Arpa.Domain.Tests.AppointmentPerticipationsTests.CommandHandlerTe
         public async Task Should_Set_Result()
         {
             // Arrange
-            _ = _arpaContext.Appointments
+            _ = _arpaContext
+                    .Set<Appointment>()
                     .FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
                 .Returns(AppointmentSeedData.AppointmentWithoutProject);
             _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>())

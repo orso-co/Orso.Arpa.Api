@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Extensions;
@@ -52,8 +51,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, Project>(arpaContext)
 
-                    .MustAsync(async (dto, projectId, cancellation) => !(await arpaContext.ProjectAppointments
-                        .AnyAsync(pa => pa.ProjectId == projectId && pa.AppointmentId == dto.Id, cancellation)))
+                    .MustAsync(async (dto, projectId, cancellation) => !await arpaContext
+                        .EntityExistsAsync<ProjectAppointment>(pa => pa.ProjectId == projectId && pa.AppointmentId == dto.Id, cancellation))
                     .WithMessage("The project is already linked to the appointment");
             }
         }
@@ -70,10 +69,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
-                Project existingProject = await _arpaContext.Projects.FindAsync(new object[] { request.ProjectId }, cancellationToken);
+                Appointment existingAppointment = await _arpaContext.Set<Appointment>().FindAsync([request.Id], cancellationToken);
+                Project existingProject = await _arpaContext.Set<Project>().FindAsync([request.ProjectId], cancellationToken);
 
-                _arpaContext.ProjectAppointments.Add(new ProjectAppointment(null, existingProject, existingAppointment));
+                _arpaContext.Set<ProjectAppointment>().Add(new ProjectAppointment(null, existingProject, existingAppointment));
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

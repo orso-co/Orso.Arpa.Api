@@ -44,7 +44,8 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Queries
                         .Select(a => a.Id)
                         .ToListAsync(cancellationToken);
 
-                List<MusicianProfile> profiles = await _arpaContext.MusicianProfiles
+                List<MusicianProfile> profiles = await _arpaContext
+                    .Set<MusicianProfile>()
                     .AsQueryable()
                     .Where(p => musicianProfileIds.Contains(p.Id))
                     .ToListAsync(cancellationToken);

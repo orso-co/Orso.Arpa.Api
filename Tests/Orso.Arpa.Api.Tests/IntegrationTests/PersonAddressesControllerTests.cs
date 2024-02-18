@@ -6,6 +6,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AddressApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -33,7 +34,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 TypeId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
             };
 
-            var expectedDto = new AddressDto
+            var expectedDto = new PersonAddressDto
             {
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = "Per Former",
@@ -55,7 +56,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     .Post(_performer.PersonId), BuildStringContent(dto));
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            AddressDto result = await DeserializeResponseMessageAsync<AddressDto>(responseMessage);
+            PersonAddressDto result = await DeserializeResponseMessageAsync<PersonAddressDto>(responseMessage);
             result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(dto => dto.Id));
             result.Id.Should().NotBeEmpty();
         }

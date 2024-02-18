@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Orso.Arpa.Domain.AddressDomain.Commands;
-using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Commands;
 using Orso.Arpa.Domain.PersonDomain.Enums;
 using Orso.Arpa.Domain.PersonDomain.Model;
@@ -76,7 +74,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                 var person = new Person(
                     Guid.Parse("32e46032-125d-463a-87ed-67d9a34154c4"),
                     new RegisterUser.Command { GivenName = "Without", Surname = "Role", GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id });
-                person.Addresses.Add(new Address(Guid.Parse("df196870-5045-4a1c-b7fe-40473889830d"), new CreateAddress.Command
+                person.Addresses.Add(new PersonAddress(Guid.Parse("df196870-5045-4a1c-b7fe-40473889830d"), new CreateAddress.Command
                 {
                     UrbanDistrict = "Altstadt-Lehel",
                     Address1 = "Viktualienmarkt 4",
@@ -163,7 +161,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                         GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id
                     });
                 person.SetProperty(nameof(Person.ContactViaId), LockedOutUser.Id);
-                person.BankAccounts.Add(new BankAccount(
+                person.BankAccounts.Add(new PersonBankAccount(
                         Guid.Parse("1fa6a1f9-963c-4539-a3d3-e9e9b9430882"),
                         new CreateBankAccount.Command
                         {

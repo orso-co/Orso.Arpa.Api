@@ -29,9 +29,11 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Queries
 
             public async Task<MusicianProfile> Handle(Query request, CancellationToken cancellationToken)
             {
-                MusicianProfile musicianProfile = await _arpaContext.MusicianProfiles.SingleOrDefaultAsync(
-                    mp => mp.PersonId == request.PersonId && mp.Id == request.Id, cancellationToken) 
-                    ?? throw new NotFoundException(nameof(MusicianProfile), nameof(Query.Id));
+                MusicianProfile musicianProfile = await _arpaContext
+                    .Set<MusicianProfile>()
+                    .SingleOrDefaultAsync(
+                        mp => mp.PersonId == request.PersonId && mp.Id == request.Id, cancellationToken) 
+                        ?? throw new NotFoundException(nameof(MusicianProfile), nameof(Query.Id));
 
                 return musicianProfile;
             }

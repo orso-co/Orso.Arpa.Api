@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
 {
     public static class ModifyBankAccount
     {
-        public class Command : IModifyCommand<BankAccount>
+        public class Command : IModifyCommand<PersonBankAccount>
         {
             public Guid Id { get; set; }
             public string Iban { get; set; }
@@ -26,22 +26,22 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
             {
                 RuleFor(c => c.Id)
                     .MustAsync(async (command, id, cancellation) => await arpaContext
-                        .EntityExistsAsync<BankAccount>(bankAccount => bankAccount.Id == id && bankAccount.PersonId == command.PersonId, cancellation))
+                        .EntityExistsAsync<PersonBankAccount>(bankAccount => bankAccount.Id == id && bankAccount.PersonId == command.PersonId, cancellation))
                     .WithMessage("Bank account could not be found")
                     .WithErrorCode("404");
 
                 RuleFor(c => c.Iban)
                     .MustAsync(async (command, iban, cancellation) => !(await arpaContext
-                        .EntityExistsAsync<BankAccount>(bankAccount =>
+                        .EntityExistsAsync<PersonBankAccount>(bankAccount =>
                             bankAccount.Id != command.Id
                                 && bankAccount.PersonId == command.PersonId
 #pragma warning disable RCS1155, CA1862 // Use StringComparison when comparing strings.
-                                && bankAccount.Iban.ToLower() == iban.ToLower(), cancellation)))
+                                && bankAccount.BankAccount.Iban.ToLower() == iban.ToLower(), cancellation)))
 #pragma warning restore RCS1155, CA1862 // Use StringComparison when comparing strings.
                     .WithMessage("Bank account with this IBAN already taken");
 
                 RuleFor(c => c.StatusId)
-                    .SelectValueMapping<Command, BankAccount>(arpaContext, p => p.Status);
+                    .SelectValueMapping<Command, PersonBankAccount>(arpaContext, p => p.Status);
             }
         }
     }

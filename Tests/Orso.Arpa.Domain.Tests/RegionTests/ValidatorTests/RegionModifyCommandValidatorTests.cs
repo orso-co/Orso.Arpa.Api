@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.Tests.RegionTests.ValidatorTests
             _validator = new ModifyRegion.Validator(_arpaContext);
             DbSet<Region> mockRegions = MockDbSets.Regions;
             _arpaContext.Set<Region>().Returns(mockRegions);
-            _arpaContext.Regions.Returns(mockRegions);
+            _arpaContext.Set<Region>().Returns(mockRegions);
         }
 
         [Test]

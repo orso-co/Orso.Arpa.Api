@@ -51,10 +51,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
                 var count = appointmentIds.Count;
 
                 IQueryable<Appointment> userAppointments = request.Passed
-                    ? _arpaContext.Appointments.AsQueryable()
+                    ? _arpaContext.Set<Appointment>().AsQueryable()
                         .Where(appointment => appointmentIds.Contains(appointment.Id) && appointment.EndTime <= _dateTimeProvider.GetUtcNow())
                         .OrderByDescending(p => p.StartTime)
-                    : _arpaContext.Appointments.AsQueryable()
+                    : _arpaContext.Set<Appointment>().AsQueryable()
                         .Where(appointment => appointmentIds.Contains(appointment.Id) && appointment.EndTime > _dateTimeProvider.GetUtcNow())
                         .OrderBy(p => p.StartTime);
 

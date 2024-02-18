@@ -1,8 +1,8 @@
 using System;
 
-namespace Orso.Arpa.Domain.AddressDomain.Interfaces
+namespace Orso.Arpa.Domain.AddressDomain.Commands
 {
-    public class BaseAddressCreateCommand
+    public class AddressCommand
     {
         public string Address1 { get; set; }
         public string Address2 { get; set; }

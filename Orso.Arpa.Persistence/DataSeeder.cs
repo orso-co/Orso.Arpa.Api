@@ -78,7 +78,7 @@ namespace Orso.Arpa.Persistence
 
             if (!await _arpaContext.EntityExistsAsync<Person>(initialAdmin.Id, CancellationToken.None))
             {
-                _ = await _arpaContext.Persons.AddAsync(initialAdmin);
+                _ = await _arpaContext.Set<Person>().AddAsync(initialAdmin);
                 _ = await _arpaContext.SaveChangesAsync(CancellationToken.None);
             }
         }

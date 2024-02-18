@@ -22,7 +22,9 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Queries
 
             public Task<IOrderedQueryable<Person>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(_arpaContext.Persons.AsQueryable()
+                return Task.FromResult(_arpaContext
+                    .Set<Person>()
+                    .AsQueryable()
                     .Where(p => p.MusicianProfiles.Count > 0)
                     .OrderBy(p => p.Surname)
                     .ThenBy(p => p.GivenName));

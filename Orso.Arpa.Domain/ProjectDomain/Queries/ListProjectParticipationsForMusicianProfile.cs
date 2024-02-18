@@ -42,16 +42,19 @@ namespace Orso.Arpa.Domain.ProjectDomain.Queries
 
             public async Task<IEnumerable<MusicianProfileProjectParticipationGrouping>> Handle(Query request, CancellationToken cancellationToken)
             {
-                IQueryable<Project> projectQuery = _arpaContext.Projects
-                                .Where(p => (!p.IsCompleted || request.IncludeCompletedProjects)
-                                    && !p.IsHiddenForPerformers
-                                    && !ProjectStatus.Cancelled.Equals(p.Status)
-                                    && p.Children.Count.Equals(0))
-                                .OrderByDescending(p => p.StartDate);
+                IQueryable<Project> projectQuery = _arpaContext
+                    .Set<Project>()
+                    .Where(p => (!p.IsCompleted || request.IncludeCompletedProjects)
+                        && !p.IsHiddenForPerformers
+                        && !ProjectStatus.Cancelled.Equals(p.Status)
+                        && p.Children.Count.Equals(0))
+                    .OrderByDescending(p => p.StartDate);
 
                 var result = new List<MusicianProfileProjectParticipationGrouping>();
 
-                MusicianProfile musicianProfile = await _arpaContext.MusicianProfiles.FindAsync(keyValues: [request.MusicianProfileId], cancellationToken: cancellationToken);
+                MusicianProfile musicianProfile = await _arpaContext
+                    .Set<MusicianProfile>()
+                    .FindAsync(keyValues: [request.MusicianProfileId], cancellationToken: cancellationToken);
 
                 foreach (Project project in await projectQuery.ToListAsync(cancellationToken))
                 {

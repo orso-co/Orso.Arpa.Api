@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.Tests.RolesTests.QueryHandlerTests
             // Arrange
             var treeQuery = new ListFlattenedSectionTree.Query { MaxLevel = 3 };
             DbSet<Section> mockSections = MockDbSets.Sections;
-            _ = _context.Sections.Returns(mockSections);
+            _ = _context.Set<Section>().Returns(mockSections);
 
             // Act
             IEnumerable<ITree<Section>> tree = await _handler.Handle(treeQuery, new CancellationToken());

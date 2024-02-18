@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectParticipationsTests.QueryHandlerTests
         {
             _arpaContext = Substitute.For<IArpaContext>();
             DbSet<ProjectParticipation> projectParticipations = MockDbSets.ProjectParticipations;
-            _arpaContext.ProjectParticipations.Returns(projectParticipations);
+            _arpaContext.Set<ProjectParticipation>().Returns(projectParticipations);
             _handler = new ListParticipationsForProject.Handler(_arpaContext);
         }
 

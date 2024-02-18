@@ -52,8 +52,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     .Cascade(CascadeMode.Stop)
                     .EntityExists<Command, Room>(arpaContext)
 
-                    .MustAsync(async (dto, roomId, cancellation) => !(await arpaContext.AppointmentRooms
-                        .AnyAsync(ar => ar.RoomId == roomId && ar.AppointmentId == dto.Id, cancellation)))
+                    .MustAsync(async (dto, roomId, cancellation) => !await arpaContext
+                        .EntityExistsAsync<AppointmentRoom>(ar => ar.RoomId == roomId && ar.AppointmentId == dto.Id, cancellation))
                     .WithMessage("The room is already linked to the appointment");
             }
         }
@@ -70,12 +70,12 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
-                Room existingRoom = await _arpaContext.Rooms.FindAsync(new object[] { request.RoomId }, cancellationToken);
+                Appointment existingAppointment = await _arpaContext.Set<Appointment>().FindAsync([request.Id], cancellationToken);
+                Room existingRoom = await _arpaContext.Set<Room>().FindAsync([request.RoomId], cancellationToken);
 
                 var appointmentRoom = new AppointmentRoom(null, existingAppointment, existingRoom);
 
-                _arpaContext.AppointmentRooms.Add(appointmentRoom);
+                _arpaContext.Set<AppointmentRoom>().Add(appointmentRoom);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

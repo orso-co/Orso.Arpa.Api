@@ -1,17 +1,16 @@
 using System;
 using FluentValidation;
-using Orso.Arpa.Domain.AddressDomain.Interfaces;
-using Orso.Arpa.Domain.AddressDomain.Model;
+using Orso.Arpa.Domain.AddressDomain.Commands;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using static Orso.Arpa.Domain.General.GenericHandlers.Create;
 
-namespace Orso.Arpa.Domain.AddressDomain.Commands
+namespace Orso.Arpa.Domain.PersonDomain.Commands
 {
     public static class CreateAddress
     {
-        public class Command : BaseAddressCreateCommand, ICreateCommand<Address>
+        public class Command : AddressCommand, ICreateCommand<PersonAddress>
         {
             public Guid PersonId { get; set; }
         }
@@ -24,7 +23,7 @@ namespace Orso.Arpa.Domain.AddressDomain.Commands
                     .EntityExists<Command, Person>(arpaContext);
 
                 RuleFor(c => c.TypeId)
-                    .SelectValueMapping<Command, Address>(arpaContext, c => c.Type);
+                    .SelectValueMapping<Command, PersonAddress>(arpaContext, c => c.Type);
             }
         }
     }

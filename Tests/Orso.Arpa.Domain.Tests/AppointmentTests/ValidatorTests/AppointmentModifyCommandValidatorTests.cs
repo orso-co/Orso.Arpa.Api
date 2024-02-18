@@ -27,7 +27,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         {
             _arpaContext = Substitute.For<IArpaContext>();
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
-            _ = _arpaContext.SelectValueCategories.Returns(_mockSelectValueCategoryDbSet);
+            _ = _arpaContext.Set<SelectValueCategory>().Returns(_mockSelectValueCategoryDbSet);
             _validator = new ModifyAppointment.Validator(_arpaContext);
         }
 

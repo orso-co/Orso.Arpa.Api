@@ -35,7 +35,7 @@ namespace Orso.Arpa.Domain.UserDomain.Queries
 
             public async Task<IList<User>> Handle(Query request, CancellationToken cancellationToken)
             {
-                IQueryable<User> users = _arpaContext.Users;
+                IQueryable<User> users = _arpaContext.Set<User>();
 
                 switch (request.UserStatus)
                 {

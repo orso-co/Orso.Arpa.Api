@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Enums;
 using Orso.Arpa.Domain.ProjectDomain.Model;
@@ -44,12 +45,14 @@ public static class ListProjectParticipationsForPerson
 
         public async Task<Tuple<IEnumerable<PersonProjectParticipationGrouping>, int>> Handle(Query request, CancellationToken cancellationToken)
         {
-            List<Guid> musicianProfileIds = await _arpaContext.MusicianProfiles
+            List<Guid> musicianProfileIds = await _arpaContext
+                .Set<MusicianProfile>()
                 .Where(mp => mp.PersonId == request.PersonId)
                 .Select(mp => mp.Id)
                 .ToListAsync(cancellationToken: cancellationToken);
 
-            IQueryable<Project> projectQuery = _arpaContext.Projects
+            IQueryable<Project> projectQuery = _arpaContext
+                .Set<Project>()
                 .Where(p => (!p.IsCompleted || request.IncludeCompleted)
                     && !p.IsHiddenForPerformers
                     && !ProjectStatus.Cancelled.Equals(p.Status)
@@ -79,9 +82,9 @@ public static class ListProjectParticipationsForPerson
                         ? musicianProfileIds.Select(muproId =>
                         {
                             ProjectParticipation existingParticipation = project.ProjectParticipations.FirstOrDefault(pp => pp.MusicianProfileId.Equals(muproId));
-                            return existingParticipation ?? new ProjectParticipation(project, _arpaContext.MusicianProfiles.Find(muproId));
+                            return existingParticipation ?? new ProjectParticipation(project, _arpaContext.Set<MusicianProfile>().Find(muproId));
                         })
-                        : new List<ProjectParticipation>()
+                        : []
                 });
             }
 

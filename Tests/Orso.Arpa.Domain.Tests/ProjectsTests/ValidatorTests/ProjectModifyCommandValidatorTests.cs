@@ -29,8 +29,8 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _arpaContext = Substitute.For<IArpaContext>();
             _mockProjectDbSet = MockDbSets.Projects;
             _mockSelectValueCategoryDbSet = MockDbSets.SelectValueCategories;
-            _arpaContext.SelectValueCategories.Returns(_mockSelectValueCategoryDbSet);
-            _arpaContext.Projects.Returns(_mockProjectDbSet);
+            _arpaContext.Set<SelectValueCategory>().Returns(_mockSelectValueCategoryDbSet);
+            _arpaContext.Set<Project>().Returns(_mockProjectDbSet);
 
             _validator = new ModifyProject.Validator(_arpaContext);
         }
