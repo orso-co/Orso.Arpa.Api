@@ -19,6 +19,7 @@ using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -119,12 +120,16 @@ using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.CookiePolicy;
 
 namespace Orso.Arpa.Api
 {
     public class Startup
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public bool useCookies = true;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
@@ -154,12 +159,39 @@ namespace Orso.Arpa.Api
                 _ = services.AddApplicationInsightsTelemetry();
             }
             _ = services.AddMediatR(typeof(LoginUser.Handler).Assembly);
+
+        
+            if (useCookies)
+            {
+                 _ = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    //options.EventsType = typeof(CustomCookieAuthenticationEvents);
+                    //options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                    //options.SlidingExpiration = true;
+                    options.AccessDeniedPath = new PathString("/Error/AccessDenied");
+                    options.LoginPath = new PathString("/Account/Login/");
+                    options.Cookie.Path = "/";
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                    options.Cookie.HttpOnly = true;
+                    options.LogoutPath = new PathString("/Account/Logout/");
+                });
+
+                /*
+                _ = services.AddSession(opts =>
+                {
+                    opts.Cookie.IsEssential = true; // make the session cookie Essential
+                });
+                */
+
+            }
+            
+
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
                 typeof(AddRoleToUrl.MappingProfile).Assembly);
             _ = services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
-
             _ = services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
             _ = services.AddControllers()
                 .AddJsonOptions(options =>
@@ -469,11 +501,25 @@ namespace Orso.Arpa.Api
             _ = services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromDays(identityConfig.EmailConfirmationTokenExpiryInDays));
 
+
             JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
             _ = services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearerConfiguration(jwtConfig);
+            
+
+            
+            _ = services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.HttpOnly = HttpOnlyPolicy.Always;
+                options.Secure = _hostingEnvironment.IsDevelopment()
+                    ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+            });
+            
+            
+
         }
 
         private void ConfigureCors(IServiceCollection services)
@@ -531,6 +577,14 @@ namespace Orso.Arpa.Api
             _ = app.UseIpRateLimiting();
 
             _ = app.UseRequestLocalization();
+
+            
+            if (useCookies)
+            {
+                _ = app.UseCookiePolicy();
+
+            }
+            
 
             _ = app.UseErrorResponseLocalizationMiddleware();
 
@@ -648,3 +702,4 @@ namespace Orso.Arpa.Api
         }
     }
 }
+

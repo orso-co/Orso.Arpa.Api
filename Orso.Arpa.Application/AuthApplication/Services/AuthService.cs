@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -23,6 +24,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
 
         public async Task<TokenDto> LoginAsync(LoginDto loginDto, string remoteIpAddress)
         {
+            Console.WriteLine("YOU SHOULD NOT SEE THIS");
             LoginUser.Command command = _mapper.Map<LoginUser.Command>(loginDto);
             command.RemoteIpAddress = remoteIpAddress;
             var token = await _mediator.Send(command);
