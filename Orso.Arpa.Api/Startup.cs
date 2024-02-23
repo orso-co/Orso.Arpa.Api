@@ -675,16 +675,11 @@ namespace Orso.Arpa.Api
             });
         }
 
-        public virtual void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env,
-            ILogger<Startup> logger
-        )
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             _ = app.UseIpRateLimiting();
 
             _ = app.UseRequestLocalization();
-            logger.LogInformation("line572");
 
             if (useCookies)
             {
@@ -714,7 +709,7 @@ namespace Orso.Arpa.Api
             _ = app.UseImageSharp();
 
             _ = app.UseDefaultFiles(); // use index.html
-            logger.LogInformation("line605");
+
             _ = app.UseStaticFiles();
 
             AddSwagger(app);
