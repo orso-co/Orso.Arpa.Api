@@ -33,7 +33,10 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
         public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
         {
             return await _authService.LoginAsync(loginDto, RemoteIpAddress);
@@ -51,8 +54,14 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status424FailedDependency)]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status424FailedDependency
+        )]
         public async Task<ActionResult> Register([FromBody] UserRegisterDto registerDto)
         {
             await _authService.RegisterAsync(registerDto);
@@ -71,9 +80,17 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("forgotpassword")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status424FailedDependency)]
-        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPassswordDto)
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status424FailedDependency
+        )]
+        public async Task<ActionResult> ForgotPassword(
+            [FromBody] ForgotPasswordDto forgotPassswordDto
+        )
         {
             await _authService.ForgotPasswordAsync(forgotPassswordDto);
             return NoContent();
@@ -90,7 +107,10 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("resetpassword")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
             await _authService.ResetPasswordAsync(resetPasswordDto);
@@ -107,8 +127,13 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
+        public async Task<ActionResult> ChangePassword(
+            [FromBody] ChangePasswordDto changePasswordDto
+        )
         {
             await _authService.ChangePasswordAsync(changePasswordDto);
             return NoContent();
@@ -126,8 +151,14 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("role")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status424FailedDependency)]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status424FailedDependency
+        )]
         public async Task<ActionResult> SetRole([FromBody] SetRoleDto setRoleDto)
         {
             await _authService.SetRoleAsync(setRoleDto);
@@ -145,7 +176,10 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("confirmemail")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
         public async Task<ActionResult> ConfirmEmail([FromBody] ConfirmEmailDto confirmEmailDto)
         {
             await _authService.ConfirmEmailAsync(confirmEmailDto);
@@ -164,11 +198,17 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("emailconfirmationtoken")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
         public async Task<ActionResult> CreateNewEmailConfirmationToken(
-            [FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto)
+            [FromBody] CreateEmailConfirmationTokenDto createEmailConfirmationTokenDto
+        )
         {
-            await _authService.CreateNewEmailConfirmationTokenAsync(createEmailConfirmationTokenDto);
+            await _authService.CreateNewEmailConfirmationTokenAsync(
+                createEmailConfirmationTokenDto
+            );
             return NoContent();
         }
 
@@ -187,7 +227,10 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
         public async Task<ActionResult<TokenDto>> RefreshAccessToken()
         {
             return await _authService.RefreshAccessTokenAsync(RefreshToken, RemoteIpAddress);
@@ -202,7 +245,10 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("logout")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(
+            typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity
+        )]
         public async Task<ActionResult> Logout()
         {
             await _authService.RevokeRefreshTokenAsync(RefreshToken, RemoteIpAddress);
