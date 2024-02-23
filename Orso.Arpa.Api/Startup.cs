@@ -162,20 +162,6 @@ namespace Orso.Arpa.Api
 
             if (useCookies)
             {
-                //  _ = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                // .AddCookie(options =>
-                // {
-                //     //options.EventsType = typeof(CustomCookieAuthenticationEvents);
-                //     //options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-                //     //options.SlidingExpiration = true;
-                //     options.AccessDeniedPath = new PathString("/Error/AccessDenied");
-                //     options.LoginPath = new PathString("/Account/Login/");
-                //     options.Cookie.Path = "/try//";
-                //     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                //     options.Cookie.HttpOnly = true;
-                //     options.LogoutPath = new PathString("/Account/Logout/");
-                // });
-
                 services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
@@ -183,16 +169,14 @@ namespace Orso.Arpa.Api
                     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
                 })
                 .AddIdentityCookies();
-
             }
-
-
 
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
                 typeof(AddRoleToUrl.MappingProfile).Assembly);
             _ = services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
+
             _ = services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
             _ = services.AddControllers()
                 .AddJsonOptions(options =>
@@ -487,19 +471,6 @@ namespace Orso.Arpa.Api
 
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
 
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                options.Cookie.Name = "YourAppCookieName";
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-                options.LoginPath = "/Identity/Account/Login";
-                // ReturnUrlParameter requires 
-                //using Microsoft.AspNetCore.Authentication.Cookies;
-                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-                options.SlidingExpiration = true;
-            });
-
             _ = services.Configure<IdentityOptions>(opts =>
             {
                 opts.Lockout.AllowedForNewUsers = true;
@@ -527,7 +498,6 @@ namespace Orso.Arpa.Api
             _ = services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromDays(identityConfig.EmailConfirmationTokenExpiryInDays));
 
-
             JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
             if (!useCookies)
@@ -543,14 +513,10 @@ namespace Orso.Arpa.Api
                 _ = services.Configure<CookiePolicyOptions>(options =>
                 {
                     options.MinimumSameSitePolicy = SameSiteMode.Strict;
-                    options.HttpOnly = HttpOnlyPolicy.Always;
                     options.Secure = _hostingEnvironment.IsDevelopment()
                         ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
                 });
             }
-
-
-
 
         }
 
@@ -604,20 +570,17 @@ namespace Orso.Arpa.Api
             });
         }
 
-        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             _ = app.UseIpRateLimiting();
 
             _ = app.UseRequestLocalization();
-            logger.LogInformation("line572");
-
 
             if (useCookies)
             {
                 _ = app.UseCookiePolicy();
 
             }
-
 
             _ = app.UseErrorResponseLocalizationMiddleware();
 
@@ -642,7 +605,6 @@ namespace Orso.Arpa.Api
             _ = app.UseImageSharp();
 
             _ = app.UseDefaultFiles(); // use index.html
-
             _ = app.UseStaticFiles();
 
             AddSwagger(app);
