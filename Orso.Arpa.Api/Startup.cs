@@ -159,20 +159,6 @@ namespace Orso.Arpa.Api
 
             if (useCookies)
             {
-                //  _ = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                // .AddCookie(options =>
-                // {
-                //     //options.EventsType = typeof(CustomCookieAuthenticationEvents);
-                //     //options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-                //     //options.SlidingExpiration = true;
-                //     options.AccessDeniedPath = new PathString("/Error/AccessDenied");
-                //     options.LoginPath = new PathString("/Account/Login/");
-                //     options.Cookie.Path = "/try//";
-                //     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                //     options.Cookie.HttpOnly = true;
-                //     options.LogoutPath = new PathString("/Account/Logout/");
-                // });
-
                 services
                     .AddAuthentication(options =>
                     {
@@ -675,7 +661,10 @@ namespace Orso.Arpa.Api
             });
         }
 
-        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public virtual void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env
+        )
         {
             _ = app.UseIpRateLimiting();
 
