@@ -28,15 +28,11 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             public Validator(ArpaUserManager userManager)
             {
                 RuleFor(q => q.UsernameOrEmail)
-                    .MustAsync(
-                        async (userName, cancellation) =>
-                            await userManager.FindUserByUsernameOrEmailAsync(userName) != null
-                    )
+                    .MustAsync(async (userName, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(userName) != null)
                     .WithErrorCode("401")
-                    .WithMessage(
-                        "The system could not log you in. Please enter a valid user name and password"
-                    );
-                RuleFor(q => q.RemoteIpAddress).NotEmpty();
+                    .WithMessage("The system could not log you in. Please enter a valid user name and password");
+                RuleFor(q => q.RemoteIpAddress)
+                    .NotEmpty();
             }
         }
 
@@ -49,8 +45,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             public Handler(
                 SignInManager<User> signInManager,
                 IJwtGenerator jwtGenerator,
-                IdentityConfiguration identityConfiguration
-            )
+                IdentityConfiguration identityConfiguration)
             {
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
@@ -60,57 +55,30 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             public async Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
                 UserManager<User> userManager = _signInManager.UserManager;
-                User user = await userManager
-                    .Users.Include(u => u.Person)
-                    .SingleOrDefaultAsync(
-                        u =>
-                            request.UsernameOrEmail.Contains('@')
-                                ? u.NormalizedEmail
-                                    == userManager.NormalizeEmail(request.UsernameOrEmail)
-                                : u.NormalizedUserName
-                                    == userManager.NormalizeName(request.UsernameOrEmail),
-                        cancellationToken
-                    );
+                User user = await userManager.Users
+                    .Include(u => u.Person)
+                    .SingleOrDefaultAsync(u => request.UsernameOrEmail.Contains('@')
+                        ? u.NormalizedEmail == userManager.NormalizeEmail(request.UsernameOrEmail)
+                        : u.NormalizedUserName == userManager.NormalizeName(request.UsernameOrEmail), cancellationToken);
 
                 if (!await userManager.IsEmailConfirmedAsync(user))
                 {
-                    throw new ValidationException(
-                        new[]
-                        {
-                            new ValidationFailure(
-                                nameof(request.UsernameOrEmail),
-                                "Your email address is not confirmed. Please confirm your email address first"
-                            )
-                        }
-                    );
+                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
-                SignInResult result = await _signInManager.PasswordSignInAsync(
-                    user,
-                    request.Password,
-                    false,
-                    true
-                );
+                SignInResult result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
 
                 if (result.Succeeded)
                 {
-                    return await _jwtGenerator.CreateTokensAsync(
-                        user,
-                        request.RemoteIpAddress,
-                        cancellationToken
-                    );
+                    return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
                 }
 
                 if (result.IsLockedOut)
                 {
-                    throw new AuthorizationException(
-                        $"Your account is locked out. Kindly wait for {_identityConfiguration.LockoutExpiryInMinutes} minutes and try again"
-                    );
+                    throw new AuthorizationException($"Your account is locked out. Kindly wait for {_identityConfiguration.LockoutExpiryInMinutes} minutes and try again");
                 }
 
-                throw new AuthenticationException(
-                    "The system could not log you in. Please enter a valid user name and password"
-                );
+                throw new AuthenticationException("The system could not log you in. Please enter a valid user name and password");
             }
         }
     }

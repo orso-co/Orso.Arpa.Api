@@ -17,13 +17,11 @@ using HotChocolate.Types;
 using HotChocolate.Types.Pagination;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -122,6 +120,8 @@ using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.CookiePolicy;
 
 namespace Orso.Arpa.Api
 {
@@ -137,7 +137,10 @@ namespace Orso.Arpa.Api
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration
+        {
+            get;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -159,34 +162,44 @@ namespace Orso.Arpa.Api
 
             if (useCookies)
             {
-                services
-                    .AddAuthentication(options =>
-                    {
-                        options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-                        options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-                        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                    })
-                    .AddIdentityCookies();
+                //  _ = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                // .AddCookie(options =>
+                // {
+                //     //options.EventsType = typeof(CustomCookieAuthenticationEvents);
+                //     //options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                //     //options.SlidingExpiration = true;
+                //     options.AccessDeniedPath = new PathString("/Error/AccessDenied");
+                //     options.LoginPath = new PathString("/Account/Login/");
+                //     options.Cookie.Path = "/try//";
+                //     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                //     options.Cookie.HttpOnly = true;
+                //     options.LogoutPath = new PathString("/Account/Logout/");
+                // });
+
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                })
+                .AddIdentityCookies();
+
             }
+
+
 
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
-                typeof(AddRoleToUrl.MappingProfile).Assembly
-            );
+                typeof(AddRoleToUrl.MappingProfile).Assembly);
             _ = services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
-            _ = services.Configure<ApiBehaviorOptions>(options =>
-                options.SuppressInferBindingSourcesForParameters = true
-            );
-            _ = services
-                .AddControllers()
+            _ = services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
+            _ = services.AddControllers()
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
                     options.JsonSerializerOptions.Converters.Add(new TrimmedStringConverter());
-                    options.JsonSerializerOptions.Converters.Add(
-                        new JsonStringEnumConverter(JsonNamingPolicies.SnakeCaseUpper)
-                    ); // https://github.com/dotnet/runtime/issues/782 will be included in Text.Json in .NET 8
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicies.SnakeCaseUpper)); // https://github.com/dotnet/runtime/issues/782 will be included in Text.Json in .NET 8
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 })
                 .AddApplicationPart(typeof(Startup).Assembly)
@@ -194,14 +207,8 @@ namespace Orso.Arpa.Api
                 {
                     options.InvalidModelStateResponseFactory = context =>
                     {
-                        ProblemDetailsFactory problemDetailsFactory =
-                            context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
-                        ValidationProblemDetails problemDetails =
-                            problemDetailsFactory.CreateValidationProblemDetails(
-                                context.HttpContext,
-                                context.ModelState,
-                                statusCode: 422
-                            );
+                        ProblemDetailsFactory problemDetailsFactory = context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+                        ValidationProblemDetails problemDetails = problemDetailsFactory.CreateValidationProblemDetails(context.HttpContext, context.ModelState, statusCode: 422);
                         var result = new UnprocessableEntityObjectResult(problemDetails);
                         result.ContentTypes.Add("application/problem+json");
                         result.ContentTypes.Add("application/problem+xml");
@@ -231,8 +238,7 @@ namespace Orso.Arpa.Api
             var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
             _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
             _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
-            _ = services
-                .AddImageSharp()
+            _ = services.AddImageSharp()
                 .RemoveProvider<PhysicalFileSystemProvider>()
                 .AddProvider<ArpaProfilePictureProvider>()
                 .Configure<AzureBlobStorageCacheOptions>(options =>
@@ -240,23 +246,19 @@ namespace Orso.Arpa.Api
                     options.ConnectionString = connectionString;
                     options.ContainerName = "image-sharp-cache";
                     _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
-                })
-                .SetCache<AzureBlobStorageCache>();
+                }).SetCache<AzureBlobStorageCache>();
         }
 
         private void ConfigureIpRateLimiting(IServiceCollection services)
         {
             _ = services.AddMemoryCache();
             _ = services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
-            _ = services.Configure<IpRateLimitPolicies>(
-                Configuration.GetSection("IpRateLimitPolicies")
-            );
+            _ = services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
             _ = services.AddInMemoryRateLimiting();
             _ = services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
         }
 
         public static IRequestExecutorBuilder RequestExecutorBuilder { get; private set; }
-
         protected virtual void ConfigureGraphQL(IServiceCollection services)
         {
             RequestExecutorBuilder = services
@@ -268,9 +270,11 @@ namespace Orso.Arpa.Api
                 .AddFiltering()
                 .AddSorting()
                 .AddType(new UuidType('D'))
-                .SetPagingOptions(
-                    new PagingOptions { MaxPageSize = 100, IncludeTotalCount = true, }
-                )
+                .SetPagingOptions(new PagingOptions
+                {
+                    MaxPageSize = 100,
+                    IncludeTotalCount = true,
+                })
                 .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
         }
 
@@ -292,17 +296,11 @@ namespace Orso.Arpa.Api
             _ = services.Configure<RequestLocalizationOptions>(options =>
             {
                 _ = options.SetDefaultCulture(localizationConfiguration.DefaultCulture);
-                _ = options.AddSupportedUICultures(
-                    localizationConfiguration.SupportedUiCultures.ToArray()
-                );
-                _ = options.AddSupportedCultures(
-                    localizationConfiguration.SupportedUiCultures.ToArray()
-                );
+                _ = options.AddSupportedUICultures(localizationConfiguration.SupportedUiCultures.ToArray());
+                _ = options.AddSupportedCultures(localizationConfiguration.SupportedUiCultures.ToArray());
                 options.ApplyCurrentCultureToResponseHeaders = true;
-                options.FallBackToParentCultures =
-                    localizationConfiguration.FallbackToParentCulture;
-                options.FallBackToParentUICultures =
-                    localizationConfiguration.FallbackToParentCulture;
+                options.FallBackToParentCultures = localizationConfiguration.FallbackToParentCulture;
+                options.FallBackToParentUICultures = localizationConfiguration.FallbackToParentCulture;
             });
         }
 
@@ -321,76 +319,51 @@ namespace Orso.Arpa.Api
             _ = services.AddAuthorization(options =>
             {
                 options.InvokeHandlersAfterFailure = false;
-                options.AddPolicy(
-                    AuthorizationPolicies.SetRolePolicy,
-                    policy => policy.Requirements.Add(new SetRoleAuthorizationRequirement())
-                );
-                options.AddPolicy(
-                    AuthorizationPolicies.IsMyMusicianProfile,
-                    policy => policy.Requirements.Add(new IsMyMusicianProfileRequirement())
-                );
-                options.AddPolicy(
-                    AuthorizationPolicies.IsMyPerson,
-                    policy => policy.Requirements.Add(new IsMyPersonRequirement())
-                );
-                options.AddPolicy(
-                    AuthorizationPolicies.HasRolePolicy,
-                    policy =>
-                        policy.RequireAssertion(context =>
-                        {
-                            IEnumerable<Claim> roleLevelClaims = context.User.Claims.Where(c =>
-                                c.Type == ClaimsIdentity.DefaultRoleClaimType
-                            );
-                            return roleLevelClaims.Any();
-                        })
-                );
-                options.AddPolicy(
-                    AuthorizationPolicies.AtLeastStaffPolicy,
-                    policy =>
-                        policy.RequireAssertion(context =>
-                        {
-                            IEnumerable<string> roleLevelClaims = context
-                                .User.Claims.Where(c =>
-                                    c.Type == ClaimsIdentity.DefaultRoleClaimType
-                                )
-                                .Select(c => c.Value);
-                            return roleLevelClaims.Any(claim =>
-                                claim.Equals(RoleNames.Staff) || claim.Equals(RoleNames.Admin)
-                            );
-                        })
-                );
+                options.AddPolicy(AuthorizationPolicies.SetRolePolicy, policy =>
+                    policy.Requirements.Add(new SetRoleAuthorizationRequirement()));
+                options.AddPolicy(AuthorizationPolicies.IsMyMusicianProfile, policy =>
+                    policy.Requirements.Add(new IsMyMusicianProfileRequirement()));
+                options.AddPolicy(AuthorizationPolicies.IsMyPerson, policy =>
+                    policy.Requirements.Add(new IsMyPersonRequirement()));
+                options.AddPolicy(AuthorizationPolicies.HasRolePolicy, policy =>
+                   policy.RequireAssertion(context =>
+                   {
+                       IEnumerable<Claim> roleLevelClaims = context.User.Claims.Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType);
+                       return roleLevelClaims.Any();
+                   }));
+                options.AddPolicy(AuthorizationPolicies.AtLeastStaffPolicy, policy =>
+                   policy.RequireAssertion(context =>
+                   {
+                       IEnumerable<string> roleLevelClaims = context.User.Claims
+                        .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)
+                        .Select(c => c.Value);
+                       return roleLevelClaims.Any(claim => claim.Equals(RoleNames.Staff) || claim.Equals(RoleNames.Admin));
+                   }));
             });
         }
 
         private void ConfigureSwagger(IServiceCollection services)
         {
-            ClubConfiguration clubConfig = Configuration
-                .GetSection(nameof(ClubConfiguration))
-                .Get<ClubConfiguration>();
+            ClubConfiguration clubConfig = Configuration.GetSection(nameof(ClubConfiguration)).Get<ClubConfiguration>();
 
             _ = services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc(
-                    "v1",
-                    new OpenApiInfo
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Arpa 2.0 Api",
+                    Version = "v1",
+                    License = new OpenApiLicense
                     {
-                        Title = "Arpa 2.0 Api",
-                        Version = "v1",
-                        License = new OpenApiLicense
-                        {
-                            Name = "EUPL-1.2 License",
-                            Url = Configuration
-                                .GetSection("SwaggerConfiguration")
-                                .GetValue<Uri>("LicenseUrl")
-                        },
-                        Contact = new OpenApiContact
-                        {
-                            Name = clubConfig.Name,
-                            Url = clubConfig.Url,
-                            Email = clubConfig.ContactEmail,
-                        }
+                        Name = "EUPL-1.2 License",
+                        Url = Configuration.GetSection("SwaggerConfiguration").GetValue<Uri>("LicenseUrl")
+                    },
+                    Contact = new OpenApiContact
+                    {
+                        Name = clubConfig.Name,
+                        Url = clubConfig.Url,
+                        Email = clubConfig.ContactEmail,
                     }
-                );
+                });
 
                 options.DocumentFilter<LowerCaseDocumentFilter>();
 
@@ -401,25 +374,20 @@ namespace Orso.Arpa.Api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
 
-                options.AddSecurityDefinition(
-                    "Bearer",
-                    new OpenApiSecurityScheme
-                    {
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey,
-                        Scheme = "Bearer",
-                        BearerFormat = "JWT",
-                        In = ParameterLocation.Header,
-                        Description =
-                            "JWT Authorization header using the Bearer scheme (hint: Bearer token part should be appended with ‘Bearer’)",
-                    }
-                );
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme (hint: Bearer token part should be appended with ‘Bearer’)",
+                });
 
-                options.AddSecurityRequirement(
-                    new OpenApiSecurityRequirement
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
                     {
-                        {
-                            new OpenApiSecurityScheme
+                          new OpenApiSecurityScheme
                             {
                                 Reference = new OpenApiReference
                                 {
@@ -428,9 +396,8 @@ namespace Orso.Arpa.Api
                                 }
                             },
                             Array.Empty<string>()
-                        }
                     }
-                );
+                });
             });
 
             _ = services.AddFluentValidationRulesToSwagger();
@@ -443,10 +410,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<ITokenAccessor, TokenAccessor>();
             _ = services.AddScoped<IDataSeeder, DataSeeder>();
             _ = services.AddScoped<IAuthorizationHandler, SetRoleAuthorizationHandler>();
-            _ = services.AddScoped<
-                IAuthorizationHandler,
-                IsMyMusicianProfileAuthorizationHandler
-            >();
+            _ = services.AddScoped<IAuthorizationHandler, IsMyMusicianProfileAuthorizationHandler>();
             _ = services.AddScoped<IAuthorizationHandler, IsMyPersonAuthorizationHandler>();
             _ = services.AddScoped<IAuthService, AuthService>();
             _ = services.AddScoped<IUserService, UserService>();
@@ -461,20 +425,14 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IAuditLogService, AuditLogService>();
             _ = services.AddScoped<IMusicianProfileService, MusicianProfileService>();
             _ = services.AddScoped<IEducationService, EducationService>();
-            _ = services.AddScoped<
-                ICurriculumVitaeReferenceService,
-                CurriculumVitaeReferenceService
-            >();
+            _ = services.AddScoped<ICurriculumVitaeReferenceService, CurriculumVitaeReferenceService>();
             _ = services.AddScoped<IPersonService, PersonService>();
             _ = services.AddScoped<IDoublingInstrumentService, DoublingInstrumentService>();
             _ = services.AddScoped<IMeService, MeService>();
             _ = services.AddScoped<ITemplateParser, TemplateParser>();
             _ = services.AddScoped<IEmailSender, EmailSender>();
             _ = services.AddScoped<ITranslationService, TranslationService>();
-            _ = services.AddScoped<
-                IMusicianProfileDeactivationService,
-                MusicianProfileDeactivationService
-            >();
+            _ = services.AddScoped<IMusicianProfileDeactivationService, MusicianProfileDeactivationService>();
             services.AddGenericListHandler(typeof(AuditLog));
             _ = services.AddScoped<IBankAccountService, BankAccountService>();
             _ = services.AddScoped<IContactDetailService, ContactDetailService>();
@@ -489,14 +447,8 @@ namespace Orso.Arpa.Api
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 
-            _ = services.AddTransient(
-                typeof(IPipelineBehavior<,>),
-                typeof(DomainValidationBehavior<,>)
-            );
-            _ = services.AddTransient(
-                typeof(IPipelineBehavior<,>),
-                typeof(RequestPerformanceBehaviour<,>)
-            );
+            _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainValidationBehavior<,>));
+            _ = services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
 
             _ = services.AddScoped<IArpaContext>(provider => provider.GetService<ArpaContext>());
 
@@ -505,10 +457,11 @@ namespace Orso.Arpa.Api
             _ = AddConfiguration<SeedConfiguration>(services);
         }
 
-        private T AddConfiguration<T>(IServiceCollection services)
-            where T : class
+        private T AddConfiguration<T>(IServiceCollection services) where T : class
         {
-            T config = Configuration.GetSection(typeof(T).Name).Get<T>();
+            T config = Configuration
+                .GetSection(typeof(T).Name)
+                .Get<T>();
             _ = services.AddSingleton(config);
             return config;
         }
@@ -521,11 +474,7 @@ namespace Orso.Arpa.Api
         private void ConfigureAuthentication(IServiceCollection services)
         {
             IdentityBuilder builder = services.AddIdentityCore<User>();
-            var identityBuilder = new IdentityBuilder(
-                builder.UserType,
-                typeof(Role),
-                builder.Services
-            );
+            var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             _ = identityBuilder
                 .AddEntityFrameworkStores<ArpaContext>()
                 .AddSignInManager<SignInManager<User>>()
@@ -536,9 +485,7 @@ namespace Orso.Arpa.Api
                 .AddRoleManager<RoleManager<Role>>()
                 .AddUserManager<ArpaUserManager>();
 
-            IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(
-                services
-            );
+            IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
@@ -547,7 +494,7 @@ namespace Orso.Arpa.Api
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.LoginPath = "/Identity/Account/Login";
-                // ReturnUrlParameter requires
+                // ReturnUrlParameter requires 
                 //using Microsoft.AspNetCore.Authentication.Cookies;
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
@@ -556,9 +503,7 @@ namespace Orso.Arpa.Api
             _ = services.Configure<IdentityOptions>(opts =>
             {
                 opts.Lockout.AllowedForNewUsers = true;
-                opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(
-                    identityConfig.LockoutExpiryInMinutes
-                );
+                opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(identityConfig.LockoutExpiryInMinutes);
                 opts.Lockout.MaxFailedAccessAttempts = identityConfig.MaxFailedLoginAttempts;
                 opts.SignIn.RequireConfirmedEmail = true;
                 opts.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
@@ -577,16 +522,11 @@ namespace Orso.Arpa.Api
             }
 
             _ = services.Configure<DataProtectionTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromHours(
-                    identityConfig.DataProtectionTokenExpiryInHours
-                )
-            );
+                opt.TokenLifespan = TimeSpan.FromHours(identityConfig.DataProtectionTokenExpiryInHours));
 
             _ = services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromDays(
-                    identityConfig.EmailConfirmationTokenExpiryInDays
-                )
-            );
+                opt.TokenLifespan = TimeSpan.FromDays(identityConfig.EmailConfirmationTokenExpiryInDays));
+
 
             JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
@@ -597,6 +537,7 @@ namespace Orso.Arpa.Api
                     .AddJwtBearerConfiguration(jwtConfig);
             }
 
+
             if (useCookies)
             {
                 _ = services.Configure<CookiePolicyOptions>(options =>
@@ -604,10 +545,13 @@ namespace Orso.Arpa.Api
                     options.MinimumSameSitePolicy = SameSiteMode.Strict;
                     options.HttpOnly = HttpOnlyPolicy.Always;
                     options.Secure = _hostingEnvironment.IsDevelopment()
-                        ? CookieSecurePolicy.None
-                        : CookieSecurePolicy.Always;
+                        ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
                 });
             }
+
+
+
+
         }
 
         private void ConfigureCors(IServiceCollection services)
@@ -619,18 +563,15 @@ namespace Orso.Arpa.Api
 
             _ = services.AddCors(opt =>
             {
-                opt.AddPolicy(
-                    "CorsPolicy",
-                    policy =>
-                    {
-                        _ = policy
-                            .AllowAnyHeader()
-                            .WithExposedHeaders("x-token-expired")
-                            .AllowCredentials()
-                            .AllowAnyMethod()
-                            .WithOrigins(allowedOrigins);
-                    }
-                );
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    _ = policy
+                        .AllowAnyHeader()
+                        .WithExposedHeaders("x-token-expired")
+                        .AllowCredentials()
+                        .AllowAnyMethod()
+                        .WithOrigins(allowedOrigins);
+                });
             });
         }
 
@@ -638,7 +579,8 @@ namespace Orso.Arpa.Api
         {
             _ = services.AddDbContext<ArpaContext>(opt =>
             {
-                _ = opt.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
+                _ = opt
+                    .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
                     .UseSnakeCaseNamingConvention();
 
                 if (_hostingEnvironment.IsDevelopment())
@@ -649,7 +591,8 @@ namespace Orso.Arpa.Api
             });
             _ = services.AddPooledDbContextFactory<GraphQLContext>(opt =>
             {
-                _ = opt.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
+                _ = opt
+                    .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
                     .UseSnakeCaseNamingConvention()
                     .UseLazyLoadingProxies();
 
@@ -661,19 +604,20 @@ namespace Orso.Arpa.Api
             });
         }
 
-        public virtual void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env
-        )
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             _ = app.UseIpRateLimiting();
 
             _ = app.UseRequestLocalization();
+            logger.LogInformation("line572");
+
 
             if (useCookies)
             {
                 _ = app.UseCookiePolicy();
+
             }
+
 
             _ = app.UseErrorResponseLocalizationMiddleware();
 
@@ -707,9 +651,7 @@ namespace Orso.Arpa.Api
             {
                 _ = endpoints.MapControllers();
                 _ = endpoints.MapFallbackToController("Index", "Fallback");
-                _ = endpoints
-                    .MapGraphQL()
-                    .RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
+                _ = endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
             });
 
             EnsureDatabaseMigrations(app);
@@ -717,42 +659,20 @@ namespace Orso.Arpa.Api
             PreloadTranslationsFromDb(app);
         }
 
-        private static void ConfigureSecurityHeaders(
-            IApplicationBuilder app,
-            IWebHostEnvironment env
-        )
+        private static void ConfigureSecurityHeaders(IApplicationBuilder app, IWebHostEnvironment env)
         {
             _ = app.UseXContentTypeOptions();
             _ = app.UseReferrerPolicy(opt => opt.NoReferrer());
             _ = app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
             _ = app.UseXfo(opt => opt.Deny());
-            _ = app.UseCsp(opt =>
-                opt.BlockAllMixedContent()
+            _ = app.UseCsp(opt => opt
+                    .BlockAllMixedContent()
                     .DefaultSources(s => s.Self())
-                    .StyleSources(s =>
-                        s.Self().UnsafeInline().CustomSources("fonts.googleapis.com")
-                    ) // https://angular.io/guide/security
+                    .StyleSources(s => s.Self().UnsafeInline().CustomSources("fonts.googleapis.com")) // https://angular.io/guide/security
                     .FormActions(s => s.Self())
-                    .FrameSources(s =>
-                        s.Self()
-                            .CustomSources(
-                                "https://www.google.com/recaptcha/",
-                                "https://recaptcha.google.com/recaptcha/",
-                                "https://*.orso.co",
-                                "https://*.orso.berlin",
-                                "https://*.podio.com",
-                                "https://*.notion.so"
-                            )
-                    )
+                    .FrameSources(s => s.Self().CustomSources("https://www.google.com/recaptcha/", "https://recaptcha.google.com/recaptcha/", "https://*.orso.co", "https://*.orso.berlin", "https://*.podio.com", "https://*.notion.so"))
                     .FrameAncestors(s => s.Self())
-                    .ScriptSources(s =>
-                        s.Self()
-                            .UnsafeInline()
-                            .CustomSources(
-                                "https://www.google.com/recaptcha/",
-                                "https://www.gstatic.com/recaptcha/"
-                            )
-                    )
+                    .ScriptSources(s => s.Self().UnsafeInline().CustomSources("https://www.google.com/recaptcha/", "https://www.gstatic.com/recaptcha/"))
                     .ImageSources(s => s.Self().CustomSources("data:", "blob:"))
                     .ManifestSources(s => s.Self())
                     .MediaSources(s => s.Self())
@@ -761,7 +681,7 @@ namespace Orso.Arpa.Api
                     .ConnectSources(s => s.Self().CustomSources("fonts.gstatic.com"))
                     .WorkerSources(s => s.Self())
                     .FontSources(s => s.Self().CustomSources("fonts.gstatic.com", "data:"))
-            );
+                );
 
             if (env.IsProduction())
             {
@@ -816,3 +736,4 @@ namespace Orso.Arpa.Api
         }
     }
 }
+
