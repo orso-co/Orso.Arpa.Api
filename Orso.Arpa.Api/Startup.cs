@@ -129,7 +129,7 @@ namespace Orso.Arpa.Api
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public bool useCookies = false;
+        public bool useCookies = true;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
@@ -162,19 +162,27 @@ namespace Orso.Arpa.Api
 
             if (useCookies)
             {
-                 _ = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+                //  _ = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                // .AddCookie(options =>
+                // {
+                //     //options.EventsType = typeof(CustomCookieAuthenticationEvents);
+                //     //options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                //     //options.SlidingExpiration = true;
+                //     options.AccessDeniedPath = new PathString("/Error/AccessDenied");
+                //     options.LoginPath = new PathString("/Account/Login/");
+                //     options.Cookie.Path = "/try//";
+                //     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                //     options.Cookie.HttpOnly = true;
+                //     options.LogoutPath = new PathString("/Account/Logout/");
+                // });
+
+                services.AddAuthentication(options =>
                 {
-                    //options.EventsType = typeof(CustomCookieAuthenticationEvents);
-                    //options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-                    //options.SlidingExpiration = true;
-                    options.AccessDeniedPath = new PathString("/Error/AccessDenied");
-                    options.LoginPath = new PathString("/Account/Login/");
-                    options.Cookie.Path = "/try//";
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                    options.Cookie.HttpOnly = true;
-                    options.LogoutPath = new PathString("/Account/Logout/");
-                });
+                    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                })
+                .AddIdentityCookies();
 
             }
             
@@ -479,6 +487,19 @@ namespace Orso.Arpa.Api
 
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.Cookie.Name = "YourAppCookieName";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.LoginPath = "/Identity/Account/Login";
+                // ReturnUrlParameter requires 
+                //using Microsoft.AspNetCore.Authentication.Cookies;
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
+
             _ = services.Configure<IdentityOptions>(opts =>
             {
                 opts.Lockout.AllowedForNewUsers = true;
@@ -487,6 +508,18 @@ namespace Orso.Arpa.Api
                 opts.SignIn.RequireConfirmedEmail = true;
                 opts.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             });
+
+            if (useCookies)
+            {
+                services.ConfigureApplicationCookie(config =>
+                {
+                    config.Cookie.Name = "sessionCookie";
+                    config.LoginPath = "/Home/Login";
+                    config.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                    config.Cookie.HttpOnly = true;
+                    config.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                });
+            }
 
             _ = services.Configure<DataProtectionTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromHours(identityConfig.DataProtectionTokenExpiryInHours));
@@ -497,9 +530,13 @@ namespace Orso.Arpa.Api
 
             JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
+            if (!useCookies)
+            {
             _ = services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearerConfiguration(jwtConfig);
+            }
+
             
             if (useCookies)
             {
