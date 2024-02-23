@@ -129,7 +129,7 @@ namespace Orso.Arpa.Api
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public bool useCookies = true;
+        public bool useCookies = false;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
@@ -160,7 +160,6 @@ namespace Orso.Arpa.Api
             }
             _ = services.AddMediatR(typeof(LoginUser.Handler).Assembly);
 
-        
             if (useCookies)
             {
                  _ = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -171,20 +170,14 @@ namespace Orso.Arpa.Api
                     //options.SlidingExpiration = true;
                     options.AccessDeniedPath = new PathString("/Error/AccessDenied");
                     options.LoginPath = new PathString("/Account/Login/");
-                    options.Cookie.Path = "/";
+                    options.Cookie.Path = "/try//";
                     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                     options.Cookie.HttpOnly = true;
                     options.LogoutPath = new PathString("/Account/Logout/");
                 });
 
-                /*
-                _ = services.AddSession(opts =>
-                {
-                    opts.Cookie.IsEssential = true; // make the session cookie Essential
-                });
-                */
-
             }
+            
             
 
             _ = services.AddGenericMediatorHandlers();
@@ -508,8 +501,8 @@ namespace Orso.Arpa.Api
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearerConfiguration(jwtConfig);
             
-
-            
+            if (useCookies)
+            {
             _ = services.Configure<CookiePolicyOptions>(options =>
             {
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
@@ -517,6 +510,8 @@ namespace Orso.Arpa.Api
                 options.Secure = _hostingEnvironment.IsDevelopment()
                     ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
             });
+            }
+            
             
             
 
@@ -572,11 +567,12 @@ namespace Orso.Arpa.Api
             });
         }
 
-        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             _ = app.UseIpRateLimiting();
 
             _ = app.UseRequestLocalization();
+            logger.LogInformation("line572");
 
             
             if (useCookies)
@@ -609,6 +605,7 @@ namespace Orso.Arpa.Api
             _ = app.UseImageSharp();
 
             _ = app.UseDefaultFiles(); // use index.html
+            logger.LogInformation("line605");
             _ = app.UseStaticFiles();
 
             AddSwagger(app);

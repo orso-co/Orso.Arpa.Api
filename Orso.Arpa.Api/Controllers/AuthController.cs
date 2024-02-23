@@ -16,12 +16,15 @@ namespace Orso.Arpa.Api.Controllers
     public class AuthController : BaseController
     {
         private readonly IAuthService _authService;
+        private readonly IHttpContextAccessor _httpContext;
+
         private string RefreshToken => HttpContext.Request.Cookies["refreshToken"];
         private string RemoteIpAddress => HttpContext.Connection.RemoteIpAddress.ToString();
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IHttpContextAccessor httpContext)
         {
             _authService = authService;
+            _httpContext = httpContext;
         }
 
         /// <summary>
@@ -41,6 +44,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task Login([FromBody] LoginDto loginDto)
         {
+            /*
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, "mail"),
@@ -78,7 +82,8 @@ namespace Orso.Arpa.Api.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme, 
                 new ClaimsPrincipal(claimsIdentity), 
                 authProperties);
-            //await _authService.LoginAsync(loginDto, RemoteIpAddress);
+                */
+            await _authService.LoginAsync(loginDto, RemoteIpAddress);
         }
 
         /// <summary>
