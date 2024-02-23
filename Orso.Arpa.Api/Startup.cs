@@ -129,7 +129,7 @@ namespace Orso.Arpa.Api
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public bool useCookies = true;
+        public bool useCookies;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
@@ -153,6 +153,8 @@ namespace Orso.Arpa.Api
             ConfigureDatabase(services);
 
             ConfigureCors(services);
+
+            useCookies = Configuration.GetSection("IdentityConfiguration").GetValue<bool>("UseCookies");
 
             if (_hostingEnvironment.IsProduction())
             {
