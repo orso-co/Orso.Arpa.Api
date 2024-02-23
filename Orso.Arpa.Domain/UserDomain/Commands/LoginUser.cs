@@ -66,7 +66,18 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
-                SignInResult result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
+                SignInResult result;
+
+                if (_identityConfiguration.UseCookies)
+                {
+                    result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
+                }
+                else
+                {
+                    result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
+                }
+
+
 
                 if (result.Succeeded)
                 {
