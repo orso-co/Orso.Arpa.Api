@@ -129,7 +129,7 @@ namespace Orso.Arpa.Api
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public bool useCookies;
+        private bool useCookies;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
