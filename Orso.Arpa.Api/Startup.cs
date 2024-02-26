@@ -463,6 +463,7 @@ namespace Orso.Arpa.Api
             var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             _ = identityBuilder
                 .AddEntityFrameworkStores<ArpaContext>()
+                .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
                 .AddSignInManager<SignInManager<User>>()
                 .AddEntityFrameworkStores<ArpaContext>()
                 .AddDefaultTokenProviders()
@@ -472,6 +473,8 @@ namespace Orso.Arpa.Api
                 .AddUserManager<ArpaUserManager>();
 
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
+
+            services.AddScoped<CustomUserClaimsPrincipalFactory>();
 
             _ = services.Configure<IdentityOptions>(opts =>
             {

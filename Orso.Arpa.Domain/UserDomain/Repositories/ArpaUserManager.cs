@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -46,20 +45,6 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
             _jwtConfiguration = jwtConfiguration;
         }
 
-        public override async Task<IdentityResult> CreateAsync(User user, string password)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim("nameid", user.UserName),
-                new Claim("name", user.DisplayName),
-                new Claim("sub", user.Id.ToString()),
-                new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
-            };
-
-            await base.AddClaimsAsync(user, claims);
-
-            return await base.CreateAsync(user, password);
-        }
 
         public async Task<User> FindUserByUsernameOrEmailAsync(string usernameOrEmail)
         {
