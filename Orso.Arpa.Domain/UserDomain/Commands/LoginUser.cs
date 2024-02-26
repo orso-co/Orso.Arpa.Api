@@ -88,14 +88,6 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     //         });
                     // }
                     result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
-                    var claims = await _userManager.GetClaimsAsync(user);
-                    Console.WriteLine("hebele:" + claims.Count);
-                    foreach (Claim c in claims)
-                    {
-                        Console.WriteLine("hebele:" + c.Value + c.Issuer + c.ValueType + c.Type);
-
-                    }
-
                 }
                 else
                 {
