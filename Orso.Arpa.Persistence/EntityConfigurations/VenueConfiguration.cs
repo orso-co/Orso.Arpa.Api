@@ -15,6 +15,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(e => e.Description)
                 .HasMaxLength(255);
+
+            builder
+                .ComplexProperty(e => e.Address)
+                .IsRequired();
         }
     }
 }

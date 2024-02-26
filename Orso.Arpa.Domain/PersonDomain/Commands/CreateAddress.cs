@@ -21,9 +21,6 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
             {
                 RuleFor(c => c.PersonId)
                     .EntityExists<Command, Person>(arpaContext);
-
-                RuleFor(c => c.TypeId)
-                    .SelectValueMapping<Command, PersonAddress>(arpaContext, c => c.Type);
             }
         }
     }

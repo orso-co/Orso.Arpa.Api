@@ -81,7 +81,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _ = await _validator.ShouldHaveValidationErrorForExactAsync(command => command.GenreId, new CreateProject.Command()
             {
                 Code = "New Code",
-                GenreId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
+                GenreId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
             });
         }
 
@@ -124,7 +124,7 @@ namespace Orso.Arpa.Domain.Tests.ProjectTests.ValidatorTests
             _ = await _validator.ShouldHaveValidationErrorForExactAsync(command => command.TypeId, new CreateProject.Command()
             {
                 Code = "New Code",
-                TypeId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
+                TypeId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
             });
         }
 

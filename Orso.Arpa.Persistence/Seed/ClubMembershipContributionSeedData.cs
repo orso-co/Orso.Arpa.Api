@@ -7,7 +7,7 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class ClubMembershipContributionSeedData
     {
-        public static List<ClubMembershipContribution> ClubMembershipContributions => new List<ClubMembershipContribution>
+        public static List<ClubMembershipContribution> ClubMembershipContributions => new()
         {
             ChoirFreiburgFullContribution,
             ChoirFreiburgDiscountedContribution,
@@ -25,26 +25,26 @@ namespace Orso.Arpa.Persistence.Seed
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 150,
-                ValidFrom = DateTime.Parse("2020-01-01"),
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 VoucherPerConcertInPercent = 20,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.ChoirFreiburgFull.Id
             });
         public static ClubMembershipContribution ChoirFreiburgDiscountedContribution => new ClubMembershipContribution(
-        Guid.Parse("6dd65f56-175f-42cf-b01a-87ed60699244"),
-        new CreateClubMembershipContribution.Command
-        {
-            ContributionPerYearInEuro = 90,
-            ValidFrom = DateTime.Parse("2020-01-01"),
-            VoucherPerConcertInPercent = 20,
-            MembershipSubTypeId = ClubMembershipSubTypeSeedData.ChoirFreiburgDiscounted.Id
-        });
+            Guid.Parse("6dd65f56-175f-42cf-b01a-87ed60699244"),
+            new CreateClubMembershipContribution.Command
+            {
+                ContributionPerYearInEuro = 90,
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                VoucherPerConcertInPercent = 20,
+                MembershipSubTypeId = ClubMembershipSubTypeSeedData.ChoirFreiburgDiscounted.Id
+            });
         public static ClubMembershipContribution ChoirFreiburgPassiveContribution => new ClubMembershipContribution(
             Guid.Parse("46895e9e-0a64-4ba5-99b9-58a48db7d061"),
             new CreateClubMembershipContribution.Command
             {
 
                 ContributionPerYearInEuro = 30,
-                ValidFrom = DateTime.Parse("2020-01-01"),
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 VoucherPerConcertInPercent = 10,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.ChoirFreiburgPassive.Id
             });
@@ -53,7 +53,7 @@ namespace Orso.Arpa.Persistence.Seed
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 60,
-                ValidFrom = DateTime.Parse("2020-01-01"),
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 VoucherPerConcertInPercent = 20,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.OrchestraFreiburgFull.Id
             });
@@ -62,7 +62,7 @@ namespace Orso.Arpa.Persistence.Seed
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 45,
-                ValidFrom = DateTime.Parse("2020-01-01"),
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 VoucherPerConcertInPercent = 20,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.OrchestraFreiburgDiscounted.Id
             });
@@ -71,7 +71,7 @@ namespace Orso.Arpa.Persistence.Seed
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 50,
-                ValidFrom = DateTime.Parse("2020-01-01"),
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 VoucherPerConcertInPercent = 5,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.SponsoringFreiburgSonata.Id
             });
@@ -80,7 +80,7 @@ namespace Orso.Arpa.Persistence.Seed
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 100,
-                ValidFrom = DateTime.Parse("2020-01-01"),
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 VoucherPerConcertInPercent = 10,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.SponsoringFreiburgConcerto.Id
             });
@@ -89,7 +89,7 @@ namespace Orso.Arpa.Persistence.Seed
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 150,
-                ValidFrom = DateTime.Parse("2020-01-01"),
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 VoucherPerConcertInPercent = 15,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.SponsoringFreiburgSymphony.Id
             });
@@ -98,7 +98,7 @@ namespace Orso.Arpa.Persistence.Seed
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 300,
-                ValidFrom = DateTime.Parse("2020-01-01"),
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 VoucherPerConcertInPercent = 30,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.SponsoringFreiburgOpera.Id
             });

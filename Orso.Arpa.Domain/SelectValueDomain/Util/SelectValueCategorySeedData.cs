@@ -17,7 +17,6 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
             {
                 return new List<SelectValueCategory>
                 {
-                    AddressType,
                     AppointmentCategory,
                     AppointmentSalary,
                     AppointmentSalaryPattern,
@@ -40,12 +39,6 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
                 };
             }
         }
-
-        public static SelectValueCategory AddressType => new(
-            Guid.Parse("d438c160-0588-41fa-93c3-cd33c0f97063"),
-            nameof(PersonAddress),
-            nameof(PersonAddress.Type),
-            "Address Type");
 
         public static SelectValueCategory AppointmentExpectation => new(
             Guid.Parse("0fdb6218-54fa-4e94-a880-2a65fc1cf9d7"),

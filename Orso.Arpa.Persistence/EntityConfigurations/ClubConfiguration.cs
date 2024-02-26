@@ -15,6 +15,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             
             builder
                 .HasData(ClubSeedData.Clubs);
+
+            builder 
+                .ComplexProperty(e => e.Address)
+                .IsRequired();
         }
     }
 }

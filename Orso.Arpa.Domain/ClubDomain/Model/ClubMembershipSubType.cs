@@ -15,6 +15,8 @@ namespace Orso.Arpa.Domain.ClubDomain.Model
             Advantages = command.Advantages;
             Prerequisites = command.Prerequisites;
         }
+
+        protected ClubMembershipSubType() {}
         
         public Guid MemberhsipTypeId { get; set; }
         public virtual ClubMembershipType MembershipType { get; set; }

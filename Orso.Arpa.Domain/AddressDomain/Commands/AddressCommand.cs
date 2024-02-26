@@ -1,4 +1,4 @@
-using System;
+using Orso.Arpa.Domain._General.Enums;
 
 namespace Orso.Arpa.Domain.AddressDomain.Commands
 {
@@ -12,6 +12,6 @@ namespace Orso.Arpa.Domain.AddressDomain.Commands
         public string Country { get; set; }
         public string State { get; set; }
         public string CommentInner { get; set; }
-        public Guid? TypeId { get; set; }
+        public AddressType? Type { get; set; }
     }
 }

@@ -103,7 +103,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
             _ = _arpaContext.FindAsync<Section>(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(FakeSections.Flute);
-            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.AvailabilityId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.AvailabilityId, SelectValueMappingSeedData.PersonGenderMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]

@@ -10,6 +10,9 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<BankAccount> builder)
         {
             builder
+                .HasNoKey();
+            
+            builder
                 .Property(e => e.Iban)
                 .HasMaxLength(34);
 

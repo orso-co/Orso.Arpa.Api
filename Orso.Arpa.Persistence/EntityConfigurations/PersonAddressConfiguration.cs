@@ -39,12 +39,11 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             builder
                 .Property(a => a.CommentInner)
                 .HasMaxLength(500);
-
-            builder
-                .HasOne(e => e.Type)
-                .WithMany()
-                .HasForeignKey(e => e.TypeId)
-                .OnDelete(DeleteBehavior.NoAction);
+            
+            _ = builder
+                .Property(s => s.Type)
+                .HasConversion<string>()
+                .HasMaxLength(100);
 
             builder
                 .HasOne(e => e.Person)

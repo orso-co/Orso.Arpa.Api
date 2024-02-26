@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.General.Extensions;
 using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Domain._General.Enums;
 using Orso.Arpa.Domain.PersonDomain.Commands;
 
 namespace Orso.Arpa.Application.PersonApplication.Model
@@ -21,7 +22,7 @@ namespace Orso.Arpa.Application.PersonApplication.Model
         public string Country { get; set; }
         public string State { get; set; }
         public string CommentInner { get; set; }
-        public Guid? TypeId { get; set; }
+        public AddressType? Type { get; set; }
     }
 
     public class PersonAddressCreateDtoMappingProfile : Profile
@@ -38,7 +39,7 @@ namespace Orso.Arpa.Application.PersonApplication.Model
                 .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.Body.State))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Body.Country))
                 .ForMember(dest => dest.CommentInner, opt => opt.MapFrom(src => src.Body.CommentInner))
-                .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.Body.TypeId));
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Body.Type));
         }
     }
 

@@ -9,6 +9,9 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<Address> builder)
         {
             builder
+                .HasNoKey();
+            
+            builder
                 .Property(a => a.Address1)
                 .HasMaxLength(100);
 
@@ -40,11 +43,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .Property(a => a.CommentInner)
                 .HasMaxLength(500);
 
-            builder
-                .HasOne(e => e.Type)
-                .WithMany()
-                .HasForeignKey(e => e.TypeId)
-                .OnDelete(DeleteBehavior.NoAction);
+            _ = builder
+                .Property(s => s.Type)
+                .HasConversion<string>()
+                .HasMaxLength(100);
         }
     }
 }

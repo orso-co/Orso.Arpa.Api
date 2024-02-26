@@ -88,7 +88,7 @@ namespace Orso.Arpa.Persistence.Seed
             });
 
         public static ClubMembershipSubType SponsoringFreiburgOpera => new ClubMembershipSubType(
-            Guid.Parse("1fbbfbc8-b54f-4c3c-ade9-c22f646b1b7a3"),
+            Guid.Parse("1fbbfbc8-b54f-4c3c-ade9-c22f646b1b7a"),
             new CreateClubMembershipSubType.Command
             {
                 Name = "Opera",

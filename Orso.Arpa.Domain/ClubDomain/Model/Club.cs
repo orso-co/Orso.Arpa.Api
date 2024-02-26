@@ -22,6 +22,9 @@ namespace Orso.Arpa.Domain.ClubDomain.Model
         [CascadingSoftDelete]
         public virtual ICollection<ClubMembershipType> MembershipTypes { get; private set; } = new HashSet<ClubMembershipType>();
         public string Name { get; set; }
-        public Address Address { get; set; }
+        public Address Address { get; set; } = new Address();
+
+        [CascadingSoftDelete]
+        public virtual ICollection<ClubMembershipProfile> Members { get; private set; } = new HashSet<ClubMembershipProfile>();
     }
 }

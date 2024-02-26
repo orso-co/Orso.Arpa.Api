@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Util;
-using Orso.Arpa.Domain.VenueDomain.Model;
 
 namespace Orso.Arpa.Persistence.Seed
 {
@@ -13,7 +12,6 @@ namespace Orso.Arpa.Persistence.Seed
             get
             {
                 var list = new List<SelectValueMapping>();
-                list.AddRange(AddressTypeMappings);
                 list.AddRange(AppointmentCategoryMappings);
                 list.AddRange(AppointmentSalaryMappings);
                 list.AddRange(AppointmentSalaryPatternMappings);
@@ -34,20 +32,6 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(RoomEquipmentTypeMappings);
                 list.AddRange(RoomCapacityMappings);
                 return list;
-            }
-        }
-
-        public static IList<SelectValueMapping> AddressTypeMappings
-        {
-            get
-            {
-                return new List<SelectValueMapping>
-                {
-                    new(Guid.Parse("fb44b625-7086-48e6-bcc6-a004dd472012"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Private.Id, 10),
-                    new(Guid.Parse("63437ce4-b63b-4558-9f91-1474b896bf1c"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Business.Id, 20),
-                    new(Guid.Parse("f81c698e-0017-41c0-8ff9-78dbaa3d2676"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Other.Id, 30),
-                    new(Guid.Parse("0cc663ed-67fa-4a34-908c-3120ba9fe8c1"), SelectValueCategorySeedData.AddressType.Id, SelectValueSeedData.Unknown.Id, 40),
-                };
             }
         }
 

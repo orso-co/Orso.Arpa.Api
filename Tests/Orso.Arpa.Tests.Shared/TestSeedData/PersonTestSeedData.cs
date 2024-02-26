@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Orso.Arpa.Domain._General.Enums;
 using Orso.Arpa.Domain.PersonDomain.Commands;
 using Orso.Arpa.Domain.PersonDomain.Enums;
 using Orso.Arpa.Domain.PersonDomain.Model;
@@ -84,7 +85,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Country = "Deutschland",
                     PersonId = person.Id,
                     State = "Bayern",
-                    TypeId = SelectValueMappingSeedData.AddressTypeMappings[1].Id,
+                    Type = AddressType.Private,
                     Zip = "80331"
                 }));
                 var contactDetail = new ContactDetail(Guid.Parse("252335a7-58ef-431b-ad1e-cc0ca53ebeaf"), new CreateContactDetail.Command

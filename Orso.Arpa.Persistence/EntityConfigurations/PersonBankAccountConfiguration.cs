@@ -23,6 +23,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .WithMany()
                 .HasForeignKey(e => e.StatusId)
                 .OnDelete(DeleteBehavior.NoAction);
+            
+            builder
+                .ComplexProperty(e => e.BankAccount)
+                .IsRequired();
         }
     }
 }

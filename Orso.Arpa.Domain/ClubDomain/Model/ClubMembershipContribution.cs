@@ -14,6 +14,8 @@ namespace Orso.Arpa.Domain.ClubDomain.Model
             VoucherPerConcertInPercent = command.VoucherPerConcertInPercent;
             MembershipSubTypeId = command.MembershipSubTypeId;
         }
+
+        protected ClubMembershipContribution() {}
         
         public decimal ContributionPerYearInEuro { get; set; }
         public DateTime ValidFrom { get; set; }

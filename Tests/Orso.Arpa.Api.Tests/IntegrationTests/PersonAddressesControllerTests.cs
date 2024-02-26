@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain._General.Enums;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
@@ -31,7 +32,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Country = "Deutschland",
                 Zip = "60325",
                 CommentInner = "Kommentar Adresse",
-                TypeId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
+                Type = AddressType.Private
             };
 
             var expectedDto = new PersonAddressDto
@@ -76,7 +77,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Country = "Deutschland",
                 Zip = "60325",
                 CommentInner = "Kommentar Adresse",
-                TypeId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
+                Type = AddressType.Business
             };
 
             HttpResponseMessage responseMessage = await _authenticatedServer

@@ -15,6 +15,8 @@ namespace Orso.Arpa.Domain.ClubDomain.Model
             Description = command.Description;
             TerminationPeriodInMonths = command.TerminationPeriodInMonths;
         }
+
+        protected ClubMembershipType() {}
         
         public Guid ClubId { get; set; }
         public virtual Club Club { get; set; }

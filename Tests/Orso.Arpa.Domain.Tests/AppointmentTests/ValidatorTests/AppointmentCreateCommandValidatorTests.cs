@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.SalaryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.SalaryId, SelectValueMappingSeedData.PersonGenderMappings[0].Id);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Invalid_SalaryPatternId_Is_Supplied()
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            _ = await _validator.ShouldHaveValidationErrorForExactAsync(c => c.SalaryPatternId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            _ = await _validator.ShouldHaveValidationErrorForExactAsync(c => c.SalaryPatternId, SelectValueMappingSeedData.PersonGenderMappings[0].Id);
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Invalid_ExpectationId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.ExpectationId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.ExpectationId, SelectValueMappingSeedData.PersonGenderMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace Orso.Arpa.Domain.Tests.AppointmentTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Invalid_CategoryId_Is_Supplied()
         {
             _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(true);
-            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.CategoryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id);
+            await _validator.ShouldHaveValidationErrorForExactAsync(c => c.CategoryId, SelectValueMappingSeedData.PersonGenderMappings[0].Id);
         }
 
         [Test]

@@ -89,7 +89,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Invalid_QualificationId_Is_Supplied()
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, SelectValueMappingSeedData.PersonGenderMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Invalid_IncquiryStatusInner_Is_Supplied()
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.QualificationId, SelectValueMappingSeedData.PersonGenderMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace Orso.Arpa.Domain.Tests.MusicianProfileTests.ValidatorTests
         public async Task Should_Have_Validation_Error_If_Invalid_SalaryId_Is_Supplied()
         {
             _ = _arpaContext.EntityExistsAsync<SelectValueMapping>(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(false);
-            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.SalaryId, SelectValueMappingSeedData.AddressTypeMappings[0].Id, nameof(SelectValueMapping));
+            await _validator.ShouldHaveNotFoundErrorForAsync(c => c.SalaryId, SelectValueMappingSeedData.PersonGenderMappings[0].Id, nameof(SelectValueMapping));
         }
 
         [Test]

@@ -1,5 +1,7 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Orso.Arpa.Domain._General.Enums;
 using Orso.Arpa.Domain.AddressDomain.Commands;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
 
@@ -18,8 +20,9 @@ namespace Orso.Arpa.Domain._General.Model
             Country = command.Country;
             State = command.State;
             CommentInner = command.CommentInner;
-            TypeId = command.TypeId;
         }
+
+        public Address() {}
 
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -29,7 +32,6 @@ namespace Orso.Arpa.Domain._General.Model
         public string Country { get; set; }
         public string State { get; set; }
         public string CommentInner { get; set; }
-        public Guid? TypeId { get; set; }
-        public virtual SelectValueMapping Type { get; private set; }
+        public AddressType? Type { get; set; }
     }
 }
