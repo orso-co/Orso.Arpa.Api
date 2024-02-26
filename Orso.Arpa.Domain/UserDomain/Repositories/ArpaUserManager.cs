@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
@@ -17,7 +19,11 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
 {
     public class ArpaUserManager : UserManager<User>
     {
+        private readonly JwtConfiguration _jwtConfiguration;
+
+
         public ArpaUserManager(
+            JwtConfiguration jwtConfiguration,
             IUserStore<User> store,
             IOptions<IdentityOptions> optionsAccessor,
             IPasswordHasher<User> passwordHasher,
@@ -37,11 +43,28 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
                 services,
                 logger)
         {
+            _jwtConfiguration = jwtConfiguration;
+        }
+
+        public override async Task<IdentityResult> CreateAsync(User user, string password)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("nameid", user.UserName),
+                new Claim("name", user.DisplayName),
+                new Claim("sub", user.Id.ToString()),
+                new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
+            };
+
+            await base.AddClaimsAsync(user, claims);
+
+            return await base.CreateAsync(user, password);
         }
 
         public async Task<User> FindUserByUsernameOrEmailAsync(string usernameOrEmail)
         {
-            if (string.IsNullOrWhiteSpace(usernameOrEmail)) {
+            if (string.IsNullOrWhiteSpace(usernameOrEmail))
+            {
                 return null;
             }
             return usernameOrEmail.Contains('@') ? await FindByEmailAsync(usernameOrEmail) : await FindByNameAsync(usernameOrEmail);

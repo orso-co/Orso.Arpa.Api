@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,15 +42,19 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IdentityConfiguration _identityConfiguration;
+            private readonly ArpaUserManager _userManager;
+
 
             public Handler(
                 SignInManager<User> signInManager,
                 IJwtGenerator jwtGenerator,
-                IdentityConfiguration identityConfiguration)
+                IdentityConfiguration identityConfiguration,
+                ArpaUserManager userManager)
             {
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
                 _identityConfiguration = identityConfiguration;
+                _userManager = userManager;
             }
 
             public async Task<string> Handle(Command request, CancellationToken cancellationToken)
@@ -70,6 +75,16 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 if (_identityConfiguration.UseCookies)
                 {
+                    // var passwordOK = await _userManager.CheckPasswordAsync(user, request.Password);
+                    // if (passwordOK)
+                    // {
+                    //     await _signInManager.SignInWithClaimsAsync(user, false, new List<Claim>
+                    //         {
+                    //             new Claim("nameid", user.UserName),
+                    //             new Claim("name", user.DisplayName),
+                    //             new Claim("sub", user.Id.ToString())
+                    //         });
+                    // }
                     result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
                 }
                 else
