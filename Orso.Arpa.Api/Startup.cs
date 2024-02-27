@@ -463,13 +463,13 @@ namespace Orso.Arpa.Api
             var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             _ = identityBuilder
                 .AddEntityFrameworkStores<ArpaContext>()
-                .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
                 .AddSignInManager<SignInManager<User>>()
                 .AddEntityFrameworkStores<ArpaContext>()
                 .AddDefaultTokenProviders()
                 .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation")
                 .AddRoleValidator<RoleValidator<Role>>()
                 .AddRoleManager<RoleManager<Role>>()
+                .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
                 .AddUserManager<ArpaUserManager>();
 
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);

@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Orso.Arpa.Domain.UserDomain.Model;
 
-namespace Orso.Arpa.Infrastructure.Authentication
+namespace Orso.Arpa.Domain.UserDomain.Repositories
 {
     public class CustomUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<User>
     {
-        public CustomUserClaimsPrincipalFactory(UserManager<User> userManager, IOptions<IdentityOptions> optionsAccessor) : base(userManager, optionsAccessor)
+        public CustomUserClaimsPrincipalFactory(
+        UserManager<User> userManager,
+        IOptions<IdentityOptions> optionsAccessor)
+        : base(userManager, optionsAccessor)
         {
         }
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(User user)
