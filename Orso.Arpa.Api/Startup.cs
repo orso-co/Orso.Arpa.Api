@@ -122,6 +122,8 @@ using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace Orso.Arpa.Api
 {
@@ -171,6 +173,32 @@ namespace Orso.Arpa.Api
                     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
                 })
                 .AddIdentityCookies();
+
+                // services.AddAuthentication(options =>
+                // {
+                //     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                // })
+                // .AddCookie()
+                // .AddOpenIdConnect(options =>
+                // {
+                //     options.SignInScheme = "Cookies";
+                //     options.Authority = "-your-identity-provider-";
+                //     options.ClientId = "-your-clientid-";
+                //     options.ClientSecret = "-your-client-secret-from-user-secrets-or-keyvault";
+                //     options.ResponseType = "code";
+                //     options.UsePkce = true;
+                //     options.SaveTokens = true;
+                //     options.Scope.Add("profile");
+                //     options.SaveTokens = true;
+                //     options.GetClaimsFromUserInfoEndpoint = true;
+                //     options.ClaimActions.MapJsonKey(JwtClaimTypes.Role, JwtClaimTypes.Role);
+                //     options.ClaimActions.MapJsonKey("gender", "gender");
+                //     options.RequireHttpsMetadata = _hostingEnvironment.IsDevelopment()
+                //         ? false : true;
+                // });
+
+
             }
 
             _ = services.AddGenericMediatorHandlers();
@@ -702,5 +730,6 @@ namespace Orso.Arpa.Api
             }
         }
     }
+
 }
 

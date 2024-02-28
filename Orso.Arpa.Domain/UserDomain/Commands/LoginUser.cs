@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
@@ -44,16 +44,19 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IdentityConfiguration _identityConfiguration;
-
+            private readonly ArpaUserManager _userManager;
 
             public Handler(
                 SignInManager<User> signInManager,
                 IJwtGenerator jwtGenerator,
-                IdentityConfiguration identityConfiguration)
+                IdentityConfiguration identityConfiguration,
+                ArpaUserManager userManager)
             {
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
                 _identityConfiguration = identityConfiguration;
+                _userManager = userManager;
+
             }
 
             public async Task<string> Handle(Command request, CancellationToken cancellationToken)
@@ -72,19 +75,24 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 SignInResult result;
 
+
                 if (_identityConfiguration.UseCookies)
                 {
-                    // var passwordOK = await _userManager.CheckPasswordAsync(user, request.Password);
-                    // if (passwordOK)
-                    // {
-                    //     await _signInManager.SignInWithClaimsAsync(user, false, new List<Claim>
-                    //         {
-                    //             new Claim("nameid", user.UserName),
-                    //             new Claim("name", user.DisplayName),
-                    //             new Claim("sub", user.Id.ToString())
-                    //         });
-                    // }
-                    result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
+                    var passwordIsCorrect = await _userManager.CheckPasswordAsync(user, request.Password);
+                    if (passwordIsCorrect)
+                    {
+                        await _signInManager.SignInWithClaimsAsync(user, false, new List<Claim>
+                            {
+                                 new Claim("nameid", user.UserName),
+                                 new Claim("name", user.DisplayName),
+                                 new Claim("sub", user.Id.ToString())
+                            });
+                        return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
+                    }
+                    else
+                    {
+                        result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
+                    }
                 }
                 else
                 {
@@ -92,17 +100,8 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 }
 
 
-
                 if (result.Succeeded)
                 {
-                    // await _userManager.AddClaimsAsync(user, new[] {
-                    // new Claim("nameid", user.UserName), new Claim("name", user.DisplayName), new Claim("sub", user.Id.ToString())});
-                    // var claims = await _userManager.GetClaimsAsync(user);
-                    // Console.WriteLine("number of claims: " + claims.Count);
-                    // foreach (Claim c in claims)
-                    // {
-                    //     Console.WriteLine("here it is:" + c.Value + c.Issuer + c.ValueType + c.Type);
-                    // }
                     return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
                 }
 
