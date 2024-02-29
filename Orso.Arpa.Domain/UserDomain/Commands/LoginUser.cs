@@ -79,7 +79,9 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 if (_identityConfiguration.UseCookies)
                 {
                     var passwordIsCorrect = await _userManager.CheckPasswordAsync(user, request.Password);
-                    if (passwordIsCorrect)
+                    var userLockedOut = await _userManager.IsLockedOutAsync(user);
+
+                    if (passwordIsCorrect && !userLockedOut)
                     {
                         await _signInManager.SignInWithClaimsAsync(user, false, new List<Claim>
                             {
