@@ -23,7 +23,7 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         }
 
         [Test]
-        public void Should_Not_Have_Validation_Error_If_Valid_Title_Is_Supplied([Values("Valid title", "краинс")] string title)
+        public void Should_Not_Have_Validation_Error_If_Valid_Title_Is_Supplied([Values("Valid title", "краинсє")] string title)
         {
             _validator.ShouldNotHaveValidationErrorForExact(command => command.Title, title);
         }
