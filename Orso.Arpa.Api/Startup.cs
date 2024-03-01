@@ -131,8 +131,6 @@ namespace Orso.Arpa.Api
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        private bool useCookies;
-
         public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
@@ -156,50 +154,46 @@ namespace Orso.Arpa.Api
 
             ConfigureCors(services);
 
-            useCookies = Configuration.GetSection("IdentityConfiguration").GetValue<bool>("UseCookies");
-
             if (_hostingEnvironment.IsProduction())
             {
                 _ = services.AddApplicationInsightsTelemetry();
             }
             _ = services.AddMediatR(typeof(LoginUser.Handler).Assembly);
 
-            if (useCookies)
+            services.AddAuthentication(options =>
             {
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-                    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-                    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                })
-                .AddIdentityCookies();
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+            .AddIdentityCookies();
 
-                // services.AddAuthentication(options =>
-                // {
-                //     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                //     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                // })
-                // .AddCookie()
-                // .AddOpenIdConnect(options =>
-                // {
-                //     options.SignInScheme = "Cookies";
-                //     options.Authority = "-your-identity-provider-";
-                //     options.ClientId = "-your-clientid-";
-                //     options.ClientSecret = "-your-client-secret-from-user-secrets-or-keyvault";
-                //     options.ResponseType = "code";
-                //     options.UsePkce = true;
-                //     options.SaveTokens = true;
-                //     options.Scope.Add("profile");
-                //     options.SaveTokens = true;
-                //     options.GetClaimsFromUserInfoEndpoint = true;
-                //     options.ClaimActions.MapJsonKey(JwtClaimTypes.Role, JwtClaimTypes.Role);
-                //     options.ClaimActions.MapJsonKey("gender", "gender");
-                //     options.RequireHttpsMetadata = _hostingEnvironment.IsDevelopment()
-                //         ? false : true;
-                // });
+            // services.AddAuthentication(options =>
+            // {
+            //     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            // })
+            // .AddCookie()
+            // .AddOpenIdConnect(options =>
+            // {
+            //     options.SignInScheme = "Cookies";
+            //     options.Authority = "-your-identity-provider-";
+            //     options.ClientId = "-your-clientid-";
+            //     options.ClientSecret = "-your-client-secret-from-user-secrets-or-keyvault";
+            //     options.ResponseType = "code";
+            //     options.UsePkce = true;
+            //     options.SaveTokens = true;
+            //     options.Scope.Add("profile");
+            //     options.SaveTokens = true;
+            //     options.GetClaimsFromUserInfoEndpoint = true;
+            //     options.ClaimActions.MapJsonKey(JwtClaimTypes.Role, JwtClaimTypes.Role);
+            //     options.ClaimActions.MapJsonKey("gender", "gender");
+            //     options.RequireHttpsMetadata = _hostingEnvironment.IsDevelopment()
+            //         ? false : true;
+            // });
 
 
-            }
+
 
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
@@ -497,12 +491,9 @@ namespace Orso.Arpa.Api
                 .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation")
                 .AddRoleValidator<RoleValidator<Role>>()
                 .AddRoleManager<RoleManager<Role>>()
-                .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>()
                 .AddUserManager<ArpaUserManager>();
 
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
-
-            services.AddScoped<CustomUserClaimsPrincipalFactory>();
 
             _ = services.Configure<IdentityOptions>(opts =>
             {
@@ -513,17 +504,16 @@ namespace Orso.Arpa.Api
                 opts.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             });
 
-            if (useCookies)
+
+            services.ConfigureApplicationCookie(config =>
             {
-                services.ConfigureApplicationCookie(config =>
-                {
-                    config.Cookie.Name = "sessionCookie";
-                    config.LoginPath = "/Home/Login";
-                    config.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                    config.Cookie.HttpOnly = true;
-                    config.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-                });
-            }
+                config.Cookie.Name = "sessionCookie";
+                config.LoginPath = "/Home/Login";
+                config.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                config.Cookie.HttpOnly = true;
+                config.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+            });
+
 
             _ = services.Configure<DataProtectionTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromHours(identityConfig.DataProtectionTokenExpiryInHours));
@@ -533,23 +523,16 @@ namespace Orso.Arpa.Api
 
             JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
-            if (!useCookies)
-            {
-                _ = services
-                    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearerConfiguration(jwtConfig);
-            }
+            _ = services
+                   .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                   .AddJwtBearerConfiguration(jwtConfig);
 
-
-            if (useCookies)
+            _ = services.Configure<CookiePolicyOptions>(options =>
             {
-                _ = services.Configure<CookiePolicyOptions>(options =>
-                {
-                    options.MinimumSameSitePolicy = SameSiteMode.Strict;
-                    options.Secure = _hostingEnvironment.IsDevelopment()
-                        ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
-                });
-            }
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.Secure = _hostingEnvironment.IsDevelopment()
+                    ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+            });
 
         }
 
@@ -609,11 +592,7 @@ namespace Orso.Arpa.Api
 
             _ = app.UseRequestLocalization();
 
-            if (useCookies)
-            {
-                _ = app.UseCookiePolicy();
-
-            }
+            _ = app.UseCookiePolicy();
 
             _ = app.UseErrorResponseLocalizationMiddleware();
 

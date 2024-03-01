@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
@@ -19,7 +20,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 {
     public static class LoginUser
     {
-        public class Command : IRequest<string>
+        public class Command : IRequest<bool>
         {
             public string UsernameOrEmail { get; set; }
             public string Password { get; set; }
@@ -39,7 +40,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, string>
+        public class Handler : IRequestHandler<Command, bool>
         {
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
@@ -59,7 +60,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
             }
 
-            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
                 UserManager<User> userManager = _signInManager.UserManager;
                 User user = await userManager.Users
@@ -73,39 +74,21 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
-                SignInResult result;
+                var IsPasswordCorrect = await _userManager.CheckPasswordAsync(user, request.Password);
+                var IsUserLockedOut = await _userManager.IsLockedOutAsync(user);
 
-
-                if (_identityConfiguration.UseCookies)
+                if (IsPasswordCorrect && !IsUserLockedOut)
                 {
-                    var passwordIsCorrect = await _userManager.CheckPasswordAsync(user, request.Password);
-                    var userLockedOut = await _userManager.IsLockedOutAsync(user);
+                    var token = await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                    if (passwordIsCorrect && !userLockedOut)
-                    {
-                        await _signInManager.SignInWithClaimsAsync(user, false, new List<Claim>
-                            {
-                                 new Claim("nameid", user.UserName),
-                                 new Claim("name", user.DisplayName),
-                                 new Claim("sub", user.Id.ToString())
-                            });
-                        return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
-                    }
-                    else
-                    {
-                        result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
-                    }
-                }
-                else
-                {
-                    result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
+                    List<Claim> claims = new List<Claim>{
+                        new Claim("JwtToken", token)
+                    };
+
+                    return _signInManager.SignInWithClaimsAsync(user, false, claims).IsCompletedSuccessfully;
                 }
 
-
-                if (result.Succeeded)
-                {
-                    return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
-                }
+                SignInResult result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
 
                 if (result.IsLockedOut)
                 {
