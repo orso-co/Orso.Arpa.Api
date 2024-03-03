@@ -102,7 +102,6 @@ using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
-using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -121,9 +120,6 @@ using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace Orso.Arpa.Api
 {
@@ -167,33 +163,6 @@ namespace Orso.Arpa.Api
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             })
             .AddIdentityCookies();
-
-            // services.AddAuthentication(options =>
-            // {
-            //     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            // })
-            // .AddCookie()
-            // .AddOpenIdConnect(options =>
-            // {
-            //     options.SignInScheme = "Cookies";
-            //     options.Authority = "-your-identity-provider-";
-            //     options.ClientId = "-your-clientid-";
-            //     options.ClientSecret = "-your-client-secret-from-user-secrets-or-keyvault";
-            //     options.ResponseType = "code";
-            //     options.UsePkce = true;
-            //     options.SaveTokens = true;
-            //     options.Scope.Add("profile");
-            //     options.SaveTokens = true;
-            //     options.GetClaimsFromUserInfoEndpoint = true;
-            //     options.ClaimActions.MapJsonKey(JwtClaimTypes.Role, JwtClaimTypes.Role);
-            //     options.ClaimActions.MapJsonKey("gender", "gender");
-            //     options.RequireHttpsMetadata = _hostingEnvironment.IsDevelopment()
-            //         ? false : true;
-            // });
-
-
-
 
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
@@ -504,6 +473,7 @@ namespace Orso.Arpa.Api
                 opts.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             });
 
+            JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
             services.ConfigureApplicationCookie(config =>
             {
@@ -511,6 +481,8 @@ namespace Orso.Arpa.Api
                 config.LoginPath = "/Home/Login";
                 config.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 config.Cookie.HttpOnly = true;
+                config.ExpireTimeSpan = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
+                config.Cookie.MaxAge = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
                 config.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
             });
 
@@ -520,12 +492,6 @@ namespace Orso.Arpa.Api
 
             _ = services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromDays(identityConfig.EmailConfirmationTokenExpiryInDays));
-
-            JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
-
-            _ = services
-                   .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                   .AddJwtBearerConfiguration(jwtConfig);
 
             _ = services.Configure<CookiePolicyOptions>(options =>
             {
