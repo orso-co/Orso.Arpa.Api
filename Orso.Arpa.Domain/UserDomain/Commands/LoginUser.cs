@@ -85,7 +85,10 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                         new Claim("JwtToken", token)
                     };
 
-                    return _signInManager.SignInWithClaimsAsync(user, false, claims).IsCompletedSuccessfully;
+                    var signInTask = _signInManager.SignInWithClaimsAsync(user, false, claims);
+                    signInTask.Wait();
+
+                    return signInTask.IsCompletedSuccessfully;
                 }
 
                 SignInResult result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);

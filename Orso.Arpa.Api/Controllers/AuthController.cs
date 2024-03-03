@@ -34,7 +34,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto)
+        public async Task<ActionResult<bool>> Login([FromBody] LoginDto loginDto)
         {
             return await _authService.LoginAsync(loginDto, RemoteIpAddress);
         }

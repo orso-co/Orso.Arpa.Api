@@ -21,19 +21,18 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             _mediator = mediator;
         }
 
-        public async Task<TokenDto> LoginAsync(LoginDto loginDto, string remoteIpAddress)
+        public async Task<bool> LoginAsync(LoginDto loginDto, string remoteIpAddress)
         {
             LoginUser.Command command = _mapper.Map<LoginUser.Command>(loginDto);
             command.RemoteIpAddress = remoteIpAddress;
-            var token = await _mediator.Send(command);
-            return _mapper.Map<TokenDto>(token);
+            return await _mediator.Send(command);
         }
 
         public async Task RegisterAsync(UserRegisterDto registerDto)
         {
             RegisterUser.Command registerCommand = _mapper.Map<RegisterUser.Command>(registerDto);
             await _mediator.Send(registerCommand);
-            
+
             CreateEmailConfirmationToken.Command command = _mapper.Map<CreateEmailConfirmationToken.Command>(registerDto);
             await _mediator.Send(command);
 
