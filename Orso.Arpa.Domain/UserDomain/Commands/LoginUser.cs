@@ -86,7 +86,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     };
 
                     var signInTask = _signInManager.SignInWithClaimsAsync(user, false, claims);
-                    signInTask.Wait();
+                    await signInTask;
 
                     return signInTask.IsCompletedSuccessfully;
                 }

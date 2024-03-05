@@ -106,6 +106,8 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity));
 
+                await signInTask;
+
                 return signInTask.IsCompletedSuccessfully;
 
             }
