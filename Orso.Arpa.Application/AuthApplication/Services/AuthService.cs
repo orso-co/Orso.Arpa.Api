@@ -96,12 +96,12 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             await _mediator.Send(command);
         }
 
-        public async Task<TokenDto> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
+        public async Task<bool> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
         {
             var command = new RefreshAccessToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
-            var token = await _mediator.Send(command);
+            var result = await _mediator.Send(command);
             await RevokeRefreshTokenAsync(refreshToken, remoteIpAddress);
-            return _mapper.Map<TokenDto>(token);
+            return result;
         }
 
         public async Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress)

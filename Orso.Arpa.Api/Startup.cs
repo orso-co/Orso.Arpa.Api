@@ -17,7 +17,6 @@ using HotChocolate.Types;
 using HotChocolate.Types.Pagination;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -161,6 +160,7 @@ namespace Orso.Arpa.Api
                 options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                options.DefaultSignOutScheme = IdentityConstants.ExternalScheme; //check this
             })
             .AddIdentityCookies();
 

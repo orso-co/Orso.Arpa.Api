@@ -1,11 +1,17 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Model;
@@ -16,7 +22,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 {
     public static class RefreshAccessToken
     {
-        public class Command : IRequest<string>
+        public class Command : IRequest<bool>
         {
             public string RefreshToken { get; set; }
             public string RemoteIpAddress { get; set; }
@@ -33,26 +39,29 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, string>
+        public class Handler : IRequestHandler<Command, bool>
         {
             private readonly ArpaUserManager _userManager;
             private readonly IArpaContext _arpaContext;
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IDateTimeProvider _dateTimeProvider;
+            private readonly IHttpContextAccessor _httpContextAccessor;
 
             public Handler(
                 ArpaUserManager userManager,
                 IJwtGenerator jwtGenerator,
                 IArpaContext arpaContext,
+                IHttpContextAccessor httpContextAccessor,
                 IDateTimeProvider dateTimeProvider)
             {
                 _userManager = userManager;
                 _arpaContext = arpaContext;
                 _jwtGenerator = jwtGenerator;
+                _httpContextAccessor = httpContextAccessor;
                 _dateTimeProvider = dateTimeProvider;
             }
 
-            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
                 User user = await _userManager.Users
                     .Include(x => x.RefreshTokens)
@@ -83,7 +92,22 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                         "than the one with which the token was created. The refresh token has been revoked. Please log in again.");
                 }
 
-                return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
+                var token = await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
+
+                List<Claim> claims = new List<Claim>{
+                    new Claim("JwtToken", token)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims,
+                    CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var signInTask = _httpContextAccessor.HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
+
+                return signInTask.IsCompletedSuccessfully;
+
             }
 
             private RefreshToken GetValidRefreshToken(string token, User user)

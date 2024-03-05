@@ -188,7 +188,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<TokenDto>> RefreshAccessToken()
+        public async Task<ActionResult<bool>> RefreshAccessToken()
         {
             return await _authService.RefreshAccessTokenAsync(RefreshToken, RemoteIpAddress);
         }
