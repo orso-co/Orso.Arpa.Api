@@ -11,6 +11,7 @@ services:
             - POSTGRES_DB=orso-arpa
         ports:
             - 5432:5432
+
     api:
         build:
             context: .
@@ -19,8 +20,13 @@ services:
         # Enable volume mapping to watch for changes and rebuild inside of the container.
         #volumes:
            #- ./:/home/app
+        container_name: api
+        hostname: api
         ports:
             - 5000:5000
+            - "10000:10000"
+            - "10001:10001"
+            - "10002:10002"
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ConnectionStrings__PostgreSQLConnection=host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;
@@ -30,7 +36,7 @@ services:
         depends_on:
             - postgres
             - mail
-            - azurite
+
     mail:
         image: mailhog/mailhog
         environment:
@@ -41,15 +47,12 @@ services:
         ports:
             - 1025:1025
             - 8025:8025
+
     azurite:
         image: mcr.microsoft.com/azure-storage/azurite
         container_name: "azurite"
-        hostname: azurite
         restart: always
-        ports:
-          - "10000:10000"
-          - "10001:10001"
-          - "10002:10002"
+        network_mode: service:api
         command: "azurite --blobHost 0.0.0.0 --blobPort 10000 --queueHost 0.0.0.0 --queuePort 10001"
 # Docker for Mac requires a mounted volume because filesystem mounts are not supported.
 # https://github.com/microsoft/mssql-docker/issues/12
