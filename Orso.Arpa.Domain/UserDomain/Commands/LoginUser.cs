@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -10,6 +7,7 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -46,18 +44,21 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IdentityConfiguration _identityConfiguration;
             private readonly ArpaUserManager _userManager;
+            private readonly ICookieSignInService _cookieSignInService;
+
 
             public Handler(
                 SignInManager<User> signInManager,
                 IJwtGenerator jwtGenerator,
                 IdentityConfiguration identityConfiguration,
-                ArpaUserManager userManager)
+                ArpaUserManager userManager,
+                ICookieSignInService cookieSignInService)
             {
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
                 _identityConfiguration = identityConfiguration;
                 _userManager = userManager;
-
+                _cookieSignInService = cookieSignInService;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -74,18 +75,13 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
-                var IsPasswordCorrect = await _userManager.CheckPasswordAsync(user, request.Password);
-                var IsUserLockedOut = await _userManager.IsLockedOutAsync(user);
+                bool IsCookieSignInPossible = await _cookieSignInService.IsCookieSignInPossible(user, request.Password);
 
-                if (IsPasswordCorrect && !IsUserLockedOut)
+                if (IsCookieSignInPossible)
                 {
                     var token = await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                    List<Claim> claims = new List<Claim>{
-                        new Claim("JwtToken", token)
-                    };
-
-                    var signInTask = _signInManager.SignInWithClaimsAsync(user, false, claims);
+                    var signInTask = _cookieSignInService.SignInUserWithClaims(user, token);
                     await signInTask;
 
                     return signInTask.IsCompletedSuccessfully;

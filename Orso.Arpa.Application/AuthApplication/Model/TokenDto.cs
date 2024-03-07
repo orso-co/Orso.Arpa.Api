@@ -4,7 +4,7 @@ namespace Orso.Arpa.Application.AuthApplication.Model
 {
     public class TokenDto
     {
-        public bool Token { get; set; }
+        public string Token { get; set; }
     }
 
     public class TokenDtoMappingProfile : Profile

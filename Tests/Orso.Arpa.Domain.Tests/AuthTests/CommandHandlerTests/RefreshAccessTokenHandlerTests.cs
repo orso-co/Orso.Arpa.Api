@@ -45,7 +45,6 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RemoteIpAddress = "127.0.0.1",
             };
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
-            _cookieSignInService.RefreshSignIn(Arg.Any<string>()).Returns(Task.CompletedTask);
 
             // Act
             bool result = await _handler.Handle(command, new CancellationToken());

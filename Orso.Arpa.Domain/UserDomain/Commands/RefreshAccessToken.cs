@@ -6,7 +6,6 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Orso.Arpa.Application.AuthApplication.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -55,7 +54,6 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 _arpaContext = arpaContext;
                 _jwtGenerator = jwtGenerator;
                 _cookieSignInService = cookieSignInService;
-
                 _dateTimeProvider = dateTimeProvider;
             }
 

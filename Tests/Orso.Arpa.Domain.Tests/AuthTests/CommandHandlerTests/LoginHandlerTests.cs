@@ -6,6 +6,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Application.AuthApplication.Interfaces;
+using Orso.Arpa.Application.AuthApplication.Services;
 using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -27,7 +29,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _signInManager = new FakeSignInManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _identityConfiguration = new IdentityConfiguration() { LockoutExpiryInMinutes = 10 };
-            _handler = new LoginUser.Handler(_signInManager, _jwtGenerator, _identityConfiguration, _userManager);
+            _cookieSignInService = Substitute.For<ICookieSignInService>();
+            _handler = new LoginUser.Handler(_signInManager, _jwtGenerator, _identityConfiguration, _userManager, _cookieSignInService);
         }
 
         private SignInManager<User> _signInManager;
@@ -35,6 +38,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         private IJwtGenerator _jwtGenerator;
         private IdentityConfiguration _identityConfiguration;
         private LoginUser.Handler _handler;
+        private ICookieSignInService _cookieSignInService;
+
 
         [Test]
         public async Task Should_Login_User()
@@ -44,12 +49,13 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             User user = FakeUsers.Performer;
             var query = new LoginUser.Command { UsernameOrEmail = user.UserName, Password = UserSeedData.ValidPassword };
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(expectedToken);
+            _cookieSignInService.IsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
 
             // Act
-            bool token = await _handler.Handle(query, new CancellationToken());
+            bool result = await _handler.Handle(query, new CancellationToken());
 
             // Assert
-            token.Should();
+            result.Should().BeTrue();
         }
 
         [Test]
