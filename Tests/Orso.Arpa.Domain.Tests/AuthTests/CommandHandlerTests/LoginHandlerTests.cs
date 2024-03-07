@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Application.AuthApplication.Interfaces;
-using Orso.Arpa.Application.AuthApplication.Services;
 using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
