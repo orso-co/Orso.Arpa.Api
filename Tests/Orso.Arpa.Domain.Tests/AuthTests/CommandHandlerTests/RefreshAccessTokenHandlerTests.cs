@@ -6,6 +6,7 @@ using FluentAssertions;
 using FluentValidation;
 using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Commands;
@@ -24,13 +25,15 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _userManager = new FakeUserManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext, new FakeDateTimeProvider());
+            _cookieSignInService = Substitute.For<ICookieSignInService>();
+            _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext, _cookieSignInService, new FakeDateTimeProvider());
         }
 
         private ArpaUserManager _userManager;
         private IJwtGenerator _jwtGenerator;
         private IArpaContext _arpaContext;
         private RefreshAccessToken.Handler _handler;
+        private ICookieSignInService _cookieSignInService;
 
         [Test]
         public async Task Should_Refresh_AccessToken()
@@ -42,12 +45,13 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RemoteIpAddress = "127.0.0.1",
             };
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
+            _cookieSignInService.RefreshSignIn(Arg.Any<string>()).Returns(Task.CompletedTask);
 
             // Act
-            string result = await _handler.Handle(command, new CancellationToken());
+            bool result = await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo("newToken");
+            result.Should().BeTrue();
         }
 
         [Test]
@@ -62,7 +66,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
-            Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
             func.Should().ThrowAsync<ValidationException>();
@@ -80,7 +84,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
-            Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
             func.Should().ThrowAsync<AuthenticationException>();
@@ -98,7 +102,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
-            Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
             func.Should().ThrowAsync<AuthorizationException>();

@@ -1,17 +1,13 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Model;
@@ -45,19 +41,21 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             private readonly IArpaContext _arpaContext;
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IDateTimeProvider _dateTimeProvider;
-            private readonly IHttpContextAccessor _httpContextAccessor;
+            private readonly ICookieSignInService _cookieSignInService;
+
 
             public Handler(
                 ArpaUserManager userManager,
                 IJwtGenerator jwtGenerator,
                 IArpaContext arpaContext,
-                IHttpContextAccessor httpContextAccessor,
+                ICookieSignInService cookieSignInService,
                 IDateTimeProvider dateTimeProvider)
             {
                 _userManager = userManager;
                 _arpaContext = arpaContext;
                 _jwtGenerator = jwtGenerator;
-                _httpContextAccessor = httpContextAccessor;
+                _cookieSignInService = cookieSignInService;
+
                 _dateTimeProvider = dateTimeProvider;
             }
 
@@ -94,17 +92,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 var token = await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                List<Claim> claims = new List<Claim>{
-                    new Claim("JwtToken", token)
-                };
-
-                var claimsIdentity = new ClaimsIdentity(
-                    claims,
-                    CookieAuthenticationDefaults.AuthenticationScheme);
-
-                var signInTask = _httpContextAccessor.HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity));
+                var signInTask = _cookieSignInService.RefreshSignIn(token);
 
                 await signInTask;
 

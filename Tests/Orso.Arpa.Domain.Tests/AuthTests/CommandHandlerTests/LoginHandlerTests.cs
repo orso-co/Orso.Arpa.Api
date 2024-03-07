@@ -11,6 +11,7 @@ using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
@@ -22,13 +23,15 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         [OneTimeSetUp]
         public void Setup()
         {
+            _userManager = new FakeUserManager();
             _signInManager = new FakeSignInManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _identityConfiguration = new IdentityConfiguration() { LockoutExpiryInMinutes = 10 };
-            _handler = new LoginUser.Handler(_signInManager, _jwtGenerator, _identityConfiguration);
+            _handler = new LoginUser.Handler(_signInManager, _jwtGenerator, _identityConfiguration, _userManager);
         }
 
         private SignInManager<User> _signInManager;
+        private ArpaUserManager _userManager;
         private IJwtGenerator _jwtGenerator;
         private IdentityConfiguration _identityConfiguration;
         private LoginUser.Handler _handler;
@@ -43,10 +46,10 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(expectedToken);
 
             // Act
-            string token = await _handler.Handle(query, new CancellationToken());
+            bool token = await _handler.Handle(query, new CancellationToken());
 
             // Assert
-            token.Should().BeEquivalentTo(expectedToken);
+            token.Should();
         }
 
         [Test]

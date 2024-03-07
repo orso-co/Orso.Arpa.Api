@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MockQueryable.NSubstitute;
 using NSubstitute;
+using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
@@ -21,6 +22,7 @@ namespace Orso.Arpa.Tests.Shared.Identity
 
         public FakeUserManager()
             : base(
+              Substitute.For<JwtConfiguration>(),
               Substitute.For<IUserStore<User>>(),
               Substitute.For<IOptions<IdentityOptions>>(),
               Substitute.For<IPasswordHasher<User>>(),
