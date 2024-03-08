@@ -5,20 +5,20 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Orso.Arpa.Application.AuthApplication.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
 
 namespace Orso.Arpa.Application.AuthApplication.Services
 {
-    public class CookieSignInService : ICookieSignInService
+    public class CookieSignIn : ICookieSignIn
     {
 
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SignInManager<User> _signInManager;
         private readonly ArpaUserManager _userManager;
 
-        public CookieSignInService(
+        public CookieSignIn(
                 ArpaUserManager userManager,
                 SignInManager<User> signInManager,
                 IHttpContextAccessor httpContextAccessor)

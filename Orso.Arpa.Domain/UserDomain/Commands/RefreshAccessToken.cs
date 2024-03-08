@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
-using Orso.Arpa.Application.AuthApplication.Interfaces;
+using Orso.Arpa.Domain.General.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.General.Errors;
-using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Misc;
@@ -40,20 +39,20 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             private readonly IArpaContext _arpaContext;
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IDateTimeProvider _dateTimeProvider;
-            private readonly ICookieSignInService _cookieSignInService;
+            private readonly ICookieSignIn _cookieSignIn;
 
 
             public Handler(
                 ArpaUserManager userManager,
                 IJwtGenerator jwtGenerator,
                 IArpaContext arpaContext,
-                ICookieSignInService cookieSignInService,
+                ICookieSignIn cookieSignIn,
                 IDateTimeProvider dateTimeProvider)
             {
                 _userManager = userManager;
                 _arpaContext = arpaContext;
                 _jwtGenerator = jwtGenerator;
-                _cookieSignInService = cookieSignInService;
+                _cookieSignIn = cookieSignIn;
                 _dateTimeProvider = dateTimeProvider;
             }
 
@@ -90,7 +89,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 var token = await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                var signInTask = _cookieSignInService.RefreshSignIn(token);
+                var signInTask = _cookieSignIn.RefreshSignIn(token);
 
                 await signInTask;
 

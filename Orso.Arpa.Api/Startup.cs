@@ -418,6 +418,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IMyProjectService, MyProjectService>();
             _ = services.AddScoped<INewsService, NewsService>();
             _ = services.AddScoped<IClubService, ClubService>();
+            _ = services.AddScoped<ICookieSignIn, CookieSignIn>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IRoomEquipmentService, RoomEquipmentService>();
             services.AddScoped<IRoomSectionService, RoomSectionService>();

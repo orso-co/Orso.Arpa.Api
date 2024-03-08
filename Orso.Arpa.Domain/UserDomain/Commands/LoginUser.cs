@@ -7,7 +7,6 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -44,7 +43,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IdentityConfiguration _identityConfiguration;
             private readonly ArpaUserManager _userManager;
-            private readonly ICookieSignInService _cookieSignInService;
+            private readonly ICookieSignIn _cookieSignIn;
 
 
             public Handler(
@@ -52,13 +51,13 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 IJwtGenerator jwtGenerator,
                 IdentityConfiguration identityConfiguration,
                 ArpaUserManager userManager,
-                ICookieSignInService cookieSignInService)
+                ICookieSignIn cookieSignInService)
             {
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
                 _identityConfiguration = identityConfiguration;
                 _userManager = userManager;
-                _cookieSignInService = cookieSignInService;
+                _cookieSignIn = cookieSignInService;
             }
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
@@ -75,13 +74,13 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
-                bool IsCookieSignInPossible = await _cookieSignInService.IsCookieSignInPossible(user, request.Password);
+                bool IsCookieSignInPossible = await _cookieSignIn.IsCookieSignInPossible(user, request.Password);
 
                 if (IsCookieSignInPossible)
                 {
                     var token = await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                    var signInTask = _cookieSignInService.SignInUserWithClaims(user, token);
+                    var signInTask = _cookieSignIn.SignInUserWithClaims(user, token);
                     await signInTask;
 
                     return signInTask.IsCompletedSuccessfully;

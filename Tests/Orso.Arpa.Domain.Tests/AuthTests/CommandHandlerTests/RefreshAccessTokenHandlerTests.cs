@@ -25,15 +25,15 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _userManager = new FakeUserManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _arpaContext = Substitute.For<IArpaContext>();
-            _cookieSignInService = Substitute.For<ICookieSignInService>();
-            _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext, _cookieSignInService, new FakeDateTimeProvider());
+            _cookieSignIn = Substitute.For<ICookieSignIn>();
+            _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext, _cookieSignIn, new FakeDateTimeProvider());
         }
 
         private ArpaUserManager _userManager;
         private IJwtGenerator _jwtGenerator;
         private IArpaContext _arpaContext;
         private RefreshAccessToken.Handler _handler;
-        private ICookieSignInService _cookieSignInService;
+        private ICookieSignIn _cookieSignIn;
 
         [Test]
         public async Task Should_Refresh_AccessToken()

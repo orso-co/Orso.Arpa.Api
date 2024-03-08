@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Orso.Arpa.Domain.UserDomain.Model;
 
-namespace Orso.Arpa.Application.AuthApplication.Interfaces
+namespace Orso.Arpa.Domain.General.Interfaces
 {
-    public interface ICookieSignInService
+    public interface ICookieSignIn
     {
         public Task RefreshSignIn(string token);
-
         public Task SignInUserWithClaims(User user, string token);
         public Task<bool> IsCookieSignInPossible(User user, string password);
     }

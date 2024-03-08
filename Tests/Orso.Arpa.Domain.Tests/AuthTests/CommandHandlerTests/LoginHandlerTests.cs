@@ -28,8 +28,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _signInManager = new FakeSignInManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _identityConfiguration = new IdentityConfiguration() { LockoutExpiryInMinutes = 10 };
-            _cookieSignInService = Substitute.For<ICookieSignInService>();
-            _handler = new LoginUser.Handler(_signInManager, _jwtGenerator, _identityConfiguration, _userManager, _cookieSignInService);
+            _cookieSignIn = Substitute.For<ICookieSignIn>();
+            _handler = new LoginUser.Handler(_signInManager, _jwtGenerator, _identityConfiguration, _userManager, _cookieSignIn);
         }
 
         private SignInManager<User> _signInManager;
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         private IJwtGenerator _jwtGenerator;
         private IdentityConfiguration _identityConfiguration;
         private LoginUser.Handler _handler;
-        private ICookieSignInService _cookieSignInService;
+        private ICookieSignIn _cookieSignIn;
 
 
         [Test]
@@ -48,7 +48,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             User user = FakeUsers.Performer;
             var query = new LoginUser.Command { UsernameOrEmail = user.UserName, Password = UserSeedData.ValidPassword };
             _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(expectedToken);
-            _cookieSignInService.IsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
+            _cookieSignIn.IsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
 
             // Act
             bool result = await _handler.Handle(query, new CancellationToken());
