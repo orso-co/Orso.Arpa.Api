@@ -34,7 +34,10 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             };
 
             return _signInManager.SignInWithClaimsAsync(user, false, claims);
-            ;
+        }
+        public Task SignOutUser()
+        {
+            return _signInManager.SignOutAsync();
         }
 
         public Task RefreshSignIn(string token)

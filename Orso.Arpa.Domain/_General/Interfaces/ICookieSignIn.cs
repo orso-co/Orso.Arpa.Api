@@ -5,8 +5,9 @@ namespace Orso.Arpa.Domain.General.Interfaces
 {
     public interface ICookieSignIn
     {
-        public Task SignInUserWithClaims(User user, string token);
-        public Task RefreshSignIn(string token);
-        public Task<bool> IsCookieSignInPossible(User user, string password);
+        Task SignInUserWithClaims(User user, string token);
+        Task SignOutUser();
+        Task RefreshSignIn(string token);
+        Task<bool> IsCookieSignInPossible(User user, string password);
     }
 }
