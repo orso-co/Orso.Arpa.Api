@@ -31,7 +31,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             _userManager = userManager;
         }
 
-        public async Task<Task> SignInUserWithClaims(User user, string token)
+        public Task SignInUserWithClaims(User user, string token)
         {
             // var claims = new List<Claim>
             // {

@@ -78,7 +78,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             //var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true));
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true));
 
-            requestMessage.Headers.Add("Cookie", sessionCookie);
+            requestMessage.Headers.Add("Set-Cookie", sessionCookie);
             // HttpResponseMessage responseHomePage = await client.SendAsync(
             //     CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true)));
 
