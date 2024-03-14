@@ -171,6 +171,14 @@ namespace Orso.Arpa.Api
                 typeof(AddRoleToUrl.MappingProfile).Assembly);
             _ = services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
+            _ = services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.ConsentCookie.IsEssential = true;
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
             _ = services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
             _ = services.AddControllers()
                 .AddJsonOptions(options =>
@@ -558,6 +566,8 @@ namespace Orso.Arpa.Api
         {
             _ = app.UseIpRateLimiting();
 
+            _ = app.UseRouting();
+
             _ = app.UseRequestLocalization();
 
             _ = app.UseCookiePolicy();
@@ -571,8 +581,6 @@ namespace Orso.Arpa.Api
             _ = app.UseMiddleware<SecurityHeaderMiddleware>();
 
             ConfigureSecurityHeaders(app, env);
-
-            _ = app.UseRouting();
 
             _ = app.UseCors("CorsPolicy");
 

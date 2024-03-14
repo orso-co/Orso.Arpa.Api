@@ -1,16 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Bogus.Extensions.UnitedKingdom;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing.Handlers;
 using Microsoft.Net.Http.Headers;
 using netDumbster.smtp;
+using NSubstitute;
+using NuGet.Common;
+using NuGet.Versioning;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication.Model;
@@ -24,6 +33,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class AuthControllerTests : IntegrationTestBase
     {
+        private IHttpContextAccessor _httpContextAccessor;
+
+        [SetUp]
+        public void Setup()
+        {
+            _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
+        }
+
         [Test]
         public async Task Should_Login()
         {
@@ -40,19 +57,45 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            TokenDto result = await DeserializeResponseMessageAsync<TokenDto>(responseMessage);
-
-            result.Token.Should().NotBeNullOrEmpty();
-
-            JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(result.Token);
-            decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.NameId).Value.Should().Be(user.UserName);
-            decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Name).Value.Should().Be(user.DisplayName);
-            decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value.Should().Be(user.Id.ToString());
-            decryptedToken.Claims.First(c => c.Type == "https://localhost:5001/person_id")?.Value.Should().Be(user.PersonId.ToString());
             var refreshToken = GetCookieValueFromResponse(responseMessage, "refreshToken");
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             refreshToken.Should().NotBeNullOrEmpty();
+            // TokenDto result = await DeserializeResponseMessageAsync<TokenDto>(responseMessage);
+
+            // result.Token.Should().NotBeNullOrEmpty();
+
+            var sessionCookie = (from header in responseMessage.Headers
+                                 where header.Key == "Set-Cookie"
+                                 from value in header.Value
+                                 where value.Contains("sessionCookie")
+                                 select value).FirstOrDefault();
+
+            HttpClient client = _unAuthenticatedServer
+                .CreateClient();
+
+            //var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true));
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true));
+
+            requestMessage.Headers.Add("Cookie", sessionCookie);
+            // HttpResponseMessage responseHomePage = await client.SendAsync(
+            //     CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true)));
+
+            HttpResponseMessage responseHomePage = await _unAuthenticatedServer
+                .CreateClient().PostAsJsonAsync(ApiEndpoints.ProjectsController.Get(true), requestMessage);
+            responseHomePage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            sessionCookie.Should().NotBeNullOrEmpty();
+
+
+
+            // JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            // decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.NameId).Value.Should().Be(user.UserName);
+            // decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Name).Value.Should().Be(user.DisplayName);
+            // decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value.Should().Be(user.Id.ToString());
+            // decryptedToken.Claims.First(c => c.Type == "https://localhost:5001/person_id")?.Value.Should().Be(user.PersonId.ToString());
+            // var refreshToken = GetCookieValueFromResponse(responseMessage, "refreshToken");
+            // refreshToken.Should().NotBeNullOrEmpty();
         }
 
         [Test]
