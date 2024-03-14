@@ -77,11 +77,17 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             //var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true));
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true));
+            if (responseMessage.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
+            {
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToList()).ToArray()[1];
+                requestMessage.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
+            }
 
-            requestMessage.Headers.Add("Set-Cookie", sessionCookie);
+            //requestMessage.Headers.Add("Cookie", new CookieHeaderValue("Set-Cookie", sessionCookie).ToString());
+            // SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToList()).First();
+            // requestMessage.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
             // HttpResponseMessage responseHomePage = await client.SendAsync(
             //     CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true)));
-
             HttpResponseMessage responseHomePage = await _unAuthenticatedServer
                 .CreateClient().PostAsJsonAsync(ApiEndpoints.ProjectsController.Get(true), requestMessage);
             responseHomePage.StatusCode.Should().Be(HttpStatusCode.NoContent);
