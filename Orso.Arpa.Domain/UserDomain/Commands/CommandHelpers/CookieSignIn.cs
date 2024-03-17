@@ -16,6 +16,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly JwtConfiguration _jwtConfiguration;
+        private readonly IJwtGenerator _jwtGenerator;
         private readonly SignInManager<User> _signInManager;
         private readonly ArpaUserManager _userManager;
 
@@ -23,66 +24,32 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             ArpaUserManager userManager,
             SignInManager<User> signInManager,
             IHttpContextAccessor httpContextAccessor,
-            JwtConfiguration jwtConfiguration)
+            JwtConfiguration jwtConfiguration,
+            IJwtGenerator jwtGenerator)
         {
             _signInManager = signInManager;
             _httpContextAccessor = httpContextAccessor;
             _jwtConfiguration = jwtConfiguration;
+            _jwtGenerator = jwtGenerator;
             _userManager = userManager;
         }
 
-        public Task SignInUserWithClaims(User user, string token)
+        public async Task<Task> SignInUser(User user)
         {
-            // var claims = new List<Claim>
-            // {
-            //     new Claim("nameid", user.UserName),
-            //     new Claim("name", user.DisplayName),
-            //     new Claim("sub", user.Id.ToString()),
-            //     new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
-            // };
+            ClaimsIdentity claimsIdentity = await _jwtGenerator.GetClaimsIdentity(user);
 
-            // var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            // foreach (var role in await _userManager.GetRolesAsync(user))
-            // {
-            //     claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
-            // }
-
-            // return _httpContextAccessor.HttpContext.SignInAsync(
-            //     CookieAuthenticationDefaults.AuthenticationScheme,
-            //     new ClaimsPrincipal(claimsIdentity));
-
-            var claims = new List<Claim>
-            {
-             new Claim("nameid", user.UserName),
-             new Claim("name", user.DisplayName),
-             new Claim("sub", user.Id.ToString()),
-             new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
-            };
-
-            return _signInManager.SignInWithClaimsAsync(user, false, claims);
+            return _httpContextAccessor.HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
         }
         public Task SignOutUser()
         {
             return _signInManager.SignOutAsync();
         }
 
-        public async Task<Task> RefreshSignIn(User user, string token)
+        public async Task<Task> RefreshSignIn(User user)
         {
-            var claims = new List<Claim>
-            {
-                new Claim("nameid", user.UserName),
-                new Claim("name", user.DisplayName),
-                new Claim("sub", user.Id.ToString()),
-                new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            foreach (var role in await _userManager.GetRolesAsync(user))
-            {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
-            }
+            var claimsIdentity = await _jwtGenerator.GetClaimsIdentity(user);
 
             return _httpContextAccessor.HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,

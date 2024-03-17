@@ -53,55 +53,27 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            HttpResponseMessage loginResponse = await _unAuthenticatedServer
                 .CreateClient()
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
-            var refreshToken = GetCookieValueFromResponse(responseMessage, "refreshToken");
-
-            // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
-            refreshToken.Should().NotBeNullOrEmpty();
-            // TokenDto result = await DeserializeResponseMessageAsync<TokenDto>(responseMessage);
-
-            // result.Token.Should().NotBeNullOrEmpty();
-
-            var sessionCookie = (from header in responseMessage.Headers
-                                 where header.Key == "Set-Cookie"
-                                 from value in header.Value
-                                 where value.Contains("sessionCookie")
-                                 select value).FirstOrDefault();
-
-            HttpClient client = _unAuthenticatedServer
-                .CreateClient();
-
-            //var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true));
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true));
-            if (responseMessage.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
+            var refreshToken = GetCookieValueFromResponse(loginResponse, "refreshToken");
+            var sessionCookie = GetCookieValueFromResponse(loginResponse, "sessionCookie");
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.UsersController.Get(UserStatus.Active));
+            if (loginResponse.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
             {
-                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToList()).ToArray()[1];
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == "sessionCookie");
                 requestMessage.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
             }
 
-            //requestMessage.Headers.Add("Cookie", new CookieHeaderValue("Set-Cookie", sessionCookie).ToString());
-            // SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToList()).First();
-            // requestMessage.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
-            // HttpResponseMessage responseHomePage = await client.SendAsync(
-            //     CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.ProjectsController.Get(true)));
-            HttpResponseMessage responseHomePage = await _unAuthenticatedServer
-                .CreateClient().PostAsJsonAsync(ApiEndpoints.ProjectsController.Get(true), requestMessage);
-            responseHomePage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            HttpResponseMessage responsePage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
+
+            // Assert
+            refreshToken.Should().NotBeNullOrEmpty();
             sessionCookie.Should().NotBeNullOrEmpty();
-
-
-
-            // JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            // decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.NameId).Value.Should().Be(user.UserName);
-            // decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Name).Value.Should().Be(user.DisplayName);
-            // decryptedToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value.Should().Be(user.Id.ToString());
-            // decryptedToken.Claims.First(c => c.Type == "https://localhost:5001/person_id")?.Value.Should().Be(user.PersonId.ToString());
-            // var refreshToken = GetCookieValueFromResponse(responseMessage, "refreshToken");
-            // refreshToken.Should().NotBeNullOrEmpty();
+            loginResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responsePage.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]

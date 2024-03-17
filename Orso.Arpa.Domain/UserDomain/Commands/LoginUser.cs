@@ -80,7 +80,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 {
                     var token = await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                    var signInTask = _cookieSignIn.SignInUserWithClaims(user, token);
+                    var signInTask = _cookieSignIn.SignInUser(user);
                     await signInTask;
 
                     return signInTask.IsCompletedSuccessfully;

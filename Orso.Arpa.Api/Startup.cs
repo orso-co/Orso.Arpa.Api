@@ -392,6 +392,7 @@ namespace Orso.Arpa.Api
         private void RegisterServices(IServiceCollection services)
         {
             _ = services.AddScoped<IJwtGenerator, JwtGenerator>();
+            _ = services.AddScoped<CustomCookieAuthenticationEvents>();
             _ = services.AddScoped<IUserAccessor, UserAccessor>();
             _ = services.AddScoped<ITokenAccessor, TokenAccessor>();
             _ = services.AddScoped<IDataSeeder, DataSeeder>();
@@ -472,6 +473,22 @@ namespace Orso.Arpa.Api
                 .AddRoleManager<RoleManager<Role>>()
                 .AddUserManager<ArpaUserManager>();
 
+            JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
+
+            _ = identityBuilder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.EventsType = typeof(CustomCookieAuthenticationEvents);
+                    options.Cookie.Name = "sessionCookie";
+                    options.Cookie.Path = "/";
+                    options.Cookie.HttpOnly = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
+                    options.Cookie.MaxAge = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
+                    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                });
+
+            builder.Services.AddScoped<CustomCookieAuthenticationEvents>();
+
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
 
             _ = services.Configure<IdentityOptions>(opts =>
@@ -482,20 +499,6 @@ namespace Orso.Arpa.Api
                 opts.SignIn.RequireConfirmedEmail = true;
                 opts.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             });
-
-            JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
-
-            services.ConfigureApplicationCookie(config =>
-            {
-                config.Cookie.Name = "sessionCookie";
-                config.LoginPath = "/Home/Login";
-                config.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                config.Cookie.HttpOnly = true;
-                config.ExpireTimeSpan = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
-                config.Cookie.MaxAge = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
-                config.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-            });
-
 
             _ = services.Configure<DataProtectionTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromHours(identityConfig.DataProtectionTokenExpiryInHours));

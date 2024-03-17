@@ -48,20 +48,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
         private async Task<string> CreateAccessTokenAsync(User user)
         {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Name, user.DisplayName),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims, "Token");
-
-            foreach (var role in await _userManager.GetRolesAsync(user))
-            {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
-            }
+            ClaimsIdentity claimsIdentity = await GetClaimsIdentity(user);
 
             var tokenDesriptor = new SecurityTokenDescriptor
             {
@@ -118,6 +105,26 @@ namespace Orso.Arpa.Infrastructure.Authentication
                 user.Id,
                 now
             );
+        }
+
+        public async Task<ClaimsIdentity> GetClaimsIdentity(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Name, user.DisplayName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, "Token");
+
+            foreach (var role in await _userManager.GetRolesAsync(user))
+            {
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+
+            return claimsIdentity;
         }
     }
 }
