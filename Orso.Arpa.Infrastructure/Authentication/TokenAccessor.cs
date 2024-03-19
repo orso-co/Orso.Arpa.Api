@@ -24,7 +24,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             get
             {
                 var username = _httpContextAccessor?.HttpContext?.User?.Claims?
-                    .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
+                    .FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?
                     .Value;
                 return username ?? throw new AuthenticationException("No user name found in the JWT token");
             }

@@ -1,25 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Bogus.Extensions.UnitedKingdom;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing.Handlers;
 using Microsoft.Net.Http.Headers;
 using netDumbster.smtp;
 using NSubstitute;
-using NuGet.Common;
-using NuGet.Versioning;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication.Model;
@@ -59,12 +51,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var refreshToken = GetCookieValueFromResponse(loginResponse, "refreshToken");
             var sessionCookie = GetCookieValueFromResponse(loginResponse, "sessionCookie");
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.UsersController.Get(UserStatus.Active));
-            if (loginResponse.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
-            {
-                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == "sessionCookie");
-                requestMessage.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
-            }
+            var requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.UsersController.Get(UserStatus.Active), loginResponse, "sessionCookie");
 
             HttpResponseMessage responsePage = await _unAuthenticatedServer
                 .CreateClient().SendAsync(requestMessage);
@@ -332,44 +319,67 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Change_Password()
         {
             // Arrange
-            var dto = new ChangePasswordDto
+            User user = FakeUsers.Admin;
+            var loginDto = new LoginDto
+            {
+                UsernameOrEmail = user.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+            var passwordDto = new ChangePasswordDto
             {
                 CurrentPassword = UserSeedData.ValidPassword,
                 NewPassword = "NewPa$$w0rd"
             };
 
-            // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
+            //Act
+            HttpResponseMessage loginResponse = await _unAuthenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(dto));
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+
+            var requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.Password(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(passwordDto);
+
+            HttpResponseMessage responsePage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            responsePage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
             SmtpMessage sentEmail = _fakeSmtpServer.ReceivedEmail[0];
-            sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(_performer.Email);
+            sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(user.Email);
         }
 
         [Test]
         public async Task Should_Not_Change_Wrong_Password()
         {
             // Arrange
-            var dto = new ChangePasswordDto
+            User user = FakeUsers.Admin;
+            var loginDto = new LoginDto
+            {
+                UsernameOrEmail = user.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+            var passwordDto = new ChangePasswordDto
             {
                 CurrentPassword = "WrongPassword",
                 NewPassword = "NewPa$$w0rd"
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
+            HttpResponseMessage loginResponse = await _unAuthenticatedServer
                 .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.AuthController.Password(), BuildStringContent(dto));
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+
+
+            var requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.Password(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(passwordDto);
+
+            HttpResponseMessage responsePage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
-            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
+            responsePage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responsePage);
             errorMessage.Title.Should().Be("One or more validation errors occurred.");
             errorMessage.Status.Should().Be(422);
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "CurrentPassword", s_incorrectPasswordMessage } });
@@ -392,10 +402,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-            ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
-            errorMessage.Title.Should().Be("Please try to login again");
-            errorMessage.Detail.Should().Be("This request requires a valid JWT access token to be provided");
-            errorMessage.Status.Should().Be(401);
         }
 
         private static IEnumerable<TestCaseData> SetRoleTestData
@@ -443,12 +449,22 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 RoleNames = newRole,
                 Username = user.UserName
             };
+            var loginDto = new LoginDto
+            {
+                UsernameOrEmail = currentUser.UserName,
+                Password = UserSeedData.ValidPassword
+            };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
+            HttpResponseMessage loginResponse = await _unAuthenticatedServer
                 .CreateClient()
-                .AuthenticateWith(currentUser)
-                .PutAsync(ApiEndpoints.AuthController.SetRole(), BuildStringContent(setRoleDto));
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+
+            var requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.SetRole(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(setRoleDto);
+
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(expectedStatusCode);
@@ -568,20 +584,20 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage loginResult = await client
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
             var firstRefreshToken = GetCookieValueFromResponse(loginResult, "refreshToken");
-            TokenDto firstAccessToken = await DeserializeResponseMessageAsync<TokenDto>(loginResult);
+            var firstCookie = GetCookieValueFromResponse(loginResult, "sessionCookie");
 
             Thread.Sleep(1000); // To ensure a significant difference between the access tokens
 
             // Act
             HttpResponseMessage responseMessage = await client.SendAsync(
-                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult));
+                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult, "refreshToken"));
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-            TokenDto result = await DeserializeResponseMessageAsync<TokenDto>(responseMessage);
+            var secondCookie = GetCookieValueFromResponse(responseMessage, "sessionCookie");
 
-            result.Token.Should().NotBeNullOrEmpty();
-            result.Token.Should().NotBeEquivalentTo(firstAccessToken.Token);
+            secondCookie.Should().NotBeNullOrEmpty();
+            secondCookie.Should().NotBeEquivalentTo(firstCookie);
 
             var refreshToken = GetCookieValueFromResponse(responseMessage, "refreshToken");
             refreshToken.Should().NotBeNullOrEmpty();
@@ -601,29 +617,32 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Password = UserSeedData.ValidPassword
             };
 
+            // Act
             HttpResponseMessage loginResult = await client
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
             TokenDto tokenDto = await DeserializeResponseMessageAsync<TokenDto>(loginResult);
-
-            // Act
             HttpRequestMessage request =
-                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.Logout(), loginResult);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokenDto.Token);
+                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.Logout(), loginResult, "refreshToken");
+            if (loginResult.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
+            {
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == "sessionCookie");
+                request.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
+            }
             HttpResponseMessage responseMessage = await client.SendAsync(request);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             HttpResponseMessage refreshMessage = await client.SendAsync(
-                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult));
+                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult, "refreshToken"));
             refreshMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         }
 
-        private static HttpRequestMessage CreateRequestWithCookie(HttpMethod httpMethod, string path, HttpResponseMessage response)
+        private static HttpRequestMessage CreateRequestWithCookie(HttpMethod httpMethod, string path, HttpResponseMessage response, string cookieName)
         {
             var request = new HttpRequestMessage(httpMethod, path);
             if (response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
             {
-                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToList()).First();
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == cookieName);
                 request.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
             }
 
