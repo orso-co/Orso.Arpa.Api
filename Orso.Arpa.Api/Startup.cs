@@ -119,6 +119,7 @@ using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Orso.Arpa.Api
 {
@@ -170,14 +171,6 @@ namespace Orso.Arpa.Api
                 typeof(LoginDtoMappingProfile).Assembly,
                 typeof(AddRoleToUrl.MappingProfile).Assembly);
             _ = services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
-
-            _ = services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.ConsentCookie.IsEssential = true;
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
 
             _ = services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
             _ = services.AddControllers()
@@ -487,6 +480,11 @@ namespace Orso.Arpa.Api
                     options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 });
 
+            services.ConfigureApplicationCookie(o =>
+            {
+                o.EventsType = typeof(CustomCookieAuthenticationEvents);
+            });
+
             builder.Services.AddScoped<CustomCookieAuthenticationEvents>();
 
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
@@ -509,6 +507,9 @@ namespace Orso.Arpa.Api
             _ = services.Configure<CookiePolicyOptions>(options =>
             {
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.ConsentCookie.IsEssential = true;
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => false;
                 options.Secure = _hostingEnvironment.IsDevelopment()
                     ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
             });
