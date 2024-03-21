@@ -957,7 +957,7 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 324, DateTimeKind.Local).AddTicks(7866),
                             CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "Invalid token supplied",
+                            Key = "Invalid cookie supplied",
                             LocalizationCulture = "en",
                             ResourceKey = "Validator",
                             Text = "Please try to login again"
@@ -968,10 +968,10 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 389, DateTimeKind.Local).AddTicks(7493),
                             CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "This request requires a valid JWT access token to be provided",
+                            Key = "This request requires a valid cookie to be provided",
                             LocalizationCulture = "de",
                             ResourceKey = "Validator",
-                            Text = "Diese Anfrage erfordert einen gültigen JWT Token"
+                            Text = "Diese Anfrage erfordert einen gültigen Cookie"
                         },
                         new
                         {
@@ -979,10 +979,10 @@ namespace Orso.Arpa.Persistence.Migrations
                             CreatedAt = new DateTime(2021, 6, 16, 15, 30, 19, 390, DateTimeKind.Local).AddTicks(1201),
                             CreatedBy = "LocalizationSeedData",
                             Deleted = false,
-                            Key = "Invalid token supplied",
+                            Key = "Invalid cookie supplied",
                             LocalizationCulture = "de",
                             ResourceKey = "Validator",
-                            Text = "Ungültiges Token angegeben"
+                            Text = "Ungültiges Cookie angegeben"
                         },
                         new
                         {
