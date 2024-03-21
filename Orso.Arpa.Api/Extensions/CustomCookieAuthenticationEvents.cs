@@ -24,26 +24,29 @@ namespace Orso.Arpa.Api.Extensions
 
         public override Task RedirectToAccessDenied(RedirectContext<CookieAuthenticationOptions> context)
         {
-            context.Response.StatusCode = 403;
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
             return Task.CompletedTask;
         }
 
         public override Task RedirectToLogin(RedirectContext<CookieAuthenticationOptions> context)
         {
             context.Response.Clear();
-            context.Response.StatusCode = 401;
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            //context.HttpContext.Response.ContentType = "application/json";
             return Task.CompletedTask;
         }
 
         public override Task RedirectToLogout(RedirectContext<CookieAuthenticationOptions> context)
         {
-            context.Response.StatusCode = 401;
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            ;
             return Task.CompletedTask;
         }
 
         public override Task RedirectToReturnUrl(RedirectContext<CookieAuthenticationOptions> context)
         {
-            context.Response.StatusCode = 401;
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            ;
             return Task.CompletedTask;
         }
 
