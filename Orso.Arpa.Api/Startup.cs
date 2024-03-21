@@ -576,8 +576,6 @@ namespace Orso.Arpa.Api
 
             _ = app.UseErrorResponseLocalizationMiddleware();
 
-            _ = app.UseMiddleware<ErrorHandlingMiddleware>();
-
             _ = app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
             _ = app.UseMiddleware<SecurityHeaderMiddleware>();
@@ -596,6 +594,8 @@ namespace Orso.Arpa.Api
 
             _ = app.UseDefaultFiles(); // use index.html
             _ = app.UseStaticFiles();
+
+            _ = app.UseMiddleware<ErrorHandlingMiddleware>();
 
             AddSwagger(app);
 
