@@ -61,8 +61,7 @@ namespace Orso.Arpa.Api.Extensions
 
         public override Task SignedIn(CookieSignedInContext context)
         {
-            List<Claim> claims = context.Principal.Claims.ToList();
-            //_arpaUserManager.FindByEmailAsync(claims.)
+            //List<Claim> claims = context.Principal.Claims.ToList();
             return Task.CompletedTask;
             ;
         }

@@ -51,7 +51,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var refreshToken = GetCookieValueFromResponse(loginResponse, "refreshToken");
             var sessionCookie = GetCookieValueFromResponse(loginResponse, "sessionCookie");
-            var requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.UsersController.Get(UserStatus.Active), loginResponse, "sessionCookie");
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.UsersController.Get(UserStatus.Active), loginResponse, "sessionCookie");
 
             HttpResponseMessage responsePage = await _unAuthenticatedServer
                 .CreateClient().SendAsync(requestMessage);

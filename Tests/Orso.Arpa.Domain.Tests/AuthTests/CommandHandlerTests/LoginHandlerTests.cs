@@ -44,10 +44,8 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public async Task Should_Login_User()
         {
             // Arrange
-            const string expectedToken = "TestToken";
             User user = FakeUsers.Performer;
             var query = new LoginUser.Command { UsernameOrEmail = user.UserName, Password = UserSeedData.ValidPassword };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(expectedToken);
             _cookieSignIn.IsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
 
             // Act

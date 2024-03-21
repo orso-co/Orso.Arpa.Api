@@ -28,7 +28,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     public abstract class IntegrationTestBase
     {
         protected TestServer _unAuthenticatedServer;
-        protected TestServer _authenticatedServer;
         protected User _performer;
         protected User _staff;
         protected User _admin;
@@ -49,7 +48,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         public virtual void Cleanup()
         {
             _unAuthenticatedServer.Dispose();
-            _authenticatedServer.Dispose();
             TestStartup.TestDatabase?.Drop();
             TestStartup.TestDatabase = null;
             TestStartup.IsSeeded = false;
@@ -66,8 +64,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         [OneTimeSetUp]
         public virtual async Task InitializeAsync()
         {
-            _unAuthenticatedServer = await CreateServer(false);
-            _authenticatedServer = await CreateServer(true);
+            _unAuthenticatedServer = await CreateServer();
             _performer = FakeUsers.Performer;
             _staff = FakeUsers.Staff;
             _admin = FakeUsers.Admin;
@@ -99,22 +96,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 MediaTypeNames.Application.Json);
         }
 
-        protected static async Task<TestServer> CreateServer(bool authenticated)
+        protected static async Task<TestServer> CreateServer()
         {
             IHostBuilder webHostBuilder = new HostBuilder();
 
             _ = webHostBuilder.UseContentRoot(Directory.GetCurrentDirectory());
 
-            _ = authenticated
-                ? webHostBuilder.ConfigureWebHost(webBuilder =>
-                {
-                    _ = webBuilder
-                        .UseTestServer()
-                        .UseEnvironment("Test")
-                        .ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"))
-                        .UseStartup<AuthenticatedTestStartup>();
-                })
-                : webHostBuilder.ConfigureWebHost(webBuilder =>
+            _ = webHostBuilder.ConfigureWebHost(webBuilder =>
                 {
                     _ = webBuilder
                         .UseTestServer()
