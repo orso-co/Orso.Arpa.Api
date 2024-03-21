@@ -119,7 +119,6 @@ using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 
 namespace Orso.Arpa.Api
 {
@@ -161,7 +160,7 @@ namespace Orso.Arpa.Api
                 options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                options.DefaultSignOutScheme = IdentityConstants.ExternalScheme; //check this
+                options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
             .AddIdentityCookies();
@@ -508,7 +507,6 @@ namespace Orso.Arpa.Api
             {
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
                 options.ConsentCookie.IsEssential = true;
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;
                 options.Secure = _hostingEnvironment.IsDevelopment()
                     ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
