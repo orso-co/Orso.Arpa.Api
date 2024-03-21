@@ -20,13 +20,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [TestCase("en,de-DE;q=0.7,de;q=0.3", "Performers", "Orchestra")]
         public async Task Should_Translate_Single_Section(string header, string firstCheck, string secondCheck)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.SectionsController.Get());
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.SectionsController.Get(), loginResponse, "sessionCookie");
             requestMessage.Headers.Add("Accept-Language", header);
-
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .SendAsync(requestMessage);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             IList<SectionDto> result = await DeserializeResponseMessageAsync<IList<SectionDto>>(responseMessage);
 

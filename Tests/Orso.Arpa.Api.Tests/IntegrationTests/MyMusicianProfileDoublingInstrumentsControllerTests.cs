@@ -38,11 +38,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 LevelAssessmentInner = dto.LevelAssessmentInner
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.MyMusicianProfileDoublingInstrumentsController
-                    .Post(profile.Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.MyMusicianProfileDoublingInstrumentsController
+                    .Post(profile.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyDoublingInstrumentDto result = await DeserializeResponseMessageAsync<MyDoublingInstrumentDto>(responseMessage);
@@ -62,11 +63,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 LevelAssessmentInner = 5,
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MyMusicianProfileDoublingInstrumentsController
-                    .Put(profile.Id, profile.DoublingInstruments.First().Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MyMusicianProfileDoublingInstrumentsController
+                    .Put(profile.Id, profile.DoublingInstruments.First().Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

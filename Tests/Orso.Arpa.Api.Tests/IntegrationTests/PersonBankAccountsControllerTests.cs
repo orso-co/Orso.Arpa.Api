@@ -39,11 +39,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 AccountOwner = "Muddi Roese"
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.PersonBankAccountsController
-                    .Post(person.Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.PersonBankAccountsController
+                    .Post(person.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             BankAccountDto result = await DeserializeResponseMessageAsync<BankAccountDto>(responseMessage);
@@ -74,11 +75,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 AccountOwner = "Muddi Roese"
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.PersonBankAccountsController
-                    .Post(person.Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.PersonBankAccountsController
+                    .Post(person.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             BankAccountDto result = await DeserializeResponseMessageAsync<BankAccountDto>(responseMessage);
@@ -131,11 +133,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 StatusId = SelectValueMappingSeedData.BankAccountStatusMappings[0].Id
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.PersonBankAccountsController
-                    .Put(person.Id, person.BankAccounts.First().Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.PersonBankAccountsController
+                    .Put(person.Id, person.BankAccounts.First().Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -145,11 +148,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             Person person = PersonTestSeedData.UnconfirmedUser;
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.PersonBankAccountsController
-                    .Delete(person.Id, person.BankAccounts.First().Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.PersonBankAccountsController
+                    .Delete(person.Id, person.BankAccounts.First().Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

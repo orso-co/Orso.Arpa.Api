@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,10 +29,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Arrange
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AuditLogsController.Get(null, null, 70));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AuditLogsController.Get(null, null, 70), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -46,10 +47,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             Guid entityId = GetEntryId();
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AuditLogsController.Get(entityId, 0, 9999));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AuditLogsController.Get(entityId, 0, 9999), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -68,10 +69,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             Guid entityId = GetEntryId();
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AuditLogsController.Get(entityId, 0, 2));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AuditLogsController.Get(entityId, 0, 2), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -84,12 +85,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Guid entityId = GetEntryId();
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AuditLogsController.Get(entityId, 2, 25), loginResponse, "sessionCookie");
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AuditLogsController.Get(entityId, 2, 25));
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -101,17 +102,18 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_Empty_List()
         {
             // Arrange
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AuditLogsController.Get(Guid.NewGuid(), 0, 25), loginResponse, "sessionCookie");
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AuditLogsController.Get(Guid.NewGuid(), 0, 25));
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<AuditLogDto> result = await DeserializeResponseMessageAsync<IEnumerable<AuditLogDto>>(responseMessage);
             result.Count().Should().Be(0);
         }
+
     }
 }

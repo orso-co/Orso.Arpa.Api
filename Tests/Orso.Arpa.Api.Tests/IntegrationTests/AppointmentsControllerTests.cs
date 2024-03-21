@@ -55,10 +55,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             IList<AppointmentListDto> expectedDtos)
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(date, dateRange));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AppointmentsController.Get(date, dateRange), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -88,10 +88,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_By_Id_With_Participations(AppointmentDto expectedDto)
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(FakeUsers.Staff)
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id, true));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AppointmentsController.Get(expectedDto.Id, true), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -104,10 +104,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_By_Id_Without_Participations(AppointmentDto expectedDto)
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(FakeUsers.Staff)
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(expectedDto.Id, false));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AppointmentsController.Get(expectedDto.Id, false), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -117,7 +117,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         }
 
         [Test, Order(4)]
-        public async Task Should_Send_Appointment_Changed_Notification() {
+        public async Task Should_Send_Appointment_Changed_Notification()
+        {
             // Arrange
             _fakeSmtpServer.ClearReceivedEmail();
             IEnumerable<string> expectedToAddresses = [
@@ -131,13 +132,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ];
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.AppointmentsController.SendAppointmentChangedNotification(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AppointmentsController.SendAppointmentChangedNotification(
                     AppointmentSeedData.PhotoSession.Id,
-                    true), null);
-            
+                    true), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
+
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
@@ -178,10 +179,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.AppointmentsController.Post(), BuildStringContent(createDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AppointmentsController.Post(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(createDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -197,12 +199,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_Room()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.AppointmentsController.Room(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AppointmentsController.Room(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
-                    RoomSeedData.AulaWeiherhofSchule.Id), null);
+                    RoomSeedData.AulaWeiherhofSchule.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -217,12 +219,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Sections.Add(SectionDtoData.Alto);
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.AppointmentsController.Section(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AppointmentsController.Section(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
-                    SectionSeedData.Alto.Id), null);
+                    SectionSeedData.Alto.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -240,12 +242,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Projects.Add(ProjectDtoData.HoorayForHollywood);
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.AppointmentsController.Project(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AppointmentsController.Project(
                     AppointmentSeedData.AppointmentWithoutProject.Id,
-                    ProjectSeedData.HoorayForHollywood.Id), null);
+                    ProjectSeedData.HoorayForHollywood.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -270,12 +272,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Set_Participation_Result(Person person, HttpStatusCode expectedStatusCode)
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationResult(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AppointmentsController.SetParticipationResult(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
-                    person.Id), BuildStringContent(new AppointmentParticipationSetResultBodyDto { Result = AppointmentParticipationResult.AwaitingScan }));
+                    person.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(new AppointmentParticipationSetResultBodyDto { Result = AppointmentParticipationResult.AwaitingScan });
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(expectedStatusCode);
@@ -285,12 +288,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Set_Venue()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.AppointmentsController.SetVenue(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AppointmentsController.SetVenue(
                     AppointmentSeedData.AppointmentWithoutProject.Id,
-                    VenueSeedData.WeiherhofSchule.Id), null);
+                    VenueSeedData.WeiherhofSchule.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -316,10 +319,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.AppointmentsController.Put(appointmentToModify.Id), BuildStringContent(modifyDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AppointmentsController.Put(appointmentToModify.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
+
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -341,10 +346,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.AppointmentsController.Put(appointmentToModify.Id), BuildStringContent(modifyDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AppointmentsController.Put(appointmentToModify.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -364,10 +370,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.AppointmentsController.Put(Guid.NewGuid()), BuildStringContent(modifyDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AppointmentsController.Put(Guid.NewGuid()), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -394,10 +401,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.ModifiedAt = FakeDateTime.UtcNow;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.AppointmentsController.SetDates(appointmentToModify.Id), BuildStringContent(setDatesDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AppointmentsController.SetDates(appointmentToModify.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(setDatesDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -409,12 +417,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Remove_Room()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.AppointmentsController.Room(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.AppointmentsController.Room(
                     AppointmentSeedData.AfterShowParty.Id,
-                    RoomSeedData.AulaWeiherhofSchule.Id));
+                    RoomSeedData.AulaWeiherhofSchule.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
+
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -445,12 +454,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             });
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.AppointmentsController.Section(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.AppointmentsController.Section(
                     AppointmentSeedData.AfterShowParty.Id,
-                    SectionSeedData.Alto.Id));
+                    SectionSeedData.Alto.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
+
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -483,12 +493,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Participations.Add(AppointmentDtoData.WithoutRoleParticipation);
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.AppointmentsController.Project(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.AppointmentsController.Project(
                     AppointmentSeedData.StaffMeeting.Id,
-                    ProjectSeedData.HoorayForHollywood.Id));
+                    ProjectSeedData.HoorayForHollywood.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -507,13 +517,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationPrediction(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AppointmentsController.SetParticipationPrediction(
                     AppointmentSeedData.PhotoSession.Id,
-                    PersonSeedData.AdminPersonId),
-                    BuildStringContent(dto));
+                    PersonSeedData.AdminPersonId), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -530,13 +540,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.AppointmentsController.SetParticipationPrediction(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AppointmentsController.SetParticipationPrediction(
                     AppointmentSeedData.RockingXMasRehearsal.Id,
-                    _performer.PersonId),
-                    BuildStringContent(dto));
+                    _performer.PersonId), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -549,18 +559,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             Appointment appointmentToDelete = AppointmentSeedData.StaffMeeting;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_admin)
-                .DeleteAsync(ApiEndpoints.AppointmentsController.Delete(appointmentToDelete.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_admin);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.AppointmentsController.Delete(appointmentToDelete.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            HttpResponseMessage getResponseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.AppointmentsController.Get(appointmentToDelete.Id));
+            HttpResponseMessage loginResponse2 = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage2 = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.AppointmentsController.Get(appointmentToDelete.Id), loginResponse2, "sessionCookie");
+            HttpResponseMessage getResponseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage2);
+
             _ = getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }

@@ -20,10 +20,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_All()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.SectionsController.Get());
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.SectionsController.Get(), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -35,10 +35,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_Tree()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.SectionsController.GetTree(2));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.SectionsController.GetTree(2), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -50,10 +50,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_Instruments_With_Children()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.SectionsController.GetInstrumentsWithChildren());
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.SectionsController.GetInstrumentsWithChildren(), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -88,10 +88,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_DoublingInstruments(Guid sectionId, IEnumerable<SectionDto> expectedResult)
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.SectionsController.GetDoublingInstruments(sectionId));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.SectionsController.GetDoublingInstruments(sectionId), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -111,10 +111,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                   new SelectValueDto { Id = Guid.Parse("6993ab28-3a79-4941-8a14-f07bdae5a3ba"), Name = "Coach", Description = "" },
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.SectionsController.GetPositions(SectionSeedData.Alto.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.SectionsController.GetPositions(SectionSeedData.Alto.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<SelectValueDto> result = await DeserializeResponseMessageAsync<IEnumerable<SelectValueDto>>(responseMessage);

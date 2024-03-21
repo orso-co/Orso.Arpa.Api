@@ -19,11 +19,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             UrlDto expectedUrl = UrlDtoData.ArpaWebsite;
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             // Act
-            HttpResponseMessage responseMessage = await client
-                .GetAsync(ApiEndpoints.UrlsController.Get(expectedUrl.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.UrlsController.Get(expectedUrl.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -41,11 +42,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Href = "http://google.de/modified",
                 AnchorText = "modified anchor",
             };
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             // Act
-            HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.UrlsController.Put(urlToModify.Id), BuildStringContent(modifyDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.UrlsController.Put(urlToModify.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -58,10 +61,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             UrlDto expectedDto = UrlDtoData.ArpaWebsite;
             expectedDto.Roles.Add(RoleDtoData.Performer);
 
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
-
-            HttpResponseMessage responseMessage = await client
-                .PostAsync(ApiEndpoints.UrlsController.AddRole(expectedDto.Id, RoleDtoData.Performer.Id), null);
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.UrlsController.AddRole(expectedDto.Id, RoleDtoData.Performer.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -74,17 +77,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             UrlDto urlToDelete = ProjectDtoData.HoorayForHollywood.Urls[0];
-            HttpClient client = _authenticatedServer.CreateClient().AuthenticateWith(_staff);
 
             // Act: delete url from projects list of urls
-            HttpResponseMessage responseMessage = await client
-                .DeleteAsync(ApiEndpoints.UrlsController.Delete(urlToDelete.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.UrlsController.Delete(urlToDelete.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            HttpResponseMessage getResponseMessage = await client
-                .GetAsync(ApiEndpoints.UrlsController.Get(urlToDelete.Id));
+            HttpRequestMessage requestMessage2 = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.UrlsController.Get(urlToDelete.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage getResponseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage2);
             getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
@@ -96,12 +101,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Roles.Clear();
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.UrlsController.RemoveRole(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.UrlsController.RemoveRole(
                     UrlSeedData.ArpaWebsite.Id,
-                    RoleSeedData.Staff.Id));
+                    RoleSeedData.Staff.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

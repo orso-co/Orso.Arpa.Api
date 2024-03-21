@@ -39,10 +39,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_MusicianProfiles(bool includeDeactivated, IList<MyMusicianProfileDto> expectedDtos)
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MyMusicianProfilesController.Get(includeDeactivated));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MyMusicianProfilesController.Get(includeDeactivated), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -57,10 +57,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             MyMusicianProfileDto expectedDto = MyMusicianProfileDtoData.PerformerProfile;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MyMusicianProfilesController.GetById(expectedDto.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MyMusicianProfilesController.GetById(expectedDto.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -89,10 +89,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedResult.Errors.Add("PreferredPositionsInnerIds", ["'Preferred Positions Inner Ids' must not be empty."]);
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.MyMusicianProfilesController.Post(), BuildStringContent(createDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.MyMusicianProfilesController.Post(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(createDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
@@ -144,10 +145,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             });
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.MyMusicianProfilesController.Post(), BuildStringContent(createDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.MyMusicianProfilesController.Post(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(createDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -201,13 +203,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CurriculumVitaeReferences = musicianProfileToModify.CurriculumVitaeReferences
             };
 
-            HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer);
-
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
             // Act
-            HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.MyMusicianProfilesController.Put(musicianProfileToModify.Id), BuildStringContent(modifyDto));
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MyMusicianProfilesController.Put(musicianProfileToModify.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -215,8 +216,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDto);
 
             // check if former main profile is not main profile anymore
-            HttpResponseMessage getResponseMessage = await client
-                .GetAsync(ApiEndpoints.MyMusicianProfilesController.GetById(MusicianProfileSeedData.PerformerMusicianProfile.Id));
+            HttpRequestMessage requestMessage2 = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MyMusicianProfilesController.GetById(MusicianProfileSeedData.PerformerMusicianProfile.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage getResponseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage2);
 
             _ = getResponseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyMusicianProfileDto getResult = await DeserializeResponseMessageAsync<MyMusicianProfileDto>(getResponseMessage);

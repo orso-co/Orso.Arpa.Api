@@ -31,7 +31,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CapacityId = SelectValueMappingSeedData.RoomCapacityMappings[1].Id
             };
 
-            RoomDto expectedDto = new RoomDto {
+            RoomDto expectedDto = new RoomDto
+            {
                 Id = roomToModify.Id,
                 CreatedAt = roomToModify.CreatedAt,
                 CreatedBy = roomToModify.CreatedBy,
@@ -45,18 +46,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff);
-
-            HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.RoomsController.Put(roomToModify.Id), BuildStringContent(modifyDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.RoomsController.Put(roomToModify.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            HttpResponseMessage getMessage = await client
-                .GetAsync(ApiEndpoints.RoomsController.Get(roomToModify.Id));
+            HttpRequestMessage requestMessage2 = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.RoomsController.Get(roomToModify.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage getMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage2);
 
             getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             RoomDto result = await DeserializeResponseMessageAsync<RoomDto>(getMessage);
@@ -83,10 +85,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
             RoomDto room = RoomDtoData.AulaWeiherhofSchule;
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.RoomsController.AddEquipment(room.Id), BuildStringContent(createDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.RoomsController.AddEquipment(room.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(createDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             RoomEquipmentDto result = await DeserializeResponseMessageAsync<RoomEquipmentDto>(responseMessage);
@@ -114,10 +117,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
             RoomDto room = RoomDtoData.AulaWeiherhofSchule;
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.RoomsController.AddSection(room.Id), BuildStringContent(createDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.RoomsController.AddSection(room.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(createDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             RoomSectionDto result = await DeserializeResponseMessageAsync<RoomSectionDto>(responseMessage);
@@ -133,10 +137,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             RoomDto expectedDto = RoomDtoData.AulaWeiherhofSchule;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.RoomsController.Get(expectedDto.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.RoomsController.Get(expectedDto.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -149,19 +153,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             Room roomToDelete = RoomSeedData.AulaWeiherhofSchule;
-            var client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff);
 
             // Act
-            HttpResponseMessage responseMessage = await client
-                .DeleteAsync(ApiEndpoints.RoomsController.Delete(roomToDelete.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.RoomsController.Delete(roomToDelete.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            HttpResponseMessage getMessage = await client
-                .GetAsync(ApiEndpoints.RoomsController.Get(roomToDelete.Id));
+            HttpRequestMessage requestMessage2 = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.RoomsController.Get(roomToDelete.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage getMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage2);
 
             getMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

@@ -40,11 +40,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 LevelAssessmentTeam = dto.LevelAssessmentTeam
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
-                    .Post(profile.Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.MusicianProfileDoublingInstrumentsController
+                    .Post(profile.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             DoublingInstrumentDto result = await DeserializeResponseMessageAsync<DoublingInstrumentDto>(responseMessage);
@@ -65,11 +66,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 LevelAssessmentTeam = 5
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
-                    .Put(profile.Id, profile.DoublingInstruments.First().Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MusicianProfileDoublingInstrumentsController
+                    .Put(profile.Id, profile.DoublingInstruments.First().Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -79,11 +81,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.MusicianProfileDoublingInstrumentsController
-                    .Delete(profile.Id, profile.DoublingInstruments.First().Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.MusicianProfileDoublingInstrumentsController
+                    .Delete(profile.Id, profile.DoublingInstruments.First().Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

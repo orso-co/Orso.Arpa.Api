@@ -336,7 +336,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .CreateClient()
                 .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
-            var requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.Password(), loginResponse, "sessionCookie");
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.Password(), loginResponse, "sessionCookie");
             requestMessage.Content = BuildStringContent(passwordDto);
 
             HttpResponseMessage responsePage = await _unAuthenticatedServer
@@ -593,7 +593,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult, "refreshToken"));
 
             // Assert
-            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             var secondCookie = GetCookieValueFromResponse(responseMessage, "sessionCookie");
 
             secondCookie.Should().NotBeNullOrEmpty();
@@ -635,18 +635,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpResponseMessage refreshMessage = await client.SendAsync(
                 CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.RefreshToken(), loginResult, "refreshToken"));
             refreshMessage.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-        }
-
-        private static HttpRequestMessage CreateRequestWithCookie(HttpMethod httpMethod, string path, HttpResponseMessage response, string cookieName)
-        {
-            var request = new HttpRequestMessage(httpMethod, path);
-            if (response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
-            {
-                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == cookieName);
-                request.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
-            }
-
-            return request;
         }
     }
 }
