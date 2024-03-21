@@ -185,14 +185,15 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>A new access token. Sets new refresh token cookie</returns>
         [AllowAnonymous]
         [HttpPost("refreshtoken")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<bool>> RefreshAccessToken()
+        public async Task<ActionResult> RefreshAccessToken()
         {
-            return await _authService.RefreshAccessTokenAsync(RefreshToken, RemoteIpAddress);
+            await _authService.RefreshAccessTokenAsync(RefreshToken, RemoteIpAddress);
+            return NoContent();
         }
 
         /// <summary>
