@@ -17,7 +17,6 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
 {
     public class ArpaUserManager : UserManager<User>
     {
-
         public ArpaUserManager(
             IUserStore<User> store,
             IOptions<IdentityOptions> optionsAccessor,

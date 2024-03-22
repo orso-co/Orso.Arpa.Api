@@ -42,7 +42,6 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IdentityConfiguration _identityConfiguration;
-            private readonly ArpaUserManager _userManager;
             private readonly ICookieSignIn _cookieSignIn;
 
 
@@ -56,7 +55,6 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
                 _identityConfiguration = identityConfiguration;
-                _userManager = userManager;
                 _cookieSignIn = cookieSignInService;
             }
 
@@ -78,9 +76,9 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 if (IsCookieSignInPossible)
                 {
-                    var token = await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
+                    await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                    var signInTask = _cookieSignIn.SignInUser(user);
+                    Task<Task> signInTask = _cookieSignIn.SignInUser(user);
                     await signInTask;
 
                     return signInTask.IsCompletedSuccessfully;

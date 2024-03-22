@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -15,7 +14,6 @@ namespace Orso.Arpa.Application.AuthApplication.Services
     public class CookieSignIn : ICookieSignIn
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly JwtConfiguration _jwtConfiguration;
         private readonly IJwtGenerator _jwtGenerator;
         private readonly SignInManager<User> _signInManager;
         private readonly ArpaUserManager _userManager;
@@ -29,7 +27,6 @@ namespace Orso.Arpa.Application.AuthApplication.Services
         {
             _signInManager = signInManager;
             _httpContextAccessor = httpContextAccessor;
-            _jwtConfiguration = jwtConfiguration;
             _jwtGenerator = jwtGenerator;
             _userManager = userManager;
         }
