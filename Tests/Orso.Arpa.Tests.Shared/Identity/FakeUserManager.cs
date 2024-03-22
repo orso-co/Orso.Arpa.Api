@@ -22,7 +22,6 @@ namespace Orso.Arpa.Tests.Shared.Identity
 
         public FakeUserManager()
             : base(
-              Substitute.For<JwtConfiguration>(),
               Substitute.For<IUserStore<User>>(),
               Substitute.For<IOptions<IdentityOptions>>(),
               Substitute.For<IPasswordHasher<User>>(),

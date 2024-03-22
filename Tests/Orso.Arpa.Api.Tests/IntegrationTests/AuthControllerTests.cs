@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using netDumbster.smtp;
 using NSubstitute;
@@ -22,14 +21,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class AuthControllerTests : IntegrationTestBase
     {
-        private IHttpContextAccessor _httpContextAccessor;
-
-        [SetUp]
-        public void Setup()
-        {
-            _httpContextAccessor = Substitute.For<IHttpContextAccessor>();
-        }
-
         [Test]
         public async Task Should_Login()
         {

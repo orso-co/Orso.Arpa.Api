@@ -6,6 +6,5 @@ namespace Orso.Arpa.Domain.General.Configuration
         public int MaxFailedLoginAttempts { get; set; }
         public int EmailConfirmationTokenExpiryInDays { get; set; }
         public int DataProtectionTokenExpiryInHours { get; set; }
-        public bool UseCookies { get; set; }
     }
 }
