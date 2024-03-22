@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
@@ -18,11 +17,8 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
 {
     public class ArpaUserManager : UserManager<User>
     {
-        private readonly JwtConfiguration _jwtConfiguration;
-
 
         public ArpaUserManager(
-            JwtConfiguration jwtConfiguration,
             IUserStore<User> store,
             IOptions<IdentityOptions> optionsAccessor,
             IPasswordHasher<User> passwordHasher,
@@ -42,7 +38,6 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
                 services,
                 logger)
         {
-            _jwtConfiguration = jwtConfiguration;
         }
 
 
