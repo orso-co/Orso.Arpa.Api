@@ -15,6 +15,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
@@ -320,11 +321,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = FakeUsers.Admin;
-            var loginDto = new LoginDto
-            {
-                UsernameOrEmail = user.UserName,
-                Password = UserSeedData.ValidPassword
-            };
             var passwordDto = new ChangePasswordDto
             {
                 CurrentPassword = UserSeedData.ValidPassword,
@@ -332,9 +328,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             //Act
-            HttpResponseMessage loginResponse = await _unAuthenticatedServer
-                .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(user);
 
             HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.Password(), loginResponse, "sessionCookie");
             requestMessage.Content = BuildStringContent(passwordDto);
@@ -354,11 +348,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             User user = FakeUsers.Admin;
-            var loginDto = new LoginDto
-            {
-                UsernameOrEmail = user.UserName,
-                Password = UserSeedData.ValidPassword
-            };
             var passwordDto = new ChangePasswordDto
             {
                 CurrentPassword = "WrongPassword",
@@ -366,10 +355,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage loginResponse = await _unAuthenticatedServer
-                .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
-
+            HttpResponseMessage loginResponse = await LoginUserAsync(user);
 
             var requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.Password(), loginResponse, "sessionCookie");
             requestMessage.Content = BuildStringContent(passwordDto);
@@ -449,16 +435,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 RoleNames = newRole,
                 Username = user.UserName
             };
-            var loginDto = new LoginDto
-            {
-                UsernameOrEmail = currentUser.UserName,
-                Password = UserSeedData.ValidPassword
-            };
 
             // Act
-            HttpResponseMessage loginResponse = await _unAuthenticatedServer
-                .CreateClient()
-                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(currentUser);
 
             var requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.SetRole(), loginResponse, "sessionCookie");
             requestMessage.Content = BuildStringContent(setRoleDto);
@@ -575,14 +554,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpClient client = _unAuthenticatedServer
                 .CreateClient();
             User user = UserTestSeedData.Staff;
-            var loginDto = new LoginDto
-            {
-                UsernameOrEmail = user.UserName,
-                Password = UserSeedData.ValidPassword
-            };
 
-            HttpResponseMessage loginResult = await client
-                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+            HttpResponseMessage loginResult = await LoginUserAsync(user);
             var firstRefreshToken = GetCookieValueFromResponse(loginResult, "refreshToken");
             var firstCookie = GetCookieValueFromResponse(loginResult, "sessionCookie");
 
@@ -611,21 +584,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             HttpClient client = _unAuthenticatedServer
                 .CreateClient();
             User user = UserTestSeedData.Staff;
-            var loginDto = new LoginDto
-            {
-                UsernameOrEmail = user.UserName,
-                Password = UserSeedData.ValidPassword
-            };
 
             // Act
-            HttpResponseMessage loginResult = await client
-                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+            HttpResponseMessage loginResult = await LoginUserAsync(user);
             TokenDto tokenDto = await DeserializeResponseMessageAsync<TokenDto>(loginResult);
             HttpRequestMessage request =
-                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.Logout(), loginResult, "refreshToken");
+                CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.Logout(), loginResult, "sessionCookie");
             if (loginResult.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
             {
-                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == "sessionCookie");
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == "refreshToken");
                 request.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
             }
             HttpResponseMessage responseMessage = await client.SendAsync(request);
