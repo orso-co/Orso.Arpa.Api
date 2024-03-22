@@ -155,5 +155,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             return request;
         }
+
+        protected static HttpRequestMessage AddCookieToRequest(HttpRequestMessage httpRequestMessage, HttpResponseMessage response, string cookieName)
+        {
+            if (response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
+            {
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == cookieName);
+                httpRequestMessage.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
+            }
+            return httpRequestMessage;
+        }
     }
 }

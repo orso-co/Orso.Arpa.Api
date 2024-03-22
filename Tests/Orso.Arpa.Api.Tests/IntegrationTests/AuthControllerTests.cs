@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -9,13 +7,11 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 using netDumbster.smtp;
 using NSubstitute;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication.Model;
-using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
@@ -590,11 +586,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             TokenDto tokenDto = await DeserializeResponseMessageAsync<TokenDto>(loginResult);
             HttpRequestMessage request =
                 CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.AuthController.Logout(), loginResult, "sessionCookie");
-            if (loginResult.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
-            {
-                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == "refreshToken");
-                request.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
-            }
+            AddCookieToRequest(request, loginResult, "refreshToken");
             HttpResponseMessage responseMessage = await client.SendAsync(request);
 
             // Assert
