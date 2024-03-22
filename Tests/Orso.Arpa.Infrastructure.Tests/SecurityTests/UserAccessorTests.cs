@@ -44,7 +44,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             const string expectedUserName = "dumdidum";
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, expectedUserName)
+                new Claim(JwtRegisteredClaimNames.NameId, expectedUserName)
             };
             _ = _httpContextAccessor.HttpContext.User.Claims.Returns(claims);
 
@@ -93,7 +93,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             User expectedUser = FakeUsers.Performer;
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, expectedUser.UserName)
+                new Claim(JwtRegisteredClaimNames.NameId, expectedUser.UserName)
             };
             _ = _httpContextAccessor.HttpContext.User.Claims.Returns(claims);
 
