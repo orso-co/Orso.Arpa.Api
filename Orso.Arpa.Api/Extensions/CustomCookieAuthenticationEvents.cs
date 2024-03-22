@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -39,7 +36,6 @@ namespace Orso.Arpa.Api.Extensions
             {
                 Title = "Invalid cookie supplied",
                 Detail = "This request requires a valid cookie to be provided",
-
                 Status = 401
             }, s_serializerOptions));
             return Task.CompletedTask;
@@ -48,14 +44,12 @@ namespace Orso.Arpa.Api.Extensions
         public override Task RedirectToLogout(RedirectContext<CookieAuthenticationOptions> context)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            ;
             return Task.CompletedTask;
         }
 
         public override Task RedirectToReturnUrl(RedirectContext<CookieAuthenticationOptions> context)
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            ;
             return Task.CompletedTask;
         }
 
