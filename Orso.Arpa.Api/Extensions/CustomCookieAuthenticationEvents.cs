@@ -57,7 +57,6 @@ namespace Orso.Arpa.Api.Extensions
         {
             //List<Claim> claims = context.Principal.Claims.ToList();
             return Task.CompletedTask;
-            ;
         }
     }
 }
