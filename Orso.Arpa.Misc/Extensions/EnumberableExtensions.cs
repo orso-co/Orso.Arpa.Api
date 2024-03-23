@@ -47,11 +47,11 @@ namespace Orso.Arpa.Misc.Extensions
 
             while (enumerator.MoveNext())
             {
-                if (toCompare == null && enumerator.Current != null)
+                if (Equals(toCompare, default) && !Equals(enumerator.Current, default))
                 {
                     return false;
                 }
-                if (toCompare != null && !toCompare.Equals(enumerator.Current))
+                if (!Equals(toCompare, default) && !toCompare.Equals(enumerator.Current))
                 {
                     return false;
                 }

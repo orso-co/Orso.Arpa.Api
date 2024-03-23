@@ -95,7 +95,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     ClubName = _clubConfiguration.Name,
                     ClubPhoneNumber = _clubConfiguration.Phone,
                     AppointmentName = appointment.ToString(),
-                    DateAndTime = $"{appointment.StartTime.ToGermanDateTimeString()} - {appointment.EndTime:HH:mm}",
+                    DateAndTime = $"{appointment.StartTime.ToGermanDateTimeString()} - {appointment.EndTime.ToGermanTimeString()}",
                     PublicDetails = appointment.PublicDetails ?? "- ohne -",
                     Venue = appointment.Venue?.ToString() ?? "- ohne -",
                     ArpaUrl = _jwtConfiguration.Audience

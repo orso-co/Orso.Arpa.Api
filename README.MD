@@ -17,10 +17,6 @@ ORSO Berlin develops choir and orchestra management software
 ## Deployment
 [![Build Status](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_apis/build/status/orso-arpa%20-%201%20-%20CI?branchName=master)](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api/_build/latest?definitionId=2&branchName=master)
 
-[Dev](https://orso-arpa-dev.azurewebsites.net/)
-
-[Staging](https://orso-arpa-staging.azurewebsites.net/)
-
 [Build and Release Pipelines](https://dev.azure.com/OrsoDevOps/Orso.Arpa.Api)
 
 ## Running the app using Docker
@@ -71,8 +67,19 @@ Rebuilding the API on source updates.
 >    - EmailConfiguration__Port=1025
 >    - EmailConfiguration__From=test@localhost
 
+## Starting the app locally without using docker
 
-### Login
+- Install the [.NET 8.x SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- Install [PostgreSQL 16.x](https://www.postgresql.org/download/), start a server on `localhost:5432`. 
+- Set the PostgreSQL connection string via [dotnet user-secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) (see appsettings.Development.json ConnectionStrings:PostgreSQLConnection)
+- Install and start [azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=npm%2Cblob-storage), e. g. via npm
+- Install oder configure a fake smtp server, e.g. [Mailtrap](https://mailtrap.io)
+- Set the smtp configuration via [dotnet user-secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) (see appsettings.Development.json EmailConfiguration)
+- Run the project with the command `dotnet run --project Orso.Arpa.Api`
+- Open the Swagger UI on `https://localhost:5001`
+- Calling the local backend via the frontend may lead to certificate errors. In this case, run `dotnet dev-certs https`  and `dotnet dev-certs https --trust`
+
+## Login
 The initial database contains a single user with an admin role. You can login using the following credentials:
 * UsernameOrEmail: admin
 * Password: Pa$$w0rd
