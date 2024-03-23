@@ -118,7 +118,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected static string GetCookieValueFromResponse(HttpResponseMessage response, string cookieName)
         {
             IEnumerable<string> cookies = response.Headers.SingleOrDefault(header => header.Key == "Set-Cookie").Value;
-            return cookies.FirstOrDefault(cookie => cookie.StartsWith(cookieName));
+            return cookies.Single(cookie => cookie.StartsWith(cookieName));
         }
 
         protected void EvaluateSimpleEmail(string expectedSubject, params string[] expectedReceiverAddresses)

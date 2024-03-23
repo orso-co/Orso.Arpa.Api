@@ -40,24 +40,6 @@ namespace Orso.Arpa.Api.Extensions
             }, s_serializerOptions));
             return Task.CompletedTask;
         }
-
-        public override Task RedirectToLogout(RedirectContext<CookieAuthenticationOptions> context)
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return Task.CompletedTask;
-        }
-
-        public override Task RedirectToReturnUrl(RedirectContext<CookieAuthenticationOptions> context)
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return Task.CompletedTask;
-        }
-
-        public override Task SignedIn(CookieSignedInContext context)
-        {
-            //List<Claim> claims = context.Principal.Claims.ToList();
-            return Task.CompletedTask;
-        }
     }
 }
 
