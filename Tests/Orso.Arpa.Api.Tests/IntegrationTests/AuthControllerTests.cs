@@ -333,7 +333,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Change_Wrong_Password()
         {
             // Arrange
-            User user = FakeUsers.Admin;
+            User user = FakeUsers.Staff;
             var passwordDto = new ChangePasswordDto
             {
                 CurrentPassword = "WrongPassword",
