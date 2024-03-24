@@ -20,7 +20,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class AuthControllerTests : IntegrationTestBase
     {
-        [Test, Order(15)]
+        [Test]
         public async Task Should_Login()
         {
             // Arrange
@@ -50,7 +50,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responsePage.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Test, Order(2)]
+        [Test]
         public async Task Should_Not_Login_Unregistered_User()
         {
             // Arrange
@@ -72,7 +72,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Status.Should().Be(401);
         }
 
-        [Test, Order(3)]
+        [Test]
         public async Task Should_Not_Login_Invalid_Password()
         {
             // Arrange
@@ -95,7 +95,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Status.Should().Be(401);
         }
 
-        [Test, Order(4)]
+        [Test]
         public async Task Should_Not_Login_LockedOut_User()
         {
             // Arrange
@@ -118,7 +118,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Status.Should().Be(403);
         }
 
-        [Test, Order(5)]
+        [Test]
         public async Task Should_Not_Login_Unconfirmed_User()
         {
             // Arrange
@@ -142,7 +142,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", s_emailAddressNotConfirmedMessage } });
         }
 
-        [Test, Order(6)]
+        [Test]
         public async Task Should_Register_With_Existing_Person()
         {
             var registerDto = new UserRegisterDto
@@ -169,7 +169,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(7)]
+        [Test]
         public async Task Should_Register_And_Confirm_Email()
         {
             // Arrange
@@ -218,7 +218,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(1000)]
+        [Test]
         public async Task Should_Not_Register_Existing_Email()
         {
             // Arrange
@@ -246,7 +246,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", s_emailAlreadyExistsMessage } });
         }
 
-        [Test, Order(20)]
+        [Test]
         public async Task Should_Not_Register_Multiple_Persons_With_Same_Email()
         {
             // Arrange
@@ -274,7 +274,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", s_multiplePersonsFoundMessage } });
         }
 
-        [Test, Order(2020)]
+        [Test]
         public async Task Should_Not_Register_Existing_UserName()
         {
             // Arrange
@@ -302,7 +302,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", s_usernameAlreadyExistsMessage } });
         }
 
-        [Test, Order(30)]
+        [Test]
         public async Task Should_Change_Password()
         {
             // Arrange
@@ -329,7 +329,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(user.Email);
         }
 
-        [Test, Order(5000)]
+        [Test]
         public async Task Should_Not_Change_Wrong_Password()
         {
             // Arrange
@@ -357,7 +357,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "CurrentPassword", s_incorrectPasswordMessage } });
         }
 
-        [Test, Order(40)]
+        [Test]
         public async Task Should_Not_Change_Password_Of_Unauthenticated_User()
         {
             // Arrange
@@ -405,7 +405,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         private static readonly string[] s_emailAddressNotConfirmedMessage = ["Your email address is not confirmed. Please confirm your email address first"];
 
 
-        [Test, Order(1)]
+        [Test]
         [TestCaseSource(nameof(SetRoleTestData))]
         public async Task Should_Set_Role(User userToEdit,
                                           User currentUser,
@@ -451,7 +451,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             }
         }
 
-        [Test, Order(2000)]
+        [Test]
         public async Task Should_Reset_Password()
         {
             // Arrange
@@ -497,7 +497,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(_performer.Email);
         }
 
-        [Test, Order(2005)]
+        [Test]
         public async Task Should_Create_new_Email_Confirmation_Token()
         {
             // Arrange
@@ -517,7 +517,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
         }
 
-        [Test, Order(2010)]
+        [Test]
         public async Task Should_Not_Create_new_Email_Confirmation_Token_If_Email_Is_Already_Confirmed()
         {
             // Arrange
@@ -541,7 +541,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", s_emailAlreadyConfirmedMessage } });
         }
 
-        [Test, Order(2015)]
+        [Test]
         public async Task Should_Refresh_Access_Token()
         {
             // Arrange
@@ -571,7 +571,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             refreshToken.Should().NotBeEquivalentTo(firstRefreshToken);
         }
 
-        [Test, Order(25)]
+        [Test]
         public async Task Should_Logout()
         {
             // Arrange
