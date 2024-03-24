@@ -218,7 +218,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(8)]
+        [Test, Order(15)]
         public async Task Should_Not_Register_Existing_Email()
         {
             // Arrange
@@ -246,7 +246,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", s_emailAlreadyExistsMessage } });
         }
 
-        [Test, Order(9)]
+        [Test, Order(20)]
         public async Task Should_Not_Register_Multiple_Persons_With_Same_Email()
         {
             // Arrange
@@ -274,7 +274,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", s_multiplePersonsFoundMessage } });
         }
 
-        [Test, Order(10)]
+        [Test, Order(25)]
         public async Task Should_Not_Register_Existing_UserName()
         {
             // Arrange
@@ -302,7 +302,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UserName", s_usernameAlreadyExistsMessage } });
         }
 
-        [Test, Order(11)]
+        [Test, Order(30)]
         public async Task Should_Change_Password()
         {
             // Arrange
@@ -329,7 +329,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(user.Email);
         }
 
-        [Test, Order(12)]
+        [Test, Order(35)]
         public async Task Should_Not_Change_Wrong_Password()
         {
             // Arrange
@@ -357,7 +357,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "CurrentPassword", s_incorrectPasswordMessage } });
         }
 
-        [Test, Order(13)]
+        [Test, Order(40)]
         public async Task Should_Not_Change_Password_Of_Unauthenticated_User()
         {
             // Arrange
@@ -405,7 +405,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         private static readonly string[] s_emailAddressNotConfirmedMessage = ["Your email address is not confirmed. Please confirm your email address first"];
 
 
-        [Test, Order(14)]
+        [Test, Order(1000)]
         [TestCaseSource(nameof(SetRoleTestData))]
         public async Task Should_Set_Role(User userToEdit,
                                           User currentUser,
@@ -443,7 +443,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             }
         }
 
-        [Test, Order(40)]
+        [Test, Order(2000)]
         public async Task Should_Reset_Password()
         {
             // Arrange
@@ -489,7 +489,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(_performer.Email);
         }
 
-        [Test, Order(41)]
+        [Test, Order(2005)]
         public async Task Should_Create_new_Email_Confirmation_Token()
         {
             // Arrange
@@ -509,7 +509,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
         }
 
-        [Test, Order(42)]
+        [Test, Order(2010)]
         public async Task Should_Not_Create_new_Email_Confirmation_Token_If_Email_Is_Already_Confirmed()
         {
             // Arrange
@@ -533,7 +533,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "UsernameOrEmail", s_emailAlreadyConfirmedMessage } });
         }
 
-        [Test, Order(43)]
+        [Test, Order(2015)]
         public async Task Should_Refresh_Access_Token()
         {
             // Arrange
@@ -563,7 +563,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             refreshToken.Should().NotBeEquivalentTo(firstRefreshToken);
         }
 
-        [Test, Order(44)]
+        [Test, Order(2020)]
         public async Task Should_Logout()
         {
             // Arrange
