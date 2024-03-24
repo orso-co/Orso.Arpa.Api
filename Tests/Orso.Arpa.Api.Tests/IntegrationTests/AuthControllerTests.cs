@@ -429,7 +429,15 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage loginResponse = await LoginUserAsync(currentUser);
+            var loginDto = new LoginDto
+            {
+                UsernameOrEmail = currentUser.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+
+            HttpResponseMessage loginResponse = await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
 
             var requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.AuthController.SetRole(), loginResponse, "sessionCookie");
             requestMessage.Content = BuildStringContent(setRoleDto);
