@@ -18,10 +18,9 @@ using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
-    [TestFixture]
     public class AuthControllerTests : IntegrationTestBase
     {
-        [Test, Order(1)]
+        [Test, Order(15)]
         public async Task Should_Login()
         {
             // Arrange
@@ -219,7 +218,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(15)]
+        [Test, Order(1)]
         public async Task Should_Not_Register_Existing_Email()
         {
             // Arrange
