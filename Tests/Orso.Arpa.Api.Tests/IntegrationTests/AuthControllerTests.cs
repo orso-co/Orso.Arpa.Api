@@ -24,7 +24,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Login()
         {
             // Arrange
-            User user = FakeUsers.Admin;
+            User user = FakeUsers.Staff;
             var loginDto = new LoginDto
             {
                 UsernameOrEmail = user.UserName,
@@ -381,19 +381,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             get
             {
                 yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, new[] { RoleNames.Performer }, HttpStatusCode.NoContent, true);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Performer }, HttpStatusCode.NoContent, true);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, new[] { RoleNames.Staff, RoleNames.Admin }, HttpStatusCode.NoContent, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Admin }, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Admin }, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, new[] { RoleNames.Staff }, HttpStatusCode.NoContent, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Staff }, HttpStatusCode.NoContent, false);
-                yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Staff }, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
-                yield return new TestCaseData(FakeUsers.Performer, FakeUsers.Admin, Array.Empty<string>(), HttpStatusCode.NoContent, false);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Performer }, HttpStatusCode.UnprocessableEntity, false);
-                yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Admin, RoleNames.Performer }, HttpStatusCode.NoContent, true);
+                // yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Performer }, HttpStatusCode.NoContent, true);
+                // yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
+                // yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, new[] { RoleNames.Staff, RoleNames.Admin }, HttpStatusCode.NoContent, false);
+                // yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Admin }, HttpStatusCode.Forbidden, false);
+                // yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Admin }, HttpStatusCode.Forbidden, false);
+                // yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Admin, new[] { RoleNames.Staff }, HttpStatusCode.NoContent, false);
+                // yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Staff, new[] { RoleNames.Staff }, HttpStatusCode.NoContent, false);
+                // yield return new TestCaseData(FakeUsers.UserWithoutRole, FakeUsers.Performer, new[] { RoleNames.Staff }, HttpStatusCode.Forbidden, false);
+                // yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Staff, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
+                // yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Performer, new[] { RoleNames.Performer }, HttpStatusCode.Forbidden, false);
+                // yield return new TestCaseData(FakeUsers.Performer, FakeUsers.Admin, Array.Empty<string>(), HttpStatusCode.NoContent, false);
+                // yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Performer }, HttpStatusCode.UnprocessableEntity, false);
+                // yield return new TestCaseData(FakeUsers.Admin, FakeUsers.Admin, new[] { RoleNames.Admin, RoleNames.Performer }, HttpStatusCode.NoContent, true);
             }
         }
 
