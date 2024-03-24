@@ -274,7 +274,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "Email", s_multiplePersonsFoundMessage } });
         }
 
-        [Test, Order(25)]
+        [Test, Order(2020)]
         public async Task Should_Not_Register_Existing_UserName()
         {
             // Arrange
@@ -563,7 +563,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             refreshToken.Should().NotBeEquivalentTo(firstRefreshToken);
         }
 
-        [Test, Order(2020)]
+        [Test, Order(25)]
         public async Task Should_Logout()
         {
             // Arrange
