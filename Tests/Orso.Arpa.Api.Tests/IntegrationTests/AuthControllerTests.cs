@@ -169,7 +169,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(7)]
+        [Test, Order(5010)]
         public async Task Should_Register_And_Confirm_Email()
         {
             // Arrange
