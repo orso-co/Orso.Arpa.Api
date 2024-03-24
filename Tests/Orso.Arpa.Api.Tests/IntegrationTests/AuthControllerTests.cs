@@ -335,7 +335,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             sentEmail.ToAddresses[0].Address.Should().BeEquivalentTo(user.Email);
         }
 
-        [Test, Order(35)]
+        [Test, Order(5000)]
         public async Task Should_Not_Change_Wrong_Password()
         {
             // Arrange
