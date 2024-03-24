@@ -20,12 +20,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class AuthControllerTests : IntegrationTestBase
     {
-
-        [TearDown]
-        public void WaitAfterEachTest()
-        {
-            Thread.Sleep(5000);
-        }
         [Test, Order(15)]
         public async Task Should_Login()
         {
@@ -233,7 +227,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Surname = "Nachname",
                 GivenName = "Ludmilla",
                 Email = UserTestSeedData.Performer.Email,
-                UserName = "ludmilla",
+                UserName = "ludmilla2",
                 Password = UserSeedData.ValidPassword,
                 ClientUri = "http://localhost:4200",
                 GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id
@@ -288,7 +282,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             {
                 Surname = "Nachname",
                 GivenName = "Ludmilla",
-                Email = "ludmilla@test.com",
+                Email = "ludmilla2@test.com",
                 UserName = UserTestSeedData.Performer.UserName,
                 Password = UserSeedData.ValidPassword,
                 GenderId = SelectValueMappingSeedData.PersonGenderMappings[0].Id,
