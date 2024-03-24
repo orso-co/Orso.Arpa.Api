@@ -20,6 +20,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 {
     public class AuthControllerTests : IntegrationTestBase
     {
+
+        [TearDown]
+        public void WaitAfterEachTest()
+        {
+            Thread.Sleep(5000);
+        }
         [Test, Order(15)]
         public async Task Should_Login()
         {
