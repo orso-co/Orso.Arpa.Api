@@ -24,7 +24,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Login()
         {
             // Arrange
-            User user = FakeUsers.Staff;
+            User user = FakeUsers.Admin;
             var loginDto = new LoginDto
             {
                 UsernameOrEmail = user.UserName,
@@ -218,7 +218,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             resetResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(1)]
+        [Test, Order(1000)]
         public async Task Should_Not_Register_Existing_Email()
         {
             // Arrange
@@ -405,7 +405,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         private static readonly string[] s_emailAddressNotConfirmedMessage = ["Your email address is not confirmed. Please confirm your email address first"];
 
 
-        [Test, Order(1000)]
+        [Test, Order(1)]
         [TestCaseSource(nameof(SetRoleTestData))]
         public async Task Should_Set_Role(User userToEdit,
                                           User currentUser,
