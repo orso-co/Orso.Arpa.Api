@@ -665,7 +665,7 @@ namespace Orso.Arpa.Api
             catch (Exception ex)
             {
                 ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                logger.LogError(ex, "An error occured during database migration");
+                logger.LogError(ex, "An error occured during database migration " + ex.Message);
                 throw;
             }
         }
@@ -682,7 +682,7 @@ namespace Orso.Arpa.Api
             catch (Exception ex)
             {
                 ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                logger.LogError(ex, "Error during localization of data");
+                logger.LogError(ex, "Error during localization of data " + ex.Message);
                 throw;
             }
         }
