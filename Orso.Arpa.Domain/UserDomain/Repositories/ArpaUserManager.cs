@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
             ILookupNormalizer keyNormalizer,
             IdentityErrorDescriber errors,
             IServiceProvider services,
-            ILogger<UserManager<User>> logger) : base(
+            ILogger<ArpaUserManager> logger) : base(
                 store,
                 optionsAccessor,
                 passwordHasher,
