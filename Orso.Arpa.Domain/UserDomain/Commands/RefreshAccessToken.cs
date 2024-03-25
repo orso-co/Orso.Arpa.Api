@@ -87,7 +87,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                         "than the one with which the token was created. The refresh token has been revoked. Please log in again.");
                 }
 
-                await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
+                await _jwtGenerator.CreateRefreshTokenAsync(user, request.RemoteIpAddress, cancellationToken);
 
                 Task<Task> signInTask = _cookieSignIn.RefreshSignIn(user);
 

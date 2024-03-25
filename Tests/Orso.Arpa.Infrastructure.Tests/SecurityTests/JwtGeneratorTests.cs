@@ -1,5 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -11,7 +9,6 @@ using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Infrastructure.Authentication;
-using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.Identity;
 
@@ -48,24 +45,18 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
         private IArpaContext _arpaContext;
 
         [Test]
-        public async Task Should_Generate_Jwt_Token()
+        public async Task Should_Generate_Refresh_Token()
         {
             // Arrange
             User user = FakeUsers.Performer;
             _ = _arpaContext.SaveChangesAsync(Arg.Any<CancellationToken>()).Returns(1);
+            var numOfTokens = user.RefreshTokens.Count;
 
             // Act
-            var token = await _jwtGenerator.CreateTokensAsync(user, "127.0.0.1", new CancellationToken());
+            await _jwtGenerator.CreateRefreshTokenAsync(user, "127.0.0.1", new CancellationToken());
 
             // Assert
-            JwtSecurityToken decryptedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            _ = decryptedToken.Claims.First(c => c.Type == "nameid").Value.Should().Be(user.UserName);
-            _ = decryptedToken.Claims.First(c => c.Type == "name").Value.Should().Be(user.DisplayName);
-            _ = decryptedToken.Claims.First(c => c.Type == "sub").Value.Should().Be(user.Id.ToString());
-            _ = decryptedToken.Claims.First(c => c.Type == "issuer/person_id").Value.Should().Be(user.PersonId.ToString());
-            _ = decryptedToken.Claims.First(c => c.Type == "role").Value.Should().BeEquivalentTo(RoleSeedData.Performer.Name);
-            _ = decryptedToken.Issuer.Should().Be(_configuration.Issuer);
-            _ = decryptedToken.Audiences.First().Should().Be(_configuration.Audience);
+            user.RefreshTokens.Count.Should().Be(numOfTokens + 1);
         }
     }
 }

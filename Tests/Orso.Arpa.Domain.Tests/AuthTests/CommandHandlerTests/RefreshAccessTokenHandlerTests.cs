@@ -44,7 +44,6 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RefreshToken = "performer_valid_refresh_token",
                 RemoteIpAddress = "127.0.0.1",
             };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
             bool result = await _handler.Handle(command, new CancellationToken());
@@ -62,7 +61,6 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RefreshToken = "Token",
                 RemoteIpAddress = "127.0.0.1",
             };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
             Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
@@ -80,7 +78,6 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RefreshToken = "staff_expired_refresh_token",
                 RemoteIpAddress = "127.0.0.1",
             };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
             Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
@@ -98,7 +95,6 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RefreshToken = "performer_valid_refresh_token",
                 RemoteIpAddress = "127.0.0.2",
             };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
             Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());

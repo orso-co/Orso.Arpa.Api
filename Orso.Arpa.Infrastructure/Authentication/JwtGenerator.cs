@@ -39,36 +39,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             _dateTimeProvider = dateTimeProvider;
         }
 
-        public async Task<string> CreateTokensAsync(User user, string remoteIpAddress, CancellationToken cancellationToken)
-        {
-            var accessToken = await CreateAccessTokenAsync(user);
-            await CreateRefreshTokenAsync(user, remoteIpAddress, cancellationToken);
-            return accessToken;
-        }
-
-        private async Task<string> CreateAccessTokenAsync(User user)
-        {
-            ClaimsIdentity claimsIdentity = await GetClaimsIdentity(user);
-
-            var tokenDesriptor = new SecurityTokenDescriptor
-            {
-                Subject = claimsIdentity,
-                Expires = _dateTimeProvider.GetUtcNow().AddMinutes(_jwtConfiguration.AccessTokenExpiryInMinutes),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.TokenKey)),
-                    SecurityAlgorithms.HmacSha512Signature),
-                Issuer = _jwtConfiguration.Issuer,
-                Audience = _jwtConfiguration.Audience
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            SecurityToken token = tokenHandler.CreateToken(tokenDesriptor);
-
-            return tokenHandler.WriteToken(token);
-        }
-
-        private async Task CreateRefreshTokenAsync(User user, string remoteIpAddress, CancellationToken cancellationToken)
+        public async Task CreateRefreshTokenAsync(User user, string remoteIpAddress, CancellationToken cancellationToken)
         {
             RefreshToken refreshToken = GernerateRefreshToken(user, remoteIpAddress);
 

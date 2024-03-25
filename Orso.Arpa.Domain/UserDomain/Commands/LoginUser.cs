@@ -76,7 +76,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 if (IsCookieSignInPossible)
                 {
-                    await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
+                    await _jwtGenerator.CreateRefreshTokenAsync(user, request.RemoteIpAddress, cancellationToken);
 
                     Task<Task> signInTask = _cookieSignIn.SignInUser(user);
                     await signInTask;

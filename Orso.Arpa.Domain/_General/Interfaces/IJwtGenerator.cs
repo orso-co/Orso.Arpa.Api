@@ -7,7 +7,7 @@ namespace Orso.Arpa.Domain.General.Interfaces
 {
     public interface IJwtGenerator
     {
-        Task<string> CreateTokensAsync(User user, string remoteIpAddress, CancellationToken cancellationToken);
+        Task CreateRefreshTokenAsync(User user, string remoteIpAddress, CancellationToken cancellationToken);
 
         Task<ClaimsIdentity> GetClaimsIdentity(User user);
     }
