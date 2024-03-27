@@ -59,7 +59,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         }
 
         [Test]
-        public void Should_Throw_Authentication_Exception_If_Password_Is_not_Valid_Or_User_Is_Lockedout()
+        public async Task Should_Throw_Authentication_Exception_If_Password_Is_not_Valid_Or_User_Is_Lockedout()
         {
             // Arrange
             User user = FakeUsers.Performer;
@@ -71,14 +71,18 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
 
                 // Assert
-                func.Should().ThrowAsync<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
+                await func.Should().ThrowAsync<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
+                await _cookieSignIn.Received().IsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
+                await _cookieSignIn.DidNotReceive().SignInUser(Arg.Any<User>());
             }
 
             // Act
             Func<Task> func1 = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func1.Should().ThrowAsync<AuthorizationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
+            await func1.Should().ThrowAsync<AuthorizationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
+            await _cookieSignIn.Received().IsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
+            await _cookieSignIn.DidNotReceive().SignInUser(Arg.Any<User>());
         }
     }
 }
