@@ -53,6 +53,9 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             // Assert
             result.Should().BeTrue();
+            await _cookieSignIn.Received().IsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
+            await _cookieSignIn.Received().SignInUser(Arg.Is<User>(u => u.Email == user.Email));
+            await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
         [Test]
