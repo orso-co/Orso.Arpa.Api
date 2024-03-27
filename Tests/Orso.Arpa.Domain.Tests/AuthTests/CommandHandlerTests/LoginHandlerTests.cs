@@ -69,9 +69,11 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             {
                 // Act
                 Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
+                bool cookiePossibleResult = await _cookieSignIn.IsCookieSignInPossible(user, "wrongpassword");
 
                 // Assert
                 await func.Should().ThrowAsync<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
+                cookiePossibleResult.Should().BeFalse();
                 await _cookieSignIn.Received().IsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
                 await _cookieSignIn.DidNotReceive().SignInUser(Arg.Any<User>());
             }
