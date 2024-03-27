@@ -39,6 +39,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         public async Task Should_Refresh_AccessToken()
         {
             // Arrange
+            User user = FakeUsers.Performer;
             var command = new RefreshAccessToken.Command
             {
                 RefreshToken = "performer_valid_refresh_token",
@@ -50,10 +51,12 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             // Assert
             result.Should().BeTrue();
+            await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());
+            await _cookieSignIn.Received().RefreshSignIn(Arg.Is<User>(u => u.Email == user.Email));
         }
 
         [Test]
-        public void Should_Throw_ValidationException_If_No_User_Is_Found()
+        public async Task Should_Throw_ValidationException_If_No_User_Is_Found()
         {
             // Arrange
             var command = new RefreshAccessToken.Command
@@ -66,11 +69,13 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().ThrowAsync<ValidationException>();
+            _ = func.Should().ThrowAsync<ValidationException>();
+            await _cookieSignIn.DidNotReceive().RefreshSignIn(Arg.Any<User>());
+            await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
         [Test]
-        public void Should_Throw_AuthenticationException_If_RefreshToken_Is_Expired()
+        public async Task Should_Throw_AuthenticationException_If_RefreshToken_Is_Expired()
         {
             // Arrange
             var command = new RefreshAccessToken.Command
@@ -83,11 +88,13 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().ThrowAsync<AuthenticationException>();
+            _ = func.Should().ThrowAsync<AuthenticationException>();
+            await _cookieSignIn.DidNotReceive().RefreshSignIn(Arg.Any<User>());
+            await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
         [Test]
-        public void Should_Throw_AuthorizationException_If_RefreshToken_Is_Accessed_With_Different_Ip()
+        public async Task Should_Throw_AuthorizationException_If_RefreshToken_Is_Accessed_With_Different_Ip()
         {
             // Arrange
             var command = new RefreshAccessToken.Command
@@ -100,7 +107,9 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().ThrowAsync<AuthorizationException>();
+            _ = func.Should().ThrowAsync<AuthorizationException>();
+            await _cookieSignIn.DidNotReceive().RefreshSignIn(Arg.Any<User>());
+            await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
     }
 }
