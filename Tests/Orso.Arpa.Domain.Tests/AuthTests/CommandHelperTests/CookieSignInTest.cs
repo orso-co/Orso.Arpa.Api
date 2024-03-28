@@ -26,8 +26,6 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHelperTests
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _cookieSignIn = new CookieSignIn(_userManager, _signInManager, _httpContextAccessor, _jwtGenerator);
         }
-
-
         private ArpaUserManager _userManager;
         private IJwtGenerator _jwtGenerator;
         private SignInManager<User> _signInManager;
@@ -42,12 +40,11 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHelperTests
             _jwtGenerator.GetClaimsIdentity(Arg.Any<User>()).Returns(new ClaimsIdentity());
 
             // Act
-            await _cookieSignIn.SignInUser(user);
+            Task<Task> signInTask = _cookieSignIn.SignInUser(user);
+            await signInTask;
 
             // Assert
             await _httpContextAccessor.HttpContext.Received().SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, Arg.Any<ClaimsPrincipal>());
-            // await _cookieSignIn.Received().SignInUser(Arg.Is<User>(u => u.Email == user.Email));
-            // await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
     }
