@@ -64,7 +64,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             // Arrange
             User user = FakeUsers.Performer;
             var command = new LoginUser.Command { UsernameOrEmail = user.UserName, Password = "wrongpassword" };
-            _cookieSignIn.SignInUser(user).ClearReceivedCalls();
+            _cookieSignIn.ClearReceivedCalls();
 
             for (int i = 0; i < 3; i++)
             {
