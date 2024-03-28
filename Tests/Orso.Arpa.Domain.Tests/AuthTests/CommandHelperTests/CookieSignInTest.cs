@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHelperTests
 {
     public class CookieSignInTest
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _userManager = new FakeUserManager();
@@ -26,6 +26,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHelperTests
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _cookieSignIn = new CookieSignIn(_userManager, _signInManager, _httpContextAccessor, _jwtGenerator);
         }
+
 
         private ArpaUserManager _userManager;
         private IJwtGenerator _jwtGenerator;
