@@ -70,6 +70,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             {
                 // Act
                 Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
+                _cookieSignIn.IsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(false);
 
                 // Assert
                 _ = func.Should().ThrowAsync<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
@@ -79,6 +80,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             // Act
             Func<Task> func1 = async () => await _handler.Handle(command, new CancellationToken());
+            _cookieSignIn.IsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
 
             // Assert
             _ = func1.Should().ThrowAsync<AuthorizationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
