@@ -41,11 +41,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Value = dto.Value
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.MyContactDetailsController
-                    .Post(), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.MyContactDetailsController
+                    .Post(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ContactDetailDto result = await DeserializeResponseMessageAsync<ContactDetailDto>(responseMessage);
@@ -67,11 +68,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Value = "+152-1234567"
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(UserTestSeedData.UserWithoutRole)
-                .PutAsync(ApiEndpoints.MyContactDetailsController
-                    .Put(person.ContactDetails.First().Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(UserTestSeedData.UserWithoutRole);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MyContactDetailsController
+                    .Put(person.ContactDetails.First().Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -81,11 +83,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             Person person = PersonTestSeedData.UserWithoutRole;
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(UserTestSeedData.UserWithoutRole)
-                .DeleteAsync(ApiEndpoints.MyContactDetailsController
-                    .Delete(person.ContactDetails.First().Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(UserTestSeedData.UserWithoutRole);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.MyContactDetailsController
+                    .Delete(person.ContactDetails.First().Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

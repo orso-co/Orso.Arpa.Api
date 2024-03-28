@@ -16,10 +16,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(1)]
         public async Task Should_Return_Translations()
         {
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de"), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
 
@@ -38,26 +38,28 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(2)]
         public async Task Should_Change_Translations()
         {
-            HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff);
-
-            HttpResponseMessage responseMessage = await client
-                .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de"), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             TranslationDto expected = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
             expected.First(f => f.Key.Equals(nameof(SectionDto))).Value.Add("TheOneAndOnly", "DerEinzigWahre");
 
-            HttpResponseMessage postResponseMessage = await client
-                .PutAsync(ApiEndpoints.TranslationController.Put("de"), BuildStringContent(expected));
+            HttpRequestMessage requestMessage2 = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.TranslationController.Put("de"), loginResponse, "sessionCookie");
+            requestMessage2.Content = BuildStringContent(expected);
+            HttpResponseMessage postResponseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage2);
 
             _ = postResponseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             // Get and check values.
-            responseMessage = await client
-                .SendAsync(new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de")));
+            HttpRequestMessage requestMessage3 = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.TranslationController.Get("de"), loginResponse, "sessionCookie");
+            requestMessage2.Content = BuildStringContent(expected);
+            HttpResponseMessage responseMessage2 = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage3);
 
-            TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage);
+            TranslationDto result = await DeserializeResponseMessageAsync<TranslationDto>(responseMessage2);
 
             _ = result.Should().BeEquivalentTo(expected);
         }

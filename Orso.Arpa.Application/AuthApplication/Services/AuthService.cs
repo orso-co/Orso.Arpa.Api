@@ -2,8 +2,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Notifications;
@@ -13,27 +15,28 @@ namespace Orso.Arpa.Application.AuthApplication.Services
     public class AuthService : IAuthService
     {
         private readonly IMapper _mapper;
+        private readonly ICookieSignIn _cookieSignIn;
         private readonly IMediator _mediator;
 
-        public AuthService(IMediator mediator, IMapper mapper)
+        public AuthService(IMediator mediator, IMapper mapper, ICookieSignIn cookieSignIn)
         {
             _mapper = mapper;
+            _cookieSignIn = cookieSignIn;
             _mediator = mediator;
         }
 
-        public async Task<TokenDto> LoginAsync(LoginDto loginDto, string remoteIpAddress)
+        public async Task<bool> LoginAsync(LoginDto loginDto, string remoteIpAddress)
         {
             LoginUser.Command command = _mapper.Map<LoginUser.Command>(loginDto);
             command.RemoteIpAddress = remoteIpAddress;
-            var token = await _mediator.Send(command);
-            return _mapper.Map<TokenDto>(token);
+            return await _mediator.Send(command);
         }
 
         public async Task RegisterAsync(UserRegisterDto registerDto)
         {
             RegisterUser.Command registerCommand = _mapper.Map<RegisterUser.Command>(registerDto);
             await _mediator.Send(registerCommand);
-            
+
             CreateEmailConfirmationToken.Command command = _mapper.Map<CreateEmailConfirmationToken.Command>(registerDto);
             await _mediator.Send(command);
 
@@ -97,18 +100,23 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             await _mediator.Send(command);
         }
 
-        public async Task<TokenDto> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
+        public async Task<bool> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
         {
             var command = new RefreshAccessToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
-            var token = await _mediator.Send(command);
+            var result = await _mediator.Send(command);
             await RevokeRefreshTokenAsync(refreshToken, remoteIpAddress);
-            return _mapper.Map<TokenDto>(token);
+            return result;
         }
 
         public async Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress)
         {
             var command = new RevokeRefreshToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
             await _mediator.Send(command);
+        }
+
+        public async Task SignOut()
+        {
+            await _cookieSignIn.SignOutUser();
         }
     }
 }

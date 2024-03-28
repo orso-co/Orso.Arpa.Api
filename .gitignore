@@ -358,3 +358,14 @@ c:azurite
 
 #snyk
 .dccache
+Orso.Arpa.Api/__azurite_db_blob__.json
+Orso.Arpa.Api/__azurite_db_queue__.json
+Orso.Arpa.Api/__azurite_db_queue_extent__.json
+Orso.Arpa.Api/__azurite_db_blob_extent__.json
+Orso.Arpa.Api/__azurite_db_table__.json
+__azurite_db_blob_extent__.json
+__azurite_db_blob__.json
+__azurite_db_queue__.json
+__azurite_db_queue_extent__.json
+__azurite_db_table__.json
+.config/dotnet-tools.json
