@@ -22,7 +22,6 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             ArpaUserManager userManager,
             SignInManager<User> signInManager,
             IHttpContextAccessor httpContextAccessor,
-            JwtConfiguration jwtConfiguration,
             IJwtGenerator jwtGenerator)
         {
             _signInManager = signInManager;
