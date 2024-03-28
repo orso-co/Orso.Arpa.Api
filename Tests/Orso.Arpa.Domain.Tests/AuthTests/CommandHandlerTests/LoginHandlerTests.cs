@@ -80,7 +80,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             // Act
             Func<Task> func1 = async () => await _handler.Handle(command, new CancellationToken());
-            _cookieSignIn.IsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
+            _cookieSignIn.IsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(false);
 
             // Assert
             _ = func1.Should().ThrowAsync<AuthorizationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
