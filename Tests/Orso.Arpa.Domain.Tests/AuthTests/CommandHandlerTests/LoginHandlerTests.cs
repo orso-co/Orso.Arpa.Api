@@ -72,7 +72,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 bool cookiePossibleResult = await _cookieSignIn.IsCookieSignInPossible(user, "wrongpassword");
 
                 // Assert
-                await func.Should().ThrowAsync<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
+                _ = func.Should().ThrowAsync<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
                 cookiePossibleResult.Should().BeFalse();
                 await _cookieSignIn.Received().IsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
                 await _cookieSignIn.DidNotReceive().SignInUser(Arg.Any<User>());
@@ -82,7 +82,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             Func<Task> func1 = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            await func1.Should().ThrowAsync<AuthorizationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
+            _ = func1.Should().ThrowAsync<AuthorizationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
             await _cookieSignIn.Received().IsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
             await _cookieSignIn.DidNotReceive().SignInUser(Arg.Any<User>());
         }
