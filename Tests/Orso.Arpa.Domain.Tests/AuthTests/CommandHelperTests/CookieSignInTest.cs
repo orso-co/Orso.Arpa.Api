@@ -41,7 +41,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHelperTests
             _jwtGenerator.GetClaimsIdentity(Arg.Any<User>()).Returns(new ClaimsIdentity());
 
             // Act
-            Task signInTask = _cookieSignIn.SignInUser(user);
+            Task signInTask = await _cookieSignIn.SignInUser(user);
             await signInTask;
 
             // Assert
