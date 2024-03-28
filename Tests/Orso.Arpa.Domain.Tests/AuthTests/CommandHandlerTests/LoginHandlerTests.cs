@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         private ICookieSignIn _cookieSignIn;
 
 
-        [Test]
+        [Test, Order(1)]
         public async Task Should_Login_User()
         {
             // Arrange
@@ -58,7 +58,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
-        [Test]
+        [Test, Order(2)]
         public async Task Should_Throw_Authentication_Exception_If_Password_Is_not_Valid_Or_User_Is_Lockedout()
         {
             // Arrange
