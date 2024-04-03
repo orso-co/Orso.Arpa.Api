@@ -207,8 +207,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Logout()
         {
-            await _authService.RevokeRefreshTokenAsync(RefreshToken, RemoteIpAddress);
-            await _authService.SignOut();
+            await _authService.SignOut(RefreshToken, RemoteIpAddress);
             return NoContent();
         }
     }

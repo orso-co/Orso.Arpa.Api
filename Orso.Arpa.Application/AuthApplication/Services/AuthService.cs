@@ -114,8 +114,9 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             await _mediator.Send(command);
         }
 
-        public async Task SignOut()
+        public async Task SignOut(string refreshToken, string remoteIpAddress)
         {
+            await RevokeRefreshTokenAsync(refreshToken, remoteIpAddress);
             await _cookieSignIn.SignOutUser();
         }
     }

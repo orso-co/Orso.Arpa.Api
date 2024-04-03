@@ -24,6 +24,6 @@ namespace Orso.Arpa.Application.AuthApplication.Interfaces
         Task<bool> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress);
 
         Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress);
-        Task SignOut();
+        Task SignOut(string refreshToken, string remoteIpAddress);
     }
 }
