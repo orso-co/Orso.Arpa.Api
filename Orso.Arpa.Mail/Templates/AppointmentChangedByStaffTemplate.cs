@@ -8,5 +8,7 @@ namespace Orso.Arpa.Mail.Templates
         public string PublicDetails { get; set; }
         public string Venue { get; set; }
         public string ArpaUrl { get; set; }
+        public string Sections { get; set; }
+        public string Status { get; set; }
     }
 }

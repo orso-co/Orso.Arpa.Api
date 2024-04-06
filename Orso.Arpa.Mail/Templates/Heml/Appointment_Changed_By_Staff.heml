@@ -47,18 +47,21 @@
         </column>
       </row>
       <h2>Hallo,</h2>
-      <h3>wir möchten dich über eine Terminaktualisierung in ARPA informieren.</h3>
-      <h3>Die neuen Daten lauten nun wie folgt:</h3>
+      <h3>In ARPA wurde dieser Termin aktualisiert:</h3>
       <row>
           <column small="7" large ="4">
-            <h4>Name:</h4>
-            <h4>Zeitpunkt:</h4>
+            <h4>Zielgruppe:</h4>
+            <h4>Termin:</h4>
+            <h4>Status:</h4>
+            <h4>Bezeichnung:</h4>
             <h4>Ort:</h4>
             <h4>Details:</h4>
           </column>
           <column small="5" large="8">
-            <h4>{{AppointmentName}}</h4>
+            <h4>{{Sections}}</h4>
             <h4>{{DateAndTime}}</h4>
+            <h4>{{Status}}</h4>
+            <h4>{{AppointmentName}}</h4>
             <h4>{{Venue}}</h4>
             <p><i>{{PublicDetails}}</i></p>
           </column>
@@ -66,7 +69,8 @@
     <hr/>
       <row>
        <column>
-        <p>Für weitere Informationen und um ggf. deinen Teilnahmestatus anzupassen, 
+        <p>Bitte beachte, dass eine Aktualisierung  manchmal auch nur den Bereich “Details” betrifft.</p>
+        <p>Für weitere Informationen und um ggf. deinen Teilnahmestatus anzupassen,
         logge dich in <a href="{{ArpaUrl}}" target="_blank">ARPA</a> ein.</p>
         </column>
       </row>

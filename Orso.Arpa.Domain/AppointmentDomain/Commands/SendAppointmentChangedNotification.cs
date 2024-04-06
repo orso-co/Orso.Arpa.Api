@@ -103,7 +103,9 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     DateAndTime = $"{appointment.StartTime.ToGermanDateTimeString()} - {appointment.EndTime.ToGermanTimeString()}",
                     PublicDetails = appointment.PublicDetails ?? "- ohne -",
                     Venue = appointment.Venue?.ToString() ?? "- ohne -",
-                    ArpaUrl = _jwtConfiguration.Audience
+                    ArpaUrl = _jwtConfiguration.Audience,
+                    Status = appointment.Status.ToString(),
+                    Sections = string.Join(", ", appointment.SectionAppointments.Select(sa => sa.Section.ToString()))
                 };
 
                 await _emailSender.SendTemplatedEmailAsync(template, persons
