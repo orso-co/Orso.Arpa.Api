@@ -473,7 +473,6 @@ namespace Orso.Arpa.Api
                 options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
                 options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
             .AddIdentityCookies();
 
