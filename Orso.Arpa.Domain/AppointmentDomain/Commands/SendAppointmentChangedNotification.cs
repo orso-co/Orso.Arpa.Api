@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
@@ -45,7 +46,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                             return;
                         }
                     });
-                
+
                 RuleFor(x => x.ForceSending)
                     .CustomAsync(async (appointmentId, context, cancellation) =>
                     {
@@ -79,6 +80,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     .GetPersonsForAppointment(request.AppointmentId)
                     .Select(a => a.Id)
                     .ToListAsync(cancellationToken);
+
+                if(personIds.Count == 0) {
+                    throw new ValidationException([new ValidationFailure(nameof(request.AppointmentId), "No persons are eligible for this appointment. Cannot send email to empty recipient list.")]);
+                }
 
                 List<Person> persons = await _arpaContext.Persons
                     .AsQueryable()

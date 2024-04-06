@@ -47,7 +47,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 if (await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    throw new ValidationException(new[] { new ValidationFailure(nameof(request.Email), "The email address is already confirmed") });
+                    throw new ValidationException([new ValidationFailure(nameof(request.Email), "The email address is already confirmed")]);
                 }
 
                 IdentityResult confirmEmailResult = await _userManager.ConfirmEmailAsync(user, request.Token);
