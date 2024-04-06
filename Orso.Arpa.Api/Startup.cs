@@ -155,16 +155,6 @@ namespace Orso.Arpa.Api
             }
             _ = services.AddMediatR(typeof(LoginUser.Handler).Assembly);
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddIdentityCookies();
-
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
@@ -467,14 +457,15 @@ namespace Orso.Arpa.Api
 
             JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
-            // services.AddAuthentication(options =>
-            // {
-            //     options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-            //     options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-            //     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-            //     options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
-            // })
-            // .AddIdentityCookies();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddIdentityCookies();
 
             _ = identityBuilder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
