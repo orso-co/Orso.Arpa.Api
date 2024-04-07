@@ -103,7 +103,7 @@ namespace Orso.Arpa.Application.General.Extensions
         {
             return ruleBuilder
                 .MaximumLength(maximumLength)
-                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß'\-.\s0-9\/(),$€#*%&„“"":;?!@\+]*$")
+                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß\p{IsCyrillic}'\-.\s0-9\/(),$€#*%&„“"":;?!@\+]*$")
                 .WithMessage("Invalid character supplied. Please use only alphanumeric and whitespace characters or one of the following: '-./(),$€#*%&„“\":;?!@+");
         }
 
@@ -111,7 +111,7 @@ namespace Orso.Arpa.Application.General.Extensions
         {
             return ruleBuilder
                 .MaximumLength(maximumLength)
-                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß'\-.\s0-9\/(),$€#*%&„“"":;?!@\+\^°| +~_]*$")
+                .Matches(@"^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒß\p{IsCyrillic}'\-.\s0-9\/(),$€#*%&„“"":;?!@\+\^°| +~_]*$")
                 .WithMessage("Invalid character supplied. Please use only alphanumeric and whitespace characters or one of the following: '-./(),$€#*%&„“\":;?!@+^°| +~_");
         }
     }

@@ -77,6 +77,7 @@ Rebuilding the API on source updates.
 - Set the smtp configuration via [dotnet user-secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) (see appsettings.Development.json EmailConfiguration)
 - Run the project with the command `dotnet run --project Orso.Arpa.Api`
 - Open the Swagger UI on `https://localhost:5001`
+- Calling the local backend via the frontend may lead to certificate errors. In this case, run `dotnet dev-certs https`  and `dotnet dev-certs https --trust`
 
 ## Login
 The initial database contains a single user with an admin role. You can login using the following credentials:

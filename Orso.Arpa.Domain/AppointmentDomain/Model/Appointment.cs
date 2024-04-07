@@ -112,7 +112,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
 
         public override string ToString()
         {
-            return CategoryId.HasValue ? $"{Category.ToString().ToUpperInvariant()}: {Name}" : Name;
+            return CategoryId.HasValue ? $"{Name} ({Category.ToString().ToUpperInvariant()})" : Name;
         }
     }
 }
