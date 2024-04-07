@@ -466,22 +466,17 @@ namespace Orso.Arpa.Api
                 options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
-                .AddCookie(options =>
-                {
-                    options.EventsType = typeof(CustomCookieAuthenticationEvents);
-                    options.Cookie.Name = "sessionCookie";
-                    options.Cookie.Path = "/";
-                    options.Cookie.HttpOnly = true;
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
-                    options.Cookie.MaxAge = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
-                    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-                })
-                .AddIdentityCookies();
-
-            services.ConfigureApplicationCookie(o =>
+            .AddCookie(options =>
             {
-                o.EventsType = typeof(CustomCookieAuthenticationEvents);
-            });
+                options.EventsType = typeof(CustomCookieAuthenticationEvents);
+                options.Cookie.Name = "sessionCookie";
+                options.Cookie.Path = "/";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
+                options.Cookie.MaxAge = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+            })
+            .AddIdentityCookies();
 
             builder.Services.AddScoped<CustomCookieAuthenticationEvents>();
 
