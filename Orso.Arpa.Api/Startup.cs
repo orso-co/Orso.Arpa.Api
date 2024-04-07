@@ -478,7 +478,10 @@ namespace Orso.Arpa.Api
             })
             .AddIdentityCookies();
 
-            builder.Services.AddScoped<CustomCookieAuthenticationEvents>();
+            services.ConfigureApplicationCookie(o =>
+            {
+                o.EventsType = typeof(CustomCookieAuthenticationEvents);
+            });
 
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
 
