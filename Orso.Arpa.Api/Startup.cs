@@ -468,6 +468,7 @@ namespace Orso.Arpa.Api
             })
             .AddCookie(options =>
             {
+                options.EventsType = typeof(CustomCookieAuthenticationEvents);
                 options.Cookie.Name = "sessionCookie";
                 options.Cookie.Path = "/";
                 options.Cookie.HttpOnly = true;
