@@ -161,17 +161,6 @@ namespace Orso.Arpa.Api
                 typeof(AddRoleToUrl.MappingProfile).Assembly);
             _ = services.AddHealthChecks().AddDbContextCheck<ArpaContext>();
 
-
-            _ = services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddIdentityCookies();
-
             _ = services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
             _ = services.AddControllers()
                 .AddJsonOptions(options =>
@@ -468,7 +457,15 @@ namespace Orso.Arpa.Api
 
             JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
 
-            _ = identityBuilder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+
+            _ = identityBuilder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
                 .AddCookie(options =>
                 {
                     options.EventsType = typeof(CustomCookieAuthenticationEvents);
@@ -478,7 +475,8 @@ namespace Orso.Arpa.Api
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
                     options.Cookie.MaxAge = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
                     options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-                });
+                })
+                .AddIdentityCookies();
 
             services.ConfigureApplicationCookie(o =>
             {
