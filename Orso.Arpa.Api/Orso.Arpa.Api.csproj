@@ -20,28 +20,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.0" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.0" />
-    <PackageReference Include="HotChocolate.Data" Version="13.9.0" />
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.9.0" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.22.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
+    <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0"/>
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.0"/>
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.0"/>
+    <PackageReference Include="HotChocolate.Data" Version="13.9.0"/>
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.9.0"/>
+    <PackageReference Include="Ical.Net" Version="4.2.0"/>
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0"/>
+    <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.22.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
-    <PackageReference Include="NLog" Version="5.2.8" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
-    <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0" />
-    <PackageReference Include="SixLabors.ImageSharp.Web" Version="3.1.1" />
-    <PackageReference Include="SixLabors.ImageSharp.Web.Providers.Azure" Version="3.1.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.2"/>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1"/>
+    <PackageReference Include="NLog" Version="5.2.8"/>
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8"/>
+    <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="3.0.0"/>
+    <PackageReference Include="SixLabors.ImageSharp.Web" Version="3.1.0"/>
+    <PackageReference Include="SixLabors.ImageSharp.Web.Providers.Azure" Version="3.1.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+    <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0"/>
   </ItemGroup>
 
   <ItemGroup>
