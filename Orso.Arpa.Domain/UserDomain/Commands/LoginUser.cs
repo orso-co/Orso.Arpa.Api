@@ -72,13 +72,13 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
-                bool IsCookieSignInPossible = await _cookieSignIn.IsCookieSignInPossible(user, request.Password);
+                bool IsCookieSignInPossible = await _cookieSignIn.AsyncIsCookieSignInPossible(user, request.Password);
 
                 if (IsCookieSignInPossible)
                 {
                     await _jwtGenerator.CreateRefreshTokenAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                    Task<Task> signInTask = _cookieSignIn.SignInUser(user);
+                    Task<Task> signInTask = _cookieSignIn.AsyncSignInUser(user);
                     await signInTask;
 
                     return signInTask.IsCompletedSuccessfully;
