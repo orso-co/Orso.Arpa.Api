@@ -52,7 +52,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             // Assert
             result.Should().BeTrue();
             await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());
-            await _cookieSignIn.Received().AsyncRefreshSignIn(Arg.Is<User>(u => u.Email == user.Email));
+            await _cookieSignIn.Received().RefreshSignInAsync(Arg.Is<User>(u => u.Email == user.Email));
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             // Assert
             _ = func.Should().ThrowAsync<ValidationException>();
-            await _cookieSignIn.DidNotReceive().AsyncRefreshSignIn(Arg.Any<User>());
+            await _cookieSignIn.DidNotReceive().RefreshSignInAsync(Arg.Any<User>());
             await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
@@ -89,7 +89,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             // Assert
             _ = func.Should().ThrowAsync<AuthenticationException>();
-            await _cookieSignIn.DidNotReceive().AsyncRefreshSignIn(Arg.Any<User>());
+            await _cookieSignIn.DidNotReceive().RefreshSignInAsync(Arg.Any<User>());
             await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
@@ -108,7 +108,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
 
             // Assert
             _ = func.Should().ThrowAsync<AuthorizationException>();
-            await _cookieSignIn.DidNotReceive().AsyncRefreshSignIn(Arg.Any<User>());
+            await _cookieSignIn.DidNotReceive().RefreshSignInAsync(Arg.Any<User>());
             await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
     }

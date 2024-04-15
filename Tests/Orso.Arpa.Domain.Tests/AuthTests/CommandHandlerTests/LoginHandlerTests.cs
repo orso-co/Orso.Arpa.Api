@@ -46,15 +46,15 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             // Arrange
             User user = FakeUsers.Performer;
             var query = new LoginUser.Command { UsernameOrEmail = user.UserName, Password = UserSeedData.ValidPassword };
-            _cookieSignIn.AsyncIsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
+            _cookieSignIn.IsCookieSignInPossibleAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
 
             // Act
             bool result = await _handler.Handle(query, new CancellationToken());
 
             // Assert
             result.Should().BeTrue();
-            await _cookieSignIn.Received().AsyncIsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
-            await _cookieSignIn.Received().AsyncSignInUser(Arg.Is<User>(u => u.Email == user.Email));
+            await _cookieSignIn.Received().IsCookieSignInPossibleAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
+            await _cookieSignIn.Received().SignInUserAsync(Arg.Is<User>(u => u.Email == user.Email));
             await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
@@ -70,22 +70,22 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             {
                 // Act
                 Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
-                _cookieSignIn.AsyncIsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(false);
+                _cookieSignIn.IsCookieSignInPossibleAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(false);
 
                 // Assert
                 _ = func.Should().ThrowAsync<AuthenticationException>().WithMessage("The system could not log you in. Please enter a valid user name and password");
-                await _cookieSignIn.Received().AsyncIsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
-                await _cookieSignIn.DidNotReceive().AsyncSignInUser(Arg.Any<User>());
+                await _cookieSignIn.Received().IsCookieSignInPossibleAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
+                await _cookieSignIn.DidNotReceive().SignInUserAsync(Arg.Any<User>());
             }
 
             // Act
             Func<Task> func1 = async () => await _handler.Handle(command, new CancellationToken());
-            _cookieSignIn.AsyncIsCookieSignInPossible(Arg.Any<User>(), Arg.Any<string>()).Returns(false);
+            _cookieSignIn.IsCookieSignInPossibleAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(false);
 
             // Assert
             _ = func1.Should().ThrowAsync<AuthorizationException>().WithMessage("Your account is locked out. Kindly wait for 10 minutes and try again");
-            await _cookieSignIn.Received().AsyncIsCookieSignInPossible(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
-            await _cookieSignIn.DidNotReceive().AsyncSignInUser(Arg.Any<User>());
+            await _cookieSignIn.Received().IsCookieSignInPossibleAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
+            await _cookieSignIn.DidNotReceive().SignInUserAsync(Arg.Any<User>());
         }
     }
 }
