@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             _userManager = userManager;
         }
 
-        public async Task<Task> AsyncSignInUser(User user)
+        public async Task<Task> SignInUserAsync(User user)
         {
             ClaimsIdentity claimsIdentity = await _jwtGenerator.GetClaimsIdentity(user);
 
@@ -38,12 +38,12 @@ namespace Orso.Arpa.Application.AuthApplication.Services
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
         }
-        public Task SignOutUser()
+        public Task SignOutUserAsync()
         {
             return _signInManager.SignOutAsync();
         }
 
-        public async Task<Task> AsyncRefreshSignIn(User user)
+        public async Task<Task> RefreshSignInAsync(User user)
         {
             var claimsIdentity = await _jwtGenerator.GetClaimsIdentity(user);
 
@@ -52,7 +52,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
                 new ClaimsPrincipal(claimsIdentity));
         }
 
-        public async Task<bool> AsyncIsCookieSignInPossible(User user, string password)
+        public async Task<bool> IsCookieSignInPossibleAsync(User user, string password)
         {
             var IsPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
             var IsUserLockedOut = await _userManager.IsLockedOutAsync(user);

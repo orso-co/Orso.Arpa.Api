@@ -24,7 +24,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
             public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
             {
-                Task signOutTask = _cookieSignIn.SignOutUser();
+                Task signOutTask = _cookieSignIn.SignOutUserAsync();
                 await signOutTask;
 
                 return signOutTask.IsCompletedSuccessfully;

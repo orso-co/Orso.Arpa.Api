@@ -89,7 +89,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 await _jwtGenerator.CreateRefreshTokenAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                Task<Task> signInTask = _cookieSignIn.AsyncRefreshSignIn(user);
+                Task<Task> signInTask = _cookieSignIn.RefreshSignInAsync(user);
 
                 await signInTask;
 
