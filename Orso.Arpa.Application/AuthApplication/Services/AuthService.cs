@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -15,13 +14,11 @@ namespace Orso.Arpa.Application.AuthApplication.Services
     public class AuthService : IAuthService
     {
         private readonly IMapper _mapper;
-        private readonly ICookieSignIn _cookieSignIn;
         private readonly IMediator _mediator;
 
-        public AuthService(IMediator mediator, IMapper mapper, ICookieSignIn cookieSignIn)
+        public AuthService(IMediator mediator, IMapper mapper)
         {
             _mapper = mapper;
-            _cookieSignIn = cookieSignIn;
             _mediator = mediator;
         }
 

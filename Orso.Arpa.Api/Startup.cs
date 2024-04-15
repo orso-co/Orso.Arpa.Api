@@ -659,9 +659,8 @@ namespace Orso.Arpa.Api
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
                 throw;
             }
         }
@@ -675,9 +674,8 @@ namespace Orso.Arpa.Api
                 ILocalizerCache localizerCache = services.GetRequiredService<ILocalizerCache>();
                 _ = localizerCache.LoadTranslations();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
                 throw;
             }
         }
