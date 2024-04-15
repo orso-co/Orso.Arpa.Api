@@ -41,7 +41,7 @@
     <PackageReference Include="SixLabors.ImageSharp.Web" Version="3.1.1" />
     <PackageReference Include="SixLabors.ImageSharp.Web.Providers.Azure" Version="3.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.0.0" />
+    <PackageReference Include="Yoh.Text.Json.NamingPolicies" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
