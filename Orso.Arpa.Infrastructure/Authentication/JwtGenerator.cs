@@ -81,6 +81,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.NameId, user.UserName),
+                new(JwtRegisteredClaimNames.Name, user.DisplayName),
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
             };
