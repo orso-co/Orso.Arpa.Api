@@ -1,6 +1,6 @@
 [
   {
-    "Key": "Invalid cookie supplied",
+    "Key": "Invalid token supplied",
     "Text": "Please try to login again",
     "LocalizationCulture": "en",
     "ResourceKey": "Validator",

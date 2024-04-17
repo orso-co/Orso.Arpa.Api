@@ -1,7 +1,7 @@
 [
   {
-    "Key": "This request requires a valid cookie to be provided",
-    "Text": "Diese Anfrage erfordert einen gültigen Cookie",
+    "Key": "This request requires a valid JWT access token to be provided",
+    "Text": "Diese Anfrage erfordert einen gültigen JWT Token",
     "LocalizationCulture": "de",
     "ResourceKey": "Validator",
     "Id": "4899a356-74c0-4f48-9ca5-2a716f7718ab",
@@ -12,8 +12,8 @@
     "Deleted": false
   },
   {
-    "Key": "Invalid cookie supplied",
-    "Text": "Ungültiges Cookie angegeben",
+    "Key": "Invalid token supplied",
+    "Text": "Ungültiges Token angegeben",
     "LocalizationCulture": "de",
     "ResourceKey": "Validator",
     "Id": "39e5d409-aa17-4bcc-94dc-dc5b576fd910",
