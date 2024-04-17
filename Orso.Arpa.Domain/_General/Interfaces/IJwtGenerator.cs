@@ -9,6 +9,6 @@ namespace Orso.Arpa.Domain.General.Interfaces
     {
         Task CreateRefreshTokenAsync(User user, string remoteIpAddress, CancellationToken cancellationToken);
 
-        Task<ClaimsIdentity> GetClaimsIdentity(User user);
+        Task<ClaimsIdentity> CreateClaimsIdentity(User user);
     }
 }

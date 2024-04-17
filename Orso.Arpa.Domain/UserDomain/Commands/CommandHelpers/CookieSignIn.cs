@@ -32,7 +32,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
 
         public async Task<Task> SignInUserAsync(User user)
         {
-            ClaimsIdentity claimsIdentity = await _jwtGenerator.GetClaimsIdentity(user);
+            ClaimsIdentity claimsIdentity = await _jwtGenerator.CreateClaimsIdentity(user);
 
             return _httpContextAccessor.HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
@@ -45,7 +45,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
 
         public async Task<Task> RefreshSignInAsync(User user)
         {
-            var claimsIdentity = await _jwtGenerator.GetClaimsIdentity(user);
+            var claimsIdentity = await _jwtGenerator.CreateClaimsIdentity(user);
 
             return _httpContextAccessor.HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,

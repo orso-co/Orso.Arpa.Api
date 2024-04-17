@@ -39,7 +39,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
         public async Task CreateRefreshTokenAsync(User user, string remoteIpAddress, CancellationToken cancellationToken)
         {
-            RefreshToken refreshToken = GernerateRefreshToken(user, remoteIpAddress);
+            RefreshToken refreshToken = GenerateRefreshToken(user, remoteIpAddress);
 
             var cookieOptions = new CookieOptions
             {
@@ -61,7 +61,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             }
         }
 
-        private RefreshToken GernerateRefreshToken(User user, string ipAddress)
+        private RefreshToken GenerateRefreshToken(User user, string ipAddress)
         {
             var randomBytes = RandomNumberGenerator.GetBytes(64);
             DateTime now = _dateTimeProvider.GetUtcNow();
@@ -76,14 +76,14 @@ namespace Orso.Arpa.Infrastructure.Authentication
             );
         }
 
-        public async Task<ClaimsIdentity> GetClaimsIdentity(User user)
+        public async Task<ClaimsIdentity> CreateClaimsIdentity(User user)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Name, user.DisplayName),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
+                new(JwtRegisteredClaimNames.NameId, user.UserName),
+                new(JwtRegisteredClaimNames.Name, user.DisplayName),
+                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, "Token");
