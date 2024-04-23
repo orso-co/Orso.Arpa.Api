@@ -99,7 +99,7 @@ namespace Orso.Arpa.Application.AuthApplication.Services
         public async Task RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
         {
             var command = new RefreshAccessToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
-            var result = await _mediator.Send(command);
+            await _mediator.Send(command);
             await RevokeRefreshTokenAsync(refreshToken, remoteIpAddress);
         }
 
