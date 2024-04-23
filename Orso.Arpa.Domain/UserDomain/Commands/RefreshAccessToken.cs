@@ -16,7 +16,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 {
     public static class RefreshAccessToken
     {
-        public class Command : IRequest<bool>
+        public class Command : IRequest<Unit>
         {
             public string RefreshToken { get; set; }
             public string RemoteIpAddress { get; set; }
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, bool>
+        public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly ArpaUserManager _userManager;
             private readonly IArpaContext _arpaContext;
@@ -56,7 +56,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 _dateTimeProvider = dateTimeProvider;
             }
 
-            public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 User user = await _userManager.Users
                     .Include(x => x.RefreshTokens)
@@ -89,11 +89,9 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 await _jwtGenerator.CreateRefreshTokenAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                Task<Task> signInTask = _cookieSignIn.RefreshSignInAsync(user);
+                await _cookieSignIn.RefreshSignInAsync(user);
 
-                await signInTask;
-
-                return signInTask.IsCompletedSuccessfully;
+                return Unit.Value;
 
             }
 

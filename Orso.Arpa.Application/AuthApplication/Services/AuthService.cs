@@ -4,7 +4,6 @@ using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Application.AuthApplication.Model;
-using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Notifications;
@@ -22,11 +21,11 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             _mediator = mediator;
         }
 
-        public async Task<bool> LoginAsync(LoginDto loginDto, string remoteIpAddress)
+        public async Task LoginAsync(LoginDto loginDto, string remoteIpAddress)
         {
             LoginUser.Command command = _mapper.Map<LoginUser.Command>(loginDto);
             command.RemoteIpAddress = remoteIpAddress;
-            return await _mediator.Send(command);
+            await _mediator.Send(command);
         }
 
         public async Task RegisterAsync(UserRegisterDto registerDto)
@@ -97,12 +96,11 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             await _mediator.Send(command);
         }
 
-        public async Task<bool> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
+        public async Task RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
         {
             var command = new RefreshAccessToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
             var result = await _mediator.Send(command);
             await RevokeRefreshTokenAsync(refreshToken, remoteIpAddress);
-            return result;
         }
 
         public async Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress)

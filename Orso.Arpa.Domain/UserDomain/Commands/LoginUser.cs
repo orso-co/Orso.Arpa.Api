@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 {
     public static class LoginUser
     {
-        public class Command : IRequest<bool>
+        public class Command : IRequest<Unit>
         {
             public string UsernameOrEmail { get; set; }
             public string Password { get; set; }
@@ -37,7 +37,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, bool>
+        public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
@@ -58,7 +58,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 _cookieSignIn = cookieSignInService;
             }
 
-            public async Task<bool> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 UserManager<User> userManager = _signInManager.UserManager;
                 User user = await userManager.Users
@@ -78,10 +78,9 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                 {
                     await _jwtGenerator.CreateRefreshTokenAsync(user, request.RemoteIpAddress, cancellationToken);
 
-                    Task<Task> signInTask = _cookieSignIn.SignInUserAsync(user);
-                    await signInTask;
+                    await _cookieSignIn.SignInUserAsync(user);
 
-                    return signInTask.IsCompletedSuccessfully;
+                    return Unit.Value;
                 }
 
                 SignInResult result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
