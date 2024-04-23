@@ -6,7 +6,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -49,10 +48,9 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _cookieSignIn.IsCookieSignInPossibleAsync(Arg.Any<User>(), Arg.Any<string>()).Returns(true);
 
             // Act
-            bool result = await _handler.Handle(query, new CancellationToken());
+            await _handler.Handle(query, new CancellationToken());
 
             // Assert
-            result.Should().BeTrue();
             await _cookieSignIn.Received().IsCookieSignInPossibleAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>());
             await _cookieSignIn.Received().SignInUserAsync(Arg.Is<User>(u => u.Email == user.Email));
             await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());

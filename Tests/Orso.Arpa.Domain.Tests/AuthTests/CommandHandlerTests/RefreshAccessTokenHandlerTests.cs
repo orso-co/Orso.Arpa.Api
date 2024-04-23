@@ -6,7 +6,6 @@ using FluentAssertions;
 using FluentValidation;
 using NSubstitute;
 using NUnit.Framework;
-using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Commands;
@@ -47,10 +46,9 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             };
 
             // Act
-            bool result = await _handler.Handle(command, new CancellationToken());
+            await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            result.Should().BeTrue();
             await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());
             await _cookieSignIn.Received().RefreshSignInAsync(Arg.Is<User>(u => u.Email == user.Email));
         }
@@ -66,7 +64,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             };
 
             // Act
-            Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
             _ = func.Should().ThrowAsync<ValidationException>();
@@ -85,7 +83,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             };
 
             // Act
-            Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
             _ = func.Should().ThrowAsync<AuthenticationException>();
@@ -104,7 +102,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             };
 
             // Act
-            Func<Task<bool>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
             _ = func.Should().ThrowAsync<AuthorizationException>();
