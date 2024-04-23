@@ -40,7 +40,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Title.Should().Be("Ungültiges Token angegeben");
+            errorMessage.Title.Should().Be("Ungültiges Cookie angegeben");
         }
 
         [Test, Order(3)]
@@ -73,7 +73,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             string errorResponse = await responseMessage.Content.ReadAsStringAsync();
             ErrorMessage errorMessage = JsonConvert.DeserializeObject<ErrorMessage>(errorResponse);
 
-            errorMessage.Title.Should().Be("Ungültiges Token angegeben");
+            errorMessage.Title.Should().Be("Ungültiges Cookie angegeben");
         }
 
         [Test, Order(5)]

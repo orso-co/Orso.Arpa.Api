@@ -1,7 +1,7 @@
 {
     "Validator": {
-        "This request requires a valid JWT access token to be provided": "Diese Anfrage erfordert einen gültigen JWT Token",
-        "Invalid token supplied": "Ungültiges Token angegeben",
+        "This request requires a valid cookie to be provided": "Diese Anfrage erfordert einen gültigen Cookie",
+        "Invalid cookie supplied": "Ungültiges Cookie angegeben",
         "EndTime must be later than StartTime": "Endzeit muss später Startzeit sein",
         "Password must be at least 6 characters": "Das Passwort muss mindestens 6 Zeichen enthalten",
         "Password must contain at least one uppercase letter": "Das Passwort muss mindestens einen Großbuchstaben enthalten",

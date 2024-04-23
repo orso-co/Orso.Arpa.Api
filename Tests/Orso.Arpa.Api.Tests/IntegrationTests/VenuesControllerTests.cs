@@ -10,7 +10,6 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Application.RoomApplication.Model;
-using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Application.VenueApplication.Model;
 using Orso.Arpa.Domain.VenueDomain.Enums;
 using Orso.Arpa.Domain.VenueDomain.Model;
@@ -28,10 +27,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_All()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.VenuesController.Get());
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.VenuesController.Get(), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -43,10 +42,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_Rooms()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.VenuesController.GetRooms(VenueDtoData.WeiherhofSchule.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.VenuesController.GetRooms(VenueDtoData.WeiherhofSchule.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -92,10 +91,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 }
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.VenuesController.Post(), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.VenuesController.Post(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             VenueDto result = await DeserializeResponseMessageAsync<VenueDto>(responseMessage);
@@ -130,10 +130,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
             Venue venue = VenueSeedData.WeiherhofSchule;
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.VenuesController.GetRooms(venue.Id), BuildStringContent(createDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.VenuesController.GetRooms(venue.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(createDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
             RoomDto result = await DeserializeResponseMessageAsync<RoomDto>(responseMessage);
@@ -168,10 +169,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Status = 422
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PostAsync(ApiEndpoints.VenuesController.Post(), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.VenuesController.Post(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
             ValidationProblemDetails result = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
@@ -197,11 +199,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Description = "Tolle Beschreibung des super Venues",
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.VenuesController
-                    .Put(venue.Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.VenuesController
+                    .Put(venue.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -211,11 +214,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             Venue venue = VenueSeedData.WeiherhofSchule;
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.VenuesController
-                    .Delete(venue.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.VenuesController
+                    .Delete(venue.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

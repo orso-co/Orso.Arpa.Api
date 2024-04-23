@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
             ILookupNormalizer keyNormalizer,
             IdentityErrorDescriber errors,
             IServiceProvider services,
-            ILogger<UserManager<User>> logger) : base(
+            ILogger<ArpaUserManager> logger) : base(
                 store,
                 optionsAccessor,
                 passwordHasher,
@@ -39,9 +39,11 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
         {
         }
 
+
         public async Task<User> FindUserByUsernameOrEmailAsync(string usernameOrEmail)
         {
-            if (string.IsNullOrWhiteSpace(usernameOrEmail)) {
+            if (string.IsNullOrWhiteSpace(usernameOrEmail))
+            {
                 return null;
             }
             return usernameOrEmail.Contains('@') ? await FindByEmailAsync(usernameOrEmail) : await FindByNameAsync(usernameOrEmail);

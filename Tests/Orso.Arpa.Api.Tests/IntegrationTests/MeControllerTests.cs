@@ -27,10 +27,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             MyUserProfileDto expectedDto = UserProfileDtoData.Performer;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetUserProfile());
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MeController.GetUserProfile(), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -57,10 +57,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_My_Appointments(int? skip, int? take, IEnumerable<MyAppointmentDto> expectedResult)
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetAppointments(take, skip, true));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MeController.GetAppointments(take, skip, true), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -80,10 +80,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 "ARPA_QRCode_Per_Former.png"));
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .GetAsync(ApiEndpoints.MeController.GetQrCode(true));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MeController.GetQrCode(true), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -102,10 +102,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Send_QRCode_If_User_Is_Not_In_Role_Performer()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_admin)
-                .GetAsync(ApiEndpoints.MeController.GetQrCode(true));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_admin);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MeController.GetQrCode(true), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -156,18 +156,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer);
-
-            HttpResponseMessage responseMessage = await client
-                .PutAsync(ApiEndpoints.MeController.PutUserProfile(), BuildStringContent(modifyDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MeController.PutUserProfile(), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            HttpResponseMessage getMessage = await client
-                .GetAsync(ApiEndpoints.MeController.GetUserProfile());
+            HttpRequestMessage requestMessage2 = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MeController.GetUserProfile(), loginResponse, "sessionCookie");
+
+            HttpResponseMessage getMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage2);
 
             _ = getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             MyUserProfileDto result = await DeserializeResponseMessageAsync<MyUserProfileDto>(getMessage);
@@ -186,12 +187,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
-                    AppointmentSeedData.RockingXMasRehearsal.Id),
-                    BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
+                    AppointmentSeedData.RockingXMasRehearsal.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -208,12 +209,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
-                    AppointmentSeedData.AfterShowParty.Id),
-                    BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MeController.SetAppointmentParticipationPrediction(
+                    AppointmentSeedData.RockingXMasRehearsal.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

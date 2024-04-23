@@ -15,12 +15,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Add_Document()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.MyMusicianProfileDocumentsController.Add(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.MyMusicianProfileDocumentsController.Add(
                     MusicianProfileSeedData.PerformerMusicianProfile.Id,
-                    SelectValueMappingSeedData.MusicianProfileDocumentsMappings[1].Id), null);
+                    SelectValueMappingSeedData.MusicianProfileDocumentsMappings[1].Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -30,12 +30,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Remove_Document()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .DeleteAsync(ApiEndpoints.MyMusicianProfileDocumentsController.Remove(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.MyMusicianProfileDocumentsController.Remove(
                     MusicianProfileSeedData.PerformerMusicianProfile.Id,
-                    SelectValueMappingSeedData.MusicianProfileDocumentsMappings[0].Id));
+                    SelectValueMappingSeedData.MusicianProfileDocumentsMappings[0].Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -45,12 +45,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Return_Forbidden_If_MusicianProfile_Is_Not_Assigned_To_User()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.MyMusicianProfileDocumentsController.Add(
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.MyMusicianProfileDocumentsController.Add(
                     MusicianProfileSeedData.StaffMusicianProfile1.Id,
-                    SelectValueMappingSeedData.MusicianProfileDocumentsMappings[1].Id), null);
+                    SelectValueMappingSeedData.MusicianProfileDocumentsMappings[1].Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);

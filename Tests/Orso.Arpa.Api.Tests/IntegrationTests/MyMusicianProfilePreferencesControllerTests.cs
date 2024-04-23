@@ -26,10 +26,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Rating = 1
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PutAsync(ApiEndpoints.MyMusicianProfileRegionPreferencesController.Put(MusicianProfileSeedData.PerformerMusicianProfile.Id, Guid.Parse("0f3de639-a287-4246-b939-24780877030e")), BuildStringContent(modifyDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MyMusicianProfileRegionPreferencesController.Put(MusicianProfileSeedData.PerformerMusicianProfile.Id, Guid.Parse("0f3de639-a287-4246-b939-24780877030e")), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -53,10 +54,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Region = RegionDtoData.Jamulus
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.MyMusicianProfileRegionPreferencesController.Post(MusicianProfileSeedData.PerformerMusicianProfile.Id), BuildStringContent(createDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.MyMusicianProfileRegionPreferencesController.Post(MusicianProfileSeedData.PerformerMusicianProfile.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(createDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             RegionPreferenceDto result = await DeserializeResponseMessageAsync<RegionPreferenceDto>(responseMessage);
@@ -67,10 +69,14 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test, Order(10000)]
         public async Task Should_Delete_MusicianProfileRegionPreference()
         {
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .DeleteAsync(ApiEndpoints.MyMusicianProfileRegionPreferencesController.Delete(MusicianProfileSeedData.PerformerMusicianProfile.Id, Guid.Parse("0f3de639-a287-4246-b939-24780877030e")));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(
+                HttpMethod.Delete,
+                ApiEndpoints.MyMusicianProfileRegionPreferencesController.Delete(MusicianProfileSeedData.PerformerMusicianProfile.Id, Guid.Parse("0f3de639-a287-4246-b939-24780877030e")),
+                loginResponse,
+                "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

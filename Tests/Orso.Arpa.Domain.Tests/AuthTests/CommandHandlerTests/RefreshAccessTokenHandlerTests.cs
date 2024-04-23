@@ -24,34 +24,37 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
             _userManager = new FakeUserManager();
             _jwtGenerator = Substitute.For<IJwtGenerator>();
             _arpaContext = Substitute.For<IArpaContext>();
-            _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext, new FakeDateTimeProvider());
+            _cookieSignIn = Substitute.For<ICookieSignIn>();
+            _handler = new RefreshAccessToken.Handler(_userManager, _jwtGenerator, _arpaContext, _cookieSignIn, new FakeDateTimeProvider());
         }
 
         private ArpaUserManager _userManager;
         private IJwtGenerator _jwtGenerator;
         private IArpaContext _arpaContext;
         private RefreshAccessToken.Handler _handler;
+        private ICookieSignIn _cookieSignIn;
 
         [Test]
         public async Task Should_Refresh_AccessToken()
         {
             // Arrange
+            User user = FakeUsers.Performer;
             var command = new RefreshAccessToken.Command
             {
                 RefreshToken = "performer_valid_refresh_token",
                 RemoteIpAddress = "127.0.0.1",
             };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
-            string result = await _handler.Handle(command, new CancellationToken());
+            await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            result.Should().BeEquivalentTo("newToken");
+            await _jwtGenerator.Received().CreateRefreshTokenAsync(Arg.Is<User>(u => u.Email == user.Email), Arg.Any<string>(), Arg.Any<CancellationToken>());
+            await _cookieSignIn.Received().RefreshSignInAsync(Arg.Is<User>(u => u.Email == user.Email));
         }
 
         [Test]
-        public void Should_Throw_ValidationException_If_No_User_Is_Found()
+        public async Task Should_Throw_ValidationException_If_No_User_Is_Found()
         {
             // Arrange
             var command = new RefreshAccessToken.Command
@@ -59,17 +62,18 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RefreshToken = "Token",
                 RemoteIpAddress = "127.0.0.1",
             };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
-            Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().ThrowAsync<ValidationException>();
+            _ = func.Should().ThrowAsync<ValidationException>();
+            await _cookieSignIn.DidNotReceive().RefreshSignInAsync(Arg.Any<User>());
+            await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
         [Test]
-        public void Should_Throw_AuthenticationException_If_RefreshToken_Is_Expired()
+        public async Task Should_Throw_AuthenticationException_If_RefreshToken_Is_Expired()
         {
             // Arrange
             var command = new RefreshAccessToken.Command
@@ -77,17 +81,18 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RefreshToken = "staff_expired_refresh_token",
                 RemoteIpAddress = "127.0.0.1",
             };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
-            Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().ThrowAsync<AuthenticationException>();
+            _ = func.Should().ThrowAsync<AuthenticationException>();
+            await _cookieSignIn.DidNotReceive().RefreshSignInAsync(Arg.Any<User>());
+            await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
 
         [Test]
-        public void Should_Throw_AuthorizationException_If_RefreshToken_Is_Accessed_With_Different_Ip()
+        public async Task Should_Throw_AuthorizationException_If_RefreshToken_Is_Accessed_With_Different_Ip()
         {
             // Arrange
             var command = new RefreshAccessToken.Command
@@ -95,13 +100,14 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
                 RefreshToken = "performer_valid_refresh_token",
                 RemoteIpAddress = "127.0.0.2",
             };
-            _jwtGenerator.CreateTokensAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns("newToken");
 
             // Act
-            Func<Task<string>> func = async () => await _handler.Handle(command, new CancellationToken());
+            Func<Task> func = async () => await _handler.Handle(command, new CancellationToken());
 
             // Assert
-            func.Should().ThrowAsync<AuthorizationException>();
+            _ = func.Should().ThrowAsync<AuthorizationException>();
+            await _cookieSignIn.DidNotReceive().RefreshSignInAsync(Arg.Any<User>());
+            await _jwtGenerator.DidNotReceive().CreateRefreshTokenAsync(Arg.Any<User>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
         }
     }
 }

@@ -28,10 +28,10 @@ public class MyProjectsControllerTests : IntegrationTestBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_performer)
-            .GetAsync(ApiEndpoints.MyProjectsController.Get());
+        HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MyProjectsController.Get(), loginResponse, "sessionCookie");
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -55,14 +55,12 @@ public class MyProjectsControllerTests : IntegrationTestBase
             },
             TotalRecordsCount = 3
         };
-        var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.MyProjectsController.Get(offset: 2, limit: 1));
-        requestMessage.Headers.Add("Accept-Language", "de");
-
         // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_performer)
-            .SendAsync(requestMessage);
+        HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MyProjectsController.Get(offset: 2, limit: 1), loginResponse, "sessionCookie");
+        requestMessage.Headers.Add("Accept-Language", "de");
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -108,10 +106,10 @@ public class MyProjectsControllerTests : IntegrationTestBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_performer)
-            .GetAsync(ApiEndpoints.MyProjectsController.Get(includeCompleted: true));
+        HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.MyProjectsController.Get(includeCompleted: true), loginResponse, "sessionCookie");
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -147,10 +145,11 @@ public class MyProjectsControllerTests : IntegrationTestBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_performer)
-            .PutAsync(ApiEndpoints.MyProjectsController.SetParticipation(project.Id), BuildStringContent(dto));
+        HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MyProjectsController.SetParticipation(project.Id), loginResponse, "sessionCookie");
+        requestMessage.Content = BuildStringContent(dto);
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -183,10 +182,11 @@ public class MyProjectsControllerTests : IntegrationTestBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_performer)
-            .PutAsync(ApiEndpoints.MyProjectsController.SetParticipation(project.Id), BuildStringContent(dto));
+        HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.MyProjectsController.SetParticipation(project.Id), loginResponse, "sessionCookie");
+        requestMessage.Content = BuildStringContent(dto);
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);

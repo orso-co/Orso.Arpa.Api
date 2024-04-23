@@ -17,8 +17,8 @@ using HotChocolate.Types;
 using HotChocolate.Types.Pagination;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -101,7 +101,6 @@ using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
-using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -119,6 +118,7 @@ using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Providers;
 using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
+using Microsoft.AspNetCore.Http;
 
 namespace Orso.Arpa.Api
 {
@@ -154,6 +154,7 @@ namespace Orso.Arpa.Api
                 _ = services.AddApplicationInsightsTelemetry();
             }
             _ = services.AddMediatR(typeof(LoginUser.Handler).Assembly);
+
             _ = services.AddGenericMediatorHandlers();
             _ = services.AddAutoMapper(
                 typeof(LoginDtoMappingProfile).Assembly,
@@ -373,6 +374,7 @@ namespace Orso.Arpa.Api
         private void RegisterServices(IServiceCollection services)
         {
             _ = services.AddScoped<IJwtGenerator, JwtGenerator>();
+            _ = services.AddScoped<CustomCookieAuthenticationEvents>();
             _ = services.AddScoped<IUserAccessor, UserAccessor>();
             _ = services.AddScoped<ITokenAccessor, TokenAccessor>();
             _ = services.AddScoped<IDataSeeder, DataSeeder>();
@@ -408,6 +410,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IMyProjectService, MyProjectService>();
             _ = services.AddScoped<INewsService, NewsService>();
             _ = services.AddScoped<IClubService, ClubService>();
+            _ = services.AddScoped<ICookieSignIn, CookieSignIn>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IRoomEquipmentService, RoomEquipmentService>();
             services.AddScoped<IRoomSectionService, RoomSectionService>();
@@ -452,6 +455,34 @@ namespace Orso.Arpa.Api
                 .AddRoleManager<RoleManager<Role>>()
                 .AddUserManager<ArpaUserManager>();
 
+            JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
+
+
+            _ = identityBuilder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                options.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+            {
+                options.EventsType = typeof(CustomCookieAuthenticationEvents);
+                options.Cookie.Name = "sessionCookie";
+                options.Cookie.Path = "/";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
+                options.Cookie.MaxAge = TimeSpan.FromMinutes(jwtConfig.AccessTokenExpiryInMinutes);
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+            })
+            .AddIdentityCookies();
+
+            services.ConfigureApplicationCookie(o =>
+            {
+                o.EventsType = typeof(CustomCookieAuthenticationEvents);
+            });
+
             IdentityConfiguration identityConfig = AddConfiguration<IdentityConfiguration>(services);
 
             _ = services.Configure<IdentityOptions>(opts =>
@@ -469,11 +500,15 @@ namespace Orso.Arpa.Api
             _ = services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromDays(identityConfig.EmailConfirmationTokenExpiryInDays));
 
-            JwtConfiguration jwtConfig = AddConfiguration<JwtConfiguration>(services);
+            _ = services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.ConsentCookie.IsEssential = true;
+                options.CheckConsentNeeded = context => false;
+                options.Secure = _hostingEnvironment.IsDevelopment()
+                    ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+            });
 
-            _ = services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearerConfiguration(jwtConfig);
         }
 
         private void ConfigureCors(IServiceCollection services)
@@ -530,19 +565,19 @@ namespace Orso.Arpa.Api
         {
             _ = app.UseIpRateLimiting();
 
+            _ = app.UseRouting();
+
             _ = app.UseRequestLocalization();
 
-            _ = app.UseErrorResponseLocalizationMiddleware();
+            _ = app.UseCookiePolicy();
 
-            _ = app.UseMiddleware<ErrorHandlingMiddleware>();
+            _ = app.UseErrorResponseLocalizationMiddleware();
 
             _ = app.UseMiddleware<EnableRequestBodyRewindMiddleware>();
 
             _ = app.UseMiddleware<SecurityHeaderMiddleware>();
 
             ConfigureSecurityHeaders(app, env);
-
-            _ = app.UseRouting();
 
             _ = app.UseCors("CorsPolicy");
 
@@ -556,6 +591,8 @@ namespace Orso.Arpa.Api
 
             _ = app.UseDefaultFiles(); // use index.html
             _ = app.UseStaticFiles();
+
+            _ = app.UseMiddleware<ErrorHandlingMiddleware>();
 
             AddSwagger(app);
 
@@ -622,10 +659,8 @@ namespace Orso.Arpa.Api
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                logger.LogError(ex, "An error occured during database migration");
                 throw;
             }
         }
@@ -639,12 +674,12 @@ namespace Orso.Arpa.Api
                 ILocalizerCache localizerCache = services.GetRequiredService<ILocalizerCache>();
                 _ = localizerCache.LoadTranslations();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                logger.LogError(ex, "Error during localization of data");
                 throw;
             }
         }
     }
+
 }
+

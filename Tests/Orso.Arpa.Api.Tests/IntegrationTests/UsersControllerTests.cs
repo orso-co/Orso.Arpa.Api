@@ -25,10 +25,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = FakeUsers.UnconfirmedUser;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_admin)
-                .DeleteAsync(ApiEndpoints.UsersController.Delete(user.UserName));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_admin);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.UsersController.Delete(user.UserName), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -38,10 +38,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Delete_Deleted_User()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_admin)
-                .DeleteAsync(ApiEndpoints.UsersController.Delete("deletedusername"));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_admin);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.UsersController.Delete("deletedusername"), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -58,10 +58,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             User user = FakeUsers.Admin;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.UsersController.Delete(user.UserName));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.UsersController.Delete(user.UserName), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -86,10 +86,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Get_All_Users(UserStatus? userStatus, IList<UserDto> expectedDtos)
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.UsersController.Get(userStatus));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.UsersController.Get(userStatus), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -102,10 +102,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         public async Task Should_Not_Delete_Last_Admin()
         {
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_admin)
-                .DeleteAsync(ApiEndpoints.UsersController.Delete("admin"));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_admin);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.UsersController.Delete("admin"), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
@@ -122,10 +122,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             UserDto expectedDto = UserDtoData.LockedOutUser;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.UsersController.GetById(expectedDto.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.UsersController.GetById(expectedDto.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);

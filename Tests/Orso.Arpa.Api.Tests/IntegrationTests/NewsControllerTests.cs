@@ -25,10 +25,10 @@ public class NewsControllerTests : IntegrationTestBase
         var expectedDtos = new List<NewsDto> { NewsDtoData.SecondNews };
 
         // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_performer)
-            .GetAsync(ApiEndpoints.NewsController.Get(1, 1, true));
+        HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.NewsController.Get(1, 1, true), loginResponse, "sessionCookie");
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -61,10 +61,11 @@ public class NewsControllerTests : IntegrationTestBase
         };
 
         // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_staff)
-            .PostAsync(ApiEndpoints.NewsController.Post(), BuildStringContent(createDto));
+        HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.NewsController.Post(), loginResponse, "sessionCookie");
+        requestMessage.Content = BuildStringContent(createDto);
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -102,21 +103,21 @@ public class NewsControllerTests : IntegrationTestBase
             ModifiedAt = FakeDateTime.UtcNow,
             ModifiedBy = "Staff Member"
         };
+        HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
 
         // Act
-        HttpClient client = _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_staff);
-
-        HttpResponseMessage responseMessage = await client
-            .PutAsync(ApiEndpoints.NewsController.Put(newsToModify.Id),
-                BuildStringContent(modifyDto));
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.NewsController.Put(newsToModify.Id), loginResponse, "sessionCookie");
+        requestMessage.Content = BuildStringContent(modifyDto);
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-        HttpResponseMessage getMessage = await client
-            .GetAsync(ApiEndpoints.NewsController.Get(newsToModify.Id));
+        HttpRequestMessage requestMessage2 = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.NewsController.Get(newsToModify.Id), loginResponse, "sessionCookie");
+        requestMessage.Content = BuildStringContent(modifyDto);
+        HttpResponseMessage getMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage2);
 
         _ = getMessage.StatusCode.Should().Be(HttpStatusCode.OK);
         NewsDto result = await DeserializeResponseMessageAsync<NewsDto>(getMessage);
@@ -131,10 +132,10 @@ public class NewsControllerTests : IntegrationTestBase
         // Arrange
 
         // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_staff)
-            .DeleteAsync(ApiEndpoints.NewsController.Delete(NewsSeedData.SecondNews.Id));
+        HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+        HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.NewsController.Delete(NewsSeedData.SecondNews.Id), loginResponse, "sessionCookie");
+        HttpResponseMessage responseMessage = await _unAuthenticatedServer
+            .CreateClient().SendAsync(requestMessage);
 
         // Assert
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);

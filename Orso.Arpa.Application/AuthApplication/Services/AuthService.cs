@@ -21,19 +21,18 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             _mediator = mediator;
         }
 
-        public async Task<TokenDto> LoginAsync(LoginDto loginDto, string remoteIpAddress)
+        public async Task LoginAsync(LoginDto loginDto, string remoteIpAddress)
         {
             LoginUser.Command command = _mapper.Map<LoginUser.Command>(loginDto);
             command.RemoteIpAddress = remoteIpAddress;
-            var token = await _mediator.Send(command);
-            return _mapper.Map<TokenDto>(token);
+            await _mediator.Send(command);
         }
 
         public async Task RegisterAsync(UserRegisterDto registerDto)
         {
             RegisterUser.Command registerCommand = _mapper.Map<RegisterUser.Command>(registerDto);
             await _mediator.Send(registerCommand);
-            
+
             CreateEmailConfirmationToken.Command command = _mapper.Map<CreateEmailConfirmationToken.Command>(registerDto);
             await _mediator.Send(command);
 
@@ -97,17 +96,23 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             await _mediator.Send(command);
         }
 
-        public async Task<TokenDto> RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
+        public async Task RefreshAccessTokenAsync(string refreshToken, string remoteIpAddress)
         {
             var command = new RefreshAccessToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
-            var token = await _mediator.Send(command);
+            await _mediator.Send(command);
             await RevokeRefreshTokenAsync(refreshToken, remoteIpAddress);
-            return _mapper.Map<TokenDto>(token);
         }
 
         public async Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress)
         {
             var command = new RevokeRefreshToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
+            await _mediator.Send(command);
+        }
+
+        public async Task SignOut(string refreshToken, string remoteIpAddress)
+        {
+            await RevokeRefreshTokenAsync(refreshToken, remoteIpAddress);
+            var command = new SignOutUser.Command { };
             await _mediator.Send(command);
         }
     }

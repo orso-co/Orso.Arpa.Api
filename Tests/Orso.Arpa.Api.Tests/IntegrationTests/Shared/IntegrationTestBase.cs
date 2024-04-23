@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -12,9 +13,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using netDumbster.smtp;
 using NUnit.Framework;
+using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
+using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Yoh.Text.Json.NamingPolicies;
 
@@ -24,7 +28,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
     public abstract class IntegrationTestBase
     {
         protected TestServer _unAuthenticatedServer;
-        protected TestServer _authenticatedServer;
         protected User _performer;
         protected User _staff;
         protected User _admin;
@@ -45,7 +48,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         public virtual void Cleanup()
         {
             _unAuthenticatedServer.Dispose();
-            _authenticatedServer.Dispose();
             TestStartup.TestDatabase?.Drop();
             TestStartup.TestDatabase = null;
             TestStartup.IsSeeded = false;
@@ -62,8 +64,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         [OneTimeSetUp]
         public virtual async Task InitializeAsync()
         {
-            _unAuthenticatedServer = await CreateServer(false);
-            _authenticatedServer = await CreateServer(true);
+            _unAuthenticatedServer = await CreateServer();
             _performer = FakeUsers.Performer;
             _staff = FakeUsers.Staff;
             _admin = FakeUsers.Admin;
@@ -78,7 +79,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         {
             var responseString = await responseMessage.Content.ReadAsStringAsync();
 
-            if(string.IsNullOrEmpty(responseString)) {
+            if (string.IsNullOrEmpty(responseString))
+            {
                 return default;
             }
 
@@ -94,22 +96,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 MediaTypeNames.Application.Json);
         }
 
-        protected static async Task<TestServer> CreateServer(bool authenticated)
+        protected static async Task<TestServer> CreateServer()
         {
             IHostBuilder webHostBuilder = new HostBuilder();
 
             _ = webHostBuilder.UseContentRoot(Directory.GetCurrentDirectory());
 
-            _ = authenticated
-                ? webHostBuilder.ConfigureWebHost(webBuilder =>
-                {
-                    _ = webBuilder
-                        .UseTestServer()
-                        .UseEnvironment("Test")
-                        .ConfigureAppConfiguration((_, config) => config.AddJsonFile("appsettings.Test.json"))
-                        .UseStartup<AuthenticatedTestStartup>();
-                })
-                : webHostBuilder.ConfigureWebHost(webBuilder =>
+            _ = webHostBuilder.ConfigureWebHost(webBuilder =>
                 {
                     _ = webBuilder
                         .UseTestServer()
@@ -125,7 +118,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         protected static string GetCookieValueFromResponse(HttpResponseMessage response, string cookieName)
         {
             IEnumerable<string> cookies = response.Headers.SingleOrDefault(header => header.Key == "Set-Cookie").Value;
-            return cookies.FirstOrDefault(cookie => cookie.StartsWith(cookieName));
+            return cookies.Single(cookie => cookie.StartsWith(cookieName));
         }
 
         protected void EvaluateSimpleEmail(string expectedSubject, params string[] expectedReceiverAddresses)
@@ -135,6 +128,42 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             _ = receivedEmail.Subject.Should().Be(expectedSubject);
             _ = receivedEmail.ToAddresses.Length.Should().Be(expectedReceiverAddresses.Length);
             _ = receivedEmail.ToAddresses.Select(ta => ta.Address).Should().BeEquivalentTo(expectedReceiverAddresses);
+        }
+
+        protected async Task<HttpResponseMessage> LoginUserAsync(User user)
+        {
+            var loginDto = new LoginDto
+            {
+                UsernameOrEmail = user.UserName,
+                Password = UserSeedData.ValidPassword
+            };
+
+            return await _unAuthenticatedServer
+                .CreateClient()
+                .PostAsync(ApiEndpoints.AuthController.Login(), BuildStringContent(loginDto));
+            ;
+        }
+
+        protected static HttpRequestMessage CreateRequestWithCookie(HttpMethod httpMethod, string path, HttpResponseMessage response, string cookieName)
+        {
+            var request = new HttpRequestMessage(httpMethod, path);
+            if (response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
+            {
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == cookieName);
+                request.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
+            }
+
+            return request;
+        }
+
+        protected static HttpRequestMessage AddCookieToRequest(HttpRequestMessage httpRequestMessage, HttpResponseMessage response, string cookieName)
+        {
+            if (response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string> values))
+            {
+                SetCookieHeaderValue cookie = SetCookieHeaderValue.ParseList(values.ToImmutableList()).Single(cookie => cookie.Name == cookieName);
+                httpRequestMessage.Headers.Add("Cookie", new CookieHeaderValue(cookie.Name, cookie.Value).ToString());
+            }
+            return httpRequestMessage;
         }
     }
 }

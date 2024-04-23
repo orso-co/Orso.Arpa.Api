@@ -48,11 +48,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Zip = "60325"
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.PersonAddressesController
-                    .Post(_performer.PersonId), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.PersonAddressesController
+                    .Post(_performer.PersonId), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             AddressDto result = await DeserializeResponseMessageAsync<AddressDto>(responseMessage);
@@ -78,11 +79,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 TypeId = SelectValueMappingSeedData.AddressTypeMappings[0].Id
             };
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.PersonAddressesController
-                    .Put(person.Id, person.Addresses.First().Id), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.PersonAddressesController
+                    .Put(person.Id, person.Addresses.First().Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(dto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -92,11 +94,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             Person person = PersonTestSeedData.UserWithoutRole;
 
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .DeleteAsync(ApiEndpoints.PersonAddressesController
-                    .Delete(person.Id, person.Addresses.First().Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.PersonAddressesController
+                    .Delete(person.Id, person.Addresses.First().Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -107,10 +109,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var dto = new PersonAddressCreateBodyDto();
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_performer)
-                .PostAsync(ApiEndpoints.PersonAddressesController.Post(_staff.PersonId), BuildStringContent(dto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_performer);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Post, ApiEndpoints.PersonAddressesController.Post(_staff.PersonId), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.Forbidden);

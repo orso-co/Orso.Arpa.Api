@@ -19,10 +19,10 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             EducationDto expectedDto = EducationDtoData.University;
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .GetAsync(ApiEndpoints.EducationsController.Get(expectedDto.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.EducationsController.Get(expectedDto.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -45,10 +45,11 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             };
 
             // Act
-            HttpResponseMessage responseMessage = await _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff)
-                .PutAsync(ApiEndpoints.EducationsController.Put(dtoToModify.Id), BuildStringContent(modifyDto));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Put, ApiEndpoints.EducationsController.Put(dtoToModify.Id), loginResponse, "sessionCookie");
+            requestMessage.Content = BuildStringContent(modifyDto);
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -59,19 +60,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         {
             // Arrange
             EducationDto dtoToDelete = EducationDtoData.University;
-            HttpClient client = _authenticatedServer
-                .CreateClient()
-                .AuthenticateWith(_staff);
 
             // Act
-            HttpResponseMessage responseMessage = await client
-                .DeleteAsync(ApiEndpoints.EducationsController.Delete(dtoToDelete.Id));
+            HttpResponseMessage loginResponse = await LoginUserAsync(_staff);
+            HttpRequestMessage requestMessage = CreateRequestWithCookie(HttpMethod.Delete, ApiEndpoints.EducationsController.Delete(dtoToDelete.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage responseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(requestMessage);
 
             // Assert
             responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            HttpResponseMessage getResponseMessage = await client
-                .GetAsync(ApiEndpoints.EducationsController.Get(dtoToDelete.Id));
+            HttpRequestMessage getRequestMessage = CreateRequestWithCookie(HttpMethod.Get, ApiEndpoints.EducationsController.Get(dtoToDelete.Id), loginResponse, "sessionCookie");
+            HttpResponseMessage getResponseMessage = await _unAuthenticatedServer
+                .CreateClient().SendAsync(getRequestMessage);
             getResponseMessage.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }

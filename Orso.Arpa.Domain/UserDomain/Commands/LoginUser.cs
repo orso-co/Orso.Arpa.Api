@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 {
     public static class LoginUser
     {
-        public class Command : IRequest<string>
+        public class Command : IRequest<Unit>
         {
             public string UsernameOrEmail { get; set; }
             public string Password { get; set; }
@@ -36,23 +37,28 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, string>
+        public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly SignInManager<User> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IdentityConfiguration _identityConfiguration;
+            private readonly ICookieSignIn _cookieSignIn;
+
 
             public Handler(
                 SignInManager<User> signInManager,
                 IJwtGenerator jwtGenerator,
-                IdentityConfiguration identityConfiguration)
+                IdentityConfiguration identityConfiguration,
+                ArpaUserManager userManager,
+                ICookieSignIn cookieSignInService)
             {
                 _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
                 _identityConfiguration = identityConfiguration;
+                _cookieSignIn = cookieSignInService;
             }
 
-            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 UserManager<User> userManager = _signInManager.UserManager;
                 User user = await userManager.Users
@@ -66,12 +72,18 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     throw new ValidationException(new[] { new ValidationFailure(nameof(request.UsernameOrEmail), "Your email address is not confirmed. Please confirm your email address first") });
                 }
 
-                SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
+                bool IsCookieSignInPossible = await _cookieSignIn.IsCookieSignInPossibleAsync(user, request.Password);
 
-                if (result.Succeeded)
+                if (IsCookieSignInPossible)
                 {
-                    return await _jwtGenerator.CreateTokensAsync(user, request.RemoteIpAddress, cancellationToken);
+                    await _jwtGenerator.CreateRefreshTokenAsync(user, request.RemoteIpAddress, cancellationToken);
+
+                    await _cookieSignIn.SignInUserAsync(user);
+
+                    return Unit.Value;
                 }
+
+                SignInResult result = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
 
                 if (result.IsLockedOut)
                 {
