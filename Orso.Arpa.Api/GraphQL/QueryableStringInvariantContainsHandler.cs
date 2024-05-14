@@ -32,7 +32,7 @@ namespace Orso.Arpa.Api.GraphQL
                     Expression.NotEqual(
                         Expression.Call(
                             Expression.Constant(CultureInfo.InvariantCulture.CompareInfo),
-                            typeof(string).GetMethod(nameof(CompareInfo.IndexOf), [typeof(string), typeof(string), typeof(CompareOptions)]),
+                            typeof(CompareInfo).GetMethod(nameof(CompareInfo.IndexOf), [typeof(string), typeof(string), typeof(CompareOptions)]),
                             property,
                             Expression.Constant(str),
                             Expression.Constant(CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase)
