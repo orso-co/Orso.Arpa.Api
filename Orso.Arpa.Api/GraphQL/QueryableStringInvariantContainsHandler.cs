@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq.Expressions;
 using HotChocolate.Data.Filters;
 using HotChocolate.Data.Filters.Expressions;
@@ -30,10 +31,11 @@ namespace Orso.Arpa.Api.GraphQL
                     Expression.NotEqual(property, Expression.Constant(null, typeof(object))),
                     Expression.NotEqual(
                         Expression.Call(
+                            Expression.Constant(CultureInfo.InvariantCulture.CompareInfo),
+                            typeof(string).GetMethod(nameof(CompareInfo.IndexOf), [typeof(string), typeof(string), typeof(CompareOptions)]),
                             property,
-                            typeof(string).GetMethod("IndexOf", new[] { typeof(string), typeof(StringComparison) }),
                             Expression.Constant(str),
-                            Expression.Constant(StringComparison.OrdinalIgnoreCase)
+                            Expression.Constant(CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase)
                         ),
                         Expression.Constant(-1)
                     )
