@@ -40,6 +40,15 @@ namespace Orso.Arpa.Domain.Tests.Logic.ProjectParticipations
                 yield return new TestCaseData(
                     new ProjectParticipationStatusInner?[] { null, null },
                     ProjectParticipationStatusInner.Pending);
+                yield return new TestCaseData(
+                    new ProjectParticipationStatusInner?[] { ProjectParticipationStatusInner.Refusal, ProjectParticipationStatusInner.RehearsalsOnly },
+                    ProjectParticipationStatusInner.Refusal);
+                yield return new TestCaseData(
+                    new ProjectParticipationStatusInner?[] { ProjectParticipationStatusInner.RehearsalsOnly, ProjectParticipationStatusInner.RehearsalsOnly },
+                    ProjectParticipationStatusInner.Refusal);
+                yield return new TestCaseData(
+                    new ProjectParticipationStatusInner?[] { ProjectParticipationStatusInner.RehearsalsOnly, null },
+                    ProjectParticipationStatusInner.Pending);
             }
         }
 

@@ -7,12 +7,17 @@ namespace Orso.Arpa.Domain.ProjectDomain.Util
 {
     public static class ProjectParticipationStatusInheritanceEvaluator
     {
+        private static readonly ProjectParticipationStatusInner[] refusalStates = [ProjectParticipationStatusInner.Refusal, ProjectParticipationStatusInner.RehearsalsOnly];
+
         public static ProjectParticipationStatusInner EvaluateNewParticpationStatusInner(
             IEnumerable<ProjectParticipationStatusInner?> childrenStatus)
         {
             if (childrenStatus.Any(status => ProjectParticipationStatusInner.Acceptance.Equals(status)))
             {
                 return ProjectParticipationStatusInner.Acceptance;
+            }
+            if(childrenStatus.All(s => s.HasValue && refusalStates.Contains((ProjectParticipationStatusInner)s))) {
+                return ProjectParticipationStatusInner.Refusal;
             }
             return childrenStatus.AreAllSame()
                 ? childrenStatus.First() ?? ProjectParticipationStatusInner.Pending
