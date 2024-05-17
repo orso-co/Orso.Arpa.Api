@@ -49,7 +49,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
             {
                 var availableDocument = new MusicianProfileDocument(request.Id, request.DocumentId);
 
-                _arpaContext.MusicianProfileDocuments.Add(availableDocument);
+                await _arpaContext.MusicianProfileDocuments.AddAsync(availableDocument, cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

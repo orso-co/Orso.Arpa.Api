@@ -10,11 +10,11 @@ namespace Orso.Arpa.Infrastructure.PipelineBehaviors
     public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly Stopwatch _timer;
-        private readonly ILogger<TRequest> _logger;
+        private readonly ILogger<RequestPerformanceBehaviour<TRequest, TResponse>> _logger;
         private readonly IUserAccessor _userAccessor;
 
         public RequestPerformanceBehaviour(
-            ILogger<TRequest> logger,
+            ILogger<RequestPerformanceBehaviour<TRequest, TResponse>> logger,
             IUserAccessor userAccessor)
         {
             _timer = new Stopwatch();

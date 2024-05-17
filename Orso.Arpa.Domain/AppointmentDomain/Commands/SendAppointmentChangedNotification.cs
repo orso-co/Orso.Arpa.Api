@@ -81,7 +81,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     .Select(a => a.Id)
                     .ToListAsync(cancellationToken);
 
-                if(personIds.Count == 0) {
+                if (personIds.Count == 0)
+                {
                     throw new ValidationException([new ValidationFailure(nameof(request.AppointmentId), "No persons are eligible for this appointment. Cannot send email to empty recipient list.")]);
                 }
 
@@ -101,8 +102,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     ClubPhoneNumber = _clubConfiguration.Phone,
                     AppointmentName = appointment.ToString(),
                     DateAndTime = $"{appointment.StartTime.ToGermanDateTimeString()} - {appointment.EndTime.ToGermanTimeString()}",
-                    PublicDetails = appointment.PublicDetails ?? "- ohne -",
-                    Venue = appointment.Venue?.ToString() ?? "- ohne -",
+                    PublicDetails = appointment.PublicDetails,
+                    Venue = appointment.Venue?.ToString(),
                     ArpaUrl = _jwtConfiguration.Audience,
                     Status = appointment.Status.ToString(),
                     Sections = string.Join(", ", appointment.SectionAppointments.Select(sa => sa.Section.ToString()))

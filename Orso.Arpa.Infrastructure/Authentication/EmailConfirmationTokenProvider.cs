@@ -9,7 +9,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
     {
         public EmailConfirmationTokenProvider(IDataProtectionProvider dataProtectionProvider,
             IOptions<EmailConfirmationTokenProviderOptions> options,
-            ILogger<DataProtectorTokenProvider<TUser>> logger)
+            ILogger<EmailConfirmationTokenProvider<TUser>> logger)
             : base(dataProtectionProvider, options, logger)
         {
         }

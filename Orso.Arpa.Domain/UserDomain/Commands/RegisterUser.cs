@@ -101,7 +101,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                         break;
                     default:
                         throw new ValidationException(
-                            new ValidationFailure[] { new(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.") });
+                            [new(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.")]);
                 }
 
                 var user = new User
@@ -119,13 +119,13 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                     throw new IdentityException("Problem creating user", result.Errors);
                 }
 
-                _arpaContext.Set<PersonSection>().AddRange(request.StakeholderGroupIds.Select(sg => new PersonSection(null, person.Id, sg)));
-                _ = _arpaContext.Set<ContactDetail>().Add(new ContactDetail(null, new CreateContactDetail.Command
+                await _arpaContext.Set<PersonSection>().AddRangeAsync(request.StakeholderGroupIds.Select(sg => new PersonSection(null, person.Id, sg)), cancellationToken);
+                _ = await _arpaContext.Set<ContactDetail>().AddAsync(new ContactDetail(null, new CreateContactDetail.Command
                 {
                     Key = ContactDetailKey.EMail,
                     PersonId = person.Id,
                     Value = request.Email,
-                }));
+                }), cancellationToken);
 
                 return (await _arpaContext.SaveChangesAsync(cancellationToken)) < request.StakeholderGroupIds.Count + 1
                     ? throw new AffectedRowCountMismatchException(nameof(PersonSection))

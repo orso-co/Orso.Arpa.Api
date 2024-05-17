@@ -58,7 +58,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
                         .Where(appointment => appointmentIds.Contains(appointment.Id) && appointment.EndTime > _dateTimeProvider.GetUtcNow())
                         .OrderBy(p => p.StartTime);
 
-                return (await userAppointments.Skip(request.Offset ?? 0).Take(request.Limit ?? count).ToListAsync(cancellationToken), userAppointments.Count());
+                return (
+                    await userAppointments.Skip(request.Offset ?? 0).Take(request.Limit ?? count).ToListAsync(cancellationToken),
+                    await userAppointments.CountAsync(cancellationToken)
+                );
             }
         }
     }
