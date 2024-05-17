@@ -29,7 +29,7 @@ namespace Orso.Arpa.Tests.Shared.Identity
               Substitute.For<ILookupNormalizer>(),
               Substitute.For<IdentityErrorDescriber>(),
               Substitute.For<IServiceProvider>(),
-              Substitute.For<ILogger<UserManager<User>>>())
+              Substitute.For<ILogger<ArpaUserManager>>())
         { }
 
         public override IQueryable<User> Users
