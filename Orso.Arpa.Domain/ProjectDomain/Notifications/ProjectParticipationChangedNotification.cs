@@ -88,13 +88,13 @@ namespace Orso.Arpa.Domain.ProjectDomain.Notifications
             var template = new ProjectParticipationChangedByStaffTemplate
             {
                 ArpaLogo = _jwtConfiguration.ArpaLogo,
-                CommentByStaff = notification.ProjectParticipation.CommentByStaffInner ?? "- ohne -",
-                Comment = notification.ProjectParticipation.CommentByPerformerInner ?? "- ohne -",
+                CommentByStaff = notification.ProjectParticipation.CommentByStaffInner,
+                Comment = notification.ProjectParticipation.CommentByPerformerInner,
                 DisplayName = musician.DisplayName,
-                ParticipationStatusInner = notification.ProjectParticipation.ParticipationStatusInner?.ToString() ?? "- ohne -",
-                ParticipationStatusInternal = notification.ProjectParticipation.ParticipationStatusInternal?.ToString() ?? "- ohne -",
+                ParticipationStatusInner = notification.ProjectParticipation.ParticipationStatusInner?.ToString(),
+                ParticipationStatusInternal = notification.ProjectParticipation.ParticipationStatusInternal?.ToString(),
 
-                InvitationStatus = notification.ProjectParticipation?.InvitationStatus?.ToString() ?? "- ohne -",
+                InvitationStatus = notification.ProjectParticipation?.InvitationStatus?.ToString(),
                 ProjectName = notification.ProjectParticipation.Project.ToString(),
 
                 ClubAddress = _clubConfiguration.Address,

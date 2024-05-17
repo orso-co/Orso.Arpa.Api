@@ -70,12 +70,12 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
-                Room existingRoom = await _arpaContext.Rooms.FindAsync(new object[] { request.RoomId }, cancellationToken);
+                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync([request.Id], cancellationToken);
+                Room existingRoom = await _arpaContext.Rooms.FindAsync([request.RoomId], cancellationToken);
 
                 var appointmentRoom = new AppointmentRoom(null, existingAppointment, existingRoom);
 
-                _arpaContext.AppointmentRooms.Add(appointmentRoom);
+                await _arpaContext.AppointmentRooms.AddAsync(appointmentRoom, cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

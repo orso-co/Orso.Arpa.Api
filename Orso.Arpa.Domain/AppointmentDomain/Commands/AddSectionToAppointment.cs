@@ -51,8 +51,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                 RuleFor(d => d.SectionId)
                     .EntityExists<Command, Section>(arpaContext)
 
-                    .MustAsync(async (dto, sectionId, cancellation) => !(await arpaContext.SectionAppointments
-                        .AnyAsync(sa => sa.SectionId == sectionId && sa.AppointmentId == dto.Id, cancellation)))
+                    .MustAsync(async (dto, sectionId, cancellation) => !await arpaContext.SectionAppointments
+                        .AnyAsync(sa => sa.SectionId == sectionId && sa.AppointmentId == dto.Id, cancellation))
                     .WithMessage("The section is already linked to the appointment");
             }
         }
@@ -68,10 +68,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync(new object[] { request.Id }, cancellationToken);
-                Section existingSection = await _arpaContext.Sections.FindAsync(new object[] { request.SectionId }, cancellationToken);
+                Appointment existingAppointment = await _arpaContext.Appointments.FindAsync([request.Id], cancellationToken);
+                Section existingSection = await _arpaContext.Sections.FindAsync([request.SectionId], cancellationToken);
 
-                _arpaContext.SectionAppointments.Add(new SectionAppointment(null, existingSection, existingAppointment));
+                await _arpaContext.SectionAppointments.AddAsync(new SectionAppointment(null, existingSection, existingAppointment), cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

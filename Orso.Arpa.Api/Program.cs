@@ -6,6 +6,7 @@ using NLog;
 using NLog.Web;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
+using Orso.Arpa.Domain._General.Errors;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Orso.Arpa.Api
@@ -28,7 +29,7 @@ namespace Orso.Arpa.Api
             catch (Exception exception)
             {
                 logger.Error(exception, "Stopped program because of exception");
-                throw;
+                throw new SystemStartException("Stopped program because of exception", exception);
             }
             finally
             {
