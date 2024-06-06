@@ -26,7 +26,7 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
             ILookupNormalizer keyNormalizer,
             IdentityErrorDescriber errors,
             IServiceProvider services,
-            ILogger<UserManager<User>> logger) : base(
+            ILogger<ArpaUserManager> logger) : base(
                 store,
                 optionsAccessor,
                 passwordHasher,
@@ -41,7 +41,8 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
 
         public async Task<User> FindUserByUsernameOrEmailAsync(string usernameOrEmail)
         {
-            if (string.IsNullOrWhiteSpace(usernameOrEmail)) {
+            if (string.IsNullOrWhiteSpace(usernameOrEmail))
+            {
                 return null;
             }
             return usernameOrEmail.Contains('@') ? await FindByEmailAsync(usernameOrEmail) : await FindByNameAsync(usernameOrEmail);
@@ -63,10 +64,10 @@ namespace Orso.Arpa.Domain.UserDomain.Repositories
         {
             if (await CheckIfLastAdminWillBeRemovedAsync(user.Id))
             {
-                throw new ValidationException(new ValidationFailure[]
-                {
+                throw new ValidationException(
+                [
                     new ValidationFailure(nameof(user.UserName), "The operation is not allowed because it would remove the last administrator")
-                });
+                ]);
             }
 
             IdentityResult result = await base.DeleteAsync(user);

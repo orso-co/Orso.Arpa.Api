@@ -31,14 +31,7 @@ namespace Orso.Arpa.Api.Swagger
                 operation.Responses.Add("403 a", new OpenApiResponse
                 {
                     Description = $"If current user does not have the role of '{string.Join(", ", roleAttributes)}'",
-                    Content = new Dictionary<string, OpenApiMediaType>()
-                    {
-                        { "application/json", new OpenApiMediaType() { Schema = new OpenApiSchema() { Type = "object", Properties = new Dictionary<string, OpenApiSchema>() {
-                            { "title", new OpenApiSchema() { Type = "string" } },
-                            { "description", new OpenApiSchema() {Type="string" } },
-                            { "status", new OpenApiSchema() { Type = "integer" } }
-                        } } } }
-                    }
+                    Content = CreateContent()
                 });
             }
         }
@@ -55,16 +48,21 @@ namespace Orso.Arpa.Api.Swagger
                 operation.Responses.Add("403 b", new OpenApiResponse
                 {
                     Description = $"If current user does not meet policy '{string.Join(", ", policyAttributes)}'",
-                    Content = new Dictionary<string, OpenApiMediaType>()
+                    Content = CreateContent()
+                });
+            }
+        }
+
+        private static Dictionary<string, OpenApiMediaType> CreateContent()
+        {
+            return new Dictionary<string, OpenApiMediaType>()
                     {
                         { "application/json", new OpenApiMediaType() { Schema = new OpenApiSchema() { Type = "object", Properties = new Dictionary<string, OpenApiSchema>() {
                             { "title", new OpenApiSchema() { Type = "string" } },
                             { "description", new OpenApiSchema() {Type="string" } },
                             { "status", new OpenApiSchema() { Type = "integer" } }
                         } } } }
-                    }
-                });
-            }
+                    };
         }
     }
 }

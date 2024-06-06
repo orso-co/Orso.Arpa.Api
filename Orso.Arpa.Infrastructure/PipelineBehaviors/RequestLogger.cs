@@ -11,7 +11,7 @@ namespace Orso.Arpa.Infrastructure.PipelineBehaviors
         private readonly ILogger _logger;
         private readonly IUserAccessor _userAccessor;
 
-        public RequestLogger(ILogger<TRequest> logger, IUserAccessor userAccessor)
+        public RequestLogger(ILogger<RequestLogger<TRequest>> logger, IUserAccessor userAccessor)
         {
             _logger = logger;
             _userAccessor = userAccessor;

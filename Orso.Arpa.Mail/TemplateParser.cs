@@ -28,7 +28,12 @@ namespace Orso.Arpa.Mail
                 {
                     continue;
                 }
-                builder.Replace("{{" + propertyInfo.Name + "}}", (string)propertyInfo.GetValue(templateData));
+                var value = (string)propertyInfo.GetValue(templateData);
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    value = "- ohne -";
+                }
+                builder.Replace("{{" + propertyInfo.Name + "}}", value);
             }
 
             return builder.ToString();
