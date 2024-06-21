@@ -9,4 +9,8 @@
     <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Persistence\Orso.Arpa.Persistence.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ical.Net" Version="4.2.0" />
+  </ItemGroup>
 </Project>

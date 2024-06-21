@@ -11,12 +11,18 @@
 
   <ItemGroup>
     <Content Remove="appsettings.Test.json"/>
+    <Content Remove="__azurite_db_table__.json" />
+    <Content Remove="__azurite_db_queue_extent__.json" />
+    <Content Remove="__azurite_db_queue__.json" />
+    <Content Remove="__azurite_db_blob_extent__.json" />
+    <Content Remove="__azurite_db_blob__.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="appsettings.Test.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Remove="dotnet-install.sh" />
   </ItemGroup>
 
   <ItemGroup>

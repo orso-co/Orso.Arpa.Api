@@ -46,4 +46,6 @@ public interface IAppointmentService
 
     Task SendAppointmentChangedNotificationAsync(
         SendAppointmentChangedNotificationDto sendAppointmentChangedNotificationDto);
+
+    Task<string> ExportAppointmentsToIcsAsync();
 }

@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ical.Net.CalendarComponents;
+using Ical.Net.DataTypes;
+using Ical.Net.Serialization;
 using AutoMapper;
 using MediatR;
 using Orso.Arpa.Application.AppointmentApplication.Interfaces;
@@ -17,6 +20,7 @@ using Orso.Arpa.Domain.General.GenericHandlers;
 using Orso.Arpa.Domain.MusicianProfileDomain.Queries;
 using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Domain.SectionDomain.Queries;
+using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Application.AppointmentApplication.Services;
 
@@ -178,5 +182,40 @@ public class AppointmentService : BaseService<
 
         dto.Participations =
             _mapper.Map<IList<AppointmentParticipationListItemDto>>(personGrouping);
+    }
+
+    public async Task<string> ExportAppointmentsToIcsAsync()
+    {
+        // Retrieve all appointments from the database
+        IEnumerable<AppointmentListDto> appointments = await GetAsync(null, null);
+
+        // Create a new calendar
+        var calendar = new Ical.Net.Calendar();
+
+        // Set the time zone for the calendar
+        string timeZoneId = "Europe/Berlin";
+        var timeZone = new VTimeZone(timeZoneId);
+        calendar.AddTimeZone(timeZone);
+
+        // Iterate through each appointment and create a new CalendarEvent
+        foreach (AppointmentListDto appointment in appointments)
+        {
+            var calendarEvent = new CalendarEvent
+            {
+                Summary = appointment.Name,
+                Description = appointment.Category,
+                Location = appointment.City,
+                Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(appointment.StartTime)),
+                End = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(appointment.EndTime))
+                // Set other relevant properties based on the appointment data
+            };
+
+            // Add the CalendarEvent to the calendar
+            calendar.Events.Add(calendarEvent);
+        }
+
+        // Serialize the calendar to a string
+        var serializer = new CalendarSerializer();
+        return serializer.SerializeToString(calendar);
     }
 }

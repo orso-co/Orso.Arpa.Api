@@ -355,42 +355,7 @@ public class AppointmentsController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> ExportToIcs()
     {
-        // Retrieve all appointments from the database
-        IEnumerable<AppointmentListDto> appointments =
-            await _appointmentService.GetAsync(null, null);
-
-        // Create a new calendar
-        var calendar = new Calendar();
-
-        // Set the time zone for the calendar
-        string timeZoneId = "Europe/Berlin";
-        var timeZone = new VTimeZone(timeZoneId);
-        calendar.AddTimeZone(timeZone);
-
-        // Iterate through each appointment and create a new CalendarEvent
-        foreach (AppointmentListDto appointment in appointments)
-        {
-            var calendarEvent = new CalendarEvent
-            {
-                Summary = appointment.Name,
-                Description = appointment.Category,
-                Location = appointment.City,
-                Start =
-                    new CalDateTime(
-                        DateTimeExtensions.ConvertToLocalTimeBerlin(appointment.StartTime)),
-                End = new CalDateTime(
-                    DateTimeExtensions.ConvertToLocalTimeBerlin(appointment.EndTime))
-
-                // Set other relevant properties based on the appointment data
-            };
-
-            // Add the CalendarEvent to the calendar
-            calendar.Events.Add(calendarEvent);
-        }
-
-        // Serialize the calendar to a string
-        var serializer = new CalendarSerializer();
-        string serializedCalendar = serializer.SerializeToString(calendar);
+        string serializedCalendar = await _appointmentService.ExportAppointmentsToIcsAsync();
 
         // Return the serialized calendar data as a file download
         return File(Encoding.UTF8.GetBytes(serializedCalendar), "text/calendar",
