@@ -2,10 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Ical.Net;
-using Ical.Net.CalendarComponents;
-using Ical.Net.DataTypes;
-using Ical.Net.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +10,6 @@ using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Enums;
-using Orso.Arpa.Misc.Extensions;
 
 namespace Orso.Arpa.Api.Controllers;
 
