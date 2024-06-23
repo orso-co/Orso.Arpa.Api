@@ -11,18 +11,12 @@
 
   <ItemGroup>
     <Content Remove="appsettings.Test.json"/>
-    <Content Remove="__azurite_db_table__.json" />
-    <Content Remove="__azurite_db_queue_extent__.json" />
-    <Content Remove="__azurite_db_queue__.json" />
-    <Content Remove="__azurite_db_blob_extent__.json" />
-    <Content Remove="__azurite_db_blob__.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="appsettings.Test.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Remove="dotnet-install.sh" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +25,6 @@
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.6" />
     <PackageReference Include="HotChocolate.Data" Version="13.9.6" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.9.6" />
-    <PackageReference Include="Ical.Net" Version="4.2.0" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.22.0" />

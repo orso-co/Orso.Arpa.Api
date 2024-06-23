@@ -342,7 +342,7 @@ public class AppointmentsController : BaseController
     }
 
     /// <summary>
-    ///     Creates endpoint for export to ics-file
+    ///    Exports all appointments to ics file
     /// </summary>
     /// <response code="200"></response>
     [Authorize(Roles = RoleNames.Staff)]
@@ -351,8 +351,6 @@ public class AppointmentsController : BaseController
     public async Task<IActionResult> ExportToIcs()
     {
         string serializedCalendar = await _appointmentService.ExportAppointmentsToIcsAsync();
-
-        // Return the serialized calendar data as a file download
         return File(Encoding.UTF8.GetBytes(serializedCalendar), "text/calendar",
             "appointments.ics");
     }

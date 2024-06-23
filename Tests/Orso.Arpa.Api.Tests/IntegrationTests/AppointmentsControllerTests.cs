@@ -131,6 +131,25 @@ public class AppointmentsControllerTests : IntegrationTestBase
 
     [Test]
     [Order(4)]
+    public async Task Should_Export_Appointments_To_Ics()
+    {
+        // Act
+        HttpResponseMessage responseMessage = await _authenticatedServer
+            .CreateClient()
+            .AuthenticateWith(_staff)
+            .GetAsync(ApiEndpoints.AppointmentsController.ExportToIcs());
+
+        // Assert
+        responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+        responseMessage.Content.Headers.ContentType.ToString().Should().Be("text/calendar");
+
+        string icsContent = await responseMessage.Content.ReadAsStringAsync();
+        icsContent.Should().NotBeNullOrEmpty();
+
+    }
+
+    [Test]
+    [Order(5)]
     public async Task Should_Send_Appointment_Changed_Notification()
     {
         // Arrange
@@ -603,31 +622,6 @@ public class AppointmentsControllerTests : IntegrationTestBase
         _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
-    [Test]
-    [Order(120)]
-    public async Task Should_Export_Appointments_To_Ics()
-    {
-        // Act
-        HttpResponseMessage responseMessage = await _authenticatedServer
-            .CreateClient()
-            .AuthenticateWith(_staff)
-            .GetAsync(ApiEndpoints.AppointmentsController.ExportToIcs());
-
-        // Assert
-        responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
-        responseMessage.Content.Headers.ContentType.ToString().Should().Be("text/calendar");
-
-        string icsContent = await responseMessage.Content.ReadAsStringAsync();
-        icsContent.Should().NotBeNullOrEmpty();
-
-        // Further validation of the ICS content can be done here if needed
-        ValidateIcsContent(icsContent);
-    }
-
-    private static void ValidateIcsContent(string icsContent)
-    {
-        // This is a basic check, you can expand this method to perform more thorough validation.
-    }
 
     [Test]
     [Order(10004)]
