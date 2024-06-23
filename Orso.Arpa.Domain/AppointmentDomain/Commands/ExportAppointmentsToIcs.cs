@@ -22,27 +22,16 @@ public class ExportAppointmentsToIcs
 
     public class Handler : IRequestHandler<Command, string>
     {
-        private readonly IArpaContext _context;
+        private readonly IArpaContext _arpaContext;
 
         public Handler(IArpaContext context)
         {
-            _context = context;
+            _arpaContext = context;
         }
 
         public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
-            IEnumerable<Appointment> appointments = await _context.Appointments
-                .Include(a => a.Category)
-                .Include(a => a.Venue)
-                .ToListAsync(cancellationToken);
-
-            var calendar = new Calendar();
-
-            string timeZoneId = "Europe/Berlin";
-            var timeZone = new VTimeZone(timeZoneId);
-            calendar.AddTimeZone(timeZone);
-
-            IEnumerable<CalendarEvent> events = appointments.Select(a => new CalendarEvent
+            List<CalendarEvent> events = await _arpaContext.Appointments.Select(a => new CalendarEvent
             {
                 Summary = a.Name,
                 Description = (a.Category != null ? a.Category.SelectValue.Name : "-") + " - " +
@@ -52,9 +41,15 @@ public class ExportAppointmentsToIcs
                 Location = a.Venue != null ? a.Venue.Address.City : "-",
                 Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.StartTime)),
                 End = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.EndTime))
-            });
+            }).ToListAsync(cancellationToken);
 
-            foreach (CalendarEvent calendarEvent in events) calendar.Events.Add(calendarEvent);
+            var calendar = new Calendar();
+
+            string timeZoneId = "Europe/Berlin";
+            var timeZone = new VTimeZone(timeZoneId);
+            calendar.AddTimeZone(timeZone);
+
+            calendar.Events.AddRange(events);
 
             var serializer = new CalendarSerializer();
             return serializer.SerializeToString(calendar);
