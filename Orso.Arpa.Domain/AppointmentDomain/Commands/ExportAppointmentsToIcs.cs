@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ical.Net;
@@ -6,54 +7,57 @@ using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using Ical.Net.Serialization;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Misc.Extensions;
-using Orso.Arpa.Application.AppointmentApplication.Interfaces;
-using Orso.Arpa.Application.AppointmentApplication.Model;
 
-namespace Orso.Arpa.Domain.AppointmentDomain.Commands
+namespace Orso.Arpa.Domain.AppointmentDomain.Commands;
+
+public class ExportAppointmentsToIcs
 {
-    public class ExportAppointmentsToIcs
+    public class Command : IRequest<string>
     {
-        public class Command : IRequest<string>
+    }
+
+    public class Handler : IRequestHandler<Command, string>
+    {
+        private readonly IArpaContext _context;
+
+        public Handler(IArpaContext context)
         {
+            _context = context;
         }
 
-        public class Handler : IRequestHandler<Command, string>
+        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
-            private readonly IAppointmentService _appointmentService;
+            IEnumerable<Appointment> appointments = await _context.Appointments
+                .Include(a => a.Category)
+                .Include(a => a.Venue)
+                .ToListAsync(cancellationToken);
 
-            public Handler(IAppointmentService appointmentService)
+            var calendar = new Calendar();
+
+            string timeZoneId = "Europe/Berlin";
+            var timeZone = new VTimeZone(timeZoneId);
+            calendar.AddTimeZone(timeZone);
+
+            IEnumerable<CalendarEvent> events = appointments.Select(a => new CalendarEvent
             {
-                _appointmentService = appointmentService;
-            }
+                Summary = a.Name,
+                Description = (a.Category != null ? a.Category.SelectValue.Name : "-") + " - " +
+                              (string.IsNullOrEmpty(a.PublicDetails) ? "-" : a.PublicDetails) +
+                              " - " +
+                              (string.IsNullOrEmpty(a.InternalDetails) ? "-" : a.InternalDetails),
+                Location = a.Venue != null ? a.Venue.Address.City : "-",
+                Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.StartTime)),
+                End = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.EndTime))
+            });
 
-            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
-            {
-                IEnumerable<AppointmentListDto> appointments = await _appointmentService.GetAsync(null, null);
+            foreach (CalendarEvent calendarEvent in events) calendar.Events.Add(calendarEvent);
 
-                var calendar = new Calendar();
-
-                string timeZoneId = "Europe/Berlin";
-                var timeZone = new VTimeZone(timeZoneId);
-                calendar.AddTimeZone(timeZone);
-
-                foreach (AppointmentListDto appointment in appointments)
-                {
-                    var calendarEvent = new CalendarEvent
-                    {
-                        Summary = appointment.Name,
-                        Description = appointment.Category,
-                        Location = appointment.City,
-                        Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(appointment.StartTime)),
-                        End = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(appointment.EndTime))
-                    };
-
-                    calendar.Events.Add(calendarEvent);
-                }
-
-                var serializer = new CalendarSerializer();
-                return serializer.SerializeToString(calendar);
-            }
+            var serializer = new CalendarSerializer();
+            return serializer.SerializeToString(calendar);
         }
     }
 }
