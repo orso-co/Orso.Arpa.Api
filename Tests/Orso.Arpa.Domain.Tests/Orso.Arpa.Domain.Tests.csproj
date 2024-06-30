@@ -17,6 +17,7 @@
     <Compile Remove="UrlsTests\MappingProfileTests\**" />
     <Compile Remove="UsersTests\ValidatorTests\**" />
     <Compile Remove="VenuesTests\ValidatorTests\**" />
+    <Compile Include="AppointmentTests\QueryHandlerTests\ExportAppointmentsToIcsHandlerTests.cs" />
     <EmbeddedResource Remove="AppointmentTests\QueryHandlerTests\**" />
     <EmbeddedResource Remove="AuthTests\QueryHandlerTests\**" />
     <EmbeddedResource Remove="MusicianProfileTests\MappingProfileTests\**" />

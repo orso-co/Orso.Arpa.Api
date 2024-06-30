@@ -12,15 +12,15 @@ using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Misc.Extensions;
 
-namespace Orso.Arpa.Domain.AppointmentDomain.Commands;
+namespace Orso.Arpa.Domain.AppointmentDomain.Queries;
 
 public class ExportAppointmentsToIcs
 {
-    public class Command : IRequest<string>
+    public class Query : IRequest<string>
     {
     }
 
-    public class Handler : IRequestHandler<Command, string>
+    public class Handler : IRequestHandler<Query, string>
     {
         private readonly IArpaContext _arpaContext;
 
@@ -29,7 +29,7 @@ public class ExportAppointmentsToIcs
             _arpaContext = context;
         }
 
-        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<string> Handle(Query request, CancellationToken cancellationToken)
         {
             List<CalendarEvent> events = await _arpaContext.Appointments.Select(a => new CalendarEvent
             {

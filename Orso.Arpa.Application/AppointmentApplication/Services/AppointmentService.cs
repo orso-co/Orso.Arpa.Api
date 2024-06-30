@@ -11,6 +11,7 @@ using Orso.Arpa.Application.General.Services;
 using Orso.Arpa.Domain.AppointmentDomain.Commands;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Queries;
 using Orso.Arpa.Domain.AppointmentDomain.Util;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.GenericHandlers;
@@ -182,7 +183,7 @@ public class AppointmentService : BaseService<
 
     public async Task<string> ExportAppointmentsToIcsAsync()
     {
-        var command = new ExportAppointmentsToIcs.Command();
-        return await _mediator.Send(command);
+        var query = new ExportAppointmentsToIcs.Query();
+        return await _mediator.Send(query);
     }
 }
