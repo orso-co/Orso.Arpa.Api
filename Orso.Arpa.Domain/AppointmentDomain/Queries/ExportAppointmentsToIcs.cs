@@ -8,7 +8,6 @@ using Ical.Net.DataTypes;
 using Ical.Net.Serialization;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Misc.Extensions;
 

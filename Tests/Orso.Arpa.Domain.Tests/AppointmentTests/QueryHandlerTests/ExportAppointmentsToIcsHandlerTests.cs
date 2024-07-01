@@ -21,6 +21,7 @@ public class ExportAppointmentsToIcsHandlerTests
 {
     private IArpaContext _arpaContext;
     private ExportAppointmentsToIcs.Handler _handler;
+    private static readonly string[] separator = ["\r\n", "\r", "\n", Environment.NewLine];
 
     [SetUp]
     public void Setup()
@@ -39,47 +40,48 @@ public class ExportAppointmentsToIcsHandlerTests
                 FakeAppointments.RockingXMasRehearsal, AppointmentSeedData.RehearsalWeekend
             }.AsQueryable().BuildMockDbSet();
         _arpaContext.Appointments.Returns(appointmentMock);
-        var expectedResultWithoutDynamicValues =
-            @"BEGIN:VCALENDAR
-            PRODID:-//github.com/rianjs/ical.net//NONSGML ical.net 4.0//EN
-            VERSION:2.0
-            BEGIN:VTIMEZONE
-            TZID:Europe/Berlin
-            X-LIC-LOCATION:Europe/Berlin
-            END:VTIMEZONE
-            BEGIN:VEVENT
-            DESCRIPTION:Rehearsal | Let's rock | I need more coffee
-            DTEND:20191221T193000
-            DTSTART:20191221T110000
-            LOCATION:Freiburg
-            SEQUENCE:0
-            SUMMARY:Rocking X-mas Dress Rehearsal
-            END:VEVENT
-            BEGIN:VEVENT
-            DESCRIPTION:- | Accordion rehearsal weekend - |
-            DTEND:20191224T170000
-            DTSTART:20191220T160000
-            LOCATION:-
-            SEQUENCE:0
-            SUMMARY:Rehearsal weekend
-            END:VEVENT
-            END:VCALENDAR
-            ";
+        string[] expectedResultWithoutDynamicValues = [
+            "BEGIN:VCALENDAR",
+            "PRODID:-//github.com/rianjs/ical.net//NONSGML ical.net 4.0//EN",
+            "VERSION:2.0",
+            "BEGIN:VTIMEZONE",
+            "TZID:Europe/Berlin",
+            "X-LIC-LOCATION:Europe/Berlin",
+            "END:VTIMEZONE",
+            "BEGIN:VEVENT",
+            "DESCRIPTION:Rehearsal | Let's rock | I need more coffee",
+            "DTEND:20191221T193000",
+            "DTSTART:20191221T110000",
+            "LOCATION:Freiburg",
+            "SEQUENCE:0",
+            "SUMMARY:Rocking X-mas Dress Rehearsal",
+            "END:VEVENT",
+            "BEGIN:VEVENT",
+            "DESCRIPTION:- | Accordion rehearsal weekend | -",
+            "DTEND:20191224T170000",
+            "DTSTART:20191220T160000",
+            "LOCATION:-",
+            "SEQUENCE:0",
+            "SUMMARY:Rehearsal weekend",
+            "END:VEVENT",
+            "END:VCALENDAR"];
 
         // Act
-        string result =
-            await _handler.Handle(new ExportAppointmentsToIcs.Query(), new CancellationToken());
-        string normalizedResult = RemoveDtstampAndUid(result);
+        string result = await _handler.Handle(new ExportAppointmentsToIcs.Query(), new CancellationToken());
+        string[] normalizedResult = RemoveDtstampAndUid(result);
 
         // Assert
-        normalizedResult.Should().Be(expectedResultWithoutDynamicValues);
+        normalizedResult.Should().BeEquivalentTo(expectedResultWithoutDynamicValues, opt => opt.WithStrictOrdering());
     }
 
-    private string RemoveDtstampAndUid(string icsContent)
+    private static string[] RemoveDtstampAndUid(string icsContent)
     {
-        var lines = icsContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-        var normalizedLines =
-            lines.Where(line => !line.StartsWith("DTSTAMP") && !line.StartsWith("UID"));
-        return string.Join("\r\n", normalizedLines);
+        var lines = icsContent.Split(separator, StringSplitOptions.None);
+        return lines
+            .Where(line =>
+                !line.StartsWith("DTSTAMP")
+                && !line.StartsWith("UID")
+                && !string.IsNullOrEmpty(line))
+            .ToArray();
     }
 }
