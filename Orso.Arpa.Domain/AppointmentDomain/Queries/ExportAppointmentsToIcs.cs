@@ -34,9 +34,9 @@ public class ExportAppointmentsToIcs
             List<CalendarEvent> events = await _arpaContext.Appointments.Select(a => new CalendarEvent
             {
                 Summary = a.Name,
-                Description = (a.Category != null ? a.Category.SelectValue.Name : "-") + " - " +
+                Description = (a.Category != null ? a.Category.SelectValue.Name : "-") + " | " +
                               (string.IsNullOrEmpty(a.PublicDetails) ? "-" : a.PublicDetails) +
-                              " - " +
+                              " | " +
                               (string.IsNullOrEmpty(a.InternalDetails) ? "-" : a.InternalDetails),
                 Location = a.Venue != null ? a.Venue.Address.City : "-",
                 Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.StartTime)),

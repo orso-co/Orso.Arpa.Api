@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -38,7 +39,7 @@ public class ExportAppointmentsToIcsHandlerTests
                 FakeAppointments.RockingXMasRehearsal, AppointmentSeedData.RehearsalWeekend
             }.AsQueryable().BuildMockDbSet();
         _arpaContext.Appointments.Returns(appointmentMock);
-        var expectedResult =
+        var expectedResultWithoutDynamicValues =
             @"BEGIN:VCALENDAR
             PRODID:-//github.com/rianjs/ical.net//NONSGML ical.net 4.0//EN
             VERSION:2.0
@@ -47,24 +48,20 @@ public class ExportAppointmentsToIcsHandlerTests
             X-LIC-LOCATION:Europe/Berlin
             END:VTIMEZONE
             BEGIN:VEVENT
-            DESCRIPTION:Rehearsal - Let's rock - I need more coffee
+            DESCRIPTION:Rehearsal | Let's rock | I need more coffee
             DTEND:20191221T193000
-            DTSTAMP:20240630T150941Z
             DTSTART:20191221T110000
             LOCATION:Freiburg
             SEQUENCE:0
             SUMMARY:Rocking X-mas Dress Rehearsal
-            UID:7fe11a86-6fbd-4f80-b69d-9e7f51b34acd
             END:VEVENT
             BEGIN:VEVENT
-            DESCRIPTION:- - Accordion rehearsal weekend - -
+            DESCRIPTION:- | Accordion rehearsal weekend - |
             DTEND:20191224T170000
-            DTSTAMP:20240630T150941Z
             DTSTART:20191220T160000
             LOCATION:-
             SEQUENCE:0
             SUMMARY:Rehearsal weekend
-            UID:9b3607cc-0cf1-458f-b9c8-52913feef140
             END:VEVENT
             END:VCALENDAR
             ";
@@ -72,8 +69,17 @@ public class ExportAppointmentsToIcsHandlerTests
         // Act
         string result =
             await _handler.Handle(new ExportAppointmentsToIcs.Query(), new CancellationToken());
+        string normalizedResult = RemoveDtstampAndUid(result);
 
         // Assert
-        result.Should().Be(expectedResult);
+        normalizedResult.Should().Be(expectedResultWithoutDynamicValues);
+    }
+
+    private string RemoveDtstampAndUid(string icsContent)
+    {
+        var lines = icsContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+        var normalizedLines =
+            lines.Where(line => !line.StartsWith("DTSTAMP") && !line.StartsWith("UID"));
+        return string.Join("\r\n", normalizedLines);
     }
 }
