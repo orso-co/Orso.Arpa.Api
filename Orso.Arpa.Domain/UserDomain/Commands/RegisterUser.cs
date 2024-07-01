@@ -101,7 +101,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
                         break;
                     default:
                         throw new ValidationException(
-                            [new(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.")]);
+                            [new ValidationFailure(nameof(Command.Email), "Multiple persons found with this email address. Registration aborted. Please contact your system admin.")]);
                 }
 
                 var user = new User

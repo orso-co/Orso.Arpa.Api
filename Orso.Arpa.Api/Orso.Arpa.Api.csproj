@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.Test.json" />
+    <Content Remove="appsettings.Test.json"/>
   </ItemGroup>
 
   <ItemGroup>
