@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Ical.Net;
+using Ical.Net.DataTypes;
 using Microsoft.AspNetCore.Mvc;
 using netDumbster.smtp;
 using NUnit.Framework;
@@ -12,9 +14,12 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
 using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -116,7 +121,48 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Participations.Should().BeEmpty();
         }
 
-        [Test, Order(4)]
+
+        [Test]
+        [Order(4)]
+        public async Task Should_Export_Appointments_To_Ics()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.AppointmentsController.ExportToIcs());
+
+            // Assert
+            responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseMessage.Content.Headers.ContentType.ToString().Should().Be("text/calendar");
+
+            string icsContent = await responseMessage.Content.ReadAsStringAsync();
+            icsContent.Should().NotBeNullOrEmpty();
+
+
+            icsContent.Should().Contain("BEGIN:VEVENT");
+            icsContent.Should().Contain("END:VEVENT");
+
+            icsContent.Should().Contain("SUMMARY:");
+            icsContent.Should().Contain("DTSTART:");
+            icsContent.Should().Contain("DTEND:");
+            icsContent.Should().Contain("DESCRIPTION:");
+
+            icsContent.Should().Contain("BEGIN:VTIMEZONE");
+            icsContent.Should().Contain("TZID:Europe/Berlin");
+
+            var calendar = Calendar.Load(icsContent);
+            calendar.Events.Should().NotBeEmpty();
+            var firstEvent = calendar.Events.First();
+            firstEvent.Summary.Should().NotBeNullOrEmpty();
+            firstEvent.Start.Should().BeOfType<CalDateTime>();
+            firstEvent.End.Should().BeOfType<CalDateTime>();
+            ((CalDateTime)firstEvent.Start).Value.Should().BeAfter(DateTime.MinValue);
+            ((CalDateTime)firstEvent.End).Value.Should().BeAfter(((CalDateTime)firstEvent.Start).Value);
+        }
+
+
+        [Test, Order(5)]
         public async Task Should_Send_Appointment_Changed_Notification() {
             // Arrange
             _fakeSmtpServer.ClearReceivedEmail();
@@ -137,7 +183,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 .PostAsync(ApiEndpoints.AppointmentsController.SendAppointmentChangedNotification(
                     AppointmentSeedData.PhotoSession.Id,
                     true), null);
-            
+
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
             _fakeSmtpServer.ReceivedEmailCount.Should().Be(1);
