@@ -32,8 +32,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Roles = RoleNames.Staff)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> Get(
-            [FromQuery] DateTime? date, [FromQuery] DateRange range)
+        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range)
         {
             return Ok(await _appointmentService.GetAsync(date, range));
         }
@@ -50,8 +49,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AppointmentDto>> GetById([FromRoute] Guid id,
-            [FromQuery] bool includeParticipations = true)
+        public async Task<ActionResult<AppointmentDto>> GetById([FromRoute] Guid id, [FromQuery] bool includeParticipations = true)
         {
             return Ok(await _appointmentService.GetByIdAsync(id, includeParticipations));
         }
@@ -70,8 +68,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails),
             StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> Post(
-            [FromBody] AppointmentCreateDto appointmentCreateDto)
+        public async Task<ActionResult<AppointmentDto>> Post([FromBody] AppointmentCreateDto appointmentCreateDto)
         {
             AppointmentDto createdAppointment =
                 await _appointmentService.CreateAsync(appointmentCreateDto);
@@ -110,11 +107,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("{id}/projects/{projectId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> AddProject(
-            [FromRoute] AppointmentAddProjectDto addProjectDto,
-            [FromQuery] bool includeParticipations = true)
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<AppointmentDto>> AddProject([FromRoute] AppointmentAddProjectDto addProjectDto, [FromQuery] bool includeParticipations = true)
         {
             return await _appointmentService.AddProjectAsync(addProjectDto, includeParticipations);
         }
@@ -134,9 +128,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails),
             StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> AddSection(
-            [FromRoute] AppointmentAddSectionDto addSectionDto,
-            [FromQuery] bool includeParticipations = true)
+        public async Task<ActionResult<AppointmentDto>> AddSection([FromRoute] AppointmentAddSectionDto addSectionDto, [FromQuery] bool includeParticipations = true)
         {
             return await _appointmentService.AddSectionAsync(addSectionDto, includeParticipations);
         }
@@ -152,13 +144,11 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPost("{id}/notification")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<AppointmentDto>> SendAppointmentChangedNotification(
             SendAppointmentChangedNotificationDto sendAppointmentChangedNotificationDto)
         {
-            await _appointmentService.SendAppointmentChangedNotificationAsync(
-                sendAppointmentChangedNotificationDto);
+            await _appointmentService.SendAppointmentChangedNotificationAsync(sendAppointmentChangedNotificationDto);
             return NoContent();
         }
 
@@ -173,8 +163,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}/venue/set/{venueId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> SetVenue([FromRoute] AppointmentSetVenueDto setVenueDto)
         {
             await _appointmentService.SetVenueAsync(setVenueDto);
@@ -192,12 +181,10 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Put(AppointmentModifyDto appointmentModifyDto)
         {
             await _appointmentService.ModifyAsync(appointmentModifyDto);
-
             return NoContent();
         }
 
@@ -233,14 +220,10 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{id}/sections/{sectionId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> RemoveSection(
-            [FromRoute] AppointmentRemoveSectionDto removeSectionDto,
-            [FromQuery] bool includeParticipations = true)
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<AppointmentDto>> RemoveSection([FromRoute] AppointmentRemoveSectionDto removeSectionDto, [FromQuery] bool includeParticipations = true)
         {
-            return await _appointmentService.RemoveSectionAsync(removeSectionDto,
-                includeParticipations);
+            return await _appointmentService.RemoveSectionAsync(removeSectionDto, includeParticipations);
         }
 
         /// <summary>
@@ -257,12 +240,9 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails),
             StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<AppointmentDto>> RemoveProject(
-            [FromRoute] AppointmentRemoveProjectDto removeProjectDto,
-            [FromQuery] bool includeParticipations = true)
+        public async Task<ActionResult<AppointmentDto>> RemoveProject([FromRoute] AppointmentRemoveProjectDto removeProjectDto, [FromQuery] bool includeParticipations = true)
         {
-            return await _appointmentService.RemoveProjectAsync(removeProjectDto,
-                includeParticipations);
+            return await _appointmentService.RemoveProjectAsync(removeProjectDto, includeParticipations);
         }
 
         /// <summary>
@@ -276,8 +256,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> Delete([FromRoute] Guid id)
         {
             await _appointmentService.DeleteAsync(id);
@@ -295,8 +274,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}/dates/set")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult<AppointmentDto>> SetDates(AppointmentSetDatesDto setDatesDto)
         {
             return await _appointmentService.SetDatesAsync(setDatesDto);
@@ -313,8 +291,7 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}/participations/{personId}/result")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
         public async Task<ActionResult> SetParticipationResult(
             AppointmentParticipationSetResultDto setParticipationResult)
         {
@@ -333,10 +310,8 @@ namespace Orso.Arpa.Api.Controllers
         [HttpPut("{id}/participations/{personId}/prediction")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationProblemDetails),
-            StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult> SetParticipationPrediction(
-            AppointmentParticipationSetPredictionDto setParticipationPrediction)
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> SetParticipationPrediction(AppointmentParticipationSetPredictionDto setParticipationPrediction)
         {
             await _appointmentService.SetParticipationPredictionAsync(setParticipationPrediction);
             return NoContent();
