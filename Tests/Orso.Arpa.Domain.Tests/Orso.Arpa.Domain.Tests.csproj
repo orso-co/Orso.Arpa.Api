@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AppointmentTests\QueryHandlerTests\**" />
+    <Compile Remove="AppointmentTests\QueryHandlerTests\**"/>
     <Compile Remove="AuthTests\QueryHandlerTests\**" />
     <Compile Remove="MusicianProfileTests\MappingProfileTests\**" />
     <Compile Remove="ProjectsTests\MappingProfileTests\**" />
@@ -17,7 +17,7 @@
     <Compile Remove="UrlsTests\MappingProfileTests\**" />
     <Compile Remove="UsersTests\ValidatorTests\**" />
     <Compile Remove="VenuesTests\ValidatorTests\**" />
-    <EmbeddedResource Remove="AppointmentTests\QueryHandlerTests\**" />
+    <Compile Include="AppointmentTests\QueryHandlerTests\ExportAppointmentsToIcsHandlerTests.cs" />
     <EmbeddedResource Remove="AuthTests\QueryHandlerTests\**" />
     <EmbeddedResource Remove="MusicianProfileTests\MappingProfileTests\**" />
     <EmbeddedResource Remove="ProjectsTests\MappingProfileTests\**" />
@@ -27,7 +27,6 @@
     <EmbeddedResource Remove="UrlsTests\MappingProfileTests\**" />
     <EmbeddedResource Remove="UsersTests\ValidatorTests\**" />
     <EmbeddedResource Remove="VenuesTests\ValidatorTests\**" />
-    <None Remove="AppointmentTests\QueryHandlerTests\**" />
     <None Remove="AuthTests\QueryHandlerTests\**" />
     <None Remove="MusicianProfileTests\MappingProfileTests\**" />
     <None Remove="ProjectsTests\MappingProfileTests\**" />
@@ -40,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ical.Net" Version="4.2.0" />
     <PackageReference Include="nunit" Version="4.1.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />

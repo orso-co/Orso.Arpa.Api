@@ -16,7 +16,7 @@ namespace Orso.Arpa.Misc.Extensions
             return berlinDateTime.ToString("dddd, dd.MM.yyyy HH:mm", new CultureInfo("en-GB"));
         }
 
-        private static DateTime ConvertToLocalTimeBerlin(DateTime dateTime)
+        public static DateTime ConvertToLocalTimeBerlin(DateTime dateTime)
         {
             var berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
             DateTime berlinDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, berlinTimeZone);
