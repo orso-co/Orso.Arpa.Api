@@ -39,7 +39,7 @@ namespace Orso.Arpa.Domain.Tests.AuthTests.CommandHandlerTests
         {
             // Arrange
             const string expectedFileName = "ARPA_QRCode_Per_Former.png";
-            var expectedFile = File.ReadAllBytes(
+            var expectedFile = await File.ReadAllBytesAsync(
                 Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                 "Files",
                 expectedFileName));

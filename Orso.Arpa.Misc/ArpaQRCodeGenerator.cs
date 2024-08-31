@@ -1,5 +1,6 @@
 using QrCodes;
 using QrCodes.Renderers;
+using QrCodes.Renderers.Abstractions;
 
 namespace Orso.Arpa.Misc
 {
@@ -11,8 +12,8 @@ namespace Orso.Arpa.Misc
         {
             QrCode qrCode = QrCodeGenerator.Generate(
                 plainText: textToEncode,
-                eccLevel: ErrorCorrectionLevel.High);
-            return s_imageSharpRenderer.RenderToBytes(qrCode);
+                eccLevel: ErrorCorrectionLevel.Quartile);
+            return s_imageSharpRenderer.RenderToBytes(qrCode, new RendererSettings { PixelsPerModule = 20 } );
         }
     }
 }
