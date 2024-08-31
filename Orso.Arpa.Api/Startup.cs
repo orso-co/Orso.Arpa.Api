@@ -631,7 +631,7 @@ namespace Orso.Arpa.Api
             }
         }
 
-        protected void PreloadTranslationsFromDb(IApplicationBuilder app)
+        protected static void PreloadTranslationsFromDb(IApplicationBuilder app)
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
             IServiceProvider services = scope.ServiceProvider;
