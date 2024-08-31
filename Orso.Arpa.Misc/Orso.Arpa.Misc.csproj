@@ -6,6 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
-    <PackageReference Include="QRCoder-ImageSharp" Version="0.10.0" />
+    <PackageReference Include="Oscore.QrCodes.ImageSharp" Version="1.0.4" />
   </ItemGroup>
 </Project>
