@@ -13,6 +13,7 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
     <PackageReference Include="HotChocolate.Abstractions" Version="13.9.11" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
+    <PackageReference Include="VILLAN3LL3.DoomedDatabases.Postgres" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,9 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-     <Reference Include="DoomedDatabases.Postgres">
-       <HintPath>..\Orso.Arpa.Tests.Libs\DoomedDatabases.Postgres.dll</HintPath>
-     </Reference>
      <Reference Include="netDumbster">
        <HintPath>..\Orso.Arpa.Tests.Libs\netDumbster.dll</HintPath>
      </Reference>
