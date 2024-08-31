@@ -52,11 +52,6 @@
     <ProjectReference Include="..\Orso.Arpa.Application\Orso.Arpa.Application.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Domain\Orso.Arpa.Domain.csproj" />
     <ProjectReference Include="..\Orso.Arpa.Infrastructure\Orso.Arpa.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="NTRPRS.NLog.Slack">
-      <HintPath>..\Orso.Arpa.Libs\NTRPRS.NLog.Slack.dll</HintPath>
-    </Reference>
+    <PackageReference Include="VILLAN3LL3.NLog.Slack" Version="1.0.0" />
   </ItemGroup>
 </Project>
