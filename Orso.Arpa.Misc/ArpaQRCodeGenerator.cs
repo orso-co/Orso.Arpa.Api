@@ -1,27 +1,19 @@
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using QRCoder;
-using SixLabors.ImageSharp;
+using QrCodes;
+using QrCodes.Renderers;
+using QrCodes.Renderers.Abstractions;
 
 namespace Orso.Arpa.Misc
 {
     public static class ArpaQRCodeGenerator
     {
-        public static async Task<byte[]> GetQRCodeAsync(string textToEncode, CancellationToken cancellationToken)
-        {
-            var qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(textToEncode, QRCodeGenerator.ECCLevel.Q);
-            var qrCode = new QRCode(qrCodeData);
-            using Image qrCodeImage = qrCode.GetGraphic(20);
-            return await ImageToBytesAsync(qrCodeImage, cancellationToken);
-        }
+        private static ImageSharpRenderer s_imageSharpRenderer = new ImageSharpRenderer();
 
-        private static async Task<byte[]> ImageToBytesAsync(Image image, CancellationToken cancellationToken)
+        public static byte[] GetQRCode(string textToEncode)
         {
-            using var stream = new MemoryStream();
-            await image.SaveAsPngAsync(stream, cancellationToken);
-            return stream.ToArray();
+            QrCode qrCode = QrCodeGenerator.Generate(
+                plainText: textToEncode,
+                eccLevel: ErrorCorrectionLevel.Quartile);
+            return s_imageSharpRenderer.RenderToBytes(qrCode, new RendererSettings { PixelsPerModule = 20 } );
         }
     }
 }
