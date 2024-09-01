@@ -4,6 +4,7 @@ Digital development in the cultural sector
 
 ORSO Berlin develops choir and orchestra management software
 
+[![CI/CD](https://github.com/orso-co/Orso.Arpa.Api/actions/workflows/dotnet.yml/badge.svg?branch=develop)](https://github.com/orso-co/Orso.Arpa.Api/actions/workflows/dotnet.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
