@@ -70,8 +70,8 @@ Rebuilding the API on source updates.
 
 ## Starting the app locally without using docker
 
-- Install the [.NET 9.x SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
-- Install [PostgreSQL 16.x](https://www.postgresql.org/download/), start a server on `localhost:5432`.
+- Install the [.NET 8.x SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- Install [PostgreSQL 16.x](https://www.postgresql.org/download/), start a server on `localhost:5432`. 
 - Set the PostgreSQL connection string via [dotnet user-secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) (see appsettings.Development.json ConnectionStrings:PostgreSQLConnection)
 - Install and start [azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=npm%2Cblob-storage), e. g. via npm
 - Install oder configure a fake smtp server, e.g. [Mailtrap](https://mailtrap.io)
