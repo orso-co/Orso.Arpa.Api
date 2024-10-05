@@ -47,7 +47,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
 
             public async Task<(IList<Appointment> userAppointments, int totalCount)> Handle(Query request, CancellationToken cancellationToken)
             {
-                IList<Guid> appointmentIds = await _arpaContext.GetAppointmentIdsForPerson(request.Person.Id).Select(a => a.Id).ToListAsync(cancellationToken);
+                List<Guid> appointmentIds = await _arpaContext.GetAppointmentIdsForPerson(request.Person.Id).Select(a => a.Id).ToListAsync(cancellationToken);
                 var count = appointmentIds.Count;
 
                 IQueryable<Appointment> userAppointments = request.Passed
