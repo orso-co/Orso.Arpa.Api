@@ -1,11 +1,11 @@
 name: Snyk
 on:
-  push:	
-    branches:	
-      - develop	
-  pull_request:	
-    branches:	
-      - develop	
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
 jobs:
   snyk:
     name: Build and run snyk analysis
@@ -13,10 +13,10 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
-      - name: Setup .NET 8
+      - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
       - name: Clean
         run: dotnet clean ./Orso.Arpa.Api.sln --configuration Release && dotnet nuget locals all --clear
       - name: Restore dependencies
@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/dotnet@master 
+        uses: snyk/actions/dotnet@master
         continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
