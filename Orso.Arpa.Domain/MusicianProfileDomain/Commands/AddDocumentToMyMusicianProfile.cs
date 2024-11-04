@@ -50,7 +50,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
             {
                 var availableDocument = new MusicianProfileDocument(request.Id, request.DocumentId);
 
-                _arpaContext.Set<MusicianProfileDocument>().Add(availableDocument);
+                await _arpaContext.Set<MusicianProfileDocument>().AddAsync(availableDocument, cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

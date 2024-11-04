@@ -47,27 +47,28 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
 
             public async Task<IEnumerable<AppointmentParticipation>> Handle(Query request, CancellationToken cancellationToken)
             {
-                Guid personId = (await _arpaContext.FindAsync<MusicianProfile>(new object[] { request.MusicianProfileId }, cancellationToken)).PersonId;
+                Guid personId = (await _arpaContext.FindAsync<MusicianProfile>([request.MusicianProfileId], cancellationToken)).PersonId;
 
                 IQueryable<AppointmentParticipation> appointmentParticipations = _arpaContext
                     .Set<AppointmentParticipation>()
                     .Where(ap => ap.PersonId.Equals(personId));
 
-                if (appointmentParticipations.Any() && request.StartTime.HasValue)
+                if (await appointmentParticipations.AnyAsync(cancellationToken) && request.StartTime.HasValue)
                 {
                     var normalizedTime = new DateTime(request.StartTime.Value.Ticks, DateTimeKind.Unspecified);
                     appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.StartTime.Equals(normalizedTime));
                 }
 
-                if (appointmentParticipations.Any() && request.EndTime.HasValue)
+                if (await appointmentParticipations.AnyAsync(cancellationToken) && request.EndTime.HasValue)
                 {
                     var normalizedTime = new DateTime(request.EndTime.Value.Ticks, DateTimeKind.Unspecified);
                     appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.EndTime.Equals(normalizedTime));
                 }
 
-                if (appointmentParticipations.Any() && request.ProjectId.HasValue)
+                if (await appointmentParticipations.AnyAsync(cancellationToken) && request.ProjectId.HasValue)
                 {
-                    appointmentParticipations = appointmentParticipations.Where(ap => ap.Appointment.ProjectAppointments.Any(pa => pa.ProjectId.Equals(request.ProjectId)));
+                    appointmentParticipations = appointmentParticipations.Where(ap =>
+                        ap.Appointment.ProjectAppointments.Any(pa => pa.ProjectId.Equals(request.ProjectId)));
                 }
 
                 return await appointmentParticipations.ToListAsync(cancellationToken);

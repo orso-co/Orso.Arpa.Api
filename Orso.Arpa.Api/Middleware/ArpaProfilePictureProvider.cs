@@ -13,7 +13,7 @@ namespace Orso.Arpa.Api.Middleware
 {
     public class ArpaProfilePictureProvider : IImageProvider
     {
-        private static readonly char[] SlashChars = { '\\', '/' };
+        private static readonly char[] SlashChars = ['\\', '/'];
 
         private Func<HttpContext, bool> _match;
 
@@ -69,7 +69,7 @@ namespace Orso.Arpa.Api.Middleware
             return arpaContext.EntityExists<Person>(personId);
         }
 
-        private bool IsMatch(HttpContext context)
+        private static bool IsMatch(HttpContext context)
         {
             if (!context.Request.Method.Equals(HttpMethods.Get))
             {

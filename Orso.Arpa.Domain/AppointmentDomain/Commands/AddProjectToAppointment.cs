@@ -72,7 +72,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                 Appointment existingAppointment = await _arpaContext.Set<Appointment>().FindAsync([request.Id], cancellationToken);
                 Project existingProject = await _arpaContext.Set<Project>().FindAsync([request.ProjectId], cancellationToken);
 
-                _arpaContext.Set<ProjectAppointment>().Add(new ProjectAppointment(null, existingProject, existingAppointment));
+                await _arpaContext.Set<ProjectAppointment>().AddAsync(new ProjectAppointment(null, existingProject, existingAppointment), cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

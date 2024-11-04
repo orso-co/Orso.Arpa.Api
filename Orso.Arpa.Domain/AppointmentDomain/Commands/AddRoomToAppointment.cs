@@ -75,7 +75,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
 
                 var appointmentRoom = new AppointmentRoom(null, existingAppointment, existingRoom);
 
-                _arpaContext.Set<AppointmentRoom>().Add(appointmentRoom);
+                await _arpaContext.Set<AppointmentRoom>().AddAsync(appointmentRoom);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

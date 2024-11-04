@@ -4,6 +4,7 @@ Digital development in the cultural sector
 
 ORSO Berlin develops choir and orchestra management software
 
+[![CI/CD](https://github.com/orso-co/Orso.Arpa.Api/actions/workflows/snyk-security.yml/badge.svg?branch=develop)](https://github.com/orso-co/Orso.Arpa.Api/actions/workflows/snyk-security.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=orso-co_Orso.Arpa.Api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=orso-co_Orso.Arpa.Api)
@@ -77,6 +78,7 @@ Rebuilding the API on source updates.
 - Set the smtp configuration via [dotnet user-secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) (see appsettings.Development.json EmailConfiguration)
 - Run the project with the command `dotnet run --project Orso.Arpa.Api`
 - Open the Swagger UI on `https://localhost:5001`
+- Calling the local backend via the frontend may lead to certificate errors. In this case, run `dotnet dev-certs https`  and `dotnet dev-certs https --trust`
 
 ## Login
 The initial database contains a single user with an admin role. You can login using the following credentials:

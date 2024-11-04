@@ -41,7 +41,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             private static string Club => $"{Base}/club";
             public static string Get() => Club;
         }
-        
+
         public static class UsersController
         {
             private static string Users => $"{Base}/users";
@@ -267,6 +267,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string SendAppointmentChangedNotification(Guid id, bool forceSending) =>
                 $"{Appointments}/{id}/notification?forceSending={forceSending}";
+
+            public static string ExportToIcs() => $"{Appointments}/export";
         }
 
         public static class AuditLogsController

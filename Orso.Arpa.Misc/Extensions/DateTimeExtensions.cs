@@ -10,10 +10,22 @@ namespace Orso.Arpa.Misc.Extensions
             return dateTime == DateTime.MinValue ? null : dateTime.ToString("s", CultureInfo.InvariantCulture) + "Z";
         }
 
-        public static string ToGermanDateTimeString(this DateTime dateTime) {
+        public static string ToGermanDateTimeString(this DateTime dateTime)
+        {
+            DateTime berlinDateTime = ConvertToLocalTimeBerlin(dateTime);
+            return berlinDateTime.ToString("dddd, dd.MM.yyyy HH:mm", new CultureInfo("en-GB"));
+        }
+
+        public static DateTime ConvertToLocalTimeBerlin(DateTime dateTime)
+        {
             var berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
             DateTime berlinDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, berlinTimeZone);
-            return berlinDateTime.ToString("dddd, dd.MM.yyyy HH:mm", new CultureInfo("en-GB"));
+            return berlinDateTime;
+        }
+
+        public static string ToGermanTimeString(this DateTime dateTime) {
+            DateTime berlinDateTime = ConvertToLocalTimeBerlin(dateTime);
+            return berlinDateTime.ToString("HH:mm", new CultureInfo("en-GB"));
         }
 
         public static DateTime GetNextMidnight(this DateTime dateTime)

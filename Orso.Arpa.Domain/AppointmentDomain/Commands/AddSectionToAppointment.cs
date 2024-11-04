@@ -69,7 +69,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                 Appointment existingAppointment = await _arpaContext.Set<Appointment>().FindAsync([request.Id], cancellationToken);
                 Section existingSection = await _arpaContext.Set<Section>().FindAsync([request.SectionId], cancellationToken);
 
-                _arpaContext.Set<SectionAppointment>().Add(new SectionAppointment(null, existingSection, existingAppointment));
+                await _arpaContext.Set<SectionAppointment>().AddAsync(new SectionAppointment(null, existingSection, existingAppointment), cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

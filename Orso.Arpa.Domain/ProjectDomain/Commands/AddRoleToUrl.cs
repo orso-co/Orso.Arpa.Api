@@ -87,7 +87,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Commands
 
                 var urlRole = new UrlRole(null, existingUrl, existingRole);
 
-                _arpaContext.Set<UrlRole>().Add(urlRole);
+                await _arpaContext.Set<UrlRole>().AddAsync(urlRole, cancellationToken);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) > 0)
                 {

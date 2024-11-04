@@ -64,7 +64,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
 
                 var personSection = new PersonSection(null, existingPerson, existingSection);
 
-                _ = _arpaContext.Set<PersonSection>().Add(personSection);
+                _ = await _arpaContext.Set<PersonSection>().AddAsync(personSection, cancellationToken);
 
                 return await _arpaContext.SaveChangesAsync(cancellationToken) > 0
                     ? Unit.Value

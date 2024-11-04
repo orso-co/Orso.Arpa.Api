@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MockQueryable.NSubstitute;
+using MockQueryable;
 using NSubstitute;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
@@ -29,7 +29,7 @@ namespace Orso.Arpa.Tests.Shared.Identity
               Substitute.For<ILookupNormalizer>(),
               Substitute.For<IdentityErrorDescriber>(),
               Substitute.For<IServiceProvider>(),
-              Substitute.For<ILogger<UserManager<User>>>())
+              Substitute.For<ILogger<ArpaUserManager>>())
         { }
 
         public override IQueryable<User> Users

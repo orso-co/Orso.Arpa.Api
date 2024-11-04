@@ -90,6 +90,7 @@ using Orso.Arpa.Application.UserApplication.Interfaces;
 using Orso.Arpa.Application.UserApplication.Services;
 using Orso.Arpa.Application.VenueApplication.Interfaces;
 using Orso.Arpa.Application.VenueApplication.Services;
+using Orso.Arpa.Domain._General.Errors;
 using Orso.Arpa.Domain.AuditLogDomain.Model;
 using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -624,11 +625,11 @@ namespace Orso.Arpa.Api
             {
                 ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
                 logger.LogError(ex, "An error occured during database migration");
-                throw;
+                throw new SystemStartException("An error occured during database migration", ex);
             }
         }
 
-        protected void PreloadTranslationsFromDb(IApplicationBuilder app)
+        protected static void PreloadTranslationsFromDb(IApplicationBuilder app)
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
             IServiceProvider services = scope.ServiceProvider;
@@ -640,8 +641,8 @@ namespace Orso.Arpa.Api
             catch (Exception ex)
             {
                 ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                logger.LogError(ex, "Error during localization of data");
-                throw;
+                logger.LogError(ex, "Error during preload of localization data from database");
+                throw new SystemStartException("Error during preload of localization data from database", ex);
             }
         }
     }

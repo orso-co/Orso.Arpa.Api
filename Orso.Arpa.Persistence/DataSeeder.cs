@@ -51,7 +51,7 @@ namespace Orso.Arpa.Persistence
             var sqlDirectory = Path.Combine(AppContext.BaseDirectory, "SqlStatements");
             foreach (var sqlFile in Directory.EnumerateFiles(sqlDirectory, "*.sql").OrderBy(filename => filename))
             {
-                var sqlStatement = File.ReadAllText(Path.Combine(sqlDirectory, sqlFile));
+                var sqlStatement = await File.ReadAllTextAsync(Path.Combine(sqlDirectory, sqlFile));
                 _ = await _arpaContext.ExecuteSqlAsync(sqlStatement);
             }
         }

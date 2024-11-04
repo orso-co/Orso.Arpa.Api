@@ -11,6 +11,7 @@ using Orso.Arpa.Application.General.Services;
 using Orso.Arpa.Domain.AppointmentDomain.Commands;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Queries;
 using Orso.Arpa.Domain.AppointmentDomain.Util;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.GenericHandlers;
@@ -151,6 +152,12 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
         {
             SendAppointmentChangedNotification.Command command = _mapper.Map<SendAppointmentChangedNotification.Command>(sendAppointmentChangedNotificationDto);
             await _mediator.Send(command);
+        }
+
+        public async Task<string> ExportAppointmentsToIcsAsync()
+        {
+            var query = new ExportAppointmentsToIcs.Query();
+            return await _mediator.Send(query);
         }
     }
 }
