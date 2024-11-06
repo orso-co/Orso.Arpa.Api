@@ -61,7 +61,7 @@ namespace Orso.Arpa.Application.General.Extensions
         public static IRuleBuilder<T, string> Iban<T>(this IRuleBuilder<T, string> ruleBuilder)
         {
             return ruleBuilder
-                .Matches(@"^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}\d{13}|(?:BG|BH|GB|IE)\d{2}[A-Z]{4}\d{14}|GI\d{2}[A-Z]{4}\d{15}|RO\d{2}[A-Z]{4}\d{16}|KW\d{2}[A-Z]{4}\d{22}|MT\d{2}[A-Z]{4}\d{23}|NO\d{13}|BE\d{14}|(?:DK|FI|GL|FO)\d{16}|(?:MK|SI)\d{17}|(?:AT|EE|KZ|LU|XK)\d{18}|(?:BA|HR|LI|CH|CR)\d{19}|(?:GE|DE|LT|ME|RS)\d{20}|IL\d{21}|(?:AD|CZ|ES|MD|SA|SE|SK)\d{22}|PT\d{23}|IS\d{24}|(?:FR|MR)\d{25}|(?:AL|DO|LB|PL|HU)\d{26}|(?:AZ|UA)\d{27}|(?:GR|MU)\d{28})|MC\d{22}[A-Z]\d{2}$")
+                .Matches(@"^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}\d{13}|(?:BG|BH|GB|IE)\d{2}[A-Z]{4}\d{14}|GI\d{2}[A-Z]{4}\d{15}|RO\d{2}[A-Z]{4}\d{16}|KW\d{2}[A-Z]{4}\d{22}|MT\d{2}[A-Z]{4}\d{23}|NO\d{13}|BE\d{14}|(?:DK|FI|GL|FO)\d{16}|(?:MK|SI)\d{17}|(?:AT|EE|KZ|LU|XK)\d{18}|(?:BA|HR|LI|CH|CR)\d{19}|(?:GE|DE|ME|RS)\d{20}|(?:LT)\d{18}|IL\d{21}|(?:AD|CZ|ES|MD|SA|SE|SK)\d{22}|PT\d{23}|IS\d{24}|(?:FR|MR)\d{25}|(?:AL|DO|LB|PL|HU)\d{26}|(?:AZ|UA)\d{27}|(?:GR|MU)\d{28})|MC\d{22}[A-Z]\d{2}$")
                 .WithMessage("The supplied value is not a valid IBAN");
         }
 

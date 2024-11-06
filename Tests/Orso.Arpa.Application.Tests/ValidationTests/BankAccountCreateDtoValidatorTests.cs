@@ -55,7 +55,8 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
             "SK9311110000001057361004",
             "SI56031001001300933",
             "ES1020903200500041045040",
-            "CZ4201000000195505030267")] string iban)
+            "CZ4201000000195505030267",
+            "LT155133276711878496")] string iban)
         {
             _validator.ShouldNotHaveValidationErrorForExact(dto => dto.Iban, iban);
         }
