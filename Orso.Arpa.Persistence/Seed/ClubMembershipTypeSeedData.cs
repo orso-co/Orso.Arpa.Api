@@ -20,6 +20,7 @@ namespace Orso.Arpa.Persistence.Seed
                 Name = "Chormitgliedschaft",
                 Description = "Chor Freiburg",
                 TerminationPeriodInMonths = 3,
+                ClubId = ClubSeedData.OrsoFreiburg.Id
             }
         );
 
@@ -30,6 +31,7 @@ namespace Orso.Arpa.Persistence.Seed
                 Name = "Orchestermitgliedschaft",
                 Description = "Orchester Freiburg",
                 TerminationPeriodInMonths = 3,
+                ClubId = ClubSeedData.OrsoFreiburg.Id
             }
         );
 
@@ -40,6 +42,7 @@ namespace Orso.Arpa.Persistence.Seed
                 Name = "Fördermitgliedschaft",
                 Description = "Fördermitgliedschaft Freiburg",
                 TerminationPeriodInMonths = 3,
+                ClubId = ClubSeedData.OrsoFreiburg.Id
             }
         );
     }
