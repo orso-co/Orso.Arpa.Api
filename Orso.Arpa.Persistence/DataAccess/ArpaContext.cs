@@ -12,10 +12,12 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Orso.Arpa.Domain._General.Interfaces;
 using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.AuditLogDomain.Enums;
 using Orso.Arpa.Domain.AuditLogDomain.Model;
+using Orso.Arpa.Domain.ClubDomain.Model;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.General.Model;
@@ -60,6 +62,10 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<Club> Clubs { get; set; }
+        public DbSet<ClubMembershipType> ClubMembershipTypes { get; set; }
+        public DbSet<ClubMembershipSubType> ClubMembershipSubTypes { get; set; }
+        public DbSet<ClubMembershipProfile> ClubMembershipProfiles { get; set; }
         public DbSet<CurriculumVitaeReference> CurriculumVitaeReferences { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Localization> Localizations { get; set; }
@@ -334,7 +340,15 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         public async Task<TEntity> GetByIdAsync<TEntity>(Guid id, CancellationToken cancellationToken) where TEntity : BaseEntity
         {
-            return await FindAsync<TEntity>(new object[] { id }, cancellationToken);
+            return await FindAsync<TEntity>([id], cancellationToken);
+        }
+
+        public async Task<TVersionedEntity> GetCurrentAsync<TVersionedEntity>(CancellationToken cancellationToken) where TVersionedEntity : BaseEntity, IVersionedEntity {
+            return await Set<TVersionedEntity>()
+                .AsQueryable()
+                .Where(entity => entity.ValidFrom <= _dateTimeProvider.GetUtcNow())
+                .OrderByDescending(entity => entity.ValidFrom)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         /// <summary>

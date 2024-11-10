@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.AuditLogDomain.Model;
+using Orso.Arpa.Domain.ClubDomain.Model;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
@@ -32,6 +33,10 @@ namespace Orso.Arpa.Persistence.GraphQL
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<Club> Clubs { get; set; }
+        public DbSet<ClubMembershipType> ClubMembershipTypes { get; set; }
+        public DbSet<ClubMembershipSubType> ClubMembershipSubTypes { get; set; }
+        public DbSet<ClubMembershipProfile> ClubMembershipProfiles { get; set; }
         public DbSet<CurriculumVitaeReference> CurriculumVitaeReferences { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Localization> Localizations { get; set; }

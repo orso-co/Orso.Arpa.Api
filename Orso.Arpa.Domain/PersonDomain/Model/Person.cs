@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.ClubDomain.Model;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
@@ -173,6 +174,9 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
 
         [CascadingSoftDelete]
         public virtual ICollection<BankAccount> BankAccounts { get; private set; } = new HashSet<BankAccount>();
+
+        [CascadingSoftDelete]
+        public virtual ICollection<ClubMembershipProfile> ClubMemberships { get; private set; } = new HashSet<ClubMembershipProfile>();
 
         public string DisplayName => !string.IsNullOrEmpty(GivenName) && !string.IsNullOrEmpty(Surname) ? $"{GivenName} {Surname}" : (GivenName ?? Surname);
 
