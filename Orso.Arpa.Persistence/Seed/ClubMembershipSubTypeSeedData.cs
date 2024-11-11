@@ -8,7 +8,14 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class ClubMembershipSubTypeSeedData
     {
-        public static List<ClubMembershipSubType> ClubMembershipSubTypes => [
+        public static List<ClubMembershipSubType> ClubMembershipSubTypes =
+        [
+            .. ClubMembershipSubTypesFreiburg,
+            .. ClubMembershipSubTypesStuttgart,
+            .. ClubMembershipSubTypeBerlin
+        ];
+
+        public static List<ClubMembershipSubType> ClubMembershipSubTypesFreiburg => [
                 ChoirFreiburgFull,
                 ChoirFreiburgDiscounted,
                 ChoirFreiburgPassive,
@@ -20,6 +27,26 @@ namespace Orso.Arpa.Persistence.Seed
                 SponsoringFreiburgOpera
         ];
 
+        public static List<ClubMembershipSubType> ClubMembershipSubTypesStuttgart => [
+                StuttgartFull,
+                StuttgartDiscounted,
+                SponsoringStuttgartConcerto,
+                SponsoringStuttgartSymphony,
+                SponsoringStuttgartOpera
+        ];
+
+        public static List<ClubMembershipSubType> ClubMembershipSubTypeBerlin => [
+                ChoirBerlinFull,
+                ChoirBerlinDiscounted,
+                OrchestraBerlinFull,
+                OrchestraBerlinDiscounted,
+                SponsoringBerlinSonata,
+                SponsoringBerlinConcerto,
+                SponsoringBerlinSymphony,
+                SponsoringBerlinOpera
+        ];
+
+        #region Freiburg
         public static ClubMembershipSubType ChoirFreiburgFull => new ClubMembershipSubType(
             Guid.Parse("7eebc473-2555-434d-ae90-08f3e0e3d835"),
             new CreateClubMembershipSubType.Command
@@ -95,5 +122,119 @@ namespace Orso.Arpa.Persistence.Seed
                 Name = "Opera",
                 MemberhsipTypeId = ClubMembershipTypeSeedData.SponsoringFreiburg.Id
             });
+        #endregion
+
+        #region Stuttgart
+        public static ClubMembershipSubType StuttgartFull => new ClubMembershipSubType(
+Guid.Parse("80f328c9-48c9-4d72-9811-e3b93afae405"),
+new CreateClubMembershipSubType.Command
+{
+    Name = "Vollmitgliedschaft",
+    MemberhsipTypeId = ClubMembershipTypeSeedData.Stuttgart.Id
+}
+);
+
+        public static ClubMembershipSubType StuttgartDiscounted => new ClubMembershipSubType(
+            Guid.Parse("1435c3c5-6aaa-4b81-a269-f2b6f0e831b2"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Ermäßigte Mitgliedschaft",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.Stuttgart.Id
+            }
+        );
+
+        public static ClubMembershipSubType SponsoringStuttgartConcerto => new ClubMembershipSubType(
+            Guid.Parse("378b5352-8d96-412c-af28-e48b296cb360"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Concerto",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.SponsoringStuttgart.Id
+            });
+
+        public static ClubMembershipSubType SponsoringStuttgartSymphony => new ClubMembershipSubType(
+            Guid.Parse("38e971b6-6592-4efe-8919-8b19a2c365d7"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Symphony",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.SponsoringStuttgart.Id
+            });
+
+        public static ClubMembershipSubType SponsoringStuttgartOpera => new ClubMembershipSubType(
+            Guid.Parse("9ceedd14-edaa-4c59-b25d-6187a07fac7d"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Opera",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.SponsoringStuttgart.Id
+            });
+        #endregion
+
+        #region Berlin
+        public static ClubMembershipSubType ChoirBerlinFull => new ClubMembershipSubType(
+    Guid.Parse("fd21006f-ec6b-41fb-b383-0a11f6623707"),
+    new CreateClubMembershipSubType.Command
+    {
+        Name = "Vollmitgliedschaft",
+        MemberhsipTypeId = ClubMembershipTypeSeedData.ChoirBerlin.Id
+    }
+);
+
+        public static ClubMembershipSubType ChoirBerlinDiscounted => new ClubMembershipSubType(
+            Guid.Parse("7cf3b7b1-c9df-49ea-b7d4-f1063900fb48"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Ermäßigte Mitgliedschaft",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.ChoirBerlin.Id
+            }
+        );
+
+        public static ClubMembershipSubType OrchestraBerlinFull => new ClubMembershipSubType(
+            Guid.Parse("6df7f8fd-08cc-4188-8b65-a5ecbfadac49"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Vollmitgliedschaft",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.OrchestraBerlin.Id
+            }
+        );
+
+        public static ClubMembershipSubType OrchestraBerlinDiscounted => new ClubMembershipSubType(
+            Guid.Parse("644547ec-330b-4b70-8987-94622074b514"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Ermäßigte Mitgliedschaft",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.OrchestraBerlin.Id
+            });
+
+        public static ClubMembershipSubType SponsoringBerlinSonata => new ClubMembershipSubType(
+            Guid.Parse("2b3c4a88-39d7-49a2-8dfb-f4be156c06ed"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Sonata",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.SponsoringBerlin.Id
+            });
+
+        public static ClubMembershipSubType SponsoringBerlinConcerto => new ClubMembershipSubType(
+            Guid.Parse("9ac25c3c-af53-4aa7-a1fb-13bb899f5dba"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Concerto",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.SponsoringBerlin.Id
+            });
+
+        public static ClubMembershipSubType SponsoringBerlinSymphony => new ClubMembershipSubType(
+            Guid.Parse("f472ae22-e9ba-4091-9635-e63b4eebcec1"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Symphony",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.SponsoringBerlin.Id
+            });
+
+        public static ClubMembershipSubType SponsoringBerlinOpera => new ClubMembershipSubType(
+            Guid.Parse("55f4067d-f88e-4f51-a33e-d6e53597d275"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Opera",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.SponsoringBerlin.Id
+            });
+        #endregion
     }
 }
