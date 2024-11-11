@@ -15,6 +15,7 @@ namespace Orso.Arpa.Domain.ClubDomain.Model
         {
             ContributionPerYearInEuro = command.ContributionPerYearInEuro;
             ValidFrom = command.ValidFrom;
+            DeviatingVoucherPerConcertForParticipantsInPercent = command.DeviatingVoucherPerConcertForParticipantsInPercent;
             VoucherPerConcertInPercent = command.VoucherPerConcertInPercent;
             MembershipSubTypeId = command.MembershipSubTypeId;
         }
@@ -23,6 +24,7 @@ namespace Orso.Arpa.Domain.ClubDomain.Model
 
         public decimal ContributionPerYearInEuro { get; set; }
         public DateTime ValidFrom { get; set; }
+        public int? DeviatingVoucherPerConcertForParticipantsInPercent { get; set; }
         public int VoucherPerConcertInPercent { get; set; }
         public Guid MembershipSubTypeId { get; set; }
         public virtual ClubMembershipSubType MembershipSubType { get; set; }

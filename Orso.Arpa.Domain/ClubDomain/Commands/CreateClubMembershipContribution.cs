@@ -9,6 +9,7 @@ namespace Orso.Arpa.Domain.ClubDomain.Commands
         public class Command : ICreateCommand<ClubMembershipContribution> {
             public decimal ContributionPerYearInEuro { get; set; }
             public DateTime ValidFrom { get; set; }
+            public int? DeviatingVoucherPerConcertForParticipantsInPercent { get; set; }
             public int VoucherPerConcertInPercent { get; set; }
             public Guid MembershipSubTypeId { get; set; }
 
