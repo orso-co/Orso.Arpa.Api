@@ -1,6 +1,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using Orso.Arpa.Domain.AppointmentDomain.Queries;
 using Orso.Arpa.Domain.ClubDomain.Commands;
 using Orso.Arpa.Domain.ClubDomain.Model;
 
@@ -8,14 +10,18 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class ClubMembershipSubTypeSeedData
     {
-        public static List<ClubMembershipSubType> ClubMembershipSubTypes =
-        [
-            .. ClubMembershipSubTypesFreiburg,
-            .. ClubMembershipSubTypesStuttgart,
-            .. ClubMembershipSubTypeBerlin
-        ];
+        public static List<ClubMembershipSubType> ClubMembershipSubTypes
+        {
+        get {
+            return [
+                        .. ClubMembershipSubTypesFreiburg,
+                        .. ClubMembershipSubTypesStuttgart,
+                        .. ClubMembershipSubTypeBerlin
+                    ];
+            }
+        }
 
-        public static List<ClubMembershipSubType> ClubMembershipSubTypesFreiburg => [
+        private static List<ClubMembershipSubType> ClubMembershipSubTypesFreiburg => [
                 ChoirFreiburgFull,
                 ChoirFreiburgDiscounted,
                 ChoirFreiburgPassive,
@@ -27,7 +33,7 @@ namespace Orso.Arpa.Persistence.Seed
                 SponsoringFreiburgOpera
         ];
 
-        public static List<ClubMembershipSubType> ClubMembershipSubTypesStuttgart => [
+        private static List<ClubMembershipSubType> ClubMembershipSubTypesStuttgart => [
                 StuttgartFull,
                 StuttgartDiscounted,
                 SponsoringStuttgartConcerto,
@@ -35,7 +41,7 @@ namespace Orso.Arpa.Persistence.Seed
                 SponsoringStuttgartOpera
         ];
 
-        public static List<ClubMembershipSubType> ClubMembershipSubTypeBerlin => [
+        private static List<ClubMembershipSubType> ClubMembershipSubTypeBerlin => [
                 ChoirBerlinFull,
                 ChoirBerlinDiscounted,
                 OrchestraBerlinFull,

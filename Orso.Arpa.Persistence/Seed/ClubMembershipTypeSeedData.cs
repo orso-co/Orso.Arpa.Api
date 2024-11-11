@@ -7,25 +7,28 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class ClubMembershipTypeSeedData
     {
-        public static List<ClubMembershipType> ClubMembershipTypes =
-        [
-            .. ClubMembershipTypesFreiburg,
-            .. ClubMembershipTypesStuttgart,
-            .. ClubMembershipTypesBerlin
-        ];
+        public static List<ClubMembershipType> ClubMembershipTypes {
+            get {
+                return  [
+                    .. ClubMembershipTypesFreiburg,
+                    .. ClubMembershipTypesStuttgart,
+                    .. ClubMembershipTypesBerlin
+                ];
+            }
+        }
 
-        public static List<ClubMembershipType> ClubMembershipTypesFreiburg => [
+        private static List<ClubMembershipType> ClubMembershipTypesFreiburg => [
             ChoirFreiburg,
             OrchestraFreiburg,
             SponsoringFreiburg
         ];
 
-        public static List<ClubMembershipType> ClubMembershipTypesStuttgart => [
+        private static List<ClubMembershipType> ClubMembershipTypesStuttgart => [
             Stuttgart,
             SponsoringStuttgart
         ];
 
-        public static List<ClubMembershipType> ClubMembershipTypesBerlin => [
+        private static List<ClubMembershipType> ClubMembershipTypesBerlin => [
             ChoirBerlin,
             OrchestraBerlin,
             SponsoringBerlin

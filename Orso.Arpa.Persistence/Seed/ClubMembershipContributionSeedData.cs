@@ -7,14 +7,19 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class ClubMembershipContributionSeedData
     {
-        public static List<ClubMembershipContribution> ClubMembershipContributions =
-        [
-            .. ClubMembershipContributionsFreiburg,
-            .. ClubMembershipContributionsStuttgart,
-            .. ClubMembershipContributionsBerlin
-        ];
+        public static List<ClubMembershipContribution> ClubMembershipContributions
+        {
+            get {
+                return [
+                            .. ClubMembershipContributionsFreiburg,
+                            .. ClubMembershipContributionsStuttgart,
+                            .. ClubMembershipContributionsBerlin
+                        ];
+            }
+        }
 
-        public static List<ClubMembershipContribution> ClubMembershipContributionsFreiburg =>
+
+        private static List<ClubMembershipContribution> ClubMembershipContributionsFreiburg =>
         [
             ChoirFreiburgFullContribution,
             ChoirFreiburgDiscountedContribution,
@@ -27,7 +32,7 @@ namespace Orso.Arpa.Persistence.Seed
             SponsoringFreiburgOperaContribution
         ];
 
-        public static List<ClubMembershipContribution> ClubMembershipContributionsStuttgart =>
+        private static List<ClubMembershipContribution> ClubMembershipContributionsStuttgart =>
         [
             StuttgartFullContribution,
             StuttgartDiscountedContribution,
@@ -36,7 +41,7 @@ namespace Orso.Arpa.Persistence.Seed
             SponsoringStuttgartOperaContribution
         ];
 
-        public static List<ClubMembershipContribution> ClubMembershipContributionsBerlin =>
+        private static List<ClubMembershipContribution> ClubMembershipContributionsBerlin =>
         [
             ChoirBerlinFullContribution,
             ChoirBerlinDiscountedContribution,
