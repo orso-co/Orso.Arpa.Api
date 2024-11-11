@@ -135,15 +135,15 @@ namespace Orso.Arpa.Persistence.Seed
 
         #region Stuttgart
         public static ClubMembershipContribution StuttgartFullContribution => new ClubMembershipContribution(
-        Guid.Parse("00b78bd4-196e-433a-ae10-e99003350e83"),
-        new CreateClubMembershipContribution.Command
-        {
-            ContributionPerYearInEuro = 150,
-            ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-            DeviatingVoucherPerConcertForParticipantsInPercent = 20,
-            VoucherPerConcertInPercent = 10,
-            MembershipSubTypeId = ClubMembershipSubTypeSeedData.StuttgartFull.Id
-        });
+            Guid.Parse("00b78bd4-196e-433a-ae10-e99003350e83"),
+            new CreateClubMembershipContribution.Command
+            {
+                ContributionPerYearInEuro = 150,
+                ValidFrom = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                DeviatingVoucherPerConcertForParticipantsInPercent = 20,
+                VoucherPerConcertInPercent = 10,
+                MembershipSubTypeId = ClubMembershipSubTypeSeedData.StuttgartFull.Id
+            });
         public static ClubMembershipContribution StuttgartDiscountedContribution => new ClubMembershipContribution(
             Guid.Parse("a7c27fe2-c830-4974-b4ac-60726b9d0eba"),
             new CreateClubMembershipContribution.Command
@@ -186,19 +186,18 @@ namespace Orso.Arpa.Persistence.Seed
         #endregion
 
         #region Berlin
-
         public static ClubMembershipContribution ChoirBerlinFullContribution => new ClubMembershipContribution(
-                    Guid.Parse("a3cc890f-ca0f-4c9b-bea3-b95180f40338"),
-                    new CreateClubMembershipContribution.Command
-                    {
-                        ContributionPerYearInEuro = 240,
-                        ValidFrom = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-                        VoucherPerConcertInPercent = 10,
-                        DeviatingVoucherPerConcertForParticipantsInPercent = 20,
-                        MembershipSubTypeId = ClubMembershipSubTypeSeedData.ChoirBerlinFull.Id
-                    });
+            Guid.Parse("a3cc890f-ca0f-4c9b-bea3-b95180f40338"),
+            new CreateClubMembershipContribution.Command
+            {
+                ContributionPerYearInEuro = 240,
+                ValidFrom = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                VoucherPerConcertInPercent = 10,
+                DeviatingVoucherPerConcertForParticipantsInPercent = 20,
+                MembershipSubTypeId = ClubMembershipSubTypeSeedData.ChoirBerlinFull.Id
+            });
         public static ClubMembershipContribution ChoirBerlinDiscountedContribution => new ClubMembershipContribution(
-            Guid.Parse("6dd65f56-175f-42cf-b01a-87ed60699244"),
+            Guid.Parse("725207a8-8087-4aff-8057-550cf88158cc"),
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 120,
@@ -208,7 +207,7 @@ namespace Orso.Arpa.Persistence.Seed
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.ChoirBerlinDiscounted.Id
             });
         public static ClubMembershipContribution OrchestraBerlinFullContribution => new ClubMembershipContribution(
-            Guid.Parse("c770da21-7b1b-483c-9411-6f5a6f54b3e5"),
+            Guid.Parse("d8bdbb3a-5123-4385-a81e-789d3a0e3488"),
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 120,
@@ -218,7 +217,7 @@ namespace Orso.Arpa.Persistence.Seed
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.OrchestraBerlinFull.Id
             });
         public static ClubMembershipContribution OrchestraBerlinDiscountedContribution => new ClubMembershipContribution(
-            Guid.Parse("cceffa0d-07fd-4e37-aafd-dfb70e3f0de3"),
+            Guid.Parse("13e48948-cd21-4d50-93e9-34411713f572"),
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 60,
@@ -228,7 +227,7 @@ namespace Orso.Arpa.Persistence.Seed
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.OrchestraBerlinDiscounted.Id
             });
         public static ClubMembershipContribution SponsoringBerlinSonataContribution => new ClubMembershipContribution(
-            Guid.Parse("c4edb43f-9d42-4791-9bb9-cf6f7c35cb9d"),
+            Guid.Parse("6e26fdb2-2ed8-438f-94c1-4e08876898f6"),
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 100,
@@ -237,7 +236,7 @@ namespace Orso.Arpa.Persistence.Seed
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.SponsoringBerlinSonata.Id
             });
         public static ClubMembershipContribution SponsoringBerlinConcertoContribution => new ClubMembershipContribution(
-            Guid.Parse("c3c9cac7-2d96-46bb-a9a0-90d331aa69a1"),
+            Guid.Parse("0a8c5f09-419d-44c6-a717-92a7534eb192"),
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 150,
@@ -246,7 +245,7 @@ namespace Orso.Arpa.Persistence.Seed
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.SponsoringBerlinConcerto.Id
             });
         public static ClubMembershipContribution SponsoringBerlinSymphonyContribution => new ClubMembershipContribution(
-            Guid.Parse("573d5fab-4d19-47c7-8442-bffb18bd5111"),
+            Guid.Parse("aa0bc024-4a19-4b39-9140-b2a2446d59f3"),
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 200,
@@ -255,7 +254,7 @@ namespace Orso.Arpa.Persistence.Seed
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.SponsoringBerlinSymphony.Id
             });
         public static ClubMembershipContribution SponsoringBerlinOperaContribution => new ClubMembershipContribution(
-            Guid.Parse("08db5cb9-29a3-4d1f-834c-6e7bd51c9bee"),
+            Guid.Parse("fca5b166-de29-4c55-bbea-56143df3119f"),
             new CreateClubMembershipContribution.Command
             {
                 ContributionPerYearInEuro = 300,
@@ -263,8 +262,6 @@ namespace Orso.Arpa.Persistence.Seed
                 VoucherPerConcertInPercent = 30,
                 MembershipSubTypeId = ClubMembershipSubTypeSeedData.SponsoringBerlinOpera.Id
             });
-
-
         #endregion
     }
 }
