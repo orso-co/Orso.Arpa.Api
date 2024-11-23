@@ -100,11 +100,11 @@ namespace Orso.Arpa.Api.Middleware
                             Title = "One or more validation errors occurred.",
                             Status = (int)HttpStatusCode.UnprocessableEntity
                         };
+                        foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
+                        {
+                            errorMessage.Errors.Add(errorGrouping.Key, [.. errorGrouping.Select(g => g.ErrorMessage)]);
+                        }
                         _logger.LogWarning(ve, "DOMAIN VALIDATION ERROR");
-                    }
-                    foreach (IGrouping<string, FluentValidation.Results.ValidationFailure> errorGrouping in ve.Errors.GroupBy(e => e.PropertyName))
-                    {
-                        errorMessage.Errors.Add(errorGrouping.Key, errorGrouping.Select(g => g.ErrorMessage).ToArray());
                     }
                     break;
 

@@ -29,6 +29,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             {
                 RuleFor(q => q.UsernameOrEmail)
                     .MustAsync(async (userName, cancellation) => await userManager.FindUserByUsernameOrEmailAsync(userName) != null)
+                    .with
                     .WithErrorCode("401")
                     .WithMessage("The system could not log you in. Please enter a valid user name and password");
                 RuleFor(q => q.RemoteIpAddress)

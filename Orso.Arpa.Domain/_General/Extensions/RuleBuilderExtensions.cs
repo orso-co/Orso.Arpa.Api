@@ -19,7 +19,7 @@ namespace Orso.Arpa.Domain.General.Extensions
             IArpaContext arpaContext) where TEntity : BaseEntity
         {
             return ruleBuilder
-                .MustAsync(async (id, cancellation) => (await arpaContext.EntityExistsAsync<TEntity>(id, cancellation)))
+                .MustAsync(arpaContext.EntityExistsAsync<TEntity>)
                 .WithErrorCode("404")
                 .WithMessage($"{typeof(TEntity).Name} could not be found.");
         }
