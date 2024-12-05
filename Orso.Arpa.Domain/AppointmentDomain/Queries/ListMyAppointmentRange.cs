@@ -21,14 +21,9 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
             public Guid PersonId { get; } = personId;
         }
 
-        public class Handler : IRequestHandler<Query, IList<Appointment>>
+        public class Handler(IArpaContext arpaContext) : IRequestHandler<Query, IList<Appointment>>
         {
-            private readonly IArpaContext _arpaContext;
-
-            public Handler(IArpaContext arpaContext)
-            {
-                _arpaContext = arpaContext;
-            }
+            private readonly IArpaContext _arpaContext = arpaContext;
 
             public async Task<IList<Appointment>> Handle(Query request, CancellationToken cancellationToken)
             {
@@ -42,15 +37,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
                     || (a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime)).ToListAsync(cancellationToken);
                 var appointmentsToReturn = new List<Appointment>();
 
-                foreach (Appointment appointment in appointments)
-                {
-                    if (_arpaContext.IsPersonEligibleForAppointment(request.PersonId, appointment.Id))
-                    {
-                        appointmentsToReturn.Add(appointment);
-                    }
-                }
-
-                return appointmentsToReturn;
+                return [.. appointments.Where(a => _arpaContext.IsPersonEligibleForAppointment(request.PersonId, a.Id))];
             }
         }
     }
