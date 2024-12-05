@@ -1,9 +1,12 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.MeApplication.Interfaces;
 using Orso.Arpa.Application.MeApplication.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
 using static Orso.Arpa.Domain.UserDomain.Commands.SendMyQRCode;
@@ -60,6 +63,21 @@ namespace Orso.Arpa.Api.Controllers
             [FromQuery] bool passed = false)
         {
             return Ok(await _meService.GetMyAppointmentsAsync(limit, offset, passed));
+        }
+
+        /// <summary>
+        /// Queries a list of appointments dependent on the given date and date range
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="range"></param>
+        /// <returns>A list of appointments</returns>
+        /// <response code="200"></response>
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [HttpGet("appointments/range")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<Task<IList<MyAppointmentDto>>>> Get([FromQuery] DateTime? date, [FromQuery] DateRange range)
+        {
+            return Ok(await _meService.GetAppointmentRangeAsync(date, range));
         }
 
         /// <summary>

@@ -28,6 +28,7 @@ using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Queries;
 using Orso.Arpa.Misc;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 
 namespace Orso.Arpa.Application.MeApplication.Services
 {
@@ -205,5 +206,30 @@ namespace Orso.Arpa.Application.MeApplication.Services
             RemoveMyRegionPreference.Command command = _mapper.Map<RemoveMyRegionPreference.Command>(myRegionPreferenceRemoveDto);
             _ = await _mediator.Send(command);
         }
+
+        public async Task<IList<MyAppointmentDto>> GetAppointmentRangeAsync(DateTime? dateTime, DateRange dateRange)
+        {
+            dateTime ??= DateTime.Today;
+            Guid personId = _userAccessor.PersonId;
+
+            var query = new ListMyAppointmentRange.Query(dateTime, dateRange, personId);
+
+            IList<MyAppointmentDto> myAppointmentDtos = _mapper.Map<IList<MyAppointmentDto>>(await _mediator.Send(query));
+
+            foreach (MyAppointmentDto dto in myAppointmentDtos)
+            {
+                AppointmentParticipation participation = await _mediator.Send(new GetAppointmentParticipation.Query(
+                    dto.Id, personId));
+                if (participation != null)
+                {
+                    dto.Result = participation.Result;
+                    dto.Prediction = participation.Prediction;
+                    dto.CommentByPerformerInner = participation.CommentByPerformerInner;
+                }
+            }
+
+            return myAppointmentDtos;
+        }
+
     }
 }
