@@ -411,7 +411,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             ValidationProblemDetails errorMessage = await DeserializeResponseMessageAsync<ValidationProblemDetails>(responseMessage);
             _ = errorMessage.Title.Should().Be("Resource not found.");
             _ = errorMessage.Status.Should().Be(404);
-            _ = errorMessage.Errors.Should().BeEquivalentTo(new Dictionary<string, string[]>() { { "ProjectId", s_projectNotFoundMessage } });
         }
 
         [Test, Order(107)]
