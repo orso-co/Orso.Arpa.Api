@@ -35,7 +35,6 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
                 List<Appointment> appointments = await _arpaContext.Appointments.AsQueryable().Where(a => (
                     a.EndTime <= rangeEndTime && a.EndTime >= rangeStartTime)
                     || (a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime)).ToListAsync(cancellationToken);
-                var appointmentsToReturn = new List<Appointment>();
 
                 return [.. appointments.Where(a => _arpaContext.IsPersonEligibleForAppointment(request.PersonId, a.Id))];
             }
