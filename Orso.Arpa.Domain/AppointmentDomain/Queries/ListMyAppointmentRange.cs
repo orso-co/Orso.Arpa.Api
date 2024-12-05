@@ -32,9 +32,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
                 DateTime rangeStartTime = DateHelper.GetStartTime(date, request.DateRange);
                 DateTime rangeEndTime = DateHelper.GetEndTime(date, request.DateRange);
 
-                List<Appointment> appointments = await _arpaContext.Appointments.AsQueryable().Where(a => (
-                    a.EndTime <= rangeEndTime && a.EndTime >= rangeStartTime)
-                    || (a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime)).ToListAsync(cancellationToken);
+                List<Appointment> appointments = await _arpaContext.Appointments.AsQueryable().Where(a =>
+                    a.Status != AppointmentStatus.Refused &&
+                    ((a.EndTime <= rangeEndTime && a.EndTime >= rangeStartTime)
+                    || (a.EndTime > rangeEndTime && a.StartTime <= rangeEndTime))).ToListAsync(cancellationToken);
 
                 return [.. appointments.Where(a => _arpaContext.IsPersonEligibleForAppointment(request.PersonId, a.Id))];
             }
