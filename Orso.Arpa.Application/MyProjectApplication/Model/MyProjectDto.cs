@@ -9,7 +9,7 @@ public class MyProjectDto
 {
     public ProjectDto Project { get; set; }
     public ProjectDto ParentProject { get; set; }
-    public IList<MyProjectParticipationDto> Participations { get; set; } = new List<MyProjectParticipationDto>();
+    public IList<MyProjectParticipationDto> Participations { get; set; } = [];
 }
 
 public class MyProjectDtoMappingProfile : Profile

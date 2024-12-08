@@ -6,8 +6,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 {
     public static class SectionDtoData
     {
-        public static IList<SectionDto> Sections => new List<SectionDto>
-        {
+        public static IList<SectionDto> Sections =>
+        [
             Performers,
                 Conductor,
                     AssistantConductor,
@@ -164,10 +164,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Suppliers,
             Contractors,
 
-        };
+        ];
 
-        public static IList<SectionDto> InstrumentsWithChildren => new List<SectionDto>
-        {
+        public static IList<SectionDto> InstrumentsWithChildren =>
+        [
             Soprano,
             MezzoSoprano,
             Alto,
@@ -260,7 +260,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             AssistantConductor,
             Repetiteur,
             VocalCoach
-        };
+        ];
 
         public static SectionDto Performers => new() { Id = Guid.Parse("8bba816f-2315-43c0-b18e-99a27b1c9668"), Name = "Performers", };
         public static SectionDto Conductor => new() { Id = Guid.Parse("4E7A61C5-D2E4-4E3B-B21D-34A90CF958B2"), Name = "Conductor", };

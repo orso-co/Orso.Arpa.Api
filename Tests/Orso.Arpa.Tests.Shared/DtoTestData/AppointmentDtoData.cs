@@ -14,8 +14,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<AppointmentDto>
-                {
+                return
+                [
                     RockingXMasRehearsal,
                     AfterShowParty,
                     RockingXMasConcert,
@@ -23,7 +23,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     PhotoSession,
                     RehearsalWeekend,
                     AuditionDays
-                };
+                ];
             }
         }
 
@@ -64,10 +64,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = ReducedPersonDtoData.Performer,
 
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.PerformerProfile,
-                    }
+                    ]
                 };
             }
         }
@@ -100,11 +100,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = ReducedPersonDtoData.Staff,
                     Participation = AppointmentParticipationDtoData.StaffParticipation,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.StaffProfile1,
                         ReducedMusicianProfileDtoData.StaffProfile2,
-                    }
+                    ]
                 };
             }
         }
@@ -117,10 +117,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = ReducedPersonDtoData.Admin,
                     Participation = null,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.AdminProfile1,
-                    }
+                    ]
                 };
             }
         }
@@ -133,10 +133,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     Person = ReducedPersonDtoData.WithoutRole,
                     Participation = null,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.WithoutRoleProfile,
-                    }
+                    ]
                 };
             }
         }
@@ -165,38 +165,38 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.Performer,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.PerformerProfile,
                         ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
                         ReducedMusicianProfileDtoData.PerformerHornProfile
-                    }
+                    ]
                 });
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.Staff,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.StaffProfile1,
                         ReducedMusicianProfileDtoData.StaffProfile2
-                    }
+                    ]
                 });
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.Admin,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.AdminProfile1,
                         ReducedMusicianProfileDtoData.AdminProfile2
-                    }
+                    ]
                 });
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.WithoutRole,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.WithoutRoleProfile
-                    }
+                    ]
                 });
 
                 return dto;
@@ -286,35 +286,35 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.Performer,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.PerformerProfile
-                    }
+                    ]
                 });
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.Staff,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.StaffProfile1,
                         ReducedMusicianProfileDtoData.StaffProfile2
-                    }
+                    ]
                 });
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.Admin,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.AdminProfile1
-                    }
+                    ]
                 });
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.WithoutRole,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.WithoutRoleProfile
-                    }
+                    ]
                 });
                 return dto;
             }
@@ -396,10 +396,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 dto.Participations.Add(new AppointmentParticipationListItemDto
                 {
                     Person = ReducedPersonDtoData.Admin,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.AdminProfile1,
-                    }
+                    ]
                 });
                 return dto;
             }

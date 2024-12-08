@@ -8,7 +8,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData;
 public static class NewsSeedData
 {
     public static IList<News> News =>
-        new List<News> { FirstNews, SecondNews };
+        [FirstNews, SecondNews];
 
     public static News FirstNews =>
         new(

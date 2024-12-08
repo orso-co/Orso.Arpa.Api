@@ -16,8 +16,8 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
         {
             get
             {
-                return new List<SelectValueCategory>
-                {
+                return
+                [
                     AddressType,
                     AppointmentCategory,
                     AppointmentSalary,
@@ -38,7 +38,7 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
                     BankAccountStatus,
                     RoomEquipmentType,
                     RoomCapacity
-                };
+                ];
             }
         }
 

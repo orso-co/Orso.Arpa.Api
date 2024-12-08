@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Orso.Arpa.Application.PersonApplication.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -12,8 +13,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<ReducedPersonDto>
-                {
+                return
+                [
                     Performer,
                     Staff,
                     Admin,
@@ -21,7 +22,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     UnconfirmedUser,
                     DeletedUser,
                     LockedOutUser
-                };
+                ];
             }
         }
         public static ReducedPersonDto Performer
@@ -29,7 +30,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.Performer;
-                return CreateDto(person);
+                return CreateDto(person, UserTestSeedData.Performer);
             }
         }
 
@@ -38,7 +39,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.Staff;
-                return CreateDto(person);
+                return CreateDto(person, UserTestSeedData.Staff);
             }
         }
 
@@ -47,7 +48,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonSeedData.Admin;
-                return CreateDto(person);
+                return CreateDto(person, UserSeedData.Admin);
             }
         }
 
@@ -56,7 +57,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.UserWithoutRole;
-                return CreateDto(person);
+                return CreateDto(person, UserTestSeedData.UserWithoutRole);
             }
         }
 
@@ -65,7 +66,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.UnconfirmedUser;
-                return CreateDto(person);
+                return CreateDto(person, UserTestSeedData.UnconfirmedUser);
             }
         }
 
@@ -74,7 +75,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.DeletedUser;
-                return CreateDto(person);
+                return CreateDto(person, null);
             }
         }
 
@@ -83,18 +84,19 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             get
             {
                 Person person = PersonTestSeedData.LockedOutUser;
-                return CreateDto(person);
+                return CreateDto(person, UserTestSeedData.LockedOutUser);
             }
         }
 
-        private static ReducedPersonDto CreateDto(Person person)
+        private static ReducedPersonDto CreateDto(Person person, User user)
         {
             return new ReducedPersonDto
             {
                 GivenName = person.GivenName,
                 Id = person.Id,
                 Surname = person.Surname,
-                DisplayName = person.DisplayName
+                DisplayName = person.DisplayName,
+                UserEmail = user?.Email ?? string.Empty
             };
         }
     }

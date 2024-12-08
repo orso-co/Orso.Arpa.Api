@@ -13,8 +13,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<Project>
-                {
+                return
+                [
                     RockingXMas,
                     HoorayForHollywood,
                     Schneekönigin,
@@ -22,7 +22,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     ChorwerkstattFreiburg,
                     ChorwerkstattBerlin,
                     ChorwerkstattStuttgart
-                };
+                ];
             }
         }
 

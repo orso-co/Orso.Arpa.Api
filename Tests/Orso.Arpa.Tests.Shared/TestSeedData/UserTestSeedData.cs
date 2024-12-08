@@ -11,13 +11,13 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<User> {
+                return [
                     Performer,
                     Staff,
                     UserWithoutRole,
                     LockedOutUser,
                     UnconfirmedUser
-                };
+                ];
             }
         }
 

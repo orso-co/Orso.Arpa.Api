@@ -20,8 +20,8 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
     {
         public IDictionary<string, string> SuccessfulInvites { get; set; } = new Dictionary<string, string>();
 
-        public IList<string> PersonsWithoutEmailAddress { get; set; } = new List<string>();
-        public IList<string> PersonsAlreadyRegistered { get; set; } = new List<string>();
+        public IList<string> PersonsWithoutEmailAddress { get; set; } = [];
+        public IList<string> PersonsAlreadyRegistered { get; set; } = [];
         public IDictionary<string, IList<string>> PersonsWithMultipleEmailAddresses { get; set; } = new Dictionary<string, IList<string>>();
         public IDictionary<string, string> FailedInvites { get; set; } = new Dictionary<string, string>();
     }
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
     {
         public class Command : IRequest<PersonInviteResult>
         {
-            public IList<Guid> PersonIds { get; set; } = new List<Guid>();
+            public IList<Guid> PersonIds { get; set; } = [];
         }
 
         public class Validator : AbstractValidator<Command>

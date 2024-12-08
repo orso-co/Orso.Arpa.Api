@@ -13,10 +13,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<RoomSection>
-                {
+                return
+                [
                     AulaWeiherhofSchulePiano
-                };
+                ];
             }
         }
 

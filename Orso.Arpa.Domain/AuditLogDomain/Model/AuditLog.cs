@@ -16,9 +16,9 @@ namespace Orso.Arpa.Domain.AuditLogDomain.Model
         public DateTime CreatedAt { get; set; }
         public AuditLogType Type { get; set; }
         public string TableName { get; set; }
-        public Dictionary<string, object> OldValues { get; } = new Dictionary<string, object>();
-        public Dictionary<string, object> NewValues { get; } = new Dictionary<string, object>();
-        public IList<string> ChangedColumns { get; } = new List<string>();
+        public Dictionary<string, object> OldValues { get; } = [];
+        public Dictionary<string, object> NewValues { get; } = [];
+        public IList<string> ChangedColumns { get; } = [];
         public string KeyValues { get; set; } = "{}";
 
         private static readonly JsonSerializerOptions s_serializerOptions = new()

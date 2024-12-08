@@ -12,11 +12,11 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<RoomEquipment>
-                {
+                return
+                [
                     AulaWeiherhofSchuleChairs,
                     AulaWeiherhofschuleStage
-                };
+                ];
             }
         }
 

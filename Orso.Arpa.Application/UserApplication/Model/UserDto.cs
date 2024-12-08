@@ -12,12 +12,12 @@ namespace Orso.Arpa.Application.UserApplication.Model
     {
         public Guid Id { get; set; }
         public string UserName { get; set; }
-        public IList<string> RoleNames { get; set; } = new List<string>();
+        public IList<string> RoleNames { get; set; } = [];
         public string DisplayName { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public IList<SectionDto> StakeholderGroups { get; set; } = new List<SectionDto>();
+        public IList<SectionDto> StakeholderGroups { get; set; } = [];
         public UserStatus Status { get; set; }
         public Guid PersonId { get; set; }
     }

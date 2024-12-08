@@ -40,8 +40,8 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
                     InquiryStatusInner = MusicianProfileInquiryStatus.Unknown,
 
-                    PreferredPartsInner = new List<byte> { 1, 4 },
-                    PreferredPositionsInnerIds = new List<Guid> { Guid.NewGuid() },
+                    PreferredPartsInner = [1, 4],
+                    PreferredPositionsInnerIds = [Guid.NewGuid()],
                 }
             };
             var expectedCommand = new ModifyMyMusicianProfile.Command

@@ -29,9 +29,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 {
                     InstrumentName = SectionSeedData.Horn.Name,
                     Qualification = SelectValueSeedData.Student.Name,
-                    Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9"),
+                    Id = Guid.Parse("e2ef2e6c-035e-4fff-9293-a6a7b67524a9")
                 };
                 dto.DoublingInstrumentNames.Add(SectionSeedData.WagnerTuba.Name);
+                dto.PreferredPositionsTeam.Add(SelectValueSeedData.Coach.Name);
                 return dto;
             }
         }

@@ -19,7 +19,7 @@ namespace Orso.Arpa.Application.AuthApplication.Model
         public Guid GenderId { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ClientUri { get; set; }
-        public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
+        public IList<Guid> StakeholderGroupIds { get; set; } = [];
     }
 
     public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>

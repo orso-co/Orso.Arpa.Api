@@ -83,13 +83,13 @@ namespace Orso.Arpa.Application.Tests.ValidationTests
         [Test]
         public async Task Should_Have_Validation_Error_If_PreferredPositionsInner_Contains_Empty_Guid()
         {
-            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(dto => dto.PreferredPositionsInnerIds, new List<Guid>() { Guid.Empty });
+            await _bodyValidator.ShouldHaveValidationErrorForExactAsync(dto => dto.PreferredPositionsInnerIds, [Guid.Empty]);
         }
 
         [Test]
         public async Task Should_Not_Have_Validation_Error_If_PreferredPositionsInner_Contains_Valid_Guid()
         {
-            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.PreferredPositionsInnerIds, new List<Guid>() { Guid.NewGuid() });
+            await _bodyValidator.ShouldNotHaveValidationErrorForExactAsync(dto => dto.PreferredPositionsInnerIds, [Guid.NewGuid()]);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Orso.Arpa.Application.AuditLogApplication.Model
         public DateTime CreatedAt { get; set; }
         public AuditLogType Type { get; set; }
         public string TableName { get; set; }
-        public Dictionary<string, object> OldValues { get; set; } = new Dictionary<string, object>();
-        public Dictionary<string, object> NewValues { get; set; } = new Dictionary<string, object>();
-        public IList<string> ChangedColumns { get; set; } = new List<string>();
+        public Dictionary<string, object> OldValues { get; set; } = [];
+        public Dictionary<string, object> NewValues { get; set; } = [];
+        public IList<string> ChangedColumns { get; set; } = [];
     }
 
     public class AuditLogDtoMappingProfile : Profile

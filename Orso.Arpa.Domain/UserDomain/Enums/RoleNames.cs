@@ -13,12 +13,12 @@ namespace Orso.Arpa.Domain.UserDomain.Enums
         {
             get
             {
-                return new List<string>
-                {
+                return
+                [
                     Performer,
                     Staff,
                     Admin
-                };
+                ];
             }
         }
     }

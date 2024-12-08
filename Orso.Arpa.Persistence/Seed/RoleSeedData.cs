@@ -11,12 +11,12 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                return new List<Role>
-                {
+                return
+                [
                     Performer,
                     Staff,
                     Admin
-                };
+                ];
             }
         }
 

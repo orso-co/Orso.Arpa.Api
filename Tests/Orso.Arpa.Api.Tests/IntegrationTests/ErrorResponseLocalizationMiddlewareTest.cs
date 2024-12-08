@@ -139,6 +139,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
         public int Status { get; set; }
 
-        public Dictionary<string, string[]> errors = new();
+        public Dictionary<string, string[]> errors = [];
     }
 }

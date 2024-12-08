@@ -8,10 +8,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
     public static class EducationSeedData
     {
-        public static IList<Education> Educations => new List<Education>
-        {
+        public static IList<Education> Educations =>
+        [
             University,
-        };
+        ];
 
         public static Education University
         {

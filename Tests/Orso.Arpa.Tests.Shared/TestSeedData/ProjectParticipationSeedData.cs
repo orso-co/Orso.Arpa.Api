@@ -12,8 +12,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<ProjectParticipation>
-                {
+                return
+                [
                     PerformerSchneeköniginParticipation,
                     PerformerRockingXMasParticipation,
                     PerformerHoorayForHollywoodParticipation,
@@ -22,7 +22,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     StaffParticipation1,
                     StaffParticipation2,
                     AdminParticipation
-                };
+                ];
             }
         }
 

@@ -12,15 +12,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<MyAppointmentDto>
-                {
+                return
+                [
                     AltoRehearsal,
                     TeamMeeting,
                     PhotoSession,
                     RockingXMasAfterShowParty,
                     RockingXMasConcert,
                     RockingXMasDressRehearsal
-                };
+                ];
             }
         }
 

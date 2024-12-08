@@ -12,10 +12,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<CurriculumVitaeReferenceDto>
-                {
+                return
+                [
                     Mozarteum,
-                };
+                ];
             }
         }
 

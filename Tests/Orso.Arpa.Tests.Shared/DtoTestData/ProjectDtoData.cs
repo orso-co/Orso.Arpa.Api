@@ -13,8 +13,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<ProjectDto>
-                {
+                return
+                [
                     RockingXMasForStaff,
                     HoorayForHollywood,
                     Schneekönigin,
@@ -22,7 +22,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     ChorwerkstattFreiburg,
                     ChorwerkstattBerlin,
                     ChorwerkstattStuttgart
-                };
+                ];
             }
         }
 
@@ -30,14 +30,14 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<ProjectDto>
-                {
+                return
+                [
                     HoorayForHollywood,
                     Schneekönigin,
                     Chorwerkstatt,
                     ChorwerkstattBerlin,
                     ChorwerkstattStuttgart
-                };
+                ];
             }
         }
 
@@ -102,7 +102,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Genre = SelectValueDtoData.Crossover,
                     StartDate = new DateTime(2020, 05, 05),
                     EndDate = new DateTime(2020, 06, 06),
-                    Urls = new List<UrlDto> { UrlDtoData.GoogleDe },
+                    Urls = [UrlDtoData.GoogleDe],
                     Status = ProjectStatus.Confirmed,
                     ParentId = null,
                     IsCompleted = false,

@@ -12,12 +12,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<MyProjectDto>()
-                {
+                return
+                [
                     PerformerSchneekoeniginDto,
                     PerformerChorwerkstattBerlinDto,
                     PerformerHoorayForHollywoodDto
-                };
+                ];
             }
         }
 
@@ -50,6 +50,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
                     ParticipationStatusResult = ProjectParticipationStatusResult.Pending
                 });
+                foreach (MyProjectParticipationDto item in dto.Participations)
+                {
+                    item.MusicianProfile.PreferredPositionsTeam.Clear();
+                }
                 return dto;
             }
         }
@@ -78,6 +82,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
                     ParticipationStatusResult = ProjectParticipationStatusResult.Pending
                 });
+                foreach (MyProjectParticipationDto item in dto.Participations)
+                {
+                    item.MusicianProfile.PreferredPositionsTeam.Clear();
+                }
                 return dto;
             }
         }
@@ -111,6 +119,10 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
                     ParticipationStatusResult = ProjectParticipationStatusResult.Pending
                 });
+                foreach (MyProjectParticipationDto item in dto.Participations)
+                {
+                    item.MusicianProfile.PreferredPositionsTeam.Clear();
+                }
                 return dto;
             }
         }

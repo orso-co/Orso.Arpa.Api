@@ -49,10 +49,10 @@ public class MyProjectsControllerTests : IntegrationTestBase
         dto.Participations[1].MusicianProfile.InstrumentName = "Alt";
         var expectedResult = new MyProjectListDto
         {
-            UserProjects = new List<MyProjectDto>
-            {
+            UserProjects =
+            [
                 dto
-            },
+            ],
             TotalRecordsCount = 3
         };
         var requestMessage = new HttpRequestMessage(HttpMethod.Get, ApiEndpoints.MyProjectsController.Get(offset: 2, limit: 1));
@@ -96,6 +96,10 @@ public class MyProjectsControllerTests : IntegrationTestBase
             MusicianProfile = ReducedMusicianProfileDtoData.PerformerHornProfile,
             ParticipationStatusResult = ProjectParticipationStatusResult.Pending
         });
+        foreach (MyProjectParticipationDto item in rockingXMasDto.Participations)
+        {
+            item.MusicianProfile.PreferredPositionsTeam.Clear();
+        }
         var expectedList = new List<MyProjectDto>
         {
             rockingXMasDto

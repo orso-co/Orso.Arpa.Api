@@ -11,8 +11,8 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                return new List<Region>
-                {
+                return
+                [
                     Freiburg,
                     StuttgartCity,
                     Berlin,
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Persistence.Seed
                     BerlinSchoeneberg,
                     Radius20Km,
                     Jamulus
-                };
+                ];
             }
         }
 

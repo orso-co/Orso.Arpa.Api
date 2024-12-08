@@ -11,10 +11,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<Venue>
-                {
+                return
+                [
                     WeiherhofSchule
-                };
+                ];
             }
         }
 

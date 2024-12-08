@@ -40,10 +40,10 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
 
             public MusicianProfileInquiryStatus? InquiryStatusTeam { get; set; }
 
-            public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
-            public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
-            public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
-            public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
+            public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
+            public IList<Guid> PreferredPositionsTeamIds { get; set; } = [];
+            public IList<byte> PreferredPartsInner { get; set; } = [];
+            public IList<byte> PreferredPartsTeam { get; set; } = [];
             public MusicianProfile ExistingMusicianProfile { get; set; }
         }
 

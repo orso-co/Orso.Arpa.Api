@@ -34,7 +34,7 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
             public string ClientUri { get; set; }
             public string AboutMe { get; set; }
 
-            public IList<Guid> StakeholderGroupIds { get; set; } = new List<Guid>();
+            public IList<Guid> StakeholderGroupIds { get; set; } = [];
         }
 
         public class Validator : AbstractValidator<Command>

@@ -18,9 +18,9 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Name { get; set; }
-        public IList<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
+        public IList<ProjectDto> Projects { get; set; } = [];
         public VenueDto Venue { get; set; }
-        public IList<RoomDto> Rooms { get; set; } = new List<RoomDto>();
+        public IList<RoomDto> Rooms { get; set; } = [];
         public string PublicDetails { get; set; }
         public string Expectation { get; set; }
         public AppointmentParticipationResult? Result { get; set; }

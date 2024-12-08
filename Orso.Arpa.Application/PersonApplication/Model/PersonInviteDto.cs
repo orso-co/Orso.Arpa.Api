@@ -8,7 +8,7 @@ namespace Orso.Arpa.Application.PersonApplication.Model
 {
     public class PersonInviteDto
     {
-        public IList<Guid> PersonIds { get; set; } = new List<Guid>();
+        public IList<Guid> PersonIds { get; set; } = [];
     }
 
     public class PersonInviteDtoValidator : AbstractValidator<PersonInviteDto>
