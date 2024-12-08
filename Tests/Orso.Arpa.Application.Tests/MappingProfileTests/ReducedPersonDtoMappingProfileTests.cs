@@ -1,7 +1,11 @@
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 using NUnit.Framework;
+using Orso.Arpa.Application.General.MappingActions;
 using Orso.Arpa.Application.PersonApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -13,15 +17,22 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         [SetUp]
         public void Setup()
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<ReducedPersonDtoMappingProfile>());
-
-            _mapper = new Mapper(config);
+            var services = new ServiceCollection();
+            services.AddSingleton(_tokenAccessor);
+            services.AddSingleton<RoleBasedSetNullAction<Person, ReducedPersonDto>>();
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<ReducedPersonDtoMappingProfile>();
+            });
+             ServiceProvider serviceProvider = services.BuildServiceProvider();
+            _mapper = serviceProvider.GetService<IMapper>();
         }
 
-        private Mapper _mapper;
+        private IMapper _mapper;
+        private readonly ITokenAccessor _tokenAccessor = Substitute.For<ITokenAccessor>();
 
         [Test]
-        public void Should_Map()
+        public void Should_Map_Person_To_ReducedPersonDto()
         {
             // Arrange
             Person person = PersonTestSeedData.Performer;

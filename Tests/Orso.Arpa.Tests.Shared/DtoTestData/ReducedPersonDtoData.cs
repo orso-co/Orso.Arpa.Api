@@ -94,7 +94,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 GivenName = person.GivenName,
                 Id = person.Id,
                 Surname = person.Surname,
-                DisplayName = person.DisplayName
+                DisplayName = person.DisplayName,
+                UserEmail = person.User?.Email ?? string.Empty
             };
         }
     }
