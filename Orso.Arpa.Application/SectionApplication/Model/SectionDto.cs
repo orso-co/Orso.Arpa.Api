@@ -12,6 +12,7 @@ namespace Orso.Arpa.Application.SectionApplication.Model
         public string Name { get; set; }
         public Guid Id { get; set; }
         public byte InstrumentPartCount { get; set; }
+        public bool IsInstrument { get; set; }
     }
 
     public class SectionDtoMappingProfile : Profile
