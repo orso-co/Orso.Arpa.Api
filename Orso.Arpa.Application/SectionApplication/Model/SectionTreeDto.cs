@@ -12,6 +12,7 @@ namespace Orso.Arpa.Application.SectionApplication.Model
         public bool IsRoot { get; set; }
         public bool IsLeaf { get; set; }
         public int Level { get; set; }
+        public SectionTreeDto Parent { get; set; }
     }
 
     public class SectionTreeDtoMappingProfile : Profile
