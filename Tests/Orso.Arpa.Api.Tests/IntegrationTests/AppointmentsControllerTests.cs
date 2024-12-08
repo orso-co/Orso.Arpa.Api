@@ -471,19 +471,19 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.Participations.Add(new AppointmentParticipationListItemDto
             {
                 Person = ReducedPersonDtoData.Staff,
-                MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.StaffProfile1,
                         ReducedMusicianProfileDtoData.StaffProfile2
-                    }
+                    ]
             });
             expectedDto.Participations.Add(new AppointmentParticipationListItemDto
             {
                 Person = ReducedPersonDtoData.Admin,
-                MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.AdminProfile1
-                    }
+                    ]
             });
 
             // Act

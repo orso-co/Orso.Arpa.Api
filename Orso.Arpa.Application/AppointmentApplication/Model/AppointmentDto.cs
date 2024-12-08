@@ -42,13 +42,13 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
 
         public Guid? VenueId { get; set; }
 
-        public IList<RoomDto> Rooms { get; set; } = new List<RoomDto>();
+        public IList<RoomDto> Rooms { get; set; } = [];
 
-        public IList<ProjectDto> Projects { get; set; } = new List<ProjectDto>();
+        public IList<ProjectDto> Projects { get; set; } = [];
 
-        public IList<SectionDto> Sections { get; set; } = new List<SectionDto>();
+        public IList<SectionDto> Sections { get; set; } = [];
 
-        public IList<AppointmentParticipationListItemDto> Participations { get; set; } = new List<AppointmentParticipationListItemDto>();
+        public IList<AppointmentParticipationListItemDto> Participations { get; set; } = [];
     }
 
     public class AppointmentDtoMappingProfile : Profile

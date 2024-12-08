@@ -24,15 +24,15 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public Guid PersonId { get; set; }
         public SectionDto Instrument { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
-        public IList<MyDoublingInstrumentDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentDto>();
-        public IList<EducationDto> Educations { get; set; } = new List<EducationDto>();
-        public IList<CurriculumVitaeReferenceDto> CurriculumVitaeReferences { get; set; } = new List<CurriculumVitaeReferenceDto>();
-        public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
-        public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
-        public IList<Guid> Documents { get; set; } = new List<Guid>();
+        public IList<MyDoublingInstrumentDto> DoublingInstruments { get; set; } = [];
+        public IList<EducationDto> Educations { get; set; } = [];
+        public IList<CurriculumVitaeReferenceDto> CurriculumVitaeReferences { get; set; } = [];
+        public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
+        public IList<byte> PreferredPartsInner { get; set; } = [];
+        public IList<Guid> Documents { get; set; } = [];
         public MusicianProfileDeactivationDto Deactivation { get; set; }
-        public IList<RegionPreferenceDto> RegionPreferencesRehearsal { get; set; } = new List<RegionPreferenceDto>();
-        public IList<RegionPreferenceDto> RegionPreferencesPerformance { get; set; } = new List<RegionPreferenceDto>();
+        public IList<RegionPreferenceDto> RegionPreferencesRehearsal { get; set; } = [];
+        public IList<RegionPreferenceDto> RegionPreferencesPerformance { get; set; } = [];
     }
 
     public class MyDoublingInstrumentDto : BaseEntityDto

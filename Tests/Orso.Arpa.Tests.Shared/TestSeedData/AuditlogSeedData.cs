@@ -12,12 +12,12 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<AuditLog>
-                {
+                return
+                [
                     CreateRegion,
                     UpdateRegion,
                     DeleteRegion,
-                };
+                ];
             }
         }
         public static AuditLog CreateRegion

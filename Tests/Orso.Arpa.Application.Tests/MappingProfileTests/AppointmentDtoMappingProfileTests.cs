@@ -60,7 +60,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             Appointment appointment = FakeAppointments.RockingXMasRehearsal;
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
 
-            _tokenAccessor.GetUserRoles().Returns(new List<string> { RoleNames.Staff });
+            _tokenAccessor.GetUserRoles().Returns([RoleNames.Staff]);
 
             // Act
             AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);

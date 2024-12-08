@@ -17,8 +17,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<MusicianProfile>
-                {
+                return
+                [
                     PerformerMusicianProfile,
                     PerformersHornMusicianProfile,
                     PerformersDeactivatedTubaProfile,
@@ -27,7 +27,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     AdminMusicianSopranoProfile,
                     AdminMusicianFluteProfile,
                     UserWithoutRoleMusicianProfile,
-                };
+                ];
             }
         }
 

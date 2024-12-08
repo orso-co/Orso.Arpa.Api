@@ -28,11 +28,11 @@ namespace Orso.Arpa.Application.PersonApplication.Model
         [IncludeForRoles(RoleNames.Staff)]
         public ReducedPersonDto ContactVia { get; set; }
 
-        public IList<ReducedPersonDto> ContactsRecommended { get; set; } = new List<ReducedPersonDto>();
+        public IList<ReducedPersonDto> ContactsRecommended { get; set; } = [];
 
-        public IList<BankAccountDto> BankAccounts { get; set; } = new List<BankAccountDto>();
+        public IList<BankAccountDto> BankAccounts { get; set; } = [];
 
-        public IList<ContactDetailDto> ContactDetails { get; set; } = new List<ContactDetailDto>();
+        public IList<ContactDetailDto> ContactDetails { get; set; } = [];
 
         public SelectValueDto Gender { get; set; }
 
@@ -58,9 +58,9 @@ namespace Orso.Arpa.Application.PersonApplication.Model
         [IncludeForRoles(RoleNames.Staff)]
         public byte GeneralPreference { get; set; }
 
-        public IList<AddressDto> Addresses { get; set; } = new List<AddressDto>();
+        public IList<AddressDto> Addresses { get; set; } = [];
 
-        public IList<SectionDto> StakeholderGroups { get; set; } = new List<SectionDto>();
+        public IList<SectionDto> StakeholderGroups { get; set; } = [];
     }
 
     public class PersonDtoMappingProfile : Profile

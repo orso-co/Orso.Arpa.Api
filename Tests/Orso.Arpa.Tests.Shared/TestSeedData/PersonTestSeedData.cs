@@ -18,8 +18,8 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
         {
             get
             {
-                return new List<Person>
-                {
+                return
+                [
                     Performer,
                     Staff,
                     UserWithoutRole,
@@ -31,7 +31,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Person2WithSameEmail,
                     PersonWithoutEmail,
                     PersonWithMultipleEmails
-                };
+                ];
             }
         }
 

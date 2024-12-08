@@ -14,14 +14,14 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         {
             get
             {
-                return new List<ProjectParticipation>
-                {
+                return
+                [
                     PerformerSchneeköniginParticipation,
                     PerformerRockingXMasParticipation,
                     StaffParticipation1,
                     StaffParticipation2,
                     AdminParticipation
-                };
+                ];
             }
         }
 

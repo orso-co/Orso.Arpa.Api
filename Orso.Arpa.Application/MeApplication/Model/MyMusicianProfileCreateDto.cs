@@ -13,9 +13,9 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public byte LevelAssessmentInner { get; set; }
         public Guid InstrumentId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
-        public IList<MyDoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = new List<MyDoublingInstrumentCreateBodyDto>();
-        public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
-        public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
+        public IList<MyDoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = [];
+        public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
+        public IList<byte> PreferredPartsInner { get; set; } = [];
     }
 
     public class MyMusicianProfileCreateDtoMappingProfile : Profile

@@ -10,8 +10,8 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                return new List<SelectValue>
-                {
+                return
+                [
                     Ambiguous,
                     Yes,
                     No,
@@ -122,7 +122,7 @@ namespace Orso.Arpa.Persistence.Seed
                     Choir,
                     VoiceRehearsal,
                     Orchestra
-                };
+                ];
             }
         }
 

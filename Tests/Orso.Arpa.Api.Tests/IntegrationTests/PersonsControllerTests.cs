@@ -143,7 +143,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             var expectedDto = new PersonInviteResultDto();
             expectedDto.PersonsAlreadyRegistered.Add("Per Former");
-            expectedDto.PersonsWithMultipleEmailAddresses.Add("Person Multiple", new List<string> { "person@withmultiple2.email", "person@withmultiple.email" });
+            expectedDto.PersonsWithMultipleEmailAddresses.Add("Person Multiple", ["person@withmultiple2.email", "person@withmultiple.email"]);
             expectedDto.PersonsWithoutEmailAddress.Add("Person Withoutemail");
             expectedDto.SuccessfulInvites.Add("Person Without", "person@without.user");
             expectedDto.SuccessfulInvites.Add("Person Multiple", "person@withmultiple2.email");

@@ -33,17 +33,17 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
         public Guid? SalaryId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusTeam { get; set; }
-        public IList<DoublingInstrumentDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentDto>();
-        public IList<EducationDto> Educations { get; set; } = new List<EducationDto>();
-        public IList<CurriculumVitaeReferenceDto> CurriculumVitaeReferences { get; set; } = new List<CurriculumVitaeReferenceDto>();
-        public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
-        public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
-        public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
-        public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
-        public IList<SelectValueDto> Documents { get; set; } = new List<SelectValueDto>();
+        public IList<DoublingInstrumentDto> DoublingInstruments { get; set; } = [];
+        public IList<EducationDto> Educations { get; set; } = [];
+        public IList<CurriculumVitaeReferenceDto> CurriculumVitaeReferences { get; set; } = [];
+        public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
+        public IList<Guid> PreferredPositionsTeamIds { get; set; } = [];
+        public IList<byte> PreferredPartsInner { get; set; } = [];
+        public IList<byte> PreferredPartsTeam { get; set; } = [];
+        public IList<SelectValueDto> Documents { get; set; } = [];
         public MusicianProfileDeactivationDto Deactivation { get; set; }
-        public IList<RegionPreferenceDto> RegionPreferencesRehearsal { get; set; } = new List<RegionPreferenceDto>();
-        public IList<RegionPreferenceDto> RegionPreferencesPerformance { get; set; } = new List<RegionPreferenceDto>();
+        public IList<RegionPreferenceDto> RegionPreferencesRehearsal { get; set; } = [];
+        public IList<RegionPreferenceDto> RegionPreferencesPerformance { get; set; } = [];
     }
 
     public class MusicianProfileDtoMappingProfile : Profile

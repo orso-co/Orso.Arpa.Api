@@ -8,7 +8,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData;
 public static class NewsDtoData
 {
     public static IList<NewsDto> News =>
-        new List<NewsDto> { FirstNews, SecondNews };
+        [FirstNews, SecondNews];
 
     public static NewsDto FirstNews =>
         new()

@@ -128,38 +128,38 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 new GroupedMusicianProfileDto
                 {
                     Person = ReducedPersonDtoData.Admin,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.AdminProfile1,
                         ReducedMusicianProfileDtoData.AdminProfile2
-                    }
+                    ]
                 },
                 new GroupedMusicianProfileDto
                 {
                     Person = ReducedPersonDtoData.Performer,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.PerformerProfile,
                         ReducedMusicianProfileDtoData.PerformerHornProfile,
                         ReducedMusicianProfileDtoData.PerformerDeactivatedTubaProfile,
-                    }
+                    ]
                 },
                 new GroupedMusicianProfileDto
                 {
                     Person = ReducedPersonDtoData.Staff,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.StaffProfile2,
                         ReducedMusicianProfileDtoData.StaffProfile1
-                    }
+                    ]
                 },
                 new GroupedMusicianProfileDto
                 {
                     Person = ReducedPersonDtoData.WithoutRole,
-                    MusicianProfiles = new List<ReducedMusicianProfileDto>
-                    {
+                    MusicianProfiles =
+                    [
                         ReducedMusicianProfileDtoData.WithoutRoleProfile
-                    }
+                    ]
                 }
             };
 

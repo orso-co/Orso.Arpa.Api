@@ -21,15 +21,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<RegionDto>
-                {
+                return
+                [
                     Freiburg,
                     StuttgartCity,
                     BerlinMitte,
                     BerlinSchoeneberg,
                     Radius20Km,
                     Jamulus
-                };
+                ];
             }
         }
 
@@ -37,8 +37,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<RegionDto>
-                {
+                return
+                [
                     Berlin,
                     BadenWuerttemberg,
                     NorthGermany,
@@ -46,7 +46,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Europe,
                     Tour,
                     Radius100Km
-                };
+                ];
             }
         }
 

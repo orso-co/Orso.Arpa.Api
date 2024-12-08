@@ -8,10 +8,10 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
     public static class CurriculumVitaeReferenceSeedData
     {
-        public static IList<CurriculumVitaeReference> CurriculumVitaeReferences => new List<CurriculumVitaeReference>
-        {
+        public static IList<CurriculumVitaeReference> CurriculumVitaeReferences =>
+        [
             Mozarteum,
-        };
+        ];
 
         public static CurriculumVitaeReference Mozarteum
         {

@@ -21,7 +21,7 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                IList<Localization> result = new List<Localization>();
+                IList<Localization> result = [];
 
                 try
                 {

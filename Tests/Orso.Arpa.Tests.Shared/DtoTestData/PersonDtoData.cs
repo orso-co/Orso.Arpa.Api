@@ -19,8 +19,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<PersonDto>
-                {
+                return
+                [
                     Admin, // Admin Initial
                     Performer, // Former Per
                     Staff, // Member Staff
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Person2WithSameEmail, // With Person2
                     PersonWithoutUser, // Without Person
                     PersonWithoutEmail, // Withoutemail Person
-                };
+                ];
             }
         }
         public static PersonDto Performer

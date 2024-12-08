@@ -8,13 +8,13 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
 {
     public static class UrlSeedData
     {
-        public static IList<Url> Urls => new List<Url>
-        {
+        public static IList<Url> Urls =>
+        [
             ArpaWebsite,
             OrsoWebsite,
             Google,
             GoogleDe,
-        };
+        ];
 
         public static Url ArpaWebsite
         {

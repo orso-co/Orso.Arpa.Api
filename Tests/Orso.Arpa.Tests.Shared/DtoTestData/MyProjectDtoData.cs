@@ -12,12 +12,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<MyProjectDto>()
-                {
+                return
+                [
                     PerformerSchneekoeniginDto,
                     PerformerChorwerkstattBerlinDto,
                     PerformerHoorayForHollywoodDto
-                };
+                ];
             }
         }
 

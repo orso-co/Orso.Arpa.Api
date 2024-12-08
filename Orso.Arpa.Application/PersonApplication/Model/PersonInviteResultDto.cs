@@ -8,8 +8,8 @@ namespace Orso.Arpa.Application.PersonApplication.Model
     {
         public IDictionary<string, string> SuccessfulInvites { get; set; } = new Dictionary<string, string>();
 
-        public IList<string> PersonsWithoutEmailAddress { get; set; } = new List<string>();
-        public IList<string> PersonsAlreadyRegistered { get; set; } = new List<string>();
+        public IList<string> PersonsWithoutEmailAddress { get; set; } = [];
+        public IList<string> PersonsAlreadyRegistered { get; set; } = [];
         public IDictionary<string, IList<string>> PersonsWithMultipleEmailAddresses { get; set; } = new Dictionary<string, IList<string>>();
         public IDictionary<string, string> FailedInvites { get; set; } = new Dictionary<string, string>();
     }

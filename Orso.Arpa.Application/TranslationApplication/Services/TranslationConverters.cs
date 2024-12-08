@@ -29,13 +29,13 @@ namespace Orso.Arpa.Application.TranslationApplication.Services
     {
         public TranslationDto Convert(List<Localization> source, TranslationDto destination, ResolutionContext context)
         {
-            TranslationDto root = new();
+            TranslationDto root = [];
 
             foreach (Localization t in source)
             {
                 if (!root.ContainsKey(t.ResourceKey))
                 {
-                    root.Add(t.ResourceKey, new());
+                    root.Add(t.ResourceKey, []);
                 }
 
                 root.TryGetValue(t.ResourceKey, out Dictionary<string, string> entries);

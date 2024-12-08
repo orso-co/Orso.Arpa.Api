@@ -6,7 +6,7 @@ namespace Orso.Arpa.Application.MeApplication.Model
 {
     public class MyAppointmentListDto
     {
-        public IList<MyAppointmentDto> UserAppointments { get; set; } = new List<MyAppointmentDto>();
+        public IList<MyAppointmentDto> UserAppointments { get; set; } = [];
         public int TotalRecordsCount { get; set; }
     }
 

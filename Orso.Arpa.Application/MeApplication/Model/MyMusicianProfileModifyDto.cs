@@ -23,8 +23,8 @@ namespace Orso.Arpa.Application.MeApplication.Model
 
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
 
-        public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
-        public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
+        public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
+        public IList<byte> PreferredPartsInner { get; set; } = [];
     }
 
     public class MyMusicianProfileModifyDtoMappingProfile : Profile

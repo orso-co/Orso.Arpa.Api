@@ -10,7 +10,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
     {
         public ReducedPersonDto Person { get; set; }
         public AppointmentParticipationDto Participation { get; set; }
-        public IList<ReducedMusicianProfileDto> MusicianProfiles { get; set; } = new List<ReducedMusicianProfileDto>();
+        public IList<ReducedMusicianProfileDto> MusicianProfiles { get; set; } = [];
     }
 
     public class AppointmentParticipationListItemDtoProfile : Profile

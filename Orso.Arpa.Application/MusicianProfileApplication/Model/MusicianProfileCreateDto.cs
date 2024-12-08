@@ -22,11 +22,11 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
         public Guid QualificationId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusTeam { get; set; }
-        public IList<DoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = new List<DoublingInstrumentCreateBodyDto>();
-        public IList<Guid> PreferredPositionsInnerIds { get; set; } = new List<Guid>();
-        public IList<Guid> PreferredPositionsTeamIds { get; set; } = new List<Guid>();
-        public IList<byte> PreferredPartsInner { get; set; } = new List<byte>();
-        public IList<byte> PreferredPartsTeam { get; set; } = new List<byte>();
+        public IList<DoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = [];
+        public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
+        public IList<Guid> PreferredPositionsTeamIds { get; set; } = [];
+        public IList<byte> PreferredPartsInner { get; set; } = [];
+        public IList<byte> PreferredPartsTeam { get; set; } = [];
     }
 
     public class MusicianProfileCreateDtoMappingProfile : Profile

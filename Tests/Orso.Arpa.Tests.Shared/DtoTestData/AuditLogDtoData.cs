@@ -11,12 +11,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<AuditLogDto>
-                {
+                return
+                [
                     CreateRegion,
                     UpdateRegion,
                     DeleteRegion,
-                };
+                ];
             }
         }
 

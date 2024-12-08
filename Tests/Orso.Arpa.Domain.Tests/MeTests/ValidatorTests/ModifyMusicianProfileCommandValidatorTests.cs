@@ -86,7 +86,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
-                PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
+                PreferredPositionsInnerIds = [SelectValueSectionSeedData.ClarinetCoach.Id]
             })).WithErrorMessage("The selected position is not valid for this instrument");
         }
 
@@ -96,7 +96,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             await _validator.ShouldHaveNotFoundErrorFor(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
-                PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.ClarinetCoach.Id }
+                PreferredPositionsInnerIds = [SelectValueSectionSeedData.ClarinetCoach.Id]
             }, nameof(SelectValueSection));
         }
 
@@ -108,7 +108,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPositionsInnerIds, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
-                PreferredPositionsInnerIds = new List<Guid> { SelectValueSectionSeedData.HornLow.Id }
+                PreferredPositionsInnerIds = [SelectValueSectionSeedData.HornLow.Id]
             });
         }
 
@@ -119,7 +119,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             _ = (await _validator.ShouldHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Accordion.Id,
-                PreferredPartsInner = new List<byte> { 8 }
+                PreferredPartsInner = [8]
             })).WithErrorMessage("The selected part is not valid for this instrument");
         }
 
@@ -130,7 +130,7 @@ namespace Orso.Arpa.Domain.Tests.MeTests.ValidatorTests
             await _validator.ShouldNotHaveValidationErrorForExactAsync(cmd => cmd.PreferredPartsInner, new ModifyMusicianProfile.Command
             {
                 InstrumentId = SectionSeedData.Horn.Id,
-                PreferredPartsInner = new List<byte> { 2 }
+                PreferredPartsInner = [2]
             });
         }
     }

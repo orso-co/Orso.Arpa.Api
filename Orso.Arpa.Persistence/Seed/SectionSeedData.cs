@@ -6,8 +6,8 @@ namespace Orso.Arpa.Persistence.Seed
 {
     public static class SectionSeedData
     {
-        public static IList<Section> Sections => new List<Section>
-        {
+        public static IList<Section> Sections =>
+        [
             Performers,
                 Conductor,
                     AssistantConductor,
@@ -163,7 +163,7 @@ namespace Orso.Arpa.Persistence.Seed
             Volunteers,
             Suppliers,
             Contractors,
-        };
+        ];
 
         // PERFORMERS
         public static Section Performers => new(Guid.Parse("8bba816f-2315-43c0-b18e-99a27b1c9668"), "Performers", null, false);

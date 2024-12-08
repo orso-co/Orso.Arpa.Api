@@ -10,15 +10,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<SelectValueDto>
-                {
+                return
+                [
                     ClassicalMusic,
                     Crossover,
                     ChamberMusic,
                     FilmMusic,
                     DancePerformance,
                     ContemporaryMusic,
-                };
+                ];
             }
         }
 

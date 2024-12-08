@@ -10,8 +10,8 @@ namespace Orso.Arpa.Persistence.Seed
         {
             get
             {
-                return new List<SelectValueSection>
-                {
+                return
+                [
                     SopranoSolo,
                     SopranoSectionLead,
                     SopranoHigh,
@@ -95,7 +95,7 @@ namespace Orso.Arpa.Persistence.Seed
                     DoublebassSectionLead,
                     DoublebassTutti,
                     DoublebassCoach,
-                };
+                ];
             }
         }
         // Choir

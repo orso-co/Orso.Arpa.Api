@@ -4,7 +4,7 @@ namespace Orso.Arpa.Application.MyProjectApplication.Model
 {
     public class MyProjectListDto
     {
-        public IList<MyProjectDto> UserProjects { get; set; } = new List<MyProjectDto>();
+        public IList<MyProjectDto> UserProjects { get; set; } = [];
         public int TotalRecordsCount { get; set; }
     }
 }

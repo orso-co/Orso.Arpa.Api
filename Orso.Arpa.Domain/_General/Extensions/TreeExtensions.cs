@@ -85,7 +85,7 @@ namespace Orso.Arpa.Domain.General.Extensions
         {
             while (true)
             {
-                parentNodes ??= new List<T>();
+                parentNodes ??= [];
                 if (node?.Parent?.Data == null)
                 {
                     return parentNodes;

@@ -10,12 +10,12 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<RoleDto>
-                {
+                return
+                [
                     Performer,
                     Staff,
                     Admin,
-                };
+                ];
             }
         }
 

@@ -13,15 +13,15 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
         {
             get
             {
-                return new List<UserDto>
-                {
+                return
+                [
                     Performer,
                     Staff,
                     Admin,
                     UserWithoutRole,
                     LockedOutUser,
                     UnconfirmedUser
-                };
+                ];
             }
         }
 

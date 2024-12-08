@@ -12,7 +12,7 @@ namespace Orso.Arpa.Api.Swagger
                 entry => string.Join('/', entry.Key.Split('/').Select(x => x.ToLower())),
                 entry => entry.Value);
 
-            swaggerDoc.Paths = new OpenApiPaths();
+            swaggerDoc.Paths = [];
 
             foreach ((string key, OpenApiPathItem value) in paths)
             {

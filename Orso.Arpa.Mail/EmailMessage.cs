@@ -9,7 +9,7 @@ namespace Orso.Arpa.Mail
         public List<MailboxAddress> To { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
-        public IList<EmailAttachment> Attachments { get; set; } = new List<EmailAttachment>();
+        public IList<EmailAttachment> Attachments { get; set; } = [];
 
         public EmailMessage(IEnumerable<string> to,
                             string subject,

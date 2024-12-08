@@ -13,14 +13,14 @@ namespace Orso.Arpa.Tests.Shared.FakeData
         {
             get
             {
-                return new List<User> {
+                return [
                     Performer,
                     Staff,
                     Admin,
                     UserWithoutRole,
                     LockedOutUser,
                     UnconfirmedUser
-                };
+                ];
             }
         }
 

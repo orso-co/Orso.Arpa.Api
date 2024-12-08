@@ -10,7 +10,7 @@ namespace Orso.Arpa.Infrastructure.Localization
     {
         private readonly IServiceCollection _services;
         private readonly object _syncLock = new();
-        private Dictionary<string, Dictionary<string, Dictionary<string, string>>> _localizations = new();
+        private Dictionary<string, Dictionary<string, Dictionary<string, string>>> _localizations = [];
 
         public LocalizerCache(IServiceCollection services)
         {
@@ -32,8 +32,8 @@ namespace Orso.Arpa.Infrastructure.Localization
             }
 
             if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict)
-                && languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict) 
-                && keyDict.TryGetValue(key, out var text) 
+                && languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict)
+                && keyDict.TryGetValue(key, out var text)
                 && text != null)
             {
                 translatedString = text;
@@ -45,13 +45,13 @@ namespace Orso.Arpa.Infrastructure.Localization
 
         public virtual Dictionary<string, string> GetAllTranslations(string resourceKey, string culture)
         {
-            if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict) 
+            if (_localizations.TryGetValue(resourceKey, out Dictionary<string, Dictionary<string, string>> languageDict)
                 && languageDict.TryGetValue(culture.ToLowerInvariant(), out Dictionary<string, string> keyDict))
             {
                 return keyDict;
 
             }
-            return new Dictionary<string, string>();
+            return [];
         }
 
         private Dictionary<string, Dictionary<string, Dictionary<string, string>>> GetDbLocalizationList()
