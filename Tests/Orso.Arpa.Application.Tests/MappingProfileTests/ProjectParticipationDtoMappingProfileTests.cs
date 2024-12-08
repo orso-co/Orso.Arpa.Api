@@ -17,7 +17,9 @@ using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.FakeData;
+using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
 {
@@ -56,6 +58,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerSchneeköniginParticipation;
+            projectParticipation.MusicianProfile.Person.SetProperty(nameof(Person.User), UserTestSeedData.Performer);
             _ = _tokenAccessor.GetUserRoles().Returns([RoleNames.Staff]);
             var expectedDto = new ProjectParticipationDto
             {
@@ -71,6 +74,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 Person = ReducedPersonDtoData.Performer,
                 ParticipationStatusResult = ProjectParticipationStatusResult.Pending
             };
+            expectedDto.Person.UserEmail = UserTestSeedData.Performer.Email;
 
             // Act
             ProjectParticipationDto dto = _mapper.Map<ProjectParticipationDto>(projectParticipation);
@@ -84,6 +88,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             ProjectParticipation projectParticipation = FakeProjectParticipations.PerformerSchneeköniginParticipation;
+            projectParticipation.MusicianProfile.Person.SetProperty(nameof(Person.User), UserTestSeedData.Performer);
             _ = _tokenAccessor.GetUserRoles().Returns([RoleNames.Performer]);
             var expectedDto = new ProjectParticipationDto
             {

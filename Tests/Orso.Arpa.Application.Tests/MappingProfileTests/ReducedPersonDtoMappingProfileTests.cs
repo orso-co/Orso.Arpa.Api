@@ -7,6 +7,7 @@ using Orso.Arpa.Application.General.MappingActions;
 using Orso.Arpa.Application.PersonApplication.Model;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Tests.Shared.Extensions;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
 namespace Orso.Arpa.Application.Tests.MappingProfileTests
@@ -36,13 +37,15 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             // Arrange
             Person person = PersonTestSeedData.Performer;
+            person.SetProperty(nameof(Person.User), UserTestSeedData.Performer);
 
             var expectedDto = new ReducedPersonDto
             {
                 GivenName = person.GivenName,
                 Id = person.Id,
                 Surname = person.Surname,
-                DisplayName = person.DisplayName
+                DisplayName = person.DisplayName,
+                UserEmail = null
             };
 
             // Act
