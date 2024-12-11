@@ -94,5 +94,20 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 };
             }
         }
+
+        public static ReducedProjectDto ChorwerkstattStuttgart
+        {
+            get
+            {
+                return new ReducedProjectDto
+                {
+                    Code = "1008",
+                    Description = "Ein Blick hinter die Kulissen…",
+                    Id = Guid.Parse("483927b5-19de-4677-8af4-482c271ffae4"),
+                    ShortTitle = "ChWeS",
+                    Title = "Chorwerkstatt Stuttgart",
+                };
+            }
+        }
     }
 }
