@@ -25,6 +25,7 @@ namespace Orso.Arpa.Application.ProjectApplication.Model
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsHiddenForPerformers { get; set; }
+        public IList<ReducedProjectDto> Children { get; set; } = [];
     }
 
     public class ProjectDtoMappingProfile : Profile

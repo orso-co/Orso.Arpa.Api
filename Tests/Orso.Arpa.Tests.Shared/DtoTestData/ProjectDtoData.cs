@@ -153,7 +153,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     StartDate = new DateTime(2020, 9, 1),
                     Status = ProjectStatus.Confirmed,
                     Title = "Chorwerkstatt",
-                    Type = SelectValueDtoData.ConcertTour
+                    Type = SelectValueDtoData.ConcertTour,
+                    Children = [ReducedProjectDtoData.ChorwerkstattFreiburg, ReducedProjectDtoData.ChorwerkstattBerlin, ReducedProjectDtoData.ChorwerkstattStuttgart]
                 };
             }
         }

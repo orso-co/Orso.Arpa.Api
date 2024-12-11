@@ -184,7 +184,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             // Assert
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             ProjectDto result = await DeserializeResponseMessageAsync<ProjectDto>(responseMessage);
-            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls));
+            _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Urls).Excluding(r => r.Children));
         }
 
         [Test, Order(100)]
