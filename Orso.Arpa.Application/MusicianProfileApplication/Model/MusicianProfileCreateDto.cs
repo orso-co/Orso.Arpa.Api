@@ -18,6 +18,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
     {
         public byte LevelAssessmentInner { get; set; }
         public byte LevelAssessmentTeam { get; set; }
+        public byte ProfilePreferenceInner { get; set; }
+        public byte ProfilePreferenceTeam { get; set; }
         public Guid InstrumentId { get; set; }
         public Guid QualificationId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
@@ -36,7 +38,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
             _ = CreateMap<MusicianProfileCreateDto, CreateMusicianProfile.Command>()
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
-
+                .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.Body.ProfilePreferenceInner))
+                .ForMember(dest => dest.ProfilePreferenceTeam, opt => opt.MapFrom(src => src.Body.ProfilePreferenceTeam))
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.Body.InstrumentId))
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.Body.QualificationId))
@@ -83,7 +86,14 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 
             _ = RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
+
             _ = RuleFor(p => p.LevelAssessmentTeam)
+                .FiveStarRating();
+
+            _ = RuleFor(p => p.ProfilePreferenceInner)
+                .FiveStarRating();
+
+            _ = RuleFor(p => p.ProfilePreferenceTeam)
                 .FiveStarRating();
 
             _ = RuleFor(p => p.InstrumentId)

@@ -19,16 +19,18 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
         {
             LevelAssessmentInner = command.LevelAssessmentInner;
             LevelAssessmentTeam = command.LevelAssessmentTeam;
+            ProfilePreferenceInner = command.ProfilePreferenceInner;
+            ProfilePreferenceTeam = command.ProfilePreferenceTeam;
             PersonId = command.PersonId;
             InstrumentId = command.InstrumentId;
             QualificationId = command.QualificationId;
             InquiryStatusInner = command.InquiryStatusInner;
             InquiryStatusTeam = command.InquiryStatusTeam;
             IsMainProfile = isMainProfile;
-            PreferredPositionsInner = command.PreferredPositionsInnerIds.Distinct().Select(i => new MusicianProfilePositionInner(i, Id)).ToList();
-            PreferredPositionsTeam = command.PreferredPositionsTeamIds.Distinct().Select(i => new MusicianProfilePositionTeam(i, Id)).ToList();
-            PreferredPartsInner = command.PreferredPartsInner.Distinct().ToArray();
-            PreferredPartsTeam = command.PreferredPartsTeam.Distinct().ToArray();
+            PreferredPositionsInner = [.. command.PreferredPositionsInnerIds.Distinct().Select(i => new MusicianProfilePositionInner(i, Id))];
+            PreferredPositionsTeam = [.. command.PreferredPositionsTeamIds.Distinct().Select(i => new MusicianProfilePositionTeam(i, Id))];
+            PreferredPartsInner = [.. command.PreferredPartsInner.Distinct()];
+            PreferredPartsTeam = [.. command.PreferredPartsTeam.Distinct()];
         }
 
         public MusicianProfile()
@@ -75,17 +77,17 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
 
         #region Native
         public bool IsMainProfile { get; private set; }
-        public byte LevelAssessmentInner { get; private set; }
-        public byte LevelAssessmentTeam { get; private set; }
-        public byte ProfilePreferenceInner { get; private set; }
-        public byte ProfilePreferenceTeam { get; private set; }
+        public byte LevelAssessmentInner { get; private set; } = 0;
+        public byte LevelAssessmentTeam { get; private set; } = 0;
+        public byte ProfilePreferenceInner { get; private set; } = 0;
+        public byte ProfilePreferenceTeam { get; private set; } = 0;
 
         public string BackgroundInner { get; private set; }
         public string BackgroundTeam { get; private set; }
         public string SalaryComment { get; private set; }
 
-        public byte[] PreferredPartsInner { get; private set; } = Array.Empty<byte>();
-        public byte[] PreferredPartsTeam { get; private set; } = Array.Empty<byte>();
+        public byte[] PreferredPartsInner { get; private set; } = [];
+        public byte[] PreferredPartsTeam { get; private set; } = [];
 
         #endregion
 

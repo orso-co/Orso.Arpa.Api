@@ -22,6 +22,8 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
         {
             public byte LevelAssessmentInner { get; set; }
             public byte LevelAssessmentTeam { get; set; }
+            public byte ProfilePreferenceInner { get; set; }
+            public byte ProfilePreferenceTeam { get; set; }
             public Guid PersonId { get; set; }
             public Guid InstrumentId { get; set; }
             public Guid? QualificationId { get; set; }
