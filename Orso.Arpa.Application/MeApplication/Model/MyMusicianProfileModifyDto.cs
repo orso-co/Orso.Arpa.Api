@@ -63,6 +63,7 @@ namespace Orso.Arpa.Application.MeApplication.Model
         {
             _ = RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
+
             _ = RuleFor(p => p.ProfilePreferenceInner)
                 .FiveStarRating();
 

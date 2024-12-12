@@ -18,6 +18,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
     {
         public byte LevelAssessmentInner { get; set; }
         public byte LevelAssessmentTeam { get; set; }
+        public byte ProfilePreferenceInner { get; set; }
+        public byte ProfilePreferenceTeam { get; set; }
         public Guid InstrumentId { get; set; }
         public Guid QualificationId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
@@ -27,6 +29,8 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
         public IList<Guid> PreferredPositionsTeamIds { get; set; } = [];
         public IList<byte> PreferredPartsInner { get; set; } = [];
         public IList<byte> PreferredPartsTeam { get; set; } = [];
+        public string BackgroundInner { get; set; }
+        public string BackgroundTeam { get; set; }
     }
 
     public class MusicianProfileCreateDtoMappingProfile : Profile
@@ -36,12 +40,15 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
             _ = CreateMap<MusicianProfileCreateDto, CreateMusicianProfile.Command>()
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
                 .ForMember(dest => dest.LevelAssessmentTeam, opt => opt.MapFrom(src => src.Body.LevelAssessmentTeam))
-
+                .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.Body.ProfilePreferenceInner))
+                .ForMember(dest => dest.ProfilePreferenceTeam, opt => opt.MapFrom(src => src.Body.ProfilePreferenceTeam))
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.Body.InstrumentId))
                 .ForMember(dest => dest.QualificationId, opt => opt.MapFrom(src => src.Body.QualificationId))
                 .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.Body.InquiryStatusInner))
                 .ForMember(dest => dest.InquiryStatusTeam, opt => opt.MapFrom(src => src.Body.InquiryStatusTeam))
+                .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.Body.BackgroundInner))
+                .ForMember(dest => dest.BackgroundTeam, opt => opt.MapFrom(src => src.Body.BackgroundTeam))
 
                 .ForMember(dest => dest.PreferredPositionsInnerIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsInnerIds))
                 .ForMember(dest => dest.PreferredPositionsTeamIds, opt => opt.MapFrom(src => src.Body.PreferredPositionsTeamIds))
@@ -83,7 +90,14 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 
             _ = RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating();
+
             _ = RuleFor(p => p.LevelAssessmentTeam)
+                .FiveStarRating();
+
+            _ = RuleFor(p => p.ProfilePreferenceInner)
+                .FiveStarRating();
+
+            _ = RuleFor(p => p.ProfilePreferenceTeam)
                 .FiveStarRating();
 
             _ = RuleFor(p => p.InstrumentId)
@@ -106,6 +120,12 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 
             _ = RuleFor(p => p.InquiryStatusTeam)
                 .IsInEnum();
+
+            _ = RuleFor(p => p.BackgroundInner)
+                .RestrictedFreeText(1000);
+
+            _ = RuleFor(p => p.BackgroundTeam)
+                .RestrictedFreeText(1000);
         }
     }
 }

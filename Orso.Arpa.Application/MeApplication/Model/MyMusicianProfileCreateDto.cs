@@ -11,11 +11,13 @@ namespace Orso.Arpa.Application.MeApplication.Model
     public class MyMusicianProfileCreateDto
     {
         public byte LevelAssessmentInner { get; set; }
+        public byte ProfilePreferenceInner { get; set; }
         public Guid InstrumentId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
         public IList<MyDoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = [];
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
         public IList<byte> PreferredPartsInner { get; set; } = [];
+        public string BackgroundInner { get; set; }
     }
 
     public class MyMusicianProfileCreateDtoMappingProfile : Profile
@@ -24,6 +26,8 @@ namespace Orso.Arpa.Application.MeApplication.Model
         {
             _ = CreateMap<MyMusicianProfileCreateDto, CreateMusicianProfile.Command>()
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
+                .ForMember(dest => dest.ProfilePreferenceInner, opt => opt.MapFrom(src => src.ProfilePreferenceInner))
+                .ForMember(dest => dest.BackgroundInner, opt => opt.MapFrom(src => src.BackgroundInner))
 
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.InstrumentId))
                 .ForMember(dest => dest.InquiryStatusInner, opt => opt.MapFrom(src => src.InquiryStatusInner))
@@ -43,6 +47,9 @@ namespace Orso.Arpa.Application.MeApplication.Model
             _ = RuleFor(p => p.LevelAssessmentInner)
                 .FiveStarRating()
                 .NotEqual((byte)0);
+
+            _ = RuleFor(p => p.ProfilePreferenceInner)
+                .FiveStarRating();
 
             _ = RuleFor(p => p.InstrumentId)
                .NotEmpty();
@@ -64,6 +71,9 @@ namespace Orso.Arpa.Application.MeApplication.Model
 
             _ = RuleFor(p => p.InquiryStatusInner)
                 .IsInEnum();
+
+            _ = RuleFor(p => p.BackgroundInner)
+                .RestrictedFreeText(1000);
         }
     }
 }
