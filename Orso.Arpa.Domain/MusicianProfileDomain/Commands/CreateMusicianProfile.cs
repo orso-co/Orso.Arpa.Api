@@ -33,6 +33,8 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
             public IList<Guid> PreferredPositionsTeamIds { get; set; } = [];
             public IList<byte> PreferredPartsInner { get; set; } = [];
             public IList<byte> PreferredPartsTeam { get; set; } = [];
+            public string BackgroundInner { get; set; }
+            public string BackgroundTeam { get; set; }
         }
         public class Validator : AbstractValidator<Command>
         {

@@ -31,6 +31,8 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
             PreferredPositionsTeam = [.. command.PreferredPositionsTeamIds.Distinct().Select(i => new MusicianProfilePositionTeam(i, Id))];
             PreferredPartsInner = [.. command.PreferredPartsInner.Distinct()];
             PreferredPartsTeam = [.. command.PreferredPartsTeam.Distinct()];
+            BackgroundInner = command.BackgroundInner;
+            BackgroundTeam = command.BackgroundTeam;
         }
 
         public MusicianProfile()
