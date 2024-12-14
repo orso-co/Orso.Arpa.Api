@@ -357,7 +357,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 LevelAssessmentTeam = createDoublingInstrumentDto.LevelAssessmentTeam,
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = _staff.DisplayName,
-                LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner
+                LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner,
+                Availability = SelectValueDtoData.PrivateOwnership,
+                Instrument = SectionDtoData.EbClarinet
             });
 
             // Act
