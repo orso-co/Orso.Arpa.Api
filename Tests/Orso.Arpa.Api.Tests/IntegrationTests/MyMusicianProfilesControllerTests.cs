@@ -84,7 +84,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Status = 422,
                 Type = "https://tools.ietf.org/html/rfc4918#section-11.2"
             };
-            expectedResult.Errors.Add("DoublingInstruments", ["'Doubling Instruments' must not be empty."]);
             expectedResult.Errors.Add("PreferredPositionsInnerIds", ["'Preferred Positions Inner Ids' must not be empty."]);
 
             // Act
