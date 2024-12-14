@@ -11,6 +11,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using netDumbster.smtp;
+using NuGet.Common;
 using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AuthApplication.Model;
@@ -209,6 +210,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var confirmEmailToken = queryParameters[0];
             var email = queryParameters[1].Split('"')[0];
 
+            email.Should().Be(registerDto.Email);
+            confirmEmailToken.Should().NotBeNullOrEmpty();
             var confirmEmailDto = new ConfirmEmailDto
             {
                 Email = email,
