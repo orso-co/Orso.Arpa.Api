@@ -61,7 +61,9 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Id = Guid.Parse("d57c5706-f0aa-4e02-829c-e7823ed7a63d"),
                     CreatedAt = FakeDateTime.UtcNow,
                     CreatedBy = "anonymous",
-                    InstrumentId = Guid.Parse("c42591db-4e41-413f-8b98-6607e2f12e39")
+                    InstrumentId = Guid.Parse("c42591db-4e41-413f-8b98-6607e2f12e39"),
+                    Instrument = SectionDtoData.WagnerTuba,
+                    Availability = SelectValueDtoData.PrivateOwnership
                 });
                 dto.PreferredPositionsInnerIds.Add(Guid.Parse("b43fc897-ebcf-4d2a-8682-33b6337b5ab2"));
                 dto.PreferredPartsInner.Add(2);
