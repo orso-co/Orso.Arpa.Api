@@ -95,5 +95,15 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 return selectValueMapping;
             }
         }
+
+        public static SelectValueMapping PrivateOwnership
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.PrivateOwnership);
+                return selectValueMapping;
+            }
+        }
     }
 }

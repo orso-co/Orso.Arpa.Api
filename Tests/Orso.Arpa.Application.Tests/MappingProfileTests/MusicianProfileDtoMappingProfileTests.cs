@@ -12,8 +12,10 @@ using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Application.MusicianProfileApplication.Model;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
 using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
@@ -28,6 +30,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
         {
             var services = new ServiceCollection();
             services.AddSingleton<LocalizeAction<Section, SectionDto>>();
+            services.AddSingleton<LocalizeAction<SelectValueMapping, SelectValueDto>>();
             services.AddSingleton(_localizerCache);
             services.AddAutoMapper(cfg =>
             {
@@ -38,6 +41,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<EducationDtoMappingProfile>();
                 cfg.AddProfile<MusicianProfileDeactivationDtoMappingProfile>();
                 cfg.AddProfile<SectionDtoMappingProfile>();
+                cfg.AddProfile<SelectValueDtoMappingProfile>();
             });
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();

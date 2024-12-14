@@ -27,8 +27,10 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             {
                 MusicianProfile profile = MusicianProfileSeedData.PerformersHornMusicianProfile;
                 MusicianProfileSection doublingInstrument = profile.DoublingInstruments.First();
-                doublingInstrument.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
-                doublingInstrument.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
+                doublingInstrument.SetProperty(nameof(MusicianProfileSection.CreatedBy), "anonymous");
+                doublingInstrument.SetProperty(nameof(MusicianProfileSection.CreatedAt), FakeDateTime.UtcNow);
+                doublingInstrument.SetProperty(nameof(MusicianProfileSection.Section), SectionSeedData.WagnerTuba);
+                doublingInstrument.SetProperty(nameof(MusicianProfileSection.InstrumentAvailability), FakeSelectValueMappings.PrivateOwnership);
                 profile.SetProperty(nameof(MusicianProfile.Person), PersonTestSeedData.Performer);
                 profile.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
                 profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
