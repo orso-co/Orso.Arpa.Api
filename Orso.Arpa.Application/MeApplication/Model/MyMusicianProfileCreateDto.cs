@@ -14,7 +14,6 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public byte ProfilePreferenceInner { get; set; }
         public Guid InstrumentId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
-        public IList<MyDoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = [];
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
         public IList<byte> PreferredPartsInner { get; set; } = [];
         public string BackgroundInner { get; set; }
@@ -54,17 +53,11 @@ namespace Orso.Arpa.Application.MeApplication.Model
             _ = RuleFor(p => p.InstrumentId)
                .NotEmpty();
 
-            _ = RuleFor(p => p.DoublingInstruments)
-                .NotNull();
-
             _ = RuleFor(p => p.PreferredPositionsInnerIds)
                 .NotNull();
 
             _ = RuleFor(p => p.PreferredPartsInner)
                 .NotNull();
-
-            _ = RuleForEach(p => p.DoublingInstruments)
-                .SetValidator(new MyDoublingInstrumentCreateBodyDtoValidator());
 
             _ = RuleForEach(p => p.PreferredPositionsInnerIds)
               .NotEmpty();

@@ -325,16 +325,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             createDto.PreferredPartsInner.Add(4);
             createDto.PreferredPartsTeam.Add(1);
 
-            var createDoublingInstrumentDto = new DoublingInstrumentCreateBodyDto
-            {
-                InstrumentId = SectionSeedData.EbClarinet.Id,
-                AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
-                LevelAssessmentTeam = 3,
-                LevelAssessmentInner = 4,
-                Comment = "my comment"
-            };
-            createDto.DoublingInstruments.Add(createDoublingInstrumentDto);
-
             var expectedDto = new MusicianProfileDto
             {
                 Instrument = SectionDtoData.Clarinet,
@@ -349,18 +339,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.PreferredPartsInner.Add(2);
             expectedDto.PreferredPartsInner.Add(4);
             expectedDto.PreferredPartsTeam.Add(1);
-            expectedDto.DoublingInstruments.Add(new DoublingInstrumentDto
-            {
-                AvailabilityId = createDoublingInstrumentDto.AvailabilityId,
-                Comment = createDoublingInstrumentDto.Comment,
-                InstrumentId = createDoublingInstrumentDto.InstrumentId,
-                LevelAssessmentTeam = createDoublingInstrumentDto.LevelAssessmentTeam,
-                CreatedAt = FakeDateTime.UtcNow,
-                CreatedBy = _staff.DisplayName,
-                LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner,
-                Availability = SelectValueDtoData.PrivateOwnership,
-                Instrument = SectionDtoData.EbClarinet
-            });
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -374,9 +352,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.DoublingInstruments));
             _ = result.Id.Should().NotBeEmpty();
-            _ = result.DoublingInstruments.Count.Should().Be(1);
-            _ = result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
-            _ = result.DoublingInstruments[0].Id.Should().NotBeEmpty();
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
 

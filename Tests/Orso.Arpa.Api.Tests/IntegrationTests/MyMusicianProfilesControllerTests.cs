@@ -78,7 +78,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 LevelAssessmentInner = 1,
                 InquiryStatusInner = MusicianProfileInquiryStatus.ForContactsOnly,
                 PreferredPositionsInnerIds = null,
-                DoublingInstruments = null
             };
             var expectedResult = new ValidationProblemDetails
             {
@@ -113,15 +112,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             createDto.PreferredPartsInner.Add(2);
             createDto.PreferredPartsInner.Add(4);
 
-            var createDoublingInstrumentDto = new MyDoublingInstrumentCreateBodyDto
-            {
-                InstrumentId = SectionSeedData.EbClarinet.Id,
-                AvailabilityId = SelectValueMappingSeedData.MusicianProfileSectionInstrumentAvailabilityMappings[0].Id,
-                LevelAssessmentInner = 4,
-                Comment = "my comment"
-            };
-            createDto.DoublingInstruments.Add(createDoublingInstrumentDto);
-
             var expectedDto = new MyMusicianProfileDto
             {
                 Instrument = SectionDtoData.Clarinet,
@@ -133,17 +123,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             expectedDto.PreferredPositionsInnerIds.Add(SelectValueSectionSeedData.ClarinetCoach.Id);
             expectedDto.PreferredPartsInner.Add(2);
             expectedDto.PreferredPartsInner.Add(4);
-            expectedDto.DoublingInstruments.Add(new MyDoublingInstrumentDto
-            {
-                AvailabilityId = createDoublingInstrumentDto.AvailabilityId,
-                Comment = createDoublingInstrumentDto.Comment,
-                InstrumentId = createDoublingInstrumentDto.InstrumentId,
-                CreatedAt = FakeDateTime.UtcNow,
-                CreatedBy = _performer.DisplayName,
-                LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner,
-                Instrument = SectionDtoData.EbClarinet,
-                Availability = SelectValueDtoData.PrivateOwnership
-            });
 
             // Act
             HttpResponseMessage responseMessage = await _authenticatedServer
@@ -157,9 +136,6 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
 
             _ = result.Should().BeEquivalentTo(expectedDto, opt => opt.Excluding(r => r.Id).Excluding(r => r.DoublingInstruments));
             _ = result.Id.Should().NotBeEmpty();
-            _ = result.DoublingInstruments.Count.Should().Be(1);
-            _ = result.DoublingInstruments[0].Should().BeEquivalentTo(expectedDto.DoublingInstruments[0], opt => opt.Excluding(dto => dto.Id));
-            _ = result.DoublingInstruments[0].Id.Should().NotBeEmpty();
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.MusicianProfilesController.Get(result.Id)}");
         }
 

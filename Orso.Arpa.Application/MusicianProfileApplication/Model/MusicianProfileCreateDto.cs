@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
-using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
 using Orso.Arpa.Application.General.Extensions;
 using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Commands;
@@ -24,7 +23,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
         public Guid QualificationId { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusInner { get; set; }
         public MusicianProfileInquiryStatus? InquiryStatusTeam { get; set; }
-        public IList<DoublingInstrumentCreateBodyDto> DoublingInstruments { get; set; } = [];
         public IList<Guid> PreferredPositionsInnerIds { get; set; } = [];
         public IList<Guid> PreferredPositionsTeamIds { get; set; } = [];
         public IList<byte> PreferredPartsInner { get; set; } = [];
@@ -73,9 +71,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
             _ = RuleFor(p => p)
                 .NotNull();
 
-            _ = RuleFor(p => p.DoublingInstruments)
-                .NotNull();
-
             _ = RuleFor(p => p.PreferredPositionsInnerIds)
                 .NotNull();
 
@@ -105,9 +100,6 @@ namespace Orso.Arpa.Application.MusicianProfileApplication.Model
 
             _ = RuleFor(p => p.QualificationId)
                .NotEmpty();
-
-            _ = RuleForEach(p => p.DoublingInstruments)
-                .SetValidator(new DoublingInstrumentCreateBodyDtoValidator());
 
             _ = RuleForEach(p => p.PreferredPositionsTeamIds)
                 .NotEmpty();
