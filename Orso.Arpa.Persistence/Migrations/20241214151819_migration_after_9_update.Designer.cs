@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -11,9 +12,11 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20241214151819_migration_after_9_update")]
+    partial class migration_after_9_update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4104,39 +4107,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             LocalizationCulture = "de",
                             ResourceKey = "SelectValueDto",
                             Text = "Orchester"
-                        },
-                        new
-                        {
-                            Id = new Guid("374801b3-7e93-4f6f-bf2d-5ae1a46ae99f"),
-                            CreatedAt = new DateTime(2024, 12, 15, 13, 32, 31, 349, DateTimeKind.Local).AddTicks(3620),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Need to borrow",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SelectValueDto",
-                            Text = "Muss extern geliehen werden"
-                        },
-                        new
-                        {
-                            Id = new Guid("1cc0536c-d7a6-4a2c-aa82-3eafd001b822"),
-                            CreatedAt = new DateTime(2024, 12, 15, 13, 32, 31, 349, DateTimeKind.Local).AddTicks(6950),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Provision by staff",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SelectValueDto",
-                            Text = "Wird vom Verein bereitgestellt"
-                        },
-                        new
-                        {
-                            Id = new Guid("2ef1df57-24be-4cdc-896c-33f5c865c606"),
-                            CreatedAt = new DateTime(2024, 12, 15, 13, 32, 31, 350, DateTimeKind.Local).AddTicks(330),
-                            CreatedBy = "LocalizationSeedData",
-                            Deleted = false,
-                            Key = "Private ownership",
-                            LocalizationCulture = "de",
-                            ResourceKey = "SelectValueDto",
-                            Text = "Ich besitze eins"
                         });
                 });
 
