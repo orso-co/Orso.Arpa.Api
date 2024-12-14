@@ -115,12 +115,6 @@ namespace Orso.Arpa.Application.MeApplication.Services
             command.PersonId = _userAccessor.PersonId;
 
             MusicianProfile createdEntity = await _mediator.Send(command);
-            foreach (MyDoublingInstrumentCreateBodyDto doublingInstrument in musicianProfileCreateDto.DoublingInstruments)
-            {
-                CreateMusicianProfileSection.Command doublingInstrumentCommand = _mapper.Map<CreateMusicianProfileSection.Command>(doublingInstrument);
-                doublingInstrumentCommand.MusicianProfileId = createdEntity.Id;
-                _ = await _mediator.Send(doublingInstrumentCommand);
-            }
 
             var notification = new MusicianProfileCreatedNotification { MusicianProfile = createdEntity };
             await _mediator.Publish(notification);

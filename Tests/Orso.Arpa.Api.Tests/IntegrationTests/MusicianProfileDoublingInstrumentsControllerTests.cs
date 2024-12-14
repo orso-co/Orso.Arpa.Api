@@ -8,6 +8,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.DoublingInstrumentApplication.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -37,7 +38,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedBy = "Staff Member",
                 InstrumentId = dto.InstrumentId,
                 LevelAssessmentInner = dto.LevelAssessmentInner,
-                LevelAssessmentTeam = dto.LevelAssessmentTeam
+                LevelAssessmentTeam = dto.LevelAssessmentTeam,
+                Availability = SelectValueDtoData.PrivateOwnership,
+                Instrument = SectionDtoData.PiccoloFlute
             };
 
             HttpResponseMessage responseMessage = await _authenticatedServer

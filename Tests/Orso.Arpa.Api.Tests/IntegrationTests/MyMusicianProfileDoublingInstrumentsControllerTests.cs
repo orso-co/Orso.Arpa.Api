@@ -8,6 +8,7 @@ using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.MeApplication.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Persistence.Seed;
+using Orso.Arpa.Tests.Shared.DtoTestData;
 using Orso.Arpa.Tests.Shared.FakeData;
 using Orso.Arpa.Tests.Shared.TestSeedData;
 
@@ -35,7 +36,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = "Per Former",
                 InstrumentId = dto.InstrumentId,
-                LevelAssessmentInner = dto.LevelAssessmentInner
+                LevelAssessmentInner = dto.LevelAssessmentInner,
+                Availability = SelectValueDtoData.PrivateOwnership,
+                Instrument = SectionDtoData.FTuba
             };
 
             HttpResponseMessage responseMessage = await _authenticatedServer

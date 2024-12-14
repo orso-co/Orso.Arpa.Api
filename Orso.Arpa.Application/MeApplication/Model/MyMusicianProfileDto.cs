@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Orso.Arpa.Application.ContactDetailApplication.Services;
 using Orso.Arpa.Application.CurriculumVitaeReferenceApplication.Model;
 using Orso.Arpa.Application.EducationApplication.Model;
 using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Application.MusicianProfileApplication.Model;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Model;
 using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Enums;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
@@ -41,6 +43,8 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public byte LevelAssessmentInner { get; set; }
         public Guid? AvailabilityId { get; set; }
         public string Comment { get; set; }
+        public SectionDto Instrument { get; set; }
+        public SelectValueDto Availability { get; set; }
     }
 
     public class MyMusicianProfileDtoMappingProfile : Profile
@@ -80,6 +84,8 @@ namespace Orso.Arpa.Application.MeApplication.Model
                 .ForMember(dest => dest.InstrumentId, opt => opt.MapFrom(src => src.SectionId))
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.LevelAssessmentInner))
                 .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Comment))
+                .ForMember(dest => dest.Instrument, opt => opt.MapFrom(src => src.Section))
+                .ForMember(dest => dest.Availability, opt => opt.MapFrom(src => src.InstrumentAvailability))
                 .IncludeBase<BaseEntity, BaseEntityDto>();
         }
     }
