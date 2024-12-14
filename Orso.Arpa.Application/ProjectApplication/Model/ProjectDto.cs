@@ -21,7 +21,7 @@ namespace Orso.Arpa.Application.ProjectApplication.Model
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public IList<UrlDto> Urls { get; set; } = [];
-        public ProjectStatus Status { get; set; }
+        public ProjectStatus? Status { get; set; }
         public Guid? ParentId { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsHiddenForPerformers { get; set; }
