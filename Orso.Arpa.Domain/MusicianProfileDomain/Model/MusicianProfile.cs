@@ -45,7 +45,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
             LevelAssessmentInner = command.LevelAssessmentInner;
             ProfilePreferenceInner = command.ProfilePreferenceInner;
             BackgroundInner = command.BackgroundInner;
-            PreferredPartsInner = command.PreferredPartsInner.ToArray();
+            PreferredPartsInner = [.. command.PreferredPartsInner];
             InquiryStatusInner = command.InquiryStatusInner;
         }
 
@@ -63,8 +63,8 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
             SalaryId = command.SalaryId;
             InquiryStatusInner = command.InquiryStatusInner;
             InquiryStatusTeam = command.InquiryStatusTeam;
-            PreferredPartsInner = command.PreferredPartsInner.ToArray();
-            PreferredPartsTeam = command.PreferredPartsTeam.ToArray();
+            PreferredPartsInner = [.. command.PreferredPartsInner];
+            PreferredPartsTeam = [.. command.PreferredPartsTeam];
         }
 
         public void TurnOffIsMainProfileFlag()
