@@ -221,5 +221,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Choir",
             Description = ""
         };
+
+        public static SelectValueDto PrivateOwnership => new() {
+            Id = Guid.Parse("d33ea034-0c5f-458d-bef5-26d2c12b6b03"),
+            Name = "Private Ownership",
+            Description = ""
+        };
     }
 }

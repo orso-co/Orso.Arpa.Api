@@ -140,7 +140,9 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 InstrumentId = createDoublingInstrumentDto.InstrumentId,
                 CreatedAt = FakeDateTime.UtcNow,
                 CreatedBy = _performer.DisplayName,
-                LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner
+                LevelAssessmentInner = createDoublingInstrumentDto.LevelAssessmentInner,
+                Instrument = SectionDtoData.EbClarinet,
+                Availability = SelectValueDtoData.PrivateOwnership
             });
 
             // Act
