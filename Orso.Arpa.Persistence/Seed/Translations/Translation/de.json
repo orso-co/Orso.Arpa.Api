@@ -239,6 +239,9 @@
         "Music Stands": "Notenpulte",
         "Choir": "Chor",
         "Voice Rehearsal": "Stimmprobe",
-        "Orchestra": "Orchester"
+        "Orchestra": "Orchester",
+        "Need to borrow": "Muss extern geliehen werden",
+        "Provision by staff": "Wird vom Verein bereitgestellt",
+        "Private ownership": "Ich besitze eins"
     }
 }

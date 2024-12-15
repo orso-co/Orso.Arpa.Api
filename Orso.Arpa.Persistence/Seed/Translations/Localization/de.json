@@ -2818,5 +2818,41 @@
     "ModifiedBy": null,
     "ModifiedAt": null,
     "Deleted": false
+  },
+  {
+    "Key": "Need to borrow",
+    "Text": "Muss extern geliehen werden",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SelectValueDto",
+    "Id": "374801b3-7e93-4f6f-bf2d-5ae1a46ae99f",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2024-12-15T13:32:31.349362+01:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Provision by staff",
+    "Text": "Wird vom Verein bereitgestellt",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SelectValueDto",
+    "Id": "1cc0536c-d7a6-4a2c-aa82-3eafd001b822",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2024-12-15T13:32:31.349695+01:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
+  },
+  {
+    "Key": "Private ownership",
+    "Text": "Ich besitze eins",
+    "LocalizationCulture": "de",
+    "ResourceKey": "SelectValueDto",
+    "Id": "2ef1df57-24be-4cdc-896c-33f5c865c606",
+    "CreatedBy": "LocalizationSeedData",
+    "CreatedAt": "2024-12-15T13:32:31.350033+01:00",
+    "ModifiedBy": null,
+    "ModifiedAt": null,
+    "Deleted": false
   }
 ]
