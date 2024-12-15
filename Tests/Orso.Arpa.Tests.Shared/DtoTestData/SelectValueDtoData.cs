@@ -239,5 +239,17 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "University",
             Description = ""
         };
+
+        public static SelectValueDto SoloPerformance => new() {
+            Id = Guid.Parse("3245182e-7985-4c07-828e-d69287ff2a2d"),
+            Name = "Solo performance",
+            Description = ""
+        };
+
+        public static SelectValueDto EnsemblePosition => new() {
+            Id = Guid.Parse("dead0ae2-bb2b-4584-992e-dddeb7f23d53"),
+            Name = "Ensemble position",
+            Description = ""
+        };
     }
 }
