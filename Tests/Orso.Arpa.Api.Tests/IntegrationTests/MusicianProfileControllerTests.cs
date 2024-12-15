@@ -255,7 +255,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Description = createDto.Description,
                 SortOrder = createDto.SortOrder,
                 CreatedBy = _staff.DisplayName,
-                CreatedAt = FakeDateTime.UtcNow
+                CreatedAt = FakeDateTime.UtcNow,
+                Type = SelectValueDtoData.University
             };
 
             // Act
