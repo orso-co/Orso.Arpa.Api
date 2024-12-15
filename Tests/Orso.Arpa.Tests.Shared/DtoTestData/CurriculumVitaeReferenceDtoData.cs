@@ -32,7 +32,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     SortOrder = 1,
                     Id = Guid.Parse("ea0ad4a1-9351-457f-ab82-24e593e062a1"),
                     CreatedAt = FakeDateTime.UtcNow,
-                    CreatedBy = "anonymous"
+                    CreatedBy = "anonymous",
+                    Type = SelectValueDtoData.EnsemblePosition
                 };
             }
         }

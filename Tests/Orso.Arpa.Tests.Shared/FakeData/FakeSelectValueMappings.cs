@@ -106,12 +106,22 @@ namespace Orso.Arpa.Tests.Shared.FakeData
             }
         }
 
-         public static SelectValueMapping PrivateLesson
+        public static SelectValueMapping PrivateLesson
         {
             get
             {
                 SelectValueMapping selectValueMapping = SelectValueMappingSeedData.EducationTypeMappings[0];
                 selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.PrivateLesson);
+                return selectValueMapping;
+            }
+        }
+
+        public static SelectValueMapping EnsemblePosition
+        {
+            get
+            {
+                SelectValueMapping selectValueMapping = SelectValueMappingSeedData.CurriculumVitaeReferenceTypeMappings[0];
+                selectValueMapping.SetProperty(nameof(SelectValueMapping.SelectValue), SelectValueSeedData.EnsemblePosition);
                 return selectValueMapping;
             }
         }

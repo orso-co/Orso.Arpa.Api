@@ -33,7 +33,6 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
             Institution = command.Institution;
             TypeId = command.TypeId;
             Description = command.Description;
-            Description = command.Description;
             SortOrder = command.SortOrder;
         }
 
