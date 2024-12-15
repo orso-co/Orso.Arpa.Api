@@ -30,7 +30,7 @@ namespace Orso.Arpa.Application.MeApplication.Model
                 .ForMember(dest => dest.MusicianProfileId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.AvailabilityId, opt => opt.MapFrom(src => src.Body.AvailabilityId))
                 .ForMember(dest => dest.LevelAssessmentInner, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner))
-                .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Body.LevelAssessmentInner));
+                .ForMember(dest => dest.Comment, opt => opt.MapFrom(src => src.Body.Comment));
         }
     }
 
