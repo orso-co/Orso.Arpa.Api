@@ -36,8 +36,9 @@ namespace Orso.Arpa.Tests.Shared.FakeData
                 profile.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
                 profile.SetProperty(nameof(MusicianProfile.Instrument), FakeSections.Horn);
                 Education universityEducation = EducationSeedData.University;
-                universityEducation.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");
-                universityEducation.SetProperty(nameof(MusicianProfile.CreatedAt), FakeDateTime.UtcNow);
+                universityEducation.SetProperty(nameof(Education.CreatedBy), "anonymous");
+                universityEducation.SetProperty(nameof(Education.CreatedAt), FakeDateTime.UtcNow);
+                universityEducation.SetProperty(nameof(Education.Type), FakeSelectValueMappings.PrivateLesson);
                 profile.Educations.Add(universityEducation);
                 CurriculumVitaeReference mozarteum = CurriculumVitaeReferenceSeedData.Mozarteum;
                 mozarteum.SetProperty(nameof(MusicianProfile.CreatedBy), "anonymous");

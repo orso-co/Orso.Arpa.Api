@@ -62,7 +62,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
 
         [Test]
         [TestCaseSource(nameof(_testData))]
-        public void Should_Map(MusicianProfile source, MyMusicianProfileDto expectedDto)
+        public void Should_Map_MusicianProfile_To_MyMusicianProfileDto(MusicianProfile source, MyMusicianProfileDto expectedDto)
         {
             // Act
             MyMusicianProfileDto mappedDto = _mapper.Map<MyMusicianProfileDto>(source);
