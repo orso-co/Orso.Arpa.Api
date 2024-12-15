@@ -227,5 +227,11 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Private ownership",
             Description = ""
         };
+
+        public static SelectValueDto PrivateLesson => new() {
+            Id = Guid.Parse("99251f16-deca-437e-84e2-a747e1a8ad7f"),
+            Name = "Private lesson",
+            Description = ""
+        };
     }
 }
