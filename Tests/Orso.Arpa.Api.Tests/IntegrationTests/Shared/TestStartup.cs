@@ -45,7 +45,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
                 options.UseSnakeCaseNamingConvention();
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
-                options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.AmbientTransactionWarning));
+                options.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
             });
             services.AddPooledDbContextFactory<GraphQLContext>(opt =>
             {
