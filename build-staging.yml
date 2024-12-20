@@ -3,84 +3,84 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-# resources:
-#   repositories:
-#   - repository: Frontend
-#     type: github
-#     endpoint: Azure Devops OrsoDevOps
-#     name: orso-co/Orso.Arpa.Web
-#     ref: staging
-#     trigger:
-#     - staging
+resources:
+  repositories:
+  - repository: Frontend
+    type: github
+    endpoint: Azure Devops OrsoDevOps
+    name: VILLAN3LL3/Orso.Arpa.Web.Extended
+    ref: main
+    trigger:
+    - main
 
-# trigger:
-# - develop
-# pr: none
+trigger:
+- develop
+pr: none
 
-# pool:
-#   vmImage: 'windows-latest'
+pool:
+  vmImage: 'windows-latest'
 
-# variables:
-#   backendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Api'
-#   frontendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Web'
-#   solution: 'Orso.Arpa.Api\**\*.sln'
-#   buildPlatform: 'Any CPU'
-#   buildConfiguration: 'Release'
-#   frontendOutputPath: '..\a\Orso.Arpa.Api\wwwroot'
-#   stage: 'staging'
-#   targetFramework: '8.0'
+variables:
+  backendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Api'
+  frontendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Web'
+  solution: 'Orso.Arpa.Api\**\*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  frontendOutputPath: '..\a\Orso.Arpa.Api\wwwroot'
+  stage: 'staging'
+  targetFramework: '8.0'
 
-# steps:
-# - checkout: self
-#   path: 'Orso.Arpa.Api'
-# - checkout: Frontend
-#   path: 'Orso.Arpa.Web'
-# - task: UseDotNet@2
-#   displayName: Use .NET SDK $(targetFramework).x
-#   inputs:
-#     packageType: 'sdk'
-#     version: '$(targetFramework).x'
-# - task: DotNetCoreCLI@2
-#   displayName: Restore Backend
-#   inputs:
-#     command: restore
-#     projects: '$(backendWorkingDirectory)/**/*.csproj'
-# - task: DotNetCoreCLI@2
-#   displayName: Build Backend
-#   inputs:
-#     command: build
-#     projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
-#     arguments: --configuration $(BuildConfiguration) --no-restore
-# - task: DotNetCoreCLI@2
-#   displayName: Publish Backend
-#   inputs:
-#     command: publish
-#     projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
-#     publishWebProjects: false
-#     arguments: --configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"
-#     zipAfterPublish: false
-# - task: NodeTool@0
-#   inputs:
-#     versionSpec: '18.17'
-#   displayName: 'Install Node.js'
-# - script: npm install --legacy-peer-deps
-#   displayName: 'Install Frontend Dependencies'
-#   workingDirectory: $(frontendWorkingDirectory)
-# - script: npx ng build --configuration staging --output-path $(frontendOutputPath)
-#   displayName: 'Build Frontend'
-#   workingDirectory: $(frontendWorkingDirectory)
-# - task: ArchiveFiles@2
-#   displayName: Create .zip File
-#   inputs:
-#     rootFolderOrFile: '$(build.artifactstagingdirectory)/Orso.Arpa.Api'
-#     includeRootFolder: false
-#     archiveType: 'zip'
-#     archiveFile: '$(Build.ArtifactStagingDirectory)/Orso.Arpa.Api.zip'
-#     replaceExistingArchive: true
-#     verbose: true
-# - task: PublishBuildArtifacts@1
-#   displayName: Publish Artifact
-#   inputs:
-#     PathtoPublish: $(build.artifactstagingdirectory)/Orso.Arpa.Api.zip
-#     ArtifactName: 'orso-arpa-$(stage)'
-#     TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
+steps:
+- checkout: self
+  path: 'Orso.Arpa.Api'
+- checkout: Frontend
+  path: 'Orso.Arpa.Web'
+- task: UseDotNet@2
+  displayName: Use .NET SDK $(targetFramework).x
+  inputs:
+    packageType: 'sdk'
+    version: '$(targetFramework).x'
+- task: DotNetCoreCLI@2
+  displayName: Restore Backend
+  inputs:
+    command: restore
+    projects: '$(backendWorkingDirectory)/**/*.csproj'
+- task: DotNetCoreCLI@2
+  displayName: Build Backend
+  inputs:
+    command: build
+    projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
+    arguments: --configuration $(BuildConfiguration) --no-restore
+- task: DotNetCoreCLI@2
+  displayName: Publish Backend
+  inputs:
+    command: publish
+    projects: '$(backendWorkingDirectory)/**/Orso.Arpa.Api.csproj'
+    publishWebProjects: false
+    arguments: --configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"
+    zipAfterPublish: false
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.12'
+  displayName: 'Install Node.js'
+- script: npm install
+  displayName: 'Install Frontend Dependencies'
+  workingDirectory: $(frontendWorkingDirectory)
+- script: npx ng build --configuration staging --output-path $(frontendOutputPath)
+  displayName: 'Build Frontend'
+  workingDirectory: $(frontendWorkingDirectory)
+- task: ArchiveFiles@2
+  displayName: Create .zip File
+  inputs:
+    rootFolderOrFile: '$(build.artifactstagingdirectory)/Orso.Arpa.Api'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Orso.Arpa.Api.zip'
+    replaceExistingArchive: true
+    verbose: true
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact
+  inputs:
+    PathtoPublish: $(build.artifactstagingdirectory)/Orso.Arpa.Api.zip
+    ArtifactName: 'orso-arpa-$(stage)'
+    TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
