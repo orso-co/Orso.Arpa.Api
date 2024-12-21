@@ -63,7 +63,7 @@ steps:
   inputs:
     versionSpec: '20.12'
   displayName: 'Install Node.js'
-- script: npm install
+- script: npm ci
   displayName: 'Install Frontend Dependencies'
   workingDirectory: $(frontendWorkingDirectory)
 - script: npx ng build --configuration staging --output-path $(frontendOutputPath)
