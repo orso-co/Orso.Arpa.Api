@@ -61,7 +61,7 @@ steps:
     zipAfterPublish: false
 - task: NodeTool@0
   inputs:
-    versionSpec: '18.17'
+    versionSpec: '18.19'
   displayName: 'Install Node.js'
 - script: npm ci
   displayName: 'Install Frontend Dependencies'
