@@ -21,15 +21,23 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  backendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Api'
-  frontendWorkingDirectory: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Web'
-  solution: 'Orso.Arpa.Api\**\*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-  frontendOutputPath: '..\a\Orso.Arpa.Api\wwwroot'
-  stage: 'staging'
-  targetFramework: '8.0'
   - group: arpa-base-urls
+  - name: backendWorkingDirectory
+    value: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Api'
+  - name: frontendWorkingDirectory
+    value: '$(AGENT.BUILDDIRECTORY)\Orso.Arpa.Web'
+  - name: solution
+    value: 'Orso.Arpa.Api\**\*.sln'
+  - name: buildPlatform
+    value: 'Any CPU'
+  - name: buildConfiguration
+    value: 'Release'
+  - name: frontendOutputPath
+    value: '..\a\Orso.Arpa.Api\wwwroot'
+  - name: stage
+    value: 'staging'
+  - name: targetFramework
+    value: '8.0'
 
 steps:
 - checkout: self
