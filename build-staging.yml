@@ -79,8 +79,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: sed -i 's|<STAGING_BASE_URL>|$BASE_URL|g' src/environments/environment.staging.ts
+    workingDirectory: $(frontendWorkingDirectory)
   displayName: 'Replace environment variables'
-  workingDirectory: $(frontendWorkingDirectory)
   env:
     BASE_URL: $(STAGING_BASE_URL)
 - script: npx ng build --configuration staging --output-path $(frontendOutputPath)
