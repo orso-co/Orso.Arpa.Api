@@ -75,14 +75,6 @@ steps:
 - script: npm ci
   displayName: 'Install Frontend Dependencies'
   workingDirectory: $(frontendWorkingDirectory)
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: echo $BASEURL && sed -i 's|<STAGING_BASE_URL>|$BASEURL|g' src/environments/environment.staging.ts
-    workingDirectory: $(frontendWorkingDirectory)
-  displayName: 'Replace environment variables'
-  env:
-    BASEURL: $(STAGING_BASE_URL)
 - script: npx ng build --configuration staging --output-path $(frontendOutputPath)
   displayName: 'Build Frontend'
   workingDirectory: $(frontendWorkingDirectory)
