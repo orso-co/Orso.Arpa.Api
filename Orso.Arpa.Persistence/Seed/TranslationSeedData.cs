@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
@@ -114,7 +112,7 @@ namespace Orso.Arpa.Persistence.Seed
             Guid id = t.TryGetProperty(nameof(Localization.Id), out element) ? element.GetGuid() : Guid.Empty;
             var createdBy = t.TryGetProperty(nameof(Localization.CreatedBy), out element) ? element.GetString() : null;
 
-            DateTime createdAt = DateTime.Now;
+            DateTime createdAt = DateTime.MinValue;
             if (t.TryGetProperty(nameof(Localization.CreatedAt), out element) && element.TryGetDateTime(out DateTime cdt))
             {
                 createdAt = cdt;
@@ -150,7 +148,7 @@ namespace Orso.Arpa.Persistence.Seed
                 {
                     if (!a.Deleted)
                     {
-                        a.Delete(nameof(LocalizationSeedData), DateTime.Now);
+                        a.Delete(nameof(LocalizationSeedData), DateTime.MinValue);
                     }
 
                     result.Add(a);
@@ -166,7 +164,7 @@ namespace Orso.Arpa.Persistence.Seed
                     // then check whether text changed.
                     if (!a.Text.Equals(translate.Text))
                     {
-                        updatedLocalization.Modify(nameof(LocalizationSeedData), DateTime.Now);
+                        updatedLocalization.Modify(nameof(LocalizationSeedData), DateTime.MinValue);
                     }
 
                     result.Add(updatedLocalization);
@@ -185,7 +183,7 @@ namespace Orso.Arpa.Persistence.Seed
                     var newLocalization = new Localization(b.Id, b.Key, b.Text,
                         b.LocalizationCulture, b.ResourceKey);
 
-                    newLocalization.Create(nameof(LocalizationSeedData), DateTime.Now);
+                    newLocalization.Create(nameof(LocalizationSeedData), DateTime.MinValue);
 
                     result.Add(newLocalization);
                 }
