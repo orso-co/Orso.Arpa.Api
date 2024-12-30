@@ -10,7 +10,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
     /// </summary>
     public class RoomSection : BaseEntity
     {
-        public RoomSection(Guid? id, Section section, Room room, int? count, string description) : base(id)
+        public RoomSection(Guid id, Section section, Room room, int? count, string description) : base(id)
         {
             Section = section;
             Room = room;
@@ -18,7 +18,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
             Description = description;
         }
 
-        public RoomSection(Guid? id, CreateRoomSection.Command command) : base(id)
+        public RoomSection(Guid id, CreateRoomSection.Command command) : base(id)
         {
             SectionId = command.SectionId;
             RoomId = command.RoomId;

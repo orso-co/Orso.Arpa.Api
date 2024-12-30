@@ -6,7 +6,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
 {
     public class PreferredGenre : BaseEntity
     {
-        public PreferredGenre(Guid? id, MusicianProfile musicianProfile, SelectValueMapping selectValueMapping) : base(id)
+        public PreferredGenre(Guid id, MusicianProfile musicianProfile, SelectValueMapping selectValueMapping) : base(id)
         {
             MusicianProfile = musicianProfile;
             SelectValueMapping = selectValueMapping;

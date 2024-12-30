@@ -7,7 +7,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
 {
     public class BankAccount : BaseEntity
     {
-        public BankAccount(Guid? id, CreateBankAccount.Command command) : base(id)
+        public BankAccount(Guid id, CreateBankAccount.Command command) : base(id)
         {
             Iban = command.Iban;
             Bic = command.Bic;

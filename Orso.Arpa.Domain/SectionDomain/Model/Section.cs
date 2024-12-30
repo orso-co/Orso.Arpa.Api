@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.SectionDomain.Model
 {
     public class Section : BaseEntity
     {
-        public Section(Guid? id, string name, Guid? parentId, bool isInstrument, byte instrumentPartCount = 0) : base(id)
+        public Section(Guid id, string name, Guid? parentId, bool isInstrument, byte instrumentPartCount = 0) : base(id)
         {
             Name = name;
             ParentId = parentId;

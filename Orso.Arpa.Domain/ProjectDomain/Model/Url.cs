@@ -9,14 +9,14 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
 {
     public class Url : BaseEntity
     {
-        public Url(Guid? id, CreateUrl.Command command) : base(id)
+        public Url(Guid id, CreateUrl.Command command) : base(id)
         {
             Href = command.Href;
             AnchorText = command.AnchorText;
             ProjectId = command.ProjectId;
         }
 
-        internal Url(Guid? id) : base(id)
+        internal Url(Guid id) : base(id)
         {
         }
 

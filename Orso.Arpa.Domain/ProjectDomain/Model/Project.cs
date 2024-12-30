@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
 {
     public class Project : BaseEntity
     {
-        public Project(Guid? id, CreateProject.Command command) : base(id)
+        public Project(Guid id, CreateProject.Command command) : base(id)
         {
             Title = command.Title;
             ShortTitle = command.ShortTitle;

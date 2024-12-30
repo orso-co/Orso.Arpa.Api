@@ -6,13 +6,13 @@ namespace Orso.Arpa.Domain.SectionDomain.Model
 {
     public class SectionAppointment : BaseEntity
     {
-        public SectionAppointment(Guid? id, Section section, Appointment appointment) : base(id)
+        public SectionAppointment(Guid? id, Section section, Appointment appointment) : base(id ?? Guid.NewGuid())
         {
             Section = section;
             Appointment = appointment;
         }
 
-        public SectionAppointment(Guid? id, Guid sectionId, Guid appointmentId) : base(id)
+        public SectionAppointment(Guid id, Guid sectionId, Guid appointmentId) : base(id)
         {
             SectionId = sectionId;
             AppointmentId = appointmentId;

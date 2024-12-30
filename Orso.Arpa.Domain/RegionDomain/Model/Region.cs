@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.RegionDomain.Model
 {
     public class Region : BaseEntity
     {
-        public Region(Guid? id, CreateRegion.Command command) : base(id)
+        public Region(Guid id, CreateRegion.Command command) : base(id)
         {
             Name = command.Name;
             IsForPerformance = command.IsForPerformance;

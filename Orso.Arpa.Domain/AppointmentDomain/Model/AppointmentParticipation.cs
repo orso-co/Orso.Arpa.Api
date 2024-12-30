@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
 {
     public class AppointmentParticipation : BaseEntity
     {
-        public AppointmentParticipation(Guid? id, CreateAppointmentParticipation.Command command) : base(id)
+        public AppointmentParticipation(Guid id, CreateAppointmentParticipation.Command command) : base(id)
         {
             PersonId = command.PersonId;
             AppointmentId = command.AppointmentId;

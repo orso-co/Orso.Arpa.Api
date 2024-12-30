@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.RegionDomain.Model
 {
     public class RegionPreference : BaseEntity
     {
-        public RegionPreference(Guid? id, CreateMyRegionPreference.Command command) : base(id)
+        public RegionPreference(Guid id, CreateMyRegionPreference.Command command) : base(id)
         {
             RegionId = command.RegionId;
             MusicianProfileId = command.MusicianProfileId;

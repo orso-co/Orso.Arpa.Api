@@ -7,7 +7,7 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Model
 {
     public class SelectValue : BaseEntity
     {
-        public SelectValue(Guid? id, string name, string description) : base(id)
+        public SelectValue(Guid id, string name, string description) : base(id)
         {
             Name = name;
             Description = description;

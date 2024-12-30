@@ -7,7 +7,7 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Model
 {
     public class SelectValueCategory : BaseEntity
     {
-        internal SelectValueCategory(Guid? id, string table, string property, string name) : base(id)
+        internal SelectValueCategory(Guid id, string table, string property, string name) : base(id)
         {
             Table = table;
             Property = property;

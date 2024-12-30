@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
 {
     public class Person : BaseEntity
     {
-        public Person(Guid? id, CreatePerson.Command command) : base(id)
+        public Person(Guid id, CreatePerson.Command command) : base(id)
         {
             GivenName = command.GivenName;
             Surname = command.Surname;
@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             GeneralPreference = command.GeneralPreference;
         }
 
-        public Person(Guid? id, RegisterUser.Command command) : base(id)
+        public Person(Guid id, RegisterUser.Command command) : base(id)
         {
             GivenName = command.GivenName;
             Surname = command.Surname;
