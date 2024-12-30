@@ -115,7 +115,7 @@ namespace Orso.Arpa.Tests.Shared.TestSeedData
                     Guid.Parse("0ce71f0f-26a1-4315-b1f2-0b27c20360fe"),
                     ProjectSeedData.RockingXMas.Id,
                     appointmentId));
-                appointment.AppointmentRooms.Add(new AppointmentRoom(appointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
+                appointment.AppointmentRooms.Add(new AppointmentRoom(Guid.Parse("f240b0b6-811e-4e2e-b855-1ecdd7ef0467"), appointmentId, RoomSeedData.AulaWeiherhofSchule.Id));
                 appointment.SectionAppointments.Add(new SectionAppointment(
                     Guid.Parse("3f6f909d-0786-4bc8-88c7-98fa3316db00"),
                     SectionSeedData.Alto.Id,

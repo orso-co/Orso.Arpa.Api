@@ -12,7 +12,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
             Room = room;
         }
 
-        public AppointmentRoom(Guid appointmentId, Guid roomId)
+        public AppointmentRoom(Guid? id, Guid appointmentId, Guid roomId) : base(id ?? Guid.NewGuid())
         {
             AppointmentId = appointmentId;
             RoomId = roomId;
