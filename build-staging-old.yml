@@ -28,7 +28,7 @@
 #   buildConfiguration: 'Release'
 #   frontendOutputPath: '..\a\Orso.Arpa.Api\wwwroot'
 #   stage: 'staging'
-#   targetFramework: '8.0'
+#   targetFramework: '9.0'
 
 # steps:
 # - checkout: self

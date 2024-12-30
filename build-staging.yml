@@ -11,7 +11,7 @@ resources:
     name: orso-co/orso-arpa-web-extended
     ref: main
     trigger:
-    - main
+    - staging
 
 trigger:
 - develop
@@ -37,7 +37,7 @@ variables:
   - name: stage
     value: 'staging'
   - name: targetFramework
-    value: '8.0'
+    value: '9.0'
 
 steps:
 - checkout: self
