@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -504,7 +505,8 @@ namespace Orso.Arpa.Api
             {
                 _ = opt
                     .UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnection"))
-                    .UseSnakeCaseNamingConvention();
+                    .UseSnakeCaseNamingConvention()
+                    .ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning)); // workaround
 
                 if (_hostingEnvironment.IsDevelopment())
                 {
