@@ -12,12 +12,13 @@ namespace Orso.Arpa.Persistence.Seed
     {
         public static List<ClubMembershipSubType> ClubMembershipSubTypes
         {
-        get {
-            return [
-                        .. ClubMembershipSubTypesFreiburg,
+            get
+            {
+                return [
+                            .. ClubMembershipSubTypesFreiburg,
                         .. ClubMembershipSubTypesStuttgart,
                         .. ClubMembershipSubTypeBerlin
-                    ];
+                        ];
             }
         }
 
@@ -132,13 +133,13 @@ namespace Orso.Arpa.Persistence.Seed
 
         #region Stuttgart
         public static ClubMembershipSubType StuttgartFull => new ClubMembershipSubType(
-Guid.Parse("80f328c9-48c9-4d72-9811-e3b93afae405"),
-new CreateClubMembershipSubType.Command
-{
-    Name = "Vollmitgliedschaft",
-    MemberhsipTypeId = ClubMembershipTypeSeedData.Stuttgart.Id
-}
-);
+            Guid.Parse("80f328c9-48c9-4d72-9811-e3b93afae405"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Vollmitgliedschaft",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.Stuttgart.Id
+            }
+        );
 
         public static ClubMembershipSubType StuttgartDiscounted => new ClubMembershipSubType(
             Guid.Parse("1435c3c5-6aaa-4b81-a269-f2b6f0e831b2"),
@@ -176,13 +177,13 @@ new CreateClubMembershipSubType.Command
 
         #region Berlin
         public static ClubMembershipSubType ChoirBerlinFull => new ClubMembershipSubType(
-    Guid.Parse("fd21006f-ec6b-41fb-b383-0a11f6623707"),
-    new CreateClubMembershipSubType.Command
-    {
-        Name = "Vollmitgliedschaft",
-        MemberhsipTypeId = ClubMembershipTypeSeedData.ChoirBerlin.Id
-    }
-);
+            Guid.Parse("fd21006f-ec6b-41fb-b383-0a11f6623707"),
+            new CreateClubMembershipSubType.Command
+            {
+                Name = "Vollmitgliedschaft",
+                MemberhsipTypeId = ClubMembershipTypeSeedData.ChoirBerlin.Id
+            }
+        );
 
         public static ClubMembershipSubType ChoirBerlinDiscounted => new ClubMembershipSubType(
             Guid.Parse("7cf3b7b1-c9df-49ea-b7d4-f1063900fb48"),

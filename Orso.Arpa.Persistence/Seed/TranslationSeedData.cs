@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
@@ -77,7 +79,7 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 foreach (JsonProperty e in resourceKey.Value.EnumerateObject())
                 {
-                    translations.Add(new Localization(null, e.Name, e.Value.GetString(), culture, resourceKey.Name));
+                    translations.Add(new Localization(CreateDeterministicGuid(e.Name), e.Name, e.Value.GetString(), culture, resourceKey.Name));
                 }
             }
 
@@ -96,6 +98,15 @@ namespace Orso.Arpa.Persistence.Seed
                 translations.Add(ParseLocalization(t));
             }
             return translations;
+        }
+
+        private static Guid CreateDeterministicGuid(string input)
+        {
+            using (var md5 = MD5.Create())
+            {
+                byte[] hash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
+                return new Guid(hash);
+            }
         }
 
         private static Localization ParseLocalization(JsonElement t)
