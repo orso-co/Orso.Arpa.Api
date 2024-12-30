@@ -6,7 +6,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
 {
     public class AppointmentRoom : BaseEntity
     {
-        public AppointmentRoom(Guid? id, Appointment appointment, Room room) : base(id)
+        public AppointmentRoom(Guid? id, Appointment appointment, Room room) : base(id ?? Guid.NewGuid())
         {
             Appointment = appointment;
             Room = room;

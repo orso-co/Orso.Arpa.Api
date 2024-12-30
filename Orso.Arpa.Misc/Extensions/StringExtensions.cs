@@ -1,3 +1,6 @@
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Orso.Arpa.Misc
@@ -32,6 +35,13 @@ namespace Orso.Arpa.Misc
         public static string FormatLink(this string href, string label)
         {
             return $"<{href}|{label}>";
+        }
+
+        public static Guid CreateGuid(this string str)
+        {
+            if(string.IsNullOrWhiteSpace(str)) { return Guid.Empty; }
+            byte[] hash = MD5.HashData(Encoding.UTF8.GetBytes(str));
+            return new Guid(hash);
         }
     }
 }
