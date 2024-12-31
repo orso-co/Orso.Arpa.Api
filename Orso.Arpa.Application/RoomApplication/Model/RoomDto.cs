@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
 using Orso.Arpa.Application.General.Model;
-using Orso.Arpa.Application.SectionApplication.Model;
 using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.VenueDomain.Enums;
