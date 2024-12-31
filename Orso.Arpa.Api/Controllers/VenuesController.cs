@@ -40,6 +40,20 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Gets venue by id
+        /// </summary>
+        /// <returns>A venue</returns>
+        /// <response code="200"></response>
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<VenueDto>> GetById([FromRoute] Guid id)
+        {
+            return Ok(await _venueService.GetByIdAsync(id));
+        }
+
+        /// <summary>
         /// Gets the rooms of an existing venue
         /// </summary>
         /// <returns>A list of rooms</returns>

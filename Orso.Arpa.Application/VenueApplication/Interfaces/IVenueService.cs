@@ -10,6 +10,7 @@ namespace Orso.Arpa.Application.VenueApplication.Interfaces
     {
         Task<IEnumerable<VenueDto>> GetAsync();
 
+        Task<VenueDto> GetByIdAsync(Guid id);
         Task<IEnumerable<RoomDto>> GetRoomsAsync(Guid id);
 
         Task ModifyAsync(VenueModifyDto modifyDto);
