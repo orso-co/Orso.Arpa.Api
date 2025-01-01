@@ -15,7 +15,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Chairs",
                     Quantity = 100,
                     Description = null,
-                    EquipmentId = Guid.Parse("efe41455-e9d5-4bcc-94b8-086a5926df96")
+                    EquipmentId = Guid.Parse("efe41455-e9d5-4bcc-94b8-086a5926df96"),
+                    Equipment = SelectValueDtoData.Chairs
                 };
             }
         }
@@ -30,7 +31,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Stage",
                     Quantity = 1,
                     Description = "Bühne mit Beleuchtung",
-                    EquipmentId = Guid.Parse("5e49bb48-fadd-48d9-bac5-dd567002b978")
+                    EquipmentId = Guid.Parse("5e49bb48-fadd-48d9-bac5-dd567002b978"),
+                    Equipment = SelectValueDtoData.Stage
                 };
             }
         }
