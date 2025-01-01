@@ -266,7 +266,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
 
         public static SelectValueDto Wlan => new() {
             Id = Guid.Parse("eec36685-52a5-42a4-969d-aa7946f3b14b"),
-            Name = "Wlan",
+            Name = "WLAN",
             Description = ""
         };
     }
