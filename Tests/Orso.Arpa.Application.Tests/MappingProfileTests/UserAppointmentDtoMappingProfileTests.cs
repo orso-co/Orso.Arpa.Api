@@ -11,10 +11,12 @@ using Orso.Arpa.Application.MeApplication.Model;
 using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Application.RoleApplication.Model;
 using Orso.Arpa.Application.RoomApplication.Model;
+using Orso.Arpa.Application.SectionApplication.Model;
 using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Application.UrlApplication.Model;
 using Orso.Arpa.Application.VenueApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;
@@ -33,6 +35,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
             var services = new ServiceCollection();
             _ = services.AddSingleton<LocalizeAction<SelectValueMapping, SelectValueDto>>();
             _ = services.AddSingleton<LocalizeAction<Role, RoleDto>>();
+            _ = services.AddSingleton<LocalizeAction<Section, SectionDto>>();
             services.AddSingleton<LocalizeAction<RoomSection, RoomSectionDto>>();
             services.AddSingleton<LocalizeAction<RoomEquipment, RoomEquipmentDto>>();
             _ = services.AddSingleton(_localizerCache);
@@ -49,6 +52,7 @@ namespace Orso.Arpa.Application.Tests.MappingProfileTests
                 cfg.AddProfile<SelectValueDtoMappingProfile>();
                 cfg.AddProfile<RoomSectionDtoMappingProfile>();
                 cfg.AddProfile<RoomEquipmentDtoMappingProfile>();
+                cfg.AddProfile<SectionDtoMappingProfile>();
             });
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();

@@ -28,7 +28,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Name = roomEquipmentToModify.Name,
                 Description = modifyDto.Description,
                 Quantity = modifyDto.Quantity,
-                EquipmentId = roomEquipmentToModify.EquipmentId
+                EquipmentId = roomEquipmentToModify.EquipmentId,
+                Equipment = SelectValueDtoData.Chairs
             };
 
             // Act
