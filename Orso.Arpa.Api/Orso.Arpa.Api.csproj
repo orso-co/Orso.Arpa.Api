@@ -26,8 +26,8 @@
     <PackageReference Include="HotChocolate.Data" Version="13.9.14" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.9.14" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.1.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.22.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.23.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
       <PrivateAssets>all</PrivateAssets>
