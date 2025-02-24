@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="9.0.2" />
     <PackageReference Include="nunit" Version="4.3.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageReference Include="HotChocolate.Abstractions" Version="13.9.14" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="VILLAN3LL3.DoomedDatabases.Postgres" Version="1.0.0" />
