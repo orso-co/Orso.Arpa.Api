@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Persistence.Seed
 {
@@ -77,7 +78,7 @@ namespace Orso.Arpa.Persistence.Seed
             {
                 foreach (JsonProperty e in resourceKey.Value.EnumerateObject())
                 {
-                    translations.Add(new Localization(null, e.Name, e.Value.GetString(), culture, resourceKey.Name));
+                    translations.Add(new Localization(e.Name.CreateGuid(), e.Name, e.Value.GetString(), culture, resourceKey.Name));
                 }
             }
 
@@ -111,7 +112,7 @@ namespace Orso.Arpa.Persistence.Seed
             Guid id = t.TryGetProperty(nameof(Localization.Id), out element) ? element.GetGuid() : Guid.Empty;
             var createdBy = t.TryGetProperty(nameof(Localization.CreatedBy), out element) ? element.GetString() : null;
 
-            DateTime createdAt = DateTime.Now;
+            DateTime createdAt = DateTime.MinValue;
             if (t.TryGetProperty(nameof(Localization.CreatedAt), out element) && element.TryGetDateTime(out DateTime cdt))
             {
                 createdAt = cdt;
@@ -147,7 +148,7 @@ namespace Orso.Arpa.Persistence.Seed
                 {
                     if (!a.Deleted)
                     {
-                        a.Delete(nameof(LocalizationSeedData), DateTime.Now);
+                        a.Delete(nameof(LocalizationSeedData), DateTime.MinValue);
                     }
 
                     result.Add(a);
@@ -163,7 +164,7 @@ namespace Orso.Arpa.Persistence.Seed
                     // then check whether text changed.
                     if (!a.Text.Equals(translate.Text))
                     {
-                        updatedLocalization.Modify(nameof(LocalizationSeedData), DateTime.Now);
+                        updatedLocalization.Modify(nameof(LocalizationSeedData), DateTime.MinValue);
                     }
 
                     result.Add(updatedLocalization);
@@ -182,7 +183,7 @@ namespace Orso.Arpa.Persistence.Seed
                     var newLocalization = new Localization(b.Id, b.Key, b.Text,
                         b.LocalizationCulture, b.ResourceKey);
 
-                    newLocalization.Create(nameof(LocalizationSeedData), DateTime.Now);
+                    newLocalization.Create(nameof(LocalizationSeedData), DateTime.MinValue);
 
                     result.Add(newLocalization);
                 }

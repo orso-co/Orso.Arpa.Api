@@ -6,7 +6,7 @@ namespace Orso.Arpa.Domain.NewsDomain.Model;
 
 public class News : BaseEntity
 {
-    public News(Guid? id, CreateNews.Command command) : base(id)
+    public News(Guid id, CreateNews.Command command) : base(id)
     {
         Title = command.Title;
         Content = command.Content;

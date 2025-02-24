@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Commands
         {
             public string Name { get; set; }
             public string Description { get; set; }
-            public Guid? AddressId { get; set; }
+            public Guid AddressId { get; set; }
         }
     }
 }
