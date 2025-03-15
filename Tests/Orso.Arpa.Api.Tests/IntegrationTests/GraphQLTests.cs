@@ -21,12 +21,13 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Query_MusicianProfiles()
         {
-            IQueryRequest query = QueryRequestBuilder
+
+            IOperationRequest query = OperationRequestBuilder
                 .New()
-                .SetQuery("query Profiles {  musicianProfiles(skip: 0    take: 2    where: {isMainProfile: {equals: true}, and: {or: [{person: {givenName: {contains: \"\" }}}, {person: {surname: {contains: \"\" }}}, {instrument: {name: {contains: \"\" }}}]}}    order: {person: {givenName: ASC, surname: ASC}}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      isMainProfile      person {        id        givenName        surname        addresses {          country          zip          __typename        }        __typename      }      instrument {        id        name        __typename      }      __typename    }    __typename  }}")
-                .Create();
+                .SetDocument("query Profiles {  musicianProfiles(skip: 0    take: 2    where: {isMainProfile: {equals: true}, and: {or: [{person: {givenName: {contains: \"\" }}}, {person: {surname: {contains: \"\" }}}, {instrument: {name: {contains: \"\" }}}]}}    order: {person: {givenName: ASC, surname: ASC}}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      isMainProfile      person {        id        givenName        surname        addresses {          country          zip          __typename        }        __typename      }      instrument {        id        name        __typename      }      __typename    }    __typename  }}")
+                .Build();
             IExecutionResult result = await _executor.ExecuteAsync(query);
-            var queryResult = result as QueryResult;
+            var queryResult = result as IOperationResult;
             _ = queryResult.Errors.Should().BeNull();
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
             _ = serializedResult.Should().Be("{\"musicianProfiles\":" +
@@ -39,12 +40,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Query_AuditLogs()
         {
-            IQueryRequest query = QueryRequestBuilder
+            IOperationRequest query = OperationRequestBuilder
                 .New()
-                .SetQuery("query AuditLog($skip: Int = 10, $take: Int = 2, $orderName: SortEnumType = DESC, $orderSurname: SortEnumType = DESC, $orderAboutMe: SortEnumType = DESC) { auditLogs( skip: $skip take: $take order: { createdAt: $orderName, tableName: $orderSurname, type: $orderAboutMe, createdBy: $orderAboutMe} ) { pageInfo { hasNextPage hasPreviousPage __typename } totalCount items { type tableName createdBy __typename } __typename }}")
-                .Create();
+                .SetDocument("query AuditLog($skip: Int = 10, $take: Int = 2, $orderName: SortEnumType = DESC, $orderSurname: SortEnumType = DESC, $orderAboutMe: SortEnumType = DESC) { auditLogs( skip: $skip take: $take order: { createdAt: $orderName, tableName: $orderSurname, type: $orderAboutMe, createdBy: $orderAboutMe} ) { pageInfo { hasNextPage hasPreviousPage __typename } totalCount items { type tableName createdBy __typename } __typename }}")
+                .Build();
             IExecutionResult result = await _executor.ExecuteAsync(query);
-            var queryResult = result as QueryResult;
+            var queryResult = result as IOperationResult;
             _ = queryResult.Errors.Should().BeNull();
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
             _ = serializedResult.Should().Be("{\"auditLogs\":" +
@@ -57,12 +58,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Query_Persons()
         {
-            IQueryRequest query = QueryRequestBuilder
+            IOperationRequest query = OperationRequestBuilder
             .New()
-            .SetQuery("query Persons($skip: Int = 2, $take: Int = 1, $orderName: SortEnumType = ASC, $orderSurname: SortEnumType = ASC, $searchQuery: String = \"\") {  persons(    skip: $skip    take: $take    order: {surname: $orderSurname, givenName: $orderName}    where: {or: [{surname: {contains: $searchQuery}}]}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      givenName      surname      aboutMe      reliability      generalPreference      experienceLevel      createdBy      modifiedBy      __typename    }    __typename  }}")
-            .Create();
+            .SetDocument("query Persons($skip: Int = 2, $take: Int = 1, $orderName: SortEnumType = ASC, $orderSurname: SortEnumType = ASC, $searchQuery: String = \"\") {  persons(    skip: $skip    take: $take    order: {surname: $orderSurname, givenName: $orderName}    where: {or: [{surname: {contains: $searchQuery}}]}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      givenName      surname      aboutMe      reliability      generalPreference      experienceLevel      createdBy      modifiedBy      __typename    }    __typename  }}")
+            .Build();
             IExecutionResult result = await _executor.ExecuteAsync(query);
-            var queryResult = result as QueryResult;
+            var queryResult = result as IOperationResult;
             _ = queryResult.Errors.Should().BeNull();
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
 
@@ -75,12 +76,12 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
         [Test]
         public async Task Should_Query_Projects()
         {
-            IQueryRequest query = QueryRequestBuilder
+            IOperationRequest query = OperationRequestBuilder
                 .New()
-                .SetQuery("query Projects($skip: Int = 6, $take: Int = 1, $orderTitle: SortEnumType = ASC, $orderStart: SortEnumType = ASC, $orderEnd: SortEnumType = ASC, $searchQuery: String = \"\") {  projects(    skip: $skip    take: $take    order: {title: $orderTitle, startDate: $orderStart, endDate: $orderEnd}    where: {or: [{title: {contains: $searchQuery}}, {code: {contains: $searchQuery}}, {shortTitle: {contains: $searchQuery}}]}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      title      status      isCompleted      genreId      genre {        selectValue {          name          __typename        }        __typename      }      typeId      parentId      shortTitle      description      code      parent {        title        id        __typename      }      __typename    }    __typename  }}")
-                .Create();
+                .SetDocument("query Projects($skip: Int = 6, $take: Int = 1, $orderTitle: SortEnumType = ASC, $orderStart: SortEnumType = ASC, $orderEnd: SortEnumType = ASC, $searchQuery: String = \"\") {  projects(    skip: $skip    take: $take    order: {title: $orderTitle, startDate: $orderStart, endDate: $orderEnd}    where: {or: [{title: {contains: $searchQuery}}, {code: {contains: $searchQuery}}, {shortTitle: {contains: $searchQuery}}]}  ) {    pageInfo {      hasNextPage      hasPreviousPage      __typename    }    totalCount    items {      id      title      status      isCompleted      genreId      genre {        selectValue {          name          __typename        }        __typename      }      typeId      parentId      shortTitle      description      code      parent {        title        id        __typename      }      __typename    }    __typename  }}")
+                .Build();
             IExecutionResult result = await _executor.ExecuteAsync(query);
-            var queryResult = result as QueryResult;
+            var queryResult = result as IOperationResult;
             _ = queryResult.Errors.Should().BeNull();
             var serializedResult = JsonSerializer.Serialize(queryResult.Data);
             _ = serializedResult.Should().Be("{\"projects\":" +
