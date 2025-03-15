@@ -6,7 +6,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
 {
     public class MusicianProfilePositionTeam : BaseEntity
     {
-        public MusicianProfilePositionTeam(Guid selectValueSectionId, Guid musicianProfileId, Guid? id = null) : base(id)
+        public MusicianProfilePositionTeam(Guid selectValueSectionId, Guid musicianProfileId, Guid? id = null) : base(id ?? Guid.NewGuid())
         {
             SelectValueSectionId = selectValueSectionId;
             MusicianProfileId = musicianProfileId;
