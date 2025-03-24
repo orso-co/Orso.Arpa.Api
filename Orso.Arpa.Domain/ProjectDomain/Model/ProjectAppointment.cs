@@ -6,13 +6,13 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
 {
     public class ProjectAppointment : BaseEntity
     {
-        public ProjectAppointment(Guid? id, Project project, Appointment appointment) : base(id)
+        public ProjectAppointment(Guid? id, Project project, Appointment appointment) : base(id ?? Guid.NewGuid())
         {
             Project = project;
             Appointment = appointment;
         }
 
-        public ProjectAppointment(Guid? id, Guid projectId, Guid appointmentId) : base(id)
+        public ProjectAppointment(Guid id, Guid projectId, Guid appointmentId) : base(id)
         {
             ProjectId = projectId;
             AppointmentId = appointmentId;

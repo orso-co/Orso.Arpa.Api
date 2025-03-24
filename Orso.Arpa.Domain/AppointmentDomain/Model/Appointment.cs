@@ -14,7 +14,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
 {
     public class Appointment : BaseEntity
     {
-        public Appointment(Guid? id, CreateAppointment.Command command) : base(id)
+        public Appointment(Guid id, CreateAppointment.Command command) : base(id)
         {
             CategoryId = command.CategoryId;
             StartTime = command.StartTime;

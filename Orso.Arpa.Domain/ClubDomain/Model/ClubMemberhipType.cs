@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.ClubDomain.Model
    /// </summary>
     public class ClubMembershipType : BaseEntity
     {
-        public ClubMembershipType(Guid? id, CreateClubMembershipType.Command command) : base(id)
+        public ClubMembershipType(Guid id, CreateClubMembershipType.Command command) : base(id)
         {
             ClubId = command.ClubId;
             Name = command.Name;
