@@ -233,6 +233,7 @@ namespace Orso.Arpa.Api
             RequestExecutorBuilder = services
                 .AddGraphQLServer()
                 .AddMaxExecutionDepthRule(10)
+                .AddMaxAllowedFieldCycleDepthRule(10)
                 .RegisterDbContextFactory<GraphQLContext>()
                 .AddAuthorization()
                 .AddFiltering<CustomFilteringConvention>()
