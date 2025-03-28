@@ -79,9 +79,10 @@ steps:
   displayName: 'Build Frontend'
   workingDirectory: $(frontendWorkingDirectory)
 - script: |
-     mv $(frontendOutputPath)/browser/* $(frontendOutputPath)/
-     rmdir $(frontendWorkingDirectory)/browser
-     dir $(frontendOutputPath)
+     dir "$(frontendOutputPath)"
+     move "$(frontendOutputPath)\browser\*" "$(frontendOutputPath)\"
+     rmdir "$(frontendOutputPath)\browser"
+     dir "$(frontendOutputPath)"
   displayName: 'Move Frontend Files out of browser folder'
   workingDirectory: $(frontendWorkingDirectory)
 - task: ArchiveFiles@2
