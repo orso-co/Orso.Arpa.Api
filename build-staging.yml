@@ -80,7 +80,7 @@ steps:
   workingDirectory: $(frontendWorkingDirectory)
 - script: |
      dir "$(frontendOutputPath)"
-     move "$(frontendOutputPath)\browser\*" "$(frontendOutputPath)\"
+     robocopy "$(frontendOutputPath)\browser" "$(frontendOutputPath)" /E /MOVE
      rmdir "$(frontendOutputPath)\browser"
      dir "$(frontendOutputPath)"
   displayName: 'Move Frontend Files out of browser folder'
