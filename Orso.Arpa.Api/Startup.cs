@@ -235,6 +235,7 @@ namespace Orso.Arpa.Api
                 .RemoveMaxAllowedFieldCycleDepthRule()
                 .AddMaxExecutionDepthRule(10)
                 .AddMaxAllowedFieldCycleDepthRule(10)
+                .ModifyCostOptions(opt => opt.MaxFieldCost = 1500)
                 .RegisterDbContextFactory<GraphQLContext>()
                 .AddAuthorization()
                 .AddFiltering<CustomFilteringConvention>()
