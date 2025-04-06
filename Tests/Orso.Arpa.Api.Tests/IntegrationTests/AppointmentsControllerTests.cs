@@ -242,8 +242,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             var createDto = new AppointmentCopyDto
             {
                 AppointmentIdToCopy = AppointmentSeedData.AfterShowParty.Id,
-                EndTime = new DateTime(2025, 3, 6, 14, 15, 20),
-                StartTime = new DateTime(2025, 3, 6, 19, 15, 20),
+                EndTime = new DateTime(2025, 3, 6, 19, 15, 20),
+                StartTime = new DateTime(2025, 3, 6, 14, 15, 20),
             };
             AppointmentDto existingDto = AppointmentDtoData.AfterShowParty;
 
