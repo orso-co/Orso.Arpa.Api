@@ -161,9 +161,9 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
             return await _mediator.Send(query);
         }
 
-        public async Task<AppointmentDto> CopyAsync(AppointmentCopyDto copyDto)
+        public async Task<AppointmentDto> CopyAsync(AppointmentCopyDto appointmentCopyDto)
         {
-            CopyAppointment.Command command = _mapper.Map<CopyAppointment.Command>(copyDto);
+            CopyAppointment.Command command = _mapper.Map<CopyAppointment.Command>(appointmentCopyDto);
             Appointment createdEntity = await _mediator.Send(command);
             return _mapper.Map<AppointmentDto>(createdEntity);
         }
