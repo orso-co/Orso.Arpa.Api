@@ -241,6 +241,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Get(DateTime? date, DateRange range) => $"{Appointments}?date={date.Value.ToIsoString()}&range={range}";
 
             public static string Post() => Appointments;
+            public static string Copy() => $"{Appointments}/copy";
 
             public static string Put(Guid id) => $"{Appointments}/{id}";
 

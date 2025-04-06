@@ -18,6 +18,7 @@ using Orso.Arpa.Domain.General.GenericHandlers;
 using Orso.Arpa.Domain.MusicianProfileDomain.Queries;
 using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Domain.SectionDomain.Queries;
+using Orso.Arpa.Persistence.Migrations;
 
 namespace Orso.Arpa.Application.AppointmentApplication.Services
 {
@@ -158,6 +159,13 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
         {
             var query = new ExportAppointmentsToIcs.Query();
             return await _mediator.Send(query);
+        }
+
+        public async Task<AppointmentDto> CopyAsync(AppointmentCopyDto copyDto)
+        {
+            CopyAppointment.Command command = _mapper.Map<CopyAppointment.Command>(copyDto);
+            Appointment createdEntity = await _mediator.Send(command);
+            return _mapper.Map<AppointmentDto>(createdEntity);
         }
     }
 }

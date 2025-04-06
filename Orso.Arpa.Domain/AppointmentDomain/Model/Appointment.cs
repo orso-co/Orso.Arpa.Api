@@ -28,6 +28,23 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
             ExpectationId = command.ExpectationId;
         }
 
+        public Appointment(Guid? id, CopyAppointment.Command command, Appointment appointmentToCopy) : base(id)
+        {
+            StartTime = command.StartTime;
+            EndTime = command.EndTime;
+            Name = appointmentToCopy.Name;
+            PublicDetails = appointmentToCopy.PublicDetails;
+            InternalDetails = appointmentToCopy.InternalDetails;
+            Status = appointmentToCopy.Status;
+            SalaryId = appointmentToCopy.SalaryId;
+            SalaryPatternId = appointmentToCopy.SalaryPatternId;
+            ExpectationId = appointmentToCopy.ExpectationId;
+            CategoryId = appointmentToCopy.CategoryId;
+            AuditionId = appointmentToCopy.AuditionId;
+            VenueId = appointmentToCopy.VenueId;
+            AuditionId = appointmentToCopy.AuditionId;
+        }
+
         [JsonConstructor]
         protected Appointment()
         {
@@ -45,6 +62,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
             SalaryId = command.SalaryId;
             SalaryPatternId = command.SalaryPatternId;
             ExpectationId = command.ExpectationId;
+
         }
 
         public void Update(SetDates.Command command)
