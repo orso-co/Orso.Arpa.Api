@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
 {
     public class ProjectParticipation : BaseEntity
     {
-        public ProjectParticipation(SetProjectParticipation.Command command, Guid? id = null) : base(id)
+        public ProjectParticipation(SetProjectParticipation.Command command, Guid? id = null) : base(id ?? Guid.NewGuid())
         {
             ProjectId = command.ProjectId;
             MusicianProfileId = command.MusicianProfileId;
@@ -20,7 +20,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
             ParticipationStatusInternal = command.ParticipationStatusInternal;
         }
 
-        public ProjectParticipation(SetMyProjectParticipationStatus.Command command, Guid? id = null) : base(id)
+        public ProjectParticipation(SetMyProjectParticipationStatus.Command command, Guid? id = null) : base(id ?? Guid.NewGuid())
         {
             ProjectId = command.ProjectId;
             MusicianProfileId = command.MusicianProfileId;
@@ -84,7 +84,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
             }
         }
 
-        private bool HasAtLeastOneRefusalStatus => 
+        private bool HasAtLeastOneRefusalStatus =>
                 ProjectParticipationStatusInner.Refusal.Equals(ParticipationStatusInner)
                 || ProjectParticipationStatusInner.RehearsalsOnly.Equals(ParticipationStatusInner)
                 || ProjectParticipationStatusInternal.Refusal.Equals(ParticipationStatusInternal);

@@ -36,6 +36,7 @@ Update tools to the most recent version: `dotnet tool update --global dotnet-ef`
 ### Add New Migration
 
 You may be forced to remove `${aspnet-request-posted-body-shadowed}` from appsettings(.Development).json to make this work.
+<NameOfMigration should start with an uppercase letter to prevent warnings>
 ```
 dotnet ef migrations add "<NameOfMigration>" -s Orso.Arpa.Api/ -p Orso.Arpa.Persistence/ -c ArpaContext
 ```
