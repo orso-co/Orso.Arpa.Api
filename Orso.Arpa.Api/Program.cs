@@ -7,8 +7,6 @@ using NLog.Web;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Domain._General.Errors;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Orso.Arpa.Api
