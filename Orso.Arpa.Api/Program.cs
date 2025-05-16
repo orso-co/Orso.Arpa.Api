@@ -48,25 +48,6 @@ namespace Orso.Arpa.Api
                         _ = logging.ClearProviders();
                         _ = logging.SetMinimumLevel(LogLevel.Trace);
                     })
-                    .ConfigureServices((context, services) =>
-                    {
-                        // CORS nur in der Entwicklungsumgebung aktivieren
-                        if (context.HostingEnvironment.IsDevelopment())
-                        {
-                            var allowedOrigins = context.Configuration.GetSection("CorsConfiguration:AllowedOrigins").Get<string[]>();
-
-                            services.AddCors(options =>
-                            {
-                                options.AddPolicy("DevCorsPolicy", policy =>
-                                {
-                                    policy.WithOrigins(allowedOrigins)
-                                          .AllowAnyMethod()
-                                          .AllowAnyHeader()
-                                          .AllowCredentials();
-                                });
-                            });
-                        }
-                    })
                     .UseNLog());
     }
 }
