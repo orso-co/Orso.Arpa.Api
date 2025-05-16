@@ -7,6 +7,8 @@ using NLog.Web;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Domain._General.Errors;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Orso.Arpa.Api
@@ -45,6 +47,25 @@ namespace Orso.Arpa.Api
                     {
                         _ = logging.ClearProviders();
                         _ = logging.SetMinimumLevel(LogLevel.Trace);
+                    })
+                    .ConfigureServices((context, services) =>
+                    {
+                        // CORS nur in der Entwicklungsumgebung aktivieren
+                        if (context.HostingEnvironment.IsDevelopment())
+                        {
+                            var allowedOrigins = context.Configuration.GetSection("CorsConfiguration:AllowedOrigins").Get<string[]>();
+
+                            services.AddCors(options =>
+                            {
+                                options.AddPolicy("DevCorsPolicy", policy =>
+                                {
+                                    policy.WithOrigins(allowedOrigins)
+                                          .AllowAnyMethod()
+                                          .AllowAnyHeader()
+                                          .AllowCredentials();
+                                });
+                            });
+                        }
                     })
                     .UseNLog());
     }
