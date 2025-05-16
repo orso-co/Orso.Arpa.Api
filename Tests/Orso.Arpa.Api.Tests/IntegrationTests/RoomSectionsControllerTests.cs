@@ -28,7 +28,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Name = roomSectionToModify.Name,
                 Description = modifyDto.Description,
                 Quantity = modifyDto.Quantity,
-                InstrumentId = roomSectionToModify.InstrumentId
+                InstrumentId = roomSectionToModify.InstrumentId,
+                Instrument = SectionDtoData.Piano
             };
 
             // Act

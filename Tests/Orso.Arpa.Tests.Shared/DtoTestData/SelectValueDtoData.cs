@@ -251,5 +251,23 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
             Name = "Ensemble position",
             Description = ""
         };
+
+        public static SelectValueDto Chairs => new() {
+            Id = Guid.Parse("efe41455-e9d5-4bcc-94b8-086a5926df96"),
+            Name = "Chairs",
+            Description = ""
+        };
+
+        public static SelectValueDto Stage => new() {
+            Id = Guid.Parse("5e49bb48-fadd-48d9-bac5-dd567002b978"),
+            Name = "Stage",
+            Description = ""
+        };
+
+        public static SelectValueDto Wlan => new() {
+            Id = Guid.Parse("eec36685-52a5-42a4-969d-aa7946f3b14b"),
+            Name = "WLAN",
+            Description = ""
+        };
     }
 }

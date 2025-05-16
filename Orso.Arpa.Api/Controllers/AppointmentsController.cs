@@ -77,6 +77,28 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Coppies an existing appointment
+        /// </summary>
+        /// <param name="appointmentCopyDto"></param>
+        /// <returns>The created appointment</returns>
+        /// <response code="201">Returns the created appointment</response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("copy")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails),
+            StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<AppointmentDto>> Copy([FromBody] AppointmentCopyDto appointmentCopyDto)
+        {
+            AppointmentDto createdAppointment =
+                await _appointmentService.CopyAsync(appointmentCopyDto);
+            return CreatedAtAction(nameof(GetById), new { id = createdAppointment.Id },
+                createdAppointment);
+        }
+
+        /// <summary>
         /// Adds a room to an existing appointment
         /// </summary>
         /// <param name="addRoomDto"></param>

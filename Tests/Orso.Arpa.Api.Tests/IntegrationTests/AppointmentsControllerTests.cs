@@ -13,7 +13,6 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
-using Orso.Arpa.Application.MusicianProfileApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
@@ -190,7 +189,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             sentEmail.Subject.Should().Be("Ein Termin in ARPA wurde aktualisiert!");
         }
 
-        [Test, Order(1000)]
+        [Test, Order(100)]
         public async Task Should_Create()
         {
             // Arrange
@@ -236,7 +235,38 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.AppointmentsController.Get(result.Id)}");
         }
 
-        [Test, Order(104)]
+        [Test, Order(101)]
+        public async Task Should_Copy_Appointment()
+        {
+            // Arrange
+            var createDto = new AppointmentCopyDto
+            {
+                AppointmentIdToCopy = AppointmentSeedData.AfterShowParty.Id,
+                EndTime = new DateTime(2025, 3, 6, 19, 15, 20),
+                StartTime = new DateTime(2025, 3, 6, 14, 15, 20),
+            };
+            AppointmentDto existingDto = AppointmentDtoData.AfterShowParty;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .PostAsync(ApiEndpoints.AppointmentsController.Copy(), BuildStringContent(createDto));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            AppointmentDto result = await DeserializeResponseMessageAsync<AppointmentDto>(responseMessage);
+
+            _ = result.Id.Should().NotBeEmpty();
+            _ = responseMessage.Headers.Location.AbsolutePath.Should().Be($"/{ApiEndpoints.AppointmentsController.Get(result.Id)}");
+            result.Projects.Count.Should().Be(existingDto.Projects.Count);
+            result.Sections.Count.Should().Be(existingDto.Sections.Count);
+            result.Rooms.Count.Should().Be(existingDto.Rooms.Count);
+            result.Name.Should().Be(existingDto.Name);
+        }
+
+        [Test, Order(1004)]
         public async Task Should_Add_Room()
         {
             // Act
@@ -251,7 +281,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(100)]
+        [Test, Order(1000)]
         public async Task Should_Add_Section()
         {
             AppointmentDto expectedDto = AppointmentDtoData.RockingXMasRehearsal;
@@ -273,7 +303,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(101)]
+        [Test, Order(1001)]
         public async Task Should_Add_Project()
         {
             // Arrange
@@ -305,10 +335,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             }
         }
 
-        private static readonly string[] s_appointmentNotFoundMessage = ["Appointment could not be found."];
-
-
-        [Test, Order(105)]
+        [Test, Order(1005)]
         [TestCaseSource(nameof(PersonTestData))]
         public async Task Should_Set_Participation_Result(Person person, HttpStatusCode expectedStatusCode)
         {
@@ -324,7 +351,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(expectedStatusCode);
         }
 
-        [Test, Order(106)]
+        [Test, Order(1006)]
         public async Task Should_Set_Venue()
         {
             // Act
@@ -339,7 +366,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(107)]
+        [Test, Order(1007)]
         public async Task Should_Modify()
         {
             // Arrange
@@ -368,7 +395,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(108)]
+        [Test, Order(1008)]
         public async Task Should_Modify_With_Only_Mandatory_Fields_Specified()
         {
             // Arrange
@@ -393,7 +420,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(109)]
+        [Test, Order(1009)]
         public async Task Should_Not_Modify_If_Not_Existing_Id_Is_Supplied()
         {
             // Arrange
@@ -419,7 +446,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = errorMessage.Status.Should().Be(404);
         }
 
-        [Test, Order(108)]
+        [Test, Order(1008)]
         public async Task Should_Set_Dates()
         {
             // Arrange
@@ -447,7 +474,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(109)]
+        [Test, Order(1009)]
         public async Task Should_Remove_Room()
         {
             // Act
@@ -462,7 +489,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(102)]
+        [Test, Order(1002)]
         public async Task Should_Remove_Section()
         {
             // Arrange
@@ -500,7 +527,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(103)]
+        [Test, Order(1003)]
         public async Task Should_Remove_Project()
         {
             // Arrange
@@ -538,7 +565,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = result.Should().BeEquivalentTo(expectedDto);
         }
 
-        [Test, Order(118)]
+        [Test, Order(1018)]
         public async Task Should_Set_New_Participation_Prediction()
         {
             // Arrange
@@ -561,7 +588,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Test, Order(119)]
+        [Test, Order(1019)]
         public async Task Should_Set_Existing_Participation_Prediction()
         {
             // Arrange

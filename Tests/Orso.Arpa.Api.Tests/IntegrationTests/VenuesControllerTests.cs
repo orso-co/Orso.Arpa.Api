@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -10,7 +9,6 @@ using NUnit.Framework;
 using Orso.Arpa.Api.Tests.IntegrationTests.Shared;
 using Orso.Arpa.Application.AddressApplication.Model;
 using Orso.Arpa.Application.RoomApplication.Model;
-using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Application.VenueApplication.Model;
 using Orso.Arpa.Domain.VenueDomain.Enums;
 using Orso.Arpa.Domain.VenueDomain.Model;
@@ -52,6 +50,21 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<RoomDto> result = await DeserializeResponseMessageAsync<IEnumerable<RoomDto>>(responseMessage);
             _ = result.Should().BeEquivalentTo(VenueDtoData.WeiherhofSchule.Rooms);
+        }
+
+        [Test, Order(3)]
+        public async Task Should_Get_By_Id()
+        {
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_performer)
+                .GetAsync(ApiEndpoints.VenuesController.Get(VenueSeedData.WeiherhofSchule.Id));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            VenueDto result = await DeserializeResponseMessageAsync<VenueDto>(responseMessage);
+            _ = result.Should().BeEquivalentTo(VenueDtoData.WeiherhofSchule);
         }
 
         [Test, Order(100)]

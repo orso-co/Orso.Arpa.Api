@@ -15,7 +15,8 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                     Name = "Piano",
                     Quantity = 1,
                     Description = null,
-                    InstrumentId = Guid.Parse("8ed82e0e-0354-4192-8f26-5a2437e9208d")
+                    InstrumentId = Guid.Parse("8ed82e0e-0354-4192-8f26-5a2437e9208d"),
+                    Instrument = SectionDtoData.Piano
                 };
             }
         }

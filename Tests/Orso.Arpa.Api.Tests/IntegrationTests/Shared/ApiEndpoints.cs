@@ -66,6 +66,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
 
             public static string Get() => Venues;
 
+            public static string Get(Guid id) => $"{Venues}/{id}";
             public static string GetRooms(Guid id) => $"{Venues}/{id}/rooms";
 
             public static string Post() => Venues;
@@ -240,6 +241,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
             public static string Get(DateTime? date, DateRange range) => $"{Appointments}?date={date.Value.ToIsoString()}&range={range}";
 
             public static string Post() => Appointments;
+            public static string Copy() => $"{Appointments}/copy";
 
             public static string Put(Guid id) => $"{Appointments}/{id}";
 

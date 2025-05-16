@@ -15,29 +15,24 @@ namespace Orso.Arpa.Api.GraphQL
 {
     public class Query
     {
-
-        [UseApplicationDbContext]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<MusicianProfile>> GetMusicianProfiles(GraphQLContext graphQLContext) =>
             new(graphQLContext.MusicianProfiles.ToListAsync());
 
-        [UseApplicationDbContext]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<Person>> GetPersons(GraphQLContext graphQLContext) =>
             new(graphQLContext.Persons.ToListAsync());
 
-        [UseApplicationDbContext]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
         public ValueTask<List<Project>> GetProjects(GraphQLContext graphQLContext) =>
             new(graphQLContext.Projects.ToListAsync());
 
-        [UseApplicationDbContext]
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]

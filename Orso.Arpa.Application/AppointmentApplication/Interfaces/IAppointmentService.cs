@@ -14,6 +14,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Interfaces
         Task<AppointmentDto> GetByIdAsync(Guid id, bool includeParticipations);
 
         Task<AppointmentDto> CreateAsync(AppointmentCreateDto appointmentCreateDto);
+        Task<AppointmentDto> CopyAsync(AppointmentCopyDto appointmentCopyDto);
 
         Task ModifyAsync(AppointmentModifyDto appointmentModifyDto);
 

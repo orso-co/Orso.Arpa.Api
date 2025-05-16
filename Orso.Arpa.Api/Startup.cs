@@ -232,17 +232,21 @@ namespace Orso.Arpa.Api
         {
             RequestExecutorBuilder = services
                 .AddGraphQLServer()
-                .RegisterDbContext<GraphQLContext>(DbContextKind.Pooled)
+                .RemoveMaxAllowedFieldCycleDepthRule()
+                .AddMaxExecutionDepthRule(10)
+                .AddMaxAllowedFieldCycleDepthRule(10)
+                .ModifyCostOptions(opt => opt.MaxFieldCost = 1500)
+                .RegisterDbContextFactory<GraphQLContext>()
                 .AddAuthorization()
                 .AddFiltering<CustomFilteringConvention>()
                 .AddQueryType<Query>()
                 .AddFiltering()
                 .AddSorting()
                 .AddType(new UuidType('D'))
-                .SetPagingOptions(new PagingOptions
+                .ModifyPagingOptions(opt =>
                 {
-                    MaxPageSize = 100,
-                    IncludeTotalCount = true,
+                    opt.MaxPageSize = 100;
+                    opt.IncludeTotalCount = true;
                 })
                 .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
         }

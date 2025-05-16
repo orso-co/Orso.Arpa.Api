@@ -78,6 +78,13 @@ steps:
 - script: npx ng build --configuration staging --output-path $(frontendOutputPath)
   displayName: 'Build Frontend'
   workingDirectory: $(frontendWorkingDirectory)
+- script: |
+     dir "$(frontendOutputPath)"
+     robocopy "$(frontendOutputPath)\browser" "$(frontendOutputPath)" /E /MOVE
+     rmdir "$(frontendOutputPath)\browser"
+     dir "$(frontendOutputPath)"
+  displayName: 'Move Frontend Files out of browser folder'
+  workingDirectory: $(frontendWorkingDirectory)
 - task: ArchiveFiles@2
   displayName: Create .zip File
   inputs:
