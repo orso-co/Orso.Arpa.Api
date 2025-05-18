@@ -116,9 +116,12 @@ using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Orso.Arpa.Persistence.GraphQL;
+using SixLabors.ImageSharp.Web.Caching;
 using SixLabors.ImageSharp.Web.Caching.Azure;
+using SixLabors.ImageSharp.Web.Commands;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Providers;
+using SixLabors.ImageSharp.Web.Providers.Azure;
 using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
 
@@ -127,11 +130,13 @@ namespace Orso.Arpa.Api
     public class Startup
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly ILogger<Startup> _logger;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, ILogger<Startup> logger)
         {
             Configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
         }
 
         public IConfiguration Configuration
@@ -198,6 +203,41 @@ namespace Orso.Arpa.Api
             ConfigureIpRateLimiting(services);
 
             ConfigureAzureStorageAccount(services);
+
+            // Configure ImageSharp - conditionally use Azure or local storage
+            var useLocalStorage = Configuration.GetValue<bool>("Storage:UseLocalStorage");
+            var imageSharpBuilder = services.AddImageSharp();
+
+            if (useLocalStorage)
+            {
+                // Configure for local file system on Raspberry Pi
+                imageSharpBuilder
+                    .SetRequestParser<QueryCollectionRequestParser>()
+                    .Configure<PhysicalFileSystemCacheOptions>(options =>
+                    {
+                        options.CacheFolder = Configuration.GetValue<string>("Storage:LocalCacheFolder") ??
+                                              Path.Combine(Path.GetTempPath(), "ImageSharpCache");
+                    })
+                    .AddProvider<PhysicalFileSystemProvider>();
+
+                // Log which provider is being used
+                _logger.LogInformation("Using local file system storage for ImageSharp");
+            }
+            else
+            {
+                // Configure for Azure Blob Storage
+                imageSharpBuilder
+                    .SetRequestParser<QueryCollectionRequestParser>()
+                    .Configure<AzureBlobStorageCacheOptions>(options =>
+                    {
+                        options.ConnectionString = Configuration.GetValue<string>("AzureStorageConnectionString");
+                        options.ContainerName = Configuration.GetValue<string>("AzureStorage:ContainerName") ?? "imagesharp-cache";
+                    })
+                    .AddProvider<AzureBlobStorageImageProvider>();
+
+                // Log which provider is being used
+                _logger.LogInformation("Using Azure Blob Storage for ImageSharp");
+            }
 
             // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
         }
