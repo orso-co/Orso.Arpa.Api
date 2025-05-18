@@ -51,7 +51,16 @@ jobs:
                   script: |
                       # Bei GitHub Container Registry anmelden
                       echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u wolfgangroese --password-stdin
-                      
+
+                      # Repo klonen und Image lokal bauen
+                      git clone https://github.com/orso-co/Orso.Arpa.Api.git ~/arpa-src
+                      cd ~/arpa-src
+                      docker build -t orso-arpa-api:latest .
+      
                       cd ~/arpa
-                      docker-compose pull
+      
+                      # docker-compose.yml aktualisieren, um das lokale Image zu verwenden
+                      sed -i 's|ghcr.io/orso-co/orso-arpa-api:latest|orso-arpa-api:latest|g' docker-compose.yml
+      
+                      # Alternative: Nur docker run verwenden
                       docker-compose up -d
