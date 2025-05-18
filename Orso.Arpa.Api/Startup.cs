@@ -11,10 +11,8 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using HotChocolate.Data;
 using HotChocolate.Execution.Configuration;
 using HotChocolate.Types;
-using HotChocolate.Types.Pagination;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -103,7 +101,6 @@ using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
-using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -202,61 +199,110 @@ namespace Orso.Arpa.Api
 
             ConfigureIpRateLimiting(services);
 
-            // ConfigureAzureStorageAccount(services);
-
-            // Configure ImageSharp - conditionally use Azure or local storage
-            var useLocalStorage = Configuration.GetValue<bool>("Storage:UseLocalStorage");
-            var imageSharpBuilder = services.AddImageSharp();
-
-            if (useLocalStorage)
-            {
-                // Configure for local file system on Raspberry Pi
-                imageSharpBuilder
-                    .SetRequestParser<QueryCollectionRequestParser>()
-                    .Configure<PhysicalFileSystemCacheOptions>(options =>
-                    {
-                        options.CacheFolder = Configuration.GetValue<string>("Storage:LocalCacheFolder") ??
-                                              Path.Combine(Path.GetTempPath(), "ImageSharpCache");
-                    })
-                    .AddProvider<PhysicalFileSystemProvider>();
-
-                // Log which provider is being used
-                _logger.LogInformation("Using local file system storage for ImageSharp");
-            }
-            else
-            {
-                // Configure for Azure Blob Storage
-                imageSharpBuilder
-                    .SetRequestParser<QueryCollectionRequestParser>()
-                    .Configure<AzureBlobStorageCacheOptions>(options =>
-                    {
-                        options.ConnectionString = Configuration.GetValue<string>("AzureStorageConnectionString");
-                        options.ContainerName = Configuration.GetValue<string>("AzureStorage:ContainerName") ?? "imagesharp-cache";
-                    })
-                    .AddProvider<AzureBlobStorageImageProvider>();
-
-                // Log which provider is being used
-                _logger.LogInformation("Using Azure Blob Storage for ImageSharp");
-            }
+            ConfigureStorage(services);
 
             // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
         }
 
-        // private void ConfigureAzureStorageAccount(IServiceCollection services)
-        // {
-        //     var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
-        //     _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
-        //     _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
-        //     _ = services.AddImageSharp()
-        //         .RemoveProvider<PhysicalFileSystemProvider>()
-        //         .AddProvider<ArpaProfilePictureProvider>()
-        //         .Configure<AzureBlobStorageCacheOptions>(options =>
-        //         {
-        //             options.ConnectionString = connectionString;
-        //             options.ContainerName = "image-sharp-cache";
-        //             _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
-        //         }).SetCache<AzureBlobStorageCache>();
-        // }
+        private void ConfigureStorage(IServiceCollection services)
+        {
+            // Check if we're running on Raspberry Pi environment
+            bool isRaspberryPi = _hostingEnvironment.EnvironmentName.Equals("RaspberryPi", StringComparison.OrdinalIgnoreCase);
+
+            // Get storage configuration
+            var storageConfig = Configuration.GetSection("Storage");
+            var useLocalStorage = storageConfig.GetValue<bool>("UseLocalStorage") || isRaspberryPi;
+
+            // Initialize ImageSharp builder
+            var imageSharpBuilder = services.AddImageSharp();
+
+            // Log environment and storage configuration
+            _logger.LogInformation("Environment: {Environment}, Using local storage: {UseLocalStorage}",
+                _hostingEnvironment.EnvironmentName, useLocalStorage);
+
+            if (useLocalStorage)
+            {
+                // Get the local cache folder path
+                string localCacheFolder = storageConfig.GetValue<string>("LocalCacheFolder");
+
+                if (string.IsNullOrEmpty(localCacheFolder))
+                {
+                    localCacheFolder = Path.Combine(Path.GetTempPath(), "ImageSharpCache");
+                    _logger.LogWarning("LocalCacheFolder not specified, using temp directory: {TempPath}", localCacheFolder);
+                }
+
+                // Ensure the directory exists
+                try
+                {
+                    if (!Directory.Exists(localCacheFolder))
+                    {
+                        _logger.LogInformation("Creating cache directory: {CacheFolder}", localCacheFolder);
+                        Directory.CreateDirectory(localCacheFolder);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to create cache directory {CacheFolder}. Falling back to temp directory.", localCacheFolder);
+                    localCacheFolder = Path.Combine(Path.GetTempPath(), "ImageSharpCache");
+                    Directory.CreateDirectory(localCacheFolder);
+                }
+
+                // Configure ImageSharp for local file system
+                imageSharpBuilder
+                    .SetRequestParser<QueryCollectionRequestParser>()
+                    .Configure<PhysicalFileSystemCacheOptions>(options =>
+                    {
+                        options.CacheFolder = localCacheFolder;
+                    })
+                    .AddProvider<PhysicalFileSystemProvider>();
+
+                // Log which provider is being used
+                _logger.LogInformation("Using local file system storage for ImageSharp: {CacheFolder}", localCacheFolder);
+            }
+            else
+            {
+                // Only configure Azure if not on Raspberry Pi
+                // Get Azure configuration
+                var azureConnectionString = Configuration.GetValue<string>("AzureStorageConnectionString");
+                var containerName = Configuration.GetValue<string>("AzureStorage:ContainerName") ?? "imagesharp-cache";
+
+                if (string.IsNullOrEmpty(azureConnectionString))
+                {
+                    _logger.LogError("AzureStorageConnectionString is missing. Cannot configure Azure storage.");
+                    throw new InvalidOperationException("Azure Storage connection string is missing from configuration");
+                }
+
+                try
+                {
+                    // Configure for Azure Blob Storage
+                    imageSharpBuilder
+                        .SetRequestParser<QueryCollectionRequestParser>()
+                        .Configure<AzureBlobStorageCacheOptions>(options =>
+                        {
+                            options.ConnectionString = azureConnectionString;
+                            options.ContainerName = containerName;
+                        })
+                        .AddProvider<AzureBlobStorageImageProvider>();
+
+                    // Try to initialize the container if it doesn't exist
+                    var blobServiceClient = new BlobServiceClient(azureConnectionString);
+                    var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+                    _ = containerClient.CreateIfNotExists(PublicAccessType.None);
+
+                    // Register needed Azure services
+                    services.AddScoped(_ => new BlobServiceClient(azureConnectionString));
+                    services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
+
+                    // Log which provider is being used
+                    _logger.LogInformation("Using Azure Blob Storage for ImageSharp: {ContainerName}", containerName);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to initialize Azure Blob Storage");
+                    throw; // Re-throw to fail startup - we don't want a silent fallback in production
+                }
+            }
+        }
 
         private void ConfigureIpRateLimiting(IServiceCollection services)
         {
@@ -394,7 +440,7 @@ namespace Orso.Arpa.Api
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme (hint: Bearer token part should be appended with ‘Bearer’)",
+                    Description = "JWT Authorization header using the Bearer scheme (hint: Bearer token part should be appended with 'Bearer')",
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -640,7 +686,7 @@ namespace Orso.Arpa.Api
                     .ConnectSources(s => s.Self().CustomSources("fonts.gstatic.com"))
                     .WorkerSources(s => s.Self())
                     .FontSources(s => s.Self().CustomSources("fonts.gstatic.com", "data:"))
-                );
+            );
 
             if (env.IsProduction())
             {

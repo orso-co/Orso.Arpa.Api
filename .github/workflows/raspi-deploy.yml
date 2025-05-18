@@ -41,6 +41,120 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - uses: actions/checkout@v3
+
+            - name: Prepare Raspberry Pi configurations
+              run: |
+                  # Create appsettings.RaspberryPi.json
+                  cat > appsettings.RaspberryPi.json << 'EOF'
+                  {
+                    "Storage": {
+                      "UseLocalStorage": true,
+                      "LocalCacheFolder": "/publish/storage/imagecache"
+                    },
+                    "ConnectionStrings": {
+                      "PostgreSQLConnection": "host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;"
+                    },
+                    "JwtConfiguration": {
+                      "Issuer": "https://arpa.loopus.it",
+                      "Audience": "https://arpa.loopus.it"
+                    },
+                    "EmailConfiguration": {
+                      "SmtpServer": "mail",
+                      "Port": 1025,
+                      "From": "arpa@orso.co",
+                      "DefaultSubject": "Message from ARPA"
+                    },
+                    "Logging": {
+                      "LogLevel": {
+                        "Default": "Information",
+                        "Microsoft": "Warning",
+                        "Microsoft.Hosting.Lifetime": "Information"
+                      }
+                    },
+                    "SeedConfiguration": {
+                      "SeedInitialAdmin": true,
+                      "InitialAdmin": {
+                        "UserName": "admin",
+                        "Email": "arpa@loopus.it",
+                        "Password": "Pa$$w0rd",
+                        "GivenName": "Initial",
+                        "Surname": "Admin",
+                        "GenderId": "88d680fe-b6cc-486f-8f79-2525189b8b13"
+                      }
+                    }
+                  }
+                  EOF
+
+                  # Create docker-compose.yml for Raspberry Pi
+                  cat > docker-compose.yml << 'EOF'
+                  version: '3.9'
+
+                  services:
+                    postgres:
+                      image: postgres:16-alpine
+                      volumes:
+                        - arpa_pgdata:/var/lib/postgresql/data
+                      environment:
+                        - POSTGRES_PASSWORD=postgres
+                        - POSTGRES_USER=postgres
+                        - POSTGRES_DB=orso-arpa
+                      restart: unless-stopped
+
+                    api:
+                      image: ghcr.io/orso-co/orso-arpa-api:latest
+                      ports:
+                        - "5000:5000"
+                      volumes:
+                        - ./arpa_storage:/publish/storage
+                        - ./appsettings.RaspberryPi.json:/publish/appsettings.RaspberryPi.json:ro
+                      environment:
+                        - ASPNETCORE_ENVIRONMENT=RaspberryPi
+                        - ConnectionStrings__PostgreSQLConnection=host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;
+                        - EmailConfiguration__SmtpServer=mail
+                        - EmailConfiguration__Port=1025
+                        - EmailConfiguration__From=arpa@orso.co
+                        - JwtConfiguration__Issuer=https://arpa.loopus.it
+                        - JwtConfiguration__Audience=https://arpa.loopus.it
+                        # Admin config
+                        - SeedConfiguration__SeedInitialAdmin=true
+                        - SeedConfiguration__InitialAdmin__UserName=admin
+                        - SeedConfiguration__InitialAdmin__Email=arpa@loopus.it
+                        - SeedConfiguration__InitialAdmin__Password=Pa$$w0rd
+                        - SeedConfiguration__InitialAdmin__GivenName=Initial
+                        - SeedConfiguration__InitialAdmin__Surname=Admin
+                        - SeedConfiguration__InitialAdmin__GenderId=88d680fe-b6cc-486f-8f79-2525189b8b13
+                      restart: on-failure
+                      depends_on:
+                        - postgres
+                        - mail
+
+                    mail:
+                      image: jcalonso/mailhog:latest
+                      environment:
+                        - MH_STORAGE=maildir
+                        - MH_MAILDIR_PATH=/maildir
+                      volumes:
+                        - arpa_mailhog:/maildir
+                      ports:
+                        - "8025:8025"
+                      restart: unless-stopped
+
+                  volumes:
+                    arpa_pgdata:
+                    arpa_mailhog:
+                  EOF
+
+            - name: Copy configuration files to Raspberry Pi
+              uses: appleboy/scp-action@master
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  port: 2222
+                  username: ${{ secrets.SSH_USERNAME }}
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  source: "docker-compose.yml,appsettings.RaspberryPi.json"
+                  target: "~/arpa"
+
             - name: Deploy to Raspberry Pi
               uses: appleboy/ssh-action@master
               with:
@@ -49,15 +163,24 @@ jobs:
                   username: ${{ secrets.SSH_USERNAME }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   script: |
-                      # Bei GitHub Container Registry anmelden
+                      # Login to GitHub Container Registry
                       echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u wolfgangroese --password-stdin
 
-                      # Repo klonen und Image lokal bauen
-                      git clone https://github.com/orso-co/Orso.Arpa.Api.git ~/arpa-src || (cd ~/arpa-src && git pull)
-                      cd ~/arpa-src
-                      docker build -t orso-arpa-api:latest .
-      
+                      # Create storage directory if it doesn't exist
+                      mkdir -p ~/arpa/arpa_storage/imagecache
+                      chmod -R 755 ~/arpa/arpa_storage
+
+                      # Navigate to the deployment directory
                       cd ~/arpa
-      
-                      # Container starten
+
+                      # Pull the latest image
+                      docker pull ghcr.io/orso-co/orso-arpa-api:latest
+
+                      # Stop and remove any existing containers
+                      docker-compose down || true
+
+                      # Start containers
                       docker-compose up -d
+
+                      # Clean up old/unused images
+                      docker image prune -f
