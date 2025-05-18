@@ -2,7 +2,7 @@ name: Build and Deploy to Raspberry Pi
 
 on:
     push:
-        branches: [ master, develop ]
+        branches: [ feature/raspi-workflow ]
     workflow_dispatch:
 
 jobs:
