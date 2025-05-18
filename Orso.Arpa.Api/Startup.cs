@@ -127,13 +127,14 @@ namespace Orso.Arpa.Api
     public class Startup
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
-        private readonly ILogger<Startup> _logger;
+        private ILogger<Startup> _logger;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
-            _logger = logger;
+            // Initialize with a null logger initially
+            _logger = null;
         }
 
         public IConfiguration Configuration
@@ -216,9 +217,8 @@ namespace Orso.Arpa.Api
             // Initialize ImageSharp builder
             var imageSharpBuilder = services.AddImageSharp();
 
-            // Log environment and storage configuration
-            _logger.LogInformation("Environment: {Environment}, Using local storage: {UseLocalStorage}",
-                _hostingEnvironment.EnvironmentName, useLocalStorage);
+            // Don't use logger yet, as it might not be initialized
+            Console.WriteLine($"Environment: {_hostingEnvironment.EnvironmentName}, Using local storage: {useLocalStorage}");
 
             if (useLocalStorage)
             {
@@ -228,7 +228,7 @@ namespace Orso.Arpa.Api
                 if (string.IsNullOrEmpty(localCacheFolder))
                 {
                     localCacheFolder = Path.Combine(Path.GetTempPath(), "ImageSharpCache");
-                    _logger.LogWarning("LocalCacheFolder not specified, using temp directory: {TempPath}", localCacheFolder);
+                    Console.WriteLine($"WARNING: LocalCacheFolder not specified, using temp directory: {localCacheFolder}");
                 }
 
                 // Ensure the directory exists
@@ -236,13 +236,13 @@ namespace Orso.Arpa.Api
                 {
                     if (!Directory.Exists(localCacheFolder))
                     {
-                        _logger.LogInformation("Creating cache directory: {CacheFolder}", localCacheFolder);
+                        Console.WriteLine($"INFO: Creating cache directory: {localCacheFolder}");
                         Directory.CreateDirectory(localCacheFolder);
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to create cache directory {CacheFolder}. Falling back to temp directory.", localCacheFolder);
+                    Console.WriteLine($"ERROR: Failed to create cache directory {localCacheFolder}. Falling back to temp directory. Exception: {ex.Message}");
                     localCacheFolder = Path.Combine(Path.GetTempPath(), "ImageSharpCache");
                     Directory.CreateDirectory(localCacheFolder);
                 }
@@ -257,7 +257,7 @@ namespace Orso.Arpa.Api
                     .AddProvider<PhysicalFileSystemProvider>();
 
                 // Log which provider is being used
-                _logger.LogInformation("Using local file system storage for ImageSharp: {CacheFolder}", localCacheFolder);
+                Console.WriteLine($"INFO: Using local file system storage for ImageSharp: {localCacheFolder}");
             }
             else
             {
@@ -268,7 +268,7 @@ namespace Orso.Arpa.Api
 
                 if (string.IsNullOrEmpty(azureConnectionString))
                 {
-                    _logger.LogError("AzureStorageConnectionString is missing. Cannot configure Azure storage.");
+                    Console.WriteLine("ERROR: AzureStorageConnectionString is missing. Cannot configure Azure storage.");
                     throw new InvalidOperationException("Azure Storage connection string is missing from configuration");
                 }
 
@@ -294,11 +294,11 @@ namespace Orso.Arpa.Api
                     services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
 
                     // Log which provider is being used
-                    _logger.LogInformation("Using Azure Blob Storage for ImageSharp: {ContainerName}", containerName);
+                    Console.WriteLine($"INFO: Using Azure Blob Storage for ImageSharp: {containerName}");
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Failed to initialize Azure Blob Storage");
+                    Console.WriteLine($"ERROR: Failed to initialize Azure Blob Storage. Exception: {ex.Message}");
                     throw; // Re-throw to fail startup - we don't want a silent fallback in production
                 }
             }
@@ -621,6 +621,14 @@ namespace Orso.Arpa.Api
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Initialize the logger from the service provider after DI container is built
+            if (_logger == null)
+            {
+                // Get logger from the app's service provider
+                _logger = app.ApplicationServices.GetRequiredService<ILogger<Startup>>();
+                _logger.LogInformation("Startup logger initialized in Configure method");
+            }
+            
             _ = app.UseIpRateLimiting();
 
             _ = app.UseRequestLocalization();
@@ -710,15 +718,30 @@ namespace Orso.Arpa.Api
             IServiceProvider services = scope.ServiceProvider;
             try
             {
+                Console.WriteLine("INFO: Starting database migration...");
                 ArpaContext context = services.GetRequiredService<ArpaContext>();
                 context.Database.Migrate();
+                Console.WriteLine("INFO: Database migration completed successfully");
+                
+                Console.WriteLine("INFO: Seeding initial data...");
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
+                Console.WriteLine("INFO: Initial data seeding completed successfully");
             }
             catch (Exception ex)
             {
-                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                logger.LogError(ex, "An error occured during database migration");
+                // Try to get logger, but fall back to console if it fails
+                try 
+                {
+                    ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                    logger.LogError(ex, "An error occured during database migration");
+                }
+                catch 
+                {
+                    Console.WriteLine($"ERROR: An error occured during database migration: {ex.Message}");
+                    Console.WriteLine(ex.StackTrace);
+                }
+                
                 throw new SystemStartException("An error occured during database migration", ex);
             }
         }
@@ -729,13 +752,25 @@ namespace Orso.Arpa.Api
             IServiceProvider services = scope.ServiceProvider;
             try
             {
+                Console.WriteLine("INFO: Preloading translations from database...");
                 ILocalizerCache localizerCache = services.GetRequiredService<ILocalizerCache>();
                 _ = localizerCache.LoadTranslations();
+                Console.WriteLine("INFO: Translation preloading completed successfully");
             }
             catch (Exception ex)
             {
-                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                logger.LogError(ex, "Error during preload of localization data from database");
+                // Try to get logger, but fall back to console if it fails
+                try 
+                {
+                    ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                    logger.LogError(ex, "Error during preload of localization data from database");
+                }
+                catch 
+                {
+                    Console.WriteLine($"ERROR: Error during preload of localization data from database: {ex.Message}");
+                    Console.WriteLine(ex.StackTrace);
+                }
+                
                 throw new SystemStartException("Error during preload of localization data from database", ex);
             }
         }
