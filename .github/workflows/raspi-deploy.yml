@@ -119,12 +119,17 @@ jobs:
                         - ./appsettings.RaspberryPi.json:/publish/appsettings.RaspberryPi.json:ro
                       environment:
                         - ASPNETCORE_ENVIRONMENT=RaspberryPi
+                        - DOTNET_ENVIRONMENT=RaspberryPi
                         - ConnectionStrings__PostgreSQLConnection=host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;
                         - EmailConfiguration__SmtpServer=mail
                         - EmailConfiguration__Port=1025
                         - EmailConfiguration__From=arpa@orso.co
                         - JwtConfiguration__Issuer=https://arpa.loopus.it
                         - JwtConfiguration__Audience=https://arpa.loopus.it
+                        # Logging configuration
+                        - Logging__LogLevel__Default=Information
+                        - Logging__LogLevel__Microsoft=Warning
+                        - Logging__LogLevel__Microsoft.Hosting.Lifetime=Information
                         # Admin config
                         - SeedConfiguration__SeedInitialAdmin=true
                         - SeedConfiguration__InitialAdmin__UserName=admin
@@ -137,6 +142,13 @@ jobs:
                       depends_on:
                         - postgres
                         - mail
+                      # Add a health check to ensure service is available
+                      healthcheck:
+                        test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+                        interval: 30s
+                        timeout: 10s
+                        retries: 3
+                        start_period: 40s
 
                     mail:
                       image: jcalonso/mailhog:latest

@@ -6,6 +6,7 @@ ARG TARGETPLATFORM
 
 ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
 ENV MAIN_PROJECT="./$PROJECT"
+ENV DOTNET_ENVIRONMENT=$ENVIRONMENT
 
 # Install libgdiplus using the appropriate package manager based on architecture
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
@@ -56,5 +57,19 @@ WORKDIR /publish
 COPY --from=builder /publish .
 
 ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
+ENV DOTNET_ENVIRONMENT="RaspberryPi" 
+ENV ASPNETCORE_ENVIRONMENT="RaspberryPi"
 
-ENTRYPOINT ["dotnet", "Orso.Arpa.Api.dll"]
+# Create an entrypoint script
+RUN echo '#!/bin/bash\n\
+echo "Starting ARPA API..."\n\
+echo "Environment: $ASPNETCORE_ENVIRONMENT"\n\
+echo "Creating storage directories..."\n\
+mkdir -p /publish/storage/imagecache\n\
+chmod -R 755 /publish/storage\n\
+echo "Starting application..."\n\
+exec dotnet Orso.Arpa.Api.dll\n\
+' > /publish/entrypoint.sh && \
+chmod +x /publish/entrypoint.sh
+
+ENTRYPOINT ["/publish/entrypoint.sh"]
