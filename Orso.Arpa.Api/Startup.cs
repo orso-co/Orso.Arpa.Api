@@ -202,7 +202,7 @@ namespace Orso.Arpa.Api
 
             ConfigureIpRateLimiting(services);
 
-            ConfigureAzureStorageAccount(services);
+            // ConfigureAzureStorageAccount(services);
 
             // Configure ImageSharp - conditionally use Azure or local storage
             var useLocalStorage = Configuration.GetValue<bool>("Storage:UseLocalStorage");
@@ -242,21 +242,21 @@ namespace Orso.Arpa.Api
             // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
         }
 
-        private void ConfigureAzureStorageAccount(IServiceCollection services)
-        {
-            var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
-            _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
-            _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
-            _ = services.AddImageSharp()
-                .RemoveProvider<PhysicalFileSystemProvider>()
-                .AddProvider<ArpaProfilePictureProvider>()
-                .Configure<AzureBlobStorageCacheOptions>(options =>
-                {
-                    options.ConnectionString = connectionString;
-                    options.ContainerName = "image-sharp-cache";
-                    _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
-                }).SetCache<AzureBlobStorageCache>();
-        }
+        // private void ConfigureAzureStorageAccount(IServiceCollection services)
+        // {
+        //     var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
+        //     _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
+        //     _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
+        //     _ = services.AddImageSharp()
+        //         .RemoveProvider<PhysicalFileSystemProvider>()
+        //         .AddProvider<ArpaProfilePictureProvider>()
+        //         .Configure<AzureBlobStorageCacheOptions>(options =>
+        //         {
+        //             options.ConnectionString = connectionString;
+        //             options.ContainerName = "image-sharp-cache";
+        //             _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
+        //         }).SetCache<AzureBlobStorageCache>();
+        // }
 
         private void ConfigureIpRateLimiting(IServiceCollection services)
         {
