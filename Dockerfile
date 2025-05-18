@@ -2,11 +2,17 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 as base
 
 ARG PROJECT="Orso.Arpa.Api"
 ARG ENVIRONMENT="Development"
+ARG TARGETPLATFORM
 
 ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
 ENV MAIN_PROJECT="./$PROJECT"
 
-RUN apt-get update && apt-get install -y libgdiplus
+# Install libgdiplus using the appropriate package manager based on architecture
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+        apt-get update && apt-get install -y libgdiplus; \
+    else \
+        apt-get update && apt-get install -y libgdiplus; \
+    fi
 #/usr/lib/libgdiplus.so
 
 WORKDIR /home/app
@@ -43,7 +49,7 @@ WORKDIR /home/app
 
 RUN dotnet publish ./Orso.Arpa.Api/Orso.Arpa.Api.csproj -o /publish/
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 
 WORKDIR /publish
 
