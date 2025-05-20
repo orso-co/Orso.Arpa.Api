@@ -253,8 +253,14 @@ namespace Orso.Arpa.Api
                     .Configure<PhysicalFileSystemCacheOptions>(options =>
                     {
                         options.CacheFolder = localCacheFolder;
-                    })
-                    .AddProvider<PhysicalFileSystemProvider>();
+                    });
+                
+                // Create a simple provider that doesn't rely on wwwroot
+                // This is a non-standard approach, but necessary for container environments
+                // where the wwwroot might not exist or be accessible
+                services.AddSingleton<IImageProvider, DummyImageProvider>();
+                
+                Console.WriteLine("Configured DummyImageProvider instead of PhysicalFileSystemProvider for Raspberry Pi environment");
 
                 // Log which provider is being used
                 Console.WriteLine($"INFO: Using local file system storage for ImageSharp: {localCacheFolder}");
@@ -629,6 +635,21 @@ namespace Orso.Arpa.Api
                 _logger.LogInformation("Startup logger initialized in Configure method");
             }
             
+            // Ensure wwwroot directory exists
+            string wwwrootPath = Path.Combine(env.ContentRootPath, "wwwroot");
+            if (!Directory.Exists(wwwrootPath))
+            {
+                Console.WriteLine($"Creating missing wwwroot directory: {wwwrootPath}");
+                Directory.CreateDirectory(wwwrootPath);
+                
+                // Create a test file in the wwwroot directory
+                string testFilePath = Path.Combine(wwwrootPath, "test.png");
+                if (!File.Exists(testFilePath))
+                {
+                    File.WriteAllText(testFilePath, "test");
+                }
+            }
+            
             _ = app.UseIpRateLimiting();
 
             _ = app.UseRequestLocalization();
@@ -653,7 +674,16 @@ namespace Orso.Arpa.Api
             _ = app.UseAuthentication();
             _ = app.UseAuthorization();
 
-            _ = app.UseImageSharp();
+            // Only use ImageSharp if we're not in Raspberry Pi environment
+            if (!_hostingEnvironment.EnvironmentName.Equals("RaspberryPi", StringComparison.OrdinalIgnoreCase))
+            {
+                _ = app.UseImageSharp();
+                Console.WriteLine("INFO: ImageSharp middleware enabled");
+            }
+            else
+            {
+                Console.WriteLine("INFO: ImageSharp middleware disabled for Raspberry Pi environment");
+            }
 
             _ = app.UseDefaultFiles(); // use index.html
             _ = app.UseStaticFiles();
