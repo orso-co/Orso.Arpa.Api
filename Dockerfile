@@ -31,6 +31,40 @@ RUN dotnet restore
 
 COPY . .
 
+# Create DummyImageProvider if it doesn't exist (fallback for Raspberry Pi)
+RUN mkdir -p /home/app/Orso.Arpa.Api/Middleware && \
+    if [ ! -f /home/app/Orso.Arpa.Api/Middleware/DummyImageProvider.cs ]; then \
+    echo 'using System; \n\
+using System.IO; \n\
+using System.Threading.Tasks; \n\
+using Microsoft.AspNetCore.Http; \n\
+using SixLabors.ImageSharp.Web.Middleware; \n\
+using SixLabors.ImageSharp.Web.Providers; \n\
+using SixLabors.ImageSharp.Web.Resolvers; \n\
+\n\
+namespace Orso.Arpa.Api.Middleware \n\
+{ \n\
+    /// <summary> \n\
+    /// A dummy image provider that does not attempt to resolve any images. \n\
+    /// Used as a fallback when the PhysicalFileSystemProvider cannot find wwwroot. \n\
+    /// </summary> \n\
+    public class DummyImageProvider : IImageProvider \n\
+    { \n\
+        /// <inheritdoc/> \n\
+        public bool IsValidRequest(HttpContext context) => false; \n\
+\n\
+        /// <inheritdoc/> \n\
+        public Task<IImageResolver> GetAsync(HttpContext context) => Task.FromResult<IImageResolver>(null); \n\
+\n\
+        /// <inheritdoc/> \n\
+        public ProcessingBehavior GetProcessingBehavior(HttpContext context) => ProcessingBehavior.CommandOnly; \n\
+\n\
+        /// <inheritdoc/> \n\
+        public Func<HttpContext, bool> Match { get; } = _ => false; \n\
+    } \n\
+}' > /home/app/Orso.Arpa.Api/Middleware/DummyImageProvider.cs; \
+    fi
+
 EXPOSE 5000
 
 # ENTRYPOINT dotnet watch -p ${MAIN_PROJECT} run --urls "http://0.0.0.0:5000"
