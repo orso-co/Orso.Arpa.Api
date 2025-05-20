@@ -64,9 +64,17 @@ ENV ASPNETCORE_ENVIRONMENT="RaspberryPi"
 RUN echo '#!/bin/bash\n\
 echo "Starting ARPA API..."\n\
 echo "Environment: $ASPNETCORE_ENVIRONMENT"\n\
-echo "Creating storage directories..."\n\
+echo "Creating required directories..."\n\
+# Create storage directory\n\
 mkdir -p /publish/storage/imagecache\n\
 chmod -R 755 /publish/storage\n\
+# Create wwwroot directory if it doesn't exist\n\
+mkdir -p /publish/wwwroot\n\
+chmod -R 755 /publish/wwwroot\n\
+# Create a test image to ensure the directory is not empty\n\
+touch /publish/wwwroot/test.png\n\
+echo "Directory structure:"\n\
+find /publish -type d | sort\n\
 echo "Starting application..."\n\
 exec dotnet Orso.Arpa.Api.dll\n\
 ' > /publish/entrypoint.sh && \
