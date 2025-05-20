@@ -14,6 +14,8 @@ namespace Orso.Arpa.Api.Middleware
     /// </summary>
     public class DummyImageProvider : IImageProvider
     {
+        private Func<HttpContext, bool> _match = _ => false;
+
         /// <inheritdoc/>
         public bool IsValidRequest(HttpContext context) => false;
 
@@ -21,9 +23,13 @@ namespace Orso.Arpa.Api.Middleware
         public Task<IImageResolver> GetAsync(HttpContext context) => Task.FromResult<IImageResolver>(null);
 
         /// <inheritdoc/>
-        public ProcessingBehavior GetProcessingBehavior(HttpContext context) => ProcessingBehavior.CommandOnly;
+        public ProcessingBehavior ProcessingBehavior { get; } = ProcessingBehavior.CommandOnly;
 
         /// <inheritdoc/>
-        public Func<HttpContext, bool> Match { get; } = _ => false;
+        public Func<HttpContext, bool> Match
+        {
+            get => _match;
+            set => _match = value;
+        }
     }
 }
