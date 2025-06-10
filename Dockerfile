@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 as base
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS base
 
 ARG PROJECT="Orso.Arpa.Api"
 ARG ENVIRONMENT="Development"
@@ -13,11 +13,11 @@ WORKDIR /home/app
 
 COPY ./*.sln ./
 COPY ./*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv $file ./${file%.*}/; done
+RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv "$file" ./${file%.*}/; done
 
 WORKDIR /home/app/Tests
 COPY ./Tests/*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv $file ./${file%.*}/; done
+RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv "$file" ./${file%.*}/; done
 
 WORKDIR /home/app
 RUN dotnet restore
@@ -29,13 +29,13 @@ EXPOSE 5000
 # ENTRYPOINT dotnet watch -p ${MAIN_PROJECT} run --urls "http://0.0.0.0:5000"
 ENTRYPOINT dotnet run -p ${MAIN_PROJECT} --urls "http://0.0.0.0:5000"
 
-FROM base as test
+FROM base AS test
 
 WORKDIR /home/app
 
 ENTRYPOINT ["dotnet", "test", "--logger:trx"]
 
-FROM base as builder
+FROM base AS builder
 
 ENV ASPNETCORE_ENVIRONMENT=Development
 

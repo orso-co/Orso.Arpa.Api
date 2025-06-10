@@ -45,7 +45,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .Property(e => e.Type)
                 .HasConversion(
                     v => v.ToString(),
-                    v => (AuditLogType)Enum.Parse(typeof(AuditLogType), v));
+                    v => Enum.Parse<AuditLogType>(v));
 
             builder
                 .Property(e => e.ChangedColumns)

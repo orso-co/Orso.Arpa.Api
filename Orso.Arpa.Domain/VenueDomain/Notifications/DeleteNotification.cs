@@ -29,7 +29,7 @@ namespace Orso.Arpa.Domain.Logic.VenueDomain.Notifications
 
         public async Task Handle(DeleteNotification notification, CancellationToken cancellationToken)
         {
-            IList<Appointment> appointmentsWithVenue = await _arpaContext.Set<Appointment>()
+            List<Appointment> appointmentsWithVenue = await _arpaContext.Set<Appointment>()
                 .Where(a => notification.Id.Equals(a.VenueId))
                 .ToListAsync(cancellationToken);
 
