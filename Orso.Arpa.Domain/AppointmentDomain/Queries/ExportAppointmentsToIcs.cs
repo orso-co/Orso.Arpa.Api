@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,21 +29,33 @@ public class ExportAppointmentsToIcs
 
         public async Task<string> Handle(Query request, CancellationToken cancellationToken)
         {
-            List<CalendarEvent> events = await _arpaContext.Appointments.Select(a =>
+            var appointmentList = await _arpaContext.Appointments
+                .Select(a => new
+                {
+                    a.Name,
+                    CategoryName = a.Category != null ? a.Category.SelectValue.Name : "-",
+                    a.PublicDetails,
+                    a.InternalDetails,
+                    Location = a.Venue != null ? a.Venue.Address.City : "-",
+                    a.StartTime,
+                    a.EndTime
+                })
+                .ToListAsync(cancellationToken);
+
+            var events = appointmentList.Select(a =>
                 new CalendarEvent
                 {
                     Summary = a.Name,
-                    Description = (a.Category != null ? a.Category.SelectValue.Name : "-") + " | " +
+                    Description = a.CategoryName + " | " +
                                   (string.IsNullOrEmpty(a.PublicDetails) ? "-" : a.PublicDetails) +
                                   " | " +
                                   (string.IsNullOrEmpty(a.InternalDetails)
                                       ? "-"
                                       : a.InternalDetails),
-                    Location = a.Venue != null ? a.Venue.Address.City : "-",
-                    Start =
-                        new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.StartTime)),
+                    Location = a.Location,
+                    Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.StartTime)),
                     End = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.EndTime))
-                }).ToListAsync(cancellationToken);
+                }).ToList();
 
             var calendar = new Calendar();
 
