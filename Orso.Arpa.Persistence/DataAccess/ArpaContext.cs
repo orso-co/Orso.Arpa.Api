@@ -182,13 +182,13 @@ namespace Orso.Arpa.Persistence.DataAccess
 
         private static void SetNullableForeignKeysToNull(EntityEntry entry)
         {
-            foreach (IProperty property in entry.CurrentValues.Properties)
+            foreach (IProperty property in from IProperty property in entry.CurrentValues.Properties
+                                     where property.IsColumnNullable() && property.IsForeignKey()
+                                     select property)
             {
-                if (property.IsColumnNullable() && property.IsForeignKey())
-                {
-                    entry.CurrentValues[property] = null;
-                }
+                entry.CurrentValues[property] = null;
             }
+
         }
 
         private async Task DeleteNavigationEntriesAsync(string currentUserDisplayName, EntityEntry entry, Type entityType, CancellationToken cancellationToken)
