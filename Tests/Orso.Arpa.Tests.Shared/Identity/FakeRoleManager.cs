@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using MockQueryable;
 using NSubstitute;
+using MockQueryable;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Persistence.Seed;
@@ -27,8 +27,7 @@ namespace Orso.Arpa.Tests.Shared.Identity
         {
             get
             {
-                IEnumerable<Role> roles = RoleSeedData.Roles;
-                return roles.AsQueryable().BuildMock();
+                return RoleSeedData.Roles.BuildMock();
             }
         }
 

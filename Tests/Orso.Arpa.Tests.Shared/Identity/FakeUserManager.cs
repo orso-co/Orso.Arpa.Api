@@ -24,8 +24,8 @@ namespace Orso.Arpa.Tests.Shared.Identity
               Substitute.For<IUserStore<User>>(),
               Substitute.For<IOptions<IdentityOptions>>(),
               Substitute.For<IPasswordHasher<User>>(),
-              Array.Empty<IUserValidator<User>>(),
-              Array.Empty<IPasswordValidator<User>>(),
+              [],
+              [],
               Substitute.For<ILookupNormalizer>(),
               Substitute.For<IdentityErrorDescriber>(),
               Substitute.For<IServiceProvider>(),
@@ -36,8 +36,7 @@ namespace Orso.Arpa.Tests.Shared.Identity
         {
             get
             {
-                IEnumerable<User> users = FakeUsers.Users;
-                return users.AsQueryable().BuildMock();
+                return FakeUsers.Users.BuildMock();
             }
         }
 
