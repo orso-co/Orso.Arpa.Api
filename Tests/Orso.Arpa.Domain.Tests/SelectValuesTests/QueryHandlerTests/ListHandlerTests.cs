@@ -50,7 +50,7 @@ namespace Orso.Arpa.Domain.Tests.SelectValuesTests.QueryHandlerTests
             ICollection<SelectValueMapping> expectedMappings = categories
                 .FirstOrDefault(c => c.Table == nameof(Address) && c.Property == nameof(Address.Type))?
                 .SelectValueMappings;
-            DbSet<SelectValueCategory> categoriesToReturn = categories.AsQueryable().BuildMockDbSet();
+            DbSet<SelectValueCategory> categoriesToReturn = categories.BuildMockDbSet();
             _ = categoriesToReturn.AsQueryable().Returns(categories.AsQueryable());
             _ = _arpaContext.SelectValueCategories.Returns(categoriesToReturn);
 

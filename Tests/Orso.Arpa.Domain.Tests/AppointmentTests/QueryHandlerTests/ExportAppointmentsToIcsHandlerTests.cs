@@ -38,7 +38,7 @@ public class ExportAppointmentsToIcsHandlerTests
             new List<Appointment>
             {
                 FakeAppointments.RockingXMasRehearsal, AppointmentSeedData.RehearsalWeekend
-            }.AsQueryable().BuildMockDbSet();
+            }.BuildMockDbSet();
         _arpaContext.Appointments.Returns(appointmentMock);
         string[] expectedResultWithoutDynamicValues = [
             "BEGIN:VCALENDAR",
