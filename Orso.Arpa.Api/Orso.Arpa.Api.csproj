@@ -21,11 +21,11 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
-    <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.7" />
-    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.7" />
-    <PackageReference Include="HotChocolate.Data" Version="15.1.7" />
-    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.7" />
-    <PackageReference Include="HotChocolate.Types.OffsetPagination" Version="15.1.7" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.Data" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.Data.EntityFramework" Version="15.1.8" />
+    <PackageReference Include="HotChocolate.Types.OffsetPagination" Version="15.1.8" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.1.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.23.0" />
