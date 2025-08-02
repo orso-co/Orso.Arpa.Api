@@ -93,7 +93,7 @@ namespace Orso.Arpa.Infrastructure.Tests.SecurityTests
             User expectedUser = FakeUsers.Performer;
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, expectedUser.UserName)
+                new(ClaimTypes.NameIdentifier, expectedUser.UserName)
             };
             _ = _httpContextAccessor.HttpContext.User.Claims.Returns(claims);
 
