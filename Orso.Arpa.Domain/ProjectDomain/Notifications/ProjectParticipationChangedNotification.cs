@@ -111,7 +111,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Notifications
             }
             else
             {
-                _logger.LogError("Could not send the project participation changed email to {musician} because there is no email address assigned to this person.", musician.DisplayName);
+                _logger.LogError("Could not send the project participation changed email to {Musician} because there is no email address assigned to this person.", musician.DisplayName);
             }
         }
     }

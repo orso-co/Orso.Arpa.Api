@@ -115,12 +115,11 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
 
             private void UpdatePreferredPositionsInner(ICollection<MusicianProfilePositionInner> collectionToUpdate, IList<Guid> updateList, Guid musicianProfileId)
             {
-                foreach (MusicianProfilePositionInner position in collectionToUpdate)
+                foreach (MusicianProfilePositionInner position in from MusicianProfilePositionInner position in collectionToUpdate
+                                         where !updateList.Contains(position.SelectValueSectionId)
+                                         select position)
                 {
-                    if (!updateList.Contains(position.SelectValueSectionId))
-                    {
-                        _ = _arpaContext.Remove(position);
-                    }
+                    _ = _arpaContext.Remove(position);
                 }
 
                 if (updateList.Count == 0)
@@ -129,24 +128,23 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
                 }
 
                 IEnumerable<Guid> existingSelectValueSectionIds = collectionToUpdate.Select(p => p.SelectValueSectionId);
-                foreach (Guid selectValueSectionId in updateList)
+                foreach (Guid selectValueSectionId in from Guid selectValueSectionId in updateList
+                                                     where !existingSelectValueSectionIds.Contains(selectValueSectionId)
+                                                     select selectValueSectionId)
                 {
-                    if (!existingSelectValueSectionIds.Contains(selectValueSectionId))
-                    {
-                        _ = _arpaContext.Add(new MusicianProfilePositionInner(selectValueSectionId, musicianProfileId));
-                    }
+                    _ = _arpaContext.Add(new MusicianProfilePositionInner(selectValueSectionId, musicianProfileId));
                 }
             }
 
             private void UpdatePreferredPositionsTeam(ICollection<MusicianProfilePositionTeam> collectionToUpdate, IList<Guid> updateList, Guid musicianProfileId)
             {
-                foreach (MusicianProfilePositionTeam position in collectionToUpdate)
+                foreach (MusicianProfilePositionTeam position in from MusicianProfilePositionTeam position in collectionToUpdate
+                                         where !updateList.Contains(position.SelectValueSectionId)
+                                         select position)
                 {
-                    if (!updateList.Contains(position.SelectValueSectionId))
-                    {
-                        _ = _arpaContext.Remove(position);
-                    }
+                    _ = _arpaContext.Remove(position);
                 }
+
 
                 if (updateList.Count == 0)
                 {
@@ -154,12 +152,11 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Commands
                 }
 
                 IEnumerable<Guid> existingSelectValueSectionIds = collectionToUpdate.Select(p => p.SelectValueSectionId);
-                foreach (Guid selectValueSectionId in updateList)
+                foreach (Guid selectValueSectionId in from Guid selectValueSectionId in updateList
+                                                     where !existingSelectValueSectionIds.Contains(selectValueSectionId)
+                                                     select selectValueSectionId)
                 {
-                    if (!existingSelectValueSectionIds.Contains(selectValueSectionId))
-                    {
-                        _ = _arpaContext.Add(new MusicianProfilePositionTeam(selectValueSectionId, musicianProfileId));
-                    }
+                    _ = _arpaContext.Add(new MusicianProfilePositionTeam(selectValueSectionId, musicianProfileId));
                 }
             }
         }
