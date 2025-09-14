@@ -88,53 +88,31 @@ jobs:
             echo "No SARIF file found"
             exit 1
           fi
-      - name: Upload SARIF files to GitHub Code Scanning
+      - name: Upload all SARIF files to GitHub Code Scanning
         run: |
           file_count="${{ steps.process_sarif.outputs.file_count }}"
           echo "Found $file_count SARIF file(s) to upload"
 
-          # Create a script to upload each file using the CodeQL action
+          # Upload each file individually using the CodeQL action CLI
           for i in $(seq 0 $((file_count-1))); do
             filename="snyk_${i}.sarif"
             if [ -f "$filename" ]; then
-              echo "Processing $filename for upload..."
-              echo "File exists and will be uploaded with category arpa-snyk-$i"
+              echo "Uploading $filename with category arpa-snyk-$i"
+
+              # Use GitHub CLI to upload via the CodeQL API
+              gh api \
+                --method POST \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "/repos/${{ github.repository }}/code-scanning/sarifs" \
+                --field commit_sha="${{ github.sha }}" \
+                --field ref="${{ github.ref }}" \
+                --field sarif="$(base64 -i $filename)" \
+                && echo "Successfully uploaded $filename" \
+                || echo "Failed to upload $filename"
             else
               echo "Warning: $filename not found"
             fi
           done
-      - name: Upload SARIF file 0
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk_0.sarif
-          category: arpa-snyk-0
-        continue-on-error: true
-      - name: Upload SARIF file 1
-        if: always() && hashFiles('snyk_1.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk_1.sarif
-          category: arpa-snyk-1
-        continue-on-error: true
-      - name: Upload SARIF file 2
-        if: always() && hashFiles('snyk_2.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk_2.sarif
-          category: arpa-snyk-2
-        continue-on-error: true
-      - name: Upload SARIF file 3
-        if: always() && hashFiles('snyk_3.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk_3.sarif
-          category: arpa-snyk-3
-        continue-on-error: true
-      - name: Upload SARIF file 4
-        if: always() && hashFiles('snyk_4.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk_4.sarif
-          category: arpa-snyk-4
-        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
