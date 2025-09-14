@@ -42,20 +42,40 @@ jobs:
 
               print(f'Found {len(sarif.get("runs", []))} runs in SARIF file')
 
-              for i, run in enumerate(sarif.get('runs', [])):
-                  if 'properties' not in run:
-                      run['properties'] = {}
-                  run['properties']['category'] = f'arpa-snyk-{i}'
+              # If there are multiple runs, we need to create separate SARIF files
+              # or modify the category at the tool level, not properties level
+              runs = sarif.get('runs', [])
 
-              with open('snyk_processed.sarif', 'w') as f:
-                  json.dump(sarif, f, indent=2)
+              if len(runs) <= 1:
+                  # Single run or no runs - just copy the file
+                  shutil.copy('snyk.sarif', 'snyk_processed.sarif')
+                  print('Single run detected, using original file')
+              else:
+                  # Multiple runs - create a single SARIF with unique categories
+                  for i, run in enumerate(runs):
+                      # Set category in the tool's properties, not run properties
+                      if 'tool' in run and 'driver' in run['tool']:
+                          if 'properties' not in run['tool']['driver']:
+                              run['tool']['driver']['properties'] = {}
+                          run['tool']['driver']['properties']['category'] = f'arpa-snyk-{i}'
 
-              print('SARIF file processed successfully')
+                      # Also set in run properties as backup
+                      if 'properties' not in run:
+                          run['properties'] = {}
+                      run['properties']['category'] = f'arpa-snyk-{i}'
+
+                  with open('snyk_processed.sarif', 'w') as f:
+                      json.dump(sarif, f, indent=2)
+
+                  print(f'Processed {len(runs)} runs with unique categories')
+
           except Exception as e:
               print(f'Error processing SARIF file: {e}')
+              import traceback
+              traceback.print_exc()
               try:
                   shutil.copy('snyk.sarif', 'snyk_processed.sarif')
-                  print('Using original SARIF file')
+                  print('Using original SARIF file due to processing error')
               except:
                   print('Failed to copy original file')
                   sys.exit(1)
