@@ -26,7 +26,8 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif --file=./Orso.Arpa.Api.sln --severity-threshold=medium
-      - name: Process SARIF file to ensure unique categories
+      - name: Process SARIF file to split multiple runs
+        id: process_sarif
         run: |
           if [ -f snyk.sarif ]; then
             echo "SARIF file found, processing..."
@@ -34,59 +35,78 @@ jobs:
             cat > process_sarif.py << 'EOF'
           import json
           import sys
-          import shutil
+          import os
 
           try:
               with open('snyk.sarif', 'r') as f:
                   sarif = json.load(f)
 
-              print(f'Found {len(sarif.get("runs", []))} runs in SARIF file')
-
-              # If there are multiple runs, we need to create separate SARIF files
-              # or modify the category at the tool level, not properties level
               runs = sarif.get('runs', [])
+              print(f'Found {len(runs)} runs in SARIF file')
 
               if len(runs) <= 1:
-                  # Single run or no runs - just copy the file
-                  shutil.copy('snyk.sarif', 'snyk_processed.sarif')
-                  print('Single run detected, using original file')
-              else:
-                  # Multiple runs - create a single SARIF with unique categories
-                  for i, run in enumerate(runs):
-                      # Set category in the tool's properties, not run properties
-                      if 'tool' in run and 'driver' in run['tool']:
-                          if 'properties' not in run['tool']['driver']:
-                              run['tool']['driver']['properties'] = {}
-                          run['tool']['driver']['properties']['category'] = f'arpa-snyk-{i}'
-
-                      # Also set in run properties as backup
-                      if 'properties' not in run:
-                          run['properties'] = {}
-                      run['properties']['category'] = f'arpa-snyk-{i}'
-
-                  with open('snyk_processed.sarif', 'w') as f:
+                  # Single run or no runs - create one file
+                  with open('snyk_0.sarif', 'w') as f:
                       json.dump(sarif, f, indent=2)
+                  print('file_count=1')
+              else:
+                  # Multiple runs - create separate SARIF files for each run
+                  for i, run in enumerate(runs):
+                      # Create a new SARIF structure with only one run
+                      single_run_sarif = {
+                          '$schema': sarif.get('$schema', 'https://json.schemastore.org/sarif-2.1.0.json'),
+                          'version': sarif.get('version', '2.1.0'),
+                          'runs': [run]
+                      }
 
-                  print(f'Processed {len(runs)} runs with unique categories')
+                      filename = f'snyk_{i}.sarif'
+                      with open(filename, 'w') as f:
+                          json.dump(single_run_sarif, f, indent=2)
+                      print(f'Created {filename}')
+
+                  print(f'file_count={len(runs)}')
 
           except Exception as e:
               print(f'Error processing SARIF file: {e}')
               import traceback
               traceback.print_exc()
+              # Fallback: create one file with original content
               try:
-                  shutil.copy('snyk.sarif', 'snyk_processed.sarif')
-                  print('Using original SARIF file due to processing error')
+                  import shutil
+                  shutil.copy('snyk.sarif', 'snyk_0.sarif')
+                  print('file_count=1')
               except:
-                  print('Failed to copy original file')
+                  print('Failed to create fallback file')
                   sys.exit(1)
           EOF
 
-            python3 process_sarif.py
+            output=$(python3 process_sarif.py)
+            echo "$output"
+            file_count=$(echo "$output" | grep "file_count=" | cut -d'=' -f2)
+            echo "file_count=$file_count" >> $GITHUB_OUTPUT
           else
             echo "No SARIF file found"
             exit 1
           fi
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk_processed.sarif
+      - name: Upload SARIF files to GitHub Code Scanning
+        run: |
+          file_count="${{ steps.process_sarif.outputs.file_count }}"
+          echo "Uploading $file_count SARIF file(s)"
+
+          for i in $(seq 0 $((file_count-1))); do
+            filename="snyk_${i}.sarif"
+            if [ -f "$filename" ]; then
+              echo "Uploading $filename with category arpa-snyk-$i"
+              gh api \
+                --method POST \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "/repos/${{ github.repository }}/code-scanning/sarifs" \
+                -f sarif="$(cat $filename | base64 -w 0)" \
+                -f ref="${{ github.ref }}" \
+                -f commit_sha="${{ github.sha }}" \
+                -f category="arpa-snyk-$i" || echo "Failed to upload $filename"
+            fi
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
