@@ -32,7 +32,7 @@ jobs:
     - name: Run Application Unit Tests
       run: dotnet test ./Tests/Orso.Arpa.Application.Tests/Orso.Arpa.Application.Tests.csproj --no-build --verbosity normal --configuration Release
     - name: Setup Node.js environment
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v5
     - name: Install Azurite Emulator
       run: npm install -g azurite
     - name: Run Azurite in Background
