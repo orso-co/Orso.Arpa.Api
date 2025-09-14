@@ -29,14 +29,28 @@ jobs:
       - name: Process SARIF file to ensure unique categories
         run: |
           if [ -f snyk.sarif ]; then
-            # Add a unique identifier to each run in the SARIF file
-            python3 -c "
+            echo "SARIF file found, processing..."
+            # Ensure file permissions are correct
+            chmod 644 snyk.sarif
+            ls -la snyk.sarif
+
+            # Create a Python script to process the SARIF file
+            cat > process_sarif.py << 'EOF'
           import json
           import sys
+          import os
 
           try:
+              # Check if file exists and is readable
+              if not os.path.exists('snyk.sarif'):
+                  print('SARIF file does not exist')
+                  sys.exit(1)
+
+              # Read the SARIF file
               with open('snyk.sarif', 'r') as f:
                   sarif = json.load(f)
+
+              print(f'Found {len(sarif.get("runs", []))} runs in SARIF file')
 
               # Ensure each run has a unique category
               for i, run in enumerate(sarif.get('runs', [])):
@@ -44,14 +58,24 @@ jobs:
                       run['properties'] = {}
                   run['properties']['category'] = f'arpa-snyk-{i}'
 
-              with open('snyk.sarif', 'w') as f:
+              # Write back to a temporary file first
+              with open('snyk_processed.sarif', 'w') as f:
                   json.dump(sarif, f, indent=2)
+
+              # Replace the original file
+              os.rename('snyk_processed.sarif', 'snyk.sarif')
 
               print('SARIF file processed successfully')
           except Exception as e:
               print(f'Error processing SARIF file: {e}')
+              import traceback
+              traceback.print_exc()
               sys.exit(1)
-          "
+          EOF
+
+            python3 process_sarif.py
+          else
+            echo "No SARIF file found"
           fi
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
