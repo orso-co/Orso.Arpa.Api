@@ -26,8 +26,34 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif --file=./Orso.Arpa.Api.sln --severity-threshold=medium
+      - name: Process SARIF file to ensure unique categories
+        run: |
+          if [ -f snyk.sarif ]; then
+            # Add a unique identifier to each run in the SARIF file
+            python3 -c "
+          import json
+          import sys
+
+          try:
+              with open('snyk.sarif', 'r') as f:
+                  sarif = json.load(f)
+
+              # Ensure each run has a unique category
+              for i, run in enumerate(sarif.get('runs', [])):
+                  if 'properties' not in run:
+                      run['properties'] = {}
+                  run['properties']['category'] = f'arpa-snyk-{i}'
+
+              with open('snyk.sarif', 'w') as f:
+                  json.dump(sarif, f, indent=2)
+
+              print('SARIF file processed successfully')
+          except Exception as e:
+              print(f'Error processing SARIF file: {e}')
+              sys.exit(1)
+          "
+          fi
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk.sarif
-          category: "arpa-snyk"
