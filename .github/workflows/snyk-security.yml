@@ -99,6 +99,9 @@ jobs:
             if [ -f "$filename" ]; then
               echo "Uploading $filename with category arpa-snyk-$i"
 
+              # Gzip and base64 encode the SARIF file as required by GitHub API
+              sarif_content=$(gzip -c "$filename" | base64 -w 0)
+
               # Use GitHub CLI to upload via the CodeQL API
               gh api \
                 --method POST \
@@ -107,7 +110,7 @@ jobs:
                 "/repos/${{ github.repository }}/code-scanning/sarifs" \
                 --field commit_sha="${{ github.sha }}" \
                 --field ref="${{ github.ref }}" \
-                --field sarif="$(base64 -i $filename)" \
+                --field sarif="$sarif_content" \
                 && echo "Successfully uploaded $filename" \
                 || echo "Failed to upload $filename"
             else
