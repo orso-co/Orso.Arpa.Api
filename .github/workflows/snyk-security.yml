@@ -105,12 +105,6 @@ jobs:
             echo "Number of results in processed: $(jq '[.runs[].results] | add | length' snyk_0.sarif 2>/dev/null || echo 'unknown')"
             echo "Tool name: $(jq -r '.runs[0].tool.driver.name' snyk_0.sarif 2>/dev/null || echo 'unknown')"
           fi
-      - name: Upload original SARIF to GitHub Code Scanning (fallback)
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk.sarif
-          category: snyk-original
-        continue-on-error: true
       - name: Upload processed SARIF to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
