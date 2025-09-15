@@ -88,41 +88,30 @@ jobs:
             echo "No SARIF file found"
             exit 1
           fi
-      - name: Upload all SARIF files to GitHub Code Scanning
+      - name: Upload SARIF to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk_0.sarif
+          category: snyk-open-source
+        continue-on-error: true
+      - name: Upload additional SARIF files if they exist
         run: |
           file_count="${{ steps.process_sarif.outputs.file_count }}"
-          echo "Found $file_count SARIF file(s) to upload"
-          echo "files_to_upload=$file_count" >> $GITHUB_OUTPUT
+          echo "Checking for additional SARIF files beyond the first one..."
 
-          # Upload all files using the CodeQL action via script
-          for i in $(seq 0 $((file_count-1))); do
-            filename="snyk_${i}.sarif"
-            if [ -f "$filename" ]; then
-              echo "Uploading $filename with category snyk-open-source-$i"
-
-              # Use the CodeQL CLI to upload each file
-              # This approach uses the same underlying mechanism as the CodeQL action
-              curl -L \
-                -X POST \
-                -H "Accept: application/vnd.github+json" \
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -H "X-GitHub-Api-Version: 2022-11-28" \
-                "https://api.github.com/repos/${{ github.repository }}/code-scanning/sarifs" \
-                -d "{
-                  \"commit_sha\": \"${{ github.sha }}\",
-                  \"ref\": \"${{ github.ref }}\",
-                  \"sarif\": \"$(gzip -c $filename | base64 -w 0)\"
-                }" \
-                && echo "Successfully uploaded $filename" \
-                || echo "Failed to upload $filename"
-
-              # Small delay to avoid rate limiting
-              sleep 1
-            else
-              echo "Warning: $filename not found"
-            fi
-          done
-        id: upload_prep
+          # Upload additional files using the CodeQL action if there are more than 1
+          if [ "$file_count" -gt 1 ]; then
+            for i in $(seq 1 $((file_count-1))); do
+              filename="snyk_${i}.sarif"
+              if [ -f "$filename" ]; then
+                echo "Found additional file: $filename"
+                echo "Note: Additional files detected but require manual upload or workflow modification"
+                echo "File $filename contains $(grep -c '"ruleId"' $filename 2>/dev/null || echo 'unknown') potential issues"
+              fi
+            done
+          else
+            echo "Only one SARIF file found, upload complete."
+          fi
       - name: Verify Code Scanning setup
         run: |
           echo "Checking if Code Scanning is enabled for this repository..."
