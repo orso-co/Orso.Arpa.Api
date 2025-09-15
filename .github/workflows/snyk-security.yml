@@ -96,6 +96,15 @@ jobs:
             echo "Number of runs in original: $(jq '.runs | length' snyk.sarif 2>/dev/null || echo 'unknown')"
             echo "Number of results in original: $(jq '[.runs[].results] | add | length' snyk.sarif 2>/dev/null || echo 'unknown')"
             echo "Tool name: $(jq -r '.runs[0].tool.driver.name' snyk.sarif 2>/dev/null || echo 'unknown')"
+
+            # Show which runs have results
+            echo "Results per run in original:"
+            for i in $(seq 0 14); do
+              count=$(jq ".runs[$i].results | length" snyk.sarif 2>/dev/null || echo '0')
+              if [ "$count" -gt 0 ]; then
+                echo "  Run $i: $count results"
+              fi
+            done
           fi
 
           echo "=== Processed SARIF file analysis ==="
