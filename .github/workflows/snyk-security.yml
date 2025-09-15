@@ -111,9 +111,7 @@ jobs:
                 -d "{
                   \"commit_sha\": \"${{ github.sha }}\",
                   \"ref\": \"${{ github.ref }}\",
-                  \"sarif\": \"$(gzip -c $filename | base64 -w 0)\",
-                  \"category\": \"snyk-open-source-$i\",
-                  \"tool_name\": \"Snyk Open Source\"
+                  \"sarif\": \"$(gzip -c $filename | base64 -w 0)\"
                 }" \
                 && echo "Successfully uploaded $filename" \
                 || echo "Failed to upload $filename"
