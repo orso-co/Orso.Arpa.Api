@@ -88,11 +88,34 @@ jobs:
             echo "No SARIF file found"
             exit 1
           fi
-      - name: Upload SARIF to GitHub Code Scanning
+      - name: Debug SARIF content
+        run: |
+          echo "=== Original SARIF file analysis ==="
+          if [ -f snyk.sarif ]; then
+            echo "Original SARIF file size: $(wc -c < snyk.sarif) bytes"
+            echo "Number of runs in original: $(jq '.runs | length' snyk.sarif 2>/dev/null || echo 'unknown')"
+            echo "Number of results in original: $(jq '[.runs[].results] | add | length' snyk.sarif 2>/dev/null || echo 'unknown')"
+            echo "Tool name: $(jq -r '.runs[0].tool.driver.name' snyk.sarif 2>/dev/null || echo 'unknown')"
+          fi
+
+          echo "=== Processed SARIF file analysis ==="
+          if [ -f snyk_0.sarif ]; then
+            echo "Processed SARIF file size: $(wc -c < snyk_0.sarif) bytes"
+            echo "Number of runs in processed: $(jq '.runs | length' snyk_0.sarif 2>/dev/null || echo 'unknown')"
+            echo "Number of results in processed: $(jq '[.runs[].results] | add | length' snyk_0.sarif 2>/dev/null || echo 'unknown')"
+            echo "Tool name: $(jq -r '.runs[0].tool.driver.name' snyk_0.sarif 2>/dev/null || echo 'unknown')"
+          fi
+      - name: Upload original SARIF to GitHub Code Scanning (fallback)
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+          category: snyk-original
+        continue-on-error: true
+      - name: Upload processed SARIF to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk_0.sarif
-          category: snyk-open-source
+          category: snyk-processed
         continue-on-error: true
       - name: Upload additional SARIF files if they exist
         run: |
