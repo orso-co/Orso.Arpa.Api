@@ -97,7 +97,7 @@ jobs:
           for i in $(seq 0 $((file_count-1))); do
             filename="snyk_${i}.sarif"
             if [ -f "$filename" ]; then
-              echo "Uploading $filename with category arpa-snyk-$i"
+              echo "Uploading $filename"
 
               # Gzip and base64 encode the SARIF file as required by GitHub API
               sarif_content=$(gzip -c "$filename" | base64 -w 0)
@@ -113,9 +113,20 @@ jobs:
                 --field sarif="$sarif_content" \
                 && echo "Successfully uploaded $filename" \
                 || echo "Failed to upload $filename"
+
+              # Add a small delay between uploads to avoid rate limiting
+              sleep 2
             else
               echo "Warning: $filename not found"
             fi
           done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify Code Scanning setup
+        run: |
+          echo "Checking if Code Scanning is enabled for this repository..."
+          gh api "/repos/${{ github.repository }}/code-scanning/alerts" --paginate \
+            && echo "Code Scanning is properly configured" \
+            || echo "Code Scanning may not be enabled or no alerts exist yet"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
