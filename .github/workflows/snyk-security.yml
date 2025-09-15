@@ -105,30 +105,46 @@ jobs:
             echo "Number of results in processed: $(jq '[.runs[].results] | add | length' snyk_0.sarif 2>/dev/null || echo 'unknown')"
             echo "Tool name: $(jq -r '.runs[0].tool.driver.name' snyk_0.sarif 2>/dev/null || echo 'unknown')"
           fi
-      - name: Upload processed SARIF to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk_0.sarif
-          category: snyk-processed
-        continue-on-error: true
-      - name: Upload additional SARIF files if they exist
+      - name: Upload all SARIF files with results
         run: |
           file_count="${{ steps.process_sarif.outputs.file_count }}"
-          echo "Checking for additional SARIF files beyond the first one..."
+          echo "Checking all $file_count SARIF files for results..."
 
-          # Upload additional files using the CodeQL action if there are more than 1
-          if [ "$file_count" -gt 1 ]; then
-            for i in $(seq 1 $((file_count-1))); do
-              filename="snyk_${i}.sarif"
-              if [ -f "$filename" ]; then
-                echo "Found additional file: $filename"
-                echo "Note: Additional files detected but require manual upload or workflow modification"
-                echo "File $filename contains $(grep -c '"ruleId"' $filename 2>/dev/null || echo 'unknown') potential issues"
+          uploaded_files=0
+          for i in $(seq 0 $((file_count-1))); do
+            filename="snyk_${i}.sarif"
+            if [ -f "$filename" ]; then
+              # Check if this file has any results
+              result_count=$(jq '[.runs[].results] | add | length' "$filename" 2>/dev/null || echo '0')
+              echo "File $filename has $result_count results"
+
+              if [ "$result_count" -gt 0 ]; then
+                echo "Uploading $filename with $result_count results using category snyk-$i"
+
+                # Upload this file since it has results
+                curl -L \
+                  -X POST \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
+                  "https://api.github.com/repos/${{ github.repository }}/code-scanning/sarifs" \
+                  -d "{
+                    \"commit_sha\": \"${{ github.sha }}\",
+                    \"ref\": \"${{ github.ref }}\",
+                    \"sarif\": \"$(gzip -c $filename | base64 -w 0)\"
+                  }" \
+                  && echo "Successfully uploaded $filename" \
+                  || echo "Failed to upload $filename"
+
+                uploaded_files=$((uploaded_files + 1))
+                sleep 1
+              else
+                echo "Skipping $filename (no results)"
               fi
-            done
-          else
-            echo "Only one SARIF file found, upload complete."
-          fi
+            fi
+          done
+
+          echo "Uploaded $uploaded_files files with results"
       - name: Verify Code Scanning setup
         run: |
           echo "Checking if Code Scanning is enabled for this repository..."
