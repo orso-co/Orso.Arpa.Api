@@ -88,47 +88,18 @@ jobs:
             echo "No SARIF file found"
             exit 1
           fi
-      - name: Debug SARIF content
-        run: |
-          echo "=== Original SARIF file analysis ==="
-          if [ -f snyk.sarif ]; then
-            echo "Original SARIF file size: $(wc -c < snyk.sarif) bytes"
-            echo "Number of runs in original: $(jq '.runs | length' snyk.sarif 2>/dev/null || echo 'unknown')"
-            echo "Number of results in original: $(jq '[.runs[].results] | add | length' snyk.sarif 2>/dev/null || echo 'unknown')"
-            echo "Tool name: $(jq -r '.runs[0].tool.driver.name' snyk.sarif 2>/dev/null || echo 'unknown')"
-
-            # Show which runs have results
-            echo "Results per run in original:"
-            for i in $(seq 0 14); do
-              count=$(jq ".runs[$i].results | length" snyk.sarif 2>/dev/null || echo '0')
-              if [ "$count" -gt 0 ]; then
-                echo "  Run $i: $count results"
-              fi
-            done
-          fi
-
-          echo "=== Processed SARIF file analysis ==="
-          if [ -f snyk_0.sarif ]; then
-            echo "Processed SARIF file size: $(wc -c < snyk_0.sarif) bytes"
-            echo "Number of runs in processed: $(jq '.runs | length' snyk_0.sarif 2>/dev/null || echo 'unknown')"
-            echo "Number of results in processed: $(jq '[.runs[].results] | add | length' snyk_0.sarif 2>/dev/null || echo 'unknown')"
-            echo "Tool name: $(jq -r '.runs[0].tool.driver.name' snyk_0.sarif 2>/dev/null || echo 'unknown')"
-          fi
-      - name: Upload all SARIF files with results
+      - name: Upload SARIF files with results
         run: |
           file_count="${{ steps.process_sarif.outputs.file_count }}"
-          echo "Checking all $file_count SARIF files for results..."
-
-          uploaded_files=0
+          echo "Processing $file_count SARIF files..."          uploaded_files=0
           for i in $(seq 0 $((file_count-1))); do
             filename="snyk_${i}.sarif"
             if [ -f "$filename" ]; then
               # Check if this file has any results
               result_count=$(jq '[.runs[].results] | add | length' "$filename" 2>/dev/null || echo '0')
-              echo "File $filename has $result_count results"
 
               if [ "$result_count" -gt 0 ]; then
-                echo "Uploading $filename with $result_count results using category snyk-$i"
+                echo "Uploading $filename with $result_count results"
 
                 # Upload this file since it has results
                 curl -L \
@@ -142,8 +113,8 @@ jobs:
                     \"ref\": \"${{ github.ref }}\",
                     \"sarif\": \"$(gzip -c $filename | base64 -w 0)\"
                   }" \
-                  && echo "Successfully uploaded $filename" \
-                  || echo "Failed to upload $filename"
+                  && echo "✓ Successfully uploaded $filename" \
+                  || echo "✗ Failed to upload $filename"
 
                 uploaded_files=$((uploaded_files + 1))
                 sleep 1
