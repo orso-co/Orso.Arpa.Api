@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -30,11 +29,11 @@ namespace Orso.Arpa.Mail
         }
 
         public async Task SendTemplatedEmailAsync(
-            ITemplate templateData, 
-            string receipientMail, 
+            ITemplate templateData,
+            string receipientMail,
             IList<EmailAttachment> attachments = null)
         {
-            await SendTemplatedEmailAsync(templateData, new string[1] { receipientMail }, attachments);
+            await SendTemplatedEmailAsync(templateData, [receipientMail], attachments);
         }
 
         public async Task SendTemplatedEmailAsync(

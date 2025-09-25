@@ -50,7 +50,7 @@ namespace Orso.Arpa.Api.Middleware
             Exception ex)
         {
             ValidationProblemDetails errorMessage = null;
-            string errorLogMessage = null;
+            string errorLogMessage = ex.Message;
 
             switch (ex)
             {
@@ -123,7 +123,7 @@ namespace Orso.Arpa.Api.Middleware
                         Title = "Resource not found.",
                         Status = (int)HttpStatusCode.NotFound
                     };
-                    errorMessage.Errors.Add(nfe.PropertyName, new string[] { nfe.Message });
+                    errorMessage.Errors.Add(nfe.PropertyName, [nfe.Message]);
                     _logger.LogWarning(nfe, "NOT FOUND ERROR");
                     break;
 
@@ -177,18 +177,17 @@ namespace Orso.Arpa.Api.Middleware
             }
 
             context.Response.StatusCode = errorMessage?.Status ?? 500;
-
-            if (errorLogMessage != null)
-            {
-                context.Items.Add(
-                    SensibleRequestDataShadower.ASPNET_REQUEST_POSTED_BODY_SHADOWED,
-                    await SensibleRequestDataShadower.ShadowSensibleDataForLoggingAsync(context.Request.Body));
-#pragma warning disable CA2254 // Template should be a static expression
-                _logger.LogError(ex, message: errorLogMessage);
-#pragma warning restore CA2254 // Template should be a static expression
-            }
-
+            context.Items.Add(
+                SensibleRequestDataShadower.ASPNET_REQUEST_POSTED_BODY_SHADOWED,
+                await SensibleRequestDataShadower.ShadowSensibleDataForLoggingAsync(context.Request.Body)
+            );
             context.Response.ContentType = MediaTypeNames.Application.Json;
+
+            _logger.LogError(ex, message: "{ErrorLogMessage}", errorLogMessage);
+            if (ex.InnerException != null)
+            {
+                _logger.LogError(ex.InnerException, message: "{ErrorLogMessage} - INNER EXCEPTION", errorLogMessage);
+            }
 
             var serializedErrorMessage = JsonSerializer.Serialize(errorMessage, s_serializerOptions);
             await context.Response.WriteAsync(serializedErrorMessage);
