@@ -5,7 +5,7 @@ namespace Orso.Arpa.Domain.LocalizationDomain.Model
 {
     public class Localization : BaseEntity
     {
-        public Localization(Guid? id, string key, string text, string localizationCulture, string resourceKey) : base(id)
+        public Localization(Guid id, string key, string text, string localizationCulture, string resourceKey) : base(id)
         {
             Key = key;
             Text = text;
