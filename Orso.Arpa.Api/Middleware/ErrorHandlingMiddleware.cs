@@ -50,7 +50,7 @@ namespace Orso.Arpa.Api.Middleware
             Exception ex)
         {
             ValidationProblemDetails errorMessage = null;
-            string errorLogMessage = ex.Message;
+            string errorLogMessage = null;
 
             switch (ex)
             {
@@ -183,10 +183,13 @@ namespace Orso.Arpa.Api.Middleware
             );
             context.Response.ContentType = MediaTypeNames.Application.Json;
 
-            _logger.LogError(ex, message: "{ErrorLogMessage}", errorLogMessage);
-            if (ex.InnerException != null)
+            if (errorLogMessage != null)
             {
-                _logger.LogError(ex.InnerException, message: "{ErrorLogMessage} - INNER EXCEPTION", errorLogMessage);
+                _logger.LogError(ex, message: "{ErrorLogMessage}", errorLogMessage);
+                if (ex.InnerException != null)
+                {
+                    _logger.LogError(ex.InnerException, message: "{ErrorLogMessage} - INNER EXCEPTION", errorLogMessage);
+                }
             }
 
             var serializedErrorMessage = JsonSerializer.Serialize(errorMessage, s_serializerOptions);
