@@ -11,7 +11,7 @@ resources:
     name: orso-co/orso-arpa-web-extended
     ref: main
     trigger:
-    - staging
+    - main # todo: change to staging after go live
 
 trigger:
 - develop
