@@ -200,7 +200,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 Gender = SelectValueDtoData.Female,
                 ExperienceLevel = modifyDto.ExperienceLevel,
                 Reliability = modifyDto.Reliability,
-                GeneralPreference = modifyDto.GeneralPreference
+                GeneralPreference = modifyDto.GeneralPreference,
+                DisplayName = "Tommy Bones"
             };
             expectedDto.ContactsRecommended.Add(ReducedPersonDtoData.UnconfirmedUser);
 
@@ -291,7 +292,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                 ContactVia = ReducedPersonDtoData.DeletedUser,
                 ExperienceLevel = createDto.ExperienceLevel,
                 Reliability = createDto.Reliability,
-                GeneralPreference = createDto.GeneralPreference
+                GeneralPreference = createDto.GeneralPreference,
+                DisplayName = "Per Son"
             };
 
             // Act

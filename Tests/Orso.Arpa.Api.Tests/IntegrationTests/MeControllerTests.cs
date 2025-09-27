@@ -151,7 +151,8 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
                     CreatedAt = FakeDateTime.UtcNow,
                     CreatedBy = "anonymous",
                     Gender = SelectValueDtoData.Female,
-                    StakeholderGroups = sourcePerson.StakeholderGroups
+                    StakeholderGroups = sourcePerson.StakeholderGroups,
+                    DisplayName = "changedPer changedFormer"
                 }
             };
 
