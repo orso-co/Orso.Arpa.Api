@@ -61,6 +61,8 @@ namespace Orso.Arpa.Application.PersonApplication.Model
         public IList<AddressDto> Addresses { get; set; } = [];
 
         public IList<SectionDto> StakeholderGroups { get; set; } = [];
+
+        public string DisplayName { get; set; }
     }
 
     public class PersonDtoMappingProfile : Profile
