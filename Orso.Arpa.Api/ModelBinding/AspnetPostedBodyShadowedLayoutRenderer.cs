@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text;
 using NLog;
 using NLog.LayoutRenderers;
@@ -9,9 +10,9 @@ namespace Orso.Arpa.Api.ModelBinding
     [LayoutRenderer(SensibleRequestDataShadower.ASPNET_REQUEST_POSTED_BODY_SHADOWED)]
     public class AspnetPostedBodyShadowedLayoutRenderer : AspNetLayoutRendererBase
     {
-        protected override void DoAppend(StringBuilder builder, LogEventInfo logEvent)
+        protected override void Append(StringBuilder builder, LogEventInfo logEvent)
         {
-            System.Collections.Generic.IDictionary<object, object> items = HttpContextAccessor.HttpContext?.Items;
+            IDictionary<object, object> items = HttpContextAccessor.HttpContext?.Items;
             if (items == null || items.Count == 0)
             {
                 return;

@@ -29,7 +29,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
 
         public async Task Handle(PersonDeletedNotification notification, CancellationToken cancellationToken)
         {
-            IList<Person> personsWithContactVia = await _arpaContext.Set<Person>()
+            List<Person> personsWithContactVia = await _arpaContext.Set<Person>()
                 .Where(a => notification.Id.Equals(a.ContactViaId))
                 .ToListAsync(cancellationToken);
 

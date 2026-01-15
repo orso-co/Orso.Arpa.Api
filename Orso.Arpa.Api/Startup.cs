@@ -11,8 +11,10 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using HotChocolate.Data;
 using HotChocolate.Execution.Configuration;
 using HotChocolate.Types;
+using HotChocolate.Types.Pagination;
 using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -101,6 +103,7 @@ using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
+using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -113,12 +116,9 @@ using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence;
 using Orso.Arpa.Persistence.DataAccess;
 using Orso.Arpa.Persistence.GraphQL;
-using SixLabors.ImageSharp.Web.Caching;
 using SixLabors.ImageSharp.Web.Caching.Azure;
-using SixLabors.ImageSharp.Web.Commands;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Providers;
-using SixLabors.ImageSharp.Web.Providers.Azure;
 using Yoh.Text.Json.NamingPolicies;
 using User = Orso.Arpa.Domain.UserDomain.Model.User;
 
@@ -127,14 +127,11 @@ namespace Orso.Arpa.Api
     public class Startup
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
-        private ILogger<Startup> _logger;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
-            // Initialize with a null logger initially
-            _logger = null;
         }
 
         public IConfiguration Configuration
@@ -200,114 +197,63 @@ namespace Orso.Arpa.Api
 
             ConfigureIpRateLimiting(services);
 
-            ConfigureStorage(services);
+            ConfigureStorageAccount(services);
 
             // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
         }
 
-        private void ConfigureStorage(IServiceCollection services)
+        private void ConfigureStorageAccount(IServiceCollection services)
         {
-            // Check if we're running on Raspberry Pi environment
-            bool isRaspberryPi = _hostingEnvironment.EnvironmentName.Equals("RaspberryPi", StringComparison.OrdinalIgnoreCase);
+            var storageType = Configuration.GetValue<string>("LocalStorageConfiguration:StorageType") ?? "Azure";
 
-            // Get storage configuration
-            var storageConfig = Configuration.GetSection("Storage");
-            var useLocalStorage = storageConfig.GetValue<bool>("UseLocalStorage") || isRaspberryPi;
-
-            // Initialize ImageSharp builder
-            var imageSharpBuilder = services.AddImageSharp();
-
-            // Don't use logger yet, as it might not be initialized
-            Console.WriteLine($"Environment: {_hostingEnvironment.EnvironmentName}, Using local storage: {useLocalStorage}");
-
-            if (useLocalStorage)
+            if (storageType.Equals("Local", StringComparison.OrdinalIgnoreCase))
             {
-                // Get the local cache folder path
-                string localCacheFolder = storageConfig.GetValue<string>("LocalCacheFolder");
-
-                if (string.IsNullOrEmpty(localCacheFolder))
-                {
-                    localCacheFolder = Path.Combine(Path.GetTempPath(), "ImageSharpCache");
-                    Console.WriteLine($"WARNING: LocalCacheFolder not specified, using temp directory: {localCacheFolder}");
-                }
-
-                // Ensure the directory exists
-                try
-                {
-                    if (!Directory.Exists(localCacheFolder))
-                    {
-                        Console.WriteLine($"INFO: Creating cache directory: {localCacheFolder}");
-                        Directory.CreateDirectory(localCacheFolder);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"ERROR: Failed to create cache directory {localCacheFolder}. Falling back to temp directory. Exception: {ex.Message}");
-                    localCacheFolder = Path.Combine(Path.GetTempPath(), "ImageSharpCache");
-                    Directory.CreateDirectory(localCacheFolder);
-                }
-
-                // Configure ImageSharp for local file system
-                imageSharpBuilder
-                    .SetRequestParser<QueryCollectionRequestParser>()
-                    .Configure<PhysicalFileSystemCacheOptions>(options =>
-                    {
-                        options.CacheFolder = localCacheFolder;
-                    });
-                
-                // Create a simple provider that doesn't rely on wwwroot
-                // This is a non-standard approach, but necessary for container environments
-                // where the wwwroot might not exist or be accessible
-                services.AddSingleton<IImageProvider, DummyImageProvider>();
-                
-                Console.WriteLine("Configured DummyImageProvider instead of PhysicalFileSystemProvider for Raspberry Pi environment");
-
-                // Log which provider is being used
-                Console.WriteLine($"INFO: Using local file system storage for ImageSharp: {localCacheFolder}");
+                ConfigureLocalStorage(services);
             }
             else
             {
-                // Only configure Azure if not on Raspberry Pi
-                // Get Azure configuration
-                var azureConnectionString = Configuration.GetValue<string>("AzureStorageConnectionString");
-                var containerName = Configuration.GetValue<string>("AzureStorage:ContainerName") ?? "imagesharp-cache";
-
-                if (string.IsNullOrEmpty(azureConnectionString))
-                {
-                    Console.WriteLine("ERROR: AzureStorageConnectionString is missing. Cannot configure Azure storage.");
-                    throw new InvalidOperationException("Azure Storage connection string is missing from configuration");
-                }
-
-                try
-                {
-                    // Configure for Azure Blob Storage
-                    imageSharpBuilder
-                        .SetRequestParser<QueryCollectionRequestParser>()
-                        .Configure<AzureBlobStorageCacheOptions>(options =>
-                        {
-                            options.ConnectionString = azureConnectionString;
-                            options.ContainerName = containerName;
-                        })
-                        .AddProvider<AzureBlobStorageImageProvider>();
-
-                    // Try to initialize the container if it doesn't exist
-                    var blobServiceClient = new BlobServiceClient(azureConnectionString);
-                    var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
-                    _ = containerClient.CreateIfNotExists(PublicAccessType.None);
-
-                    // Register needed Azure services
-                    services.AddScoped(_ => new BlobServiceClient(azureConnectionString));
-                    services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
-
-                    // Log which provider is being used
-                    Console.WriteLine($"INFO: Using Azure Blob Storage for ImageSharp: {containerName}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"ERROR: Failed to initialize Azure Blob Storage. Exception: {ex.Message}");
-                    throw; // Re-throw to fail startup - we don't want a silent fallback in production
-                }
+                ConfigureAzureStorage(services);
             }
+        }
+
+        private void ConfigureAzureStorage(IServiceCollection services)
+        {
+            var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
+            _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
+            _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
+            _ = services.AddImageSharp()
+                .RemoveProvider<PhysicalFileSystemProvider>()
+                .AddProvider<ArpaProfilePictureProvider>()
+                .Configure<AzureBlobStorageCacheOptions>(options =>
+                {
+                    options.ConnectionString = connectionString;
+                    options.ContainerName = "image-sharp-cache";
+                    _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
+                }).SetCache<AzureBlobStorageCache>();
+        }
+
+        private void ConfigureLocalStorage(IServiceCollection services)
+        {
+            _ = services.AddScoped<IFileAccessor, LocalStorageProfilePictureAccessor>();
+
+            var cachePath = Configuration.GetValue<string>("LocalStorageConfiguration:ImageCachePath")
+                ?? "/data/image-cache";
+
+            // Ensure cache directory exists
+            if (!Directory.Exists(cachePath))
+            {
+                Directory.CreateDirectory(cachePath);
+            }
+
+            _ = services.AddImageSharp()
+                .RemoveProvider<PhysicalFileSystemProvider>()
+                .AddProvider<LocalProfilePictureProvider>()
+                .Configure<SixLabors.ImageSharp.Web.Caching.PhysicalFileSystemCacheOptions>(options =>
+                {
+                    options.CacheRootPath = cachePath;
+                    options.CacheFolder = "cache";
+                })
+                .SetCache<SixLabors.ImageSharp.Web.Caching.PhysicalFileSystemCache>();
         }
 
         private void ConfigureIpRateLimiting(IServiceCollection services)
@@ -446,7 +392,7 @@ namespace Orso.Arpa.Api
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme (hint: Bearer token part should be appended with 'Bearer')",
+                    Description = "JWT Authorization header using the Bearer scheme (hint: Bearer token part should be appended with ‘Bearer’)",
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -627,29 +573,6 @@ namespace Orso.Arpa.Api
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Initialize the logger from the service provider after DI container is built
-            if (_logger == null)
-            {
-                // Get logger from the app's service provider
-                _logger = app.ApplicationServices.GetRequiredService<ILogger<Startup>>();
-                _logger.LogInformation("Startup logger initialized in Configure method");
-            }
-            
-            // Ensure wwwroot directory exists
-            string wwwrootPath = Path.Combine(env.ContentRootPath, "wwwroot");
-            if (!Directory.Exists(wwwrootPath))
-            {
-                Console.WriteLine($"Creating missing wwwroot directory: {wwwrootPath}");
-                Directory.CreateDirectory(wwwrootPath);
-                
-                // Create a test file in the wwwroot directory
-                string testFilePath = Path.Combine(wwwrootPath, "test.png");
-                if (!File.Exists(testFilePath))
-                {
-                    File.WriteAllText(testFilePath, "test");
-                }
-            }
-            
             _ = app.UseIpRateLimiting();
 
             _ = app.UseRequestLocalization();
@@ -674,16 +597,7 @@ namespace Orso.Arpa.Api
             _ = app.UseAuthentication();
             _ = app.UseAuthorization();
 
-            // Only use ImageSharp if we're not in Raspberry Pi environment
-            if (!_hostingEnvironment.EnvironmentName.Equals("RaspberryPi", StringComparison.OrdinalIgnoreCase))
-            {
-                _ = app.UseImageSharp();
-                Console.WriteLine("INFO: ImageSharp middleware enabled");
-            }
-            else
-            {
-                Console.WriteLine("INFO: ImageSharp middleware disabled for Raspberry Pi environment");
-            }
+            _ = app.UseImageSharp();
 
             _ = app.UseDefaultFiles(); // use index.html
             _ = app.UseStaticFiles();
@@ -724,7 +638,7 @@ namespace Orso.Arpa.Api
                     .ConnectSources(s => s.Self().CustomSources("fonts.gstatic.com"))
                     .WorkerSources(s => s.Self())
                     .FontSources(s => s.Self().CustomSources("fonts.gstatic.com", "data:"))
-            );
+                );
 
             if (env.IsProduction())
             {
@@ -748,30 +662,15 @@ namespace Orso.Arpa.Api
             IServiceProvider services = scope.ServiceProvider;
             try
             {
-                Console.WriteLine("INFO: Starting database migration...");
                 ArpaContext context = services.GetRequiredService<ArpaContext>();
                 context.Database.Migrate();
-                Console.WriteLine("INFO: Database migration completed successfully");
-                
-                Console.WriteLine("INFO: Seeding initial data...");
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
-                Console.WriteLine("INFO: Initial data seeding completed successfully");
             }
             catch (Exception ex)
             {
-                // Try to get logger, but fall back to console if it fails
-                try 
-                {
-                    ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                    logger.LogError(ex, "An error occured during database migration");
-                }
-                catch 
-                {
-                    Console.WriteLine($"ERROR: An error occured during database migration: {ex.Message}");
-                    Console.WriteLine(ex.StackTrace);
-                }
-                
+                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                logger.LogError(ex, "An error occured during database migration");
                 throw new SystemStartException("An error occured during database migration", ex);
             }
         }
@@ -782,25 +681,13 @@ namespace Orso.Arpa.Api
             IServiceProvider services = scope.ServiceProvider;
             try
             {
-                Console.WriteLine("INFO: Preloading translations from database...");
                 ILocalizerCache localizerCache = services.GetRequiredService<ILocalizerCache>();
                 _ = localizerCache.LoadTranslations();
-                Console.WriteLine("INFO: Translation preloading completed successfully");
             }
             catch (Exception ex)
             {
-                // Try to get logger, but fall back to console if it fails
-                try 
-                {
-                    ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
-                    logger.LogError(ex, "Error during preload of localization data from database");
-                }
-                catch 
-                {
-                    Console.WriteLine($"ERROR: Error during preload of localization data from database: {ex.Message}");
-                    Console.WriteLine(ex.StackTrace);
-                }
-                
+                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
+                logger.LogError(ex, "Error during preload of localization data from database");
                 throw new SystemStartException("Error during preload of localization data from database", ex);
             }
         }

@@ -46,7 +46,7 @@ namespace Orso.Arpa.Domain.General.Extensions
             //create a lambda with the New
             //Expression as body and our param object[] as arg
             LambdaExpression lambda =
-                Expression.Lambda(typeof(ObjectActivator<T>), newExp, param);
+                Expression.Lambda<ObjectActivator<T>>(newExp, param);
 
             //compile it
             var compiled = (ObjectActivator<T>)lambda.Compile();

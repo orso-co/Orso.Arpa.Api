@@ -11,7 +11,7 @@ resources:
     name: orso-co/orso-arpa-web-extended
     ref: main
     trigger:
-    - staging
+    - main # todo: change to staging after go live
 
 trigger:
 - develop
@@ -70,7 +70,7 @@ steps:
     zipAfterPublish: false
 - task: NodeTool@0
   inputs:
-    versionSpec: '18.19'
+    versionSpec: '24.x'
   displayName: 'Install Node.js'
 - script: npm ci
   displayName: 'Install Frontend Dependencies'

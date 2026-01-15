@@ -31,7 +31,7 @@ namespace Orso.Arpa.Domain.General.GenericHandlers
                 ConstructorInfo ctor = typeof(TEntity).GetConstructor(
                     BindingFlags.Instance | BindingFlags.Public,
                     null,
-                    new Type[] { typeof(Guid?), request.GetType() },
+                    [typeof(Guid?), request.GetType()],
                     null);
 
                 ObjectActivator<TEntity> createdActivator = GetActivator<TEntity>(ctor);
@@ -44,7 +44,7 @@ namespace Orso.Arpa.Domain.General.GenericHandlers
                 {
                     // if we return createResult.Entity directly, some navigation properties may not be loaded properly
                     _arpaContext.ClearChangeTracker();
-                    return await _arpaContext.Set<TEntity>().FindAsync(new object[] { createResult.Entity.Id }, cancellationToken);
+                    return await _arpaContext.Set<TEntity>().FindAsync([createResult.Entity.Id], cancellationToken);
                 }
 
                 throw new AffectedRowCountMismatchException(newEntity.GetType().Name);

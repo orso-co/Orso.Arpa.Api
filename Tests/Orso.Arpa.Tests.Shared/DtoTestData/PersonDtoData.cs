@@ -308,6 +308,7 @@ namespace Orso.Arpa.Tests.Shared.DtoTestData
                 ModifiedBy = person.ModifiedBy,
                 Surname = person.Surname,
                 CreatedAt = createdAt,
+                DisplayName = person.DisplayName
             };
         }
     }

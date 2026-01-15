@@ -40,7 +40,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Queries
 
             public async Task<IEnumerable<PersonGrouping>> Handle(Query request, CancellationToken cancellationToken)
             {
-                IList<Guid> musicianProfileIds = await _arpaContext.GetMusicianProfilesForAppointment(request.Appointment.Id)
+                List<Guid> musicianProfileIds = await _arpaContext.GetMusicianProfilesForAppointment(request.Appointment.Id)
                         .Select(a => a.Id)
                         .ToListAsync(cancellationToken);
 

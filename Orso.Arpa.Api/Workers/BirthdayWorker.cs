@@ -34,7 +34,7 @@ public sealed class BirthdayWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("{prefix} Worker says hello", LoggerPrefix);
+        _logger.LogInformation("{Prefix} Worker says hello", LoggerPrefix);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -44,7 +44,7 @@ public sealed class BirthdayWorker : BackgroundService
                 DateTime midnightInBerlin = currentTimeInBerlin.GetNextMidnight();
                 TimeSpan waitTime = midnightInBerlin - currentTimeInBerlin;
 
-                _logger.LogInformation("{prefix} Remaining time to next worker run {waitTime} hours", LoggerPrefix, waitTime.TotalHours.ToString("N2"));
+                _logger.LogInformation("{Prefix} Remaining time to next worker run {WaitTime} hours", LoggerPrefix, waitTime.TotalHours.ToString("N2"));
 
                 await Task.Delay(waitTime, stoppingToken);
 
@@ -70,21 +70,21 @@ public sealed class BirthdayWorker : BackgroundService
                     }
                     catch (Exception e)
                     {
-                        _logger.LogError(e, "{prefix} An erroc occured while sending birthday e-mail for {person}", LoggerPrefix, person);
+                        _logger.LogError(e, "{Prefix} An error occured while sending birthday e-mail for {Person}", LoggerPrefix, person);
                     }
 
                 }
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "{prefix} An error occured while executing BirthdayWorker", LoggerPrefix);
+                _logger.LogError(e, "{Prefix} An error occured while executing BirthdayWorker", LoggerPrefix);
             }
         }
     }
 
     private async Task SendEMailAsync(DateTime currentTimeInBerlin, IMediator mediator, string personName, string emailAddress, CancellationToken stoppingToken)
     {
-        _logger.LogInformation("{prefix} Sending birthday e-mail to {person}", LoggerPrefix, personName);
+        _logger.LogInformation("{Prefix} Sending birthday e-mail to {Person}", LoggerPrefix, personName);
         await mediator.Send(new SendBirthdayMail.Command { RecipientEMailAddress = emailAddress, RecipientName = personName }, stoppingToken);
         KbbInfoLogger.LogInfoForKbb(
             _logger,
@@ -100,7 +100,7 @@ public sealed class BirthdayWorker : BackgroundService
 
     private void LogError(string personName)
     {
-        _logger.LogWarning("{prefix} Couldn't send birthday e-mail to {person} due to missing e-mail address", LoggerPrefix, personName);
+        _logger.LogWarning("{Prefix} Couldn't send birthday e-mail to {Person} due to missing e-mail address", LoggerPrefix, personName);
         KbbInfoLogger.LogInfoForKbb(
             _logger,
             "BIRTHDAY E-MAIL ERROR",
