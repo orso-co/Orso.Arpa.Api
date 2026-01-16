@@ -86,6 +86,9 @@ RUN dotnet publish ./Orso.Arpa.Api/Orso.Arpa.Api.csproj -o /publish/
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 
+# Install curl for health checks
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /publish
 
 COPY --from=builder /publish .
