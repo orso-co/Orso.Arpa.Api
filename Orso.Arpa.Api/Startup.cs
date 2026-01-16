@@ -652,7 +652,7 @@ namespace Orso.Arpa.Api
             _ = app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "swagger";
             });
         }
 
