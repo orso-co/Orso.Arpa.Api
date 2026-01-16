@@ -17,6 +17,7 @@ public sealed class WarmupService : BackgroundService
     private readonly ILogger<WarmupService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
     private const string LoggerPrefix = "WARMUP:";
+    private const string LocalApiBaseUrl = "http://localhost:5000";
 
     public WarmupService(ILogger<WarmupService> logger, IHttpClientFactory httpClientFactory)
     {
@@ -35,7 +36,7 @@ public sealed class WarmupService : BackgroundService
         try
         {
             var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri("http://localhost:5000");
+            client.BaseAddress = new Uri(LocalApiBaseUrl);
             client.Timeout = TimeSpan.FromSeconds(120);
 
             // Warmup queries - these trigger JIT compilation of GraphQL execution paths
@@ -67,8 +68,8 @@ public sealed class WarmupService : BackgroundService
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogInformation("{Prefix} Warmup query failed: {Query} -> {Error}",
-                        LoggerPrefix, query[..Math.Min(40, query.Length)], ex.Message);
+                    _logger.LogInformation(ex, "{Prefix} Warmup query failed: {Query}",
+                        LoggerPrefix, query[..Math.Min(40, query.Length)]);
                 }
 
                 // Delay between queries to allow JIT to complete

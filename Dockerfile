@@ -68,7 +68,7 @@ namespace Orso.Arpa.Api.Middleware \n\
 EXPOSE 5000
 
 # ENTRYPOINT dotnet watch -p ${MAIN_PROJECT} run --urls "http://0.0.0.0:5000"
-ENTRYPOINT dotnet run -p "${MAIN_PROJECT}" --urls "http://0.0.0.0:5000"
+ENTRYPOINT ["sh", "-c", "dotnet run -p ${MAIN_PROJECT} --urls http://0.0.0.0:5000"]
 
 FROM base AS test
 
