@@ -2,7 +2,7 @@ name: Build and Deploy to Raspberry Pi
 
 on:
     push:
-        branches: [ feature/raspi-workflow ]
+        branches: [ raspi-prod, raspi-dev ]
     workflow_dispatch:
 
 jobs:
@@ -47,6 +47,14 @@ jobs:
     deploy:
         needs: build
         runs-on: ubuntu-latest
+
+        env:
+            # raspi-dev → Dev (Port 5000, ~/arpa), raspi-prod → Prod (Port 5001, ~/arpa-prod)
+            DEPLOY_DIR: ${{ github.ref == 'refs/heads/raspi-prod' && 'arpa-prod' || 'arpa' }}
+            API_PORT: ${{ github.ref == 'refs/heads/raspi-prod' && '5001' || '5000' }}
+            MAIL_PORT: ${{ github.ref == 'refs/heads/raspi-prod' && '8026' || '8025' }}
+            IMAGE_TAG: ${{ github.ref == 'refs/heads/raspi-prod' && 'raspi-prod' || 'raspi-dev' }}
+            ARPA_URL: ${{ github.ref == 'refs/heads/raspi-prod' && 'https://arpa-prod.loopus.it' || 'https://arpa.loopus.it' }}
 
         steps:
             - uses: actions/checkout@v3
