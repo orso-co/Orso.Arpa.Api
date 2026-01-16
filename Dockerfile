@@ -20,11 +20,11 @@ WORKDIR /home/app
 
 COPY ./*.sln ./
 COPY ./*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv "$file" ./${file%.*}/; done
+RUN for file in ./*.csproj; do mkdir -p "./${file%.*}/" && mv "$file" "./${file%.*}/"; done
 
 WORKDIR /home/app/Tests
 COPY ./Tests/*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv "$file" ./${file%.*}/; done
+RUN for file in ./*.csproj; do mkdir -p "./${file%.*}/" && mv "$file" "./${file%.*}/"; done
 
 WORKDIR /home/app
 RUN dotnet restore
@@ -60,7 +60,7 @@ namespace Orso.Arpa.Api.Middleware \n\
         public ProcessingBehavior GetProcessingBehavior(HttpContext context) => ProcessingBehavior.CommandOnly; \n\
 \n\
         /// <inheritdoc/> \n\
-        public Func<HttpContext, bool> Match { get; } = _ => false; \n\
+        public Func<HttpContext, bool> Match { get; set; } = _ => false; \n\
     } \n\
 }' > /home/app/Orso.Arpa.Api/Middleware/DummyImageProvider.cs; \
     fi
@@ -68,7 +68,7 @@ namespace Orso.Arpa.Api.Middleware \n\
 EXPOSE 5000
 
 # ENTRYPOINT dotnet watch -p ${MAIN_PROJECT} run --urls "http://0.0.0.0:5000"
-ENTRYPOINT dotnet run -p ${MAIN_PROJECT} --urls "http://0.0.0.0:5000"
+ENTRYPOINT dotnet run -p "${MAIN_PROJECT}" --urls "http://0.0.0.0:5000"
 
 FROM base AS test
 
