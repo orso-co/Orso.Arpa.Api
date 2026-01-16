@@ -17,12 +17,25 @@ public sealed class WarmupService : BackgroundService
     private readonly ILogger<WarmupService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
     private const string LoggerPrefix = "WARMUP:";
-    private const string LocalApiBaseUrl = "http://localhost:5000";
 
     public WarmupService(ILogger<WarmupService> logger, IHttpClientFactory httpClientFactory)
     {
         _logger = logger;
         _httpClientFactory = httpClientFactory;
+    }
+
+    private static string GetLocalApiBaseUrl()
+    {
+        // Read from ASPNETCORE_URLS environment variable, fallback to default
+        var urls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
+        if (!string.IsNullOrEmpty(urls))
+        {
+            // Take the first URL if multiple are configured
+            var firstUrl = urls.Split(';')[0];
+            // Replace 0.0.0.0 with localhost for internal access
+            return firstUrl.Replace("0.0.0.0", "localhost");
+        }
+        return "http://localhost:5000";
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -36,7 +49,7 @@ public sealed class WarmupService : BackgroundService
         try
         {
             var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(LocalApiBaseUrl);
+            client.BaseAddress = new Uri(GetLocalApiBaseUrl());
             client.Timeout = TimeSpan.FromSeconds(120);
 
             // Warmup queries - these trigger JIT compilation of GraphQL execution paths
