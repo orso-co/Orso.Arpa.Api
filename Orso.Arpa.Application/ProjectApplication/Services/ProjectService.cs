@@ -7,15 +7,20 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
 using Orso.Arpa.Application.General.Services;
 using Orso.Arpa.Application.ProjectApplication.Interfaces;
 using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.General.Extensions;
+using Orso.Arpa.Domain.MusicianProfileDomain.Queries;
 using Orso.Arpa.Domain.ProjectDomain.Commands;
 using Orso.Arpa.Domain.ProjectDomain.Enums;
 using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Notifications;
 using Orso.Arpa.Domain.ProjectDomain.Queries;
+using Orso.Arpa.Domain.SectionDomain.Model;
+using Orso.Arpa.Domain.SectionDomain.Queries;
 
 namespace Orso.Arpa.Application.ProjectApplication.Services
 {
@@ -74,6 +79,42 @@ namespace Orso.Arpa.Application.ProjectApplication.Services
             await _mediator.Publish(notification);
 
             return _mapper.Map<ProjectParticipationDto>(projectParticipation);
+        }
+
+        public async Task<IEnumerable<AppointmentDto>> GetAppointmentsWithParticipationsByIdAsync(Guid id)
+        {
+            var query = new ListAppointmentsForProject.Query { ProjectId = id };
+            IOrderedQueryable<Appointment> appointments = await _mediator.Send(query);
+            List<Appointment> appointmentList = await appointments.ToListAsync();
+
+            var treeQuery = new ListFlattenedSectionTree.Query();
+            IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
+
+            var result = new List<AppointmentDto>();
+            foreach (Appointment appointment in appointmentList)
+            {
+                AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
+                await AddParticipationsAsync(dto, appointment, flattenedTree);
+                result.Add(dto);
+            }
+
+            return result;
+        }
+
+        private async Task AddParticipationsAsync(
+            AppointmentDto dto,
+            Appointment appointment,
+            IEnumerable<ITree<Section>> flattenedTree)
+        {
+            var query = new ListParticipationsForAppointment.Query
+            {
+                Appointment = appointment,
+                SectionTree = flattenedTree,
+            };
+
+            IEnumerable<ListParticipationsForAppointment.PersonGrouping> personGrouping = await _mediator.Send(query);
+
+            dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(personGrouping);
         }
     }
 }

@@ -17,5 +17,6 @@ namespace Orso.Arpa.Application.ProjectApplication.Interfaces
         Task<IEnumerable<ProjectParticipationDto>> GetParticipationsByIdAsync(Guid id);
         Task<ProjectParticipationDto> SetProjectParticipationAsync(SetProjectParticipationDto myProjectParticipationDto);
         Task<IEnumerable<AppointmentListDto>> GetAppointmentsByIdAsync(Guid id);
+        Task<IEnumerable<AppointmentDto>> GetAppointmentsWithParticipationsByIdAsync(Guid id);
     }
 }
