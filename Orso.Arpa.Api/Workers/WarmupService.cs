@@ -26,8 +26,9 @@ public sealed class WarmupService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // Wait a bit for the app to fully start
-        await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+        // Wait for the app to fully start (including database migrations)
+        _logger.LogInformation("{Prefix} Waiting 15 seconds for app to fully start...", LoggerPrefix);
+        await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
 
         _logger.LogInformation("{Prefix} Starting GraphQL warmup...", LoggerPrefix);
 
@@ -35,9 +36,10 @@ public sealed class WarmupService : BackgroundService
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri("http://localhost:5000");
-            client.Timeout = TimeSpan.FromSeconds(60);
+            client.Timeout = TimeSpan.FromSeconds(120);
 
             // Warmup queries - these trigger JIT compilation of GraphQL execution paths
+            // Note: Some queries will return 401 (auth required) but still warm up the code
             var warmupQueries = new[]
             {
                 "{ __schema { types { name } } }",
@@ -60,20 +62,20 @@ public sealed class WarmupService : BackgroundService
 
                     var response = await client.PostAsync("/graphql", content, stoppingToken);
 
-                    _logger.LogDebug("{Prefix} Warmup query executed: {Query} -> {StatusCode}",
-                        LoggerPrefix, query, response.StatusCode);
+                    _logger.LogInformation("{Prefix} Warmup query: {Query} -> {StatusCode}",
+                        LoggerPrefix, query[..Math.Min(40, query.Length)], response.StatusCode);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogDebug("{Prefix} Warmup query failed (expected if auth required): {Query} -> {Error}",
-                        LoggerPrefix, query, ex.Message);
+                    _logger.LogInformation("{Prefix} Warmup query failed: {Query} -> {Error}",
+                        LoggerPrefix, query[..Math.Min(40, query.Length)], ex.Message);
                 }
 
-                // Small delay between queries
-                await Task.Delay(100, stoppingToken);
+                // Delay between queries to allow JIT to complete
+                await Task.Delay(500, stoppingToken);
             }
 
-            _logger.LogInformation("{Prefix} GraphQL warmup completed", LoggerPrefix);
+            _logger.LogInformation("{Prefix} GraphQL warmup completed successfully", LoggerPrefix);
         }
         catch (Exception ex)
         {
