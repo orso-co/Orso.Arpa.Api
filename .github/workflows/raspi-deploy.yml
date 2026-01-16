@@ -56,12 +56,13 @@ jobs:
                   # Create appsettings.RaspberryPi.json
                   cat > appsettings.RaspberryPi.json << 'EOF'
                   {
-                    "Storage": {
-                      "UseLocalStorage": true,
-                      "LocalCacheFolder": "/publish/storage/imagecache"
-                    },
                     "ConnectionStrings": {
-                      "PostgreSQLConnection": "host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;"
+                      "PostgreSQLConnection": "host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;Include Error Detail=true;"
+                    },
+                    "LocalStorageConfiguration": {
+                      "StorageType": "Local",
+                      "ProfilePicturesPath": "/publish/storage/imagecache/azurestorage",
+                      "ImageCachePath": "/publish/storage/imagecache"
                     },
                     "JwtConfiguration": {
                       "TokenKey": "",
@@ -75,22 +76,30 @@ jobs:
                     },
                     "IdentityConfiguration": {
                       "LockoutExpiryInMinutes": 10,
-                      "MaxFailedLoginAttempts": 3,
-                      "EmailConfirmationTokenExpiryInDays": 3,
-                      "DataProtectionTokenExpiryInHours": 2
+                      "MaxFailedLoginAttempts": 5,
+                      "EmailConfirmationTokenExpiryInDays": 7,
+                      "DataProtectionTokenExpiryInHours": 24
                     },
                     "LocalizationConfiguration": {
-                      "DefaultCulture": "en",
+                      "DefaultCulture": "de",
                       "SupportedUiCultures": ["en", "de"],
                       "FallbackToParentCulture": true
                     },
                     "EmailConfiguration": {
                       "SmtpServer": "mail",
                       "Port": 1025,
-                      "From": "arpa@orso.co",
-                      "DefaultSubject": "Message from ARPA"
+                      "From": "arpa@loopus.it",
+                      "DefaultSubject": "ARPA Nachricht"
+                    },
+                    "ClubConfiguration": {
+                      "Name": "ORSO – Orchestra & Choral Society Freiburg | Berlin e. V.",
+                      "Address": "Schwarzwaldstr. 9-11, 79117 Freiburg",
+                      "ContactEmail": "mail@orso.co",
+                      "Phone": "+4907617073203",
+                      "Url": "https://www.orso.co/"
                     },
                     "Logging": {
+                      "IncludeScopes": false,
                       "LogLevel": {
                         "Default": "Information",
                         "Microsoft": "Warning",
@@ -102,17 +111,28 @@ jobs:
                       "InitialAdmin": {
                         "UserName": "admin",
                         "Email": "arpa@loopus.it",
-                        "Password": "Pa$$w0rd",
+                        "Password": "Admin_Test_2024",
                         "GivenName": "Initial",
                         "Surname": "Admin",
                         "GenderId": "88d680fe-b6cc-486f-8f79-2525189b8b13"
                       }
+                    },
+                    "IpRateLimiting": {
+                      "EnableEndpointRateLimiting": true,
+                      "StackBlockedRequests": true,
+                      "EndpointWhitelist": ["options:*", "post:/graphql"],
+                      "HttpStatusCode": 429,
+                      "GeneralRules": [
+                        { "Endpoint": "((post)|(put)|(delete)):*", "Period": "1s", "Limit": 2 },
+                        { "Endpoint": "get:*", "Period": "1s", "Limit": 20 },
+                        { "Endpoint": "*", "Period": "15m", "Limit": 500 },
+                        { "Endpoint": "*", "Period": "12h", "Limit": 5000 }
+                      ]
                     }
                   }
                   EOF
                   # Create docker-compose.yml for Raspberry Pi
                   cat > docker-compose.yml << 'EOF'
-                  version: '3.9'
                   services:
                     postgres:
                       image: postgres:16-alpine
@@ -134,22 +154,23 @@ jobs:
                       environment:
                         - ASPNETCORE_ENVIRONMENT=RaspberryPi
                         - DOTNET_ENVIRONMENT=RaspberryPi
-                        - ConnectionStrings__PostgreSQLConnection=host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;
+                        - ASPNETCORE_URLS=http://0.0.0.0:5000
+                        - ConnectionStrings__PostgreSQLConnection=host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;Include Error Detail=true;
+                        - LocalStorageConfiguration__StorageType=Local
+                        - LocalStorageConfiguration__ProfilePicturesPath=/publish/storage/imagecache/azurestorage
+                        - LocalStorageConfiguration__ImageCachePath=/publish/storage/imagecache
                         - EmailConfiguration__SmtpServer=mail
                         - EmailConfiguration__Port=1025
-                        - EmailConfiguration__From=arpa@orso.co
+                        - EmailConfiguration__From=arpa@loopus.it
                         - JwtConfiguration__Issuer=https://arpa.loopus.it
                         - JwtConfiguration__Audience=https://arpa.loopus.it
                         - JwtConfiguration__TokenKey=${JWT_TOKEN_KEY}
-                        # Logging configuration
                         - Logging__LogLevel__Default=Information
                         - Logging__LogLevel__Microsoft=Warning
-                        - Logging__LogLevel__Microsoft.Hosting.Lifetime=Information
-                        # Admin config
                         - SeedConfiguration__SeedInitialAdmin=true
                         - SeedConfiguration__InitialAdmin__UserName=admin
                         - SeedConfiguration__InitialAdmin__Email=arpa@loopus.it
-                        - SeedConfiguration__InitialAdmin__Password=Pa$$w0rd
+                        - SeedConfiguration__InitialAdmin__Password=Admin_Test_2024
                         - SeedConfiguration__InitialAdmin__GivenName=Initial
                         - SeedConfiguration__InitialAdmin__Surname=Admin
                         - SeedConfiguration__InitialAdmin__GenderId=88d680fe-b6cc-486f-8f79-2525189b8b13
@@ -157,13 +178,12 @@ jobs:
                       depends_on:
                         - postgres
                         - mail
-                      # Add a health check to ensure service is available
                       healthcheck:
                         test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
                         interval: 30s
                         timeout: 10s
                         retries: 3
-                        start_period: 40s
+                        start_period: 60s
                     mail:
                       image: jcalonso/mailhog:latest
                       environment:
