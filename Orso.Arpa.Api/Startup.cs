@@ -37,6 +37,7 @@ using Orso.Arpa.Api.GraphQL;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Api.Swagger;
+using Orso.Arpa.Api.Workers;
 using Orso.Arpa.Application.AddressApplication.Interfaces;
 using Orso.Arpa.Application.AddressApplication.Services;
 using Orso.Arpa.Application.AppointmentApplication.Interfaces;
@@ -200,6 +201,13 @@ namespace Orso.Arpa.Api
             ConfigureStorageAccount(services);
 
             // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
+
+            // Warmup service for Raspberry Pi - pre-compiles GraphQL to avoid JIT delays
+            if (_hostingEnvironment.EnvironmentName is "RaspberryPi" or "Production")
+            {
+                services.AddHttpClient();
+                services.AddHostedService<WarmupService>();
+            }
         }
 
         private void ConfigureStorageAccount(IServiceCollection services)
