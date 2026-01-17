@@ -48,174 +48,17 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
 
-        env:
-            # raspi-dev → Dev (Port 5000, ~/arpa), raspi-prod → Prod (Port 5001, ~/arpa-prod)
-            DEPLOY_DIR: ${{ github.ref == 'refs/heads/raspi-prod' && 'arpa-prod' || 'arpa' }}
-            API_PORT: ${{ github.ref == 'refs/heads/raspi-prod' && '5001' || '5000' }}
-            MAIL_PORT: ${{ github.ref == 'refs/heads/raspi-prod' && '8026' || '8025' }}
-            IMAGE_TAG: ${{ github.ref == 'refs/heads/raspi-prod' && 'raspi-prod' || 'raspi-dev' }}
-            ARPA_URL: ${{ github.ref == 'refs/heads/raspi-prod' && 'https://arpa-prod.loopus.it' || 'https://arpa.loopus.it' }}
-
         steps:
-            - uses: actions/checkout@v3
-
-            - name: Prepare Raspberry Pi configurations
+            - name: Set deployment variables
+              id: vars
               run: |
-                  # Create appsettings.RaspberryPi.json
-                  cat > appsettings.RaspberryPi.json << 'EOF'
-                  {
-                    "ConnectionStrings": {
-                      "PostgreSQLConnection": "host=postgres;database=orso-arpa;User Id=postgres;Password=postgres;Include Error Detail=true;"
-                    },
-                    "LocalStorageConfiguration": {
-                      "StorageType": "Local",
-                      "ProfilePicturesPath": "/publish/storage/imagecache/azurestorage",
-                      "ImageCachePath": "/publish/storage/imagecache"
-                    },
-                    "JwtConfiguration": {
-                      "TokenKey": "",
-                      "Issuer": "https://arpa.loopus.it",
-                      "Audience": "https://arpa.loopus.it",
-                      "AccessTokenExpiryInMinutes": 480,
-                      "RefreshTokenExpiryInDays": 7
-                    },
-                    "CorsConfiguration": {
-                      "AllowedOrigins": ["http://localhost:4200", "https://arpa.loopus.it"]
-                    },
-                    "IdentityConfiguration": {
-                      "LockoutExpiryInMinutes": 10,
-                      "MaxFailedLoginAttempts": 5,
-                      "EmailConfirmationTokenExpiryInDays": 7,
-                      "DataProtectionTokenExpiryInHours": 24
-                    },
-                    "LocalizationConfiguration": {
-                      "DefaultCulture": "de",
-                      "SupportedUiCultures": ["en", "de"],
-                      "FallbackToParentCulture": true
-                    },
-                    "EmailConfiguration": {
-                      "SmtpServer": "mail",
-                      "Port": 1025,
-                      "From": "arpa@loopus.it",
-                      "DefaultSubject": "ARPA Nachricht"
-                    },
-                    "ClubConfiguration": {
-                      "Name": "ORSO – Orchestra & Choral Society Freiburg | Berlin e. V.",
-                      "Address": "Schwarzwaldstr. 9-11, 79117 Freiburg",
-                      "ContactEmail": "mail@orso.co",
-                      "Phone": "+4907617073203",
-                      "Url": "https://www.orso.co/"
-                    },
-                    "Logging": {
-                      "IncludeScopes": false,
-                      "LogLevel": {
-                        "Default": "Information",
-                        "Microsoft": "Warning",
-                        "Microsoft.Hosting.Lifetime": "Information"
-                      }
-                    },
-                    "SeedConfiguration": {
-                      "SeedInitialAdmin": true,
-                      "InitialAdmin": {
-                        "UserName": "admin",
-                        "Email": "arpa@loopus.it",
-                        "Password": "",
-                        "GivenName": "Initial",
-                        "Surname": "Admin",
-                        "GenderId": "88d680fe-b6cc-486f-8f79-2525189b8b13"
-                      }
-                    },
-                    "IpRateLimiting": {
-                      "EnableEndpointRateLimiting": true,
-                      "StackBlockedRequests": true,
-                      "EndpointWhitelist": ["options:*", "post:/graphql"],
-                      "HttpStatusCode": 429,
-                      "GeneralRules": [
-                        { "Endpoint": "((post)|(put)|(delete)):*", "Period": "1s", "Limit": 2 },
-                        { "Endpoint": "get:*", "Period": "1s", "Limit": 20 },
-                        { "Endpoint": "*", "Period": "15m", "Limit": 500 },
-                        { "Endpoint": "*", "Period": "12h", "Limit": 5000 }
-                      ]
-                    }
-                  }
-                  EOF
-                  # Create docker-compose.yml for Raspberry Pi
-                  cat > docker-compose.yml << 'EOF'
-                  services:
-                    postgres:
-                      image: postgres:16-alpine
-                      volumes:
-                        - arpa_pgdata:/var/lib/postgresql/data
-                      environment:
-                        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-                        - POSTGRES_USER=postgres
-                        - POSTGRES_DB=orso-arpa
-                      restart: unless-stopped
-                    api:
-                      image: ghcr.io/orso-co/orso-arpa-api:latest
-                      platform: linux/arm64
-                      ports:
-                        - "5000:5000"
-                      volumes:
-                        - ./arpa_storage:/publish/storage
-                        - ./appsettings.RaspberryPi.json:/publish/appsettings.RaspberryPi.json:ro
-                      environment:
-                        - ASPNETCORE_ENVIRONMENT=RaspberryPi
-                        - DOTNET_ENVIRONMENT=RaspberryPi
-                        - ASPNETCORE_URLS=http://0.0.0.0:5000
-                        - ConnectionStrings__PostgreSQLConnection=host=postgres;database=orso-arpa;User Id=postgres;Password=${POSTGRES_PASSWORD};Include Error Detail=true;
-                        - LocalStorageConfiguration__StorageType=Local
-                        - LocalStorageConfiguration__ProfilePicturesPath=/publish/storage/imagecache/azurestorage
-                        - LocalStorageConfiguration__ImageCachePath=/publish/storage/imagecache
-                        - EmailConfiguration__SmtpServer=mail
-                        - EmailConfiguration__Port=1025
-                        - EmailConfiguration__From=arpa@loopus.it
-                        - JwtConfiguration__Issuer=https://arpa.loopus.it
-                        - JwtConfiguration__Audience=https://arpa.loopus.it
-                        - JwtConfiguration__TokenKey=${JWT_TOKEN_KEY}
-                        - Logging__LogLevel__Default=Information
-                        - Logging__LogLevel__Microsoft=Warning
-                        - SeedConfiguration__SeedInitialAdmin=true
-                        - SeedConfiguration__InitialAdmin__UserName=admin
-                        - SeedConfiguration__InitialAdmin__Email=arpa@loopus.it
-                        - SeedConfiguration__InitialAdmin__Password=${ADMIN_PASSWORD}
-                        - SeedConfiguration__InitialAdmin__GivenName=Initial
-                        - SeedConfiguration__InitialAdmin__Surname=Admin
-                        - SeedConfiguration__InitialAdmin__GenderId=88d680fe-b6cc-486f-8f79-2525189b8b13
-                      restart: on-failure
-                      depends_on:
-                        - postgres
-                        - mail
-                      healthcheck:
-                        test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-                        interval: 30s
-                        timeout: 10s
-                        retries: 3
-                        start_period: 60s
-                    mail:
-                      image: jcalonso/mailhog:latest
-                      environment:
-                        - MH_STORAGE=maildir
-                        - MH_MAILDIR_PATH=/maildir
-                      volumes:
-                        - arpa_mailhog:/maildir
-                      ports:
-                        - "8025:8025"
-                      restart: unless-stopped
-                  volumes:
-                    arpa_pgdata:
-                    arpa_mailhog:
-                  EOF
-
-            - name: Copy configuration files to Raspberry Pi
-              uses: appleboy/scp-action@master
-              with:
-                  host: ${{ secrets.SSH_HOST }}
-                  port: 2222
-                  username: ${{ secrets.SSH_USERNAME }}
-                  key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  source: "docker-compose.yml,appsettings.RaspberryPi.json"
-                  target: "~/arpa"
+                  if [ "${{ github.ref }}" == "refs/heads/raspi-prod" ]; then
+                    echo "deploy_dir=arpa-prod" >> $GITHUB_OUTPUT
+                    echo "image_tag=raspi-prod" >> $GITHUB_OUTPUT
+                  else
+                    echo "deploy_dir=arpa" >> $GITHUB_OUTPUT
+                    echo "image_tag=raspi-dev" >> $GITHUB_OUTPUT
+                  fi
 
             - name: Deploy to Raspberry Pi
               uses: appleboy/ssh-action@master
@@ -225,22 +68,40 @@ jobs:
                   username: ${{ secrets.SSH_USERNAME }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   script: |
+                      set -e
+                      DEPLOY_DIR="${{ steps.vars.outputs.deploy_dir }}"
+                      IMAGE_TAG="${{ steps.vars.outputs.image_tag }}"
+
+                      echo "Deploying to ~/$DEPLOY_DIR with image tag $IMAGE_TAG"
+
                       # Login to GitHub Container Registry
-                      echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u wolfgangroese --password-stdin
-                      # Create storage directory if it doesn't exist
-                      mkdir -p ~/arpa/arpa_storage/imagecache
-                      chmod -R 755 ~/arpa/arpa_storage
+                      echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u orso-co --password-stdin
+
                       # Navigate to the deployment directory
-                      cd ~/arpa
-                      # Pull the latest image
-                      docker pull ghcr.io/orso-co/orso-arpa-api:latest
-                      # Stop and remove any existing containers
-                      docker-compose down || true
-                      # Set secrets as environment variables
-                      export JWT_TOKEN_KEY="${{ secrets.JWT_TOKEN_KEY }}"
-                      export POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
-                      export ADMIN_PASSWORD="${{ secrets.ADMIN_PASSWORD }}"
-                      # Start containers
-                      docker-compose up -d
-                      # Clean up old/unused images
+                      cd ~/$DEPLOY_DIR
+
+                      # Pull the new image (use branch-specific tag)
+                      docker pull ghcr.io/orso-co/orso-arpa-api:$IMAGE_TAG
+
+                      # Tag as latest for docker-compose compatibility
+                      docker tag ghcr.io/orso-co/orso-arpa-api:$IMAGE_TAG ghcr.io/orso-co/orso-arpa-api:latest
+
+                      # Recreate only the API container with the new image
+                      docker compose up -d --force-recreate api
+
+                      # Wait for health check
+                      echo "Waiting for API to become healthy..."
+                      for i in {1..30}; do
+                        if docker compose ps api | grep -q "healthy"; then
+                          echo "API is healthy!"
+                          break
+                        fi
+                        echo "Attempt $i/30 - waiting..."
+                        sleep 5
+                      done
+
+                      # Show final status
+                      docker compose ps
+
+                      # Clean up old images
                       docker image prune -f
