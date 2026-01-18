@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Orso.Arpa.Api.Swagger
@@ -56,13 +56,24 @@ namespace Orso.Arpa.Api.Swagger
         private static Dictionary<string, OpenApiMediaType> CreateContent()
         {
             return new Dictionary<string, OpenApiMediaType>()
+            {
+                {
+                    "application/json",
+                    new OpenApiMediaType()
                     {
-                        { "application/json", new OpenApiMediaType() { Schema = new OpenApiSchema() { Type = "object", Properties = new Dictionary<string, OpenApiSchema>() {
-                            { "title", new OpenApiSchema() { Type = "string" } },
-                            { "description", new OpenApiSchema() {Type="string" } },
-                            { "status", new OpenApiSchema() { Type = "integer" } }
-                        } } } }
-                    };
+                        Schema = new OpenApiSchema()
+                        {
+                            Type = JsonSchemaType.Object,
+                            Properties = new Dictionary<string, IOpenApiSchema>()
+                            {
+                                { "title", new OpenApiSchema() { Type = JsonSchemaType.String } },
+                                { "description", new OpenApiSchema() { Type = JsonSchemaType.String } },
+                                { "status", new OpenApiSchema() { Type = JsonSchemaType.Integer } }
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }

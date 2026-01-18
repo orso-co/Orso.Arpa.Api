@@ -1,5 +1,5 @@
 using System.Linq;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Orso.Arpa.Api.Swagger
@@ -14,11 +14,14 @@ namespace Orso.Arpa.Api.Swagger
 
             swaggerDoc.Paths = [];
 
-            foreach ((string key, OpenApiPathItem value) in paths)
+            foreach ((string key, IOpenApiPathItem value) in paths)
             {
-                foreach (OpenApiParameter param in value.Operations.SelectMany(o => o.Value.Parameters))
+                foreach (IOpenApiParameter param in value.Operations.SelectMany(o => o.Value.Parameters))
                 {
-                    param.Name = param.Name.ToLower();
+                    if (param is OpenApiParameter openApiParam)
+                    {
+                        openApiParam.Name = openApiParam.Name.ToLower();
+                    }
                 }
 
                 swaggerDoc.Paths.Add(key, value);

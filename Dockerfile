@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS base
 
 ARG PROJECT="Orso.Arpa.Api"
 ARG ENVIRONMENT="Development"
@@ -80,10 +80,10 @@ WORKDIR /home/app
 
 RUN dotnet publish ./Orso.Arpa.Api/Orso.Arpa.Api.csproj -o /publish/
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 
-# Install curl for health checks
-RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+# Install curl for health checks (using apk for Alpine)
+RUN apk add --no-cache curl
 
 WORKDIR /publish
 
@@ -97,7 +97,7 @@ ENV DOTNET_ENVIRONMENT="${ASPNETCORE_ENV}"
 ENV ASPNETCORE_ENVIRONMENT="${ASPNETCORE_ENV}"
 
 # Create an entrypoint script
-RUN echo '#!/bin/bash\n\
+RUN echo '#!/bin/sh\n\
 echo "Starting ARPA API..."\n\
 echo "Environment: $ASPNETCORE_ENVIRONMENT"\n\
 echo "Creating required directories..."\n\
