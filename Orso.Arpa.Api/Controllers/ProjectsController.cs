@@ -162,6 +162,22 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Gets all appointments with participations for a given project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The appointments with participations</returns>
+        /// <response code="200"></response>
+        /// <response code="404">If entity could not be found</response>
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [HttpGet("{id}/appointments/full")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<AppointmentDto>>> GetAppointmentsWithParticipationsById([FromRoute] Guid id)
+        {
+            return Ok(await _projectService.GetAppointmentsWithParticipationsByIdAsync(id));
+        }
+
+        /// <summary>
         /// Sets the project participation for the given musician profile
         /// </summary>
         /// <param name="myProjectParticipationDto"></param>
