@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
@@ -90,14 +91,25 @@ namespace Orso.Arpa.Application.ProjectApplication.Services
             var treeQuery = new ListFlattenedSectionTree.Query();
             IEnumerable<ITree<Section>> flattenedTree = await _mediator.Send(treeQuery);
 
-            var result = new List<AppointmentDto>();
-            foreach (Appointment appointment in appointmentList)
+            // Process appointments in parallel with concurrency limit to avoid DB overload
+            const int maxConcurrency = 10;
+            using var semaphore = new SemaphoreSlim(maxConcurrency);
+            var tasks = appointmentList.Select(async appointment =>
             {
-                AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
-                await AddParticipationsAsync(dto, appointment, flattenedTree);
-                result.Add(dto);
-            }
+                await semaphore.WaitAsync();
+                try
+                {
+                    AppointmentDto dto = _mapper.Map<AppointmentDto>(appointment);
+                    await AddParticipationsAsync(dto, appointment, flattenedTree);
+                    return dto;
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            });
 
+            AppointmentDto[] result = await Task.WhenAll(tasks);
             return result;
         }
 
