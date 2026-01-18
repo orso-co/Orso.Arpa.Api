@@ -53,7 +53,7 @@ namespace Orso.Arpa.Api.Middleware \n\
         public Task<IImageResolver> GetAsync(HttpContext context) => Task.FromResult<IImageResolver>(null); \n\
 \n\
         /// <inheritdoc/> \n\
-        public ProcessingBehavior GetProcessingBehavior(HttpContext context) => ProcessingBehavior.CommandOnly; \n\
+        public ProcessingBehavior ProcessingBehavior { get; } = ProcessingBehavior.CommandOnly; \n\
 \n\
         /// <inheritdoc/> \n\
         public Func<HttpContext, bool> Match { get; set; } = _ => false; \n\
