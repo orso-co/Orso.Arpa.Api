@@ -18,6 +18,12 @@ public sealed class WarmupService : BackgroundService
     private readonly IHttpClientFactory _httpClientFactory;
     private const string LoggerPrefix = "WARMUP:";
 
+    /// <summary>
+    /// Delay before starting warmup to allow the app to fully initialize
+    /// (database migrations, middleware pipeline, etc.)
+    /// </summary>
+    private static readonly TimeSpan StartupDelay = TimeSpan.FromSeconds(15);
+
     public WarmupService(ILogger<WarmupService> logger, IHttpClientFactory httpClientFactory)
     {
         _logger = logger;
@@ -41,8 +47,8 @@ public sealed class WarmupService : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         // Wait for the app to fully start (including database migrations)
-        _logger.LogInformation("{Prefix} Waiting 15 seconds for app to fully start...", LoggerPrefix);
-        await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
+        _logger.LogInformation("{Prefix} Waiting {Delay} for app to fully start...", LoggerPrefix, StartupDelay);
+        await Task.Delay(StartupDelay, stoppingToken);
 
         _logger.LogInformation("{Prefix} Starting GraphQL warmup...", LoggerPrefix);
 

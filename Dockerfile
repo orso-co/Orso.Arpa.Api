@@ -8,12 +8,8 @@ ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
 ENV MAIN_PROJECT="./$PROJECT"
 ENV DOTNET_ENVIRONMENT=$ENVIRONMENT
 
-# Install libgdiplus using the appropriate package manager based on architecture
-RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
-        apt-get update && apt-get install -y libgdiplus; \
-    else \
-        apt-get update && apt-get install -y libgdiplus; \
-    fi
+# Install libgdiplus for System.Drawing support (required for image processing)
+RUN apt-get update && apt-get install -y libgdiplus && rm -rf /var/lib/apt/lists/*
 #/usr/lib/libgdiplus.so
 
 WORKDIR /home/app

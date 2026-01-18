@@ -202,7 +202,9 @@ namespace Orso.Arpa.Api
 
             // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
 
-            // Warmup service for Raspberry Pi - pre-compiles GraphQL to avoid JIT delays
+            // Warmup service pre-compiles GraphQL to avoid JIT delays on first request.
+            // Enabled for RaspberryPi (ARM64 has slower JIT) and Production (Azure cold starts).
+            // Not needed in Development where hot-reload and debugger are used.
             if (_hostingEnvironment.EnvironmentName is "RaspberryPi" or "Production")
             {
                 services.AddHttpClient();
