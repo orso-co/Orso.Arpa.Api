@@ -37,7 +37,7 @@ variables:
   - name: stage
     value: 'staging'
   - name: targetFramework
-    value: '9.0'
+    value: '10.0'
 
 steps:
 - checkout: self
