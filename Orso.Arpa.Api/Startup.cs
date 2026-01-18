@@ -662,6 +662,7 @@ namespace Orso.Arpa.Api
             _ = app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
+                // Swagger UI available at /swagger (not root) - keeps root free for frontend/redirects
                 c.RoutePrefix = "swagger";
             });
         }
