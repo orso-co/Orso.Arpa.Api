@@ -93,9 +93,12 @@ WORKDIR /publish
 
 COPY --from=builder /publish .
 
+# Environment can be overridden at build time or runtime
+# Default to RaspberryPi for backward compatibility
+ARG ASPNETCORE_ENV=RaspberryPi
 ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
-ENV DOTNET_ENVIRONMENT="RaspberryPi" 
-ENV ASPNETCORE_ENVIRONMENT="RaspberryPi"
+ENV DOTNET_ENVIRONMENT="${ASPNETCORE_ENV}"
+ENV ASPNETCORE_ENVIRONMENT="${ASPNETCORE_ENV}"
 
 # Create an entrypoint script
 RUN echo '#!/bin/bash\n\

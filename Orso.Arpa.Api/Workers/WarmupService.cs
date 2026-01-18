@@ -69,12 +69,12 @@ public sealed class WarmupService : BackgroundService
 
                 try
                 {
-                    var content = new StringContent(
+                    using var content = new StringContent(
                         $"{{\"query\":\"{query}\"}}",
                         Encoding.UTF8,
                         "application/json");
 
-                    var response = await client.PostAsync("/graphql", content, stoppingToken);
+                    using var response = await client.PostAsync("/graphql", content, stoppingToken);
 
                     _logger.LogInformation("{Prefix} Warmup query: {Query} -> {StatusCode}",
                         LoggerPrefix, query[..Math.Min(40, query.Length)], response.StatusCode);

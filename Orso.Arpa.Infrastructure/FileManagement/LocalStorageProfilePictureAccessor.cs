@@ -31,9 +31,37 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             }
         }
 
+        /// <summary>
+        /// Sanitizes the filename to prevent path traversal attacks.
+        /// Removes any directory components and validates the filename.
+        /// </summary>
+        private static string SanitizeFileName(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new ArgumentException("Filename cannot be null or empty", nameof(fileName));
+            }
+
+            // Check for path traversal attempts
+            if (fileName.Contains("..") || Path.IsPathRooted(fileName))
+            {
+                throw new ArgumentException("Invalid filename: path traversal not allowed", nameof(fileName));
+            }
+
+            // Extract only the filename, removing any directory components
+            var sanitized = Path.GetFileName(fileName);
+
+            if (string.IsNullOrWhiteSpace(sanitized))
+            {
+                throw new ArgumentException("Invalid filename", nameof(fileName));
+            }
+
+            return sanitized;
+        }
+
         public async Task<IFileResult> SaveAsync(IFormFile file, string fileName = null)
         {
-            var actualFileName = fileName ?? file.FileName;
+            var actualFileName = SanitizeFileName(fileName ?? file.FileName);
             var filePath = Path.Combine(_storagePath, actualFileName);
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
 
@@ -64,7 +92,8 @@ namespace Orso.Arpa.Infrastructure.FileManagement
 
         public async Task<IFileResult> GetAsync(string fileName)
         {
-            var filePath = Path.Combine(_storagePath, fileName);
+            var sanitizedFileName = SanitizeFileName(fileName);
+            var filePath = Path.Combine(_storagePath, sanitizedFileName);
 
             if (!File.Exists(filePath))
             {
@@ -73,9 +102,9 @@ namespace Orso.Arpa.Infrastructure.FileManagement
 
             var content = await File.ReadAllBytesAsync(filePath);
             var fileInfo = new FileInfo(filePath);
-            var extension = Path.GetExtension(fileName).ToLowerInvariant();
+            var extension = Path.GetExtension(sanitizedFileName).ToLowerInvariant();
 
-            if (!new FileExtensionContentTypeProvider().TryGetContentType(fileName, out var mimeType))
+            if (!new FileExtensionContentTypeProvider().TryGetContentType(sanitizedFileName, out var mimeType))
             {
                 mimeType = "image/webp";
             }
@@ -83,7 +112,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             return new FileResult
             {
                 Content = content,
-                Name = fileName,
+                Name = sanitizedFileName,
                 ContentType = mimeType,
                 Extension = extension,
                 LastModified = fileInfo.LastWriteTimeUtc
@@ -92,7 +121,8 @@ namespace Orso.Arpa.Infrastructure.FileManagement
 
         public Task DeleteAsync(string fileName)
         {
-            var filePath = Path.Combine(_storagePath, fileName);
+            var sanitizedFileName = SanitizeFileName(fileName);
+            var filePath = Path.Combine(_storagePath, sanitizedFileName);
 
             if (File.Exists(filePath))
             {
@@ -119,7 +149,8 @@ namespace Orso.Arpa.Infrastructure.FileManagement
         /// </summary>
         public string GetFilePath(string fileName)
         {
-            return Path.Combine(_storagePath, fileName);
+            var sanitizedFileName = SanitizeFileName(fileName);
+            return Path.Combine(_storagePath, sanitizedFileName);
         }
     }
 }
