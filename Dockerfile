@@ -82,8 +82,14 @@ RUN dotnet publish ./Orso.Arpa.Api/Orso.Arpa.Api.csproj -o /publish/
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 
-# Install curl for health checks and krb5-libs for PostgreSQL (using apk for Alpine)
-RUN apk add --no-cache curl krb5-libs
+# Install required libraries for Alpine:
+# - curl: health checks
+# - krb5-libs: PostgreSQL Kerberos support
+# - icu-libs: globalization support (cultures, localization)
+RUN apk add --no-cache curl krb5-libs icu-libs
+
+# Enable globalization support
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 WORKDIR /publish
 
