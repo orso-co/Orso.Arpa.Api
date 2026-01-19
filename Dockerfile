@@ -82,8 +82,8 @@ RUN dotnet publish ./Orso.Arpa.Api/Orso.Arpa.Api.csproj -o /publish/
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 
-# Install curl for health checks (using apk for Alpine)
-RUN apk add --no-cache curl
+# Install curl for health checks and krb5-libs for PostgreSQL (using apk for Alpine)
+RUN apk add --no-cache curl krb5-libs
 
 WORKDIR /publish
 
