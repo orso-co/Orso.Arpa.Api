@@ -96,24 +96,22 @@ ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
 ENV DOTNET_ENVIRONMENT="${ASPNETCORE_ENV}"
 ENV ASPNETCORE_ENVIRONMENT="${ASPNETCORE_ENV}"
 
-# Create an entrypoint script
-RUN echo '#!/bin/sh\n\
-echo "Starting ARPA API..."\n\
-echo "Environment: $ASPNETCORE_ENVIRONMENT"\n\
-echo "Creating required directories..."\n\
-# Create storage directory\n\
-mkdir -p /publish/storage/imagecache\n\
-chmod -R 755 /publish/storage\n\
-# Create wwwroot directory if it doesn't exist\n\
-mkdir -p /publish/wwwroot\n\
-chmod -R 755 /publish/wwwroot\n\
-# Create a test image to ensure the directory is not empty\n\
-touch /publish/wwwroot/test.png\n\
-echo "Directory structure:"\n\
-find /publish -type d | sort\n\
-echo "Starting application..."\n\
-exec dotnet Orso.Arpa.Api.dll\n\
-' > /publish/entrypoint.sh && \
-chmod +x /publish/entrypoint.sh
+# Create an entrypoint script using printf for proper newline handling
+RUN printf '%s\n' \
+    '#!/bin/sh' \
+    'echo "Starting ARPA API..."' \
+    'echo "Environment: $ASPNETCORE_ENVIRONMENT"' \
+    'echo "Creating required directories..."' \
+    'mkdir -p /publish/storage/imagecache' \
+    'chmod -R 755 /publish/storage' \
+    'mkdir -p /publish/wwwroot' \
+    'chmod -R 755 /publish/wwwroot' \
+    'touch /publish/wwwroot/test.png' \
+    'echo "Directory structure:"' \
+    'find /publish -type d | sort' \
+    'echo "Starting application..."' \
+    'exec dotnet Orso.Arpa.Api.dll' \
+    > /publish/entrypoint.sh && \
+    chmod +x /publish/entrypoint.sh
 
 ENTRYPOINT ["/publish/entrypoint.sh"]
