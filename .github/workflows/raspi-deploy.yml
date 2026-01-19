@@ -1,0 +1,107 @@
+name: Build and Deploy to Raspberry Pi
+
+on:
+    push:
+        branches: [ raspi-prod, raspi-dev ]
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v3
+              with:
+                  platforms: arm64
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+              with:
+                  platforms: linux/amd64,linux/arm64
+
+            - name: Login to GitHub Container Registry
+              uses: docker/login-action@v3
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Extract branch name
+              shell: bash
+              run: echo "branch=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+              id: extract_branch
+
+            - name: Build and push multi-architecture image
+              uses: docker/build-push-action@v6
+              with:
+                  context: .
+                  push: true
+                  platforms: linux/amd64,linux/arm64
+                  tags: |
+                      ghcr.io/orso-co/orso-arpa-api:latest
+                      ghcr.io/orso-co/orso-arpa-api:${{ steps.extract_branch.outputs.branch }}
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Set deployment variables
+              id: vars
+              run: |
+                  if [ "${{ github.ref }}" == "refs/heads/raspi-prod" ]; then
+                    echo "deploy_dir=arpa-prod" >> $GITHUB_OUTPUT
+                    echo "image_tag=raspi-prod" >> $GITHUB_OUTPUT
+                  else
+                    echo "deploy_dir=arpa" >> $GITHUB_OUTPUT
+                    echo "image_tag=raspi-dev" >> $GITHUB_OUTPUT
+                  fi
+
+            - name: Deploy to Raspberry Pi
+              uses: appleboy/ssh-action@v1.2.0
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  port: 2222
+                  username: ${{ secrets.SSH_USERNAME }}
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  script: |
+                      set -e
+                      DEPLOY_DIR="${{ steps.vars.outputs.deploy_dir }}"
+                      IMAGE_TAG="${{ steps.vars.outputs.image_tag }}"
+
+                      echo "Deploying to ~/$DEPLOY_DIR with image tag $IMAGE_TAG"
+
+                      # Login to GitHub Container Registry
+                      echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u orso-co --password-stdin
+
+                      # Navigate to the deployment directory
+                      cd ~/$DEPLOY_DIR
+
+                      # Pull the new image (use branch-specific tag)
+                      docker pull ghcr.io/orso-co/orso-arpa-api:$IMAGE_TAG
+
+                      # Tag as latest for docker-compose compatibility
+                      docker tag ghcr.io/orso-co/orso-arpa-api:$IMAGE_TAG ghcr.io/orso-co/orso-arpa-api:latest
+
+                      # Recreate only the API container with the new image
+                      docker compose up -d --force-recreate api
+
+                      # Wait for health check
+                      echo "Waiting for API to become healthy..."
+                      for i in {1..30}; do
+                        if docker compose ps api | grep -q "healthy"; then
+                          echo "API is healthy!"
+                          break
+                        fi
+                        echo "Attempt $i/30 - waiting..."
+                        sleep 5
+                      done
+
+                      # Show final status
+                      docker compose ps
+
+                      # Clean up old images
+                      docker image prune -f

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -122,6 +123,37 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests
             _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
             IEnumerable<AppointmentListDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentListDto>>(responseMessage);
             _ = result.Should().BeEquivalentTo(expectedResult, opt => opt.WithStrictOrderingFor(dto => dto.Id));
+        }
+
+        [Test, Order(7)]
+        public async Task Should_Get_Appointments_With_Participations_By_ProjectId()
+        {
+            // Arrange
+            Project project = ProjectSeedData.RockingXMas;
+
+            // Act
+            HttpResponseMessage responseMessage = await _authenticatedServer
+                .CreateClient()
+                .AuthenticateWith(_staff)
+                .GetAsync(ApiEndpoints.ProjectsController.GetAppointmentsFull(project.Id));
+
+            // Assert
+            _ = responseMessage.StatusCode.Should().Be(HttpStatusCode.OK);
+            IEnumerable<AppointmentDto> result = await DeserializeResponseMessageAsync<IEnumerable<AppointmentDto>>(responseMessage);
+
+            // Verify we got appointments
+            _ = result.Should().HaveCount(3);
+
+            // Verify each appointment has participations loaded
+            foreach (AppointmentDto appointment in result)
+            {
+                _ = appointment.Participations.Should().NotBeNull("Participations should be loaded for each appointment");
+            }
+
+            // Verify specific appointment has expected participations
+            AppointmentDto rockingXmasRehearsal = result.FirstOrDefault(a => a.Id == AppointmentDtoData.RockingXMasRehearsal.Id);
+            _ = rockingXmasRehearsal.Should().NotBeNull();
+            _ = rockingXmasRehearsal.Participations.Should().HaveCountGreaterThan(0, "RockingXMas Rehearsal should have participations");
         }
 
         [Test, Order(10000)]

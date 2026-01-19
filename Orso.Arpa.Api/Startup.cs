@@ -37,6 +37,7 @@ using Orso.Arpa.Api.GraphQL;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Api.Swagger;
+using Orso.Arpa.Api.Workers;
 using Orso.Arpa.Application.AddressApplication.Interfaces;
 using Orso.Arpa.Application.AddressApplication.Services;
 using Orso.Arpa.Application.AppointmentApplication.Interfaces;
@@ -197,12 +198,35 @@ namespace Orso.Arpa.Api
 
             ConfigureIpRateLimiting(services);
 
-            ConfigureAzureStorageAccount(services);
+            ConfigureStorageAccount(services);
 
             // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
+
+            // Warmup service pre-compiles GraphQL to avoid JIT delays on first request.
+            // Enabled for RaspberryPi (ARM64 has slower JIT) and Production (Azure cold starts).
+            // Not needed in Development where hot-reload and debugger are used.
+            if (_hostingEnvironment.EnvironmentName is "RaspberryPi" or "Production")
+            {
+                services.AddHttpClient();
+                services.AddHostedService<WarmupService>();
+            }
         }
 
-        private void ConfigureAzureStorageAccount(IServiceCollection services)
+        private void ConfigureStorageAccount(IServiceCollection services)
+        {
+            var storageType = Configuration.GetValue<string>("LocalStorageConfiguration:StorageType") ?? "Azure";
+
+            if (storageType.Equals("Local", StringComparison.OrdinalIgnoreCase))
+            {
+                ConfigureLocalStorage(services);
+            }
+            else
+            {
+                ConfigureAzureStorage(services);
+            }
+        }
+
+        private void ConfigureAzureStorage(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
             _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
@@ -216,6 +240,30 @@ namespace Orso.Arpa.Api
                     options.ContainerName = "image-sharp-cache";
                     _ = AzureBlobStorageCache.CreateIfNotExists(options, PublicAccessType.None);
                 }).SetCache<AzureBlobStorageCache>();
+        }
+
+        private void ConfigureLocalStorage(IServiceCollection services)
+        {
+            _ = services.AddScoped<IFileAccessor, LocalStorageProfilePictureAccessor>();
+
+            var cachePath = Configuration.GetValue<string>("LocalStorageConfiguration:ImageCachePath")
+                ?? "/data/image-cache";
+
+            // Ensure cache directory exists
+            if (!Directory.Exists(cachePath))
+            {
+                Directory.CreateDirectory(cachePath);
+            }
+
+            _ = services.AddImageSharp()
+                .RemoveProvider<PhysicalFileSystemProvider>()
+                .AddProvider<LocalProfilePictureProvider>()
+                .Configure<SixLabors.ImageSharp.Web.Caching.PhysicalFileSystemCacheOptions>(options =>
+                {
+                    options.CacheRootPath = cachePath;
+                    options.CacheFolder = "cache";
+                })
+                .SetCache<SixLabors.ImageSharp.Web.Caching.PhysicalFileSystemCache>();
         }
 
         private void ConfigureIpRateLimiting(IServiceCollection services)
@@ -604,7 +652,8 @@ namespace Orso.Arpa.Api
             _ = app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orso.Arpa.Api v1");
-                c.RoutePrefix = string.Empty;
+                // Swagger UI available at /swagger (not root) - keeps root free for frontend/redirects
+                c.RoutePrefix = "swagger";
             });
         }
 
