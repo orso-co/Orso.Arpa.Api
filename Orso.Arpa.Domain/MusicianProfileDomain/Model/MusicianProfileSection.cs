@@ -12,7 +12,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
         {
         }
 
-        public MusicianProfileSection(Guid? id, CreateMusicianProfileSection.Command command) : base(id)
+        public MusicianProfileSection(Guid id, CreateMusicianProfileSection.Command command) : base(id)
         {
             LevelAssessmentInner = command.LevelAssessmentInner;
             LevelAssessmentTeam = command.LevelAssessmentTeam;

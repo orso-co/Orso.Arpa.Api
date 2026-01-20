@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
 {
     public class CurriculumVitaeReference : BaseEntity
     {
-        public CurriculumVitaeReference(Guid? id, CreateCurriculumVitaeReference.Command command) : base(id)
+        public CurriculumVitaeReference(Guid id, CreateCurriculumVitaeReference.Command command) : base(id)
         {
             TimeSpan = command.TimeSpan;
             Institution = command.Institution;
@@ -18,7 +18,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
             MusicianProfileId = command.MusicianProfileId;
         }
 
-        internal CurriculumVitaeReference(Guid? id) : base(id)
+        internal CurriculumVitaeReference(Guid id) : base(id)
         {
         }
 

@@ -6,7 +6,7 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
 {
     public class UrlRole : BaseEntity
     {
-        public UrlRole(Guid? id, Url url, Role role) : base(id)
+        public UrlRole(Guid? id, Url url, Role role) : base(id ?? Guid.NewGuid())
         {
             Url = url;
             Role = role;

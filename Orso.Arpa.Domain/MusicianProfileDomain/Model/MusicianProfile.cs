@@ -15,7 +15,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
 {
     public class MusicianProfile : BaseEntity
     {
-        public MusicianProfile(CreateMusicianProfile.Command command, bool isMainProfile, Guid? id = null) : base(id)
+        public MusicianProfile(CreateMusicianProfile.Command command, bool isMainProfile, Guid? id = null) : base(id ?? Guid.NewGuid())
         {
             LevelAssessmentInner = command.LevelAssessmentInner;
             LevelAssessmentTeam = command.LevelAssessmentTeam;

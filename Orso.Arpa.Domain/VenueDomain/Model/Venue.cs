@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
 {
     public class Venue : BaseEntity
     {
-        public Venue(Guid? id, CreateVenue.Command command) : base(id)
+        public Venue(Guid id, CreateVenue.Command command) : base(id)
         {
             Name = command.Name;
             Description = command.Description;

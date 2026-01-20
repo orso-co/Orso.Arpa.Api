@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Model
 {
     public class SelectValueSection : BaseEntity
     {
-        public SelectValueSection(Guid? id, Guid sectionId, Guid selectValueId) : base(id)
+        public SelectValueSection(Guid id, Guid sectionId, Guid selectValueId) : base(id)
         {
             SectionId = sectionId;
             SelectValueId = selectValueId;
