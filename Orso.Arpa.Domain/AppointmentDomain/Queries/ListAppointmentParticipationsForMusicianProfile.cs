@@ -50,6 +50,9 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Queries
                 Guid personId = (await _arpaContext.FindAsync<MusicianProfile>([request.MusicianProfileId], cancellationToken)).PersonId;
 
                 IQueryable<AppointmentParticipation> appointmentParticipations = _arpaContext.AppointmentParticipations
+                    .Include(ap => ap.Appointment)
+                        .ThenInclude(a => a.ProjectAppointments)
+                            .ThenInclude(pa => pa.Project)
                     .Where(ap => ap.PersonId.Equals(personId));
 
                 if (await appointmentParticipations.AnyAsync(cancellationToken) && request.StartTime.HasValue)
