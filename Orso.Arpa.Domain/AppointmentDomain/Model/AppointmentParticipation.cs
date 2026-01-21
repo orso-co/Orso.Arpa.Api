@@ -39,5 +39,11 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
         public AppointmentParticipationResult? Result { get; private set; }
         public AppointmentParticipationPrediction? Prediction { get; private set; }
         public string CommentByPerformerInner { get; private set; }
+        public string CommentByStaffInner { get; private set; }
+
+        public void SetCommentByStaffInner(string comment)
+        {
+            CommentByStaffInner = comment;
+        }
     }
 }

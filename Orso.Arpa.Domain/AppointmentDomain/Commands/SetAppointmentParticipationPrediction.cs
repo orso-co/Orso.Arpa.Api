@@ -45,11 +45,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                 _ = RuleFor(d => d.Id)
                     .EntityExists<Command, Appointment>(arpaContext);
                 _ = RuleFor(d => d.PersonId)
-                    .Cascade(CascadeMode.Stop)
-                    .EntityExists<Command, Person>(arpaContext)
-                    .Must((command, personId) => arpaContext.IsPersonEligibleForAppointment(personId, command.Id))
-                    .WithErrorCode("403")
-                    .WithMessage("This person is not eligible for the supplied appointment.");
+                    .EntityExists<Command, Person>(arpaContext);
             }
         }
 

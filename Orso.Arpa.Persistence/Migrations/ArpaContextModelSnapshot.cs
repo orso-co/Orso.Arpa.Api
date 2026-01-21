@@ -346,6 +346,11 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("character varying(500)")
                         .HasColumnName("comment_by_performer_inner");
 
+                    b.Property<string>("CommentByStaffInner")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("comment_by_staff_inner");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("created_at");

@@ -38,6 +38,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Interfaces
 
         Task SetParticipationResultAsync(AppointmentParticipationSetResultDto setParticipationResult);
         Task SetParticipationPredictionAsync(AppointmentParticipationSetPredictionDto setParticipationPrediction);
+        Task SetParticipationCommentByStaffAsync(AppointmentParticipationSetCommentByStaffDto setCommentByStaff);
         Task SendAppointmentChangedNotificationAsync(SendAppointmentChangedNotificationDto sendAppointmentChangedNotificationDto);
 
         Task<string> ExportAppointmentsToIcsAsync();

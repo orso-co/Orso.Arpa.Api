@@ -40,13 +40,18 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
             public Validator(IArpaContext arpaContext)
             {
                 _ = RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext);
-                _ = RuleFor(d => d.PersonId)
                     .Cascade(CascadeMode.Stop)
-                    .EntityExists<Command, Person>(arpaContext)
-                    .Must((command, personId) => arpaContext.IsPersonEligibleForAppointment(personId, command.Id))
-                    .WithErrorCode("403")
-                    .WithMessage("This person is not eligible for the supplied appointment.");
+                    .EntityExists<Command, Appointment>(arpaContext)
+                    .Must(appointmentId =>
+                    {
+                        var appointment = arpaContext.Appointments.Find(appointmentId);
+                        if (appointment == null) return true;
+                        return appointment.StartTime.Date <= DateTime.Today;
+                    })
+                    .WithErrorCode("422")
+                    .WithMessage("Result can only be set on or after the appointment date.");
+                _ = RuleFor(d => d.PersonId)
+                    .EntityExists<Command, Person>(arpaContext);
             }
         }
 

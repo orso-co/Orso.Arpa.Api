@@ -25,6 +25,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(500);
 
             _ = builder
+                .Property(e => e.CommentByStaffInner)
+                .HasMaxLength(500);
+
+            _ = builder
                 .Property(s => s.Result)
                 .HasConversion<string>()
                 .HasMaxLength(100);

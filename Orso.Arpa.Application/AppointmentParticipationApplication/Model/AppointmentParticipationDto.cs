@@ -12,6 +12,7 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
         public AppointmentParticipationPrediction? Prediction { get; set; }
 
         public string CommentByPerformerInner { get; set; }
+        public string CommentByStaffInner { get; set; }
     }
 
     public class AppointmentParticipationDtoMappingProfile : Profile

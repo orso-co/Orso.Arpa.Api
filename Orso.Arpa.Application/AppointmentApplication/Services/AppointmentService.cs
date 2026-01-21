@@ -149,6 +149,12 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
             await _mediator.Send(command);
         }
 
+        public async Task SetParticipationCommentByStaffAsync(AppointmentParticipationSetCommentByStaffDto setCommentByStaff)
+        {
+            SetAppointmentParticipationCommentByStaff.Command command = _mapper.Map<SetAppointmentParticipationCommentByStaff.Command>(setCommentByStaff);
+            await _mediator.Send(command);
+        }
+
         public async Task SendAppointmentChangedNotificationAsync(SendAppointmentChangedNotificationDto sendAppointmentChangedNotificationDto)
         {
             SendAppointmentChangedNotification.Command command = _mapper.Map<SendAppointmentChangedNotification.Command>(sendAppointmentChangedNotificationDto);

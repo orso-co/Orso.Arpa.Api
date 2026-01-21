@@ -340,6 +340,24 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Sets the staff comment of an appointment participation
+        /// </summary>
+        /// <param name="setCommentByStaff"></param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPut("{id}/participations/{personId}/comment")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> SetParticipationCommentByStaff(AppointmentParticipationSetCommentByStaffDto setCommentByStaff)
+        {
+            await _appointmentService.SetParticipationCommentByStaffAsync(setCommentByStaff);
+            return NoContent();
+        }
+
+        /// <summary>
         ///    Exports all appointments to ics file
         /// </summary>
         /// <response code="200"></response>
