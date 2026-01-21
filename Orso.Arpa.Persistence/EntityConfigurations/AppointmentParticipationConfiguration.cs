@@ -37,6 +37,9 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             _ = builder.HasIndex(e => e.Result);
 
             _ = builder.HasIndex(e => e.Prediction);
+
+            // Prevent duplicate participations for same person and appointment
+            _ = builder.HasIndex(e => new { e.PersonId, e.AppointmentId }).IsUnique();
         }
     }
 }

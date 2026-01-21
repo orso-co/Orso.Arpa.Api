@@ -397,6 +397,10 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasIndex("Result")
                         .HasDatabaseName("ix_appointment_participations_result");
 
+                    b.HasIndex("PersonId", "AppointmentId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_appointment_participations_person_id_appointment_id");
+
                     b.ToTable("appointment_participations", (string)null);
                 });
 
