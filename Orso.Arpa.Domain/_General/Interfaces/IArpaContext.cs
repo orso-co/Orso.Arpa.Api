@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -73,5 +74,13 @@ namespace Orso.Arpa.Domain.General.Interfaces
         bool IsPersonEligibleForAppointment(Guid personId, Guid appointmentId);
         Task<int> ExecuteSqlAsync(string sqlStatement);
         bool EntityExists<TEntity>(Guid id) where TEntity : BaseEntity;
+
+        /// <summary>
+        /// Global search across Persons, Appointments, Projects, and News
+        /// </summary>
+        /// <param name="searchQuery">Search query (supports partial matches and fuzzy search)</param>
+        /// <param name="maxResults">Maximum number of results to return (default: 50)</param>
+        /// <returns>List of search results ordered by relevance</returns>
+        Task<List<GlobalSearchResult>> GlobalSearchAsync(string searchQuery, int maxResults = 50);
     }
 }
