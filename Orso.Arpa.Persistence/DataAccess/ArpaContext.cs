@@ -77,6 +77,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<PersonMembership> PersonMemberships { get; set; }
         public DbSet<PersonSection> PersonSections { get; set; }
         public DbSet<PreferredGenre> PreferredGenres { get; set; }
         public DbSet<Project> Projects { get; set; }

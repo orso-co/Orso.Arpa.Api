@@ -176,6 +176,9 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
         public virtual ICollection<BankAccount> BankAccounts { get; private set; } = new HashSet<BankAccount>();
 
         [CascadingSoftDelete]
+        public virtual ICollection<PersonMembership> PersonMemberships { get; private set; } = new HashSet<PersonMembership>();
+
+        [CascadingSoftDelete]
         public virtual ICollection<ClubMembershipProfile> ClubMemberships { get; private set; } = new HashSet<ClubMembershipProfile>();
 
         public string DisplayName => !string.IsNullOrEmpty(GivenName) && !string.IsNullOrEmpty(Surname) ? $"{GivenName} {Surname}" : (GivenName ?? Surname);

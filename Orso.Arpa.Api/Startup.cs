@@ -74,6 +74,8 @@ using Orso.Arpa.Application.NewsApplication.Interfaces;
 using Orso.Arpa.Application.NewsApplication.Services;
 using Orso.Arpa.Application.PersonApplication.Interfaces;
 using Orso.Arpa.Application.PersonApplication.Services;
+using Orso.Arpa.Application.PersonMembershipApplication.Interfaces;
+using Orso.Arpa.Application.PersonMembershipApplication.Services;
 using Orso.Arpa.Application.ProjectApplication.Interfaces;
 using Orso.Arpa.Application.ProjectApplication.Services;
 using Orso.Arpa.Application.RegionApplication.Interfaces;
@@ -455,6 +457,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IRoomEquipmentService, RoomEquipmentService>();
             services.AddScoped<IRoomSectionService, RoomSectionService>();
+            services.AddScoped<IPersonMembershipService, PersonMembershipService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 
