@@ -6,6 +6,14 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **PersonMembership Feature**: Neues Tab "Mitgliedschaft" in der Personen-Detailansicht
+  - Entity `PersonMembership` mit Feldern: Eintrittsdatum, Austrittsdatum, Jahresbeitrag, Förderstufe, Mitgliedsstatus, Zahlungsweise, Zahlungsturnus, Kommentare
+  - REST API Controller `/api/persons/{id}/memberships` (GET, POST, PUT, DELETE)
+  - SelectValues für Dropdowns: SupportLevel, MembershipStatus, PaymentMethod, PaymentFrequency
+  - EF Core Migration `20260122130000_AddPersonMembership`
+- AppointmentParticipation: Staff-Kommentar Feld hinzugefügt
+
 ### Changed
 - Upgrade auf .NET 10
 - PostgreSQL Docker Image auf 18-alpine (nur lokale Entwicklung)
