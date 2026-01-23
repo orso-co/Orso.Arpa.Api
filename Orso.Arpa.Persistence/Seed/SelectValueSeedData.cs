@@ -142,6 +142,7 @@ namespace Orso.Arpa.Persistence.Seed
                     Yearly,
                     // PersonMembership - Clubs
                     ORSOBerlin,
+                    ORSOStuttgart,
                     ORSOFreiburg
                 ];
             }
@@ -618,6 +619,11 @@ namespace Orso.Arpa.Persistence.Seed
         /// ORSO Berlin
         /// </summary>
         public static SelectValue ORSOBerlin => new(Guid.Parse("c5d6e7f8-a9b0-4c1d-2e3f-4a5b6c7d8e9f"), "ORSO Berlin", string.Empty);
+
+        /// <summary>
+        /// ORSO Stuttgart
+        /// </summary>
+        public static SelectValue ORSOStuttgart => new(Guid.Parse("e7f8a9b0-c1d2-4e3f-4a5b-6c7d8e9f0a1b"), "ORSO Stuttgart", string.Empty);
 
         /// <summary>
         /// ORSO Freiburg

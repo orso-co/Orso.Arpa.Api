@@ -431,6 +431,7 @@ namespace Orso.Arpa.Persistence.Seed
                 return
                 [
                     new(Guid.Parse("ffffffff-ffff-4fff-8fff-ffffffffffff"), SelectValueCategorySeedData.PersonMembershipClub.Id, SelectValueSeedData.ORSOBerlin.Id, 10),
+                    new(Guid.Parse("12345678-9abc-4def-8012-3456789abcde"), SelectValueCategorySeedData.PersonMembershipClub.Id, SelectValueSeedData.ORSOStuttgart.Id, 15),
                     new(Guid.Parse("01234567-89ab-4cde-8f01-234567890abc"), SelectValueCategorySeedData.PersonMembershipClub.Id, SelectValueSeedData.ORSOFreiburg.Id, 20),
                 ];
             }
