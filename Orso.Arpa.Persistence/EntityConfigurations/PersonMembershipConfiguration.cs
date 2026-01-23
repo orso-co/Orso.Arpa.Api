@@ -53,6 +53,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .WithMany()
                 .HasForeignKey(e => e.PaymentFrequencyId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(e => e.Club)
+                .WithMany()
+                .HasForeignKey(e => e.ClubId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

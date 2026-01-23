@@ -23,6 +23,7 @@ namespace Orso.Arpa.Application.PersonMembershipApplication.Model
         public Guid? MembershipStatusId { get; set; }
         public Guid? PaymentMethodId { get; set; }
         public Guid? PaymentFrequencyId { get; set; }
+        public Guid? ClubId { get; set; }
         public string StaffComment { get; set; }
         public string PerformerComment { get; set; }
     }
@@ -41,6 +42,7 @@ namespace Orso.Arpa.Application.PersonMembershipApplication.Model
                 .ForMember(dest => dest.MembershipStatusId, opt => opt.MapFrom(src => src.Body.MembershipStatusId))
                 .ForMember(dest => dest.PaymentMethodId, opt => opt.MapFrom(src => src.Body.PaymentMethodId))
                 .ForMember(dest => dest.PaymentFrequencyId, opt => opt.MapFrom(src => src.Body.PaymentFrequencyId))
+                .ForMember(dest => dest.ClubId, opt => opt.MapFrom(src => src.Body.ClubId))
                 .ForMember(dest => dest.StaffComment, opt => opt.MapFrom(src => src.Body.StaffComment))
                 .ForMember(dest => dest.PerformerComment, opt => opt.MapFrom(src => src.Body.PerformerComment));
         }

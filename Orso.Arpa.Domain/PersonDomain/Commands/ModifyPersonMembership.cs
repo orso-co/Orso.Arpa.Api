@@ -20,6 +20,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
             public Guid? MembershipStatusId { get; set; }
             public Guid? PaymentMethodId { get; set; }
             public Guid? PaymentFrequencyId { get; set; }
+            public Guid? ClubId { get; set; }
             public string StaffComment { get; set; }
             public string PerformerComment { get; set; }
         }
@@ -51,6 +52,9 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
 
                 RuleFor(c => c.PaymentFrequencyId)
                     .SelectValueMapping<Command, PersonMembership>(arpaContext, m => m.PaymentFrequency);
+
+                RuleFor(c => c.ClubId)
+                    .SelectValueMapping<Command, PersonMembership>(arpaContext, m => m.Club);
             }
         }
     }

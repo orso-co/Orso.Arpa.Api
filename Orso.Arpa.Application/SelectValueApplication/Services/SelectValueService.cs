@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
@@ -30,6 +31,39 @@ namespace Orso.Arpa.Application.SelectValueApplication.Services
             IImmutableList<SelectValueMapping> selectValues = await _mediator
                 .Send(new ListSelectValues.Query { TableName = tableName, PropertyName = propertyName });
             return _mapper.Map<IEnumerable<SelectValueDto>>(selectValues);
+        }
+
+        public async Task<SelectValueDto> CreateMappingAsync(SelectValueMappingCreateDto createDto)
+        {
+            var command = new CreateSelectValueMapping.Command
+            {
+                TableName = createDto.TableName,
+                PropertyName = createDto.PropertyName,
+                Name = createDto.Name,
+                Description = createDto.Description
+            };
+
+            SelectValueMapping createdMapping = await _mediator.Send(command);
+            return _mapper.Map<SelectValueDto>(createdMapping);
+        }
+
+        public async Task ModifyMappingAsync(SelectValueMappingModifyDto modifyDto)
+        {
+            var command = new ModifySelectValueMapping.Command
+            {
+                Id = modifyDto.Id,
+                TableName = modifyDto.TableName,
+                PropertyName = modifyDto.PropertyName,
+                Name = modifyDto.Body.Name,
+                Description = modifyDto.Body.Description
+            };
+
+            await _mediator.Send(command);
+        }
+
+        public async Task DeleteMappingAsync(Guid id)
+        {
+            await _mediator.Send(new DeleteSelectValueMapping.Command { Id = id });
         }
     }
 }

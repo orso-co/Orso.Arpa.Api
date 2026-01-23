@@ -37,7 +37,12 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
                     ContactDetailType,
                     BankAccountStatus,
                     RoomEquipmentType,
-                    RoomCapacity
+                    RoomCapacity,
+                    PersonMembershipSupportLevel,
+                    PersonMembershipMembershipStatus,
+                    PersonMembershipPaymentMethod,
+                    PersonMembershipPaymentFrequency,
+                    PersonMembershipClub
                 ];
             }
         }
@@ -161,5 +166,36 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
             nameof(Room),
             nameof(Room.Capacity),
             "Room capacity");
+
+        // PersonMembership Categories
+        public static SelectValueCategory PersonMembershipSupportLevel => new(
+            Guid.Parse("b1e4a8c2-5d3f-4a9b-8c7e-1f2d3a4b5c6d"),
+            nameof(PersonMembership),
+            nameof(PersonMembership.SupportLevel),
+            "Support Level");
+
+        public static SelectValueCategory PersonMembershipMembershipStatus => new(
+            Guid.Parse("c2f5b9d3-6e4a-4b0c-9d8f-2a3e4b5c6d7e"),
+            nameof(PersonMembership),
+            nameof(PersonMembership.MembershipStatus),
+            "Membership Status");
+
+        public static SelectValueCategory PersonMembershipPaymentMethod => new(
+            Guid.Parse("d3a6c0e4-7f5b-4c1d-0e9a-3b4f5c6d7e8f"),
+            nameof(PersonMembership),
+            nameof(PersonMembership.PaymentMethod),
+            "Payment Method");
+
+        public static SelectValueCategory PersonMembershipPaymentFrequency => new(
+            Guid.Parse("e4b7d1f5-8a6c-4d2e-1f0b-4c5a6d7e8f9a"),
+            nameof(PersonMembership),
+            nameof(PersonMembership.PaymentFrequency),
+            "Payment Frequency");
+
+        public static SelectValueCategory PersonMembershipClub => new(
+            Guid.Parse("f5c8e2a6-9b7d-4e3f-2a1c-5d6b7e8f9a0b"),
+            nameof(PersonMembership),
+            nameof(PersonMembership.Club),
+            "Club");
     }
 }

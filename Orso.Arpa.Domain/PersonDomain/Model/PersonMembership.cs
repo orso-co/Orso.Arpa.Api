@@ -17,6 +17,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             MembershipStatusId = command.MembershipStatusId;
             PaymentMethodId = command.PaymentMethodId;
             PaymentFrequencyId = command.PaymentFrequencyId;
+            ClubId = command.ClubId;
             StaffComment = command.StaffComment;
             PerformerComment = command.PerformerComment;
             PersonId = command.PersonId;
@@ -33,6 +34,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             MembershipStatusId = command.MembershipStatusId;
             PaymentMethodId = command.PaymentMethodId;
             PaymentFrequencyId = command.PaymentFrequencyId;
+            ClubId = command.ClubId;
             StaffComment = command.StaffComment;
             PerformerComment = command.PerformerComment;
         }
@@ -59,6 +61,10 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
         // Payment Frequency (Enum via SelectValueMapping: Monatlich, Quartalsweise, Jährlich)
         public Guid? PaymentFrequencyId { get; private set; }
         public virtual SelectValueMapping PaymentFrequency { get; private set; }
+
+        // Club (Enum via SelectValueMapping: ORSO Berlin, ORSO Freiburg, etc.)
+        public Guid? ClubId { get; private set; }
+        public virtual SelectValueMapping Club { get; private set; }
 
         // Comments
         [AuditLogIgnore]

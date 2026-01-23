@@ -16,6 +16,7 @@ namespace Orso.Arpa.Application.PersonMembershipApplication.Model
         public SelectValueDto MembershipStatus { get; set; }
         public SelectValueDto PaymentMethod { get; set; }
         public SelectValueDto PaymentFrequency { get; set; }
+        public SelectValueDto Club { get; set; }
         public string StaffComment { get; set; }
         public string PerformerComment { get; set; }
     }

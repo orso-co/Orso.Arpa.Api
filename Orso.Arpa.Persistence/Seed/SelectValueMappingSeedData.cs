@@ -33,6 +33,11 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(BankAccountStatusMappings);
                 list.AddRange(RoomEquipmentTypeMappings);
                 list.AddRange(RoomCapacityMappings);
+                list.AddRange(PersonMembershipSupportLevelMappings);
+                list.AddRange(PersonMembershipMembershipStatusMappings);
+                list.AddRange(PersonMembershipPaymentMethodMappings);
+                list.AddRange(PersonMembershipPaymentFrequencyMappings);
+                list.AddRange(PersonMembershipClubMappings);
                 return list;
             }
         }
@@ -359,6 +364,74 @@ namespace Orso.Arpa.Persistence.Seed
                     new(Guid.Parse("cb08b618-a2f0-4c5b-872c-6b6821453429"), SelectValueCategorySeedData.RoomCapacity.Id, SelectValueSeedData.Choir.Id, 20),
                     new(Guid.Parse("47faa760-b0a2-4900-9505-1b61d4ef99f2"), SelectValueCategorySeedData.RoomCapacity.Id, SelectValueSeedData.Orchestra.Id, 30),
                     new(Guid.Parse("4ed969a3-ba48-4116-b934-6ff1bb6719ac"), SelectValueCategorySeedData.RoomCapacity.Id, SelectValueSeedData.Tutti.Id, 40),
+                ];
+            }
+        }
+
+        // PersonMembership Mappings
+
+        public static IList<SelectValueMapping> PersonMembershipSupportLevelMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("11111111-1111-4111-8111-111111111111"), SelectValueCategorySeedData.PersonMembershipSupportLevel.Id, SelectValueSeedData.Sonata.Id, 10),
+                    new(Guid.Parse("22222222-2222-4222-8222-222222222222"), SelectValueCategorySeedData.PersonMembershipSupportLevel.Id, SelectValueSeedData.Concerto.Id, 20),
+                    new(Guid.Parse("33333333-3333-4333-8333-333333333333"), SelectValueCategorySeedData.PersonMembershipSupportLevel.Id, SelectValueSeedData.Symphony.Id, 30),
+                    new(Guid.Parse("44444444-4444-4444-8444-444444444444"), SelectValueCategorySeedData.PersonMembershipSupportLevel.Id, SelectValueSeedData.Opera.Id, 40),
+                ];
+            }
+        }
+
+        public static IList<SelectValueMapping> PersonMembershipMembershipStatusMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("55555555-5555-4555-8555-555555555555"), SelectValueCategorySeedData.PersonMembershipMembershipStatus.Id, SelectValueSeedData.FullMember.Id, 10),
+                    new(Guid.Parse("66666666-6666-4666-8666-666666666666"), SelectValueCategorySeedData.PersonMembershipMembershipStatus.Id, SelectValueSeedData.ProjectMember.Id, 20),
+                    new(Guid.Parse("77777777-7777-4777-8777-777777777777"), SelectValueCategorySeedData.PersonMembershipMembershipStatus.Id, SelectValueSeedData.SupportingMember.Id, 30),
+                ];
+            }
+        }
+
+        public static IList<SelectValueMapping> PersonMembershipPaymentMethodMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("88888888-8888-4888-8888-888888888888"), SelectValueCategorySeedData.PersonMembershipPaymentMethod.Id, SelectValueSeedData.DirectDebit.Id, 10),
+                    new(Guid.Parse("99999999-9999-4999-8999-999999999999"), SelectValueCategorySeedData.PersonMembershipPaymentMethod.Id, SelectValueSeedData.BankTransfer.Id, 20),
+                    new(Guid.Parse("aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"), SelectValueCategorySeedData.PersonMembershipPaymentMethod.Id, SelectValueSeedData.Cash.Id, 30),
+                    new(Guid.Parse("bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"), SelectValueCategorySeedData.PersonMembershipPaymentMethod.Id, SelectValueSeedData.PayPal.Id, 40),
+                ];
+            }
+        }
+
+        public static IList<SelectValueMapping> PersonMembershipPaymentFrequencyMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("cccccccc-cccc-4ccc-8ccc-cccccccccccc"), SelectValueCategorySeedData.PersonMembershipPaymentFrequency.Id, SelectValueSeedData.Monthly.Id, 10),
+                    new(Guid.Parse("dddddddd-dddd-4ddd-8ddd-dddddddddddd"), SelectValueCategorySeedData.PersonMembershipPaymentFrequency.Id, SelectValueSeedData.Quarterly.Id, 20),
+                    new(Guid.Parse("eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee"), SelectValueCategorySeedData.PersonMembershipPaymentFrequency.Id, SelectValueSeedData.Yearly.Id, 30),
+                ];
+            }
+        }
+
+        public static IList<SelectValueMapping> PersonMembershipClubMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("ffffffff-ffff-4fff-8fff-ffffffffffff"), SelectValueCategorySeedData.PersonMembershipClub.Id, SelectValueSeedData.ORSOBerlin.Id, 10),
+                    new(Guid.Parse("01234567-89ab-4cde-8f01-234567890abc"), SelectValueCategorySeedData.PersonMembershipClub.Id, SelectValueSeedData.ORSOFreiburg.Id, 20),
                 ];
             }
         }
