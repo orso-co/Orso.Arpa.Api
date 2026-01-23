@@ -19,7 +19,8 @@ namespace Orso.Arpa.Persistence.Seed
                 UserName = initialAdminConfiguration.UserName,
                 Email = initialAdminConfiguration.Email,
                 PersonId = PersonSeedData.AdminPersonId,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString()
             };
         }
 
@@ -36,7 +37,8 @@ namespace Orso.Arpa.Persistence.Seed
                     UserName = "admin",
                     Email = "admin@test.com",
                     PersonId = PersonSeedData.Admin.Id,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    SecurityStamp = Guid.NewGuid().ToString()
                 };
             }
         }
@@ -51,7 +53,8 @@ namespace Orso.Arpa.Persistence.Seed
                     UserName = "performer",
                     Email = "performer@test.com",
                     PersonId = PersonSeedData.PerformerPersonId,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    SecurityStamp = Guid.NewGuid().ToString()
                 };
             }
         }
