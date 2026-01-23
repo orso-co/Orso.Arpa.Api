@@ -392,5 +392,54 @@ namespace Orso.Arpa.Persistence.DataAccess
         {
             return await Database.ExecuteSqlRawAsync(sqlStatement);
         }
+
+        /// <summary>
+        /// Global search across Persons, Appointments, Projects, and News using pg_trgm
+        /// </summary>
+        public async Task<List<GlobalSearchResult>> GlobalSearchAsync(string searchQuery, int maxResults = 50)
+        {
+            if (string.IsNullOrWhiteSpace(searchQuery) || searchQuery.Length < 2)
+            {
+                return new List<GlobalSearchResult>();
+            }
+
+            var results = new List<GlobalSearchResult>();
+
+            await Database.OpenConnectionAsync();
+            try
+            {
+                await using DbCommand command = Database.GetDbConnection().CreateCommand();
+                command.CommandText = "SELECT entity_type, entity_id, display_name, additional_info, relevance FROM fn_global_search(@query, @maxResults)";
+
+                var queryParam = command.CreateParameter();
+                queryParam.ParameterName = "@query";
+                queryParam.Value = searchQuery;
+                command.Parameters.Add(queryParam);
+
+                var maxResultsParam = command.CreateParameter();
+                maxResultsParam.ParameterName = "@maxResults";
+                maxResultsParam.Value = maxResults;
+                command.Parameters.Add(maxResultsParam);
+
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    results.Add(new GlobalSearchResult
+                    {
+                        EntityType = reader.GetString(0),
+                        EntityId = reader.GetGuid(1),
+                        DisplayName = reader.GetString(2),
+                        AdditionalInfo = reader.IsDBNull(3) ? null : reader.GetString(3),
+                        Relevance = reader.GetFloat(4)
+                    });
+                }
+            }
+            finally
+            {
+                await Database.CloseConnectionAsync();
+            }
+
+            return results;
+        }
     }
 }
