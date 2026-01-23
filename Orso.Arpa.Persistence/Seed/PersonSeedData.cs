@@ -25,6 +25,7 @@ namespace Orso.Arpa.Persistence.Seed
         }
 
         public static Guid AdminPersonId => Guid.Parse("56ed7c20-ba78-4a02-936e-5e840ef0748c");
+        public static Guid PerformerPersonId => Guid.Parse("a7e3c2b1-4d5f-4a8e-9c6b-2d1e3f4a5b6c");
 
         public static Person Admin
         {
@@ -36,6 +37,21 @@ namespace Orso.Arpa.Persistence.Seed
                     {
                         GivenName = "Initial",
                         Surname = "Admin",
+                        GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id
+                    });
+            }
+        }
+
+        public static Person Performer
+        {
+            get
+            {
+                return new Person(
+                    PerformerPersonId,
+                    new RegisterUser.Command
+                    {
+                        GivenName = "Test",
+                        Surname = "Performer",
                         GenderId = SelectValueMappingSeedData.PersonGenderMappings[2].Id
                     });
             }
