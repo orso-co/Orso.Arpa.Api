@@ -11,6 +11,7 @@ using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.NewsDomain.Model;
 
 namespace Orso.Arpa.Persistence
 {
@@ -41,6 +42,17 @@ namespace Orso.Arpa.Persistence
             {
                 await SeedInitialAdminPersonAsync();
                 await SeedInitialAdminUserAsync();
+            }
+
+            if (_seedConfiguration.SeedTestPerformer)
+            {
+                await SeedTestPerformerPersonAsync();
+                await SeedTestPerformerUserAsync();
+            }
+
+            if (_seedConfiguration.SeedTestNews)
+            {
+                await SeedTestNewsAsync();
             }
 
             await SeedViewsAndFunctionsAsync();
@@ -101,6 +113,44 @@ namespace Orso.Arpa.Persistence
             {
                 _ = await _arpaUserManager.AddToRoleAsync(initialAdmin, RoleNames.Admin);
             }
+        }
+
+        private async Task SeedTestPerformerPersonAsync()
+        {
+            Person testPerformer = PersonSeedData.Performer;
+
+            if (!await _arpaContext.EntityExistsAsync<Person>(testPerformer.Id, CancellationToken.None))
+            {
+                _ = await _arpaContext.Persons.AddAsync(testPerformer);
+                _ = await _arpaContext.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+
+        private async Task SeedTestPerformerUserAsync()
+        {
+            User testPerformer = UserSeedData.Performer;
+
+            if ((await _arpaUserManager.FindByNameAsync(testPerformer.UserName)) is null)
+            {
+                _ = await _arpaUserManager.CreateAsync(testPerformer, UserSeedData.ValidPassword);
+            }
+
+            if (!await _arpaUserManager.IsInRoleAsync(testPerformer, RoleNames.Performer))
+            {
+                _ = await _arpaUserManager.AddToRoleAsync(testPerformer, RoleNames.Performer);
+            }
+        }
+
+        private async Task SeedTestNewsAsync()
+        {
+            foreach (News news in NewsSeedData.News)
+            {
+                if (!await _arpaContext.EntityExistsAsync<News>(news.Id, CancellationToken.None))
+                {
+                    _ = await _arpaContext.News.AddAsync(news);
+                }
+            }
+            _ = await _arpaContext.SaveChangesAsync(CancellationToken.None);
         }
     }
 }

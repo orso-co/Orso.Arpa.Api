@@ -194,5 +194,26 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _projectService.SetProjectParticipationAsync(myProjectParticipationDto));
         }
+
+        /// <summary>
+        /// Sets the setlist for a project
+        /// </summary>
+        /// <param name="id">Project ID</param>
+        /// <param name="body">Setlist ID body (null setlistId to remove)</param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPut("{id}/setlist")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> SetSetlist([FromRoute] Guid id, [FromBody] SetSetlistBody body)
+        {
+            await _projectService.SetSetlistAsync(id, body.SetlistId);
+            return NoContent();
+        }
+
+        public record SetSetlistBody(Guid? SetlistId);
     }
 }

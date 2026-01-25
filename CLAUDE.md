@@ -36,6 +36,39 @@
 ### Lokal (Entwicklung)
 - `docker-compose.yml` im Repo
 - PostgreSQL 18-alpine (Container) oder 17.x (manuell)
+- **WICHTIG: Port 5000 ist durch macOS AirPlay belegt!**
+  - Backend läuft auf Port **5001** (HTTPS) oder **5002** (HTTP)
+  - Niemals Port 5000 für lokale Entwicklung verwenden
+
+## Entwicklungs-Workflow (WICHTIG!)
+
+**Reihenfolge einhalten - keine Abkürzungen!**
+
+### 1. Lokal entwickeln und testen
+```
+1. Datenbank starten (Docker oder lokal)
+2. Migrationen anwenden: dotnet ef database update
+3. Backend starten und testen
+4. Frontend starten und testen
+5. Alle Änderungen committen
+```
+
+### 2. Nach raspi-dev deployen
+```
+git push origin raspi-dev
+# Workflow baut und deployed automatisch
+# Andere Mitarbeiter testen auf arpa.loopus.it
+```
+
+### 3. Nach raspi-prod deployen (erst nach erfolgreichem Test!)
+```
+git checkout raspi-prod
+git merge raspi-dev
+git push origin raspi-prod
+```
+
+**Niemals direkt nach raspi-dev/prod pushen ohne lokalen Test!**
+**Niemals Datenbank-Änderungen manuell machen ohne Migration im Code!**
 
 ## Wichtige Dateien
 

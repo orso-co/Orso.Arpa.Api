@@ -173,5 +173,25 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
             Appointment createdEntity = await _mediator.Send(command);
             return _mapper.Map<AppointmentDto>(createdEntity);
         }
+
+        public async Task AddPrioritizedPieceAsync(Guid appointmentId, Guid setlistPieceId)
+        {
+            var command = new AddPrioritizedPiece.Command
+            {
+                AppointmentId = appointmentId,
+                SetlistPieceId = setlistPieceId
+            };
+            await _mediator.Send(command);
+        }
+
+        public async Task RemovePrioritizedPieceAsync(Guid appointmentId, Guid setlistPieceId)
+        {
+            var command = new RemovePrioritizedPiece.Command
+            {
+                AppointmentId = appointmentId,
+                SetlistPieceId = setlistPieceId
+            };
+            await _mediator.Send(command);
+        }
     }
 }

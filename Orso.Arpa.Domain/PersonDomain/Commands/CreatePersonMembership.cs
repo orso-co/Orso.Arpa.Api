@@ -1,0 +1,57 @@
+using System;
+using FluentValidation;
+using Orso.Arpa.Domain.General.Extensions;
+using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.PersonDomain.Model;
+using static Orso.Arpa.Domain.General.GenericHandlers.Create;
+
+namespace Orso.Arpa.Domain.PersonDomain.Commands
+{
+    public static class CreatePersonMembership
+    {
+        public class Command : ICreateCommand<PersonMembership>
+        {
+            public DateTime EntryDate { get; set; }
+            public DateTime? ExitDate { get; set; }
+            public decimal AnnualFee { get; set; }
+            public Guid? SupportLevelId { get; set; }
+            public Guid? MembershipStatusId { get; set; }
+            public Guid? PaymentMethodId { get; set; }
+            public Guid? PaymentFrequencyId { get; set; }
+            public Guid? ClubId { get; set; }
+            public string StaffComment { get; set; }
+            public string PerformerComment { get; set; }
+            public Guid PersonId { get; set; }
+        }
+
+        public class Validator : AbstractValidator<Command>
+        {
+            public Validator(IArpaContext arpaContext)
+            {
+                RuleFor(c => c.PersonId)
+                    .EntityExists<Command, Person>(arpaContext);
+
+                RuleFor(c => c.EntryDate)
+                    .NotEmpty();
+
+                RuleFor(c => c.AnnualFee)
+                    .GreaterThanOrEqualTo(0);
+
+                RuleFor(c => c.SupportLevelId)
+                    .SelectValueMapping<Command, PersonMembership>(arpaContext, m => m.SupportLevel);
+
+                RuleFor(c => c.MembershipStatusId)
+                    .SelectValueMapping<Command, PersonMembership>(arpaContext, m => m.MembershipStatus);
+
+                RuleFor(c => c.PaymentMethodId)
+                    .SelectValueMapping<Command, PersonMembership>(arpaContext, m => m.PaymentMethod);
+
+                RuleFor(c => c.PaymentFrequencyId)
+                    .SelectValueMapping<Command, PersonMembership>(arpaContext, m => m.PaymentFrequency);
+
+                RuleFor(c => c.ClubId)
+                    .SelectValueMapping<Command, PersonMembership>(arpaContext, m => m.Club);
+            }
+        }
+    }
+}

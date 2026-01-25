@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.MyProjectApplication.Model;
+using Orso.Arpa.Application.SetlistApplication.Model;
 
 namespace Orso.Arpa.Application.MyProjectApplication.Interfaces
 {
@@ -9,5 +11,7 @@ namespace Orso.Arpa.Application.MyProjectApplication.Interfaces
 
         Task<MyProjectParticipationDto> SetProjectParticipationStatus(
             MyProjectParticipationModifyDto myProjectParticipationModifyDto);
+
+        Task<SetlistDto> GetProjectSetlistAsync(Guid projectId);
     }
 }

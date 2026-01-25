@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.MusicLibraryDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Commands;
 using Orso.Arpa.Domain.ProjectDomain.Enums;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
@@ -67,6 +68,17 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
         public Guid? ParentId { get; private set; }
         public virtual Project Parent { get; private set; }
         public bool IsCompleted { get; private set; }
+
+        /// <summary>
+        /// Optional setlist for this project (concert program)
+        /// </summary>
+        public Guid? SetlistId { get; private set; }
+        public virtual Setlist Setlist { get; private set; }
+
+        public void SetSetlist(Guid? setlistId)
+        {
+            SetlistId = setlistId;
+        }
 
         [CascadingSoftDelete]
         public virtual ICollection<Project> Children { get; private set; } = new HashSet<Project>();

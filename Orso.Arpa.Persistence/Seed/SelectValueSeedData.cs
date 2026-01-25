@@ -121,7 +121,47 @@ namespace Orso.Arpa.Persistence.Seed
                     DrinkinFountain,
                     Choir,
                     VoiceRehearsal,
-                    Orchestra
+                    Orchestra,
+                    // PersonMembership - Support Levels
+                    Sonata,
+                    Concerto,
+                    Symphony,
+                    Opera,
+                    // PersonMembership - Membership Status
+                    FullMember,
+                    ProjectMember,
+                    SupportingMember,
+                    // PersonMembership - Payment Methods
+                    DirectDebit,
+                    BankTransfer,
+                    Cash,
+                    PayPal,
+                    // PersonMembership - Payment Frequencies
+                    Monthly,
+                    Quarterly,
+                    Yearly,
+                    // PersonMembership - Clubs
+                    ORSOBerlin,
+                    ORSOStuttgart,
+                    ORSOFreiburg,
+                    // MusicPiece - Epochs
+                    Baroque,
+                    Classical,
+                    Romantic,
+                    Modern,
+                    Contemporary,
+                    // MusicPiece - Genres
+                    SymphonicMusic,
+                    ConcertoMusic,
+                    ChamberMusicGenre,
+                    OperaGenre,
+                    SacredMusic,
+                    ChoralMusic,
+                    // MusicPiece - Difficulty Levels
+                    Easy,
+                    Medium,
+                    Advanced,
+                    Expert
                 ];
             }
         }
@@ -512,5 +552,181 @@ namespace Orso.Arpa.Persistence.Seed
         /// Stimmprobe
         /// </summary>
         public static SelectValue VoiceRehearsal => new(Guid.Parse("b35fa703-962a-4dee-a593-742f2904d6b0"), "Voice Rehearsal", string.Empty);
+
+        // PERSON MEMBERSHIP - SUPPORT LEVELS
+
+        /// <summary>
+        /// Sonata (Förderstufe)
+        /// </summary>
+        public static SelectValue Sonata => new(Guid.Parse("a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"), "Sonata", string.Empty);
+
+        /// <summary>
+        /// Concerto (Förderstufe)
+        /// </summary>
+        public static SelectValue Concerto => new(Guid.Parse("b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"), "Concerto", string.Empty);
+
+        /// <summary>
+        /// Symphony (Förderstufe)
+        /// </summary>
+        public static SelectValue Symphony => new(Guid.Parse("c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f"), "Symphony", string.Empty);
+
+        /// <summary>
+        /// Opera (Förderstufe)
+        /// </summary>
+        public static SelectValue Opera => new(Guid.Parse("d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a"), "Opera", string.Empty);
+
+        // PERSON MEMBERSHIP - MEMBERSHIP STATUS
+
+        /// <summary>
+        /// Vollmitglied
+        /// </summary>
+        public static SelectValue FullMember => new(Guid.Parse("e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b"), "Full Member", string.Empty);
+
+        /// <summary>
+        /// Projektmitglied
+        /// </summary>
+        public static SelectValue ProjectMember => new(Guid.Parse("f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c"), "Project Member", string.Empty);
+
+        /// <summary>
+        /// Fördermitglied
+        /// </summary>
+        public static SelectValue SupportingMember => new(Guid.Parse("a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d"), "Supporting Member", string.Empty);
+
+        // PERSON MEMBERSHIP - PAYMENT METHODS
+
+        /// <summary>
+        /// Lastschrift
+        /// </summary>
+        public static SelectValue DirectDebit => new(Guid.Parse("b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e"), "Direct Debit", string.Empty);
+
+        /// <summary>
+        /// Überweisung
+        /// </summary>
+        public static SelectValue BankTransfer => new(Guid.Parse("c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f"), "Bank Transfer", string.Empty);
+
+        /// <summary>
+        /// Bar
+        /// </summary>
+        public static SelectValue Cash => new(Guid.Parse("d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a"), "Cash", string.Empty);
+
+        /// <summary>
+        /// PayPal
+        /// </summary>
+        public static SelectValue PayPal => new(Guid.Parse("e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b"), "PayPal", string.Empty);
+
+        // PERSON MEMBERSHIP - PAYMENT FREQUENCIES
+
+        /// <summary>
+        /// Monatlich
+        /// </summary>
+        public static SelectValue Monthly => new(Guid.Parse("f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c"), "Monthly", string.Empty);
+
+        /// <summary>
+        /// Quartalsweise
+        /// </summary>
+        public static SelectValue Quarterly => new(Guid.Parse("a3b4c5d6-e7f8-4a9b-0c1d-2e3f4a5b6c7d"), "Quarterly", string.Empty);
+
+        /// <summary>
+        /// Jährlich
+        /// </summary>
+        public static SelectValue Yearly => new(Guid.Parse("b4c5d6e7-f8a9-4b0c-1d2e-3f4a5b6c7d8e"), "Yearly", string.Empty);
+
+        // PERSON MEMBERSHIP - CLUBS
+
+        /// <summary>
+        /// ORSO Berlin
+        /// </summary>
+        public static SelectValue ORSOBerlin => new(Guid.Parse("c5d6e7f8-a9b0-4c1d-2e3f-4a5b6c7d8e9f"), "ORSO Berlin", string.Empty);
+
+        /// <summary>
+        /// ORSO Stuttgart
+        /// </summary>
+        public static SelectValue ORSOStuttgart => new(Guid.Parse("e7f8a9b0-c1d2-4e3f-4a5b-6c7d8e9f0a1b"), "ORSO Stuttgart", string.Empty);
+
+        /// <summary>
+        /// ORSO Freiburg
+        /// </summary>
+        public static SelectValue ORSOFreiburg => new(Guid.Parse("d6e7f8a9-b0c1-4d2e-3f4a-5b6c7d8e9f0a"), "ORSO Freiburg", string.Empty);
+
+        // MUSIC PIECE - EPOCHS
+
+        /// <summary>
+        /// Barock (ca. 1600-1750)
+        /// </summary>
+        public static SelectValue Baroque => new(Guid.Parse("b0000001-0001-4000-8000-000000000001"), "Baroque", "ca. 1600-1750");
+
+        /// <summary>
+        /// Klassik (ca. 1750-1820)
+        /// </summary>
+        public static SelectValue Classical => new(Guid.Parse("b0000001-0002-4000-8000-000000000002"), "Classical", "ca. 1750-1820");
+
+        /// <summary>
+        /// Romantik (ca. 1820-1910)
+        /// </summary>
+        public static SelectValue Romantic => new(Guid.Parse("b0000001-0003-4000-8000-000000000003"), "Romantic", "ca. 1820-1910");
+
+        /// <summary>
+        /// Moderne (ca. 1910-1975)
+        /// </summary>
+        public static SelectValue Modern => new(Guid.Parse("b0000001-0004-4000-8000-000000000004"), "Modern", "ca. 1910-1975");
+
+        /// <summary>
+        /// Zeitgenössisch (ab 1975)
+        /// </summary>
+        public static SelectValue Contemporary => new(Guid.Parse("b0000001-0005-4000-8000-000000000005"), "Contemporary", "from 1975");
+
+        // MUSIC PIECE - GENRES
+
+        /// <summary>
+        /// Sinfonische Musik
+        /// </summary>
+        public static SelectValue SymphonicMusic => new(Guid.Parse("b0000002-0001-4000-8000-000000000001"), "Symphonic Music", string.Empty);
+
+        /// <summary>
+        /// Konzert (Solokonzert)
+        /// </summary>
+        public static SelectValue ConcertoMusic => new(Guid.Parse("b0000002-0002-4000-8000-000000000002"), "Concerto", string.Empty);
+
+        /// <summary>
+        /// Kammermusik (Genre)
+        /// </summary>
+        public static SelectValue ChamberMusicGenre => new(Guid.Parse("b0000002-0003-4000-8000-000000000003"), "Chamber Music", string.Empty);
+
+        /// <summary>
+        /// Oper / Musiktheater
+        /// </summary>
+        public static SelectValue OperaGenre => new(Guid.Parse("b0000002-0004-4000-8000-000000000004"), "Opera / Musical Theatre", string.Empty);
+
+        /// <summary>
+        /// Geistliche Musik
+        /// </summary>
+        public static SelectValue SacredMusic => new(Guid.Parse("b0000002-0005-4000-8000-000000000005"), "Sacred Music", string.Empty);
+
+        /// <summary>
+        /// Chormusik
+        /// </summary>
+        public static SelectValue ChoralMusic => new(Guid.Parse("b0000002-0006-4000-8000-000000000006"), "Choral Music", string.Empty);
+
+        // MUSIC PIECE - DIFFICULTY LEVELS
+
+        /// <summary>
+        /// Leicht
+        /// </summary>
+        public static SelectValue Easy => new(Guid.Parse("b0000003-0001-4000-8000-000000000001"), "Easy", string.Empty);
+
+        /// <summary>
+        /// Mittel
+        /// </summary>
+        public static SelectValue Medium => new(Guid.Parse("b0000003-0002-4000-8000-000000000002"), "Medium", string.Empty);
+
+        /// <summary>
+        /// Fortgeschritten
+        /// </summary>
+        public static SelectValue Advanced => new(Guid.Parse("b0000003-0003-4000-8000-000000000003"), "Advanced", string.Empty);
+
+        /// <summary>
+        /// Profi
+        /// </summary>
+        public static SelectValue Expert => new(Guid.Parse("b0000003-0004-4000-8000-000000000004"), "Expert", string.Empty);
     }
 }

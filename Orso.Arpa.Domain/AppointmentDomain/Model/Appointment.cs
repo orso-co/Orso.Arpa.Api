@@ -126,6 +126,9 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
         [CascadingSoftDelete]
         public virtual ICollection<AppointmentParticipation> AppointmentParticipations { get; private set; } = new HashSet<AppointmentParticipation>();
 
+        [CascadingSoftDelete]
+        public virtual ICollection<AppointmentSetlistPiece> PrioritizedPieces { get; private set; } = new HashSet<AppointmentSetlistPiece>();
+
         #endregion
 
         public override string ToString()

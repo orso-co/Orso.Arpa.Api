@@ -1,9 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.MyProjectApplication.Interfaces;
 using Orso.Arpa.Application.MyProjectApplication.Model;
+using Orso.Arpa.Application.SetlistApplication.Model;
 using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers;
@@ -49,5 +51,27 @@ public class MyProjectsController : BaseController
     public async Task<ActionResult<MyProjectParticipationDto>> SetProjectParticipationStatus(MyProjectParticipationModifyDto setMyProjectParticipationStatus)
     {
         return Ok(await _myProjectService.SetProjectParticipationStatus(setMyProjectParticipationStatus));
+    }
+
+    /// <summary>
+    /// Gets the setlist for a project the current user is participating in.
+    /// Files are filtered to only include those matching the user's instrument sections.
+    /// </summary>
+    /// <param name="id">Project ID</param>
+    /// <returns>The project's setlist with section-filtered files</returns>
+    /// <response code="200">Returns the setlist</response>
+    /// <response code="404">If the project has no setlist or user is not participating</response>
+    [HttpGet("{id}/setlist")]
+    [Authorize(Roles = RoleNames.Performer)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<SetlistDto>> GetProjectSetlist([FromRoute] Guid id)
+    {
+        SetlistDto setlist = await _myProjectService.GetProjectSetlistAsync(id);
+        if (setlist == null)
+        {
+            return NotFound();
+        }
+        return Ok(setlist);
     }
 }

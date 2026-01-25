@@ -128,5 +128,15 @@ namespace Orso.Arpa.Application.ProjectApplication.Services
 
             dto.Participations = _mapper.Map<IList<AppointmentParticipationListItemDto>>(personGrouping);
         }
+
+        public async Task SetSetlistAsync(Guid projectId, Guid? setlistId)
+        {
+            var command = new SetProjectSetlist.Command
+            {
+                ProjectId = projectId,
+                SetlistId = setlistId
+            };
+            await _mediator.Send(command);
+        }
     }
 }
