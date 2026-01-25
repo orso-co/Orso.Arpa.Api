@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using AutoMapper;
 using Orso.Arpa.Domain.AuditLogDomain.Enums;
 using Orso.Arpa.Domain.AuditLogDomain.Model;
@@ -29,10 +30,28 @@ namespace Orso.Arpa.Application.AuditLogApplication.Model
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dest => dest.TableName, opt => opt.MapFrom(src => src.TableName))
-                .ForMember(dest => dest.KeyValues, opt => opt.MapFrom(src => src.KeyValues))
+                .ForMember(dest => dest.KeyValues, opt => opt.MapFrom(src => ParseKeyValues(src.KeyValues)))
                 .ForMember(dest => dest.OldValues, opt => opt.MapFrom(src => src.OldValues))
                 .ForMember(dest => dest.NewValues, opt => opt.MapFrom(src => src.NewValues))
                 .ForMember(dest => dest.ChangedColumns, opt => opt.MapFrom(src => src.ChangedColumns));
+        }
+
+        private static Dictionary<string, object> ParseKeyValues(string keyValuesJson)
+        {
+            if (string.IsNullOrEmpty(keyValuesJson))
+            {
+                return new Dictionary<string, object>();
+            }
+
+            try
+            {
+                return JsonSerializer.Deserialize<Dictionary<string, object>>(keyValuesJson)
+                    ?? new Dictionary<string, object>();
+            }
+            catch
+            {
+                return new Dictionary<string, object>();
+            }
         }
     }
 }
