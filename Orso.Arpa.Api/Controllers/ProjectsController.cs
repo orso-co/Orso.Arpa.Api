@@ -215,5 +215,22 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         public record SetSetlistBody(Guid? SetlistId);
+
+        /// <summary>
+        /// Resolves project participation IDs to their project IDs.
+        /// Used for activity feeds where audit logs may not contain the project ID directly.
+        /// </summary>
+        /// <param name="body">List of participation IDs to resolve</param>
+        /// <returns>Dictionary mapping participation ID to project ID</returns>
+        /// <response code="200">Returns the mapping dictionary</response>
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [HttpPost("participations/resolve")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<Dictionary<Guid, Guid>>> ResolveParticipationProjectIds([FromBody] ResolveParticipationIdsBody body)
+        {
+            return Ok(await _projectService.ResolveParticipationProjectIdsAsync(body.ParticipationIds));
+        }
+
+        public record ResolveParticipationIdsBody(IEnumerable<Guid> ParticipationIds);
     }
 }

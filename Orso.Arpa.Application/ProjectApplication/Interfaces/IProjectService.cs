@@ -19,5 +19,13 @@ namespace Orso.Arpa.Application.ProjectApplication.Interfaces
         Task<IEnumerable<AppointmentListDto>> GetAppointmentsByIdAsync(Guid id);
         Task<IEnumerable<AppointmentDto>> GetAppointmentsWithParticipationsByIdAsync(Guid id);
         Task SetSetlistAsync(Guid projectId, Guid? setlistId);
+
+        /// <summary>
+        /// Resolves a list of project participation IDs to their project IDs.
+        /// Used for activity feeds where audit logs may not contain the project ID.
+        /// </summary>
+        /// <param name="participationIds">List of project participation IDs to resolve</param>
+        /// <returns>Dictionary mapping participation ID to project ID</returns>
+        Task<Dictionary<Guid, Guid>> ResolveParticipationProjectIdsAsync(IEnumerable<Guid> participationIds);
     }
 }

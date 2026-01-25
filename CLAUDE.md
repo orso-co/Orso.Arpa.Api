@@ -70,6 +70,61 @@ git push origin raspi-prod
 **Niemals direkt nach raspi-dev/prod pushen ohne lokalen Test!**
 **Niemals Datenbank-Änderungen manuell machen ohne Migration im Code!**
 
+## Datenbank-Migrationen (KRITISCH!)
+
+### Goldene Regel
+> **NIEMALS Datenbank-Tabellen manuell erstellen oder ändern.**
+> Immer nur über EF Core Migrationen.
+
+Die API führt `Database.Migrate()` beim Start automatisch aus (siehe `Startup.cs:678`).
+
+### Warum das wichtig ist
+Wenn Tabellen manuell erstellt werden:
+1. EF Core sieht "Tabellen existieren" und markiert Migration als erledigt
+2. Aber das manuelle Schema kann **falsch** sein (andere Spalten, Typen, etc.)
+3. AutoMapper-Fehler und 500er zur Laufzeit, extrem schwer zu debuggen
+
+### Korrekter Ablauf bei neuem Feature mit DB-Änderungen
+```bash
+# 1. Lokal: Entity/DbContext ändern
+# 2. Migration erstellen
+dotnet ef migrations add FeatureName -p Orso.Arpa.Persistence -s Orso.Arpa.Api
+
+# 3. Lokal testen
+dotnet ef database update -p Orso.Arpa.Persistence -s Orso.Arpa.Api
+
+# 4. Code + Migration committen und pushen
+git add . && git commit -m "Add FeatureName" && git push origin raspi-dev
+
+# 5. API startet neu → Migration wird automatisch angewendet
+# 6. Testen auf arpa.loopus.it
+# 7. Nach raspi-prod mergen wenn OK
+```
+
+### Bei Azure-Dump-Import auf Raspi
+```bash
+# 1. Dump importieren (überschreibt alles)
+pg_restore ...
+
+# 2. API Container neustarten - fehlende Migrationen werden automatisch angewendet
+docker restart arpa-prod-api
+
+# 3. Logs prüfen ob Migrationen durchgelaufen sind
+docker logs arpa-prod-api 2>&1 | head -50
+```
+
+### Schema-Probleme debuggen
+Wenn unerklärliche 500er auftreten, Schema zwischen Umgebungen vergleichen:
+```bash
+# Spalten einer Tabelle anzeigen
+docker exec <postgres-container> psql -U postgres -d orso-arpa -c \
+  "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'tabelle' ORDER BY ordinal_position;"
+
+# Alle Tabellen auflisten
+docker exec <postgres-container> psql -U postgres -d orso-arpa -c \
+  "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;"
+```
+
 ## Wichtige Dateien
 
 - `Orso.Arpa.Api/Startup.cs` - App-Konfiguration
