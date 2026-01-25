@@ -370,5 +370,43 @@ namespace Orso.Arpa.Api.Controllers
             return File(Encoding.UTF8.GetBytes(serializedCalendar), "text/calendar",
                 "appointments.ics");
         }
+
+        /// <summary>
+        /// Adds a prioritized piece to an appointment (marks a setlist piece as rehearsal focus)
+        /// </summary>
+        /// <param name="id">Appointment ID</param>
+        /// <param name="setlistPieceId">SetlistPiece ID</param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("{id}/prioritized-pieces/{setlistPieceId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> AddPrioritizedPiece([FromRoute] Guid id, [FromRoute] Guid setlistPieceId)
+        {
+            await _appointmentService.AddPrioritizedPieceAsync(id, setlistPieceId);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Removes a prioritized piece from an appointment
+        /// </summary>
+        /// <param name="id">Appointment ID</param>
+        /// <param name="setlistPieceId">SetlistPiece ID</param>
+        /// <response code="204"></response>
+        /// <response code="404">If entity could not be found</response>
+        /// <response code="422">If validation fails</response>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpDelete("{id}/prioritized-pieces/{setlistPieceId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> RemovePrioritizedPiece([FromRoute] Guid id, [FromRoute] Guid setlistPieceId)
+        {
+            await _appointmentService.RemovePrioritizedPieceAsync(id, setlistPieceId);
+            return NoContent();
+        }
     }
 }

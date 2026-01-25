@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Application.SetlistApplication.Model;
 using Orso.Arpa.Application.UrlApplication.Model;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.ProjectDomain.Enums;
@@ -26,6 +27,8 @@ namespace Orso.Arpa.Application.ProjectApplication.Model
         public bool IsCompleted { get; set; }
         public bool IsHiddenForPerformers { get; set; }
         public IList<ReducedProjectDto> Children { get; set; } = [];
+        public Guid? SetlistId { get; set; }
+        public ReducedSetlistDto Setlist { get; set; }
     }
 
     public class ProjectDtoMappingProfile : Profile

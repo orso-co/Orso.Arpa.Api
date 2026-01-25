@@ -143,7 +143,25 @@ namespace Orso.Arpa.Persistence.Seed
                     // PersonMembership - Clubs
                     ORSOBerlin,
                     ORSOStuttgart,
-                    ORSOFreiburg
+                    ORSOFreiburg,
+                    // MusicPiece - Epochs
+                    Baroque,
+                    Classical,
+                    Romantic,
+                    Modern,
+                    Contemporary,
+                    // MusicPiece - Genres
+                    SymphonicMusic,
+                    ConcertoMusic,
+                    ChamberMusicGenre,
+                    OperaGenre,
+                    SacredMusic,
+                    ChoralMusic,
+                    // MusicPiece - Difficulty Levels
+                    Easy,
+                    Medium,
+                    Advanced,
+                    Expert
                 ];
             }
         }
@@ -629,5 +647,86 @@ namespace Orso.Arpa.Persistence.Seed
         /// ORSO Freiburg
         /// </summary>
         public static SelectValue ORSOFreiburg => new(Guid.Parse("d6e7f8a9-b0c1-4d2e-3f4a-5b6c7d8e9f0a"), "ORSO Freiburg", string.Empty);
+
+        // MUSIC PIECE - EPOCHS
+
+        /// <summary>
+        /// Barock (ca. 1600-1750)
+        /// </summary>
+        public static SelectValue Baroque => new(Guid.Parse("b0000001-0001-4000-8000-000000000001"), "Baroque", "ca. 1600-1750");
+
+        /// <summary>
+        /// Klassik (ca. 1750-1820)
+        /// </summary>
+        public static SelectValue Classical => new(Guid.Parse("b0000001-0002-4000-8000-000000000002"), "Classical", "ca. 1750-1820");
+
+        /// <summary>
+        /// Romantik (ca. 1820-1910)
+        /// </summary>
+        public static SelectValue Romantic => new(Guid.Parse("b0000001-0003-4000-8000-000000000003"), "Romantic", "ca. 1820-1910");
+
+        /// <summary>
+        /// Moderne (ca. 1910-1975)
+        /// </summary>
+        public static SelectValue Modern => new(Guid.Parse("b0000001-0004-4000-8000-000000000004"), "Modern", "ca. 1910-1975");
+
+        /// <summary>
+        /// Zeitgenössisch (ab 1975)
+        /// </summary>
+        public static SelectValue Contemporary => new(Guid.Parse("b0000001-0005-4000-8000-000000000005"), "Contemporary", "from 1975");
+
+        // MUSIC PIECE - GENRES
+
+        /// <summary>
+        /// Sinfonische Musik
+        /// </summary>
+        public static SelectValue SymphonicMusic => new(Guid.Parse("b0000002-0001-4000-8000-000000000001"), "Symphonic Music", string.Empty);
+
+        /// <summary>
+        /// Konzert (Solokonzert)
+        /// </summary>
+        public static SelectValue ConcertoMusic => new(Guid.Parse("b0000002-0002-4000-8000-000000000002"), "Concerto", string.Empty);
+
+        /// <summary>
+        /// Kammermusik (Genre)
+        /// </summary>
+        public static SelectValue ChamberMusicGenre => new(Guid.Parse("b0000002-0003-4000-8000-000000000003"), "Chamber Music", string.Empty);
+
+        /// <summary>
+        /// Oper / Musiktheater
+        /// </summary>
+        public static SelectValue OperaGenre => new(Guid.Parse("b0000002-0004-4000-8000-000000000004"), "Opera / Musical Theatre", string.Empty);
+
+        /// <summary>
+        /// Geistliche Musik
+        /// </summary>
+        public static SelectValue SacredMusic => new(Guid.Parse("b0000002-0005-4000-8000-000000000005"), "Sacred Music", string.Empty);
+
+        /// <summary>
+        /// Chormusik
+        /// </summary>
+        public static SelectValue ChoralMusic => new(Guid.Parse("b0000002-0006-4000-8000-000000000006"), "Choral Music", string.Empty);
+
+        // MUSIC PIECE - DIFFICULTY LEVELS
+
+        /// <summary>
+        /// Leicht
+        /// </summary>
+        public static SelectValue Easy => new(Guid.Parse("b0000003-0001-4000-8000-000000000001"), "Easy", string.Empty);
+
+        /// <summary>
+        /// Mittel
+        /// </summary>
+        public static SelectValue Medium => new(Guid.Parse("b0000003-0002-4000-8000-000000000002"), "Medium", string.Empty);
+
+        /// <summary>
+        /// Fortgeschritten
+        /// </summary>
+        public static SelectValue Advanced => new(Guid.Parse("b0000003-0003-4000-8000-000000000003"), "Advanced", string.Empty);
+
+        /// <summary>
+        /// Profi
+        /// </summary>
+        public static SelectValue Expert => new(Guid.Parse("b0000003-0004-4000-8000-000000000004"), "Expert", string.Empty);
     }
 }

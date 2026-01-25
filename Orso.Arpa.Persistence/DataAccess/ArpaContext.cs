@@ -23,6 +23,7 @@ using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.MusicLibraryDomain.Model;
 using Orso.Arpa.Domain.NewsDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Model;
@@ -60,6 +61,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         public DbSet<AppointmentRoom> AppointmentRooms { get; set; }
+        public DbSet<AppointmentSetlistPiece> AppointmentSetlistPieces { get; set; }
         public DbSet<Audition> Auditions { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<Club> Clubs { get; set; }
@@ -96,6 +98,15 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Url> Urls { get; set; }
         public DbSet<UrlRole> UrlRoles { get; set; }
         public DbSet<Venue> Venues { get; set; }
+
+        // Music Library
+        public DbSet<MusicPiece> MusicPieces { get; set; }
+        public DbSet<MusicPiecePart> MusicPieceParts { get; set; }
+        public DbSet<MusicPieceFile> MusicPieceFiles { get; set; }
+        public DbSet<MusicPieceFileRole> MusicPieceFileRoles { get; set; }
+        public DbSet<MusicPieceFileSection> MusicPieceFileSections { get; set; }
+        public DbSet<Setlist> Setlists { get; set; }
+        public DbSet<SetlistPiece> SetlistPieces { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

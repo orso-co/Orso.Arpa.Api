@@ -62,6 +62,9 @@ using Orso.Arpa.Application.EducationApplication.Interfaces;
 using Orso.Arpa.Application.EducationApplication.Services;
 using Orso.Arpa.Application.MeApplication.Interfaces;
 using Orso.Arpa.Application.MeApplication.Services;
+using Orso.Arpa.Application.MusicPieceApplication.Interfaces;
+using Orso.Arpa.Application.MusicPieceApplication.Services;
+using Orso.Arpa.Application.SetlistApplication.Services;
 using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication.Services;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Interfaces;
@@ -107,6 +110,7 @@ using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Domain.VenueDomain.Model;
+using Orso.Arpa.Domain.MusicLibraryDomain;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -233,6 +237,7 @@ namespace Orso.Arpa.Api
             var connectionString = Configuration.GetConnectionString("AzureStorageConnection");
             _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
             _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
+            _ = services.AddScoped<IMusicPieceFileAccessor, AzureStorageMusicPieceFileAccessor>();
             _ = services.AddImageSharp()
                 .RemoveProvider<PhysicalFileSystemProvider>()
                 .AddProvider<ArpaProfilePictureProvider>()
@@ -247,6 +252,7 @@ namespace Orso.Arpa.Api
         private void ConfigureLocalStorage(IServiceCollection services)
         {
             _ = services.AddScoped<IFileAccessor, LocalStorageProfilePictureAccessor>();
+            _ = services.AddScoped<IMusicPieceFileAccessor, LocalStorageMusicPieceFileAccessor>();
 
             var cachePath = Configuration.GetValue<string>("LocalStorageConfiguration:ImageCachePath")
                 ?? "/data/image-cache";
@@ -458,6 +464,8 @@ namespace Orso.Arpa.Api
             services.AddScoped<IRoomEquipmentService, RoomEquipmentService>();
             services.AddScoped<IRoomSectionService, RoomSectionService>();
             services.AddScoped<IPersonMembershipService, PersonMembershipService>();
+            services.AddScoped<IMusicPieceService, MusicPieceService>();
+            services.AddScoped<ISetlistService, SetlistService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 

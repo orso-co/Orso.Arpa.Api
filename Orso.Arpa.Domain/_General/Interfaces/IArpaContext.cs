@@ -12,6 +12,7 @@ using Orso.Arpa.Domain.AuditLogDomain.Model;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.MusicLibraryDomain.Model;
 using Orso.Arpa.Domain.NewsDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Model;
@@ -29,6 +30,7 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<Appointment> Appointments { get; set; }
         DbSet<AppointmentParticipation> AppointmentParticipations { get; set; }
         DbSet<AppointmentRoom> AppointmentRooms { get; set; }
+        DbSet<AppointmentSetlistPiece> AppointmentSetlistPieces { get; set; }
         DbSet<MusicianProfile> MusicianProfiles { get; set; }
         DbSet<Education> Educations { get; set; }
         DbSet<CurriculumVitaeReference> CurriculumVitaeReferences { get; set; }
@@ -54,6 +56,15 @@ namespace Orso.Arpa.Domain.General.Interfaces
 
         DbSet<MusicianProfileDocument> MusicianProfileDocuments { get; set; }
         DbSet<MusicianProfileDeactivation> MusicianProfileDeactivations { get; set; }
+
+        // Music Library
+        DbSet<MusicPiece> MusicPieces { get; set; }
+        DbSet<MusicPiecePart> MusicPieceParts { get; set; }
+        DbSet<MusicPieceFile> MusicPieceFiles { get; set; }
+        DbSet<MusicPieceFileRole> MusicPieceFileRoles { get; set; }
+        DbSet<MusicPieceFileSection> MusicPieceFileSections { get; set; }
+        DbSet<Setlist> Setlists { get; set; }
+        DbSet<SetlistPiece> SetlistPieces { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

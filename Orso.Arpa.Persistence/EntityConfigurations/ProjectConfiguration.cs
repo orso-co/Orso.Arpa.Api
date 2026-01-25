@@ -54,6 +54,12 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(100);
 
             _ = builder.HasIndex(e => e.Status);
+
+            _ = builder
+                .HasOne(e => e.Setlist)
+                .WithMany()
+                .HasForeignKey(e => e.SetlistId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

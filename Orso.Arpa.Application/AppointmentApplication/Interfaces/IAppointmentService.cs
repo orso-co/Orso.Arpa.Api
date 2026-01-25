@@ -42,5 +42,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Interfaces
         Task SendAppointmentChangedNotificationAsync(SendAppointmentChangedNotificationDto sendAppointmentChangedNotificationDto);
 
         Task<string> ExportAppointmentsToIcsAsync();
+
+        Task AddPrioritizedPieceAsync(Guid appointmentId, Guid setlistPieceId);
+        Task RemovePrioritizedPieceAsync(Guid appointmentId, Guid setlistPieceId);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.MusicLibraryDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
@@ -42,7 +43,10 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
                     PersonMembershipMembershipStatus,
                     PersonMembershipPaymentMethod,
                     PersonMembershipPaymentFrequency,
-                    PersonMembershipClub
+                    PersonMembershipClub,
+                    MusicPieceEpoch,
+                    MusicPieceGenre,
+                    MusicPieceDifficultyLevel
                 ];
             }
         }
@@ -197,5 +201,24 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
             nameof(PersonMembership),
             nameof(PersonMembership.Club),
             "Club");
+
+        // MusicPiece Categories
+        public static SelectValueCategory MusicPieceEpoch => new(
+            Guid.Parse("a1b2c3d4-0001-4000-8000-000000000001"),
+            nameof(MusicPiece),
+            nameof(MusicPiece.Epoch),
+            "Music Epoch");
+
+        public static SelectValueCategory MusicPieceGenre => new(
+            Guid.Parse("a1b2c3d4-0002-4000-8000-000000000002"),
+            nameof(MusicPiece),
+            nameof(MusicPiece.Genre),
+            "Music Genre");
+
+        public static SelectValueCategory MusicPieceDifficultyLevel => new(
+            Guid.Parse("a1b2c3d4-0003-4000-8000-000000000003"),
+            nameof(MusicPiece),
+            nameof(MusicPiece.DifficultyLevel),
+            "Difficulty Level");
     }
 }

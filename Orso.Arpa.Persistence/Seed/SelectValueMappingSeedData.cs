@@ -38,6 +38,9 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(PersonMembershipPaymentMethodMappings);
                 list.AddRange(PersonMembershipPaymentFrequencyMappings);
                 list.AddRange(PersonMembershipClubMappings);
+                list.AddRange(MusicPieceEpochMappings);
+                list.AddRange(MusicPieceGenreMappings);
+                list.AddRange(MusicPieceDifficultyLevelMappings);
                 return list;
             }
         }
@@ -433,6 +436,53 @@ namespace Orso.Arpa.Persistence.Seed
                     new(Guid.Parse("ffffffff-ffff-4fff-8fff-ffffffffffff"), SelectValueCategorySeedData.PersonMembershipClub.Id, SelectValueSeedData.ORSOBerlin.Id, 10),
                     new(Guid.Parse("12345678-9abc-4def-8012-3456789abcde"), SelectValueCategorySeedData.PersonMembershipClub.Id, SelectValueSeedData.ORSOStuttgart.Id, 15),
                     new(Guid.Parse("01234567-89ab-4cde-8f01-234567890abc"), SelectValueCategorySeedData.PersonMembershipClub.Id, SelectValueSeedData.ORSOFreiburg.Id, 20),
+                ];
+            }
+        }
+
+        // MusicPiece Mappings
+
+        public static IList<SelectValueMapping> MusicPieceEpochMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("c0000001-0001-4000-8000-000000000001"), SelectValueCategorySeedData.MusicPieceEpoch.Id, SelectValueSeedData.Baroque.Id, 10),
+                    new(Guid.Parse("c0000001-0002-4000-8000-000000000002"), SelectValueCategorySeedData.MusicPieceEpoch.Id, SelectValueSeedData.Classical.Id, 20),
+                    new(Guid.Parse("c0000001-0003-4000-8000-000000000003"), SelectValueCategorySeedData.MusicPieceEpoch.Id, SelectValueSeedData.Romantic.Id, 30),
+                    new(Guid.Parse("c0000001-0004-4000-8000-000000000004"), SelectValueCategorySeedData.MusicPieceEpoch.Id, SelectValueSeedData.Modern.Id, 40),
+                    new(Guid.Parse("c0000001-0005-4000-8000-000000000005"), SelectValueCategorySeedData.MusicPieceEpoch.Id, SelectValueSeedData.Contemporary.Id, 50),
+                ];
+            }
+        }
+
+        public static IList<SelectValueMapping> MusicPieceGenreMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("c0000002-0001-4000-8000-000000000001"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.SymphonicMusic.Id, 10),
+                    new(Guid.Parse("c0000002-0002-4000-8000-000000000002"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.ConcertoMusic.Id, 20),
+                    new(Guid.Parse("c0000002-0003-4000-8000-000000000003"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.ChamberMusicGenre.Id, 30),
+                    new(Guid.Parse("c0000002-0004-4000-8000-000000000004"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.OperaGenre.Id, 40),
+                    new(Guid.Parse("c0000002-0005-4000-8000-000000000005"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.SacredMusic.Id, 50),
+                    new(Guid.Parse("c0000002-0006-4000-8000-000000000006"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.ChoralMusic.Id, 60),
+                ];
+            }
+        }
+
+        public static IList<SelectValueMapping> MusicPieceDifficultyLevelMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("c0000003-0001-4000-8000-000000000001"), SelectValueCategorySeedData.MusicPieceDifficultyLevel.Id, SelectValueSeedData.Easy.Id, 10),
+                    new(Guid.Parse("c0000003-0002-4000-8000-000000000002"), SelectValueCategorySeedData.MusicPieceDifficultyLevel.Id, SelectValueSeedData.Medium.Id, 20),
+                    new(Guid.Parse("c0000003-0003-4000-8000-000000000003"), SelectValueCategorySeedData.MusicPieceDifficultyLevel.Id, SelectValueSeedData.Advanced.Id, 30),
+                    new(Guid.Parse("c0000003-0004-4000-8000-000000000004"), SelectValueCategorySeedData.MusicPieceDifficultyLevel.Id, SelectValueSeedData.Expert.Id, 40),
                 ];
             }
         }

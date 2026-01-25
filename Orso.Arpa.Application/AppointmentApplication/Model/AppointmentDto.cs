@@ -9,6 +9,7 @@ using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Application.RoomApplication.Model;
 using Orso.Arpa.Application.SectionApplication.Model;
+using Orso.Arpa.Application.SetlistApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.General.Model;
@@ -49,6 +50,10 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
         public IList<SectionDto> Sections { get; set; } = [];
 
         public IList<AppointmentParticipationListItemDto> Participations { get; set; } = [];
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [IncludeForRoles(RoleNames.Staff)]
+        public IList<SetlistPieceDto> PrioritizedPieces { get; set; } = [];
     }
 
     public class AppointmentDtoMappingProfile : Profile
@@ -60,6 +65,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
                 .ForMember(dest => dest.Projects, opt => opt.MapFrom(src => src.ProjectAppointments.Select(pa => pa.Project)))
                 .ForMember(dest => dest.Sections, opt => opt.MapFrom(src => src.SectionAppointments.Select(ra => ra.Section)))
                 .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.AppointmentRooms.Select(ra => ra.Room)))
+                .ForMember(dest => dest.PrioritizedPieces, opt => opt.MapFrom(src => src.PrioritizedPieces.Select(pp => pp.SetlistPiece)))
                 .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime))
                 .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime))
                 .IncludeBase<BaseEntity, BaseEntityDto>()
