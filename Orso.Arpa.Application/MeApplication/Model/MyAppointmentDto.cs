@@ -6,6 +6,7 @@ using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Application.RoomApplication.Model;
 using Orso.Arpa.Application.SelectValueApplication.Model;
+using Orso.Arpa.Application.SetlistApplication.Model;
 using Orso.Arpa.Application.VenueApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
@@ -28,6 +29,7 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public SelectValueDto Category { get; set; }
         public AppointmentStatus? Status { get; set; }
         public string CommentByPerformerInner { get; set; }
+        public IList<SetlistPieceDto> PrioritizedPieces { get; set; } = [];
     }
 
     public class MyAppointmentDtoMappingProfile : Profile
@@ -45,7 +47,8 @@ namespace Orso.Arpa.Application.MeApplication.Model
                 .ForMember(dest => dest.PublicDetails, opt => opt.MapFrom(src => src.PublicDetails))
                 .ForMember(dest => dest.Expectation, opt => opt.MapFrom(src => src.Expectation.SelectValue.Name))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.PrioritizedPieces, opt => opt.MapFrom(src => src.PrioritizedPieces.Select(pp => pp.SetlistPiece)));
             // CommentByPerformerInner, Result and Prediction will be set manually in service
         }
     }
