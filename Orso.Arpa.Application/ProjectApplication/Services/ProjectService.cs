@@ -20,6 +20,7 @@ using Orso.Arpa.Domain.ProjectDomain.Enums;
 using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Notifications;
 using Orso.Arpa.Domain.ProjectDomain.Queries;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Domain.SectionDomain.Queries;
 
@@ -35,8 +36,11 @@ namespace Orso.Arpa.Application.ProjectApplication.Services
         ModifyProject.Command
         >, IProjectService
     {
-        public ProjectService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
+        private readonly IArpaContext _arpaContext;
+
+        public ProjectService(IMediator mediator, IMapper mapper, IArpaContext arpaContext) : base(mediator, mapper)
         {
+            _arpaContext = arpaContext;
         }
 
         public async Task<IEnumerable<ProjectDto>> GetAsync(bool includeCompleted)
@@ -137,6 +141,23 @@ namespace Orso.Arpa.Application.ProjectApplication.Services
                 SetlistId = setlistId
             };
             await _mediator.Send(command);
+        }
+
+        public async Task<Dictionary<Guid, Guid>> ResolveParticipationProjectIdsAsync(IEnumerable<Guid> participationIds)
+        {
+            var idList = participationIds.ToList();
+            if (idList.Count == 0)
+            {
+                return new Dictionary<Guid, Guid>();
+            }
+
+            var participations = await _arpaContext.ProjectParticipations
+                .AsNoTracking()
+                .Where(pp => idList.Contains(pp.Id))
+                .Select(pp => new { pp.Id, pp.ProjectId })
+                .ToListAsync();
+
+            return participations.ToDictionary(p => p.Id, p => p.ProjectId);
         }
     }
 }
