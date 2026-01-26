@@ -1,6 +1,6 @@
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -77,19 +77,19 @@ namespace Orso.Arpa.Api.Hubs
 
         private Guid GetUserId()
         {
-            var userIdClaim = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userIdClaim = Context.User?.Claims?.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
             return Guid.TryParse(userIdClaim, out var userId) ? userId : Guid.Empty;
         }
 
         private Guid GetPersonId()
         {
-            var personIdClaim = Context.User?.FindFirst("PersonId")?.Value;
+            var personIdClaim = Context.User?.Claims?.FirstOrDefault(c => c.Type.Contains("/person_id"))?.Value;
             return Guid.TryParse(personIdClaim, out var personId) ? personId : Guid.Empty;
         }
 
         private string GetDisplayName()
         {
-            return Context.User?.FindFirst("DisplayName")?.Value ?? "Unknown";
+            return Context.User?.Claims?.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Name)?.Value ?? "Unknown";
         }
 
         private async Task<string?> GetMainInstrumentNameAsync(Guid personId)
