@@ -111,7 +111,7 @@ public class MyProjectService : IMyProjectService
             {
                 pieceDto.MusicPiece.Files = pieceDto.MusicPiece.Files
                     .Where(f => f.Sections == null || !f.Sections.Any() ||
-                               f.Sections.Any(s => userSectionIds.Contains(s.Id)))
+                               f.Sections.Any(s => userSectionIds.Contains(s.SectionId)))
                     .ToList();
             }
         }
