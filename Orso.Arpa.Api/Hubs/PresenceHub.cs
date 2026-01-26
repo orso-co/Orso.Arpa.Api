@@ -77,8 +77,20 @@ namespace Orso.Arpa.Api.Hubs
 
         private Guid GetUserId()
         {
-            var userIdClaim = Context.User?.Claims?.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
-            return Guid.TryParse(userIdClaim, out var userId) ? userId : Guid.Empty;
+            // There are multiple nameidentifier claims - one is the username, one is the GUID
+            // Find the one that is a valid GUID
+            var nameIdentifierClaims = Context.User?.Claims?
+                .Where(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)
+                .Select(c => c.Value);
+
+            foreach (var claim in nameIdentifierClaims ?? Enumerable.Empty<string>())
+            {
+                if (Guid.TryParse(claim, out var userId))
+                {
+                    return userId;
+                }
+            }
+            return Guid.Empty;
         }
 
         private Guid GetPersonId()
