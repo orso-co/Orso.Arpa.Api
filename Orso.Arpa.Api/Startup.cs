@@ -34,6 +34,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi;
 using Orso.Arpa.Api.Extensions;
 using Orso.Arpa.Api.GraphQL;
+using Orso.Arpa.Api.Hubs;
 using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Api.Swagger;
@@ -116,6 +117,7 @@ using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Infrastructure.FileManagement;
 using Orso.Arpa.Infrastructure.Localization;
+using Orso.Arpa.Infrastructure.Presence;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Mail.Interfaces;
@@ -206,6 +208,8 @@ namespace Orso.Arpa.Api
 
             ConfigureStorageAccount(services);
 
+            ConfigureSignalR(services);
+
             // services.AddHostedService<BirthdayWorker>(); only works with alwaysOn=true which is only available in higher pricing tiers of app service
 
             // Warmup service pre-compiles GraphQL to avoid JIT delays on first request.
@@ -281,6 +285,12 @@ namespace Orso.Arpa.Api
             _ = services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
             _ = services.AddInMemoryRateLimiting();
             _ = services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+        }
+
+        private static void ConfigureSignalR(IServiceCollection services)
+        {
+            _ = services.AddSignalR();
+            _ = services.AddSingleton<IPresenceTracker, PresenceTracker>();
         }
 
         public static IRequestExecutorBuilder RequestExecutorBuilder { get; private set; }
@@ -618,6 +628,7 @@ namespace Orso.Arpa.Api
             _ = app.UseEndpoints(endpoints =>
             {
                 _ = endpoints.MapControllers();
+                _ = endpoints.MapHub<PresenceHub>("/hubs/presence");
                 _ = endpoints.MapFallbackToController("Index", "Fallback");
                 _ = endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
             });
