@@ -80,10 +80,10 @@ public class MyProjectService : IMyProjectService
             return null;
         }
 
-        // Get the project with its setlist
+        // Get the project with its setlist (pieces sorted by SortOrder)
         var project = await _arpaContext.Projects
             .Include(p => p.Setlist)
-                .ThenInclude(s => s.Pieces)
+                .ThenInclude(s => s.Pieces.OrderBy(p => p.SortOrder))
                     .ThenInclude(sp => sp.MusicPiece)
                         .ThenInclude(mp => mp.Files)
                             .ThenInclude(f => f.Sections)
