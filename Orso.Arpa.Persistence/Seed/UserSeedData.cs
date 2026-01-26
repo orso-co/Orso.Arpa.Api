@@ -26,6 +26,7 @@ namespace Orso.Arpa.Persistence.Seed
 
         public static Guid AdminUserId => Guid.Parse("b9ba1467-ad6f-40e5-a0c6-f482393b7feb");
         public static Guid PerformerUserId => Guid.Parse("c8cb2468-be7a-41f6-b1d7-f593494c8fec");
+        public static Guid StaffUserId => Guid.Parse("d9dc3579-cf8b-52a7-c2e8-a604505d9afd");
 
         public static User Admin
         {
@@ -53,6 +54,22 @@ namespace Orso.Arpa.Persistence.Seed
                     UserName = "performer",
                     Email = "performer@test.com",
                     PersonId = PersonSeedData.PerformerPersonId,
+                    EmailConfirmed = true,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                };
+            }
+        }
+
+        public static User Staff
+        {
+            get
+            {
+                return new User
+                {
+                    Id = StaffUserId,
+                    UserName = "staff",
+                    Email = "staff@test.com",
+                    PersonId = PersonSeedData.StaffPersonId,
                     EmailConfirmed = true,
                     SecurityStamp = Guid.NewGuid().ToString()
                 };

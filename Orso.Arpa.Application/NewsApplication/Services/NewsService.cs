@@ -34,6 +34,6 @@ public class NewsService :
         return await base.GetAsync(predicate: includeHidden ? null : n => n.Show,
             orderBy: v => v.OrderByDescending(n => n.CreatedAt),
             skip: offset ?? 0,
-            take: limit ?? 25);
+            take: limit);
     }
 }

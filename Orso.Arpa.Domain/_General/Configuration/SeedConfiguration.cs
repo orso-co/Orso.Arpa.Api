@@ -6,6 +6,7 @@ namespace Orso.Arpa.Domain.General.Configuration
     {
         public bool SeedInitialAdmin { get; set; }
         public bool SeedTestPerformer { get; set; }
+        public bool SeedTestStaff { get; set; }
         public bool SeedTestNews { get; set; }
         public InitialAdminConfiguration InitialAdmin { get; set; }
     }
