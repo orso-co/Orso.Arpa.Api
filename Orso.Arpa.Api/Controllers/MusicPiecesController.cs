@@ -135,7 +135,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="id">Music piece id</param>
         /// <param name="fileId">File id</param>
         /// <returns>The file content</returns>
-        [Authorize(Roles = RoleNames.Staff)]
+        [Authorize(Roles = RoleNames.Staff + "," + RoleNames.Performer)]
         [HttpGet("{id}/files/{fileId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
