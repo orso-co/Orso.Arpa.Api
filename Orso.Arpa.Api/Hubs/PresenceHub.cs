@@ -28,8 +28,12 @@ namespace Orso.Arpa.Api.Hubs
             var personId = GetPersonId();
             var displayName = GetDisplayName();
 
+            Console.WriteLine($"[PresenceHub] OnConnectedAsync - UserId: {userId}, PersonId: {personId}, DisplayName: {displayName}");
+            Console.WriteLine($"[PresenceHub] Claims: {string.Join(", ", Context.User?.Claims?.Select(c => $"{c.Type}={c.Value}") ?? Array.Empty<string>())}");
+
             if (userId == Guid.Empty || personId == Guid.Empty)
             {
+                Console.WriteLine($"[PresenceHub] Early return - UserId or PersonId is empty");
                 await base.OnConnectedAsync();
                 return;
             }
@@ -46,13 +50,16 @@ namespace Orso.Arpa.Api.Hubs
             };
 
             var isFirstConnection = await _presenceTracker.UserConnected(userDto, Context.ConnectionId);
+            Console.WriteLine($"[PresenceHub] User tracked - IsFirstConnection: {isFirstConnection}");
 
             if (isFirstConnection)
             {
                 await Clients.Others.SendAsync("UserIsOnline", userDto);
+                Console.WriteLine($"[PresenceHub] Sent UserIsOnline to others");
             }
 
             var onlineUsers = await _presenceTracker.GetOnlineUsers();
+            Console.WriteLine($"[PresenceHub] Sending OnlineUsersList with {onlineUsers.Length} users");
             await Clients.Caller.SendAsync("OnlineUsersList", onlineUsers);
 
             await base.OnConnectedAsync();
