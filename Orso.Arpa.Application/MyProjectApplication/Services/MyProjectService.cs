@@ -101,17 +101,36 @@ public class MyProjectService : IMyProjectService
                 .Concat(mp.DoublingInstruments.Select(di => di.SectionId)))
             .ToListAsync();
 
+        // Build a lookup of section parent IDs
+        var allSections = await _arpaContext.Sections
+            .Select(s => new { s.Id, s.ParentId })
+            .ToListAsync();
+        var sectionParentMap = allSections.ToDictionary(s => s.Id, s => s.ParentId);
+
+        // Get all ancestor sections for the user's sections (parent, grandparent, etc.)
+        // Files assigned to an ancestor section (e.g., "Choir") should be visible to all descendants (e.g., "Bass")
+        var userSectionIdsWithAncestors = new HashSet<Guid>(userSectionIds);
+        foreach (var sectionId in userSectionIds)
+        {
+            var currentId = sectionId;
+            while (sectionParentMap.TryGetValue(currentId, out var parentId) && parentId.HasValue)
+            {
+                userSectionIdsWithAncestors.Add(parentId.Value);
+                currentId = parentId.Value;
+            }
+        }
+
         // Map the setlist
         var setlistDto = _mapper.Map<SetlistDto>(project.Setlist);
 
-        // Filter files by user's sections in each piece
+        // Filter files by user's sections (including ancestors) in each piece
         foreach (var pieceDto in setlistDto.Pieces)
         {
             if (pieceDto.MusicPiece?.Files != null)
             {
                 pieceDto.MusicPiece.Files = pieceDto.MusicPiece.Files
                     .Where(f => f.Sections == null || !f.Sections.Any() ||
-                               f.Sections.Any(s => userSectionIds.Contains(s.SectionId)))
+                               f.Sections.Any(s => userSectionIdsWithAncestors.Contains(s.SectionId)))
                     .ToList();
             }
         }
