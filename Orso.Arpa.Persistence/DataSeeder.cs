@@ -50,6 +50,12 @@ namespace Orso.Arpa.Persistence
                 await SeedTestPerformerUserAsync();
             }
 
+            if (_seedConfiguration.SeedTestStaff)
+            {
+                await SeedTestStaffPersonAsync();
+                await SeedTestStaffUserAsync();
+            }
+
             if (_seedConfiguration.SeedTestNews)
             {
                 await SeedTestNewsAsync();
@@ -97,21 +103,23 @@ namespace Orso.Arpa.Persistence
 
         private async Task SeedInitialAdminUserAsync()
         {
-            User initialAdmin = UserSeedData.GetInitialAdmin(_seedConfiguration.InitialAdmin);
+            User seedAdmin = UserSeedData.GetInitialAdmin(_seedConfiguration.InitialAdmin);
 
-            if (initialAdmin is null)
+            if (seedAdmin is null)
             {
                 return;
             }
 
-            if ((await _arpaUserManager.FindByNameAsync(initialAdmin.UserName)) is null)
+            var existingUser = await _arpaUserManager.FindByNameAsync(seedAdmin.UserName);
+            if (existingUser is null)
             {
-                _ = await _arpaUserManager.CreateAsync(initialAdmin, _seedConfiguration.InitialAdmin?.Password ?? UserSeedData.ValidPassword);
+                _ = await _arpaUserManager.CreateAsync(seedAdmin, _seedConfiguration.InitialAdmin?.Password ?? UserSeedData.ValidPassword);
+                existingUser = await _arpaUserManager.FindByNameAsync(seedAdmin.UserName);
             }
 
-            if (!await _arpaUserManager.IsInRoleAsync(initialAdmin, RoleNames.Admin))
+            if (existingUser is not null && !await _arpaUserManager.IsInRoleAsync(existingUser, RoleNames.Admin))
             {
-                _ = await _arpaUserManager.AddToRoleAsync(initialAdmin, RoleNames.Admin);
+                _ = await _arpaUserManager.AddToRoleAsync(existingUser, RoleNames.Admin);
             }
         }
 
@@ -128,16 +136,46 @@ namespace Orso.Arpa.Persistence
 
         private async Task SeedTestPerformerUserAsync()
         {
-            User testPerformer = UserSeedData.Performer;
+            User seedPerformer = UserSeedData.Performer;
 
-            if ((await _arpaUserManager.FindByNameAsync(testPerformer.UserName)) is null)
+            var existingUser = await _arpaUserManager.FindByNameAsync(seedPerformer.UserName);
+            if (existingUser is null)
             {
-                _ = await _arpaUserManager.CreateAsync(testPerformer, UserSeedData.ValidPassword);
+                _ = await _arpaUserManager.CreateAsync(seedPerformer, UserSeedData.ValidPassword);
+                existingUser = await _arpaUserManager.FindByNameAsync(seedPerformer.UserName);
             }
 
-            if (!await _arpaUserManager.IsInRoleAsync(testPerformer, RoleNames.Performer))
+            if (existingUser is not null && !await _arpaUserManager.IsInRoleAsync(existingUser, RoleNames.Performer))
             {
-                _ = await _arpaUserManager.AddToRoleAsync(testPerformer, RoleNames.Performer);
+                _ = await _arpaUserManager.AddToRoleAsync(existingUser, RoleNames.Performer);
+            }
+        }
+
+        private async Task SeedTestStaffPersonAsync()
+        {
+            Person testStaff = PersonSeedData.Staff;
+
+            if (!await _arpaContext.EntityExistsAsync<Person>(testStaff.Id, CancellationToken.None))
+            {
+                _ = await _arpaContext.Persons.AddAsync(testStaff);
+                _ = await _arpaContext.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+
+        private async Task SeedTestStaffUserAsync()
+        {
+            User seedStaff = UserSeedData.Staff;
+
+            var existingUser = await _arpaUserManager.FindByNameAsync(seedStaff.UserName);
+            if (existingUser is null)
+            {
+                _ = await _arpaUserManager.CreateAsync(seedStaff, UserSeedData.ValidPassword);
+                existingUser = await _arpaUserManager.FindByNameAsync(seedStaff.UserName);
+            }
+
+            if (existingUser is not null && !await _arpaUserManager.IsInRoleAsync(existingUser, RoleNames.Staff))
+            {
+                _ = await _arpaUserManager.AddToRoleAsync(existingUser, RoleNames.Staff);
             }
         }
 
