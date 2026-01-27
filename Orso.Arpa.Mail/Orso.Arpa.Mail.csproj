@@ -36,5 +36,8 @@
     <None Update="Templates\Html\Appointment_Changed_By_Staff.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\Html\Support_Request.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
