@@ -208,5 +208,23 @@ namespace Orso.Arpa.Api.Controllers
             await _authService.RevokeRefreshTokenAsync(RefreshToken, RemoteIpAddress);
             return NoContent();
         }
+
+        /// <summary>
+        /// Sends a support request email
+        /// </summary>
+        /// <param name="supportRequestDto"></param>
+        /// <response code="204"></response>
+        /// <response code="422">If validation fails</response>
+        /// <response code="424">If email could not be sent</response>
+        [AllowAnonymous]
+        [HttpPost("support")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status424FailedDependency)]
+        public async Task<ActionResult> SendSupportRequest([FromBody] SupportRequestDto supportRequestDto)
+        {
+            await _authService.SendSupportRequestAsync(supportRequestDto);
+            return NoContent();
+        }
     }
 }

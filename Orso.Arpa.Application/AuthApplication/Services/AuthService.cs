@@ -110,5 +110,11 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             var command = new RevokeRefreshToken.Command { RefreshToken = refreshToken, RemoteIpAddress = remoteIpAddress };
             await _mediator.Send(command);
         }
+
+        public async Task SendSupportRequestAsync(SupportRequestDto supportRequestDto)
+        {
+            SendSupportRequest.Command command = _mapper.Map<SendSupportRequest.Command>(supportRequestDto);
+            await _mediator.Send(command);
+        }
     }
 }

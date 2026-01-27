@@ -8,6 +8,7 @@ namespace Orso.Arpa.Domain.General.Configuration
         public string Address { get; set; }
         public string Phone { get; set; }
         public string ContactEmail { get; set; }
+        public string SupportEmail { get; set; }
         public Uri Url { get; set; }
     }
 }
