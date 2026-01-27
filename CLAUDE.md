@@ -176,3 +176,30 @@ cd /home/wolf/arpa  # oder arpa-prod
 docker pull ghcr.io/orso-co/orso-arpa-api:raspi-prod
 docker compose up -d --force-recreate api
 ```
+
+## Features
+
+### Support-Anfrage (Januar 2026)
+
+Ermöglicht Nutzern, die Probleme beim Login haben, eine Support-Anfrage zu senden.
+
+**Frontend:**
+- Route: `/auth/support`
+- Zugang über "Hilfe anfordern" Button auf der Login-Seite
+- Formular mit: Vorname, Nachname, E-Mail (Pflicht), Benutzername (optional), Nachricht, Themen-Checkboxen
+- Themen: Login fehlgeschlagen, Passwort-Mail kommt nicht an, Benutzername vergessen, Sonstiges
+
+**Backend:**
+- Endpoint: `POST /api/auth/support` (ohne Authentifizierung)
+- DTO: `SupportRequestDto` (Orso.Arpa.Application/AuthApplication/Model/)
+- Command: `SendSupportRequest` (Orso.Arpa.Domain/UserDomain/Commands/)
+- E-Mail-Template: `Support_Request.html` (Orso.Arpa.Mail/Templates/Html/)
+
+**Konfiguration:**
+- `ClubConfiguration.SupportEmail` in appsettings.json definiert den Empfänger
+- Aktuell: `support@arpa.orso.co`
+
+**Dateien:**
+- Frontend: `src/app/domains/auth/feature-support/`
+- Backend Controller: `AuthController.cs` → `SendSupportRequest()`
+- Backend Service: `AuthService.cs` → `SendSupportRequestAsync()`
