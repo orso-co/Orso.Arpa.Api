@@ -86,7 +86,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 # - curl: health checks
 # - krb5-libs: PostgreSQL Kerberos support
 # - icu-libs: globalization support (cultures, localization)
-RUN apk add --no-cache curl krb5-libs icu-libs
+# - tzdata: timezone data (required for TimeZoneInfo.FindSystemTimeZoneById)
+RUN apk add --no-cache curl krb5-libs icu-libs tzdata
 
 # Enable globalization support
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
