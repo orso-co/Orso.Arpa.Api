@@ -117,7 +117,7 @@ namespace Orso.Arpa.Api.Tests.IntegrationTests.Shared
         }
         private static async Task SeedNewsAsync(IArpaContext arpaContext)
         {
-            await arpaContext.News.AddRangeAsync(NewsSeedData.News);
+            await arpaContext.News.AddRangeAsync(Orso.Arpa.Tests.Shared.TestSeedData.NewsSeedData.News);
         }
 
         private static async Task SeedUsersAsync(ArpaUserManager userManager, SignInManager<User> signInManager)

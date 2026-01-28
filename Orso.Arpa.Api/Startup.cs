@@ -66,6 +66,8 @@ using Orso.Arpa.Application.MeApplication.Services;
 using Orso.Arpa.Application.MusicPieceApplication.Interfaces;
 using Orso.Arpa.Application.MusicPieceApplication.Services;
 using Orso.Arpa.Application.SetlistApplication.Services;
+using Orso.Arpa.Application.StageSetupApplication.Interfaces;
+using Orso.Arpa.Application.StageSetupApplication.Services;
 using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
 using Orso.Arpa.Application.MusicianProfileApplication.Services;
 using Orso.Arpa.Application.MusicianProfileDeactivationApplication.Interfaces;
@@ -291,6 +293,7 @@ namespace Orso.Arpa.Api
         {
             _ = services.AddSignalR();
             _ = services.AddSingleton<IPresenceTracker, PresenceTracker>();
+            _ = services.AddSingleton<IStageSetupPresenceTracker, StageSetupPresenceTracker>();
         }
 
         public static IRequestExecutorBuilder RequestExecutorBuilder { get; private set; }
@@ -377,6 +380,14 @@ namespace Orso.Arpa.Api
                         .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)
                         .Select(c => c.Value);
                        return roleLevelClaims.Any(claim => claim.Equals(RoleNames.Staff) || claim.Equals(RoleNames.Admin));
+                   }));
+                options.AddPolicy(AuthorizationPolicies.AtLeastPerformerPolicy, policy =>
+                   policy.RequireAssertion(context =>
+                   {
+                       IEnumerable<string> roleLevelClaims = context.User.Claims
+                        .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)
+                        .Select(c => c.Value);
+                       return roleLevelClaims.Any(claim => claim.Equals(RoleNames.Performer) || claim.Equals(RoleNames.Staff) || claim.Equals(RoleNames.Admin));
                    }));
             });
         }
@@ -476,6 +487,8 @@ namespace Orso.Arpa.Api
             services.AddScoped<IPersonMembershipService, PersonMembershipService>();
             services.AddScoped<IMusicPieceService, MusicPieceService>();
             services.AddScoped<ISetlistService, SetlistService>();
+            services.AddScoped<IStageSetupService, StageSetupService>();
+            services.AddScoped<IStageSetupPositionService, StageSetupPositionService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 
@@ -629,6 +642,7 @@ namespace Orso.Arpa.Api
             {
                 _ = endpoints.MapControllers();
                 _ = endpoints.MapHub<PresenceHub>("/hubs/presence");
+                _ = endpoints.MapHub<StageSetupHub>("/hubs/stage-setup");
                 _ = endpoints.MapFallbackToController("Index", "Fallback");
                 _ = endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
             });

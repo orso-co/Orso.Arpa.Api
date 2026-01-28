@@ -33,6 +33,7 @@ using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;
+using Orso.Arpa.Domain.StageSetupDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
 
@@ -107,6 +108,10 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<MusicPieceFileSection> MusicPieceFileSections { get; set; }
         public DbSet<Setlist> Setlists { get; set; }
         public DbSet<SetlistPiece> SetlistPieces { get; set; }
+
+        // Stage Setups (Aufstellungen)
+        public DbSet<StageSetup> StageSetups { get; set; }
+        public DbSet<StageSetupPosition> StageSetupPositions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

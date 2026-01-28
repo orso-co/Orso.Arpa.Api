@@ -5,6 +5,7 @@ namespace Orso.Arpa.Infrastructure.Authorization
         public const string SetRolePolicy = "SetRole";
         public const string HasRolePolicy = "HasRole";
         public const string AtLeastStaffPolicy = "AtLeastStaff";
+        public const string AtLeastPerformerPolicy = "AtLeastPerformer";
         public const string IsMyMusicianProfile = "IsMyMusicianProfile";
         public const string IsMyPerson = "IsMyPerson";
     }
