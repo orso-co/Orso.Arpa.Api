@@ -27,7 +27,8 @@ namespace Orso.Arpa.Application.StageSetupApplication.Model
         public StageSetupPositionDtoMappingProfile()
         {
             CreateMap<StageSetupPosition, StageSetupPositionDto>()
-                .IncludeBase<BaseEntity, BaseEntityDto>();
+                .IncludeBase<BaseEntity, BaseEntityDto>()
+                .ForMember(dest => dest.MusicianProfile, opt => opt.MapFrom(src => src.MusicianProfile));
         }
     }
 }

@@ -37,6 +37,9 @@ namespace Orso.Arpa.Application.StageSetupApplication.Services
                     .ThenInclude(mp => mp.Person)
                 .Include(p => p.MusicianProfile)
                     .ThenInclude(mp => mp.Instrument)
+                .Include(p => p.MusicianProfile)
+                    .ThenInclude(mp => mp.Qualification)
+                        .ThenInclude(q => q.SelectValue)
                 .OrderBy(p => p.Row)
                 .ThenBy(p => p.Stand)
                 .ThenBy(p => p.PositionX)
@@ -59,6 +62,9 @@ namespace Orso.Arpa.Application.StageSetupApplication.Services
                     .ThenInclude(mp => mp.Person)
                 .Include(p => p.MusicianProfile)
                     .ThenInclude(mp => mp.Instrument)
+                .Include(p => p.MusicianProfile)
+                    .ThenInclude(mp => mp.Qualification)
+                        .ThenInclude(q => q.SelectValue)
                 .FirstAsync();
 
             return _mapper.Map<StageSetupPositionDto>(positionWithIncludes);
@@ -96,6 +102,9 @@ namespace Orso.Arpa.Application.StageSetupApplication.Services
                     .ThenInclude(mp => mp.Person)
                 .Include(p => p.MusicianProfile)
                     .ThenInclude(mp => mp.Instrument)
+                .Include(p => p.MusicianProfile)
+                    .ThenInclude(mp => mp.Qualification)
+                        .ThenInclude(q => q.SelectValue)
                 .ToListAsync();
 
             return _mapper.Map<IEnumerable<StageSetupPositionDto>>(positionsWithIncludes);
