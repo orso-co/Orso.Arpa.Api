@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Orso.Arpa.Application.StageSetupApplication.Interfaces;
 using Orso.Arpa.Application.StageSetupApplication.Model;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -22,20 +23,19 @@ namespace Orso.Arpa.Application.StageSetupApplication.Services
         private readonly IArpaContext _arpaContext;
         private readonly string _storageBasePath;
 
+        private const string DefaultStoragePath = "/publish/storage/stage-setups";
+
         public StageSetupService(
             IMediator mediator,
             IMapper mapper,
-            IArpaContext arpaContext)
+            IArpaContext arpaContext,
+            IConfiguration configuration)
         {
             _mediator = mediator;
             _mapper = mapper;
             _arpaContext = arpaContext;
-            // TODO: Make this configurable via appsettings
-            _storageBasePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "arpa",
-                "stage-setups"
-            );
+            _storageBasePath = configuration.GetValue<string>("LocalStorageConfiguration:StageSetupsPath")
+                ?? DefaultStoragePath;
         }
 
         public async Task<IEnumerable<StageSetupDto>> GetByProjectAsync(Guid projectId, bool includeHidden = false)
