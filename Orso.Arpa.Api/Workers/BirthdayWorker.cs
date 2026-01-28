@@ -115,10 +115,23 @@ public sealed class BirthdayWorker : BackgroundService
 
     private DateTime GetCurrentTimeInBerlin()
     {
-        // Define the Berlin timezone
-        TimeZoneInfo berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+        // Get the Berlin timezone (cross-platform)
+        TimeZoneInfo berlinTimeZone = GetBerlinTimeZone();
 
         // Get the current time in Berlin timezone
         return TimeZoneInfo.ConvertTimeFromUtc(_dateTimeProvider.GetUtcNow(), berlinTimeZone);
+    }
+
+    private static TimeZoneInfo GetBerlinTimeZone()
+    {
+        // Try IANA format first (Linux/macOS), then Windows format
+        try
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById("Europe/Berlin");
+        }
+        catch (TimeZoneNotFoundException)
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+        }
     }
 }

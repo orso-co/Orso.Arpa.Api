@@ -18,9 +18,22 @@ namespace Orso.Arpa.Misc.Extensions
 
         public static DateTime ConvertToLocalTimeBerlin(DateTime dateTime)
         {
-            var berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+            var berlinTimeZone = GetBerlinTimeZone();
             DateTime berlinDateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, berlinTimeZone);
             return berlinDateTime;
+        }
+
+        private static TimeZoneInfo GetBerlinTimeZone()
+        {
+            // Try IANA format first (Linux/macOS), then Windows format
+            try
+            {
+                return TimeZoneInfo.FindSystemTimeZoneById("Europe/Berlin");
+            }
+            catch (TimeZoneNotFoundException)
+            {
+                return TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+            }
         }
 
         public static string ToGermanTimeString(this DateTime dateTime) {
