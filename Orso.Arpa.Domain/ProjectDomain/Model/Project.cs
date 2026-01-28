@@ -7,6 +7,7 @@ using Orso.Arpa.Domain.MusicLibraryDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Commands;
 using Orso.Arpa.Domain.ProjectDomain.Enums;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
+using Orso.Arpa.Domain.StageSetupDomain.Model;
 
 namespace Orso.Arpa.Domain.ProjectDomain.Model
 {
@@ -88,6 +89,12 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
 
         [CascadingSoftDelete]
         public virtual ICollection<ProjectParticipation> ProjectParticipations { get; private set; } = new HashSet<ProjectParticipation>();
+
+        /// <summary>
+        /// Stage setups (Aufstellungen) for this project
+        /// </summary>
+        [CascadingSoftDelete]
+        public virtual ICollection<StageSetup> StageSetups { get; private set; } = new HashSet<StageSetup>();
 
         public override string ToString()
         {
