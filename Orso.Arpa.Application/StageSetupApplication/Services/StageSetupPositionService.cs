@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Orso.Arpa.Application.MusicianProfileApplication.Model;
+using Orso.Arpa.Application.PersonApplication.Model;
 using Orso.Arpa.Application.StageSetupApplication.Interfaces;
 using Orso.Arpa.Application.StageSetupApplication.Model;
 using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.StageSetupDomain.Commands;
 using Orso.Arpa.Domain.StageSetupDomain.Model;
 
@@ -19,18 +21,15 @@ namespace Orso.Arpa.Application.StageSetupApplication.Services
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IArpaContext _arpaContext;
-        private readonly ILogger<StageSetupPositionService> _logger;
 
         public StageSetupPositionService(
             IMediator mediator,
             IMapper mapper,
-            IArpaContext arpaContext,
-            ILogger<StageSetupPositionService> logger)
+            IArpaContext arpaContext)
         {
             _mediator = mediator;
             _mapper = mapper;
             _arpaContext = arpaContext;
-            _logger = logger;
         }
 
         public async Task<IEnumerable<StageSetupPositionDto>> GetBySetupAsync(Guid stageSetupId)
@@ -49,48 +48,29 @@ namespace Orso.Arpa.Application.StageSetupApplication.Services
                 .ThenBy(p => p.PositionX)
                 .ToListAsync();
 
-            return _mapper.Map<IEnumerable<StageSetupPositionDto>>(positions);
+            return positions.Select(MapPositionToDto).ToList();
         }
 
         public async Task<StageSetupPositionDto> CreateAsync(Guid stageSetupId, StageSetupPositionCreateDto createDto)
         {
-            try
-            {
-                _logger.LogInformation("CreateAsync: Starting for setupId={SetupId}, musicianProfileId={MusicianProfileId}",
-                    stageSetupId, createDto.MusicianProfileId);
+            var command = _mapper.Map<CreateStageSetupPosition.Command>(createDto);
+            command.StageSetupId = stageSetupId;
 
-                var command = _mapper.Map<CreateStageSetupPosition.Command>(createDto);
-                command.StageSetupId = stageSetupId;
+            var result = await _mediator.Send(command);
 
-                _logger.LogInformation("CreateAsync: Sending command to mediator");
-                var result = await _mediator.Send(command);
-                _logger.LogInformation("CreateAsync: Mediator returned position with Id={PositionId}", result?.Id);
+            // Reload with includes to get MusicianProfile data
+            var positionWithIncludes = await _arpaContext.Set<StageSetupPosition>()
+                .Where(p => p.Id == result.Id)
+                .Include(p => p.MusicianProfile)
+                    .ThenInclude(mp => mp.Person)
+                .Include(p => p.MusicianProfile)
+                    .ThenInclude(mp => mp.Instrument)
+                .Include(p => p.MusicianProfile)
+                    .ThenInclude(mp => mp.Qualification)
+                        .ThenInclude(q => q.SelectValue)
+                .FirstAsync();
 
-                // Reload with includes to get MusicianProfile data
-                _logger.LogInformation("CreateAsync: Reloading position with includes");
-                var positionWithIncludes = await _arpaContext.Set<StageSetupPosition>()
-                    .Where(p => p.Id == result.Id)
-                    .Include(p => p.MusicianProfile)
-                        .ThenInclude(mp => mp.Person)
-                    .Include(p => p.MusicianProfile)
-                        .ThenInclude(mp => mp.Instrument)
-                    .Include(p => p.MusicianProfile)
-                        .ThenInclude(mp => mp.Qualification)
-                            .ThenInclude(q => q.SelectValue)
-                    .FirstAsync();
-
-                _logger.LogInformation("CreateAsync: Mapping to DTO. MusicianProfile={HasProfile}, Person={HasPerson}",
-                    positionWithIncludes.MusicianProfile != null,
-                    positionWithIncludes.MusicianProfile?.Person != null);
-
-                return _mapper.Map<StageSetupPositionDto>(positionWithIncludes);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "CreateAsync: Error creating position for setupId={SetupId}, musicianProfileId={MusicianProfileId}",
-                    stageSetupId, createDto.MusicianProfileId);
-                throw;
-            }
+            return MapPositionToDto(positionWithIncludes);
         }
 
         public async Task ModifyAsync(StageSetupPositionModifyBodyDto modifyDto)
@@ -130,7 +110,36 @@ namespace Orso.Arpa.Application.StageSetupApplication.Services
                         .ThenInclude(q => q.SelectValue)
                 .ToListAsync();
 
-            return _mapper.Map<IEnumerable<StageSetupPositionDto>>(positionsWithIncludes);
+            return positionsWithIncludes.Select(MapPositionToDto).ToList();
+        }
+
+        /// <summary>
+        /// Maps a StageSetupPosition entity to DTO with MusicianProfile and Person data.
+        /// We do this manually because AutoMapper's AfterMap actions don't work properly
+        /// for nested mappings with DI dependencies.
+        /// </summary>
+        private StageSetupPositionDto MapPositionToDto(StageSetupPosition position)
+        {
+            var dto = _mapper.Map<StageSetupPositionDto>(position);
+
+            if (position.MusicianProfile != null)
+            {
+                dto.MusicianProfile = new ReducedMusicianProfileDto
+                {
+                    Id = position.MusicianProfile.Id,
+                    InstrumentName = position.MusicianProfile.Instrument?.Name,
+                    Qualification = position.MusicianProfile.Qualification?.SelectValue?.Name,
+                    Person = position.MusicianProfile.Person != null ? new PersonDto
+                    {
+                        Id = position.MusicianProfile.Person.Id,
+                        GivenName = position.MusicianProfile.Person.GivenName,
+                        Surname = position.MusicianProfile.Person.Surname,
+                        DisplayName = position.MusicianProfile.Person.DisplayName
+                    } : null
+                };
+            }
+
+            return dto;
         }
     }
 }
