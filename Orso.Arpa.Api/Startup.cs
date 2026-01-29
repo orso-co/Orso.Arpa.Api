@@ -489,6 +489,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<ISetlistService, SetlistService>();
             services.AddScoped<IStageSetupService, StageSetupService>();
             services.AddScoped<IStageSetupPositionService, StageSetupPositionService>();
+            services.AddScoped<IStageSetupEquipmentService, StageSetupEquipmentService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 

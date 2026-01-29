@@ -130,6 +130,12 @@ namespace Orso.Arpa.Domain.StageSetupDomain.Model
         [CascadingSoftDelete]
         public virtual ICollection<StageSetupPosition> Positions { get; private set; } = new HashSet<StageSetupPosition>();
 
+        /// <summary>
+        /// Equipment items on this stage setup
+        /// </summary>
+        [CascadingSoftDelete]
+        public virtual ICollection<StageSetupEquipment> Equipment { get; private set; } = new HashSet<StageSetupEquipment>();
+
         #endregion
 
         public override string ToString()
