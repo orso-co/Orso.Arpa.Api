@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using AutoMapper;
 using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Application.MusicianProfileApplication.Model;
@@ -9,6 +8,28 @@ using Orso.Arpa.Domain.StageSetupDomain.Model;
 
 namespace Orso.Arpa.Application.StageSetupApplication.Model
 {
+    /// <summary>
+    /// Simplified person info for stage setup display
+    /// </summary>
+    public class StageSetupPersonDto
+    {
+        public Guid Id { get; set; }
+        public string DisplayName { get; set; }
+        public string GivenName { get; set; }
+        public string Surname { get; set; }
+    }
+
+    /// <summary>
+    /// Simplified musician profile for stage setup display
+    /// </summary>
+    public class StageSetupMusicianProfileDto
+    {
+        public Guid Id { get; set; }
+        public string InstrumentName { get; set; }
+        public string Qualification { get; set; }
+        public StageSetupPersonDto Person { get; set; }
+    }
+
     public class StageSetupPositionDto : BaseEntityDto
     {
         public Guid StageSetupId { get; set; }
@@ -19,9 +40,9 @@ namespace Orso.Arpa.Application.StageSetupApplication.Model
         public int? Stand { get; set; }
 
         /// <summary>
-        /// Reduced musician profile info for display
+        /// Simplified musician profile info for display
         /// </summary>
-        public ReducedMusicianProfileDto MusicianProfile { get; set; }
+        public StageSetupMusicianProfileDto MusicianProfile { get; set; }
     }
 
     public class StageSetupPositionDtoMappingProfile : Profile
@@ -30,28 +51,14 @@ namespace Orso.Arpa.Application.StageSetupApplication.Model
         {
             CreateMap<StageSetupPosition, StageSetupPositionDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>()
-                .ForMember(dest => dest.MusicianProfile, opt => opt.MapFrom((src, dest, destMember, context) =>
-                {
-                    if (src.MusicianProfile == null) return null;
+                .ForMember(dest => dest.MusicianProfile, opt => opt.MapFrom(src => src.MusicianProfile));
 
-                    var mp = src.MusicianProfile;
-                    return new ReducedMusicianProfileDto
-                    {
-                        Id = mp.Id,
-                        InstrumentName = mp.Instrument?.Name,
-                        Qualification = mp.Qualification?.SelectValue?.Name ?? string.Empty,
-                        DoublingInstrumentNames = mp.DoublingInstruments?.Select(di => di.Section?.Name).Where(n => n != null).ToList() ?? [],
-                        PreferredPositionsTeam = mp.PreferredPositionsTeam?.Select(p => p.SelectValueSection?.SelectValue?.Name).Where(n => n != null).ToList() ?? [],
-                        Deactivation = mp.Deactivation != null ? context.Mapper.Map<MusicianProfileDeactivationApplication.Model.MusicianProfileDeactivationDto>(mp.Deactivation) : null,
-                        Person = mp.Person != null ? new PersonDto
-                        {
-                            Id = mp.Person.Id,
-                            DisplayName = mp.Person.DisplayName,
-                            GivenName = mp.Person.GivenName,
-                            Surname = mp.Person.Surname
-                        } : null
-                    };
-                }));
+            CreateMap<Domain.MusicianProfileDomain.Model.MusicianProfile, StageSetupMusicianProfileDto>()
+                .ForMember(dest => dest.InstrumentName, opt => opt.MapFrom(src => src.Instrument != null ? src.Instrument.Name : null))
+                .ForMember(dest => dest.Qualification, opt => opt.MapFrom(src => src.Qualification != null && src.Qualification.SelectValue != null ? src.Qualification.SelectValue.Name : null))
+                .ForMember(dest => dest.Person, opt => opt.MapFrom(src => src.Person));
+
+            CreateMap<Domain.PersonDomain.Model.Person, StageSetupPersonDto>();
         }
     }
 }
