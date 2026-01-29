@@ -36,5 +36,20 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _auditLogService.GetAsync(entityId, skip, take));
         }
+
+        /// <summary>
+        /// Gets recent participation changes (project and appointment) with resolved names.
+        /// Used for the Dashboard activity feed.
+        /// </summary>
+        /// <param name="take">Number of items to return (default 20)</param>
+        /// <returns>A list of recent participation changes with person names, project/appointment names, and status</returns>
+        /// <response code="200">Returns the list of recent participation changes</response>
+        [Authorize(Policy = AuthorizationPolicies.HasRolePolicy)]
+        [HttpGet("recent-participation-changes")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<RecentParticipationChangeDto>>> GetRecentParticipationChanges([FromQuery] int take = 20)
+        {
+            return Ok(await _auditLogService.GetRecentParticipationChangesAsync(take));
+        }
     }
 }

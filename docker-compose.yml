@@ -23,7 +23,7 @@ services:
         container_name: api
         hostname: api
         ports:
-            - 5000:5000
+            - 5001:5000
             - "10000:10000"
             - "10001:10001"
             - "10002:10002"
@@ -33,6 +33,7 @@ services:
             - EmailConfiguration__SmtpServer=mail
             - EmailConfiguration__Port=1025
             - EmailConfiguration__From=test@localhost
+            - JwtConfiguration__TokenKey=${JWT_TOKEN_KEY}
         depends_on:
             - postgres
             - mail

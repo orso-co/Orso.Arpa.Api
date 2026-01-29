@@ -358,3 +358,5 @@ c:azurite
 
 #snyk
 .dccache
+# Local environment
+.env
