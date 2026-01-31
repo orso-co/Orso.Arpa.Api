@@ -61,7 +61,7 @@ jobs:
                   fi
 
             - name: Deploy to Raspberry Pi
-              uses: appleboy/ssh-action@v1.2.0
+              uses: appleboy/ssh-action@v1.2.5
               with:
                   host: ${{ secrets.SSH_HOST }}
                   port: 2222
