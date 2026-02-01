@@ -1,51 +1,21 @@
 stages:
-  - build
-  - deploy
+  - build-and-deploy
 
 variables:
-  DOCKER_TLS_CERTDIR: "/certs"
   # GitLab Container Registry
-  REGISTRY: ${CI_REGISTRY}
-  IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+  REGISTRY: git.loopus.it:5050
+  IMAGE_NAME: git.loopus.it:5050/arpa/arpa-api
 
-# Build für raspi-dev und raspi-prod Branches
-build:
-  stage: build
-  image: docker:24-dind
-  services:
-    - docker:24-dind
-  rules:
-    - if: $CI_COMMIT_BRANCH == "raspi-dev" || $CI_COMMIT_BRANCH == "raspi-prod"
-  before_script:
-    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
-  script:
-    - echo "Building for branch $CI_COMMIT_BRANCH"
-    # QEMU für ARM64 Cross-Compilation
-    - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    - docker buildx create --use --name multiarch || docker buildx use multiarch
-    - docker buildx inspect --bootstrap
-    # Multi-Arch Build und Push
-    - |
-      docker buildx build \
-        --platform linux/amd64,linux/arm64 \
-        --push \
-        -t ${IMAGE_NAME}:${CI_COMMIT_BRANCH} \
-        -t ${IMAGE_NAME}:latest \
-        .
-  tags:
-    - docker
-
-# Deploy nach raspi3
-deploy:
-  stage: deploy
+# Build und Deploy in einem Job (direkt auf raspi3)
+build-and-deploy:
+  stage: build-and-deploy
   image: alpine:latest
   rules:
     - if: $CI_COMMIT_BRANCH == "raspi-dev" || $CI_COMMIT_BRANCH == "raspi-prod"
   before_script:
-    - apk add --no-cache openssh-client
+    - apk add --no-cache openssh-client git
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    # SSH_PRIVATE_KEY ist eine File-Variable
     - cp "$SSH_PRIVATE_KEY" ~/.ssh/deploy_key
     - chmod 600 ~/.ssh/deploy_key
     - ssh-keyscan -p 2222 ${SSH_HOST} >> ~/.ssh/known_hosts 2>/dev/null
@@ -60,29 +30,38 @@ deploy:
         IMAGE_TAG="raspi-dev"
       fi
 
-      echo "Deploying to ~/$DEPLOY_DIR with image tag $IMAGE_TAG"
-      echo "Image: ${IMAGE_NAME}:$IMAGE_TAG"
+      echo "=== Building and deploying to ~/$DEPLOY_DIR ==="
+      echo "Branch: $CI_COMMIT_BRANCH"
+      echo "Image Tag: $IMAGE_TAG"
 
-      ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 2222 ${SSH_USERNAME}@${SSH_HOST} << EOF
+      # Auf raspi3 bauen und deployen (ARM64 nativ)
+      ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 2222 ${SSH_USERNAME}@${SSH_HOST} << ENDSSH
         set -e
-
-        # In Deployment-Verzeichnis wechseln
         cd ~/$DEPLOY_DIR
 
-        # Login zur GitLab Container Registry
-        echo "${CI_JOB_TOKEN}" | docker login ${CI_REGISTRY} -u gitlab-ci-token --password-stdin
+        echo "=== Pulling latest code ==="
+        # Temporäres Verzeichnis für Build
+        BUILD_DIR="/tmp/arpa-build-\$\$"
+        mkdir -p \$BUILD_DIR
+        cd \$BUILD_DIR
 
-        # Neues Image pullen
-        docker pull ${IMAGE_NAME}:$IMAGE_TAG
+        # Code klonen
+        git clone --depth 1 --branch $CI_COMMIT_BRANCH https://git.loopus.it/arpa/arpa-api.git .
 
-        # docker-compose.yml anpassen (Image-Quelle auf GitLab Registry)
-        sed -i 's|image: ghcr.io/orso-co/orso-arpa-api:.*|image: ${IMAGE_NAME}:$IMAGE_TAG|g' docker-compose.yml
+        echo "=== Building Docker image ==="
+        docker build --platform linux/arm64 -t arpa-api:$IMAGE_TAG .
+
+        echo "=== Deploying ==="
+        cd ~/$DEPLOY_DIR
+
+        # docker-compose.yml auf lokales Image umstellen
+        sed -i 's|image: ghcr.io/orso-co/orso-arpa-api:.*|image: arpa-api:'$IMAGE_TAG'|g' docker-compose.yml
+        sed -i 's|image: arpa-api:.*|image: arpa-api:'$IMAGE_TAG'|g' docker-compose.yml
 
         # Container neu starten
         docker compose up -d --force-recreate api
 
-        # Auf Health Check warten
-        echo "Waiting for API to become healthy..."
+        echo "=== Waiting for health check ==="
         for i in \$(seq 1 30); do
           if docker compose ps api | grep -q "healthy"; then
             echo "API is healthy!"
@@ -95,9 +74,12 @@ deploy:
         # Status anzeigen
         docker compose ps
 
-        # Alte Images aufräumen
+        # Aufräumen
+        rm -rf \$BUILD_DIR
         docker image prune -f
-      EOF
+
+        echo "=== Deployment complete ==="
+      ENDSSH
   tags:
     - docker
   environment:
