@@ -1,0 +1,105 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  # GitLab Container Registry
+  REGISTRY: ${CI_REGISTRY}
+  IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+
+# Build für raspi-dev und raspi-prod Branches
+build:
+  stage: build
+  image: docker:24-dind
+  services:
+    - docker:24-dind
+  rules:
+    - if: $CI_COMMIT_BRANCH == "raspi-dev" || $CI_COMMIT_BRANCH == "raspi-prod"
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+  script:
+    - echo "Building for branch $CI_COMMIT_BRANCH"
+    # QEMU für ARM64 Cross-Compilation
+    - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    - docker buildx create --use --name multiarch || docker buildx use multiarch
+    - docker buildx inspect --bootstrap
+    # Multi-Arch Build und Push
+    - |
+      docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        --push \
+        -t ${IMAGE_NAME}:${CI_COMMIT_BRANCH} \
+        -t ${IMAGE_NAME}:latest \
+        .
+  tags:
+    - docker
+
+# Deploy nach raspi3
+deploy:
+  stage: deploy
+  image: alpine:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == "raspi-dev" || $CI_COMMIT_BRANCH == "raspi-prod"
+  before_script:
+    - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    # SSH_PRIVATE_KEY ist eine File-Variable
+    - cp "$SSH_PRIVATE_KEY" ~/.ssh/deploy_key
+    - chmod 600 ~/.ssh/deploy_key
+    - ssh-keyscan -p 2222 ${SSH_HOST} >> ~/.ssh/known_hosts 2>/dev/null
+  script:
+    - |
+      # Deployment-Variablen basierend auf Branch
+      if [ "$CI_COMMIT_BRANCH" = "raspi-prod" ]; then
+        DEPLOY_DIR="arpa-prod"
+        IMAGE_TAG="raspi-prod"
+      else
+        DEPLOY_DIR="arpa"
+        IMAGE_TAG="raspi-dev"
+      fi
+
+      echo "Deploying to ~/$DEPLOY_DIR with image tag $IMAGE_TAG"
+      echo "Image: ${IMAGE_NAME}:$IMAGE_TAG"
+
+      ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 2222 ${SSH_USERNAME}@${SSH_HOST} << EOF
+        set -e
+
+        # In Deployment-Verzeichnis wechseln
+        cd ~/$DEPLOY_DIR
+
+        # Login zur GitLab Container Registry
+        echo "${CI_JOB_TOKEN}" | docker login ${CI_REGISTRY} -u gitlab-ci-token --password-stdin
+
+        # Neues Image pullen
+        docker pull ${IMAGE_NAME}:$IMAGE_TAG
+
+        # docker-compose.yml anpassen (Image-Quelle auf GitLab Registry)
+        sed -i 's|image: ghcr.io/orso-co/orso-arpa-api:.*|image: ${IMAGE_NAME}:$IMAGE_TAG|g' docker-compose.yml
+
+        # Container neu starten
+        docker compose up -d --force-recreate api
+
+        # Auf Health Check warten
+        echo "Waiting for API to become healthy..."
+        for i in \$(seq 1 30); do
+          if docker compose ps api | grep -q "healthy"; then
+            echo "API is healthy!"
+            break
+          fi
+          echo "Attempt \$i/30 - waiting..."
+          sleep 5
+        done
+
+        # Status anzeigen
+        docker compose ps
+
+        # Alte Images aufräumen
+        docker image prune -f
+      EOF
+  tags:
+    - docker
+  environment:
+    name: \$CI_COMMIT_REF_NAME
+    url: https://arpa.loopus.it
