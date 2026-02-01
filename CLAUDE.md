@@ -24,14 +24,40 @@
 - **Dev:** orso-arpa-dev-infra-pgs (PostgreSQL 16)
 - Pipelines: `build-prod.yml`, `build-dev.yml`, `build-staging.yml`
 
-### Raspberry Pi 3 (raspi3)
+### Raspberry Pi 5 (raspi3)
 - **Host:** r3.loopus.it:2222 (SSH)
 - **Lokal:** 192.168.1.59 (SSH Port 22 deaktiviert)
 - **Deployments:**
   - `/home/wolf/arpa` → raspi-dev Branch
   - `/home/wolf/arpa-prod` → raspi-prod Branch
 - **PostgreSQL:** 16-alpine (Docker)
-- **Workflow:** `.github/workflows/raspi-deploy.yml`
+- **CI/CD:**
+  - **GitHub:** `.github/workflows/raspi-deploy.yml` (baut auf GitHub, pusht zu ghcr.io)
+  - **GitLab:** `.gitlab-ci.yml` (baut nativ auf raspi3, schneller)
+
+### GitLab CI/CD (git.loopus.it)
+Eingerichtet 01.02.2026. Alternative zu GitHub Actions, baut direkt auf raspi3.
+
+**GitLab Repo:** https://git.loopus.it/arpa/arpa-api
+
+**Remote hinzufügen:**
+```bash
+git remote add gitlab "https://Wolf:TOKEN@git.loopus.it/arpa/arpa-api.git"
+```
+
+**Deployment via GitLab:**
+```bash
+git push gitlab raspi-dev   # → Deploy auf arpa.loopus.it
+git push gitlab raspi-prod  # → Deploy auf arpax.loopus.it
+```
+
+**Vorteile gegenüber GitHub Actions:**
+- Baut nativ auf ARM64 (kein QEMU Cross-Compile)
+- Schneller (~3 Min statt ~8 Min)
+- Keine GitHub-Abhängigkeit
+- Lokale Kontrolle
+
+**Pipeline-Logs:** https://git.loopus.it/arpa/arpa-api/-/pipelines
 
 ### Lokal (Entwicklung)
 - `docker-compose.yml` im Repo
