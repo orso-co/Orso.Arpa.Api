@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.WebUtilities;
@@ -49,12 +51,30 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                var param = new Dictionary<string, string>
-                        {
-                            { "token", token },
-                            { "email", user.Email }
-                        };
-                var uri = QueryHelpers.AddQueryString(request.ClientUri, param);
+                // Build the callback URL
+                // Handle hash-based routing (Angular HashLocationStrategy):
+                // Input: https://example.com/#/auth/reset-password
+                // Output: https://example.com/#/auth/reset-password?token=xxx&email=xxx
+                // Standard QueryHelpers would produce: https://example.com/?token=xxx&email=xxx#/auth/reset-password
+                // which doesn't work with hash routing
+                string uri;
+                if (request.ClientUri.Contains("#"))
+                {
+                    // Hash-based URL: append query params after the hash fragment
+                    var encodedToken = HttpUtility.UrlEncode(token);
+                    var encodedEmail = HttpUtility.UrlEncode(user.Email);
+                    uri = $"{request.ClientUri}?token={encodedToken}&email={encodedEmail}";
+                }
+                else
+                {
+                    // Standard URL: use QueryHelpers
+                    var param = new Dictionary<string, string>
+                    {
+                        { "token", token },
+                        { "email", user.Email }
+                    };
+                    uri = QueryHelpers.AddQueryString(request.ClientUri, param);
+                }
 
                 var template = new ResetPasswordTemplate
                 {
