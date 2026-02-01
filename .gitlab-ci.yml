@@ -101,5 +101,5 @@ deploy:
   tags:
     - docker
   environment:
-    name: \$CI_COMMIT_REF_NAME
+    name: $CI_COMMIT_REF_NAME
     url: https://arpa.loopus.it
