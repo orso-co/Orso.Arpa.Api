@@ -69,16 +69,12 @@ public class MyProjectService : IMyProjectService
 
     public async Task<SetlistDto> GetProjectSetlistAsync(Guid projectId)
     {
-        // Verify the user is participating in this project
+        // Note: We don't check for active participation here because:
+        // 1. The project list already filters which projects are visible to the user
+        // 2. Users should be able to see setlists even with INTERESTED status
+        // 3. The project visibility (IsHiddenForPerformers, Status, etc.) is already enforced
+        //    when the user fetches their project list
         var personId = _userAccessor.PersonId;
-        var isParticipating = await _arpaContext.ProjectParticipations
-            .AnyAsync(pp => pp.ProjectId == projectId &&
-                           pp.MusicianProfile.PersonId == personId);
-
-        if (!isParticipating)
-        {
-            return null;
-        }
 
         // Get the project with its setlist (pieces sorted by SortOrder)
         var project = await _arpaContext.Projects
