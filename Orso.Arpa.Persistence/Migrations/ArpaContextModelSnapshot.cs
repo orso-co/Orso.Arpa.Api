@@ -1438,6 +1438,388 @@ namespace Orso.Arpa.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Orso.Arpa.Domain.ChatDomain.Model.ChatMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("ChatRoomId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("chat_room_id");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasColumnName("content");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<DateTime?>("EditedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("edited_at");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<Guid?>("ReplyToMessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reply_to_message_id");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sender_id");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("sent_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_chat_messages");
+
+                    b.HasIndex("ChatRoomId")
+                        .HasDatabaseName("ix_chat_messages_chat_room_id");
+
+                    b.HasIndex("ReplyToMessageId")
+                        .HasDatabaseName("ix_chat_messages_reply_to_message_id");
+
+                    b.HasIndex("SenderId")
+                        .HasDatabaseName("ix_chat_messages_sender_id");
+
+                    b.HasIndex("ChatRoomId", "SentAt")
+                        .HasDatabaseName("ix_chat_messages_chat_room_id_sent_at");
+
+                    b.ToTable("chat_messages", (string)null);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.ChatDomain.Model.ChatMessageAttachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("ChatMessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("chat_message_id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("content_type");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("file_name");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint")
+                        .HasColumnName("file_size");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<string>("StoragePath")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("storage_path");
+
+                    b.Property<string>("ThumbnailPath")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("thumbnail_path");
+
+                    b.HasKey("Id")
+                        .HasName("pk_chat_message_attachments");
+
+                    b.HasIndex("ChatMessageId")
+                        .HasDatabaseName("ix_chat_message_attachments_chat_message_id");
+
+                    b.ToTable("chat_message_attachments", (string)null);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.ChatDomain.Model.ChatRoom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<DateTime?>("LastMessageAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("last_message_at");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid?>("ProjectId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("project_id");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_chat_rooms");
+
+                    b.HasIndex("ProjectId")
+                        .HasDatabaseName("ix_chat_rooms_project_id");
+
+                    b.HasIndex("Type")
+                        .HasDatabaseName("ix_chat_rooms_type");
+
+                    b.ToTable("chat_rooms", (string)null);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.ChatDomain.Model.ChatRoomMember", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("ChatRoomId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("chat_room_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<DateTime?>("HistoryVisibleFrom")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("history_visible_from");
+
+                    b.Property<bool>("IsMuted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_muted");
+
+                    b.Property<DateTime>("JoinedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("joined_at");
+
+                    b.Property<DateTime?>("LastReadAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("last_read_at");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_chat_room_members");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_chat_room_members_user_id");
+
+                    b.HasIndex("ChatRoomId", "UserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_chat_room_members_chat_room_id_user_id");
+
+                    b.ToTable("chat_room_members", (string)null);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.ChatDomain.Model.MessageReaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<string>("Emoji")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnName("emoji");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("message_id");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_message_reactions");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_message_reactions_user_id");
+
+                    b.HasIndex("MessageId", "UserId", "Emoji")
+                        .IsUnique()
+                        .HasDatabaseName("ix_message_reactions_message_id_user_id_emoji");
+
+                    b.ToTable("message_reactions", (string)null);
+                });
+
+            modelBuilder.Entity("Orso.Arpa.Domain.ChatDomain.Model.MessageReadReceipt", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("message_id");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("modified_at");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(110)
+                        .HasColumnType("character varying(110)")
+                        .HasColumnName("modified_by");
+
+                    b.Property<DateTime>("ReadAt")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("read_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_message_read_receipts");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_message_read_receipts_user_id");
+
+                    b.HasIndex("MessageId", "UserId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_message_read_receipts_message_id_user_id");
+
+                    b.ToTable("message_read_receipts", (string)null);
+                });
+
             modelBuilder.Entity("Orso.Arpa.Domain.General.Model.SqlFunctionIdResult", b =>
                 {
                     b.Property<Guid>("Id")

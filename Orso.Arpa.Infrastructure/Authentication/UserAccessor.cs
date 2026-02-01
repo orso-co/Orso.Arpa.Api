@@ -26,9 +26,12 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
         public async Task<User> GetCurrentUserAsync(CancellationToken cancellationToken = default)
         {
+            // Normalize username outside the query to avoid EF Core evaluation issues
+            var normalizedUserName = _userManager.NormalizeName(UserName);
+
             User user = await _userManager.Users
                 .Include(x => x.Person)
-                .SingleAsync(x => x.NormalizedUserName == _userManager.NormalizeName(UserName), cancellationToken);
+                .SingleAsync(x => x.NormalizedUserName == normalizedUserName, cancellationToken);
 
             return user ?? throw new AuthenticationException("No user found for the user name provided by the jwt token");
         }

@@ -21,6 +21,7 @@ using Orso.Arpa.Domain.SectionDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;
+using Orso.Arpa.Domain.ChatDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
 {
@@ -65,6 +66,14 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<MusicPieceFileSection> MusicPieceFileSections { get; set; }
         DbSet<Setlist> Setlists { get; set; }
         DbSet<SetlistPiece> SetlistPieces { get; set; }
+
+        // Chat
+        DbSet<ChatRoom> ChatRooms { get; set; }
+        DbSet<ChatRoomMember> ChatRoomMembers { get; set; }
+        DbSet<ChatMessage> ChatMessages { get; set; }
+        DbSet<ChatMessageAttachment> ChatMessageAttachments { get; set; }
+        DbSet<MessageReaction> MessageReactions { get; set; }
+        DbSet<MessageReadReceipt> MessageReadReceipts { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

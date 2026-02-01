@@ -49,6 +49,8 @@ using Orso.Arpa.Application.AuthApplication.AuthorizationHandler;
 using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Application.AuthApplication.Services;
+using Orso.Arpa.Application.ChatApplication.Interfaces;
+using Orso.Arpa.Application.ChatApplication.Services;
 using Orso.Arpa.Application.BankAccountApplication.Interfaces;
 using Orso.Arpa.Application.BankAccountApplication.Services;
 using Orso.Arpa.Application.ClubApplication.Interfaces;
@@ -114,6 +116,7 @@ using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.MusicLibraryDomain;
+using Orso.Arpa.Domain.ChatDomain.Interfaces;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -244,6 +247,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped(_ => new BlobServiceClient(connectionString));
             _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
             _ = services.AddScoped<IMusicPieceFileAccessor, AzureStorageMusicPieceFileAccessor>();
+            _ = services.AddScoped<IChatAttachmentFileAccessor, LocalStorageChatAttachmentFileAccessor>();
             _ = services.AddImageSharp()
                 .RemoveProvider<PhysicalFileSystemProvider>()
                 .AddProvider<ArpaProfilePictureProvider>()
@@ -259,6 +263,7 @@ namespace Orso.Arpa.Api
         {
             _ = services.AddScoped<IFileAccessor, LocalStorageProfilePictureAccessor>();
             _ = services.AddScoped<IMusicPieceFileAccessor, LocalStorageMusicPieceFileAccessor>();
+            _ = services.AddScoped<IChatAttachmentFileAccessor, LocalStorageChatAttachmentFileAccessor>();
 
             var cachePath = Configuration.GetValue<string>("LocalStorageConfiguration:ImageCachePath")
                 ?? "/data/image-cache";
@@ -367,17 +372,20 @@ namespace Orso.Arpa.Api
                     policy.Requirements.Add(new IsMyMusicianProfileRequirement()));
                 options.AddPolicy(AuthorizationPolicies.IsMyPerson, policy =>
                     policy.Requirements.Add(new IsMyPersonRequirement()));
+                // Note: With MapInboundClaims = false in JWT config, claims keep their original names
+                // So we check for "role" instead of ClaimsIdentity.DefaultRoleClaimType
+                const string RoleClaimType = "role";
                 options.AddPolicy(AuthorizationPolicies.HasRolePolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
-                       IEnumerable<Claim> roleLevelClaims = context.User.Claims.Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType);
+                       IEnumerable<Claim> roleLevelClaims = context.User.Claims.Where(c => c.Type == RoleClaimType);
                        return roleLevelClaims.Any();
                    }));
                 options.AddPolicy(AuthorizationPolicies.AtLeastStaffPolicy, policy =>
                    policy.RequireAssertion(context =>
                    {
                        IEnumerable<string> roleLevelClaims = context.User.Claims
-                        .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)
+                        .Where(c => c.Type == RoleClaimType)
                         .Select(c => c.Value);
                        return roleLevelClaims.Any(claim => claim.Equals(RoleNames.Staff) || claim.Equals(RoleNames.Admin));
                    }));
@@ -385,7 +393,7 @@ namespace Orso.Arpa.Api
                    policy.RequireAssertion(context =>
                    {
                        IEnumerable<string> roleLevelClaims = context.User.Claims
-                        .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)
+                        .Where(c => c.Type == RoleClaimType)
                         .Select(c => c.Value);
                        return roleLevelClaims.Any(claim => claim.Equals(RoleNames.Performer) || claim.Equals(RoleNames.Staff) || claim.Equals(RoleNames.Admin));
                    }));
@@ -463,6 +471,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IAppointmentService, AppointmentService>();
             _ = services.AddScoped<IVenueService, VenueService>();
             _ = services.AddScoped<IAuditLogService, AuditLogService>();
+            _ = services.AddScoped<IChatService, ChatService>();
             _ = services.AddScoped<IMusicianProfileService, MusicianProfileService>();
             _ = services.AddScoped<IEducationService, EducationService>();
             _ = services.AddScoped<ICurriculumVitaeReferenceService, CurriculumVitaeReferenceService>();
@@ -644,6 +653,7 @@ namespace Orso.Arpa.Api
                 _ = endpoints.MapControllers();
                 _ = endpoints.MapHub<PresenceHub>("/hubs/presence");
                 _ = endpoints.MapHub<StageSetupHub>("/hubs/stage-setup");
+                _ = endpoints.MapHub<ChatHub>("/hubs/chat");
                 _ = endpoints.MapFallbackToController("Index", "Fallback");
                 _ = endpoints.MapGraphQL().RequireAuthorization(new AuthorizeAttribute { Roles = RoleNames.Staff });
             });

@@ -34,6 +34,7 @@ using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.StageSetupDomain.Model;
+using Orso.Arpa.Domain.ChatDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
 
@@ -112,6 +113,14 @@ namespace Orso.Arpa.Persistence.DataAccess
         // Stage Setups (Aufstellungen)
         public DbSet<StageSetup> StageSetups { get; set; }
         public DbSet<StageSetupPosition> StageSetupPositions { get; set; }
+
+        // Chat
+        public DbSet<ChatRoom> ChatRooms { get; set; }
+        public DbSet<ChatRoomMember> ChatRoomMembers { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<ChatMessageAttachment> ChatMessageAttachments { get; set; }
+        public DbSet<MessageReaction> MessageReactions { get; set; }
+        public DbSet<MessageReadReceipt> MessageReadReceipts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
