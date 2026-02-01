@@ -16,7 +16,8 @@ build-and-deploy:
     - apk add --no-cache openssh-client git
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - cp "$SSH_PRIVATE_KEY" ~/.ssh/deploy_key
+    # SSH Key aus base64 dekodieren
+    - echo "$SSH_PRIVATE_KEY_B64" | base64 -d > ~/.ssh/deploy_key
     - chmod 600 ~/.ssh/deploy_key
     - ssh-keyscan -p 2222 ${SSH_HOST} >> ~/.ssh/known_hosts 2>/dev/null
   script:
