@@ -35,6 +35,9 @@ build-and-deploy:
       echo "Branch: $CI_COMMIT_BRANCH"
       echo "Image Tag: $IMAGE_TAG"
 
+      # Git-URL mit CI-Token für authentifizierten Clone
+      GIT_URL="https://gitlab-ci-token:${CI_JOB_TOKEN}@git.loopus.it/arpa/arpa-api.git"
+
       # Auf raspi3 bauen und deployen (ARM64 nativ)
       ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 2222 ${SSH_USERNAME}@${SSH_HOST} << ENDSSH
         set -e
@@ -46,8 +49,8 @@ build-and-deploy:
         mkdir -p \$BUILD_DIR
         cd \$BUILD_DIR
 
-        # Code klonen
-        git clone --depth 1 --branch $CI_COMMIT_BRANCH https://git.loopus.it/arpa/arpa-api.git .
+        # Code klonen (mit CI-Token)
+        git clone --depth 1 --branch $CI_COMMIT_BRANCH $GIT_URL .
 
         echo "=== Building Docker image ==="
         docker build --platform linux/arm64 -t arpa-api:$IMAGE_TAG .
