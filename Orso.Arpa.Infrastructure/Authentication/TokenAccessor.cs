@@ -23,8 +23,9 @@ namespace Orso.Arpa.Infrastructure.Authentication
         {
             get
             {
+                // With MapInboundClaims = false, the claim type is "nameid" not the default URI
                 var username = _httpContextAccessor?.HttpContext?.User?.Claims?
-                    .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?
+                    .FirstOrDefault(c => c.Type == "nameid" || c.Type == ClaimTypes.NameIdentifier)?
                     .Value;
                 return username ?? throw new AuthenticationException("No user name found in the JWT token");
             }
@@ -42,8 +43,9 @@ namespace Orso.Arpa.Infrastructure.Authentication
 
         public IList<string> GetUserRoles()
         {
+            // With MapInboundClaims = false, the claim type is "role" not the default URI
             return _httpContextAccessor?.HttpContext?.User?.Claims?
-                .Where(c => c.Type == ClaimsIdentity.DefaultRoleClaimType)?
+                .Where(c => c.Type == "role")?
                 .Select(claim => claim.Value)
                 .ToList();
         }
