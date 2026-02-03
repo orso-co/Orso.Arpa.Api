@@ -229,3 +229,51 @@ Ermöglicht Nutzern, die Probleme beim Login haben, eine Support-Anfrage zu send
 - Frontend: `src/app/domains/auth/feature-support/`
 - Backend Controller: `AuthController.cs` → `SendSupportRequest()`
 - Backend Service: `AuthService.cs` → `SendSupportRequestAsync()`
+
+## Bekannte Fixes (Februar 2026)
+
+### JWT Claims Mapping - 403 Forbidden nach Login (03.02.2026)
+
+**Problem:** Nach erfolgreichem Login kamen 403-Fehler auf allen API-Endpoints die Rollen erfordern.
+
+**Ursache:** .NET mappt standardmäßig JWT-Claims auf lange URIs:
+- `"role"` → `"http://schemas.microsoft.com/ws/2008/06/identity/claims/role"`
+- `"sub"` → `"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"`
+
+Die Autorisierungs-Policies fanden die Rollen nicht mehr, weil sie nach dem kurzen Namen suchten.
+
+**Fix in `Orso.Arpa.Api/Extensions/JwtBearerConfiguration.cs`:**
+```csharp
+return builder.AddJwtBearer(opt =>
+{
+    opt.SaveToken = true;
+    opt.MapInboundClaims = false;  // ← WICHTIG: Kein Claim-Mapping!
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        // ... andere Settings ...
+
+        // Mit MapInboundClaims = false explizit setzen:
+        NameClaimType = "sub",
+        RoleClaimType = "role",
+    };
+});
+```
+
+**Commits:**
+- `fix(auth): Handle JWT claims with MapInboundClaims=false` (TokenAccessor)
+- `fix(auth): Add MapInboundClaims=false to fix 403 errors` (JwtBearerConfiguration)
+
+**WICHTIG:** Beide Fixes sind nötig:
+1. `TokenAccessor.cs` prüft "nameid" UND ClaimTypes.NameIdentifier
+2. `JwtBearerConfiguration.cs` setzt MapInboundClaims=false
+
+### Account-Entsperrung nach fehlgeschlagenen Login-Versuchen
+
+Bei zu vielen falschen Passwort-Eingaben wird der Account gesperrt.
+
+**Entsperren via PostgreSQL:**
+```bash
+ssh -p 2222 wolf@r3.loopus.it
+docker exec arpa-prod-postgres psql -U postgres -d orso-arpa -c \
+  "UPDATE \"AspNetUsers\" SET lockout_end = NULL, access_failed_count = 0 WHERE email = 'user@example.com';"
+```
