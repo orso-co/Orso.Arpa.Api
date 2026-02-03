@@ -40,6 +40,20 @@ Eingerichtet 01.02.2026. Alternative zu GitHub Actions, baut direkt auf raspi3.
 
 **GitLab Repo:** https://git.loopus.it/arpa/arpa-api
 
+**Pipeline Stages:**
+1. `security` - Snyk Vulnerability Scanning
+2. `quality` - SonarCloud Code Analysis
+3. `build-and-deploy` - Docker Build + Deployment auf raspi3
+
+**CI/CD Variablen (Settings → CI/CD → Variables):**
+| Variable | Beschreibung |
+|----------|--------------|
+| `SNYK_TOKEN` | Snyk API Token (von app.snyk.io) |
+| `SONAR_TOKEN` | SonarCloud Token (von sonarcloud.io) |
+| `SSH_PRIVATE_KEY_B64` | Deploy-Key (base64) |
+| `SSH_HOST` | r3.loopus.it |
+| `SSH_USERNAME` | wolf |
+
 **Remote hinzufügen:**
 ```bash
 git remote add gitlab "https://Wolf:TOKEN@git.loopus.it/arpa/arpa-api.git"

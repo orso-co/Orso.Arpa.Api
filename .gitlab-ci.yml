@@ -1,10 +1,64 @@
 stages:
+  - security       # Snyk vulnerability scanning
+  - quality        # SonarCloud code analysis
   - build-and-deploy
 
 variables:
   # GitLab Container Registry
   REGISTRY: git.loopus.it:5050
   IMAGE_NAME: git.loopus.it:5050/arpa/arpa-api
+
+# =============================================================================
+# SECURITY STAGE - Snyk Vulnerability Scanning
+# =============================================================================
+snyk-scan:
+  stage: security
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  before_script:
+    - apt-get update && apt-get install -y nodejs npm
+    - npm install -g snyk
+    - dotnet restore
+  script:
+    - snyk auth $SNYK_TOKEN
+    - snyk test --file=./Orso.Arpa.Api.sln --severity-threshold=medium || true
+    - snyk monitor --file=./Orso.Arpa.Api.sln || true
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == "raspi-dev" || $CI_COMMIT_BRANCH == "raspi-prod"
+
+# =============================================================================
+# QUALITY STAGE - SonarCloud Code Analysis
+# =============================================================================
+sonarcloud:
+  stage: quality
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: sonar-${CI_JOB_NAME}
+    paths:
+      - .sonar/cache
+  before_script:
+    - apt-get update && apt-get install -y openjdk-17-jre
+    - dotnet tool install --global dotnet-sonarscanner
+    - export PATH="$PATH:$HOME/.dotnet/tools"
+  script:
+    - |
+      dotnet sonarscanner begin \
+        /k:"orso-co_Orso.Arpa.Api" \
+        /o:"orso-co" \
+        /d:sonar.host.url="https://sonarcloud.io" \
+        /d:sonar.token="${SONAR_TOKEN}"
+    - dotnet build --configuration Release
+    - dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == "raspi-dev" || $CI_COMMIT_BRANCH == "raspi-prod"
+
+# =============================================================================
+# BUILD AND DEPLOY STAGE
+# =============================================================================
 
 # Build und Deploy in einem Job (direkt auf raspi3)
 build-and-deploy:
