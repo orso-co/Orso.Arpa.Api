@@ -30,9 +30,15 @@ namespace Orso.Arpa.Application.UserApplication.Model
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
                 .ForMember(dest => dest.EmailConfirmed, opt => opt.MapFrom(src => src.EmailConfirmed))
                 .ForMember(dest => dest.PersonId, opt => opt.MapFrom(src => src.PersonId))
-                .ForMember(dest => dest.StakeholderGroups, opt => opt.MapFrom(src => src.Person.StakeholderGroups.Select(g => g.Section)))
+                .ForMember(dest => dest.StakeholderGroups, opt => opt.MapFrom(src =>
+                    src.Person != null && src.Person.StakeholderGroups != null
+                        ? src.Person.StakeholderGroups.Select(g => g.Section)
+                        : Enumerable.Empty<Orso.Arpa.Domain.SectionDomain.Model.Section>()))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom<UserStatusResolver>())
-                .ForMember(dest => dest.RoleNames, opt => opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.Name)));
+                .ForMember(dest => dest.RoleNames, opt => opt.MapFrom(src =>
+                    src.UserRoles != null
+                        ? src.UserRoles.Where(ur => ur.Role != null).Select(ur => ur.Role.Name)
+                        : Enumerable.Empty<string>()));
         }
     }
 
@@ -44,7 +50,7 @@ namespace Orso.Arpa.Application.UserApplication.Model
             {
                 return UserStatus.AwaitingEmailConfirmation;
             }
-            if (source.UserRoles.Count == 0)
+            if (source.UserRoles == null || source.UserRoles.Count == 0)
             {
                 return UserStatus.AwaitingRoleAssignment;
             }

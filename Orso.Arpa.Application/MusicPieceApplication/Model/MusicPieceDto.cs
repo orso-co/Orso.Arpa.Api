@@ -26,6 +26,7 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Model
         public IList<MusicPiecePartDto> Parts { get; set; } = [];
         public IList<MusicPieceFileDto> Files { get; set; } = [];
         public IList<MusicPieceUrlDto> Urls { get; set; } = [];
+        public IList<MusicPieceTodoDto> Todos { get; set; } = [];
     }
 
     public class MusicPieceDtoMappingProfile : Profile

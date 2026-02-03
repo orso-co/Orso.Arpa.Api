@@ -64,6 +64,8 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<MusicPieceFile> MusicPieceFiles { get; set; }
         DbSet<MusicPieceFileRole> MusicPieceFileRoles { get; set; }
         DbSet<MusicPieceFileSection> MusicPieceFileSections { get; set; }
+        DbSet<MusicPieceUrl> MusicPieceUrls { get; set; }
+        DbSet<MusicPieceTodo> MusicPieceTodos { get; set; }
         DbSet<Setlist> Setlists { get; set; }
         DbSet<SetlistPiece> SetlistPieces { get; set; }
 

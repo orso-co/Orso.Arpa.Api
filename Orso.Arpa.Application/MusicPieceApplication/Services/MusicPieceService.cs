@@ -152,5 +152,49 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Services
         {
             await _mediator.Send(new Delete.Command<MusicPieceUrl>() { Id = urlId });
         }
+
+        // Todo methods
+        public async Task<MusicPieceTodoDto> AddTodoAsync(Guid musicPieceId, MusicPieceTodoCreateDto createDto)
+        {
+            var command = new CreateMusicPieceTodo.Command
+            {
+                MusicPieceId = musicPieceId,
+                Title = createDto.Title,
+                DueDate = createDto.DueDate,
+                AssigneeIds = createDto.AssigneeIds
+            };
+
+            MusicPieceTodo createdTodo = await _mediator.Send(command);
+
+            // Reload with assignees for mapping
+            createdTodo = await _arpaContext.MusicPieceTodos
+                .Include(t => t.Assignees)
+                .FirstOrDefaultAsync(t => t.Id == createdTodo.Id);
+
+            return _mapper.Map<MusicPieceTodoDto>(createdTodo);
+        }
+
+        public async Task ModifyTodoAsync(Guid todoId, MusicPieceTodoModifyDto modifyDto)
+        {
+            var command = new ModifyMusicPieceTodo.Command
+            {
+                Id = todoId,
+                Title = modifyDto.Title,
+                DueDate = modifyDto.DueDate,
+                AssigneeIds = modifyDto.AssigneeIds
+            };
+            await _mediator.Send(command);
+        }
+
+        public async Task<bool> ToggleTodoCompletionAsync(Guid todoId)
+        {
+            var command = new ToggleMusicPieceTodoCompletion.Command { Id = todoId };
+            return await _mediator.Send(command);
+        }
+
+        public async Task RemoveTodoAsync(Guid todoId)
+        {
+            await _mediator.Send(new Delete.Command<MusicPieceTodo>() { Id = todoId });
+        }
     }
 }

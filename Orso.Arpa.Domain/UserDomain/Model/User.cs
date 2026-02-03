@@ -17,7 +17,7 @@ namespace Orso.Arpa.Domain.UserDomain.Model
             Person.Update(command);
         }
 
-        public string DisplayName => Person.DisplayName;
+        public string DisplayName => Person?.DisplayName ?? UserName;
         public virtual Person Person { get; set; }
         public Guid PersonId { get; set; }
 

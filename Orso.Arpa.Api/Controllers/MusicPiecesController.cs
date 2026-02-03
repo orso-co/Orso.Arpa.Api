@@ -270,5 +270,74 @@ namespace Orso.Arpa.Api.Controllers
             await _musicPieceService.RemoveUrlAsync(urlId);
             return NoContent();
         }
+
+        #region Todos
+
+        /// <summary>
+        /// Adds a todo to a music piece
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="createDto">Todo data</param>
+        /// <returns>The created todo</returns>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("{id}/todos")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<MusicPieceTodoDto>> AddTodo([FromRoute] Guid id, [FromBody] MusicPieceTodoCreateDto createDto)
+        {
+            MusicPieceTodoDto created = await _musicPieceService.AddTodoAsync(id, createDto);
+            return CreatedAtAction(nameof(GetById), new { id }, created);
+        }
+
+        /// <summary>
+        /// Updates an existing todo
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="todoId">Todo id</param>
+        /// <param name="modifyDto">Modified todo data</param>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPut("{id}/todos/{todoId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> ModifyTodo([FromRoute] Guid id, [FromRoute] Guid todoId, [FromBody] MusicPieceTodoModifyDto modifyDto)
+        {
+            await _musicPieceService.ModifyTodoAsync(todoId, modifyDto);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Toggles the completion status of a todo
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="todoId">Todo id</param>
+        /// <returns>The new completion status</returns>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPatch("{id}/todos/{todoId}/toggle")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<bool>> ToggleTodoCompletion([FromRoute] Guid id, [FromRoute] Guid todoId)
+        {
+            bool isCompleted = await _musicPieceService.ToggleTodoCompletionAsync(todoId);
+            return Ok(isCompleted);
+        }
+
+        /// <summary>
+        /// Removes a todo from a music piece
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="todoId">Todo id</param>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpDelete("{id}/todos/{todoId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> RemoveTodo([FromRoute] Guid id, [FromRoute] Guid todoId)
+        {
+            await _musicPieceService.RemoveTodoAsync(todoId);
+            return NoContent();
+        }
+
+        #endregion
     }
 }
