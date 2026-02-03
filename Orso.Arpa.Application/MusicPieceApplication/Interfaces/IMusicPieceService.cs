@@ -24,5 +24,10 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Interfaces
         Task AddSectionToFileAsync(Guid fileId, Guid sectionId);
         Task RemoveSectionFromFileAsync(Guid fileId, Guid sectionId);
         Task<AutoAssignSectionsResultDto> AutoAssignSectionsAsync(Guid? musicPieceId, bool dryRun);
+
+        // URL operations
+        Task<MusicPieceUrlDto> AddUrlAsync(Guid musicPieceId, MusicPieceUrlCreateDto createDto);
+        Task ModifyUrlAsync(MusicPieceUrlModifyDto modifyDto);
+        Task RemoveUrlAsync(Guid urlId);
     }
 }

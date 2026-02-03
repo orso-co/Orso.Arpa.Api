@@ -220,5 +220,55 @@ namespace Orso.Arpa.Api.Controllers
         {
             return Ok(await _musicPieceService.AutoAssignSectionsAsync(null, dryRun));
         }
+
+        /// <summary>
+        /// Adds a URL to a music piece
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="createDto">URL data</param>
+        /// <returns>The created URL</returns>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPost("{id}/urls")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<MusicPieceUrlDto>> AddUrl([FromRoute] Guid id, [FromBody] MusicPieceUrlCreateDto createDto)
+        {
+            MusicPieceUrlDto created = await _musicPieceService.AddUrlAsync(id, createDto);
+            return CreatedAtAction(nameof(GetById), new { id }, created);
+        }
+
+        /// <summary>
+        /// Updates an existing URL
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="urlId">URL id</param>
+        /// <param name="modifyBodyDto">Modified URL data</param>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpPut("{id}/urls/{urlId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult> ModifyUrl([FromRoute] Guid id, [FromRoute] Guid urlId, [FromBody] MusicPieceUrlModifyBodyDto modifyBodyDto)
+        {
+            var modifyDto = new MusicPieceUrlModifyDto { Id = urlId, Body = modifyBodyDto };
+            await _musicPieceService.ModifyUrlAsync(modifyDto);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Removes a URL from a music piece
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="urlId">URL id</param>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpDelete("{id}/urls/{urlId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> RemoveUrl([FromRoute] Guid id, [FromRoute] Guid urlId)
+        {
+            await _musicPieceService.RemoveUrlAsync(urlId);
+            return NoContent();
+        }
     }
 }

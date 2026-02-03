@@ -132,5 +132,25 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Services
                 }).ToList()
             };
         }
+
+        public async Task<MusicPieceUrlDto> AddUrlAsync(Guid musicPieceId, MusicPieceUrlCreateDto createDto)
+        {
+            CreateMusicPieceUrl.Command command = _mapper.Map<CreateMusicPieceUrl.Command>(createDto);
+            command.MusicPieceId = musicPieceId;
+
+            MusicPieceUrl createdUrl = await _mediator.Send(command);
+            return _mapper.Map<MusicPieceUrlDto>(createdUrl);
+        }
+
+        public async Task ModifyUrlAsync(MusicPieceUrlModifyDto modifyDto)
+        {
+            ModifyMusicPieceUrl.Command command = _mapper.Map<ModifyMusicPieceUrl.Command>(modifyDto);
+            await _mediator.Send(command);
+        }
+
+        public async Task RemoveUrlAsync(Guid urlId)
+        {
+            await _mediator.Send(new Delete.Command<MusicPieceUrl>() { Id = urlId });
+        }
     }
 }

@@ -99,6 +99,9 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Model
         [CascadingSoftDelete]
         public virtual ICollection<MusicPieceFile> Files { get; private set; } = new HashSet<MusicPieceFile>();
 
+        [CascadingSoftDelete]
+        public virtual ICollection<MusicPieceUrl> Urls { get; private set; } = new HashSet<MusicPieceUrl>();
+
         public override string ToString()
         {
             var result = Title;

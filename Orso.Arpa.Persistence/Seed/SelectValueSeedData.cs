@@ -161,7 +161,14 @@ namespace Orso.Arpa.Persistence.Seed
                     Easy,
                     Medium,
                     Advanced,
-                    Expert
+                    Expert,
+                    Virtuoso,
+                    // MusicPiece - URL Types
+                    YouTubeVideo,
+                    Publisher,
+                    IMDB,
+                    Wikipedia,
+                    OtherLink
                 ];
             }
         }
@@ -728,5 +735,37 @@ namespace Orso.Arpa.Persistence.Seed
         /// Profi
         /// </summary>
         public static SelectValue Expert => new(Guid.Parse("b0000003-0004-4000-8000-000000000004"), "Expert", string.Empty);
+
+        /// <summary>
+        /// Virtuos (höchste Schwierigkeit)
+        /// </summary>
+        public static SelectValue Virtuoso => new(Guid.Parse("b0000003-0005-4000-8000-000000000005"), "Virtuoso", "Highest difficulty level");
+
+        // MUSIC PIECE - URL TYPES (Staff kann diese via API ändern/löschen/erweitern)
+
+        /// <summary>
+        /// YouTube Video Link
+        /// </summary>
+        public static SelectValue YouTubeVideo => new(Guid.Parse("b0000004-0001-4000-8000-000000000001"), "YouTube Video", string.Empty);
+
+        /// <summary>
+        /// Verlag/Publisher Link
+        /// </summary>
+        public static SelectValue Publisher => new(Guid.Parse("b0000004-0002-4000-8000-000000000002"), "Publisher", string.Empty);
+
+        /// <summary>
+        /// IMDB Link (für Filmmusik)
+        /// </summary>
+        public static SelectValue IMDB => new(Guid.Parse("b0000004-0003-4000-8000-000000000003"), "IMDB", string.Empty);
+
+        /// <summary>
+        /// Wikipedia Link
+        /// </summary>
+        public static SelectValue Wikipedia => new(Guid.Parse("b0000004-0004-4000-8000-000000000004"), "Wikipedia", string.Empty);
+
+        /// <summary>
+        /// Sonstiger Link
+        /// </summary>
+        public static SelectValue OtherLink => new(Guid.Parse("b0000004-0005-4000-8000-000000000005"), "Other", string.Empty);
     }
 }
