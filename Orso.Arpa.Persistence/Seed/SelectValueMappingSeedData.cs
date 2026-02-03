@@ -41,6 +41,7 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(MusicPieceEpochMappings);
                 list.AddRange(MusicPieceGenreMappings);
                 list.AddRange(MusicPieceDifficultyLevelMappings);
+                list.AddRange(MusicPieceUrlTypeMappings);
                 return list;
             }
         }
@@ -469,6 +470,7 @@ namespace Orso.Arpa.Persistence.Seed
                     new(Guid.Parse("c0000002-0004-4000-8000-000000000004"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.OperaGenre.Id, 40),
                     new(Guid.Parse("c0000002-0005-4000-8000-000000000005"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.SacredMusic.Id, 50),
                     new(Guid.Parse("c0000002-0006-4000-8000-000000000006"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.ChoralMusic.Id, 60),
+                    new(Guid.Parse("c0000002-0007-4000-8000-000000000007"), SelectValueCategorySeedData.MusicPieceGenre.Id, SelectValueSeedData.FilmMusic.Id, 70),
                 ];
             }
         }
@@ -483,6 +485,22 @@ namespace Orso.Arpa.Persistence.Seed
                     new(Guid.Parse("c0000003-0002-4000-8000-000000000002"), SelectValueCategorySeedData.MusicPieceDifficultyLevel.Id, SelectValueSeedData.Medium.Id, 20),
                     new(Guid.Parse("c0000003-0003-4000-8000-000000000003"), SelectValueCategorySeedData.MusicPieceDifficultyLevel.Id, SelectValueSeedData.Advanced.Id, 30),
                     new(Guid.Parse("c0000003-0004-4000-8000-000000000004"), SelectValueCategorySeedData.MusicPieceDifficultyLevel.Id, SelectValueSeedData.Expert.Id, 40),
+                    new(Guid.Parse("c0000003-0005-4000-8000-000000000005"), SelectValueCategorySeedData.MusicPieceDifficultyLevel.Id, SelectValueSeedData.Virtuoso.Id, 50),
+                ];
+            }
+        }
+
+        public static IList<SelectValueMapping> MusicPieceUrlTypeMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("c0000004-0001-4000-8000-000000000001"), SelectValueCategorySeedData.MusicPieceUrlType.Id, SelectValueSeedData.YouTubeVideo.Id, 10),
+                    new(Guid.Parse("c0000004-0002-4000-8000-000000000002"), SelectValueCategorySeedData.MusicPieceUrlType.Id, SelectValueSeedData.Publisher.Id, 20),
+                    new(Guid.Parse("c0000004-0003-4000-8000-000000000003"), SelectValueCategorySeedData.MusicPieceUrlType.Id, SelectValueSeedData.IMDB.Id, 30),
+                    new(Guid.Parse("c0000004-0004-4000-8000-000000000004"), SelectValueCategorySeedData.MusicPieceUrlType.Id, SelectValueSeedData.Wikipedia.Id, 40),
+                    new(Guid.Parse("c0000004-0005-4000-8000-000000000005"), SelectValueCategorySeedData.MusicPieceUrlType.Id, SelectValueSeedData.OtherLink.Id, 50),
                 ];
             }
         }

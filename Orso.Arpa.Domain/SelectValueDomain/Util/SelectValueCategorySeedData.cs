@@ -46,7 +46,8 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
                     PersonMembershipClub,
                     MusicPieceEpoch,
                     MusicPieceGenre,
-                    MusicPieceDifficultyLevel
+                    MusicPieceDifficultyLevel,
+                    MusicPieceUrlType
                 ];
             }
         }
@@ -220,5 +221,11 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
             nameof(MusicPiece),
             nameof(MusicPiece.DifficultyLevel),
             "Difficulty Level");
+
+        public static SelectValueCategory MusicPieceUrlType => new(
+            Guid.Parse("a1b2c3d4-0004-4000-8000-000000000004"),
+            "MusicPieceUrl",
+            "UrlType",
+            "URL Type");
     }
 }
