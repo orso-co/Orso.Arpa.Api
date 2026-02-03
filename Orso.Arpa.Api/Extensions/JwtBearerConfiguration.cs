@@ -26,6 +26,7 @@ namespace Orso.Arpa.Api.Extensions
             return builder.AddJwtBearer(opt =>
             {
                 opt.SaveToken = true;
+                opt.MapInboundClaims = false;
                 opt.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -39,6 +40,10 @@ namespace Orso.Arpa.Api.Extensions
                     IssuerSigningKey = key,
                     ValidAudience = jwtConfiguration.Audience,
                     ValidIssuer = jwtConfiguration.Issuer,
+
+                    // With MapInboundClaims = false, we need to explicitly set claim types
+                    NameClaimType = "sub",
+                    RoleClaimType = "role",
                 };
                 opt.Events = new JwtBearerEvents
                 {
