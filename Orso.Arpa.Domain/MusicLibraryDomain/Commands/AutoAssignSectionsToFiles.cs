@@ -58,97 +58,174 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Commands
             private readonly IArpaContext _arpaContext;
 
             // Mapping: lowercase filename pattern -> Section name (as stored in DB)
+            // Includes German and English variants for all instruments
             private static readonly Dictionary<string, string> FilenameSectionMapping = new(StringComparer.OrdinalIgnoreCase)
             {
-                // Saxophone variants (German)
+                // Saxophone (German + English)
                 { "altsaxophon", "Saxophone" },
+                { "alto saxophone", "Saxophone" },
+                { "alto sax", "Saxophone" },
                 { "sopransaxophon", "Saxophone" },
+                { "soprano saxophone", "Saxophone" },
+                { "soprano sax", "Saxophone" },
                 { "tenorsaxophon", "Saxophone" },
+                { "tenor saxophone", "Saxophone" },
+                { "tenor sax", "Saxophone" },
                 { "baritonsaxophon", "Saxophone" },
+                { "baritone saxophone", "Saxophone" },
+                { "bari sax", "Saxophone" },
                 { "saxophon", "Saxophone" },
+                { "saxophone", "Saxophone" },
 
-                // Brass (German -> English)
+                // Brass (German + English)
                 { "trompete", "Trumpet" },
                 { "trumpet", "Trumpet" },
                 { "posaune", "Trombone" },
                 { "trombone", "Trombone" },
                 { "horn in f", "Horn" },
+                { "french horn", "Horn" },
                 { "tenorhorn", "Euphonium" },
                 { "baritonhorn", "Euphonium" },
                 { "euphonium", "Euphonium" },
+                { "baritone horn", "Euphonium" },
                 { "tenortuba", "Tuba" },
                 { "tuba in c", "Tuba" },
+                { "tuba in b", "Tuba" },
                 { "tuba", "Tuba" },
+                { "bass tuba", "Tuba" },
+                { "basstuba", "Tuba" },
 
-                // Strings (German -> English)
+                // Strings (German + English)
+                { "violine i", "Violin" },
+                { "violine ii", "Violin" },
                 { "violine 1", "Violin" },
                 { "violine 2", "Violin" },
                 { "violine", "Violin" },
                 { "violin", "Violin" },
+                { "1st violin", "Violin" },
+                { "2nd violin", "Violin" },
                 { "viola", "Viola" },
                 { "bratsche", "Viola" },
                 { "violoncello", "Violoncello" },
                 { "cello", "Violoncello" },
+                { "vcl", "Violoncello" },
+                { "vc", "Violoncello" },
                 { "kontrabass", "Double Bass" },
+                { "contrabass", "Double Bass" },
                 { "double bass", "Double Bass" },
+                { "string bass", "Double Bass" },
                 { "bass (string)", "Double Bass" },
+                { "kb", "Double Bass" },
+                { "cb", "Double Bass" },
 
-                // Woodwinds (German -> English)
+                // Woodwinds (German + English)
                 { "piccolo", "Flute" },
+                { "pikkoloflöte", "Flute" },
+                { "piccoloflöte", "Flute" },
                 { "flöte", "Flute" },
+                { "floete", "Flute" },
                 { "flute", "Flute" },
                 { "querflöte", "Flute" },
+                { "querfloete", "Flute" },
                 { "klarinette", "Clarinet" },
                 { "clarinet", "Clarinet" },
+                { "bassklarinette", "Clarinet" },
+                { "bass clarinet", "Clarinet" },
+                { "baßklarinette", "Clarinet" },
+                { "klarinette in es", "Clarinet" },
+                { "eb clarinet", "Clarinet" },
                 { "oboe", "Oboe" },
+                { "cor anglais", "Oboe" },
+                { "english horn", "Oboe" },
+                { "englisch horn", "Oboe" },
+                { "englischhorn", "Oboe" },
                 { "fagott", "Bassoon" },
                 { "bassoon", "Bassoon" },
+                { "kontrafagott", "Bassoon" },
+                { "contrabassoon", "Bassoon" },
+                { "contra bassoon", "Bassoon" },
 
-                // Percussion (German -> English)
+                // Percussion (German + English)
                 { "kleine trommel", "Drum Set (Orchestra)" },
                 { "große trommel", "Drum Set (Orchestra)" },
+                { "grosse trommel", "Drum Set (Orchestra)" },
+                { "snare drum", "Drum Set (Orchestra)" },
+                { "bass drum", "Drum Set (Orchestra)" },
                 { "marschtrommel", "Drum Set (Orchestra)" },
                 { "schlagzeug", "Drum Set (Orchestra)" },
+                { "drums", "Drum Set (Orchestra)" },
+                { "drum set", "Drum Set (Orchestra)" },
                 { "percussion", "Drum Set (Orchestra)" },
                 { "becken", "Drum Set (Orchestra)" },
+                { "cymbals", "Drum Set (Orchestra)" },
+                { "cymbal", "Drum Set (Orchestra)" },
+                { "suspended cymbal", "Drum Set (Orchestra)" },
+                { "piatti", "Drum Set (Orchestra)" },
+                { "tam-tam", "Drum Set (Orchestra)" },
+                { "tam tam", "Drum Set (Orchestra)" },
+                { "anvil", "Drum Set (Orchestra)" },
                 { "timpani", "Timpani" },
                 { "pauken", "Timpani" },
+                { "kettledrums", "Timpani" },
                 { "mallets", "Mallets" },
                 { "glockenspiel", "Mallets" },
+                { "bells", "Mallets" },
+                { "tubular bells", "Mallets" },
+                { "chimes", "Mallets" },
                 { "xylophon", "Mallets" },
+                { "xylophone", "Mallets" },
                 { "vibraphon", "Mallets" },
+                { "vibraphone", "Mallets" },
+                { "marimba", "Mallets" },
 
-                // Keyboards
+                // Keyboards (German + English)
                 { "piano", "Keyboards" },
                 { "klavier", "Keyboards" },
                 { "keyboard", "Keyboards" },
+                { "keyboards", "Keyboards" },
                 { "organ", "Keyboards" },
                 { "orgel", "Keyboards" },
                 { "harmonium", "Keyboards" },
                 { "celesta", "Keyboards" },
+                { "celeste", "Keyboards" },
                 { "akkordeon", "Accordion" },
                 { "accordion", "Accordion" },
 
-                // Choir voices (German -> English) - handled separately to avoid conflicts
+                // Choir voices - only explicit patterns to avoid conflicts
                 { "sopran bibelformat", "Soprano" },
                 { "soprano", "Soprano" },
                 { "alt bibelformat", "Alto" },
                 { "alto bibelformat", "Alto" },
+                { "alto voice", "Alto" },
                 { "tenor bibelformat", "Tenor" },
+                { "tenor voice", "Tenor" },
                 { "bass bibelformat", "Bass" },
+                { "bass voice", "Bass" },
                 { "baß", "Bass" },
                 { "bariton", "Baritone" },
                 { "baritone", "Baritone" },
+                { "baritone voice", "Baritone" },
 
-                // Others
+                // Other instruments (German + English)
                 { "harfe", "Harp" },
                 { "harp", "Harp" },
                 { "gitarre", "Guitars" },
                 { "guitar", "Guitars" },
+                { "acoustic guitar", "Guitars" },
                 { "e-bass", "Electric Bass (Band)" },
                 { "electric bass", "Electric Bass (Band)" },
+                { "bass guitar", "Electric Bass (Band)" },
                 { "e-gitarre", "Electric Guitar (Band)" },
                 { "electric guitar", "Electric Guitar (Band)" },
+            };
+
+            // Patterns that should be excluded from Bass (voice) matching
+            private static readonly string[] BassInstrumentPatterns =
+            {
+                "kontrabass", "contrabass", "double bass", "string bass",
+                "e-bass", "electric bass", "bass guitar", "bass tuba", "basstuba",
+                "bassklarinette", "bass clarinet", "baßklarinette", "bass drum",
+                "bass trombone", "bassposaune", "bass flute", "bassflöte"
             };
 
             // Patterns that indicate Conductor assignment
@@ -285,11 +362,9 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Commands
                     }
 
                     // Bass - check for standalone "bass" (not instrument variants)
+                    // Use BassInstrumentPatterns to exclude all bass instruments
                     if (fileNameLower.Contains("bass") &&
-                        !fileNameLower.Contains("kontrabass") &&
-                        !fileNameLower.Contains("double bass") &&
-                        !fileNameLower.Contains("e-bass") &&
-                        !fileNameLower.Contains("electric bass"))
+                        !BassInstrumentPatterns.Any(p => fileNameLower.Contains(p)))
                     {
                         // Only match if it looks like a voice part
                         if (fileNameLower.Contains("bibelformat") || fileNameLower.Contains("chor") ||
