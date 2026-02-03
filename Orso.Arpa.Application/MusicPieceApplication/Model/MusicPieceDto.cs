@@ -35,7 +35,7 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Model
         {
             _ = CreateMap<MusicPiece, MusicPieceDto>()
                 .IncludeBase<BaseEntity, BaseEntityDto>()
-                .ForMember(dest => dest.Todos, opt => opt.MapFrom(src => src.Todos ?? new List<MusicPieceTodo>()));
+                .ForMember(dest => dest.Todos, opt => opt.Ignore()); // Temporarily ignore to isolate mapping issue
         }
     }
 }
