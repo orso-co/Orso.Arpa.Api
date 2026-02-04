@@ -34,8 +34,8 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Model
         public MusicPieceDtoMappingProfile()
         {
             _ = CreateMap<MusicPiece, MusicPieceDto>()
-                .IncludeBase<BaseEntity, BaseEntityDto>()
-                .ForMember(dest => dest.Todos, opt => opt.Ignore()); // TODO: Fix Todo mapping
+                .IncludeBase<BaseEntity, BaseEntityDto>();
+                // Todos werden gemappt, aber Assignees in TodoDto sind ignoriert
         }
     }
 }
