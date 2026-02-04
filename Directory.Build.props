@@ -1,0 +1,7 @@
+<Project>
+  <ItemGroup>
+    <!-- Override vulnerable transitive dependency from Oscore.QrCodes.ImageSharp -->
+    <!-- Fixes: CVE-2025-27598 (High), CVE-2025-54575 (Medium) -->
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+  </ItemGroup>
+</Project>
