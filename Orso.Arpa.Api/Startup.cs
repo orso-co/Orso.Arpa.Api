@@ -708,16 +708,35 @@ namespace Orso.Arpa.Api
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
             IServiceProvider services = scope.ServiceProvider;
+            ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
             try
             {
                 ArpaContext context = services.GetRequiredService<ArpaContext>();
+
+                // Log pending migrations for debugging
+                var pendingMigrations = context.Database.GetPendingMigrations().ToList();
+                var appliedMigrations = context.Database.GetAppliedMigrations().ToList();
+                logger.LogInformation("Database migration check - Applied: {AppliedCount}, Pending: {PendingCount}",
+                    appliedMigrations.Count, pendingMigrations.Count);
+                if (pendingMigrations.Count > 0)
+                {
+                    logger.LogInformation("Pending migrations: {Migrations}", string.Join(", ", pendingMigrations));
+                }
+
                 context.Database.Migrate();
+
+                // Verify after migration
+                var stillPending = context.Database.GetPendingMigrations().ToList();
+                if (stillPending.Count > 0)
+                {
+                    logger.LogWarning("Migrations still pending after Migrate(): {Migrations}", string.Join(", ", stillPending));
+                }
+
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
                 dataSeeder.SeedDataAsync().Wait();
             }
             catch (Exception ex)
             {
-                ILogger<Startup> logger = services.GetRequiredService<ILogger<Startup>>();
                 logger.LogError(ex, "An error occured during database migration");
                 throw new SystemStartException("An error occured during database migration", ex);
             }

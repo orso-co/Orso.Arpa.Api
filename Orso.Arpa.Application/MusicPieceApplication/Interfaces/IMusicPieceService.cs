@@ -29,5 +29,11 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Interfaces
         Task<MusicPieceUrlDto> AddUrlAsync(Guid musicPieceId, MusicPieceUrlCreateDto createDto);
         Task ModifyUrlAsync(MusicPieceUrlModifyDto modifyDto);
         Task RemoveUrlAsync(Guid urlId);
+
+        // Todo operations
+        Task<MusicPieceTodoDto> AddTodoAsync(Guid musicPieceId, MusicPieceTodoCreateDto createDto);
+        Task ModifyTodoAsync(Guid todoId, MusicPieceTodoModifyDto modifyDto);
+        Task<bool> ToggleTodoCompletionAsync(Guid todoId);
+        Task RemoveTodoAsync(Guid todoId);
     }
 }
