@@ -42,6 +42,10 @@ namespace Orso.Arpa.Persistence.Seed
                 list.AddRange(MusicPieceGenreMappings);
                 list.AddRange(MusicPieceDifficultyLevelMappings);
                 list.AddRange(MusicPieceUrlTypeMappings);
+                list.AddRange(OrganizationLegalFormMappings);
+                list.AddRange(OrganizationTypeMappings);
+                list.AddRange(PersonOrganizationRelationshipTypeMappings);
+                list.AddRange(OrganizationRelationshipTypeMappings);
                 return list;
             }
         }
@@ -501,6 +505,85 @@ namespace Orso.Arpa.Persistence.Seed
                     new(Guid.Parse("c0000004-0003-4000-8000-000000000003"), SelectValueCategorySeedData.MusicPieceUrlType.Id, SelectValueSeedData.IMDB.Id, 30),
                     new(Guid.Parse("c0000004-0004-4000-8000-000000000004"), SelectValueCategorySeedData.MusicPieceUrlType.Id, SelectValueSeedData.Wikipedia.Id, 40),
                     new(Guid.Parse("c0000004-0005-4000-8000-000000000005"), SelectValueCategorySeedData.MusicPieceUrlType.Id, SelectValueSeedData.OtherLink.Id, 50),
+                ];
+            }
+        }
+
+        // Organization Legal Form Mappings
+        public static IList<SelectValueMapping> OrganizationLegalFormMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("d0000001-0001-4000-8000-000000000001"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormGmbH.Id, 10),
+                    new(Guid.Parse("d0000001-0002-4000-8000-000000000002"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormAG.Id, 20),
+                    new(Guid.Parse("d0000001-0003-4000-8000-000000000003"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormEV.Id, 30),
+                    new(Guid.Parse("d0000001-0004-4000-8000-000000000004"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormGGmbH.Id, 40),
+                    new(Guid.Parse("d0000001-0005-4000-8000-000000000005"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormGbR.Id, 50),
+                    new(Guid.Parse("d0000001-0006-4000-8000-000000000006"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormEinzelunternehmen.Id, 60),
+                    new(Guid.Parse("d0000001-0007-4000-8000-000000000007"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormKG.Id, 70),
+                    new(Guid.Parse("d0000001-0008-4000-8000-000000000008"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormOHG.Id, 80),
+                    new(Guid.Parse("d0000001-0009-4000-8000-000000000009"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormStiftung.Id, 90),
+                    new(Guid.Parse("d0000001-000a-4000-8000-00000000000a"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormKdoeR.Id, 100),
+                    new(Guid.Parse("d0000001-000b-4000-8000-00000000000b"), SelectValueCategorySeedData.OrganizationLegalForm.Id, SelectValueSeedData.LegalFormOther.Id, 110),
+                ];
+            }
+        }
+
+        // Organization Type Mappings
+        public static IList<SelectValueMapping> OrganizationTypeMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("d0000002-0001-4000-8000-000000000001"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeFirma.Id, 10),
+                    new(Guid.Parse("d0000002-0002-4000-8000-000000000002"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeVerein.Id, 20),
+                    new(Guid.Parse("d0000002-0003-4000-8000-000000000003"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeBehoerde.Id, 30),
+                    new(Guid.Parse("d0000002-0004-4000-8000-000000000004"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeStiftung.Id, 40),
+                    new(Guid.Parse("d0000002-0005-4000-8000-000000000005"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeBildungseinrichtung.Id, 50),
+                    new(Guid.Parse("d0000002-0006-4000-8000-000000000006"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeKulturinstitution.Id, 60),
+                    new(Guid.Parse("d0000002-0007-4000-8000-000000000007"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeMedien.Id, 70),
+                    new(Guid.Parse("d0000002-0008-4000-8000-000000000008"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeAgentur.Id, 80),
+                    new(Guid.Parse("d0000002-0009-4000-8000-000000000009"), SelectValueCategorySeedData.OrganizationOrganizationType.Id, SelectValueSeedData.OrgTypeOther.Id, 90),
+                ];
+            }
+        }
+
+        // Person-Organization Relationship Type Mappings
+        public static IList<SelectValueMapping> PersonOrganizationRelationshipTypeMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("d0000003-0001-4000-8000-000000000001"), SelectValueCategorySeedData.PersonOrganizationRelationshipType.Id, SelectValueSeedData.PersonOrgMitarbeiter.Id, 10),
+                    new(Guid.Parse("d0000003-0002-4000-8000-000000000002"), SelectValueCategorySeedData.PersonOrganizationRelationshipType.Id, SelectValueSeedData.PersonOrgGeschaeftsfuehrer.Id, 20),
+                    new(Guid.Parse("d0000003-0003-4000-8000-000000000003"), SelectValueCategorySeedData.PersonOrganizationRelationshipType.Id, SelectValueSeedData.PersonOrgVorstand.Id, 30),
+                    new(Guid.Parse("d0000003-0004-4000-8000-000000000004"), SelectValueCategorySeedData.PersonOrganizationRelationshipType.Id, SelectValueSeedData.PersonOrgMitglied.Id, 40),
+                    new(Guid.Parse("d0000003-0005-4000-8000-000000000005"), SelectValueCategorySeedData.PersonOrganizationRelationshipType.Id, SelectValueSeedData.PersonOrgKunde.Id, 50),
+                    new(Guid.Parse("d0000003-0006-4000-8000-000000000006"), SelectValueCategorySeedData.PersonOrganizationRelationshipType.Id, SelectValueSeedData.PersonOrgFreiberufler.Id, 60),
+                    new(Guid.Parse("d0000003-0007-4000-8000-000000000007"), SelectValueCategorySeedData.PersonOrganizationRelationshipType.Id, SelectValueSeedData.PersonOrgOther.Id, 70),
+                ];
+            }
+        }
+
+        // Organization-Organization Relationship Type Mappings
+        public static IList<SelectValueMapping> OrganizationRelationshipTypeMappings
+        {
+            get
+            {
+                return
+                [
+                    new(Guid.Parse("d0000004-0001-4000-8000-000000000001"), SelectValueCategorySeedData.OrganizationRelationshipRelationshipType.Id, SelectValueSeedData.OrgOrgTochtergesellschaft.Id, 10),
+                    new(Guid.Parse("d0000004-0002-4000-8000-000000000002"), SelectValueCategorySeedData.OrganizationRelationshipRelationshipType.Id, SelectValueSeedData.OrgOrgMuttergesellschaft.Id, 20),
+                    new(Guid.Parse("d0000004-0003-4000-8000-000000000003"), SelectValueCategorySeedData.OrganizationRelationshipRelationshipType.Id, SelectValueSeedData.OrgOrgPartner.Id, 30),
+                    new(Guid.Parse("d0000004-0004-4000-8000-000000000004"), SelectValueCategorySeedData.OrganizationRelationshipRelationshipType.Id, SelectValueSeedData.OrgOrgMitglied.Id, 40),
+                    new(Guid.Parse("d0000004-0005-4000-8000-000000000005"), SelectValueCategorySeedData.OrganizationRelationshipRelationshipType.Id, SelectValueSeedData.OrgOrgSponsor.Id, 50),
+                    new(Guid.Parse("d0000004-0006-4000-8000-000000000006"), SelectValueCategorySeedData.OrganizationRelationshipRelationshipType.Id, SelectValueSeedData.OrgOrgAuftraggeber.Id, 60),
+                    new(Guid.Parse("d0000004-0007-4000-8000-000000000007"), SelectValueCategorySeedData.OrganizationRelationshipRelationshipType.Id, SelectValueSeedData.OrgOrgDienstleister.Id, 70),
+                    new(Guid.Parse("d0000004-0008-4000-8000-000000000008"), SelectValueCategorySeedData.OrganizationRelationshipRelationshipType.Id, SelectValueSeedData.OrgOrgOther.Id, 80),
                 ];
             }
         }

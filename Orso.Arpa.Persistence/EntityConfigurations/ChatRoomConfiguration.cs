@@ -13,6 +13,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(200);
 
             _ = builder
+                .Property(e => e.Description)
+                .HasMaxLength(1000);
+
+            _ = builder
                 .Property(e => e.Type)
                 .IsRequired();
 

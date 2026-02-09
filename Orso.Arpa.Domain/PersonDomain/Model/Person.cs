@@ -8,6 +8,7 @@ using Orso.Arpa.Domain.ClubDomain.Model;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
+using Orso.Arpa.Domain.OrganizationDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Commands;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Commands;
@@ -180,6 +181,9 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
 
         [CascadingSoftDelete]
         public virtual ICollection<ClubMembershipProfile> ClubMemberships { get; private set; } = new HashSet<ClubMembershipProfile>();
+
+        [CascadingSoftDelete]
+        public virtual ICollection<PersonOrganization> PersonOrganizations { get; private set; } = new HashSet<PersonOrganization>();
 
         public string DisplayName => !string.IsNullOrEmpty(GivenName) && !string.IsNullOrEmpty(Surname) ? $"{GivenName} {Surname}" : (GivenName ?? Surname);
 

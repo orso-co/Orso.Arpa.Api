@@ -4,6 +4,7 @@ using Orso.Arpa.Domain.AddressDomain.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.MusicLibraryDomain.Model;
+using Orso.Arpa.Domain.OrganizationDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.SelectValueDomain.Model;
@@ -47,7 +48,11 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
                     MusicPieceEpoch,
                     MusicPieceGenre,
                     MusicPieceDifficultyLevel,
-                    MusicPieceUrlType
+                    MusicPieceUrlType,
+                    OrganizationLegalForm,
+                    OrganizationOrganizationType,
+                    PersonOrganizationRelationshipType,
+                    OrganizationRelationshipRelationshipType
                 ];
             }
         }
@@ -227,5 +232,30 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Util
             "MusicPieceUrl",
             "UrlType",
             "URL Type");
+
+        // Organization Categories
+        public static SelectValueCategory OrganizationLegalForm => new(
+            Guid.Parse("a1b2c3d4-0010-4000-8000-000000000010"),
+            nameof(Organization),
+            nameof(Organization.LegalForm),
+            "Legal Form");
+
+        public static SelectValueCategory OrganizationOrganizationType => new(
+            Guid.Parse("a1b2c3d4-0011-4000-8000-000000000011"),
+            nameof(Organization),
+            nameof(Organization.OrganizationType),
+            "Organization Type");
+
+        public static SelectValueCategory PersonOrganizationRelationshipType => new(
+            Guid.Parse("a1b2c3d4-0012-4000-8000-000000000012"),
+            nameof(PersonOrganization),
+            nameof(PersonOrganization.RelationshipType),
+            "Person-Org Relationship");
+
+        public static SelectValueCategory OrganizationRelationshipRelationshipType => new(
+            Guid.Parse("a1b2c3d4-0013-4000-8000-000000000013"),
+            nameof(OrganizationRelationship),
+            nameof(OrganizationRelationship.RelationshipType),
+            "Org-Org Relationship");
     }
 }

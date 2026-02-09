@@ -168,7 +168,46 @@ namespace Orso.Arpa.Persistence.Seed
                     Publisher,
                     IMDB,
                     Wikipedia,
-                    OtherLink
+                    OtherLink,
+                    // Organization - Legal Forms
+                    LegalFormGmbH,
+                    LegalFormAG,
+                    LegalFormEV,
+                    LegalFormGGmbH,
+                    LegalFormGbR,
+                    LegalFormEinzelunternehmen,
+                    LegalFormKG,
+                    LegalFormOHG,
+                    LegalFormStiftung,
+                    LegalFormKdoeR,
+                    LegalFormOther,
+                    // Organization - Types
+                    OrgTypeFirma,
+                    OrgTypeVerein,
+                    OrgTypeBehoerde,
+                    OrgTypeStiftung,
+                    OrgTypeBildungseinrichtung,
+                    OrgTypeKulturinstitution,
+                    OrgTypeMedien,
+                    OrgTypeAgentur,
+                    OrgTypeOther,
+                    // Person-Org Relationship Types
+                    PersonOrgMitarbeiter,
+                    PersonOrgGeschaeftsfuehrer,
+                    PersonOrgVorstand,
+                    PersonOrgMitglied,
+                    PersonOrgKunde,
+                    PersonOrgFreiberufler,
+                    PersonOrgOther,
+                    // Org-Org Relationship Types
+                    OrgOrgTochtergesellschaft,
+                    OrgOrgMuttergesellschaft,
+                    OrgOrgPartner,
+                    OrgOrgMitglied,
+                    OrgOrgSponsor,
+                    OrgOrgAuftraggeber,
+                    OrgOrgDienstleister,
+                    OrgOrgOther
                 ];
             }
         }
@@ -767,5 +806,52 @@ namespace Orso.Arpa.Persistence.Seed
         /// Sonstiger Link
         /// </summary>
         public static SelectValue OtherLink => new(Guid.Parse("b0000004-0005-4000-8000-000000000005"), "Other", string.Empty);
+
+        // ORGANIZATION - LEGAL FORMS
+
+        public static SelectValue LegalFormGmbH => new(Guid.Parse("c0000001-0001-4000-8000-000000000001"), "GmbH", "Gesellschaft mit beschränkter Haftung");
+        public static SelectValue LegalFormAG => new(Guid.Parse("c0000001-0002-4000-8000-000000000002"), "AG", "Aktiengesellschaft");
+        public static SelectValue LegalFormEV => new(Guid.Parse("c0000001-0003-4000-8000-000000000003"), "e.V.", "eingetragener Verein");
+        public static SelectValue LegalFormGGmbH => new(Guid.Parse("c0000001-0004-4000-8000-000000000004"), "gGmbH", "gemeinnützige GmbH");
+        public static SelectValue LegalFormGbR => new(Guid.Parse("c0000001-0005-4000-8000-000000000005"), "GbR", "Gesellschaft bürgerlichen Rechts");
+        public static SelectValue LegalFormEinzelunternehmen => new(Guid.Parse("c0000001-0006-4000-8000-000000000006"), "Einzelunternehmen", string.Empty);
+        public static SelectValue LegalFormKG => new(Guid.Parse("c0000001-0007-4000-8000-000000000007"), "KG", "Kommanditgesellschaft");
+        public static SelectValue LegalFormOHG => new(Guid.Parse("c0000001-0008-4000-8000-000000000008"), "OHG", "Offene Handelsgesellschaft");
+        public static SelectValue LegalFormStiftung => new(Guid.Parse("c0000001-0009-4000-8000-000000000009"), "Stiftung", string.Empty);
+        public static SelectValue LegalFormKdoeR => new(Guid.Parse("c0000001-000a-4000-8000-00000000000a"), "KdöR", "Körperschaft des öffentlichen Rechts");
+        public static SelectValue LegalFormOther => new(Guid.Parse("c0000001-000b-4000-8000-00000000000b"), "Other", string.Empty);
+
+        // ORGANIZATION - TYPES
+
+        public static SelectValue OrgTypeFirma => new(Guid.Parse("c0000002-0001-4000-8000-000000000001"), "Company", string.Empty);
+        public static SelectValue OrgTypeVerein => new(Guid.Parse("c0000002-0002-4000-8000-000000000002"), "Association", string.Empty);
+        public static SelectValue OrgTypeBehoerde => new(Guid.Parse("c0000002-0003-4000-8000-000000000003"), "Government Agency", string.Empty);
+        public static SelectValue OrgTypeStiftung => new(Guid.Parse("c0000002-0004-4000-8000-000000000004"), "Foundation", string.Empty);
+        public static SelectValue OrgTypeBildungseinrichtung => new(Guid.Parse("c0000002-0005-4000-8000-000000000005"), "Educational Institution", string.Empty);
+        public static SelectValue OrgTypeKulturinstitution => new(Guid.Parse("c0000002-0006-4000-8000-000000000006"), "Cultural Institution", string.Empty);
+        public static SelectValue OrgTypeMedien => new(Guid.Parse("c0000002-0007-4000-8000-000000000007"), "Media", string.Empty);
+        public static SelectValue OrgTypeAgentur => new(Guid.Parse("c0000002-0008-4000-8000-000000000008"), "Agency", string.Empty);
+        public static SelectValue OrgTypeOther => new(Guid.Parse("c0000002-0009-4000-8000-000000000009"), "Other", string.Empty);
+
+        // PERSON-ORGANIZATION RELATIONSHIP TYPES
+
+        public static SelectValue PersonOrgMitarbeiter => new(Guid.Parse("c0000003-0001-4000-8000-000000000001"), "Employee", string.Empty);
+        public static SelectValue PersonOrgGeschaeftsfuehrer => new(Guid.Parse("c0000003-0002-4000-8000-000000000002"), "Managing Director", string.Empty);
+        public static SelectValue PersonOrgVorstand => new(Guid.Parse("c0000003-0003-4000-8000-000000000003"), "Board Member", string.Empty);
+        public static SelectValue PersonOrgMitglied => new(Guid.Parse("c0000003-0004-4000-8000-000000000004"), "Member", string.Empty);
+        public static SelectValue PersonOrgKunde => new(Guid.Parse("c0000003-0005-4000-8000-000000000005"), "Customer", string.Empty);
+        public static SelectValue PersonOrgFreiberufler => new(Guid.Parse("c0000003-0006-4000-8000-000000000006"), "Freelancer", string.Empty);
+        public static SelectValue PersonOrgOther => new(Guid.Parse("c0000003-0007-4000-8000-000000000007"), "Other", string.Empty);
+
+        // ORGANIZATION-ORGANIZATION RELATIONSHIP TYPES
+
+        public static SelectValue OrgOrgTochtergesellschaft => new(Guid.Parse("c0000004-0001-4000-8000-000000000001"), "Subsidiary", string.Empty);
+        public static SelectValue OrgOrgMuttergesellschaft => new(Guid.Parse("c0000004-0002-4000-8000-000000000002"), "Parent Company", string.Empty);
+        public static SelectValue OrgOrgPartner => new(Guid.Parse("c0000004-0003-4000-8000-000000000003"), "Partner", string.Empty);
+        public static SelectValue OrgOrgMitglied => new(Guid.Parse("c0000004-0004-4000-8000-000000000004"), "Member", string.Empty);
+        public static SelectValue OrgOrgSponsor => new(Guid.Parse("c0000004-0005-4000-8000-000000000005"), "Sponsor", string.Empty);
+        public static SelectValue OrgOrgAuftraggeber => new(Guid.Parse("c0000004-0006-4000-8000-000000000006"), "Client", string.Empty);
+        public static SelectValue OrgOrgDienstleister => new(Guid.Parse("c0000004-0007-4000-8000-000000000007"), "Service Provider", string.Empty);
+        public static SelectValue OrgOrgOther => new(Guid.Parse("c0000004-0008-4000-8000-000000000008"), "Other", string.Empty);
     }
 }
