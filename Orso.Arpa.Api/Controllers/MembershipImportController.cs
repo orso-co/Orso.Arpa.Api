@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -63,6 +64,25 @@ namespace Orso.Arpa.Api.Controllers
             }
 
             var result = await _importService.ExecuteAsync(executeDto, cancellationToken);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Rolls back a previous import by deleting all entities created in that batch
+        /// </summary>
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [HttpDelete("rollback/{importBatchId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<MembershipImportRollbackResultDto>> Rollback(
+            Guid importBatchId,
+            CancellationToken cancellationToken)
+        {
+            var result = await _importService.RollbackAsync(importBatchId, cancellationToken);
+            if (result.MembershipsDeleted == 0 && result.PersonsDeleted == 0)
+            {
+                return NotFound("No import found with this batch ID");
+            }
             return Ok(result);
         }
     }

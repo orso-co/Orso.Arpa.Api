@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.PersonDomain.Commands;
@@ -81,8 +82,15 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
         public string MandateReference { get; private set; }
         public DateTime? MandateDate { get; private set; }
 
+        // Import tracking
+        public Guid? ImportBatchId { get; set; }
+
         // Person relationship (1:n)
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }
+
+        // MembershipHistory relationship (1:n)
+        [CascadingSoftDelete]
+        public virtual ICollection<MembershipHistory> MembershipHistories { get; private set; } = new HashSet<MembershipHistory>();
     }
 }

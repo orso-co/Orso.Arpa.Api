@@ -11,6 +11,7 @@ using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Commands;
 using Orso.Arpa.Domain.PersonDomain.Enums;
 using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.SelectValueDomain.Model;
 
 namespace Orso.Arpa.Application.MembershipImportApplication.Services
 {
@@ -18,6 +19,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
     {
         Task<MembershipImportPreviewDto> PreviewAsync(Stream csvStream, CancellationToken cancellationToken);
         Task<MembershipImportResultDto> ExecuteAsync(MembershipImportExecuteDto executeDto, CancellationToken cancellationToken);
+        Task<MembershipImportRollbackResultDto> RollbackAsync(Guid importBatchId, CancellationToken cancellationToken);
     }
 
     public class MembershipImportService : IMembershipImportService
@@ -55,6 +57,9 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     EntryDate = row.EntryDate,
                     ExitDate = row.ExitDate,
                     AnnualFee = row.AnnualFee,
+                    AnnualFee2025 = row.Fee2025,
+                    AnnualFee2024 = row.Fee2024,
+                    IsReduced = row.IsReduced,
                     MembershipType = row.MembershipType,
                     SupportLevel = row.SupportLevel,
                     Iban = row.Iban,
@@ -77,17 +82,57 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
 
         public async Task<MembershipImportResultDto> ExecuteAsync(MembershipImportExecuteDto executeDto, CancellationToken cancellationToken)
         {
-            var result = new MembershipImportResultDto();
+            var batchId = Guid.NewGuid();
+            var result = new MembershipImportResultDto { ImportBatchId = batchId };
             var rowsToImport = executeDto.Rows.Where(r => r.Import).ToList();
+
+            // Lookup "Diverse" gender as default for new persons
+            var diverseGenderId = await _arpaContext.Set<SelectValueMapping>()
+                .Where(m => !m.Deleted
+                    && m.SelectValueCategory.Table == "Person"
+                    && m.SelectValueCategory.Property == "Gender"
+                    && m.SelectValue.Name == "Diverse")
+                .Select(m => m.Id)
+                .FirstOrDefaultAsync(cancellationToken);
 
             foreach (var row in rowsToImport)
             {
                 try
                 {
+                    var personId = row.PersonId ?? Guid.Empty;
+
+                    // Create new person if not matched to an existing one
+                    if (personId == Guid.Empty)
+                    {
+                        var person = new Person(Guid.NewGuid(), new CreatePerson.Command
+                        {
+                            GivenName = row.FirstName,
+                            Surname = row.LastName,
+                            GenderId = diverseGenderId,
+                        });
+                        person.ImportBatchId = batchId;
+                        _arpaContext.Set<Person>().Add(person);
+                        personId = person.Id;
+                        result.PersonsCreated++;
+
+                        // Add email as contact detail
+                        if (!string.IsNullOrWhiteSpace(row.Email))
+                        {
+                            var contactDetail = new ContactDetail(Guid.NewGuid(), new CreateContactDetail.Command
+                            {
+                                PersonId = person.Id,
+                                Key = ContactDetailKey.EMail,
+                                Value = row.Email.Trim(),
+                                Preference = 1,
+                            });
+                            _arpaContext.Set<ContactDetail>().Add(contactDetail);
+                        }
+                    }
+
                     // Create PersonMembership directly
                     var membership = new PersonMembership(Guid.NewGuid(), new CreatePersonMembership.Command
                     {
-                        PersonId = row.PersonId,
+                        PersonId = personId,
                         EntryDate = row.EntryDate ?? DateTime.UtcNow,
                         ExitDate = row.ExitDate,
                         AnnualFee = row.AnnualFee,
@@ -98,15 +143,45 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                         MandateDate = row.MandateDate,
                         StaffComment = row.StaffComment,
                     });
+                    membership.ImportBatchId = batchId;
                     _arpaContext.Set<PersonMembership>().Add(membership);
                     result.MembershipsCreated++;
+
+                    // Create MembershipHistory entries for each year with a fee
+                    if (row.AnnualFee2025.HasValue && row.AnnualFee2025.Value > 0)
+                    {
+                        var history2025 = new MembershipHistory(Guid.NewGuid(), new CreateMembershipHistory.Command
+                        {
+                            PersonMembershipId = membership.Id,
+                            Year = 2025,
+                            Amount = row.AnnualFee2025.Value,
+                            IsReduced = row.IsReduced,
+                            Comment = row.StaffComment,
+                        });
+                        _arpaContext.Set<MembershipHistory>().Add(history2025);
+                        result.HistoryEntriesCreated++;
+                    }
+
+                    if (row.AnnualFee2024.HasValue && row.AnnualFee2024.Value > 0)
+                    {
+                        var history2024 = new MembershipHistory(Guid.NewGuid(), new CreateMembershipHistory.Command
+                        {
+                            PersonMembershipId = membership.Id,
+                            Year = 2024,
+                            Amount = row.AnnualFee2024.Value,
+                            IsReduced = row.IsReduced,
+                            Comment = row.StaffComment,
+                        });
+                        _arpaContext.Set<MembershipHistory>().Add(history2024);
+                        result.HistoryEntriesCreated++;
+                    }
 
                     // Create BankAccount if IBAN provided
                     if (!string.IsNullOrWhiteSpace(row.Iban))
                     {
                         // Check if person already has this IBAN
                         var existingAccount = await _arpaContext.Set<BankAccount>()
-                            .AnyAsync(ba => ba.PersonId == row.PersonId
+                            .AnyAsync(ba => ba.PersonId == personId
                                 && ba.Iban == row.Iban.Replace(" ", "")
                                 && !ba.Deleted, cancellationToken);
 
@@ -114,7 +189,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                         {
                             var bankAccount = new BankAccount(Guid.NewGuid(), new CreateBankAccount.Command
                             {
-                                PersonId = row.PersonId,
+                                PersonId = personId,
                                 Iban = row.Iban.Replace(" ", ""),
                             });
                             _arpaContext.Set<BankAccount>().Add(bankAccount);
@@ -127,6 +202,65 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     result.Errors.Add($"Row {row.RowNumber}: {ex.Message}");
                     result.Skipped++;
                 }
+            }
+
+            await _arpaContext.SaveChangesAsync(cancellationToken);
+            return result;
+        }
+
+        public async Task<MembershipImportRollbackResultDto> RollbackAsync(Guid importBatchId, CancellationToken cancellationToken)
+        {
+            var result = new MembershipImportRollbackResultDto();
+
+            // Find all memberships from this batch
+            var memberships = await _arpaContext.Set<PersonMembership>()
+                .Where(m => m.ImportBatchId == importBatchId)
+                .Include(m => m.MembershipHistories)
+                .ToListAsync(cancellationToken);
+
+            foreach (var membership in memberships)
+            {
+                // Hard-delete history entries
+                foreach (var history in membership.MembershipHistories)
+                {
+                    _arpaContext.Set<MembershipHistory>().Remove(history);
+                    result.HistoryEntriesDeleted++;
+                }
+
+                // Hard-delete bank accounts for this person (created during same import)
+                var bankAccounts = await _arpaContext.Set<BankAccount>()
+                    .Where(ba => ba.PersonId == membership.PersonId && !ba.Deleted)
+                    .ToListAsync(cancellationToken);
+                foreach (var ba in bankAccounts)
+                {
+                    _arpaContext.Set<BankAccount>().Remove(ba);
+                    result.BankAccountsDeleted++;
+                }
+
+                // Hard-delete the membership
+                _arpaContext.Set<PersonMembership>().Remove(membership);
+                result.MembershipsDeleted++;
+            }
+
+            // Find and delete persons created by this batch
+            var persons = await _arpaContext.Set<Person>()
+                .Where(p => p.ImportBatchId == importBatchId)
+                .ToListAsync(cancellationToken);
+
+            foreach (var person in persons)
+            {
+                // Delete contact details
+                var contactDetails = await _arpaContext.Set<ContactDetail>()
+                    .Where(cd => cd.PersonId == person.Id)
+                    .ToListAsync(cancellationToken);
+                foreach (var cd in contactDetails)
+                {
+                    _arpaContext.Set<ContactDetail>().Remove(cd);
+                    result.ContactDetailsDeleted++;
+                }
+
+                _arpaContext.Set<Person>().Remove(person);
+                result.PersonsDeleted++;
             }
 
             await _arpaContext.SaveChangesAsync(cancellationToken);
@@ -259,6 +393,9 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                 headerMap[headers[i].Trim()] = i;
             }
 
+            // Debug: Log headers
+            Console.WriteLine($"[CSV-Import] Delimiter: '{delimiter}', Headers ({headers.Length}): {string.Join(" | ", headers.Select(h => $"'{h.Trim()}'"))}");
+
             int rowNumber = 1;
             string line;
             while ((line = reader.ReadLine()) != null)
@@ -286,10 +423,52 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                 // Build ChoirOrchestra from separate columns (Numbers export)
                 row.ChoirOrchestra = BuildChoirOrchestra(values, headerMap);
 
-                // Append Sonderfall/Ermässigt info to Remarks
-                var sonderfall = GetValue(values, headerMap, "Sonderfall");
+                // Parse Ermässigt flag
                 var ermaessigt = GetValue(values, headerMap, "Ermässigt", "Ermäßigt");
-                if (ermaessigt?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
+                row.IsReduced = ermaessigt?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true;
+
+                // Collect all unmapped columns as extra remarks
+                var knownHeaders = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    "Nachname", "Familienname", "Last Name",
+                    "Vorname", "First Name",
+                    "E-Mail", "Email", "Mail",
+                    "Eintrittsdatum", "Eintritt", "Entry Date",
+                    "Austritt", "Austrittsdatum", "Exit Date",
+                    "Mitgliedstyp", "Typ", "Type", "Membership Type",
+                    "Förderstufe", "Support Level",
+                    "Beitrag 2025", "Jahresbeitrag 2025", "Beitrag 2024", "Jahresbeitrag 2024",
+                    "Jahresbeitrag", "Annual Fee",
+                    "Ermässigt", "Ermäßigt",
+                    "IBAN",
+                    "Mandatsreferenz", "Mandate Reference", "Mandat",
+                    "Mandatsdatum", "Mandate Date",
+                    "Hinweise", "Bemerkungen", "Remarks", "Notizen",
+                    "Chor - aktiv", "Chor -aktiv", "Chor  - inaktiv", "Chor - inaktiv", "Chor -inaktiv",
+                    "Orchester", "Orchestra", "Chor/Orchester",
+                };
+                var extraParts = new List<string>();
+                foreach (var kvp in headerMap)
+                {
+                    if (knownHeaders.Contains(kvp.Key)) continue;
+                    if (kvp.Value < values.Length)
+                    {
+                        var val = values[kvp.Value].Trim();
+                        if (!string.IsNullOrWhiteSpace(val) && !val.Equals("FALSCH", StringComparison.OrdinalIgnoreCase))
+                        {
+                            extraParts.Add(val.Equals("WAHR", StringComparison.OrdinalIgnoreCase)
+                                ? kvp.Key
+                                : $"{kvp.Key}: {val}");
+                        }
+                    }
+                }
+                if (extraParts.Count > 0)
+                {
+                    var extra = string.Join(" | ", extraParts);
+                    row.Remarks = string.IsNullOrEmpty(row.Remarks) ? extra : $"{row.Remarks} | {extra}";
+                }
+
+                if (row.IsReduced)
                 {
                     row.Remarks = string.IsNullOrEmpty(row.Remarks) ? "Ermäßigt" : $"{row.Remarks} | Ermäßigt";
                 }
@@ -313,14 +492,31 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     row.MandateDate = ParseGermanDate(mandateDateStr);
                 }
 
-                // Parse annual fee (German format: 1.234,56 or 1234,56)
-                var feeStr = GetValue(values, headerMap,
-                    "Beitrag 2025", "Beitrag 2024",
-                    "Jahresbeitrag 2025", "Jahresbeitrag 2024", "Jahresbeitrag", "Annual Fee");
-                if (!string.IsNullOrWhiteSpace(feeStr))
+                // Parse annual fees per year (German format: 1.234,56 or 1234,56)
+                var fee2025Str = GetValue(values, headerMap, "Beitrag 2025", "Jahresbeitrag 2025");
+                if (!string.IsNullOrWhiteSpace(fee2025Str))
                 {
-                    row.AnnualFee = ParseGermanDecimal(feeStr);
+                    row.Fee2025 = ParseGermanDecimal(fee2025Str);
                 }
+
+                var fee2024Str = GetValue(values, headerMap, "Beitrag 2024", "Jahresbeitrag 2024");
+                if (!string.IsNullOrWhiteSpace(fee2024Str))
+                {
+                    row.Fee2024 = ParseGermanDecimal(fee2024Str);
+                }
+
+                // Fallback: single "Jahresbeitrag" / "Annual Fee" column
+                if (row.Fee2025 == null && row.Fee2024 == null)
+                {
+                    var feeStr = GetValue(values, headerMap, "Jahresbeitrag", "Annual Fee");
+                    if (!string.IsNullOrWhiteSpace(feeStr))
+                    {
+                        row.Fee2025 = ParseGermanDecimal(feeStr);
+                    }
+                }
+
+                // AnnualFee on membership = most recent value (2025, fallback 2024)
+                row.AnnualFee = row.Fee2025 ?? row.Fee2024;
 
                 rows.Add(row);
             }
@@ -492,6 +688,9 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             public DateTime? EntryDate { get; set; }
             public DateTime? ExitDate { get; set; }
             public decimal? AnnualFee { get; set; }
+            public decimal? Fee2025 { get; set; }
+            public decimal? Fee2024 { get; set; }
+            public bool IsReduced { get; set; }
             public string MembershipType { get; set; }
             public string SupportLevel { get; set; }
             public string Iban { get; set; }

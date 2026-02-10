@@ -27,6 +27,9 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
         public DateTime? EntryDate { get; set; }
         public DateTime? ExitDate { get; set; }
         public decimal? AnnualFee { get; set; }
+        public decimal? AnnualFee2025 { get; set; }
+        public decimal? AnnualFee2024 { get; set; }
+        public bool IsReduced { get; set; }
         public string MembershipType { get; set; }
         public string SupportLevel { get; set; }
         public string Iban { get; set; }
@@ -53,13 +56,21 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
     public class MembershipImportRowConfirmDto
     {
         public int RowNumber { get; set; }
-        public Guid PersonId { get; set; }
+        public Guid? PersonId { get; set; }
         public bool Import { get; set; }
+
+        // For creating new persons (when PersonId is null)
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
 
         // Data to import
         public DateTime? EntryDate { get; set; }
         public DateTime? ExitDate { get; set; }
         public decimal AnnualFee { get; set; }
+        public decimal? AnnualFee2025 { get; set; }
+        public decimal? AnnualFee2024 { get; set; }
+        public bool IsReduced { get; set; }
         public Guid? SupportLevelId { get; set; }
         public Guid? MembershipStatusId { get; set; }
         public string Iban { get; set; }
@@ -70,9 +81,21 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
 
     public class MembershipImportResultDto
     {
+        public Guid ImportBatchId { get; set; }
+        public int PersonsCreated { get; set; }
         public int MembershipsCreated { get; set; }
         public int BankAccountsCreated { get; set; }
+        public int HistoryEntriesCreated { get; set; }
         public int Skipped { get; set; }
         public List<string> Errors { get; set; } = new();
+    }
+
+    public class MembershipImportRollbackResultDto
+    {
+        public int PersonsDeleted { get; set; }
+        public int MembershipsDeleted { get; set; }
+        public int HistoryEntriesDeleted { get; set; }
+        public int BankAccountsDeleted { get; set; }
+        public int ContactDetailsDeleted { get; set; }
     }
 }

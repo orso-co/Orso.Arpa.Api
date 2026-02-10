@@ -124,6 +124,9 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
 
         public string PersonBackgroundTeam { get; private set; }
 
+        // Import tracking
+        public Guid? ImportBatchId { get; set; }
+
         public Guid? ContactViaId { get; private set; }
         public virtual Person ContactVia { get; private set; }
         public virtual ICollection<Person> ContactsRecommended { get; private set; } = new HashSet<Person>();
