@@ -97,6 +97,59 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Creates a group chat with name, optional description and members.
+        /// </summary>
+        /// <param name="dto">Group chat details</param>
+        /// <returns>The created chat room</returns>
+        [HttpPost("rooms/group")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ChatRoomDto>> CreateGroupChat([FromBody] CreateGroupChatDto dto)
+        {
+            try
+            {
+                var room = await _chatService.CreateGroupChatAsync(dto);
+                return Ok(room);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates a chat room's name and/or description.
+        /// </summary>
+        /// <param name="roomId">Chat room ID</param>
+        /// <param name="dto">Updated room details</param>
+        /// <returns>The updated chat room</returns>
+        [HttpPut("rooms/{roomId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ChatRoomDto>> UpdateChatRoom(Guid roomId, [FromBody] UpdateChatRoomDto dto)
+        {
+            try
+            {
+                var room = await _chatService.UpdateChatRoomAsync(roomId, dto);
+
+                // Notify via SignalR
+                await _chatHubContext.Clients.Group($"chat_{roomId}").SendAsync("RoomUpdated", room);
+
+                return Ok(room);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Gets or creates the global chat room.
         /// </summary>
         /// <returns>The global chat room</returns>

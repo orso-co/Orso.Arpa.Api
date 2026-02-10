@@ -36,6 +36,16 @@ namespace Orso.Arpa.Application.ChatApplication.Interfaces
         Task<ChatRoomDto> GetOrCreateGlobalChatAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Create a group chat with name, optional description and members
+        /// </summary>
+        Task<ChatRoomDto> CreateGroupChatAsync(CreateGroupChatDto dto, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Update a chat room's name and/or description
+        /// </summary>
+        Task<ChatRoomDto> UpdateChatRoomAsync(Guid roomId, UpdateChatRoomDto dto, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Check if current user is member of a room
         /// </summary>
         Task<bool> IsUserMemberOfRoomAsync(Guid roomId, CancellationToken cancellationToken = default);

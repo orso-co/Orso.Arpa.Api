@@ -11,6 +11,7 @@ using Orso.Arpa.Domain.ChatDomain.Enums;
 using Orso.Arpa.Domain.ChatDomain.Interfaces;
 using Orso.Arpa.Domain.ChatDomain.Model;
 using Orso.Arpa.Domain.General.Interfaces;
+using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Infrastructure.Presence;
 
@@ -66,6 +67,7 @@ namespace Orso.Arpa.Application.ChatApplication.Services
                     Id = room.Id,
                     Type = (ChatRoomTypeDto)(int)room.Type,
                     Name = await GetRoomDisplayNameAsync(room, userId, cancellationToken),
+                    Description = room.Description,
                     ProjectId = room.ProjectId,
                     ProjectTitle = room.Project?.Title,
                     CreatedAt = room.CreatedAt,
@@ -106,6 +108,7 @@ namespace Orso.Arpa.Application.ChatApplication.Services
                 Id = room.Id,
                 Type = (ChatRoomTypeDto)(int)room.Type,
                 Name = await GetRoomDisplayNameAsync(room, userId, cancellationToken),
+                Description = room.Description,
                 ProjectId = room.ProjectId,
                 ProjectTitle = room.Project?.Title,
                 CreatedAt = room.CreatedAt,
@@ -333,6 +336,57 @@ namespace Orso.Arpa.Application.ChatApplication.Services
         public async Task<List<ChatMemberDto>> GetRoomMembersAsync(Guid roomId, CancellationToken cancellationToken = default)
         {
             return await GetRoomMembersInternalAsync(roomId, cancellationToken);
+        }
+
+        public async Task<ChatRoomDto> CreateGroupChatAsync(CreateGroupChatDto dto, CancellationToken cancellationToken = default)
+        {
+            var userId = _userAccessor.UserId;
+
+            var room = new ChatRoom(Guid.NewGuid(), ChatRoomType.Direct, dto.Name, description: dto.Description);
+            _context.ChatRooms.Add(room);
+
+            // Add the creator as a member
+            var creatorMember = new ChatRoomMember(Guid.NewGuid(), room.Id, userId);
+            _context.ChatRoomMembers.Add(creatorMember);
+
+            // Add invited members by person ID
+            foreach (var personId in dto.MemberPersonIds)
+            {
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(u => u.PersonId == personId, cancellationToken);
+
+                if (user == null || user.Id == userId)
+                    continue;
+
+                var member = new ChatRoomMember(Guid.NewGuid(), room.Id, user.Id);
+                _context.ChatRoomMembers.Add(member);
+            }
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return await GetChatRoomAsync(room.Id, cancellationToken);
+        }
+
+        public async Task<ChatRoomDto> UpdateChatRoomAsync(Guid roomId, UpdateChatRoomDto dto, CancellationToken cancellationToken = default)
+        {
+            if (!await IsUserMemberOfRoomAsync(roomId, cancellationToken))
+                throw new UnauthorizedAccessException("You are not a member of this chat room");
+
+            var room = await _context.ChatRooms
+                .FirstOrDefaultAsync(r => r.Id == roomId && !r.Deleted, cancellationToken);
+
+            if (room == null)
+                throw new ArgumentException("Chat room not found");
+
+            if (dto.Name != null)
+                room.UpdateName(dto.Name);
+
+            if (dto.Description != null)
+                room.UpdateDescription(dto.Description);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return await GetChatRoomAsync(roomId, cancellationToken);
         }
 
         #endregion
@@ -580,16 +634,24 @@ namespace Orso.Arpa.Application.ChatApplication.Services
             if (!await IsUserMemberOfRoomAsync(message.ChatRoomId, cancellationToken))
                 throw new UnauthorizedAccessException("User is not a member of this chat room");
 
-            // Check if reaction already exists
+            // Check if reaction already exists (including soft-deleted to avoid unique constraint violations)
             var existingReaction = await _context.MessageReactions
-                .FirstOrDefaultAsync(r => r.MessageId == messageId && r.UserId == userId && r.Emoji == emoji && !r.Deleted, cancellationToken);
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(r => r.MessageId == messageId && r.UserId == userId && r.Emoji == emoji, cancellationToken);
 
             bool added;
-            if (existingReaction != null)
+            if (existingReaction != null && !existingReaction.Deleted)
             {
-                // Remove existing reaction
+                // Remove existing reaction (soft-delete via SaveChangesAsync interceptor)
                 _context.Remove(existingReaction);
                 added = false;
+            }
+            else if (existingReaction != null && existingReaction.Deleted)
+            {
+                // Re-activate soft-deleted reaction by setting Deleted back to false
+                _context.Entry(existingReaction).Property(nameof(BaseEntity.Deleted)).CurrentValue = false;
+                _context.Entry(existingReaction).State = EntityState.Modified;
+                added = true;
             }
             else
             {
@@ -756,7 +818,11 @@ namespace Orso.Arpa.Application.ChatApplication.Services
 
             if (room.Type == ChatRoomType.Direct)
             {
-                // For direct chats, show the other person's name
+                // If room has a custom name set, use it (e.g. renamed chats or group chats)
+                if (!string.IsNullOrEmpty(room.Name))
+                    return room.Name;
+
+                // For direct chats without custom name, show the other person's name
                 var otherMember = await _context.ChatRoomMembers
                     .FirstOrDefaultAsync(m => m.ChatRoomId == room.Id && m.UserId != currentUserId && !m.Deleted, cancellationToken);
 

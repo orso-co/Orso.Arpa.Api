@@ -10,11 +10,12 @@ namespace Orso.Arpa.Domain.ChatDomain.Model
 {
     public class ChatRoom : BaseEntity
     {
-        public ChatRoom(Guid? id, ChatRoomType type, string name = null, Guid? projectId = null) : base(id)
+        public ChatRoom(Guid? id, ChatRoomType type, string name = null, Guid? projectId = null, string description = null) : base(id)
         {
             Type = type;
             Name = name;
             ProjectId = projectId;
+            Description = description;
         }
 
         [JsonConstructor]
@@ -25,6 +26,11 @@ namespace Orso.Arpa.Domain.ChatDomain.Model
         public void UpdateName(string name)
         {
             Name = name;
+        }
+
+        public void UpdateDescription(string description)
+        {
+            Description = description;
         }
 
         public void UpdateLastMessageAt(DateTime lastMessageAt)
@@ -41,6 +47,11 @@ namespace Orso.Arpa.Domain.ChatDomain.Model
         /// Optional name for project/global chats. Null for direct chats.
         /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// Optional description/note for the chat room.
+        /// </summary>
+        public string Description { get; private set; }
 
         /// <summary>
         /// For project chats - links to the project

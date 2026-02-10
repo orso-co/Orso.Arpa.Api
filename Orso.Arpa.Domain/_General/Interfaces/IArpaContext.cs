@@ -14,6 +14,7 @@ using Orso.Arpa.Domain.LocalizationDomain.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.MusicLibraryDomain.Model;
 using Orso.Arpa.Domain.NewsDomain.Model;
+using Orso.Arpa.Domain.OrganizationDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.RegionDomain.Model;
@@ -69,6 +70,11 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<Setlist> Setlists { get; set; }
         DbSet<SetlistPiece> SetlistPieces { get; set; }
 
+        // Organizations
+        DbSet<Organization> Organizations { get; set; }
+        DbSet<PersonOrganization> PersonOrganizations { get; set; }
+        DbSet<OrganizationRelationship> OrganizationRelationships { get; set; }
+
         // Chat
         DbSet<ChatRoom> ChatRooms { get; set; }
         DbSet<ChatRoomMember> ChatRoomMembers { get; set; }
@@ -76,6 +82,8 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<ChatMessageAttachment> ChatMessageAttachments { get; set; }
         DbSet<MessageReaction> MessageReactions { get; set; }
         DbSet<MessageReadReceipt> MessageReadReceipts { get; set; }
+        DbSet<ChatFolder> ChatFolders { get; set; }
+        DbSet<ChatFolderRoomAssignment> ChatFolderRoomAssignments { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

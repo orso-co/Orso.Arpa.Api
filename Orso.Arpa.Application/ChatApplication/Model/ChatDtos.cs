@@ -15,6 +15,7 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         public Guid Id { get; set; }
         public ChatRoomTypeDto Type { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public Guid? ProjectId { get; set; }
         public string ProjectTitle { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -105,6 +106,19 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         public Guid? ReplyToMessageId { get; set; }
     }
 
+    public class CreateGroupChatDto
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public List<Guid> MemberPersonIds { get; set; } = new();
+    }
+
+    public class UpdateChatRoomDto
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
+
     public class CreateDirectChatDto
     {
         public Guid OtherPersonId { get; set; }
@@ -139,5 +153,60 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         public Guid UserId { get; set; }
         public string UserName { get; set; }
         public bool IsTyping { get; set; }
+    }
+
+    // ===== Chat Folder DTOs =====
+
+    public class ChatFolderDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public bool IsSystem { get; set; }
+        public Guid? ParentId { get; set; }
+        public int SortOrder { get; set; }
+        public List<ChatFolderDto> Children { get; set; } = new();
+        public List<Guid> RoomIds { get; set; } = new();
+    }
+
+    public class ChatFolderConfigDto
+    {
+        public List<ChatFolderDto> SystemFolders { get; set; } = new();
+        public List<ChatFolderDto> PersonalFolders { get; set; } = new();
+        public Dictionary<string, string> RoomToFolder { get; set; } = new();
+    }
+
+    public class CreateChatFolderDto
+    {
+        public string Name { get; set; }
+        public Guid? ParentId { get; set; }
+    }
+
+    public class UpdateChatFolderDto
+    {
+        public string Name { get; set; }
+        public Guid? ParentId { get; set; }
+    }
+
+    public class ReorderFoldersDto
+    {
+        public List<Guid> FolderIds { get; set; } = new();
+    }
+
+    public class AssignRoomToFolderDto
+    {
+        public Guid ChatRoomId { get; set; }
+    }
+
+    public class MigrateFoldersDto
+    {
+        public List<MigrateFolderItemDto> Folders { get; set; } = new();
+        public Dictionary<string, string> RoomToFolder { get; set; } = new();
+    }
+
+    public class MigrateFolderItemDto
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public int Order { get; set; }
     }
 }

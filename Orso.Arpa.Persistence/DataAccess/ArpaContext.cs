@@ -25,6 +25,7 @@ using Orso.Arpa.Domain.LocalizationDomain.Model;
 using Orso.Arpa.Domain.MusicianProfileDomain.Model;
 using Orso.Arpa.Domain.MusicLibraryDomain.Model;
 using Orso.Arpa.Domain.NewsDomain.Model;
+using Orso.Arpa.Domain.OrganizationDomain.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Model;
 using Orso.Arpa.Domain.RegionDomain.Model;
@@ -112,6 +113,11 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Setlist> Setlists { get; set; }
         public DbSet<SetlistPiece> SetlistPieces { get; set; }
 
+        // Organizations
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<PersonOrganization> PersonOrganizations { get; set; }
+        public DbSet<OrganizationRelationship> OrganizationRelationships { get; set; }
+
         // Stage Setups (Aufstellungen)
         public DbSet<StageSetup> StageSetups { get; set; }
         public DbSet<StageSetupPosition> StageSetupPositions { get; set; }
@@ -123,6 +129,8 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<ChatMessageAttachment> ChatMessageAttachments { get; set; }
         public DbSet<MessageReaction> MessageReactions { get; set; }
         public DbSet<MessageReadReceipt> MessageReadReceipts { get; set; }
+        public DbSet<ChatFolder> ChatFolders { get; set; }
+        public DbSet<ChatFolderRoomAssignment> ChatFolderRoomAssignments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
