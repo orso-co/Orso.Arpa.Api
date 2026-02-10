@@ -19,6 +19,8 @@ namespace Orso.Arpa.Application.PersonMembershipApplication.Model
         public SelectValueDto Club { get; set; }
         public string StaffComment { get; set; }
         public string PerformerComment { get; set; }
+        public string MandateReference { get; set; }
+        public DateTime? MandateDate { get; set; }
     }
 
     public class PersonMembershipDtoMappingProfile : Profile

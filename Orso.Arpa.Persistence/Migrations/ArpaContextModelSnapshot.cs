@@ -6474,6 +6474,15 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("exit_date");
 
+                    b.Property<DateTime?>("MandateDate")
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("mandate_date");
+
+                    b.Property<string>("MandateReference")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("mandate_reference");
+
                     b.Property<Guid?>("MembershipStatusId")
                         .HasColumnType("uuid")
                         .HasColumnName("membership_status_id");

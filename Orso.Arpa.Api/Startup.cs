@@ -84,6 +84,7 @@ using Orso.Arpa.Application.NewsApplication.Interfaces;
 using Orso.Arpa.Application.NewsApplication.Services;
 using Orso.Arpa.Application.PersonApplication.Interfaces;
 using Orso.Arpa.Application.PersonApplication.Services;
+using Orso.Arpa.Application.MembershipImportApplication.Services;
 using Orso.Arpa.Application.PersonMembershipApplication.Interfaces;
 using Orso.Arpa.Application.PersonMembershipApplication.Services;
 using Orso.Arpa.Application.ProjectApplication.Interfaces;
@@ -498,6 +499,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IRoomEquipmentService, RoomEquipmentService>();
             services.AddScoped<IRoomSectionService, RoomSectionService>();
             services.AddScoped<IPersonMembershipService, PersonMembershipService>();
+            services.AddScoped<IMembershipImportService, MembershipImportService>();
             services.AddScoped<IMusicPieceService, MusicPieceService>();
             services.AddScoped<ISetlistService, SetlistService>();
             services.AddScoped<IStageSetupService, StageSetupService>();
