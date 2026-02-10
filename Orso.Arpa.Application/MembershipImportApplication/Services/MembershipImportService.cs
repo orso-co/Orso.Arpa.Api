@@ -241,14 +241,18 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             var rows = new List<CsvRow>();
             using var reader = new StreamReader(stream);
 
-            // Read header line
+            // Read header line and strip BOM
             var headerLine = reader.ReadLine();
             if (headerLine == null)
             {
                 return rows;
             }
+            headerLine = headerLine.TrimStart('\uFEFF');
 
-            var headers = ParseCsvLine(headerLine);
+            // Auto-detect delimiter: count semicolons vs commas in header (outside quotes)
+            char delimiter = DetectDelimiter(headerLine);
+
+            var headers = ParseCsvLine(headerLine, delimiter);
             var headerMap = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             for (int i = 0; i < headers.Length; i++)
             {
@@ -265,7 +269,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                 }
 
                 rowNumber++;
-                var values = ParseCsvLine(line);
+                var values = ParseCsvLine(line, delimiter);
                 var row = new CsvRow
                 {
                     RowNumber = rowNumber,
@@ -277,8 +281,18 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     Iban = GetValue(values, headerMap, "IBAN"),
                     MandateReference = GetValue(values, headerMap, "Mandatsreferenz", "Mandate Reference", "Mandat"),
                     Remarks = GetValue(values, headerMap, "Hinweise", "Bemerkungen", "Remarks", "Notizen"),
-                    ChoirOrchestra = GetValue(values, headerMap, "Chor/Orchester", "Chor", "Orchester", "Choir/Orchestra"),
                 };
+
+                // Build ChoirOrchestra from separate columns (Numbers export)
+                row.ChoirOrchestra = BuildChoirOrchestra(values, headerMap);
+
+                // Append Sonderfall/Ermässigt info to Remarks
+                var sonderfall = GetValue(values, headerMap, "Sonderfall");
+                var ermaessigt = GetValue(values, headerMap, "Ermässigt", "Ermäßigt");
+                if (ermaessigt?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    row.Remarks = string.IsNullOrEmpty(row.Remarks) ? "Ermäßigt" : $"{row.Remarks} | Ermäßigt";
+                }
 
                 // Parse dates (German format: dd.MM.yyyy)
                 var entryDateStr = GetValue(values, headerMap, "Eintrittsdatum", "Eintritt", "Entry Date");
@@ -300,7 +314,9 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                 }
 
                 // Parse annual fee (German format: 1.234,56 or 1234,56)
-                var feeStr = GetValue(values, headerMap, "Jahresbeitrag 2025", "Jahresbeitrag 2024", "Jahresbeitrag", "Annual Fee");
+                var feeStr = GetValue(values, headerMap,
+                    "Beitrag 2025", "Beitrag 2024",
+                    "Jahresbeitrag 2025", "Jahresbeitrag 2024", "Jahresbeitrag", "Annual Fee");
                 if (!string.IsNullOrWhiteSpace(feeStr))
                 {
                     row.AnnualFee = ParseGermanDecimal(feeStr);
@@ -312,7 +328,57 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             return rows;
         }
 
-        private static string[] ParseCsvLine(string line)
+        private static string BuildChoirOrchestra(string[] values, Dictionary<string, int> headerMap)
+        {
+            // Handle separate columns: "Chor - aktiv", "Chor  - inaktiv", "Orchester"
+            var parts = new List<string>();
+
+            var choirActive = GetValue(values, headerMap, "Chor - aktiv", "Chor -aktiv");
+            var choirInactive = GetValue(values, headerMap, "Chor  - inaktiv", "Chor - inaktiv", "Chor -inaktiv");
+            var orchestra = GetValue(values, headerMap, "Orchester", "Orchestra");
+
+            if (choirActive?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                parts.Add("Chor aktiv");
+            }
+            else if (choirInactive?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                parts.Add("Chor inaktiv");
+            }
+
+            if (orchestra?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                parts.Add("Orchester");
+            }
+
+            if (parts.Count > 0)
+            {
+                return string.Join(", ", parts);
+            }
+
+            // Fallback: single combined column
+            return GetValue(values, headerMap, "Chor/Orchester");
+        }
+
+        private static char DetectDelimiter(string headerLine)
+        {
+            int semicolons = 0, commas = 0;
+            bool inQuotes = false;
+
+            foreach (char c in headerLine)
+            {
+                if (c == '"') inQuotes = !inQuotes;
+                else if (!inQuotes)
+                {
+                    if (c == ';') semicolons++;
+                    else if (c == ',') commas++;
+                }
+            }
+
+            return semicolons >= commas ? ';' : ',';
+        }
+
+        private static string[] ParseCsvLine(string line, char delimiter)
         {
             var result = new List<string>();
             bool inQuotes = false;
@@ -333,7 +399,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                         inQuotes = !inQuotes;
                     }
                 }
-                else if ((c == ';' || c == ',') && !inQuotes)
+                else if (c == delimiter && !inQuotes)
                 {
                     result.Add(current.ToString());
                     current.Clear();
@@ -365,13 +431,30 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
 
         private static DateTime? ParseGermanDate(string dateStr)
         {
-            // Try German format first: dd.MM.yyyy, then ISO
-            if (DateTime.TryParseExact(dateStr.Trim(), new[] { "dd.MM.yyyy", "d.M.yyyy", "dd.MM.yy", "yyyy-MM-dd" },
+            var s = dateStr.Trim();
+
+            // Handle year-only: "2023", "2024"
+            if (s.Length == 4 && int.TryParse(s, out int year) && year >= 1900 && year <= 2100)
+            {
+                return new DateTime(year, 1, 1);
+            }
+
+            // Try German format: dd.MM.yyyy, d.M.yyyy, dd.MM.yy
+            if (DateTime.TryParseExact(s, new[] { "dd.MM.yyyy", "d.M.yyyy", "dd.MM.yy", "yyyy-MM-dd" },
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
             {
                 return date;
             }
-            if (DateTime.TryParse(dateStr.Trim(), CultureInfo.GetCultureInfo("de-DE"), DateTimeStyles.None, out var date2))
+
+            // Try US format: MM/dd/yyyy, M/d/yyyy
+            if (DateTime.TryParseExact(s, new[] { "MM/dd/yyyy", "M/d/yyyy", "M/dd/yyyy" },
+                CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateUs))
+            {
+                return dateUs;
+            }
+
+            // Fallback: try German culture parse
+            if (DateTime.TryParse(s, CultureInfo.GetCultureInfo("de-DE"), DateTimeStyles.None, out var date2))
             {
                 return date2;
             }
