@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.General.Model;
+using Orso.Arpa.Application.MembershipHistoryApplication.Model;
 using Orso.Arpa.Application.SelectValueApplication.Model;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.PersonDomain.Model;
@@ -19,6 +21,9 @@ namespace Orso.Arpa.Application.PersonMembershipApplication.Model
         public SelectValueDto Club { get; set; }
         public string StaffComment { get; set; }
         public string PerformerComment { get; set; }
+        public string MandateReference { get; set; }
+        public DateTime? MandateDate { get; set; }
+        public IList<MembershipHistoryDto> MembershipHistories { get; set; } = [];
     }
 
     public class PersonMembershipDtoMappingProfile : Profile

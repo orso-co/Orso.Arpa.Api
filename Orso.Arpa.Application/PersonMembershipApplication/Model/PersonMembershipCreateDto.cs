@@ -23,6 +23,8 @@ namespace Orso.Arpa.Application.PersonMembershipApplication.Model
         public Guid? ClubId { get; set; }
         public string StaffComment { get; set; }
         public string PerformerComment { get; set; }
+        public string MandateReference { get; set; }
+        public DateTime? MandateDate { get; set; }
     }
 
     public class PersonMembershipCreateDtoMappingProfile : Profile
@@ -40,7 +42,9 @@ namespace Orso.Arpa.Application.PersonMembershipApplication.Model
                 .ForMember(dest => dest.PaymentFrequencyId, opt => opt.MapFrom(src => src.Body.PaymentFrequencyId))
                 .ForMember(dest => dest.ClubId, opt => opt.MapFrom(src => src.Body.ClubId))
                 .ForMember(dest => dest.StaffComment, opt => opt.MapFrom(src => src.Body.StaffComment))
-                .ForMember(dest => dest.PerformerComment, opt => opt.MapFrom(src => src.Body.PerformerComment));
+                .ForMember(dest => dest.PerformerComment, opt => opt.MapFrom(src => src.Body.PerformerComment))
+                .ForMember(dest => dest.MandateReference, opt => opt.MapFrom(src => src.Body.MandateReference))
+                .ForMember(dest => dest.MandateDate, opt => opt.MapFrom(src => src.Body.MandateDate));
         }
     }
 
@@ -68,6 +72,9 @@ namespace Orso.Arpa.Application.PersonMembershipApplication.Model
 
             _ = RuleFor(c => c.PerformerComment)
                 .RestrictedFreeText(500);
+
+            _ = RuleFor(c => c.MandateReference)
+                .MaximumLength(100);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.PersonDomain.Commands;
@@ -21,6 +22,8 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             StaffComment = command.StaffComment;
             PerformerComment = command.PerformerComment;
             PersonId = command.PersonId;
+            MandateReference = command.MandateReference;
+            MandateDate = command.MandateDate;
         }
 
         protected PersonMembership() { }
@@ -37,6 +40,8 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             ClubId = command.ClubId;
             StaffComment = command.StaffComment;
             PerformerComment = command.PerformerComment;
+            MandateReference = command.MandateReference;
+            MandateDate = command.MandateDate;
         }
 
         // Dates
@@ -73,8 +78,19 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
         [AuditLogIgnore]
         public string PerformerComment { get; private set; }
 
+        // Mandate (SEPA)
+        public string MandateReference { get; private set; }
+        public DateTime? MandateDate { get; private set; }
+
+        // Import tracking
+        public Guid? ImportBatchId { get; set; }
+
         // Person relationship (1:n)
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }
+
+        // MembershipHistory relationship (1:n)
+        [CascadingSoftDelete]
+        public virtual ICollection<MembershipHistory> MembershipHistories { get; private set; } = new HashSet<MembershipHistory>();
     }
 }

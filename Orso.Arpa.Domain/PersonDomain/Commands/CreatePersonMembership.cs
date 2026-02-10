@@ -21,6 +21,8 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
             public Guid? ClubId { get; set; }
             public string StaffComment { get; set; }
             public string PerformerComment { get; set; }
+            public string MandateReference { get; set; }
+            public DateTime? MandateDate { get; set; }
             public Guid PersonId { get; set; }
         }
 
@@ -51,6 +53,9 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
 
                 RuleFor(c => c.ClubId)
                     .SelectValueMapping<Command, PersonMembership>(arpaContext, m => m.Club);
+
+                RuleFor(c => c.MandateReference)
+                    .MaximumLength(100);
             }
         }
     }

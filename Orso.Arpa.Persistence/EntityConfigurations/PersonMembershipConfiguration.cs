@@ -22,6 +22,11 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .Property(e => e.PerformerComment)
                 .HasMaxLength(500);
 
+            // Mandate fields
+            builder
+                .Property(e => e.MandateReference)
+                .HasMaxLength(100);
+
             // Person relationship (1:n)
             builder
                 .HasOne(e => e.Person)
