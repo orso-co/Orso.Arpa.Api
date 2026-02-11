@@ -7,8 +7,10 @@ using System.Security.Authentication;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FluentValidation;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Mail;
@@ -19,6 +21,7 @@ namespace Orso.Arpa.Api.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ErrorHandlingMiddleware> _logger;
+        private readonly bool _includeDetails;
 
         private readonly static JsonSerializerOptions s_serializerOptions = new()
         {
@@ -27,10 +30,12 @@ namespace Orso.Arpa.Api.Middleware
 
         public ErrorHandlingMiddleware(
             RequestDelegate next,
-            ILogger<ErrorHandlingMiddleware> logger)
+            ILogger<ErrorHandlingMiddleware> logger,
+            IWebHostEnvironment env)
         {
             _next = next;
             _logger = logger;
+            _includeDetails = env.IsDevelopment();
         }
 
         public async Task Invoke(HttpContext context)
@@ -58,8 +63,8 @@ namespace Orso.Arpa.Api.Middleware
                     errorMessage = new ValidationProblemDetails
                     {
                         Status = (int)HttpStatusCode.InternalServerError,
-                        Title = ie.Message,
-                        Detail = string.Join(". ", ie.IdentityErrors.Select(e => e.Description))
+                        Title = _includeDetails ? ie.Message : "An identity error occured",
+                        Detail = _includeDetails ? string.Join(". ", ie.IdentityErrors.Select(e => e.Description)) : null
                     };
                     errorLogMessage = "IDENTITY ERROR";
                     break;
@@ -131,8 +136,8 @@ namespace Orso.Arpa.Api.Middleware
                     errorMessage = new ValidationProblemDetails
                     {
                         Status = (int)HttpStatusCode.FailedDependency,
-                        Title = ee.Message,
-                        Detail = ee.InnerException?.Message
+                        Title = _includeDetails ? ee.Message : "An error occured while sending an email",
+                        Detail = _includeDetails ? ee.InnerException?.Message : null
                     };
                     errorLogMessage = "EMAIL ERROR";
                     break;
@@ -149,11 +154,11 @@ namespace Orso.Arpa.Api.Middleware
                 case Azure.RequestFailedException arfe:
                     errorMessage = new ValidationProblemDetails
                     {
-                        Title = arfe.ErrorCode,
+                        Title = _includeDetails ? arfe.ErrorCode : "An external service error occured",
                         Status = arfe.Status,
-                        Detail = arfe.Message
+                        Detail = _includeDetails ? arfe.Message : null
                     };
-                    _logger.LogWarning(arfe, "NOT FOUND ERROR");
+                    _logger.LogWarning(arfe, "AZURE REQUEST ERROR");
                     break;
 
                 case AffectedRowCountMismatchException arcme:
@@ -170,7 +175,7 @@ namespace Orso.Arpa.Api.Middleware
                     {
                         Status = (int)HttpStatusCode.InternalServerError,
                         Title = "An unexpected error occured",
-                        Detail = ex.Message
+                        Detail = _includeDetails ? ex.Message : null
                     };
                     errorLogMessage = "SERVER ERROR";
                     break;

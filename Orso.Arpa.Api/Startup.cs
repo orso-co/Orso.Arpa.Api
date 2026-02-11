@@ -319,7 +319,6 @@ namespace Orso.Arpa.Api
                 .AddAuthorization()
                 .AddFiltering<CustomFilteringConvention>()
                 .AddQueryType<Query>()
-                .AddFiltering()
                 .AddSorting()
                 .AddType(new UuidType('D'))
                 .ModifyPagingOptions(opt =>
@@ -327,7 +326,7 @@ namespace Orso.Arpa.Api
                     opt.MaxPageSize = 100;
                     opt.IncludeTotalCount = true;
                 })
-                .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
+                .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = _hostingEnvironment.IsDevelopment());
         }
 
         protected virtual void ConfigureLocalization(IServiceCollection services)
@@ -742,7 +741,7 @@ namespace Orso.Arpa.Api
                 }
 
                 IDataSeeder dataSeeder = services.GetRequiredService<IDataSeeder>();
-                dataSeeder.SeedDataAsync().Wait();
+                dataSeeder.SeedDataAsync().GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
