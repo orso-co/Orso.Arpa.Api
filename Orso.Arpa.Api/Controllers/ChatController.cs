@@ -16,6 +16,34 @@ namespace Orso.Arpa.Api.Controllers
         private readonly IChatService _chatService;
         private readonly IHubContext<ChatHub> _chatHubContext;
 
+        private static readonly HashSet<string> AllowedExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            // Images
+            ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".svg",
+            // Videos
+            ".mp4", ".avi", ".mov", ".wmv", ".flv", ".mkv", ".webm",
+            // Audio
+            ".mp3", ".wav", ".ogg", ".flac", ".aac", ".wma",
+            // Music notation
+            ".midi", ".mid", ".musicxml", ".mxl", ".sib", ".mscz", ".mscx",
+            // Documents
+            ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".odt", ".ods", ".odp", ".txt"
+        };
+
+        private static readonly HashSet<string> VideoExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".mp4", ".avi", ".mov", ".wmv", ".flv", ".mkv", ".webm"
+        };
+
+        private static readonly HashSet<string> ImageExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".svg"
+        };
+
+        private const long MaxVideoSize = 250L * 1024 * 1024;  // 250 MB
+        private const long MaxImageSize = 10L * 1024 * 1024;    // 10 MB
+        private const long MaxOtherSize = 5L * 1024 * 1024;     // 5 MB
+
         public ChatController(
             IChatService chatService,
             IHubContext<ChatHub> chatHubContext)
@@ -463,6 +491,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <param name="files">File attachments</param>
         /// <returns>The sent message with attachments</returns>
         [HttpPost("rooms/{roomId}/messages/attachments")]
+        [RequestSizeLimit(262_144_000)] // 250 MB for video uploads
+        [RequestFormLimits(MultipartBodyLengthLimit = 262_144_000)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -475,6 +505,26 @@ namespace Orso.Arpa.Api.Controllers
             if (files == null || files.Count == 0)
             {
                 return BadRequest("At least one file is required");
+            }
+
+            // Validate each file
+            foreach (var file in files)
+            {
+                var ext = System.IO.Path.GetExtension(file.FileName);
+                if (string.IsNullOrEmpty(ext) || !AllowedExtensions.Contains(ext))
+                {
+                    return BadRequest($"File type '{ext}' is not allowed: {file.FileName}");
+                }
+
+                var maxSize = VideoExtensions.Contains(ext) ? MaxVideoSize
+                    : ImageExtensions.Contains(ext) ? MaxImageSize
+                    : MaxOtherSize;
+
+                if (file.Length > maxSize)
+                {
+                    var maxMb = maxSize / (1024 * 1024);
+                    return BadRequest($"File '{file.FileName}' exceeds the maximum size of {maxMb} MB");
+                }
             }
 
             try
