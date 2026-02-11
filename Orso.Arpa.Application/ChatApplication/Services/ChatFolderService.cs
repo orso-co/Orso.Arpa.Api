@@ -109,7 +109,8 @@ namespace Orso.Arpa.Application.ChatApplication.Services
             {
                 if (dto.ParentId != Guid.Empty)
                 {
-                    await ValidateNestingDepthAsync(dto.ParentId.Value, false, cancellationToken);
+                    await ValidateNotDescendantAsync(folderId, dto.ParentId.Value, cancellationToken);
+                    await ValidateNestingDepthWithSubtreeAsync(folderId, dto.ParentId.Value, cancellationToken);
                 }
                 folder.UpdateParent(dto.ParentId == Guid.Empty ? null : dto.ParentId);
             }
@@ -237,7 +238,8 @@ namespace Orso.Arpa.Application.ChatApplication.Services
             {
                 if (dto.ParentId != Guid.Empty)
                 {
-                    await ValidateNestingDepthAsync(dto.ParentId.Value, true, cancellationToken);
+                    await ValidateNotDescendantAsync(folderId, dto.ParentId.Value, cancellationToken);
+                    await ValidateNestingDepthWithSubtreeAsync(folderId, dto.ParentId.Value, cancellationToken);
                 }
                 folder.UpdateParent(dto.ParentId == Guid.Empty ? null : dto.ParentId);
             }
@@ -438,6 +440,61 @@ namespace Orso.Arpa.Application.ChatApplication.Services
                 throw new KeyNotFoundException($"System folder {folderId} not found");
             }
             return folder;
+        }
+
+        private async Task ValidateNotDescendantAsync(Guid folderId, Guid newParentId, CancellationToken cancellationToken)
+        {
+            // Walk up from newParentId to root - if we encounter folderId, it's a cycle
+            Guid? currentId = newParentId;
+            while (currentId.HasValue)
+            {
+                if (currentId.Value == folderId)
+                {
+                    throw new InvalidOperationException("Cannot move folder into its own descendant");
+                }
+                ChatFolder parent = await _context.ChatFolders
+                    .FirstOrDefaultAsync(f => f.Id == currentId.Value && !f.Deleted, cancellationToken);
+                currentId = parent?.ParentId;
+            }
+        }
+
+        private async Task ValidateNestingDepthWithSubtreeAsync(Guid folderId, Guid newParentId, CancellationToken cancellationToken)
+        {
+            // Calculate depth of the new parent
+            int parentDepth = 0;
+            Guid? currentId = newParentId;
+            while (currentId.HasValue)
+            {
+                parentDepth++;
+                ChatFolder parent = await _context.ChatFolders
+                    .FirstOrDefaultAsync(f => f.Id == currentId.Value && !f.Deleted, cancellationToken);
+                currentId = parent?.ParentId;
+            }
+
+            // Calculate subtree depth of the folder being moved
+            int subtreeDepth = await GetSubtreeDepthAsync(folderId, cancellationToken);
+
+            if (parentDepth + subtreeDepth > MaxNestingDepth)
+            {
+                throw new InvalidOperationException($"Moving this folder would exceed maximum nesting depth of {MaxNestingDepth}");
+            }
+        }
+
+        private async Task<int> GetSubtreeDepthAsync(Guid folderId, CancellationToken cancellationToken)
+        {
+            List<ChatFolder> children = await _context.ChatFolders
+                .Where(f => f.ParentId == folderId && !f.Deleted)
+                .ToListAsync(cancellationToken);
+
+            if (children.Count == 0) return 1;
+
+            int maxChildDepth = 0;
+            foreach (ChatFolder child in children)
+            {
+                int childDepth = await GetSubtreeDepthAsync(child.Id, cancellationToken);
+                if (childDepth > maxChildDepth) maxChildDepth = childDepth;
+            }
+            return 1 + maxChildDepth;
         }
 
         private async Task ValidateNestingDepthAsync(Guid parentId, bool isSystem, CancellationToken cancellationToken)
