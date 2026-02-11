@@ -294,14 +294,11 @@ namespace Orso.Arpa.Application.ChatApplication.Services
             EnsureStaffOrAdmin();
             await GetSystemFolderAsync(folderId, cancellationToken);
 
-            // Remove any existing (including soft-deleted) to avoid unique constraint issues
+            // Remove existing system assignments for this room in ANY system folder (not just target)
             List<ChatFolderRoomAssignment> existingAll = await _context.Set<ChatFolderRoomAssignment>()
                 .IgnoreQueryFilters()
-                .Where(a => a.FolderId == folderId && a.ChatRoomId == dto.ChatRoomId && a.UserId == null)
+                .Where(a => a.ChatRoomId == dto.ChatRoomId && a.UserId == null)
                 .ToListAsync(cancellationToken);
-
-            bool alreadyActive = existingAll.Any(a => !a.Deleted);
-            if (alreadyActive) return;
 
             _context.Set<ChatFolderRoomAssignment>().RemoveRange(existingAll);
 
