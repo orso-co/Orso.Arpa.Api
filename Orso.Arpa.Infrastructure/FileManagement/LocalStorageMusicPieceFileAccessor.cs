@@ -30,7 +30,7 @@ namespace Orso.Arpa.Infrastructure.FileManagement
         /// Allowed file extensions for sheet music files.
         /// </summary>
         private static readonly string[] AllowedExtensions =
-            [".pdf", ".jpg", ".jpeg", ".png", ".webp", ".gif", ".xml", ".musicxml", ".mxl"];
+            [".pdf", ".jpg", ".jpeg", ".png", ".webp", ".gif", ".xml", ".musicxml", ".mxl", ".mp3", ".wav"];
 
         /// <summary>
         /// Magic bytes for file type validation.
@@ -45,7 +45,9 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             { ".webp", [[0x52, 0x49, 0x46, 0x46]] }, // RIFF header
             { ".xml", [[0x3C, 0x3F, 0x78, 0x6D, 0x6C]] }, // <?xml
             { ".musicxml", [[0x3C, 0x3F, 0x78, 0x6D, 0x6C]] }, // <?xml
-            { ".mxl", [[0x50, 0x4B, 0x03, 0x04]] } // PK (ZIP archive)
+            { ".mxl", [[0x50, 0x4B, 0x03, 0x04]] }, // PK (ZIP archive)
+            { ".mp3", [[0x49, 0x44, 0x33], [0xFF, 0xFB], [0xFF, 0xF3], [0xFF, 0xF2]] }, // ID3 tag or MPEG sync
+            { ".wav", [[0x52, 0x49, 0x46, 0x46]] } // RIFF header
         };
 
         public LocalStorageMusicPieceFileAccessor(IConfiguration configuration)
