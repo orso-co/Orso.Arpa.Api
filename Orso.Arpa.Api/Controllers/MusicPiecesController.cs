@@ -116,6 +116,8 @@ namespace Orso.Arpa.Api.Controllers
         /// <returns>The uploaded file metadata</returns>
         [Authorize(Roles = RoleNames.Staff)]
         [HttpPost("{id}/files")]
+        [RequestSizeLimit(262_144_000)] // 250 MB
+        [RequestFormLimits(MultipartBodyLengthLimit = 262_144_000)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
