@@ -122,6 +122,7 @@ using Orso.Arpa.Domain.UserDomain.Repositories;
 using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.MusicLibraryDomain;
 using Orso.Arpa.Domain.ChatDomain.Interfaces;
+using Orso.Arpa.Domain.UserDomain.Interfaces;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
@@ -129,6 +130,7 @@ using Orso.Arpa.Infrastructure.FileManagement;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Infrastructure.Presence;
 using Orso.Arpa.Infrastructure.PipelineBehaviors;
+using Orso.Arpa.Infrastructure.WebPush;
 using Orso.Arpa.Mail;
 using Orso.Arpa.Mail.Interfaces;
 using Orso.Arpa.Misc;
@@ -518,6 +520,12 @@ namespace Orso.Arpa.Api
             _ = AddConfiguration<EmailConfiguration>(services);
             _ = AddConfiguration<ClubConfiguration>(services);
             _ = AddConfiguration<SeedConfiguration>(services);
+            _ = AddConfiguration<VapidConfiguration>(services);
+
+            // Push Notifications
+            _ = services.AddScoped<IWebPushService, WebPushService>();
+            _ = services.AddScoped<INotificationDispatcher, NotificationDispatcher>();
+            _ = services.AddScoped<IRealtimeNotificationSender, RealtimeNotificationSender>();
         }
 
         private T AddConfiguration<T>(IServiceCollection services) where T : class
@@ -690,7 +698,7 @@ namespace Orso.Arpa.Api
                     .MediaSources(s => s.Self())
                     .ObjectSources(s => s.Self())
                     .ChildSources(s => s.Self())
-                    .ConnectSources(s => s.Self().CustomSources("fonts.gstatic.com"))
+                    .ConnectSources(s => s.Self().CustomSources("fonts.gstatic.com", "https://*.push.services.mozilla.com", "https://fcm.googleapis.com"))
                     .WorkerSources(s => s.Self())
                     .FontSources(s => s.Self().CustomSources("fonts.gstatic.com", "data:"))
                 );

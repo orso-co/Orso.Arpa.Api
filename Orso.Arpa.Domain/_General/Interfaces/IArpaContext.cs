@@ -85,6 +85,10 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<ChatFolder> ChatFolders { get; set; }
         DbSet<ChatFolderRoomAssignment> ChatFolderRoomAssignments { get; set; }
 
+        // Push Notifications
+        DbSet<PushSubscription> PushSubscriptions { get; set; }
+        DbSet<NotificationPreference> NotificationPreferences { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;

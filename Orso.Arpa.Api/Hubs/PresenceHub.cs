@@ -52,6 +52,9 @@ namespace Orso.Arpa.Api.Hubs
                 await Clients.Others.SendAsync("UserIsOnline", userDto);
             }
 
+            // User-Group for targeted notifications
+            await Groups.AddToGroupAsync(Context.ConnectionId, $"user_{userId}");
+
             var onlineUsers = await _presenceTracker.GetOnlineUsers();
             await Clients.Caller.SendAsync("OnlineUsersList", onlineUsers);
 

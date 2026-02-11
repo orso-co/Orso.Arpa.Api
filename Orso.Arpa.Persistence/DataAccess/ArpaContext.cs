@@ -133,6 +133,10 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<ChatFolder> ChatFolders { get; set; }
         public DbSet<ChatFolderRoomAssignment> ChatFolderRoomAssignments { get; set; }
 
+        // Push Notifications
+        public DbSet<PushSubscription> PushSubscriptions { get; set; }
+        public DbSet<NotificationPreference> NotificationPreferences { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             _ = optionsBuilder.UseLazyLoadingProxies();
