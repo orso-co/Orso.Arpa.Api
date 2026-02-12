@@ -10,6 +10,10 @@ namespace Orso.Arpa.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // Drop the musician view that references persons.given_name and persons.surname
+            // PostgreSQL does not allow altering column types when a view depends on them
+            migrationBuilder.Sql("DROP VIEW IF EXISTS musician;");
+
             migrationBuilder.AlterColumn<string>(
                 name: "surname",
                 table: "persons",
@@ -53,6 +57,25 @@ namespace Orso.Arpa.Persistence.Migrations
                 oldType: "character varying(50)",
                 oldMaxLength: 50,
                 oldNullable: true);
+
+            // Recreate the musician view
+            migrationBuilder.Sql(@"
+                CREATE VIEW musician AS
+                SELECT p.given_name,
+                       p.surname,
+                       mp.person_id,
+                       mp.id AS mp_id,
+                       s.name AS section_name,
+                       mp.instrument_id
+                FROM persons p,
+                     musician_profiles mp,
+                     sections s
+                WHERE p.id = mp.person_id
+                  AND mp.instrument_id = s.id
+                  AND p.deleted = false
+                  AND mp.deleted = false
+                  AND s.deleted = false;
+            ");
         }
 
         /// <inheritdoc />
