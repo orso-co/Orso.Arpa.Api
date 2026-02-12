@@ -86,6 +86,8 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             var result = new MembershipImportResultDto { ImportBatchId = batchId };
             var rowsToImport = executeDto.Rows.Where(r => r.Import).ToList();
 
+            Console.WriteLine($"[CSV-Import Execute] BatchId: {batchId}, ClubId: {executeDto.ClubId}, Rows to import: {rowsToImport.Count}");
+
             // Lookup "Diverse" gender as default for new persons
             var diverseGenderId = await _arpaContext.Set<SelectValueMapping>()
                 .Where(m => !m.Deleted
@@ -94,6 +96,11 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     && m.SelectValue.Name == "Diverse")
                 .Select(m => m.Id)
                 .FirstOrDefaultAsync(cancellationToken);
+
+            if (diverseGenderId == Guid.Empty)
+            {
+                Console.WriteLine("[CSV-Import Execute] WARNING: 'Diverse' gender not found, using Guid.Empty");
+            }
 
             foreach (var row in rowsToImport)
             {
@@ -199,12 +206,29 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine($"[CSV-Import Execute] Row {row.RowNumber} error: {ex.Message}");
                     result.Errors.Add($"Row {row.RowNumber}: {ex.Message}");
                     result.Skipped++;
                 }
             }
 
-            await _arpaContext.SaveChangesAsync(cancellationToken);
+            Console.WriteLine($"[CSV-Import Execute] Saving: {result.PersonsCreated} persons, {result.MembershipsCreated} memberships, {result.HistoryEntriesCreated} history, {result.BankAccountsCreated} bank accounts, {result.Skipped} skipped");
+
+            try
+            {
+                await _arpaContext.SaveChangesAsync(cancellationToken);
+                Console.WriteLine($"[CSV-Import Execute] SaveChangesAsync succeeded for batch {batchId}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[CSV-Import Execute] SaveChangesAsync FAILED: {ex.GetType().Name}: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"[CSV-Import Execute] Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
+                }
+                throw;
+            }
+
             return result;
         }
 
@@ -413,7 +437,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     LastName = GetValue(values, headerMap, "Nachname", "Familienname", "Last Name"),
                     FirstName = GetValue(values, headerMap, "Vorname", "First Name"),
                     Email = GetValue(values, headerMap, "E-Mail", "Email", "Mail"),
-                    MembershipType = GetValue(values, headerMap, "Mitgliedstyp", "Typ", "Type", "Membership Type"),
+                    MembershipType = GetValue(values, headerMap, "Mitgliedstyp", "Mitgliedstypus", "Typ", "Type", "Membership Type", "Status"),
                     SupportLevel = GetValue(values, headerMap, "Förderstufe", "Support Level"),
                     Iban = GetValue(values, headerMap, "IBAN"),
                     MandateReference = GetValue(values, headerMap, "Mandatsreferenz", "Mandate Reference", "Mandat"),
@@ -424,7 +448,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                 row.ChoirOrchestra = BuildChoirOrchestra(values, headerMap);
 
                 // Parse Ermässigt flag
-                var ermaessigt = GetValue(values, headerMap, "Ermässigt", "Ermäßigt");
+                var ermaessigt = GetValue(values, headerMap, "Ermässigt", "Ermäßigt", "Ermäßigung", "Ermässigung");
                 row.IsReduced = ermaessigt?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true;
 
                 // Collect all unmapped columns as extra remarks
@@ -435,17 +459,20 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     "E-Mail", "Email", "Mail",
                     "Eintrittsdatum", "Eintritt", "Entry Date",
                     "Austritt", "Austrittsdatum", "Exit Date",
-                    "Mitgliedstyp", "Typ", "Type", "Membership Type",
-                    "Förderstufe", "Support Level",
+                    "Mitgliedstyp", "Mitgliedstypus", "Typ", "Type", "Membership Type", "Status",
+                    "Förderstufe", "Förderstatus", "Support Level",
                     "Beitrag 2025", "Jahresbeitrag 2025", "Beitrag 2024", "Jahresbeitrag 2024",
-                    "Jahresbeitrag", "Annual Fee",
-                    "Ermässigt", "Ermäßigt",
-                    "IBAN",
+                    "Jahresbeitrag", "Beitrag", "Annual Fee",
+                    "Ermässigt", "Ermäßigt", "Ermäßigung", "Ermässigung",
+                    "IBAN", "Iban",
+                    "BIC", "Bic", "BIc",
                     "Mandatsreferenz", "Mandate Reference", "Mandat",
                     "Mandatsdatum", "Mandate Date",
                     "Hinweise", "Bemerkungen", "Remarks", "Notizen",
                     "Chor - aktiv", "Chor -aktiv", "Chor  - inaktiv", "Chor - inaktiv", "Chor -inaktiv",
                     "Orchester", "Orchestra", "Chor/Orchester",
+                    "Anrede", "Geburtsjahr", "Geburtsdatum", "Alter",
+                    "Telefon", "UUID", "UUID Person",
                 };
                 var extraParts = new List<string>();
                 foreach (var kvp in headerMap)
@@ -505,10 +532,10 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     row.Fee2024 = ParseGermanDecimal(fee2024Str);
                 }
 
-                // Fallback: single "Jahresbeitrag" / "Annual Fee" column
+                // Fallback: single "Jahresbeitrag" / "Beitrag" / "Annual Fee" column
                 if (row.Fee2025 == null && row.Fee2024 == null)
                 {
-                    var feeStr = GetValue(values, headerMap, "Jahresbeitrag", "Annual Fee");
+                    var feeStr = GetValue(values, headerMap, "Jahresbeitrag", "Beitrag", "Annual Fee");
                     if (!string.IsNullOrWhiteSpace(feeStr))
                     {
                         row.Fee2025 = ParseGermanDecimal(feeStr);
