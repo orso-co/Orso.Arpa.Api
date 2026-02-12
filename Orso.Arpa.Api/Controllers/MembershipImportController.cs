@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,17 @@ namespace Orso.Arpa.Api.Controllers
         public MembershipImportController(IMembershipImportService importService)
         {
             _importService = importService;
+        }
+
+        /// <summary>
+        /// Returns the expected CSV format with column descriptions
+        /// </summary>
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [HttpGet("csv-format")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<CsvFormatInfoDto> GetCsvFormat()
+        {
+            return Ok(CsvFormatInfoDto.Create());
         }
 
         /// <summary>

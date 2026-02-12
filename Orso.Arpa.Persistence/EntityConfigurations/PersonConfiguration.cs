@@ -10,15 +10,15 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
         {
             _ = builder
                 .Property(e => e.GivenName)
-                .HasMaxLength(50);
+                .HasMaxLength(200);
 
             _ = builder
                 .Property(e => e.Surname)
-                .HasMaxLength(50);
+                .HasMaxLength(200);
 
             _ = builder
                 .Property(e => e.BirthName)
-                .HasMaxLength(50);
+                .HasMaxLength(200);
 
             _ = builder
                 .Property(e => e.AboutMe)
@@ -26,7 +26,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             _ = builder
                 .Property(e => e.Birthplace)
-                .HasMaxLength(50);
+                .HasMaxLength(200);
 
             _ = builder
                 .Property(e => e.PersonBackgroundTeam)

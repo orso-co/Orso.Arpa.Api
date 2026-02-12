@@ -221,11 +221,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[CSV-Import Execute] SaveChangesAsync FAILED: {ex.GetType().Name}: {ex.Message}");
-                if (ex.InnerException != null)
-                {
-                    Console.WriteLine($"[CSV-Import Execute] Inner: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}");
-                }
+                Console.WriteLine($"[CSV-Import Execute] SaveChangesAsync FAILED: {ex}");
                 throw;
             }
 
