@@ -45,7 +45,18 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Queries
                         .ToListAsync(cancellationToken);
 
                 List<MusicianProfile> profiles = await _arpaContext.MusicianProfiles
-                    .AsQueryable()
+                    .Include(mp => mp.Person).ThenInclude(p => p.User)
+                    .Include(mp => mp.Person).ThenInclude(p => p.ContactDetails)
+                    .Include(mp => mp.Person).ThenInclude(p => p.Addresses)
+                    .Include(mp => mp.Person).ThenInclude(p => p.StakeholderGroups).ThenInclude(sg => sg.Section)
+                    .Include(mp => mp.Person).ThenInclude(p => p.Gender).ThenInclude(g => g.SelectValue)
+                    .Include(mp => mp.Person).ThenInclude(p => p.BankAccounts)
+                    .Include(mp => mp.Instrument)
+                    .Include(mp => mp.Qualification).ThenInclude(q => q.SelectValue)
+                    .Include(mp => mp.DoublingInstruments).ThenInclude(di => di.Section)
+                    .Include(mp => mp.PreferredPositionsTeam).ThenInclude(pp => pp.SelectValueSection).ThenInclude(svs => svs.SelectValue)
+                    .Include(mp => mp.Deactivation)
+                    .AsSplitQuery()
                     .Where(p => musicianProfileIds.Contains(p.Id))
                     .ToListAsync(cancellationToken);
 
