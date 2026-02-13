@@ -207,7 +207,12 @@ namespace Orso.Arpa.Persistence.Seed
                     OrgOrgSponsor,
                     OrgOrgAuftraggeber,
                     OrgOrgDienstleister,
-                    OrgOrgOther
+                    OrgOrgOther,
+                    // Appointment Categories - Info-Only
+                    Info,
+                    Deadline,
+                    PublicHoliday,
+                    Vacation
                 ];
             }
         }
@@ -853,5 +858,27 @@ namespace Orso.Arpa.Persistence.Seed
         public static SelectValue OrgOrgAuftraggeber => new(Guid.Parse("c0000004-0006-4000-8000-000000000006"), "Client", string.Empty);
         public static SelectValue OrgOrgDienstleister => new(Guid.Parse("c0000004-0007-4000-8000-000000000007"), "Service Provider", string.Empty);
         public static SelectValue OrgOrgOther => new(Guid.Parse("c0000004-0008-4000-8000-000000000008"), "Other", string.Empty);
+
+        // APPOINTMENT CATEGORIES - INFO-ONLY
+
+        /// <summary>
+        /// Info (allgemeine Information)
+        /// </summary>
+        public static SelectValue Info => new(Guid.Parse("e0000001-0001-4000-8000-000000000001"), "Info", string.Empty);
+
+        /// <summary>
+        /// Frist / Deadline
+        /// </summary>
+        public static SelectValue Deadline => new(Guid.Parse("e0000001-0002-4000-8000-000000000002"), "Deadline", string.Empty);
+
+        /// <summary>
+        /// Feiertag
+        /// </summary>
+        public static SelectValue PublicHoliday => new(Guid.Parse("e0000001-0003-4000-8000-000000000003"), "Public Holiday", string.Empty);
+
+        /// <summary>
+        /// Ferien
+        /// </summary>
+        public static SelectValue Vacation => new(Guid.Parse("e0000001-0004-4000-8000-000000000004"), "Vacation", string.Empty);
     }
 }

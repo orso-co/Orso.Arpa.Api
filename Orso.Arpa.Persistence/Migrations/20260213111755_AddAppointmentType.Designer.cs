@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -11,9 +12,11 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20260213111755_AddAppointmentType")]
+    partial class AddAppointmentType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,8 +326,10 @@ namespace Orso.Arpa.Persistence.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
+                        .HasDefaultValue("Default")
                         .HasColumnName("type");
 
                     b.Property<Guid?>("VenueId")
@@ -10029,38 +10034,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             Deleted = false,
                             Description = "",
                             Name = "Other"
-                        },
-                        new
-                        {
-                            Id = new Guid("e0000001-0001-4000-8000-000000000001"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Info"
-                        },
-                        new
-                        {
-                            Id = new Guid("e0000001-0002-4000-8000-000000000002"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Deadline"
-                        },
-                        new
-                        {
-                            Id = new Guid("e0000001-0003-4000-8000-000000000003"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Public Holiday"
-                        },
-                        new
-                        {
-                            Id = new Guid("e0000001-0004-4000-8000-000000000004"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            Description = "",
-                            Name = "Vacation"
                         });
                 });
 
@@ -10687,42 +10660,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
                             SelectValueId = new Guid("e030b53e-3615-4cd6-9fe6-0d818632a4b0"),
                             SortOrder = 95
-                        },
-                        new
-                        {
-                            Id = new Guid("e0000001-0001-4000-8000-000000000011"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("e0000001-0001-4000-8000-000000000001"),
-                            SortOrder = 100
-                        },
-                        new
-                        {
-                            Id = new Guid("e0000001-0002-4000-8000-000000000012"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("e0000001-0002-4000-8000-000000000002"),
-                            SortOrder = 105
-                        },
-                        new
-                        {
-                            Id = new Guid("e0000001-0003-4000-8000-000000000013"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("e0000001-0003-4000-8000-000000000003"),
-                            SortOrder = 110
-                        },
-                        new
-                        {
-                            Id = new Guid("e0000001-0004-4000-8000-000000000014"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Deleted = false,
-                            SelectValueCategoryId = new Guid("791c7439-c72a-47ca-ad8d-193e2cad09e1"),
-                            SelectValueId = new Guid("e0000001-0004-4000-8000-000000000004"),
-                            SortOrder = 115
                         },
                         new
                         {

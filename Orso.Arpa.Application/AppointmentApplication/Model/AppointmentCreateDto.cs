@@ -16,6 +16,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
         public string PublicDetails { get; set; }
         public string InternalDetails { get; set; }
         public AppointmentStatus? Status { get; set; }
+        public AppointmentType? Type { get; set; }
         public Guid? SalaryId { get; set; }
         public Guid? SalaryPatternId { get; set; }
         public Guid? ExpectationId { get; set; }
@@ -49,6 +50,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
             _ = RuleFor(d => d.PublicDetails)
                 .RestrictedFreeText(1000);
             _ = RuleFor(d => d.Status)
+                .IsInEnum();
+            _ = RuleFor(d => d.Type)
                 .IsInEnum();
         }
     }

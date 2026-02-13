@@ -20,6 +20,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
             public string PublicDetails { get; set; }
             public string InternalDetails { get; set; }
             public AppointmentStatus? Status { get; set; }
+            public AppointmentType? Type { get; set; }
             public Guid? SalaryId { get; set; }
             public Guid? SalaryPatternId { get; set; }
             public Guid? ExpectationId { get; set; }

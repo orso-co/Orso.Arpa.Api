@@ -24,6 +24,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
 
         public AppointmentStatus? Status { get; set; }
 
+        public AppointmentType Type { get; set; }
+
         [Translate(LocalizationKeys.SELECT_VALUE)]
         public string Category { get; set; }
 

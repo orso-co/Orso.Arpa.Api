@@ -46,12 +46,8 @@ namespace Orso.Arpa.Domain.General.GenericHandlers
 
                 _context.Entry(existingEntity)?.CurrentValues?.SetValues(existingEntity);
 
-                if (await _context.SaveChangesAsync(cancellationToken) > 0)
-                {
-                    return Unit.Value;
-                }
-
-                throw new AffectedRowCountMismatchException(existingEntity.GetType().Name);
+                await _context.SaveChangesAsync(cancellationToken);
+                return Unit.Value;
             }
         }
     }

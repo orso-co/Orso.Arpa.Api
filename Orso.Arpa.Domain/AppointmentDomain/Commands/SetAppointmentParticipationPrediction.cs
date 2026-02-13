@@ -43,7 +43,13 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
             public Validator(IArpaContext arpaContext)
             {
                 _ = RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext);
+                    .EntityExists<Command, Appointment>(arpaContext)
+                    .MustAsync(async (id, cancellation) =>
+                    {
+                        var appointment = await arpaContext.Appointments.FirstOrDefaultAsync(a => a.Id == id, cancellation);
+                        return appointment?.Type != AppointmentType.InfoOnly;
+                    })
+                    .WithMessage("Cannot set participation prediction on an info-only appointment");
                 _ = RuleFor(d => d.PersonId)
                     .EntityExists<Command, Person>(arpaContext);
             }

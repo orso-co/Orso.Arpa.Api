@@ -46,6 +46,13 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     {
                         var appointment = arpaContext.Appointments.Find(appointmentId);
                         if (appointment == null) return true;
+                        return appointment.Type != AppointmentType.InfoOnly;
+                    })
+                    .WithMessage("Cannot set participation result on an info-only appointment")
+                    .Must(appointmentId =>
+                    {
+                        var appointment = arpaContext.Appointments.Find(appointmentId);
+                        if (appointment == null) return true;
                         return appointment.StartTime.Date <= DateTime.Today;
                     })
                     .WithErrorCode("422")

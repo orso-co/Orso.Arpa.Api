@@ -21,6 +21,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
         public string PublicDetails { get; set; }
         public string InternalDetails { get; set; }
         public AppointmentStatus? Status { get; set; }
+        public AppointmentType? Type { get; set; }
         public Guid? SalaryId { get; set; }
         public Guid? SalaryPatternId { get; set; }
         public Guid? ExpectationId { get; set; }
@@ -35,6 +36,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
                 .ForMember(dest => dest.SalaryPatternId, opt => opt.MapFrom(src => src.Body.SalaryPatternId))
                 .ForMember(dest => dest.SalaryId, opt => opt.MapFrom(src => src.Body.SalaryId))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Body.Status))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Body.Type))
                 .ForMember(dest => dest.InternalDetails, opt => opt.MapFrom(src => src.Body.InternalDetails))
                 .ForMember(dest => dest.PublicDetails, opt => opt.MapFrom(src => src.Body.PublicDetails))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Body.Name))
@@ -71,6 +73,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
             _ = RuleFor(d => d.PublicDetails)
                 .RestrictedFreeText(1000);
             _ = RuleFor(d => d.Status)
+                .IsInEnum();
+            _ = RuleFor(d => d.Type)
                 .IsInEnum();
         }
     }

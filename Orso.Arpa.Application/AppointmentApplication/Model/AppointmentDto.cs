@@ -35,6 +35,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
 
         public AppointmentStatus? Status { get; set; }
 
+        public AppointmentType Type { get; set; }
+
         public Guid? SalaryId { get; set; }
 
         public Guid? SalaryPatternId { get; set; }

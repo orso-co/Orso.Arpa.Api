@@ -98,6 +98,12 @@ namespace Orso.Arpa.Persistence.Seed
                     new(Guid.Parse("642cc60f-e582-47ed-a40f-ea490dd3d950"), SelectValueCategorySeedData.AppointmentCategory.Id, SelectValueSeedData.WatchShow.Id, 90),
 
                     new(Guid.Parse("609f9ece-42ce-4cc9-a89b-1fec1ddbc5fe"), SelectValueCategorySeedData.AppointmentCategory.Id, SelectValueSeedData.Other.Id, 95),
+
+                    // Info-Only Categories
+                    new(Guid.Parse("e0000001-0001-4000-8000-000000000011"), SelectValueCategorySeedData.AppointmentCategory.Id, SelectValueSeedData.Info.Id, 100),
+                    new(Guid.Parse("e0000001-0002-4000-8000-000000000012"), SelectValueCategorySeedData.AppointmentCategory.Id, SelectValueSeedData.Deadline.Id, 105),
+                    new(Guid.Parse("e0000001-0003-4000-8000-000000000013"), SelectValueCategorySeedData.AppointmentCategory.Id, SelectValueSeedData.PublicHoliday.Id, 110),
+                    new(Guid.Parse("e0000001-0004-4000-8000-000000000014"), SelectValueCategorySeedData.AppointmentCategory.Id, SelectValueSeedData.Vacation.Id, 115),
                 ];
             }
         }

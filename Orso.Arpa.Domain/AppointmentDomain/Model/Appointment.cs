@@ -26,6 +26,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
             SalaryId = command.SalaryId;
             SalaryPatternId = command.SalaryPatternId;
             ExpectationId = command.ExpectationId;
+            Type = command.Type ?? AppointmentType.Default;
         }
 
         public Appointment(Guid? id, CopyAppointment.Command command, Appointment appointmentToCopy) : base(id)
@@ -43,6 +44,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
             AuditionId = appointmentToCopy.AuditionId;
             VenueId = appointmentToCopy.VenueId;
             AuditionId = appointmentToCopy.AuditionId;
+            Type = appointmentToCopy.Type;
         }
 
         [JsonConstructor]
@@ -62,7 +64,10 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
             SalaryId = command.SalaryId;
             SalaryPatternId = command.SalaryPatternId;
             ExpectationId = command.ExpectationId;
-
+            if (command.Type.HasValue)
+            {
+                Type = command.Type.Value;
+            }
         }
 
         public void Update(SetDates.Command command)
@@ -89,6 +94,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
         public string PublicDetails { get; private set; }
         public string InternalDetails { get; private set; }
         public AppointmentStatus? Status { get; private set; }
+        public AppointmentType Type { get; private set; } = AppointmentType.Default;
 
         #endregion
         #region Reference

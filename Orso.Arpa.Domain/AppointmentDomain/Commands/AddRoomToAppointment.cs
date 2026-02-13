@@ -5,6 +5,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Extensions;
@@ -46,7 +47,13 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
             public Validator(IArpaContext arpaContext)
             {
                 RuleFor(d => d.Id)
-                    .EntityExists<Command, Appointment>(arpaContext);
+                    .EntityExists<Command, Appointment>(arpaContext)
+                    .MustAsync(async (id, cancellation) =>
+                    {
+                        var appointment = await arpaContext.Appointments.FirstOrDefaultAsync(a => a.Id == id, cancellation);
+                        return appointment?.Type != AppointmentType.InfoOnly;
+                    })
+                    .WithMessage("Cannot add a room to an info-only appointment");
 
                 RuleFor(d => d.RoomId)
                     .Cascade(CascadeMode.Stop)

@@ -82,6 +82,8 @@ using Orso.Arpa.Application.MyProjectApplication.Interfaces;
 using Orso.Arpa.Application.MyProjectApplication.Services;
 using Orso.Arpa.Application.NewsApplication.Interfaces;
 using Orso.Arpa.Application.NewsApplication.Services;
+using Orso.Arpa.Application.AudienceApplication.Interfaces;
+using Orso.Arpa.Application.AudienceApplication.Services;
 using Orso.Arpa.Application.PersonApplication.Interfaces;
 using Orso.Arpa.Application.PersonApplication.Services;
 using Orso.Arpa.Application.MembershipImportApplication.Services;
@@ -483,6 +485,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IEducationService, EducationService>();
             _ = services.AddScoped<ICurriculumVitaeReferenceService, CurriculumVitaeReferenceService>();
             _ = services.AddScoped<IPersonService, PersonService>();
+            _ = services.AddScoped<IAudienceService, AudienceService>();
             _ = services.AddScoped<IOrganizationService, OrganizationService>();
             _ = services.AddScoped<IDoublingInstrumentService, DoublingInstrumentService>();
             _ = services.AddScoped<IMeService, MeService>();

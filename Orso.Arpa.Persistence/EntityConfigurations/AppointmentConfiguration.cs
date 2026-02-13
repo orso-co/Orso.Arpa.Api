@@ -55,7 +55,14 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasConversion<string>()
                 .HasMaxLength(100);
 
+            _ = builder
+                .Property(s => s.Type)
+                .HasConversion<string>()
+                .HasMaxLength(100)
+                .IsRequired();
+
             _ = builder.HasIndex(e => e.Status);
+            _ = builder.HasIndex(e => e.Type);
         }
     }
 }

@@ -7,6 +7,7 @@ using Ical.Net.DataTypes;
 using Ical.Net.Serialization;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Misc.Extensions;
 
@@ -38,12 +39,14 @@ public class ExportAppointmentsToIcs
                     a.InternalDetails,
                     Location = a.Venue != null ? a.Venue.Address.City : "-",
                     a.StartTime,
-                    a.EndTime
+                    a.EndTime,
+                    a.Type
                 })
                 .ToListAsync(cancellationToken);
 
             var events = appointmentList.Select(a =>
-                new CalendarEvent
+            {
+                var calEvent = new CalendarEvent
                 {
                     Summary = a.Name,
                     Description = a.CategoryName + " | " +
@@ -55,7 +58,15 @@ public class ExportAppointmentsToIcs
                     Location = a.Location,
                     Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.StartTime)),
                     End = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.EndTime))
-                }).ToList();
+                };
+
+                if (a.Type == AppointmentType.InfoOnly)
+                {
+                    calEvent.Transparency = TransparencyType.Transparent;
+                }
+
+                return calEvent;
+            }).ToList();
 
             var calendar = new Calendar();
 
