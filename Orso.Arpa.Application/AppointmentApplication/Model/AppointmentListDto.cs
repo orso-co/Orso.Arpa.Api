@@ -30,6 +30,10 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
         public string Category { get; set; }
 
         public IEnumerable<ReducedProjectDto> Projects { get; set; } = [];
+
+        public string PublicDetails { get; set; }
+
+        public string InternalDetails { get; set; }
     }
 
     public class AppointmentListDtoMappingProfile : Profile
