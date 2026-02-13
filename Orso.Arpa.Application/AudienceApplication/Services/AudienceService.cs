@@ -8,6 +8,7 @@ using Orso.Arpa.Application.AudienceApplication.Model;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.PersonDomain.Enums;
 using Orso.Arpa.Domain.PersonDomain.Model;
+using Orso.Arpa.Domain.ProjectDomain.Enums;
 
 namespace Orso.Arpa.Application.AudienceApplication.Services
 {
@@ -28,6 +29,8 @@ namespace Orso.Arpa.Application.AudienceApplication.Services
                 .Include(p => p.MusicianProfiles).ThenInclude(mp => mp.ProjectParticipations)
                 .Include(p => p.User)
                 .Include(p => p.ContactDetails)
+                .Include(p => p.PersonMemberships).ThenInclude(pm => pm.MembershipStatus).ThenInclude(ms => ms.SelectValue)
+                .Include(p => p.PersonMemberships).ThenInclude(pm => pm.SupportLevel).ThenInclude(sl => sl.SelectValue)
                 .AsQueryable();
 
             // Name search
@@ -46,30 +49,74 @@ namespace Orso.Arpa.Application.AudienceApplication.Services
                     p.MusicianProfiles.Any(mp => dto.SectionIds.Contains(mp.InstrumentId)));
             }
 
-            // Project filter with participation/invitation status
-            if (dto.ProjectId.HasValue)
+            // Project filter with AND/OR logic
+            if (dto.ProjectIds != null && dto.ProjectIds.Count > 0)
             {
-                query = query.Where(p =>
-                    p.MusicianProfiles.Any(mp =>
-                        mp.ProjectParticipations.Any(pp => pp.ProjectId == dto.ProjectId.Value)));
-
-                if (dto.ParticipationStatuses != null && dto.ParticipationStatuses.Count > 0)
+                if (dto.ProjectFilterOperator?.Equals("AND", StringComparison.OrdinalIgnoreCase) == true)
                 {
+                    // AND: person must have participation in ALL selected projects
+                    foreach (var projectId in dto.ProjectIds)
+                    {
+                        var pid = projectId;
+                        query = query.Where(p =>
+                            p.MusicianProfiles.Any(mp =>
+                                mp.ProjectParticipations.Any(pp => pp.ProjectId == pid)));
+                    }
+                }
+                else
+                {
+                    // OR: person must have participation in ANY selected project
                     query = query.Where(p =>
                         p.MusicianProfiles.Any(mp =>
-                            mp.ProjectParticipations.Any(pp =>
-                                pp.ProjectId == dto.ProjectId.Value &&
-                                dto.ParticipationStatuses.Contains(pp.ParticipationStatusResult.ToString()))));
+                            mp.ProjectParticipations.Any(pp => dto.ProjectIds.Contains(pp.ProjectId))));
                 }
 
-                if (dto.InvitationStatuses != null && dto.InvitationStatuses.Count > 0)
+                // Participation status filter (uses mapped enum fields, not [NotMapped] computed property)
+                if (dto.ParticipationStatuses != null && dto.ParticipationStatuses.Count > 0)
                 {
+                    bool wantAcceptance = dto.ParticipationStatuses.Contains("Acceptance");
+                    bool wantRefusal = dto.ParticipationStatuses.Contains("Refusal");
+                    bool wantPending = dto.ParticipationStatuses.Contains("Pending");
+
                     query = query.Where(p =>
                         p.MusicianProfiles.Any(mp =>
                             mp.ProjectParticipations.Any(pp =>
-                                pp.ProjectId == dto.ProjectId.Value &&
-                                pp.InvitationStatus.HasValue &&
-                                dto.InvitationStatuses.Contains(pp.InvitationStatus.Value.ToString()))));
+                                dto.ProjectIds.Contains(pp.ProjectId) && (
+                                    (wantAcceptance &&
+                                        pp.ParticipationStatusInner == ProjectParticipationStatusInner.Acceptance &&
+                                        pp.ParticipationStatusInternal == ProjectParticipationStatusInternal.Acceptance) ||
+                                    (wantRefusal && (
+                                        pp.ParticipationStatusInner == ProjectParticipationStatusInner.Refusal ||
+                                        pp.ParticipationStatusInner == ProjectParticipationStatusInner.RehearsalsOnly ||
+                                        pp.ParticipationStatusInternal == ProjectParticipationStatusInternal.Refusal)) ||
+                                    (wantPending &&
+                                        !(pp.ParticipationStatusInner == ProjectParticipationStatusInner.Acceptance &&
+                                          pp.ParticipationStatusInternal == ProjectParticipationStatusInternal.Acceptance) &&
+                                        !(pp.ParticipationStatusInner == ProjectParticipationStatusInner.Refusal ||
+                                          pp.ParticipationStatusInner == ProjectParticipationStatusInner.RehearsalsOnly ||
+                                          pp.ParticipationStatusInternal == ProjectParticipationStatusInternal.Refusal))
+                                ))));
+                }
+
+                // Invitation status filter (parse to enum for EF Core translation)
+                if (dto.InvitationStatuses != null && dto.InvitationStatuses.Count > 0)
+                {
+                    var invitationEnums = new List<ProjectInvitationStatus>();
+                    foreach (var s in dto.InvitationStatuses)
+                    {
+                        if (Enum.TryParse<ProjectInvitationStatus>(s, out var status))
+                            invitationEnums.Add(status);
+                    }
+
+                    if (invitationEnums.Count > 0)
+                    {
+                        query = query.Where(p =>
+                            p.MusicianProfiles.Any(mp =>
+                                mp.ProjectParticipations.Any(pp =>
+                                    dto.ProjectIds.Contains(pp.ProjectId) &&
+                                    pp.InvitationStatus.HasValue &&
+                                    invitationEnums.Contains(pp.InvitationStatus.Value))));
+                    }
                 }
             }
 
@@ -87,6 +134,53 @@ namespace Orso.Arpa.Application.AudienceApplication.Services
                 string country = dto.Country.Trim().ToLower();
                 query = query.Where(p =>
                     p.Addresses.Any(a => a.Country != null && a.Country.ToLower().Contains(country)));
+            }
+
+            // Account filter
+            if (dto.HasAccount.HasValue)
+            {
+                if (dto.HasAccount.Value)
+                    query = query.Where(p => p.User != null);
+                else
+                    query = query.Where(p => p.User == null);
+            }
+
+            // Membership filters
+            if (dto.HasMembership.HasValue)
+            {
+                if (dto.HasMembership.Value)
+                    query = query.Where(p => p.PersonMemberships.Any(pm => !pm.Deleted));
+                else
+                    query = query.Where(p => !p.PersonMemberships.Any(pm => !pm.Deleted));
+            }
+
+            if (dto.MembershipStatusIds != null && dto.MembershipStatusIds.Count > 0)
+            {
+                query = query.Where(p =>
+                    p.PersonMemberships.Any(pm => !pm.Deleted &&
+                        pm.MembershipStatusId.HasValue &&
+                        dto.MembershipStatusIds.Contains(pm.MembershipStatusId.Value)));
+            }
+
+            if (dto.SupportLevelIds != null && dto.SupportLevelIds.Count > 0)
+            {
+                query = query.Where(p =>
+                    p.PersonMemberships.Any(pm => !pm.Deleted &&
+                        pm.SupportLevelId.HasValue &&
+                        dto.SupportLevelIds.Contains(pm.SupportLevelId.Value)));
+            }
+
+            if (dto.MembershipActive.HasValue)
+            {
+                var now = DateTime.UtcNow;
+                if (dto.MembershipActive.Value)
+                    query = query.Where(p =>
+                        p.PersonMemberships.Any(pm => !pm.Deleted &&
+                            (!pm.ExitDate.HasValue || pm.ExitDate.Value > now)));
+                else
+                    query = query.Where(p =>
+                        p.PersonMemberships.Any(pm => !pm.Deleted &&
+                            pm.ExitDate.HasValue && pm.ExitDate.Value <= now));
             }
 
             // Score filters
@@ -108,7 +202,7 @@ namespace Orso.Arpa.Application.AudienceApplication.Services
                 .ToListAsync();
 
             // Map to DTOs
-            var items = persons.Select(p => MapToDto(p, dto.ProjectId)).ToList();
+            var items = persons.Select(p => MapToDto(p, dto.ProjectIds)).ToList();
 
             return new AudienceSearchResultDto
             {
@@ -155,6 +249,17 @@ namespace Orso.Arpa.Application.AudienceApplication.Services
             {
                 "givenname" => descending ? query.OrderByDescending(p => p.GivenName) : query.OrderBy(p => p.GivenName),
                 "surname" => descending ? query.OrderByDescending(p => p.Surname) : query.OrderBy(p => p.Surname),
+                "instrument" => descending
+                    ? query.OrderByDescending(p => p.MusicianProfiles
+                        .Where(mp => mp.IsMainProfile).Select(mp => mp.Instrument.Name).FirstOrDefault())
+                    : query.OrderBy(p => p.MusicianProfiles
+                        .Where(mp => mp.IsMainProfile).Select(mp => mp.Instrument.Name).FirstOrDefault()),
+                "city" => descending
+                    ? query.OrderByDescending(p => p.Addresses.OrderBy(a => a.Id).Select(a => a.City).FirstOrDefault())
+                    : query.OrderBy(p => p.Addresses.OrderBy(a => a.Id).Select(a => a.City).FirstOrDefault()),
+                "hasaccount" => descending
+                    ? query.OrderByDescending(p => p.User != null)
+                    : query.OrderBy(p => p.User != null),
                 "reliability" => descending ? query.OrderByDescending(p => p.Reliability) : query.OrderBy(p => p.Reliability),
                 "generalpreference" => descending ? query.OrderByDescending(p => p.GeneralPreference) : query.OrderBy(p => p.GeneralPreference),
                 "experiencelevel" => descending ? query.OrderByDescending(p => p.ExperienceLevel) : query.OrderBy(p => p.ExperienceLevel),
@@ -162,23 +267,33 @@ namespace Orso.Arpa.Application.AudienceApplication.Services
             };
         }
 
-        private static AudiencePersonDto MapToDto(Person p, Guid? projectId)
+        private static AudiencePersonDto MapToDto(Person p, List<Guid> projectIds)
         {
             var mainProfile = p.MusicianProfiles.FirstOrDefault(mp => mp.IsMainProfile)
                 ?? p.MusicianProfiles.FirstOrDefault();
 
-            string participationStatus = null;
-            string invitationStatus = null;
-            if (projectId.HasValue && mainProfile != null)
+            var projectParticipations = new List<ProjectParticipationInfoDto>();
+            if (projectIds != null && projectIds.Count > 0)
             {
-                var participation = mainProfile.ProjectParticipations
-                    .FirstOrDefault(pp => pp.ProjectId == projectId.Value);
-                if (participation != null)
-                {
-                    participationStatus = participation.ParticipationStatusResult.ToString();
-                    invitationStatus = participation.InvitationStatus?.ToString();
-                }
+                var allParticipations = p.MusicianProfiles
+                    .SelectMany(mp => mp.ProjectParticipations)
+                    .Where(pp => projectIds.Contains(pp.ProjectId))
+                    .ToList();
+
+                projectParticipations = allParticipations
+                    .Select(pp => new ProjectParticipationInfoDto
+                    {
+                        ProjectId = pp.ProjectId,
+                        ParticipationStatus = pp.ParticipationStatusResult.ToString(),
+                        InvitationStatus = pp.InvitationStatus?.ToString()
+                    })
+                    .ToList();
             }
+
+            var activeMembership = p.PersonMemberships
+                .Where(pm => !pm.Deleted)
+                .OrderByDescending(pm => pm.EntryDate)
+                .FirstOrDefault();
 
             return new AudiencePersonDto
             {
@@ -187,7 +302,13 @@ namespace Orso.Arpa.Application.AudienceApplication.Services
                 GivenName = p.GivenName,
                 Surname = p.Surname,
                 City = p.Addresses.FirstOrDefault()?.City,
+                MainInstrumentId = mainProfile?.InstrumentId,
                 MainInstrument = mainProfile?.Instrument?.Name,
+                AllInstrumentIds = p.MusicianProfiles
+                    .Where(mp => mp.Instrument != null)
+                    .Select(mp => mp.InstrumentId)
+                    .Distinct()
+                    .ToList(),
                 AllInstruments = p.MusicianProfiles
                     .Where(mp => mp.Instrument != null)
                     .Select(mp => mp.Instrument.Name)
@@ -203,8 +324,12 @@ namespace Orso.Arpa.Application.AudienceApplication.Services
                 ExperienceLevel = p.ExperienceLevel,
                 LevelAssessmentTeam = mainProfile?.LevelAssessmentTeam ?? 0,
                 ProfilePreferenceTeam = mainProfile?.ProfilePreferenceTeam ?? 0,
-                ParticipationStatus = participationStatus,
-                InvitationStatus = invitationStatus
+                ProjectParticipations = projectParticipations,
+                MembershipStatus = activeMembership?.MembershipStatus?.SelectValue?.Name,
+                SupportLevel = activeMembership?.SupportLevel?.SelectValue?.Name,
+                MembershipActive = activeMembership != null
+                    ? (!activeMembership.ExitDate.HasValue || activeMembership.ExitDate.Value > DateTime.UtcNow)
+                    : null
             };
         }
     }

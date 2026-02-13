@@ -16,7 +16,9 @@ namespace Orso.Arpa.Application.AudienceApplication.Model
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string City { get; set; }
+        public Guid? MainInstrumentId { get; set; }
         public string MainInstrument { get; set; }
+        public List<Guid> AllInstrumentIds { get; set; } = [];
         public List<string> AllInstruments { get; set; } = [];
         public bool HasAccount { get; set; }
         public string Email { get; set; }
@@ -25,6 +27,15 @@ namespace Orso.Arpa.Application.AudienceApplication.Model
         public byte ExperienceLevel { get; set; }
         public byte LevelAssessmentTeam { get; set; }
         public byte ProfilePreferenceTeam { get; set; }
+        public List<ProjectParticipationInfoDto> ProjectParticipations { get; set; } = [];
+        public string MembershipStatus { get; set; }
+        public string SupportLevel { get; set; }
+        public bool? MembershipActive { get; set; }
+    }
+
+    public class ProjectParticipationInfoDto
+    {
+        public Guid ProjectId { get; set; }
         public string ParticipationStatus { get; set; }
         public string InvitationStatus { get; set; }
     }

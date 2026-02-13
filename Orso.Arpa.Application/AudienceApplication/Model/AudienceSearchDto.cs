@@ -7,11 +7,17 @@ namespace Orso.Arpa.Application.AudienceApplication.Model
     {
         public string SearchQuery { get; set; }
         public List<Guid> SectionIds { get; set; }
-        public Guid? ProjectId { get; set; }
+        public List<Guid> ProjectIds { get; set; }
+        public string ProjectFilterOperator { get; set; } = "OR";
         public List<string> ParticipationStatuses { get; set; }
         public List<string> InvitationStatuses { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public bool? HasAccount { get; set; }
+        public bool? HasMembership { get; set; }
+        public List<Guid> MembershipStatusIds { get; set; }
+        public List<Guid> SupportLevelIds { get; set; }
+        public bool? MembershipActive { get; set; }
         public ScoreFilterDto ScoreFilter { get; set; }
         public int Skip { get; set; } = 0;
         public int Take { get; set; } = 50;
