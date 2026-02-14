@@ -47,7 +47,7 @@ public class EmailTemplatesController : BaseController
     /// </summary>
     [Authorize(Roles = RoleNames.Staff)]
     [HttpPost]
-    [RequestSizeLimit(10_485_760)] // 10 MB for template JSON + HTML
+    [RequestSizeLimit(104_857_600)] // 100 MB for template JSON + HTML
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult<EmailTemplateDto>> Post([FromBody] EmailTemplateCreateDto createDto)
@@ -61,7 +61,7 @@ public class EmailTemplatesController : BaseController
     /// </summary>
     [Authorize(Roles = RoleNames.Staff)]
     [HttpPut("{id}")]
-    [RequestSizeLimit(10_485_760)] // 10 MB for template JSON + HTML
+    [RequestSizeLimit(104_857_600)] // 100 MB for template JSON + HTML
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
