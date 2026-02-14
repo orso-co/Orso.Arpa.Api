@@ -53,6 +53,8 @@ using Orso.Arpa.Application.ChatApplication.Interfaces;
 using Orso.Arpa.Application.ChatApplication.Services;
 using Orso.Arpa.Application.EmailCampaignApplication.Interfaces;
 using Orso.Arpa.Application.EmailCampaignApplication.Services;
+using Orso.Arpa.Application.TodoApplication.Interfaces;
+using Orso.Arpa.Application.TodoApplication.Services;
 using Orso.Arpa.Application.BankAccountApplication.Interfaces;
 using Orso.Arpa.Application.BankAccountApplication.Services;
 using Orso.Arpa.Application.ClubApplication.Interfaces;
@@ -130,6 +132,7 @@ using Orso.Arpa.Domain.UserDomain.Interfaces;
 using Orso.Arpa.Infrastructure.Authentication;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
+using Orso.Arpa.Domain.EmailCampaignDomain.Interfaces;
 using Orso.Arpa.Infrastructure.FileManagement;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Infrastructure.Presence;
@@ -260,6 +263,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
             _ = services.AddScoped<IMusicPieceFileAccessor, AzureStorageMusicPieceFileAccessor>();
             _ = services.AddScoped<IChatAttachmentFileAccessor, LocalStorageChatAttachmentFileAccessor>();
+            _ = services.AddScoped<IEmailTemplateImageAccessor, LocalStorageEmailTemplateImageAccessor>();
             _ = services.AddImageSharp()
                 .RemoveProvider<PhysicalFileSystemProvider>()
                 .AddProvider<ArpaProfilePictureProvider>()
@@ -276,6 +280,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IFileAccessor, LocalStorageProfilePictureAccessor>();
             _ = services.AddScoped<IMusicPieceFileAccessor, LocalStorageMusicPieceFileAccessor>();
             _ = services.AddScoped<IChatAttachmentFileAccessor, LocalStorageChatAttachmentFileAccessor>();
+            _ = services.AddScoped<IEmailTemplateImageAccessor, LocalStorageEmailTemplateImageAccessor>();
 
             var cachePath = Configuration.GetValue<string>("LocalStorageConfiguration:ImageCachePath")
                 ?? "/data/image-cache";
@@ -519,6 +524,9 @@ namespace Orso.Arpa.Api
             // Email Campaigns
             _ = services.AddScoped<IEmailTemplateService, EmailTemplateService>();
             _ = services.AddScoped<IEmailCampaignService, EmailCampaignService>();
+
+            // Todos
+            _ = services.AddScoped<ITodoService, TodoService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 
