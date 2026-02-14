@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -11,9 +12,11 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20260214224320_AddTodoFeature")]
+    partial class AddTodoFeature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -6329,63 +6332,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasName("pk_news");
 
                     b.ToTable("news", (string)null);
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.NewsDomain.Model.NewsReadStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<Guid>("NewsId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("news_id");
-
-                    b.Property<DateTime>("ReadAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("read_at");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_news_read_statuses");
-
-                    b.HasIndex("NewsId")
-                        .HasDatabaseName("ix_news_read_statuses_news_id");
-
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_news_read_statuses_user_id");
-
-                    b.HasIndex("NewsId", "UserId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_news_read_statuses_news_id_user_id");
-
-                    b.ToTable("news_read_statuses", (string)null);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.OrganizationDomain.Model.Organization", b =>
@@ -15230,27 +15176,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("MusicianProfile");
 
                     b.Navigation("SelectValueMapping");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.NewsDomain.Model.NewsReadStatus", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.NewsDomain.Model.News", "News")
-                        .WithMany()
-                        .HasForeignKey("NewsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_news_read_statuses_news_news_id");
-
-                    b.HasOne("Orso.Arpa.Domain.UserDomain.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_news_read_statuses_users_user_id");
-
-                    b.Navigation("News");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.OrganizationDomain.Model.Organization", b =>

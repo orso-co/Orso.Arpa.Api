@@ -82,4 +82,24 @@ public class NewsController : BaseController
 
         return NoContent();
     }
+
+    [Authorize(Roles = RoleNames.PerformerOrStaff)]
+    [HttpPut("{id:guid}/read")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> MarkAsRead([FromRoute] Guid id)
+    {
+        await _newsService.MarkAsReadAsync(id);
+        return NoContent();
+    }
+
+    [Authorize(Roles = RoleNames.PerformerOrStaff)]
+    [HttpDelete("{id:guid}/read")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> MarkAsUnread([FromRoute] Guid id)
+    {
+        await _newsService.MarkAsUnreadAsync(id);
+        return NoContent();
+    }
 }

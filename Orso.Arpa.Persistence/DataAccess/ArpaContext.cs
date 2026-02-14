@@ -37,6 +37,7 @@ using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.StageSetupDomain.Model;
 using Orso.Arpa.Domain.ChatDomain.Model;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
+using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
 
@@ -82,6 +83,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<MusicianProfilePositionTeam> MusicianProfilePositionsTeam { get; set; }
         public DbSet<MusicianProfileSection> MusicianProfileSections { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<NewsReadStatus> NewsReadStatuses { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonMembership> PersonMemberships { get; set; }
         public DbSet<MembershipHistory> MembershipHistories { get; set; }
@@ -144,6 +146,11 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<EmailCampaignRecipient> EmailCampaignRecipients { get; set; }
         public DbSet<EmailCampaignAttachment> EmailCampaignAttachments { get; set; }
         public DbSet<EmailUnsubscription> EmailUnsubscriptions { get; set; }
+
+        // Todos
+        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<TodoComment> TodoComments { get; set; }
+        public DbSet<TodoDependency> TodoDependencies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

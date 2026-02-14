@@ -15,6 +15,11 @@ namespace Orso.Arpa.Domain.ChatDomain.Enums
         /// <summary>
         /// Global chat room (e.g., for all performers)
         /// </summary>
-        Global = 2
+        Global = 2,
+
+        /// <summary>
+        /// Chat room for TODO item comments/discussion
+        /// </summary>
+        Todo = 3
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.NewsApplication.Model;
 
@@ -17,4 +18,6 @@ public interface INewsService
     Task<NewsDto> GetByIdAsync(Guid id);
     Task ModifyAsync(NewsModifyDto modifyDto);
     Task DeleteAsync(Guid id);
+    Task MarkAsReadAsync(Guid newsId, CancellationToken cancellationToken = default);
+    Task MarkAsUnreadAsync(Guid newsId, CancellationToken cancellationToken = default);
 }
