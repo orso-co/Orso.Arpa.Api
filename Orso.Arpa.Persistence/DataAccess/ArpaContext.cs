@@ -36,6 +36,7 @@ using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.StageSetupDomain.Model;
 using Orso.Arpa.Domain.ChatDomain.Model;
+using Orso.Arpa.Domain.EmailCampaignDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
 
@@ -136,6 +137,13 @@ namespace Orso.Arpa.Persistence.DataAccess
         // Push Notifications
         public DbSet<PushSubscription> PushSubscriptions { get; set; }
         public DbSet<NotificationPreference> NotificationPreferences { get; set; }
+
+        // Email Campaigns
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
+        public DbSet<EmailCampaign> EmailCampaigns { get; set; }
+        public DbSet<EmailCampaignRecipient> EmailCampaignRecipients { get; set; }
+        public DbSet<EmailCampaignAttachment> EmailCampaignAttachments { get; set; }
+        public DbSet<EmailUnsubscription> EmailUnsubscriptions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

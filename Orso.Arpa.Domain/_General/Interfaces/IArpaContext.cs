@@ -23,6 +23,7 @@ using Orso.Arpa.Domain.SelectValueDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.ChatDomain.Model;
+using Orso.Arpa.Domain.EmailCampaignDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
 {
@@ -88,6 +89,13 @@ namespace Orso.Arpa.Domain.General.Interfaces
         // Push Notifications
         DbSet<PushSubscription> PushSubscriptions { get; set; }
         DbSet<NotificationPreference> NotificationPreferences { get; set; }
+
+        // Email Campaigns
+        DbSet<EmailTemplate> EmailTemplates { get; set; }
+        DbSet<EmailCampaign> EmailCampaigns { get; set; }
+        DbSet<EmailCampaignRecipient> EmailCampaignRecipients { get; set; }
+        DbSet<EmailCampaignAttachment> EmailCampaignAttachments { get; set; }
+        DbSet<EmailUnsubscription> EmailUnsubscriptions { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

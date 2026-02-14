@@ -51,6 +51,8 @@ using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Application.AuthApplication.Services;
 using Orso.Arpa.Application.ChatApplication.Interfaces;
 using Orso.Arpa.Application.ChatApplication.Services;
+using Orso.Arpa.Application.EmailCampaignApplication.Interfaces;
+using Orso.Arpa.Application.EmailCampaignApplication.Services;
 using Orso.Arpa.Application.BankAccountApplication.Interfaces;
 using Orso.Arpa.Application.BankAccountApplication.Services;
 using Orso.Arpa.Application.ClubApplication.Interfaces;
@@ -233,6 +235,7 @@ namespace Orso.Arpa.Api
             {
                 services.AddHttpClient();
                 services.AddHostedService<WarmupService>();
+                services.AddHostedService<EmailCampaignWorker>();
             }
         }
 
@@ -512,6 +515,10 @@ namespace Orso.Arpa.Api
             services.AddScoped<IStageSetupService, StageSetupService>();
             services.AddScoped<IStageSetupPositionService, StageSetupPositionService>();
             services.AddScoped<IStageSetupEquipmentService, StageSetupEquipmentService>();
+
+            // Email Campaigns
+            _ = services.AddScoped<IEmailTemplateService, EmailTemplateService>();
+            _ = services.AddScoped<IEmailCampaignService, EmailCampaignService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 
