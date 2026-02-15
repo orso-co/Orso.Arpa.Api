@@ -9,7 +9,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using Orso.Arpa.Domain.EmailCampaignDomain.Interfaces;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
+using Orso.Arpa.Domain.EmailCampaignDomain.Services;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Mail;
@@ -42,15 +44,18 @@ public static class SendTestEmail
         private readonly IArpaContext _arpaContext;
         private readonly EmailConfiguration _emailConfig;
         private readonly IConfiguration _configuration;
+        private readonly IEmailTemplateImageAccessor _imageAccessor;
 
         public Handler(
             IArpaContext arpaContext,
             EmailConfiguration emailConfig,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IEmailTemplateImageAccessor imageAccessor)
         {
             _arpaContext = arpaContext;
             _emailConfig = emailConfig;
             _configuration = configuration;
+            _imageAccessor = imageAccessor;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -86,9 +91,12 @@ public static class SendTestEmail
                 });
             }
 
+            // Replace base64 data URIs with hosted image URLs to reduce email size
+            string baseUrl = _configuration.GetValue<string>("EmailCampaignConfiguration:BaseUrl") ?? "https://arpa.loopus.it";
+            html = await EmailHtmlImageInliner.ReplaceBase64WithUrlsAsync(html, baseUrl, _imageAccessor);
+
             // Inject dummy tracking (test token)
             var testToken = Guid.NewGuid();
-            string baseUrl = _configuration.GetValue<string>("EmailCampaignConfiguration:BaseUrl") ?? "https://arpa.loopus.it";
             html = InjectTracking(html, testToken, baseUrl);
 
             // Send test email

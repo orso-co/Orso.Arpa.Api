@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 using Orso.Arpa.Domain.EmailCampaignDomain.Enums;
+using Orso.Arpa.Domain.EmailCampaignDomain.Interfaces;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
 using Orso.Arpa.Domain.EmailCampaignDomain.Services;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -144,6 +145,10 @@ public sealed class EmailCampaignWorker : BackgroundService
 
         EmailConfiguration emailConfig = serviceProvider.GetRequiredService<EmailConfiguration>();
         string baseUrl = GetBaseUrl(serviceProvider);
+
+        // Replace base64 data URIs with hosted image URLs to reduce email size
+        var imageAccessor = serviceProvider.GetRequiredService<IEmailTemplateImageAccessor>();
+        html = await EmailHtmlImageInliner.ReplaceBase64WithUrlsAsync(html, baseUrl, imageAccessor);
 
         foreach (EmailCampaignRecipient recipient in pendingRecipients)
         {
