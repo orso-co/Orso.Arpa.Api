@@ -132,7 +132,7 @@ public class EmailTemplatesController : BaseController
     /// <summary>
     /// Serves an uploaded email template image
     /// </summary>
-    [Authorize(Roles = RoleNames.Staff)]
+    [AllowAnonymous]
     [HttpGet("images/{filename}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
