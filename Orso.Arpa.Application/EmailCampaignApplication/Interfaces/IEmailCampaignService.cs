@@ -17,4 +17,5 @@ public interface IEmailCampaignService
     Task ScheduleAsync(Guid id, DateTime scheduledAt);
     Task CancelAsync(Guid id);
     Task<CampaignAnalyticsDto> GetAnalyticsAsync(Guid id);
+    Task SendTestAsync(Guid campaignId, string emailAddress);
 }

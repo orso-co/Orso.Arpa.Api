@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using MimeKit;
 using Orso.Arpa.Domain.EmailCampaignDomain.Enums;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
+using Orso.Arpa.Domain.EmailCampaignDomain.Services;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Mail;
 
@@ -113,8 +114,14 @@ public sealed class EmailCampaignWorker : BackgroundService
             return;
         }
 
-        // Get the HTML content
-        string html = campaign.PersonalizedHtml ?? campaign.EmailTemplate?.CompiledHtml;
+        // Get the HTML content: PersonalizedHtml > MJML compilation > legacy CompiledHtml
+        string html = campaign.PersonalizedHtml;
+        if (string.IsNullOrWhiteSpace(html) && !string.IsNullOrWhiteSpace(campaign.EmailTemplate?.MjmlSource))
+        {
+            var mjmlService = serviceProvider.GetRequiredService<IMjmlCompilationService>();
+            html = mjmlService.CompileToHtml(campaign.EmailTemplate.MjmlSource);
+        }
+        html ??= campaign.EmailTemplate?.CompiledHtml;
         if (string.IsNullOrWhiteSpace(html))
         {
             _logger.LogError("{Prefix} Campaign '{Name}' has no HTML content", LoggerPrefix, campaign.Name);

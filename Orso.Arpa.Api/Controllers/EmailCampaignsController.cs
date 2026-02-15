@@ -138,6 +138,20 @@ public class EmailCampaignsController : BaseController
     }
 
     /// <summary>
+    /// Sends a test email for a campaign to the specified address
+    /// </summary>
+    [Authorize(Roles = RoleNames.Staff)]
+    [HttpPost("{id:guid}/send-test")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> SendTest([FromRoute] Guid id, [FromBody] SendTestEmailDto dto)
+    {
+        await _emailCampaignService.SendTestAsync(id, dto.EmailAddress);
+        return NoContent();
+    }
+
+    /// <summary>
     /// Deletes an email campaign
     /// </summary>
     [Authorize(Roles = RoleNames.Staff)]

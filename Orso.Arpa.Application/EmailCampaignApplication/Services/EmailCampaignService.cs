@@ -79,4 +79,13 @@ public class EmailCampaignService :
             OpenRate = result.OpenRate
         };
     }
+
+    public async Task SendTestAsync(Guid campaignId, string emailAddress)
+    {
+        await _mediator.Send(new SendTestEmail.Command
+        {
+            CampaignId = campaignId,
+            EmailAddress = emailAddress
+        });
+    }
 }

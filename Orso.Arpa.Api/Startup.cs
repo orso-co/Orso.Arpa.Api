@@ -129,7 +129,9 @@ using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.MusicLibraryDomain;
 using Orso.Arpa.Domain.ChatDomain.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Interfaces;
+using Orso.Arpa.Domain.EmailCampaignDomain.Services;
 using Orso.Arpa.Infrastructure.Authentication;
+using Orso.Arpa.Infrastructure.EmailCampaign;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Domain.EmailCampaignDomain.Interfaces;
@@ -524,6 +526,7 @@ namespace Orso.Arpa.Api
             // Email Campaigns
             _ = services.AddScoped<IEmailTemplateService, EmailTemplateService>();
             _ = services.AddScoped<IEmailCampaignService, EmailCampaignService>();
+            _ = services.AddSingleton<IMjmlCompilationService, MjmlCompilationService>();
 
             // Todos
             _ = services.AddScoped<ITodoService, TodoService>();
