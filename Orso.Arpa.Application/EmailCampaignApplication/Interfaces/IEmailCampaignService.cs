@@ -13,6 +13,7 @@ public interface IEmailCampaignService
     Task ModifyAsync(EmailCampaignModifyDto modifyDto);
     Task DeleteAsync(Guid id);
     Task<int> AddRecipientsAsync(Guid campaignId, IList<Guid> personIds);
+    Task<int> RemoveRecipientsAsync(Guid campaignId, IList<Guid> personIds);
     Task SendAsync(Guid id);
     Task ScheduleAsync(Guid id, DateTime scheduledAt);
     Task CancelAsync(Guid id);

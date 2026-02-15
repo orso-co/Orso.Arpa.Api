@@ -51,6 +51,15 @@ public class EmailCampaignService :
         });
     }
 
+    public async Task<int> RemoveRecipientsAsync(Guid campaignId, IList<Guid> personIds)
+    {
+        return await _mediator.Send(new RemoveCampaignRecipients.Command
+        {
+            CampaignId = campaignId,
+            PersonIds = personIds
+        });
+    }
+
     public async Task SendAsync(Guid id)
     {
         await _mediator.Send(new SendEmailCampaign.Command { Id = id });

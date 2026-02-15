@@ -84,6 +84,20 @@ public class EmailCampaignsController : BaseController
     }
 
     /// <summary>
+    /// Removes recipients from a campaign
+    /// </summary>
+    [Authorize(Roles = RoleNames.Staff)]
+    [HttpPost("{id:guid}/recipients/remove")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<ActionResult<RemoveRecipientsResult>> RemoveRecipients([FromRoute] Guid id, [FromBody] RemoveRecipientsBody body)
+    {
+        int removedCount = await _emailCampaignService.RemoveRecipientsAsync(id, body.PersonIds);
+        return Ok(new RemoveRecipientsResult(removedCount));
+    }
+
+    /// <summary>
     /// Sends a campaign immediately
     /// </summary>
     [Authorize(Roles = RoleNames.Staff)]
@@ -166,5 +180,7 @@ public class EmailCampaignsController : BaseController
 
     public record AddRecipientsBody(IList<Guid> PersonIds);
     public record AddRecipientsResult(int AddedCount);
+    public record RemoveRecipientsBody(IList<Guid> PersonIds);
+    public record RemoveRecipientsResult(int RemovedCount);
     public record ScheduleBody(DateTime ScheduledAt);
 }
