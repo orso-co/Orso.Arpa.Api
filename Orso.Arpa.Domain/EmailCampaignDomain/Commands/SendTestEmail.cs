@@ -1,14 +1,15 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 using MailKit.Net.Smtp;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
-using Orso.Arpa.Domain.EmailCampaignDomain.Services;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Mail;
@@ -39,45 +40,49 @@ public static class SendTestEmail
     public class Handler : IRequestHandler<Command>
     {
         private readonly IArpaContext _arpaContext;
-        private readonly IMjmlCompilationService _mjmlService;
         private readonly EmailConfiguration _emailConfig;
         private readonly IConfiguration _configuration;
 
         public Handler(
             IArpaContext arpaContext,
-            IMjmlCompilationService mjmlService,
             EmailConfiguration emailConfig,
             IConfiguration configuration)
         {
             _arpaContext = arpaContext;
-            _mjmlService = mjmlService;
             _emailConfig = emailConfig;
             _configuration = configuration;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            EmailCampaign campaign = await _arpaContext.FindAsync<EmailCampaign>(new object[] { request.CampaignId }, cancellationToken)
-                ?? throw new ValidationException(new[]
+            // Use a projection query to only load the fields we need
+            // This avoids loading the full template (ProjectDataJson can be 68+ MB)
+            var campaignData = await _arpaContext.Set<EmailCampaign>()
+                .Where(c => c.Id == request.CampaignId)
+                .Select(c => new
+                {
+                    c.Subject,
+                    c.PersonalizedHtml,
+                    TemplateCompiledHtml = c.EmailTemplate != null ? c.EmailTemplate.CompiledHtml : null,
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (campaignData == null)
+            {
+                throw new ValidationException(new[]
                 {
                     new ValidationFailure(nameof(request.CampaignId), "Campaign not found.") { ErrorCode = "404" }
                 });
-
-            // Resolve HTML: PersonalizedHtml > CompiledHtml > MJML compilation (fallback)
-            // CompiledHtml is preferred over MJML compilation because templates with
-            // large inline images can cause the MJML renderer to hang
-            string html = campaign.PersonalizedHtml;
-            html ??= campaign.EmailTemplate?.CompiledHtml;
-            if (string.IsNullOrWhiteSpace(html) && !string.IsNullOrWhiteSpace(campaign.EmailTemplate?.MjmlSource))
-            {
-                html = _mjmlService.CompileToHtml(campaign.EmailTemplate.MjmlSource);
             }
+
+            // Resolve HTML: PersonalizedHtml > CompiledHtml
+            string html = campaignData.PersonalizedHtml ?? campaignData.TemplateCompiledHtml;
 
             if (string.IsNullOrWhiteSpace(html))
             {
                 throw new ValidationException(new[]
                 {
-                    new ValidationFailure(nameof(campaign.EmailTemplateId), "Template has no HTML content to send.") { ErrorCode = "422" }
+                    new ValidationFailure("EmailTemplateId", "Template has no HTML content to send.") { ErrorCode = "422" }
                 });
             }
 
@@ -87,7 +92,7 @@ public static class SendTestEmail
             html = InjectTracking(html, testToken, baseUrl);
 
             // Send test email
-            await SendEmailAsync(campaign.Subject, html, request.EmailAddress, baseUrl, testToken);
+            await SendEmailAsync(campaignData.Subject, html, request.EmailAddress, baseUrl, testToken);
 
             return Unit.Value;
         }
