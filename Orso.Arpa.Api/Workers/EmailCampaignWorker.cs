@@ -114,15 +114,25 @@ public sealed class EmailCampaignWorker : BackgroundService
             return;
         }
 
-        // Get the HTML content: PersonalizedHtml > CompiledHtml > MJML compilation (fallback)
-        // CompiledHtml is preferred over MJML compilation because templates with
-        // large inline images can cause the MJML renderer to hang
-        string html = campaign.PersonalizedHtml;
-        html ??= campaign.EmailTemplate?.CompiledHtml;
-        if (string.IsNullOrWhiteSpace(html) && !string.IsNullOrWhiteSpace(campaign.EmailTemplate?.MjmlSource))
+        // Use a projection query to load only the HTML fields we need.
+        // This avoids lazy-loading the full EmailTemplate entity which can be 85MB+
+        // (68MB ProjectDataJson + 8.5MB MjmlSource + 8.5MB CompiledHtml).
+        var htmlData = await arpaContext.Set<EmailCampaign>()
+            .Where(c => c.Id == campaign.Id)
+            .Select(c => new
+            {
+                c.PersonalizedHtml,
+                TemplateCompiledHtml = c.EmailTemplate != null ? c.EmailTemplate.CompiledHtml : null,
+                TemplateMjmlSource = c.EmailTemplate != null ? c.EmailTemplate.MjmlSource : null,
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        string html = htmlData?.PersonalizedHtml;
+        html ??= htmlData?.TemplateCompiledHtml;
+        if (string.IsNullOrWhiteSpace(html) && !string.IsNullOrWhiteSpace(htmlData?.TemplateMjmlSource))
         {
             var mjmlService = serviceProvider.GetRequiredService<IMjmlCompilationService>();
-            html = mjmlService.CompileToHtml(campaign.EmailTemplate.MjmlSource);
+            html = mjmlService.CompileToHtml(htmlData.TemplateMjmlSource);
         }
         if (string.IsNullOrWhiteSpace(html))
         {
