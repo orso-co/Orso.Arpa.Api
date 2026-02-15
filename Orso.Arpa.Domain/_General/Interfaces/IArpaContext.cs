@@ -24,6 +24,7 @@ using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.ChatDomain.Model;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
+using Orso.Arpa.Domain.InstrumentationDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
@@ -104,6 +105,11 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<TodoItem> TodoItems { get; set; }
         DbSet<TodoComment> TodoComments { get; set; }
         DbSet<TodoDependency> TodoDependencies { get; set; }
+
+        // Instrumentations
+        DbSet<Instrumentation> Instrumentations { get; set; }
+        DbSet<InstrumentationPosition> InstrumentationPositions { get; set; }
+        DbSet<InstrumentationPositionDoubling> InstrumentationPositionDoublings { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

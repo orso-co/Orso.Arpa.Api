@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.AppointmentApplication.Model;
+using Orso.Arpa.Application.InstrumentationApplication.Model;
+using Orso.Arpa.Application.InstrumentationApplication.Services;
 using Orso.Arpa.Application.ProjectApplication.Interfaces;
 using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Application.UrlApplication.Interfaces;
@@ -18,11 +20,13 @@ namespace Orso.Arpa.Api.Controllers
     {
         private readonly IProjectService _projectService;
         private readonly IUrlService _urlService;
+        private readonly IInstrumentationService _instrumentationService;
 
-        public ProjectsController(IProjectService projectService, IUrlService urlService)
+        public ProjectsController(IProjectService projectService, IUrlService urlService, IInstrumentationService instrumentationService)
         {
             _projectService = projectService;
             _urlService = urlService;
+            _instrumentationService = instrumentationService;
         }
 
         /// <summary>
@@ -232,5 +236,16 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         public record ResolveParticipationIdsBody(IEnumerable<Guid> ParticipationIds);
+
+        /// <summary>
+        /// Gets instrumentations for a project.
+        /// </summary>
+        [Authorize(Roles = RoleNames.Staff)]
+        [HttpGet("{id}/instrumentations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<InstrumentationDto>>> GetInstrumentations([FromRoute] Guid id)
+        {
+            return Ok(await _instrumentationService.GetByProjectIdAsync(id));
+        }
     }
 }
