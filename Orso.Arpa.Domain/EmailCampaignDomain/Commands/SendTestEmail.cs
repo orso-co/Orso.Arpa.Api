@@ -63,13 +63,15 @@ public static class SendTestEmail
                     new ValidationFailure(nameof(request.CampaignId), "Campaign not found.") { ErrorCode = "404" }
                 });
 
-            // Resolve HTML: PersonalizedHtml > MJML compilation > legacy CompiledHtml
+            // Resolve HTML: PersonalizedHtml > CompiledHtml > MJML compilation (fallback)
+            // CompiledHtml is preferred over MJML compilation because templates with
+            // large inline images can cause the MJML renderer to hang
             string html = campaign.PersonalizedHtml;
+            html ??= campaign.EmailTemplate?.CompiledHtml;
             if (string.IsNullOrWhiteSpace(html) && !string.IsNullOrWhiteSpace(campaign.EmailTemplate?.MjmlSource))
             {
                 html = _mjmlService.CompileToHtml(campaign.EmailTemplate.MjmlSource);
             }
-            html ??= campaign.EmailTemplate?.CompiledHtml;
 
             if (string.IsNullOrWhiteSpace(html))
             {
