@@ -120,7 +120,7 @@ public static class EmailHtmlImageInliner
                 string fileName = $"inline_{Guid.NewGuid():N}{extension}";
 
                 string storedFileName = await imageAccessor.SaveAsync(fileName, contentType, imageBytes);
-                string imageUrl = $"{baseUrl.TrimEnd('/')}/api/emailtemplateimages/{storedFileName}";
+                string imageUrl = $"{baseUrl.TrimEnd('/')}/api/emailtemplates/images/{storedFileName}";
 
                 // Append everything before the data URI, then the new URL
                 result.Append(html, pos, quotePos + 1 - pos);
