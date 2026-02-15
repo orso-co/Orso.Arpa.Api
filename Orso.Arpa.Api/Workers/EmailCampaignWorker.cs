@@ -114,14 +114,16 @@ public sealed class EmailCampaignWorker : BackgroundService
             return;
         }
 
-        // Get the HTML content: PersonalizedHtml > MJML compilation > legacy CompiledHtml
+        // Get the HTML content: PersonalizedHtml > CompiledHtml > MJML compilation (fallback)
+        // CompiledHtml is preferred over MJML compilation because templates with
+        // large inline images can cause the MJML renderer to hang
         string html = campaign.PersonalizedHtml;
+        html ??= campaign.EmailTemplate?.CompiledHtml;
         if (string.IsNullOrWhiteSpace(html) && !string.IsNullOrWhiteSpace(campaign.EmailTemplate?.MjmlSource))
         {
             var mjmlService = serviceProvider.GetRequiredService<IMjmlCompilationService>();
             html = mjmlService.CompileToHtml(campaign.EmailTemplate.MjmlSource);
         }
-        html ??= campaign.EmailTemplate?.CompiledHtml;
         if (string.IsNullOrWhiteSpace(html))
         {
             _logger.LogError("{Prefix} Campaign '{Name}' has no HTML content", LoggerPrefix, campaign.Name);
