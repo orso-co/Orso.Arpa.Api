@@ -62,25 +62,30 @@ public class NewsService :
         bool alreadyRead = await _arpaContext.NewsReadStatuses
             .AnyAsync(r => r.NewsId == newsId && r.UserId == userId, cancellationToken);
 
-        if (!alreadyRead)
+        if (alreadyRead)
         {
-            _arpaContext.Add(new NewsReadStatus(null, newsId, userId));
-            await _arpaContext.SaveChangesAsync(cancellationToken);
+            return;
         }
+
+        // Hard delete any soft-deleted entries to avoid unique constraint violation
+        await _arpaContext.NewsReadStatuses
+            .IgnoreQueryFilters()
+            .Where(r => r.NewsId == newsId && r.UserId == userId)
+            .ExecuteDeleteAsync(cancellationToken);
+
+        _arpaContext.Add(new NewsReadStatus(null, newsId, userId));
+        await _arpaContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task MarkAsUnreadAsync(Guid newsId, CancellationToken cancellationToken = default)
     {
         Guid userId = _tokenAccessor.UserId;
 
-        NewsReadStatus readStatus = await _arpaContext.NewsReadStatuses
-            .FirstOrDefaultAsync(r => r.NewsId == newsId && r.UserId == userId, cancellationToken);
-
-        if (readStatus != null)
-        {
-            _arpaContext.Remove(readStatus);
-            await _arpaContext.SaveChangesAsync(cancellationToken);
-        }
+        // Hard delete to free up the unique constraint for future re-reads
+        await _arpaContext.NewsReadStatuses
+            .IgnoreQueryFilters()
+            .Where(r => r.NewsId == newsId && r.UserId == userId)
+            .ExecuteDeleteAsync(cancellationToken);
     }
 
     private async Task<IEnumerable<NewsDto>> EnrichWithReadStatus(IEnumerable<NewsDto> newsDtos)
