@@ -1,13 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.MeApplication.Interfaces;
 using Orso.Arpa.Application.MeApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Infrastructure.Authorization;
 using static Orso.Arpa.Domain.UserDomain.Commands.SendMyQRCode;
 
@@ -16,10 +21,14 @@ namespace Orso.Arpa.Api.Controllers
     public class MeController : BaseController
     {
         private readonly IMeService _meService;
+        private readonly IArpaContext _arpaContext;
+        private readonly ITokenAccessor _tokenAccessor;
 
-        public MeController(IMeService meService)
+        public MeController(IMeService meService, IArpaContext arpaContext, ITokenAccessor tokenAccessor)
         {
             _meService = meService;
+            _arpaContext = arpaContext;
+            _tokenAccessor = tokenAccessor;
         }
 
         /// <summary>
@@ -112,6 +121,57 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> SetAppointmentParticipationPrediction(SetMyAppointmentParticipationPredictionDto setParticipationPrediction)
         {
             await _meService.SetMyAppointmentParticipationPredictionAsync(setParticipationPrediction);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Gets the dashboard layout for the current user
+        /// </summary>
+        /// <param name="type">Dashboard type (e.g. "performer" or "staff")</param>
+        /// <response code="200"></response>
+        [HttpGet("dashboard-layout/{type}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<DashboardLayoutDto>> GetDashboardLayout(string type)
+        {
+            Guid userId = _tokenAccessor.UserId;
+
+            UserDashboardLayout layout = await _arpaContext.UserDashboardLayouts
+                .AsNoTracking()
+                .FirstOrDefaultAsync(l => l.UserId == userId && l.DashboardType == type && !l.Deleted);
+
+            return Ok(new DashboardLayoutDto
+            {
+                DashboardType = type,
+                LayoutData = layout?.LayoutData
+            });
+        }
+
+        /// <summary>
+        /// Saves the dashboard layout for the current user
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <response code="204"></response>
+        [HttpPut("dashboard-layout")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> PutDashboardLayout([FromBody] DashboardLayoutDto dto)
+        {
+            Guid userId = _tokenAccessor.UserId;
+
+            UserDashboardLayout existing = await _arpaContext.UserDashboardLayouts
+                .FirstOrDefaultAsync(l => l.UserId == userId && l.DashboardType == dto.DashboardType && !l.Deleted);
+
+            if (existing != null)
+            {
+                existing.LayoutData = dto.LayoutData;
+            }
+            else
+            {
+                var layout = new UserDashboardLayout(null, userId, dto.DashboardType, dto.LayoutData);
+                _arpaContext.Add(layout);
+            }
+
+            await _arpaContext.SaveChangesAsync(CancellationToken.None);
+
             return NoContent();
         }
     }
