@@ -19,4 +19,5 @@ public interface IEmailCampaignService
     Task CancelAsync(Guid id);
     Task<CampaignAnalyticsDto> GetAnalyticsAsync(Guid id);
     Task SendTestAsync(Guid campaignId, string emailAddress);
+    Task<EmailCampaignDto> DuplicateAsync(Guid id, bool includeRecipients);
 }

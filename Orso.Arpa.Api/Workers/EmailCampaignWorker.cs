@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MimeKit;
 using Orso.Arpa.Domain.EmailCampaignDomain.Enums;
+using Orso.Arpa.Domain.EmailCampaignDomain.Interfaces;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
 using Orso.Arpa.Domain.EmailCampaignDomain.Services;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -114,15 +115,25 @@ public sealed class EmailCampaignWorker : BackgroundService
             return;
         }
 
-        // Get the HTML content: PersonalizedHtml > CompiledHtml > MJML compilation (fallback)
-        // CompiledHtml is preferred over MJML compilation because templates with
-        // large inline images can cause the MJML renderer to hang
-        string html = campaign.PersonalizedHtml;
-        html ??= campaign.EmailTemplate?.CompiledHtml;
-        if (string.IsNullOrWhiteSpace(html) && !string.IsNullOrWhiteSpace(campaign.EmailTemplate?.MjmlSource))
+        // Use a projection query to load only the HTML fields we need.
+        // This avoids lazy-loading the full EmailTemplate entity which can be 85MB+
+        // (68MB ProjectDataJson + 8.5MB MjmlSource + 8.5MB CompiledHtml).
+        var htmlData = await arpaContext.Set<EmailCampaign>()
+            .Where(c => c.Id == campaign.Id)
+            .Select(c => new
+            {
+                c.PersonalizedHtml,
+                TemplateCompiledHtml = c.EmailTemplate != null ? c.EmailTemplate.CompiledHtml : null,
+                TemplateMjmlSource = c.EmailTemplate != null ? c.EmailTemplate.MjmlSource : null,
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        string html = htmlData?.PersonalizedHtml;
+        html ??= htmlData?.TemplateCompiledHtml;
+        if (string.IsNullOrWhiteSpace(html) && !string.IsNullOrWhiteSpace(htmlData?.TemplateMjmlSource))
         {
             var mjmlService = serviceProvider.GetRequiredService<IMjmlCompilationService>();
-            html = mjmlService.CompileToHtml(campaign.EmailTemplate.MjmlSource);
+            html = mjmlService.CompileToHtml(htmlData.TemplateMjmlSource);
         }
         if (string.IsNullOrWhiteSpace(html))
         {
@@ -134,6 +145,10 @@ public sealed class EmailCampaignWorker : BackgroundService
 
         EmailConfiguration emailConfig = serviceProvider.GetRequiredService<EmailConfiguration>();
         string baseUrl = GetBaseUrl(serviceProvider);
+
+        // Replace base64 data URIs with hosted image URLs to reduce email size
+        var imageAccessor = serviceProvider.GetRequiredService<IEmailTemplateImageAccessor>();
+        html = await EmailHtmlImageInliner.ReplaceBase64WithUrlsAsync(html, baseUrl, imageAccessor);
 
         foreach (EmailCampaignRecipient recipient in pendingRecipients)
         {

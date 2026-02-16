@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Model;
+using Orso.Arpa.Domain.InstrumentationDomain.Model;
 using Orso.Arpa.Domain.MusicLibraryDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Commands;
 using Orso.Arpa.Domain.ProjectDomain.Enums;
@@ -95,6 +96,12 @@ namespace Orso.Arpa.Domain.ProjectDomain.Model
         /// </summary>
         [CascadingSoftDelete]
         public virtual ICollection<StageSetup> StageSetups { get; private set; } = new HashSet<StageSetup>();
+
+        /// <summary>
+        /// Instrumentations (Besetzungslisten) for this project
+        /// </summary>
+        [CascadingSoftDelete]
+        public virtual ICollection<Instrumentation> Instrumentations { get; private set; } = new HashSet<Instrumentation>();
 
         public override string ToString()
         {

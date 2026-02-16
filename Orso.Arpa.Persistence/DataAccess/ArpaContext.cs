@@ -37,6 +37,7 @@ using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.StageSetupDomain.Model;
 using Orso.Arpa.Domain.ChatDomain.Model;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
+using Orso.Arpa.Domain.InstrumentationDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
@@ -152,6 +153,11 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<TodoItem> TodoItems { get; set; }
         public DbSet<TodoComment> TodoComments { get; set; }
         public DbSet<TodoDependency> TodoDependencies { get; set; }
+
+        // Instrumentations
+        public DbSet<Instrumentation> Instrumentations { get; set; }
+        public DbSet<InstrumentationPosition> InstrumentationPositions { get; set; }
+        public DbSet<InstrumentationPositionDoubling> InstrumentationPositionDoublings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

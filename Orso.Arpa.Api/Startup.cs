@@ -74,6 +74,7 @@ using Orso.Arpa.Application.MeApplication.Services;
 using Orso.Arpa.Application.MusicPieceApplication.Interfaces;
 using Orso.Arpa.Application.MusicPieceApplication.Services;
 using Orso.Arpa.Application.SetlistApplication.Services;
+using Orso.Arpa.Application.InstrumentationApplication.Services;
 using Orso.Arpa.Application.StageSetupApplication.Interfaces;
 using Orso.Arpa.Application.StageSetupApplication.Services;
 using Orso.Arpa.Application.MusicianProfileApplication.Interfaces;
@@ -522,6 +523,7 @@ namespace Orso.Arpa.Api
             services.AddScoped<IStageSetupService, StageSetupService>();
             services.AddScoped<IStageSetupPositionService, StageSetupPositionService>();
             services.AddScoped<IStageSetupEquipmentService, StageSetupEquipmentService>();
+            services.AddScoped<IInstrumentationService, InstrumentationService>();
 
             // Email Campaigns
             _ = services.AddScoped<IEmailTemplateService, EmailTemplateService>();
