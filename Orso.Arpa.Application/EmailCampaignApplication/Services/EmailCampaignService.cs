@@ -32,18 +32,6 @@ public class EmailCampaignService :
         _arpaContext = arpaContext;
     }
 
-    public override async Task<EmailCampaignDto> GetByIdAsync(Guid id)
-    {
-        EmailCampaign entity = await _arpaContext.Set<EmailCampaign>()
-            .Include(c => c.Recipients)
-            .Include(c => c.Attachments)
-            .Include(c => c.EmailTemplate)
-            .FirstOrDefaultAsync(c => c.Id == id)
-            ?? throw new Domain.General.Errors.NotFoundException(nameof(EmailCampaign), nameof(id));
-
-        return _mapper.Map<EmailCampaignDto>(entity);
-    }
-
     public async Task<IEnumerable<EmailCampaignListDto>> GetAsync()
     {
         List<EmailCampaign> campaigns = await _arpaContext.Set<EmailCampaign>()
