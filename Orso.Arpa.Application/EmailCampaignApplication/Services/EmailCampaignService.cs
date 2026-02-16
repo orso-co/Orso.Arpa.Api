@@ -97,4 +97,14 @@ public class EmailCampaignService :
             EmailAddress = emailAddress
         });
     }
+
+    public async Task<EmailCampaignDto> DuplicateAsync(Guid id, bool includeRecipients)
+    {
+        Guid newCampaignId = await _mediator.Send(new DuplicateEmailCampaign.Command
+        {
+            CampaignId = id,
+            IncludeRecipients = includeRecipients
+        });
+        return await GetByIdAsync(newCampaignId);
+    }
 }

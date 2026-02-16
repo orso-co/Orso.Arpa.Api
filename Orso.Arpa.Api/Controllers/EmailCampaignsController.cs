@@ -166,6 +166,19 @@ public class EmailCampaignsController : BaseController
     }
 
     /// <summary>
+    /// Duplicates an email campaign as a new draft
+    /// </summary>
+    [Authorize(Roles = RoleNames.Staff)]
+    [HttpPost("{id:guid}/duplicate")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<EmailCampaignDto>> Duplicate([FromRoute] Guid id, [FromBody] DuplicateBody body)
+    {
+        EmailCampaignDto duplicatedDto = await _emailCampaignService.DuplicateAsync(id, body.IncludeRecipients);
+        return CreatedAtAction(nameof(GetById), new { id = duplicatedDto.Id }, duplicatedDto);
+    }
+
+    /// <summary>
     /// Deletes an email campaign
     /// </summary>
     [Authorize(Roles = RoleNames.Staff)]
@@ -183,4 +196,5 @@ public class EmailCampaignsController : BaseController
     public record RemoveRecipientsBody(IList<Guid> PersonIds);
     public record RemoveRecipientsResult(int RemovedCount);
     public record ScheduleBody(DateTime ScheduledAt);
+    public record DuplicateBody(bool IncludeRecipients = true);
 }
