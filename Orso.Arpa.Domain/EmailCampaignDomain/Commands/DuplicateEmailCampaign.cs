@@ -125,7 +125,8 @@ public static class DuplicateEmailCampaign
 
                 if (addedCount > 0)
                 {
-                    // Reload campaign to update TotalRecipients
+                    // Save recipients first, then update TotalRecipients
+                    await _arpaContext.SaveChangesAsync(cancellationToken);
                     _arpaContext.ClearChangeTracker();
                     var campaignToUpdate = await _arpaContext.FindAsync<EmailCampaign>(
                         new object[] { newCampaign.Id }, cancellationToken);
