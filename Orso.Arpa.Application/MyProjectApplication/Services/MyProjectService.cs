@@ -85,6 +85,18 @@ public class MyProjectService : IMyProjectService
                             .ThenInclude(f => f.Sections)
             .FirstOrDefaultAsync(p => p.Id == projectId);
 
+        if (project?.Setlist == null && project?.ParentId != null)
+        {
+            // Fallback: load parent project's setlist
+            project = await _arpaContext.Projects
+                .Include(p => p.Setlist)
+                    .ThenInclude(s => s.Pieces.OrderBy(p => p.SortOrder))
+                        .ThenInclude(sp => sp.MusicPiece)
+                            .ThenInclude(mp => mp.Files)
+                                .ThenInclude(f => f.Sections)
+                .FirstOrDefaultAsync(p => p.Id == project.ParentId);
+        }
+
         if (project?.Setlist == null)
         {
             return null;

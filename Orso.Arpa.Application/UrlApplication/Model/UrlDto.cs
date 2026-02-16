@@ -25,6 +25,7 @@ namespace Orso.Arpa.Application.UrlApplication.Model
         public string Href { get; set; }
         public string AnchorText { get; set; }
         public IList<RoleDto> Roles { get; set; } = [];
+        public bool IsInherited { get; set; }
     }
 
     public class UrlDtoMappingProfile : Profile
