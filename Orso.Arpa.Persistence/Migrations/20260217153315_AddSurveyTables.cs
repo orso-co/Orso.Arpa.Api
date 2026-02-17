@@ -177,7 +177,7 @@ namespace Orso.Arpa.Persistence.Migrations
                 table: "survey_user_responses",
                 columns: new[] { "survey_id", "user_id" },
                 unique: true,
-                filter: "\"Deleted\" = false");
+                filter: "deleted = false");
 
             migrationBuilder.CreateIndex(
                 name: "ix_survey_user_responses_user_id",

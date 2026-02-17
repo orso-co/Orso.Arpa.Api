@@ -11,7 +11,7 @@ public class SurveyUserResponseConfiguration : IEntityTypeConfiguration<SurveyUs
         _ = builder
             .HasIndex(e => new { e.SurveyId, e.UserId })
             .IsUnique()
-            .HasFilter("\"Deleted\" = false");
+            .HasFilter("deleted = false");
 
         _ = builder
             .Property(e => e.IpAddress)

@@ -12,7 +12,7 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    [Migration("20260217150123_AddSurveyTables")]
+    [Migration("20260217153315_AddSurveyTables")]
     partial class AddSurveyTables
     {
         /// <inheritdoc />
@@ -14068,7 +14068,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasIndex("SurveyId", "UserId")
                         .IsUnique()
                         .HasDatabaseName("ix_survey_user_responses_survey_id_user_id")
-                        .HasFilter("\"Deleted\" = false");
+                        .HasFilter("deleted = false");
 
                     b.ToTable("survey_user_responses", (string)null);
                 });

@@ -14065,7 +14065,7 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.HasIndex("SurveyId", "UserId")
                         .IsUnique()
                         .HasDatabaseName("ix_survey_user_responses_survey_id_user_id")
-                        .HasFilter("\"Deleted\" = false");
+                        .HasFilter("deleted = false");
 
                     b.ToTable("survey_user_responses", (string)null);
                 });
