@@ -42,7 +42,7 @@ public static class SendTestEmail
     public class Handler : IRequestHandler<Command>
     {
         private readonly IArpaContext _arpaContext;
-        private readonly EmailConfiguration _emailConfig;
+        private readonly EmailConfiguration _defaultEmailConfig;
         private readonly IConfiguration _configuration;
         private readonly IEmailTemplateImageAccessor _imageAccessor;
 
@@ -53,7 +53,7 @@ public static class SendTestEmail
             IEmailTemplateImageAccessor imageAccessor)
         {
             _arpaContext = arpaContext;
-            _emailConfig = emailConfig;
+            _defaultEmailConfig = emailConfig;
             _configuration = configuration;
             _imageAccessor = imageAccessor;
         }
@@ -99,8 +99,9 @@ public static class SendTestEmail
             var testToken = Guid.NewGuid();
             html = InjectTracking(html, testToken, baseUrl);
 
-            // Send test email
-            await SendEmailAsync(campaignData.Subject, html, request.EmailAddress, baseUrl, testToken);
+            // Send test email using campaign SMTP config if available
+            EmailConfiguration emailConfig = GetCampaignEmailConfig();
+            await SendEmailAsync(emailConfig, campaignData.Subject, html, request.EmailAddress, baseUrl, testToken);
 
             return Unit.Value;
         }
@@ -122,10 +123,29 @@ public static class SendTestEmail
             return html;
         }
 
-        private async Task SendEmailAsync(string subject, string htmlBody, string recipientEmail, string baseUrl, Guid trackingToken)
+        private EmailConfiguration GetCampaignEmailConfig()
+        {
+            var campaignSection = _configuration.GetSection("EmailCampaignConfiguration");
+            string smtpServer = campaignSection.GetValue<string>("SmtpServer");
+            if (!string.IsNullOrWhiteSpace(smtpServer))
+            {
+                return new EmailConfiguration
+                {
+                    SmtpServer = smtpServer,
+                    Port = campaignSection.GetValue("Port", 587),
+                    UserName = campaignSection.GetValue<string>("Username"),
+                    Password = campaignSection.GetValue<string>("Password"),
+                    From = campaignSection.GetValue<string>("From") ?? _defaultEmailConfig.From,
+                };
+            }
+
+            return _defaultEmailConfig;
+        }
+
+        private static async Task SendEmailAsync(EmailConfiguration emailConfig, string subject, string htmlBody, string recipientEmail, string baseUrl, Guid trackingToken)
         {
             var mimeMessage = new MimeMessage();
-            mimeMessage.From.Add(new MailboxAddress(_emailConfig.From, _emailConfig.From));
+            mimeMessage.From.Add(new MailboxAddress(emailConfig.From, emailConfig.From));
             mimeMessage.To.Add(new MailboxAddress(recipientEmail, recipientEmail));
             mimeMessage.Subject = $"[TEST] {subject}";
 
@@ -137,12 +157,12 @@ public static class SendTestEmail
             mimeMessage.Body = bodyBuilder.ToMessageBody();
 
             using var client = new SmtpClient();
-            await client.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, _emailConfig.Port == 465);
+            await client.ConnectAsync(emailConfig.SmtpServer, emailConfig.Port, emailConfig.Port == 465);
             client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-            if (!string.IsNullOrWhiteSpace(_emailConfig.UserName) && !string.IsNullOrWhiteSpace(_emailConfig.Password))
+            if (!string.IsNullOrWhiteSpace(emailConfig.UserName) && !string.IsNullOrWhiteSpace(emailConfig.Password))
             {
-                await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
+                await client.AuthenticateAsync(emailConfig.UserName, emailConfig.Password);
             }
 
             await client.SendAsync(mimeMessage);
