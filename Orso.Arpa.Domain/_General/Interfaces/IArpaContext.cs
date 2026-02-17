@@ -27,6 +27,7 @@ using Orso.Arpa.Domain.EmailCampaignDomain.Model;
 using Orso.Arpa.Domain.InstrumentationDomain.Model;
 using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
+using Orso.Arpa.Domain.MediathekDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
 {
@@ -118,6 +119,10 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<Instrumentation> Instrumentations { get; set; }
         DbSet<InstrumentationPosition> InstrumentationPositions { get; set; }
         DbSet<InstrumentationPositionDoubling> InstrumentationPositionDoublings { get; set; }
+
+        // Mediathek
+        DbSet<MediathekAccess> MediathekAccesses { get; set; }
+        DbSet<MediathekAccessRequest> MediathekAccessRequests { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

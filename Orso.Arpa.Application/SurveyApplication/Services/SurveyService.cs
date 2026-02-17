@@ -141,6 +141,67 @@ public class SurveyService :
         };
     }
 
+    public new async Task ModifyAsync(SurveyModifyDto modifyDto)
+    {
+        // 1. Update basic survey fields via base handler
+        ModifySurvey.Command command = _mapper.Map<ModifySurvey.Command>(modifyDto);
+        await _mediator.Send(command);
+
+        // 2. Replace questions: delete old ones, create new ones
+        if (modifyDto.Body.Questions != null)
+        {
+            Guid surveyId = modifyDto.Id;
+
+            // Delete existing answer options for this survey's questions
+            var existingQuestions = await _arpaContext.Set<SurveyQuestion>()
+                .Where(q => q.SurveyId == surveyId)
+                .Include(q => q.AnswerOptions)
+                .ToListAsync();
+
+            foreach (var question in existingQuestions)
+            {
+                foreach (var option in question.AnswerOptions.ToList())
+                {
+                    _arpaContext.Set<SurveyAnswerOption>().Remove(option);
+                }
+                _arpaContext.Set<SurveyQuestion>().Remove(question);
+            }
+            await _arpaContext.SaveChangesAsync(default);
+
+            // Create new questions and answer options
+            foreach (QuestionCreateDto questionDto in modifyDto.Body.Questions)
+            {
+                var question = new SurveyQuestion(
+                    null,
+                    surveyId,
+                    questionDto.QuestionText,
+                    (QuestionType)questionDto.QuestionType,
+                    questionDto.OrderIndex,
+                    questionDto.IsRequired,
+                    questionDto.Settings,
+                    questionDto.ValidationRules);
+
+                _ = _arpaContext.Add(question);
+
+                if (questionDto.AnswerOptions != null)
+                {
+                    foreach (AnswerOptionCreateDto optionDto in questionDto.AnswerOptions)
+                    {
+                        var option = new SurveyAnswerOption(
+                            null,
+                            question.Id,
+                            optionDto.OptionText,
+                            optionDto.OrderIndex,
+                            optionDto.Value);
+
+                        _ = _arpaContext.Add(option);
+                    }
+                }
+            }
+            await _arpaContext.SaveChangesAsync(default);
+        }
+    }
+
     public async Task ActivateAsync(Guid id)
     {
         await _mediator.Send(new ActivateSurvey.Command { Id = id });

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Orso.Arpa.Application.General.Extensions;
@@ -18,6 +19,7 @@ public class SurveyModifyBodyDto
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
     public bool IsAnonymous { get; set; }
+    public IList<QuestionCreateDto> Questions { get; set; } = new List<QuestionCreateDto>();
 }
 
 public class SurveyModifyDtoMappingProfile : Profile

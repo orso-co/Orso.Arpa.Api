@@ -55,6 +55,8 @@ using Orso.Arpa.Application.EmailCampaignApplication.Interfaces;
 using Orso.Arpa.Application.EmailCampaignApplication.Services;
 using Orso.Arpa.Application.SurveyApplication.Interfaces;
 using Orso.Arpa.Application.SurveyApplication.Services;
+using Orso.Arpa.Application.MediathekApplication.Interfaces;
+using Orso.Arpa.Application.MediathekApplication.Services;
 using Orso.Arpa.Application.TodoApplication.Interfaces;
 using Orso.Arpa.Application.TodoApplication.Services;
 using Orso.Arpa.Application.BankAccountApplication.Interfaces;
@@ -551,6 +553,9 @@ namespace Orso.Arpa.Api
             _ = AddConfiguration<ClubConfiguration>(services);
             _ = AddConfiguration<SeedConfiguration>(services);
             _ = AddConfiguration<VapidConfiguration>(services);
+
+            // Mediathek
+            _ = services.AddScoped<IMediathekService, MediathekService>();
 
             // Push Notifications
             _ = services.AddScoped<IWebPushService, WebPushService>();

@@ -40,6 +40,7 @@ using Orso.Arpa.Domain.EmailCampaignDomain.Model;
 using Orso.Arpa.Domain.InstrumentationDomain.Model;
 using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
+using Orso.Arpa.Domain.MediathekDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
 
@@ -166,6 +167,10 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<Instrumentation> Instrumentations { get; set; }
         public DbSet<InstrumentationPosition> InstrumentationPositions { get; set; }
         public DbSet<InstrumentationPositionDoubling> InstrumentationPositionDoublings { get; set; }
+
+        // Mediathek
+        public DbSet<MediathekAccess> MediathekAccesses { get; set; }
+        public DbSet<MediathekAccessRequest> MediathekAccessRequests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
