@@ -53,6 +53,8 @@ using Orso.Arpa.Application.ChatApplication.Interfaces;
 using Orso.Arpa.Application.ChatApplication.Services;
 using Orso.Arpa.Application.EmailCampaignApplication.Interfaces;
 using Orso.Arpa.Application.EmailCampaignApplication.Services;
+using Orso.Arpa.Application.SurveyApplication.Interfaces;
+using Orso.Arpa.Application.SurveyApplication.Services;
 using Orso.Arpa.Application.TodoApplication.Interfaces;
 using Orso.Arpa.Application.TodoApplication.Services;
 using Orso.Arpa.Application.BankAccountApplication.Interfaces;
@@ -241,8 +243,10 @@ namespace Orso.Arpa.Api
             {
                 services.AddHttpClient();
                 services.AddHostedService<WarmupService>();
-                services.AddHostedService<EmailCampaignWorker>();
             }
+
+            // EmailCampaignWorker runs in all environments (uses MailHog in Development)
+            services.AddHostedService<EmailCampaignWorker>();
         }
 
         private void ConfigureStorageAccount(IServiceCollection services)
@@ -532,6 +536,9 @@ namespace Orso.Arpa.Api
 
             // Todos
             _ = services.AddScoped<ITodoService, TodoService>();
+
+            // Surveys
+            _ = services.AddScoped<ISurveyService, SurveyService>();
 
             _ = services.AddScoped<IFileNameGenerator, FileNameGenerator>();
 
