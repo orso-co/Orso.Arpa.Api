@@ -42,7 +42,7 @@ sonarcloud:
     paths:
       - .sonar/cache
   before_script:
-    - apt-get update && apt-get install -y openjdk-17-jre
+    - apt-get update && apt-get install -y openjdk-17-jre nodejs npm
     - dotnet tool install --global dotnet-sonarscanner
     - export PATH="$PATH:$HOME/.dotnet/tools"
   script:
