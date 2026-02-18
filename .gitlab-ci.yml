@@ -49,11 +49,14 @@ sonarcloud:
     - export PATH="$PATH:$HOME/.dotnet/tools"
   script:
     - |
+      mkdir -p "${SONAR_USER_HOME}"
       dotnet sonarscanner begin \
         /k:"orso-co_Orso.Arpa.Api" \
         /o:"orso-co" \
         /d:sonar.host.url="https://sonarcloud.io" \
-        /d:sonar.token="${SONAR_TOKEN}"
+        /d:sonar.token="${SONAR_TOKEN}" \
+        /d:sonar.exclusions="**/*.py" \
+        /d:sonar.working.directory="${CI_PROJECT_DIR}/.scannerwork"
     - dotnet build --configuration Release
     - dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
   allow_failure: true
