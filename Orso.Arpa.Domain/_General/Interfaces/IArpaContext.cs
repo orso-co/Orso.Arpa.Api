@@ -90,6 +90,7 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<MessageReadReceipt> MessageReadReceipts { get; set; }
         DbSet<ChatFolder> ChatFolders { get; set; }
         DbSet<ChatFolderRoomAssignment> ChatFolderRoomAssignments { get; set; }
+        DbSet<ChatLiveLocationShare> ChatLiveLocationShares { get; set; }
 
         // Push Notifications
         DbSet<PushSubscription> PushSubscriptions { get; set; }

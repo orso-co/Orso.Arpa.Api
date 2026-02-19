@@ -37,6 +37,13 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         public bool IsOnline { get; set; }
     }
 
+    public enum ChatMessageTypeDto
+    {
+        Text = 0,
+        Location = 1,
+        LiveLocationStart = 2
+    }
+
     public class ChatMessageDto
     {
         public Guid Id { get; set; }
@@ -53,6 +60,8 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         public bool IsOwnMessage { get; set; }
         public bool CanEdit { get; set; }
         public bool CanDelete { get; set; }
+        public ChatMessageTypeDto MessageType { get; set; }
+        public LocationDataDto Location { get; set; }
 
         // Attachments (replaces ImageUrl - supports all file types)
         public List<ChatAttachmentDto> Attachments { get; set; } = new();
@@ -208,5 +217,55 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         public string Id { get; set; }
         public string Name { get; set; }
         public int Order { get; set; }
+    }
+
+    // ===== Location Sharing DTOs =====
+
+    public class LocationDataDto
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double? Accuracy { get; set; }
+        public string Label { get; set; }
+    }
+
+    public class LiveLocationShareDto
+    {
+        public Guid Id { get; set; }
+        public Guid ChatRoomId { get; set; }
+        public Guid UserId { get; set; }
+        public string UserName { get; set; }
+        public Guid MessageId { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double? Accuracy { get; set; }
+        public DateTime StartedAt { get; set; }
+        public DateTime ExpiresAt { get; set; }
+        public DateTime LastUpdatedAt { get; set; }
+        public bool IsActive { get; set; }
+    }
+
+    public class SendLocationDto
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double? Accuracy { get; set; }
+        public string Label { get; set; }
+    }
+
+    public class StartLiveLocationDto
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double? Accuracy { get; set; }
+        public int DurationMinutes { get; set; }
+    }
+
+    public class UpdateLiveLocationDto
+    {
+        public Guid ShareId { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double? Accuracy { get; set; }
     }
 }

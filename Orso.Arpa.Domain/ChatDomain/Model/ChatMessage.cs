@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Orso.Arpa.Domain.ChatDomain.Enums;
 using Orso.Arpa.Domain.General.Attributes;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
@@ -9,7 +10,7 @@ namespace Orso.Arpa.Domain.ChatDomain.Model
 {
     public class ChatMessage : BaseEntity
     {
-        public ChatMessage(Guid? id, Guid chatRoomId, Guid senderId, string content, Guid? replyToMessageId = null) : base(id)
+        public ChatMessage(Guid? id, Guid chatRoomId, Guid senderId, string content, Guid? replyToMessageId = null, ChatMessageType messageType = ChatMessageType.Text) : base(id)
         {
             ChatRoomId = chatRoomId;
             SenderId = senderId;
@@ -17,6 +18,7 @@ namespace Orso.Arpa.Domain.ChatDomain.Model
             ReplyToMessageId = replyToMessageId;
             SentAt = DateTime.UtcNow;
             IsDeleted = false;
+            MessageType = messageType;
         }
 
         [JsonConstructor]
@@ -67,6 +69,11 @@ namespace Orso.Arpa.Domain.ChatDomain.Model
         /// Soft delete flag - deleted messages show "Message deleted" instead of content
         /// </summary>
         public bool IsDeleted { get; private set; }
+
+        /// <summary>
+        /// Type of message (Text, Location, LiveLocationStart)
+        /// </summary>
+        public ChatMessageType MessageType { get; private set; }
 
         /// <summary>
         /// Optional: Reply to another message (threading)

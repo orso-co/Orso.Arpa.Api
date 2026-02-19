@@ -13,6 +13,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(4000)
                 .IsRequired();
 
+            _ = builder
+                .Property(e => e.MessageType)
+                .HasDefaultValue(Orso.Arpa.Domain.ChatDomain.Enums.ChatMessageType.Text);
+
             // Index for chat room message lookups (with time ordering)
             _ = builder.HasIndex(e => new { e.ChatRoomId, e.SentAt });
 

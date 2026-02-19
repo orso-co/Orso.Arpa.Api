@@ -138,6 +138,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<MessageReadReceipt> MessageReadReceipts { get; set; }
         public DbSet<ChatFolder> ChatFolders { get; set; }
         public DbSet<ChatFolderRoomAssignment> ChatFolderRoomAssignments { get; set; }
+        public DbSet<ChatLiveLocationShare> ChatLiveLocationShares { get; set; }
 
         // Push Notifications
         public DbSet<PushSubscription> PushSubscriptions { get; set; }

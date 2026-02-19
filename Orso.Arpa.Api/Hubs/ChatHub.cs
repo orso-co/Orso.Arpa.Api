@@ -190,6 +190,53 @@ namespace Orso.Arpa.Api.Hubs
 
         #endregion
 
+        #region Live Location
+
+        public async Task UpdateLiveLocation(Guid shareId, double latitude, double longitude, double? accuracy = null)
+        {
+            var userId = GetUserId();
+            if (userId == Guid.Empty)
+                return;
+
+            try
+            {
+                var share = await _chatService.UpdateLiveLocationAsync(new UpdateLiveLocationDto
+                {
+                    ShareId = shareId,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Accuracy = accuracy
+                });
+
+                if (share == null)
+                    return;
+
+                if (share.IsActive)
+                {
+                    await Clients.Group($"chat_{share.ChatRoomId}").SendAsync("LiveLocationUpdated", share);
+                }
+                else
+                {
+                    await Clients.Group($"chat_{share.ChatRoomId}").SendAsync("LiveLocationStopped", share);
+                }
+            }
+            catch (Exception)
+            {
+                await Clients.Caller.SendAsync("MessageError", new { Error = "Failed to update live location" });
+            }
+        }
+
+        public async Task StopLiveLocation(Guid shareId)
+        {
+            var userId = GetUserId();
+            if (userId == Guid.Empty)
+                return;
+
+            await _chatService.StopLiveLocationAsync(shareId);
+        }
+
+        #endregion
+
         #region Helper Methods
 
         private Guid GetUserId()
