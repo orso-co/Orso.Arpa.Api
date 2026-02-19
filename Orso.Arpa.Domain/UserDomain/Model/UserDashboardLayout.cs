@@ -20,6 +20,7 @@ namespace Orso.Arpa.Domain.UserDomain.Model
         public Guid UserId { get; private set; }
         public string DashboardType { get; private set; }
         public string LayoutData { get; set; }
+        public DateTime? LastVisitedAt { get; set; }
 
         public virtual User User { get; private set; }
     }

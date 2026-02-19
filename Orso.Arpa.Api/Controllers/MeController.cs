@@ -136,13 +136,30 @@ namespace Orso.Arpa.Api.Controllers
             Guid userId = _tokenAccessor.UserId;
 
             UserDashboardLayout layout = await _arpaContext.UserDashboardLayouts
-                .AsNoTracking()
                 .FirstOrDefaultAsync(l => l.UserId == userId && l.DashboardType == type && !l.Deleted);
+
+            DateTime? previousVisit;
+
+            if (layout != null)
+            {
+                previousVisit = layout.LastVisitedAt;
+                layout.LastVisitedAt = DateTime.UtcNow;
+            }
+            else
+            {
+                previousVisit = null;
+                layout = new UserDashboardLayout(null, userId, type, null);
+                layout.LastVisitedAt = DateTime.UtcNow;
+                _arpaContext.Add(layout);
+            }
+
+            await _arpaContext.SaveChangesAsync(CancellationToken.None);
 
             return Ok(new DashboardLayoutDto
             {
                 DashboardType = type,
-                LayoutData = layout?.LayoutData
+                LayoutData = layout.LayoutData,
+                LastVisitedAt = previousVisit
             });
         }
 
