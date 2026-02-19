@@ -52,6 +52,7 @@ namespace Orso.Arpa.Infrastructure.Authentication
             {
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Name, user.DisplayName),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
             };

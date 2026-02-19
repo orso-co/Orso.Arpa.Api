@@ -162,5 +162,15 @@ namespace Orso.Arpa.Application.ChatApplication.Interfaces
         Task<(byte[] content, string fileName, string contentType)?> GetAttachmentFileAsync(Guid attachmentId, CancellationToken cancellationToken = default);
 
         #endregion
+
+        #region Location Sharing
+
+        Task<ChatMessageDto> SendLocationAsync(Guid roomId, SendLocationDto dto, CancellationToken cancellationToken = default);
+        Task<(ChatMessageDto message, LiveLocationShareDto share)> StartLiveLocationAsync(Guid roomId, StartLiveLocationDto dto, CancellationToken cancellationToken = default);
+        Task<LiveLocationShareDto> UpdateLiveLocationAsync(UpdateLiveLocationDto dto, CancellationToken cancellationToken = default);
+        Task<bool> StopLiveLocationAsync(Guid shareId, CancellationToken cancellationToken = default);
+        Task<List<LiveLocationShareDto>> GetActiveLiveLocationsAsync(Guid roomId, CancellationToken cancellationToken = default);
+
+        #endregion
     }
 }

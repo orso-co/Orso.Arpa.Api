@@ -480,6 +480,95 @@ namespace Orso.Arpa.Api.Controllers
 
         #endregion
 
+        #region Location Sharing
+
+        [HttpPost("rooms/{roomId}/messages/location")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<ChatMessageDto>> SendLocation(Guid roomId, [FromBody] SendLocationDto dto)
+        {
+            try
+            {
+                var message = await _chatService.SendLocationAsync(roomId, dto);
+                await _chatHubContext.Clients.Group($"chat_{roomId}").SendAsync("ReceiveMessage", message);
+                return Ok(message);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
+            }
+        }
+
+        [HttpPost("rooms/{roomId}/live-location/start")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<LiveLocationShareDto>> StartLiveLocation(Guid roomId, [FromBody] StartLiveLocationDto dto)
+        {
+            try
+            {
+                var (message, share) = await _chatService.StartLiveLocationAsync(roomId, dto);
+                await _chatHubContext.Clients.Group($"chat_{roomId}").SendAsync("ReceiveMessage", message);
+                await _chatHubContext.Clients.Group($"chat_{roomId}").SendAsync("LiveLocationStarted", share);
+                return Ok(share);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
+            }
+        }
+
+        [HttpPut("live-location/{shareId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<LiveLocationShareDto>> UpdateLiveLocation(Guid shareId, [FromBody] UpdateLiveLocationDto dto)
+        {
+            dto.ShareId = shareId;
+            var share = await _chatService.UpdateLiveLocationAsync(dto);
+            if (share == null)
+                return NotFound();
+
+            if (share.IsActive)
+            {
+                await _chatHubContext.Clients.Group($"chat_{share.ChatRoomId}").SendAsync("LiveLocationUpdated", share);
+            }
+            else
+            {
+                await _chatHubContext.Clients.Group($"chat_{share.ChatRoomId}").SendAsync("LiveLocationStopped", share);
+            }
+
+            return Ok(share);
+        }
+
+        [HttpDelete("live-location/{shareId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> StopLiveLocation(Guid shareId)
+        {
+            var success = await _chatService.StopLiveLocationAsync(shareId);
+            if (!success)
+                return NotFound();
+
+            return NoContent();
+        }
+
+        [HttpGet("rooms/{roomId}/live-locations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<List<LiveLocationShareDto>>> GetActiveLiveLocations(Guid roomId)
+        {
+            try
+            {
+                var locations = await _chatService.GetActiveLiveLocationsAsync(roomId);
+                return Ok(locations);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
+            }
+        }
+
+        #endregion
+
         #region Attachments
 
         /// <summary>

@@ -249,6 +249,7 @@ namespace Orso.Arpa.Api
 
             // EmailCampaignWorker runs in all environments (uses MailHog in Development)
             services.AddHostedService<EmailCampaignWorker>();
+            services.AddHostedService<LiveLocationExpiryWorker>();
         }
 
         private void ConfigureStorageAccount(IServiceCollection services)

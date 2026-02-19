@@ -12,7 +12,7 @@ stages:
 variables:
   # GitLab Container Registry
   REGISTRY: git.loopus.it:5050
-  IMAGE_NAME: git.loopus.it:5050/arpa/arpa-api
+  IMAGE_NAME: git.loopus.it:5050/arpa/backend
 
 # =============================================================================
 # SECURITY STAGE - Snyk Vulnerability Scanning
@@ -72,38 +72,26 @@ sonarcloud:
 # BUILD AND DEPLOY STAGE
 # =============================================================================
 
-# Build und Deploy in einem Job (direkt auf raspi3)
-build-and-deploy:
+# Gemeinsame Konfiguration für Build+Deploy
+.build-and-deploy-base:
   stage: build-and-deploy
   image: alpine:latest
   needs: []  # Start sofort, nicht auf Security/Quality warten
-  rules:
-    - if: $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"
   before_script:
     - apk add --no-cache openssh-client git
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    # SSH Key aus base64 dekodieren
     - echo "$SSH_PRIVATE_KEY_B64" | base64 -d > ~/.ssh/deploy_key
     - chmod 600 ~/.ssh/deploy_key
     - ssh-keyscan -p 2222 ${SSH_HOST} >> ~/.ssh/known_hosts 2>/dev/null
   script:
     - |
-      # Deployment-Variablen basierend auf Branch
-      if [ "$CI_COMMIT_BRANCH" = "main" ]; then
-        DEPLOY_DIR="arpa-prod"
-        IMAGE_TAG="prod"
-      else
-        DEPLOY_DIR="arpa"
-        IMAGE_TAG="dev"
-      fi
-
       echo "=== Building and deploying to ~/$DEPLOY_DIR ==="
-      echo "Branch: $CI_COMMIT_BRANCH"
+      echo "Environment: $DEPLOY_ENV"
       echo "Image Tag: $IMAGE_TAG"
 
       # Git-URL mit CI-Token für authentifizierten Clone
-      GIT_URL="https://gitlab-ci-token:${CI_JOB_TOKEN}@git.loopus.it/arpa/arpa-api.git"
+      GIT_URL="https://gitlab-ci-token:${CI_JOB_TOKEN}@git.loopus.it/arpa/backend.git"
 
       # Auf raspi3 bauen und deployen (ARM64 nativ)
       ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 2222 ${SSH_USERNAME}@${SSH_HOST} << ENDSSH
@@ -111,12 +99,10 @@ build-and-deploy:
         cd ~/$DEPLOY_DIR
 
         echo "=== Pulling latest code ==="
-        # Temporäres Verzeichnis für Build
         BUILD_DIR="/tmp/arpa-build-\$\$"
         mkdir -p \$BUILD_DIR
         cd \$BUILD_DIR
 
-        # Code klonen (mit CI-Token)
         git clone --depth 1 --branch $CI_COMMIT_BRANCH $GIT_URL .
 
         echo "=== Building Docker image ==="
@@ -125,11 +111,9 @@ build-and-deploy:
         echo "=== Deploying ==="
         cd ~/$DEPLOY_DIR
 
-        # docker-compose.yml auf lokales Image umstellen
         sed -i 's|image: ghcr.io/orso-co/orso-arpa-api:.*|image: arpa-api:'$IMAGE_TAG'|g' docker-compose.yml
         sed -i 's|image: arpa-api:.*|image: arpa-api:'$IMAGE_TAG'|g' docker-compose.yml
 
-        # Container neu starten
         docker compose up -d --force-recreate api
 
         echo "=== Waiting for health check ==="
@@ -142,10 +126,8 @@ build-and-deploy:
           sleep 5
         done
 
-        # Status anzeigen
         docker compose ps
 
-        # Aufräumen
         rm -rf \$BUILD_DIR
         docker image prune -f
 
@@ -153,6 +135,29 @@ build-and-deploy:
       ENDSSH
   tags:
     - docker
+
+# DEV Deployment (develop Branch)
+deploy-dev:
+  extends: .build-and-deploy-base
+  variables:
+    DEPLOY_DIR: arpa
+    IMAGE_TAG: dev
+    DEPLOY_ENV: DEV
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
   environment:
-    name: $CI_COMMIT_REF_NAME
+    name: DEV
     url: https://arpa.loopus.it
+
+# PROD Deployment (main Branch)
+deploy-prod:
+  extends: .build-and-deploy-base
+  variables:
+    DEPLOY_DIR: arpa-prod
+    IMAGE_TAG: prod
+    DEPLOY_ENV: PROD
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  environment:
+    name: PROD
+    url: https://arpax.loopus.it

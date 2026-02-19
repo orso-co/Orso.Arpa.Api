@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -905,6 +906,20 @@ namespace Orso.Arpa.Application.ChatApplication.Services
                 }
             }
 
+            // Parse location data from content if applicable
+            LocationDataDto locationData = null;
+            if (!message.IsDeleted && (message.MessageType == ChatMessageType.Location || message.MessageType == ChatMessageType.LiveLocationStart))
+            {
+                try
+                {
+                    locationData = JsonSerializer.Deserialize<LocationDataDto>(message.Content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                }
+                catch
+                {
+                    // Content is not valid JSON, ignore
+                }
+            }
+
             return new ChatMessageDto
             {
                 Id = message.Id,
@@ -919,8 +934,10 @@ namespace Orso.Arpa.Application.ChatApplication.Services
                 ReplyToMessageId = message.ReplyToMessageId,
                 ReplyToMessage = replyToMessage,
                 IsOwnMessage = isOwnMessage,
-                CanEdit = isOwnMessage && isWithinEditWindow && !message.IsDeleted,
+                CanEdit = isOwnMessage && isWithinEditWindow && !message.IsDeleted && message.MessageType == ChatMessageType.Text,
                 CanDelete = isOwnMessage && !message.IsDeleted,
+                MessageType = (ChatMessageTypeDto)(int)message.MessageType,
+                Location = locationData,
                 Attachments = attachments.Select(a => new ChatAttachmentDto
                 {
                     Id = a.Id,
@@ -952,6 +969,187 @@ namespace Orso.Arpa.Application.ChatApplication.Services
             // Get the main instrument from the user's first musician profile
             var section = user?.Person?.MusicianProfiles?.FirstOrDefault()?.Instrument;
             return section?.Name;
+        }
+
+        #endregion
+
+        #region Location Sharing
+
+        public async Task<ChatMessageDto> SendLocationAsync(Guid roomId, SendLocationDto dto, CancellationToken cancellationToken = default)
+        {
+            var userId = _userAccessor.UserId;
+
+            if (!await IsUserMemberOfRoomAsync(roomId, cancellationToken))
+                throw new UnauthorizedAccessException("User is not a member of this chat room");
+
+            var locationJson = JsonSerializer.Serialize(new LocationDataDto
+            {
+                Latitude = dto.Latitude,
+                Longitude = dto.Longitude,
+                Accuracy = dto.Accuracy,
+                Label = dto.Label
+            });
+
+            var message = new ChatMessage(
+                Guid.NewGuid(),
+                roomId,
+                userId,
+                locationJson,
+                messageType: ChatMessageType.Location);
+
+            _context.ChatMessages.Add(message);
+
+            var room = await _context.ChatRooms.FindAsync(new object[] { roomId }, cancellationToken);
+            room?.UpdateLastMessageAt(message.SentAt);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return await MapToMessageDtoAsync(message, cancellationToken);
+        }
+
+        public async Task<(ChatMessageDto message, LiveLocationShareDto share)> StartLiveLocationAsync(Guid roomId, StartLiveLocationDto dto, CancellationToken cancellationToken = default)
+        {
+            var userId = _userAccessor.UserId;
+
+            if (!await IsUserMemberOfRoomAsync(roomId, cancellationToken))
+                throw new UnauthorizedAccessException("User is not a member of this chat room");
+
+            // Stop any existing active shares for this user in this room
+            var existingShares = await _context.ChatLiveLocationShares
+                .Where(s => s.ChatRoomId == roomId && s.UserId == userId && s.IsActive && !s.Deleted)
+                .ToListAsync(cancellationToken);
+
+            foreach (var existing in existingShares)
+            {
+                existing.Stop();
+            }
+
+            var locationJson = JsonSerializer.Serialize(new LocationDataDto
+            {
+                Latitude = dto.Latitude,
+                Longitude = dto.Longitude,
+                Accuracy = dto.Accuracy
+            });
+
+            var message = new ChatMessage(
+                Guid.NewGuid(),
+                roomId,
+                userId,
+                locationJson,
+                messageType: ChatMessageType.LiveLocationStart);
+
+            _context.ChatMessages.Add(message);
+
+            var expiresAt = DateTime.UtcNow.AddMinutes(dto.DurationMinutes);
+            var share = new ChatLiveLocationShare(
+                Guid.NewGuid(),
+                roomId,
+                userId,
+                message.Id,
+                dto.Latitude,
+                dto.Longitude,
+                dto.Accuracy,
+                expiresAt);
+
+            _context.ChatLiveLocationShares.Add(share);
+
+            var room = await _context.ChatRooms.FindAsync(new object[] { roomId }, cancellationToken);
+            room?.UpdateLastMessageAt(message.SentAt);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            var messageDto = await MapToMessageDtoAsync(message, cancellationToken);
+            var shareDto = await MapToLiveLocationShareDtoAsync(share, cancellationToken);
+
+            return (messageDto, shareDto);
+        }
+
+        public async Task<LiveLocationShareDto> UpdateLiveLocationAsync(UpdateLiveLocationDto dto, CancellationToken cancellationToken = default)
+        {
+            var userId = _userAccessor.UserId;
+
+            var share = await _context.ChatLiveLocationShares
+                .FirstOrDefaultAsync(s => s.Id == dto.ShareId && s.UserId == userId && !s.Deleted, cancellationToken);
+
+            if (share == null)
+                return null;
+
+            if (!share.IsActive || share.IsExpired())
+            {
+                share.Stop();
+                await _context.SaveChangesAsync(cancellationToken);
+                return await MapToLiveLocationShareDtoAsync(share, cancellationToken);
+            }
+
+            share.UpdatePosition(dto.Latitude, dto.Longitude, dto.Accuracy);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return await MapToLiveLocationShareDtoAsync(share, cancellationToken);
+        }
+
+        public async Task<bool> StopLiveLocationAsync(Guid shareId, CancellationToken cancellationToken = default)
+        {
+            var userId = _userAccessor.UserId;
+
+            var share = await _context.ChatLiveLocationShares
+                .FirstOrDefaultAsync(s => s.Id == shareId && s.UserId == userId && !s.Deleted, cancellationToken);
+
+            if (share == null)
+                return false;
+
+            share.Stop();
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return true;
+        }
+
+        public async Task<List<LiveLocationShareDto>> GetActiveLiveLocationsAsync(Guid roomId, CancellationToken cancellationToken = default)
+        {
+            if (!await IsUserMemberOfRoomAsync(roomId, cancellationToken))
+                throw new UnauthorizedAccessException("User is not a member of this chat room");
+
+            var shares = await _context.ChatLiveLocationShares
+                .Where(s => s.ChatRoomId == roomId && s.IsActive && !s.Deleted)
+                .ToListAsync(cancellationToken);
+
+            var result = new List<LiveLocationShareDto>();
+            foreach (var share in shares)
+            {
+                if (share.IsExpired())
+                {
+                    share.Stop();
+                    continue;
+                }
+                result.Add(await MapToLiveLocationShareDtoAsync(share, cancellationToken));
+            }
+
+            if (shares.Any(s => !s.IsActive))
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+
+            return result;
+        }
+
+        private async Task<LiveLocationShareDto> MapToLiveLocationShareDtoAsync(ChatLiveLocationShare share, CancellationToken cancellationToken)
+        {
+            var user = share.User ?? await _context.Users.FindAsync(new object[] { share.UserId }, cancellationToken);
+
+            return new LiveLocationShareDto
+            {
+                Id = share.Id,
+                ChatRoomId = share.ChatRoomId,
+                UserId = share.UserId,
+                UserName = GetUserDisplayName(user),
+                MessageId = share.MessageId,
+                Latitude = share.Latitude,
+                Longitude = share.Longitude,
+                Accuracy = share.Accuracy,
+                StartedAt = share.StartedAt,
+                ExpiresAt = share.ExpiresAt,
+                LastUpdatedAt = share.LastUpdatedAt,
+                IsActive = share.IsActive
+            };
         }
 
         #endregion

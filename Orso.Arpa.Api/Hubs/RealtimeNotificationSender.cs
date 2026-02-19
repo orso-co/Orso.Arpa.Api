@@ -24,5 +24,25 @@ namespace Orso.Arpa.Api.Hubs
                 timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });
         }
+
+        public async Task SendDashboardUpdateAsync(Guid userId, string widgetType, Guid? entityId = null)
+        {
+            await _hubContext.Clients.Group($"user_{userId}").SendAsync("DashboardUpdate", new
+            {
+                widgetType,
+                entityId,
+                timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            });
+        }
+
+        public async Task SendDashboardUpdateToAllAsync(string widgetType, Guid? entityId = null)
+        {
+            await _hubContext.Clients.All.SendAsync("DashboardUpdate", new
+            {
+                widgetType,
+                entityId,
+                timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            });
+        }
     }
 }
