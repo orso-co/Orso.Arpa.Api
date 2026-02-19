@@ -38,7 +38,9 @@ using Orso.Arpa.Domain.StageSetupDomain.Model;
 using Orso.Arpa.Domain.ChatDomain.Model;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
 using Orso.Arpa.Domain.InstrumentationDomain.Model;
+using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
+using Orso.Arpa.Domain.MediathekDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
 
@@ -154,10 +156,21 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<TodoComment> TodoComments { get; set; }
         public DbSet<TodoDependency> TodoDependencies { get; set; }
 
+        // Surveys
+        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
+        public DbSet<SurveyAnswerOption> SurveyAnswerOptions { get; set; }
+        public DbSet<SurveyUserResponse> SurveyUserResponses { get; set; }
+        public DbSet<SurveyAnswer> SurveyAnswers { get; set; }
+
         // Instrumentations
         public DbSet<Instrumentation> Instrumentations { get; set; }
         public DbSet<InstrumentationPosition> InstrumentationPositions { get; set; }
         public DbSet<InstrumentationPositionDoubling> InstrumentationPositionDoublings { get; set; }
+
+        // Mediathek
+        public DbSet<MediathekAccess> MediathekAccesses { get; set; }
+        public DbSet<MediathekAccessRequest> MediathekAccessRequests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -143,7 +143,7 @@ public sealed class EmailCampaignWorker : BackgroundService
             return;
         }
 
-        EmailConfiguration emailConfig = serviceProvider.GetRequiredService<EmailConfiguration>();
+        EmailConfiguration emailConfig = GetCampaignEmailConfig(serviceProvider);
         string baseUrl = GetBaseUrl(serviceProvider);
 
         // Replace base64 data URIs with hosted image URLs to reduce email size
@@ -223,10 +223,32 @@ public sealed class EmailCampaignWorker : BackgroundService
         await client.DisconnectAsync(true);
     }
 
+    private static EmailConfiguration GetCampaignEmailConfig(IServiceProvider serviceProvider)
+    {
+        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+        var campaignSection = configuration.GetSection("EmailCampaignConfiguration");
+
+        // Use dedicated campaign SMTP settings if configured, otherwise fall back to default EmailConfiguration
+        string smtpServer = campaignSection.GetValue<string>("SmtpServer");
+        if (!string.IsNullOrWhiteSpace(smtpServer))
+        {
+            return new EmailConfiguration
+            {
+                SmtpServer = smtpServer,
+                Port = campaignSection.GetValue("Port", 587),
+                UserName = campaignSection.GetValue<string>("Username"),
+                Password = campaignSection.GetValue<string>("Password"),
+                From = campaignSection.GetValue<string>("From") ?? serviceProvider.GetRequiredService<EmailConfiguration>().From,
+            };
+        }
+
+        return serviceProvider.GetRequiredService<EmailConfiguration>();
+    }
+
     private static string GetBaseUrl(IServiceProvider serviceProvider)
     {
         // Use configuration to determine the base URL for tracking links
-        var configuration = serviceProvider.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
         return configuration.GetValue<string>("EmailCampaignConfiguration:BaseUrl") ?? "https://arpa.loopus.it";
     }
 }

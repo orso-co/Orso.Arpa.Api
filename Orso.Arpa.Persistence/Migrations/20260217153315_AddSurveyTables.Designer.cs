@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -11,9 +12,11 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20260217153315_AddSurveyTables")]
+    partial class AddSurveyTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -5300,138 +5303,6 @@ namespace Orso.Arpa.Persistence.Migrations
                             ResourceKey = "SelectValueDto",
                             Text = "Ich besitze eins"
                         });
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.MediathekDomain.Model.MediathekAccess", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<DateTime>("GrantedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("granted_at");
-
-                    b.Property<string>("GrantedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("granted_by");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_active");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("notes");
-
-                    b.Property<Guid>("PersonId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("person_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_mediathek_accesses");
-
-                    b.HasIndex("IsActive")
-                        .HasDatabaseName("ix_mediathek_accesses_is_active");
-
-                    b.HasIndex("PersonId")
-                        .HasDatabaseName("ix_mediathek_accesses_person_id");
-
-                    b.ToTable("mediathek_accesses", (string)null);
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.MediathekDomain.Model.MediathekAccessRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<string>("Message")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("message");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<Guid>("PersonId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("person_id");
-
-                    b.Property<DateTime?>("ProcessedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("processed_at");
-
-                    b.Property<string>("ProcessedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("processed_by");
-
-                    b.Property<DateTime>("RequestedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("requested_at");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("status");
-
-                    b.HasKey("Id")
-                        .HasName("pk_mediathek_access_requests");
-
-                    b.HasIndex("PersonId")
-                        .HasDatabaseName("ix_mediathek_access_requests_person_id");
-
-                    b.HasIndex("Status")
-                        .HasDatabaseName("ix_mediathek_access_requests_status");
-
-                    b.ToTable("mediathek_access_requests", (string)null);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.MusicLibraryDomain.Model.MusicPiece", b =>
@@ -15635,30 +15506,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("InstrumentationPosition");
 
                     b.Navigation("Section");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.MediathekDomain.Model.MediathekAccess", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.PersonDomain.Model.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
-                        .HasConstraintName("fk_mediathek_accesses_persons_person_id");
-
-                    b.Navigation("Person");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.MediathekDomain.Model.MediathekAccessRequest", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.PersonDomain.Model.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
-                        .HasConstraintName("fk_mediathek_access_requests_persons_person_id");
-
-                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.MusicLibraryDomain.Model.MusicPiece", b =>

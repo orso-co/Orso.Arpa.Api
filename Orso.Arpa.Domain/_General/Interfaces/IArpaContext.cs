@@ -25,7 +25,9 @@ using Orso.Arpa.Domain.VenueDomain.Model;
 using Orso.Arpa.Domain.ChatDomain.Model;
 using Orso.Arpa.Domain.EmailCampaignDomain.Model;
 using Orso.Arpa.Domain.InstrumentationDomain.Model;
+using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
+using Orso.Arpa.Domain.MediathekDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
 {
@@ -106,10 +108,21 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<TodoComment> TodoComments { get; set; }
         DbSet<TodoDependency> TodoDependencies { get; set; }
 
+        // Surveys
+        DbSet<Survey> Surveys { get; set; }
+        DbSet<SurveyQuestion> SurveyQuestions { get; set; }
+        DbSet<SurveyAnswerOption> SurveyAnswerOptions { get; set; }
+        DbSet<SurveyUserResponse> SurveyUserResponses { get; set; }
+        DbSet<SurveyAnswer> SurveyAnswers { get; set; }
+
         // Instrumentations
         DbSet<Instrumentation> Instrumentations { get; set; }
         DbSet<InstrumentationPosition> InstrumentationPositions { get; set; }
         DbSet<InstrumentationPositionDoubling> InstrumentationPositionDoublings { get; set; }
+
+        // Mediathek
+        DbSet<MediathekAccess> MediathekAccesses { get; set; }
+        DbSet<MediathekAccessRequest> MediathekAccessRequests { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
