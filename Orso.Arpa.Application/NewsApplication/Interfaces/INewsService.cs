@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Orso.Arpa.Application.NewsApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 
 namespace Orso.Arpa.Application.NewsApplication.Interfaces;
 
@@ -20,4 +22,7 @@ public interface INewsService
     Task DeleteAsync(Guid id);
     Task MarkAsReadAsync(Guid newsId, CancellationToken cancellationToken = default);
     Task MarkAsUnreadAsync(Guid newsId, CancellationToken cancellationToken = default);
+    Task<IFileResult> SetImageAsync(Guid newsId, IFormFile file);
+    Task<IFileResult> GetImageAsync(Guid newsId);
+    Task DeleteImageAsync(Guid newsId);
 }

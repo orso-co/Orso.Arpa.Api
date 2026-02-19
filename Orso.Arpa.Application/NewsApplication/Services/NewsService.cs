@@ -5,12 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.General.Services;
 using Orso.Arpa.Application.NewsApplication.Interfaces;
 using Orso.Arpa.Application.NewsApplication.Model;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.NewsDomain.Commands;
+using Orso.Arpa.Domain.NewsDomain.Interfaces;
 using Orso.Arpa.Domain.NewsDomain.Model;
 
 namespace Orso.Arpa.Application.NewsApplication.Services;
@@ -27,12 +29,17 @@ public class NewsService :
 {
     private readonly IArpaContext _arpaContext;
     private readonly ITokenAccessor _tokenAccessor;
+    private readonly INewsImageAccessor _newsImageAccessor;
+    private readonly IFileNameGenerator _fileNameGenerator;
 
-    public NewsService(IMediator mediator, IMapper mapper, IArpaContext arpaContext, ITokenAccessor tokenAccessor)
+    public NewsService(IMediator mediator, IMapper mapper, IArpaContext arpaContext, ITokenAccessor tokenAccessor,
+        INewsImageAccessor newsImageAccessor, IFileNameGenerator fileNameGenerator)
         : base(mediator, mapper)
     {
         _arpaContext = arpaContext;
         _tokenAccessor = tokenAccessor;
+        _newsImageAccessor = newsImageAccessor;
+        _fileNameGenerator = fileNameGenerator;
     }
 
     public async Task<IEnumerable<NewsDto>> GetAsync(
@@ -108,6 +115,49 @@ public class NewsService :
         }
 
         return dtoList;
+    }
+
+    public async Task<IFileResult> SetImageAsync(Guid newsId, IFormFile file)
+    {
+        News news = await _arpaContext.Set<News>().FindAsync(newsId)
+            ?? throw new KeyNotFoundException($"News with id '{newsId}' not found");
+
+        if (!string.IsNullOrEmpty(news.ImageFileName))
+        {
+            await _newsImageAccessor.DeleteAsync(news.ImageFileName);
+        }
+
+        string fileName = _fileNameGenerator.GenerateRandomFileName(file);
+        IFileResult result = await _newsImageAccessor.SaveAsync(file, fileName);
+        news.SetImageFileName(fileName);
+        await _arpaContext.SaveChangesAsync(default);
+        return result;
+    }
+
+    public async Task<IFileResult> GetImageAsync(Guid newsId)
+    {
+        News news = await _arpaContext.Set<News>().FindAsync(newsId)
+            ?? throw new KeyNotFoundException($"News with id '{newsId}' not found");
+
+        if (string.IsNullOrEmpty(news.ImageFileName))
+        {
+            return null;
+        }
+
+        return await _newsImageAccessor.GetAsync(news.ImageFileName);
+    }
+
+    public async Task DeleteImageAsync(Guid newsId)
+    {
+        News news = await _arpaContext.Set<News>().FindAsync(newsId)
+            ?? throw new KeyNotFoundException($"News with id '{newsId}' not found");
+
+        if (!string.IsNullOrEmpty(news.ImageFileName))
+        {
+            await _newsImageAccessor.DeleteAsync(news.ImageFileName);
+            news.ClearImageFileName();
+            await _arpaContext.SaveChangesAsync(default);
+        }
     }
 
     private async Task<NewsDto> EnrichWithReadStatus(NewsDto dto)

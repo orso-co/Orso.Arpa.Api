@@ -19,6 +19,17 @@ public class News : BaseEntity
     public string Content { get; private set; }
     public string Url { get; private set; }
     public bool Show { get; private set; }
+    public string ImageFileName { get; private set; }
+
+    public void SetImageFileName(string fileName)
+    {
+        ImageFileName = fileName;
+    }
+
+    public void ClearImageFileName()
+    {
+        ImageFileName = null;
+    }
 
     public void Update(ModifyNews.Command command)
     {

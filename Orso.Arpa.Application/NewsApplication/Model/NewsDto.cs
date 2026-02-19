@@ -12,6 +12,7 @@ public class NewsDto : BaseEntityDto
     public string Content { get; set; }
     public string Url { get; set; }
     public bool Show { get; set; }
+    public string ImageFileName { get; set; }
     public bool IsRead { get; set; }
     public DateTime? ReadAt { get; set; }
 }

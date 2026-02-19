@@ -140,6 +140,7 @@ using Orso.Arpa.Infrastructure.EmailCampaign;
 using Orso.Arpa.Infrastructure.Authorization;
 using Orso.Arpa.Infrastructure.Authorization.AuthorizationRequirements;
 using Orso.Arpa.Domain.EmailCampaignDomain.Interfaces;
+using Orso.Arpa.Domain.NewsDomain.Interfaces;
 using Orso.Arpa.Infrastructure.FileManagement;
 using Orso.Arpa.Infrastructure.Localization;
 using Orso.Arpa.Infrastructure.Presence;
@@ -274,6 +275,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IMusicPieceFileAccessor, AzureStorageMusicPieceFileAccessor>();
             _ = services.AddScoped<IChatAttachmentFileAccessor, LocalStorageChatAttachmentFileAccessor>();
             _ = services.AddScoped<IEmailTemplateImageAccessor, LocalStorageEmailTemplateImageAccessor>();
+            _ = services.AddScoped<INewsImageAccessor, LocalStorageNewsImageAccessor>();
             _ = services.AddImageSharp()
                 .RemoveProvider<PhysicalFileSystemProvider>()
                 .AddProvider<ArpaProfilePictureProvider>()
@@ -291,6 +293,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IMusicPieceFileAccessor, LocalStorageMusicPieceFileAccessor>();
             _ = services.AddScoped<IChatAttachmentFileAccessor, LocalStorageChatAttachmentFileAccessor>();
             _ = services.AddScoped<IEmailTemplateImageAccessor, LocalStorageEmailTemplateImageAccessor>();
+            _ = services.AddScoped<INewsImageAccessor, LocalStorageNewsImageAccessor>();
 
             var cachePath = Configuration.GetValue<string>("LocalStorageConfiguration:ImageCachePath")
                 ?? "/data/image-cache";

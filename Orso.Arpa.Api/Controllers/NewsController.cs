@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.NewsApplication.Interfaces;
 using Orso.Arpa.Application.NewsApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers;
@@ -100,6 +101,42 @@ public class NewsController : BaseController
     public async Task<IActionResult> MarkAsUnread([FromRoute] Guid id)
     {
         await _newsService.MarkAsUnreadAsync(id);
+        return NoContent();
+    }
+
+    [Authorize(Roles = RoleNames.Staff)]
+    [HttpPost("{id:guid}/image")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SetImage([FromRoute] Guid id, [FromForm] IFormFile file)
+    {
+        IFileResult fileResult = await _newsService.SetImageAsync(id, file);
+        return CreatedAtAction(nameof(GetImage), new { id },
+            File(fileResult.Content, fileResult.ContentType, $"News_Image_{id}{fileResult.Extension}"));
+    }
+
+    [AllowAnonymous]
+    [HttpGet("{id:guid}/image")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetImage([FromRoute] Guid id)
+    {
+        IFileResult fileResult = await _newsService.GetImageAsync(id);
+        if (fileResult is null)
+        {
+            return NoContent();
+        }
+        return File(fileResult.Content, fileResult.ContentType, $"News_Image_{id}{fileResult.Extension}");
+    }
+
+    [Authorize(Roles = RoleNames.Staff)]
+    [HttpDelete("{id:guid}/image")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteImage([FromRoute] Guid id)
+    {
+        await _newsService.DeleteImageAsync(id);
         return NoContent();
     }
 }
