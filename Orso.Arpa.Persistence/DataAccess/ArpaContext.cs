@@ -41,6 +41,7 @@ using Orso.Arpa.Domain.InstrumentationDomain.Model;
 using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Domain.MediathekDomain.Model;
+using Orso.Arpa.Domain.TicketDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
 
@@ -172,6 +173,15 @@ namespace Orso.Arpa.Persistence.DataAccess
         // Mediathek
         public DbSet<MediathekAccess> MediathekAccesses { get; set; }
         public DbSet<MediathekAccessRequest> MediathekAccessRequests { get; set; }
+
+        // Tickets
+        public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketMessage> TicketMessages { get; set; }
+        public DbSet<TicketAttachment> TicketAttachments { get; set; }
+        public DbSet<TicketLink> TicketLinks { get; set; }
+        public DbSet<TicketVote> TicketVotes { get; set; }
+        public DbSet<TicketReaction> TicketReactions { get; set; }
+        public DbSet<TicketReadStatus> TicketReadStatuses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

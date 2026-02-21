@@ -51,6 +51,9 @@ using Orso.Arpa.Application.AuthApplication.Model;
 using Orso.Arpa.Application.AuthApplication.Services;
 using Orso.Arpa.Application.ChatApplication.Interfaces;
 using Orso.Arpa.Application.ChatApplication.Services;
+using Orso.Arpa.Application.TicketApplication.Interfaces;
+using Orso.Arpa.Application.TicketApplication.Services;
+using Orso.Arpa.Domain.TicketDomain.Interfaces;
 using Orso.Arpa.Application.EmailCampaignApplication.Interfaces;
 using Orso.Arpa.Application.EmailCampaignApplication.Services;
 using Orso.Arpa.Application.SurveyApplication.Interfaces;
@@ -274,6 +277,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IFileAccessor, AzureStorageProfilePictureAccessor>();
             _ = services.AddScoped<IMusicPieceFileAccessor, AzureStorageMusicPieceFileAccessor>();
             _ = services.AddScoped<IChatAttachmentFileAccessor, LocalStorageChatAttachmentFileAccessor>();
+            _ = services.AddScoped<ITicketFileAccessor, LocalStorageTicketFileAccessor>();
             _ = services.AddScoped<IEmailTemplateImageAccessor, LocalStorageEmailTemplateImageAccessor>();
             _ = services.AddScoped<INewsImageAccessor, LocalStorageNewsImageAccessor>();
             _ = services.AddImageSharp()
@@ -292,6 +296,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IFileAccessor, LocalStorageProfilePictureAccessor>();
             _ = services.AddScoped<IMusicPieceFileAccessor, LocalStorageMusicPieceFileAccessor>();
             _ = services.AddScoped<IChatAttachmentFileAccessor, LocalStorageChatAttachmentFileAccessor>();
+            _ = services.AddScoped<ITicketFileAccessor, LocalStorageTicketFileAccessor>();
             _ = services.AddScoped<IEmailTemplateImageAccessor, LocalStorageEmailTemplateImageAccessor>();
             _ = services.AddScoped<INewsImageAccessor, LocalStorageNewsImageAccessor>();
 
@@ -502,6 +507,7 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IAuditLogService, AuditLogService>();
             _ = services.AddScoped<IChatService, ChatService>();
             _ = services.AddScoped<IChatFolderService, ChatFolderService>();
+            _ = services.AddScoped<ITicketService, TicketService>();
             _ = services.AddScoped<IMusicianProfileService, MusicianProfileService>();
             _ = services.AddScoped<IEducationService, EducationService>();
             _ = services.AddScoped<ICurriculumVitaeReferenceService, CurriculumVitaeReferenceService>();

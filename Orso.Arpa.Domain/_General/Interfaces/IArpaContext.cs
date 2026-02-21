@@ -28,6 +28,7 @@ using Orso.Arpa.Domain.InstrumentationDomain.Model;
 using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Domain.MediathekDomain.Model;
+using Orso.Arpa.Domain.TicketDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
 {
@@ -124,6 +125,15 @@ namespace Orso.Arpa.Domain.General.Interfaces
         // Mediathek
         DbSet<MediathekAccess> MediathekAccesses { get; set; }
         DbSet<MediathekAccessRequest> MediathekAccessRequests { get; set; }
+
+        // Tickets
+        DbSet<Ticket> Tickets { get; set; }
+        DbSet<TicketMessage> TicketMessages { get; set; }
+        DbSet<TicketAttachment> TicketAttachments { get; set; }
+        DbSet<TicketLink> TicketLinks { get; set; }
+        DbSet<TicketVote> TicketVotes { get; set; }
+        DbSet<TicketReaction> TicketReactions { get; set; }
+        DbSet<TicketReadStatus> TicketReadStatuses { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
