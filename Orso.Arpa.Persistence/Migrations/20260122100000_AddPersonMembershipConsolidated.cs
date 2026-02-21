@@ -5,12 +5,19 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Orso.Arpa.Persistence.Migrations
 {
-    /// <inheritdoc />
-    public partial class AddPersonMembership : Migration
+    /// <summary>
+    /// Consolidated migration for PersonMembership entity.
+    /// Replaces 3 broken migrations that had no Designer.cs:
+    /// - 20260122130000_AddPersonMembership (CreateTable)
+    /// - 20260122140000_AddClubToPersonMembership (AddColumn club_id)
+    /// - 20260210100000_AddMandateFieldsToPersonMembership (AddColumns mandate_reference, mandate_date)
+    /// </summary>
+    public partial class AddPersonMembershipConsolidated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // Originally: 20260122130000_AddPersonMembership
             migrationBuilder.CreateTable(
                 name: "person_memberships",
                 columns: table => new
@@ -30,7 +37,12 @@ namespace Orso.Arpa.Persistence.Migrations
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     modified_by = table.Column<string>(type: "character varying(110)", maxLength: 110, nullable: true),
                     modified_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    // Originally: 20260122140000_AddClubToPersonMembership
+                    club_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    // Originally: 20260210100000_AddMandateFieldsToPersonMembership
+                    mandate_reference = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    mandate_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,6 +72,11 @@ namespace Orso.Arpa.Persistence.Migrations
                         column: x => x.payment_frequency_id,
                         principalTable: "select_value_mappings",
                         principalColumn: "id");
+                    table.ForeignKey(
+                        name: "fk_person_memberships_select_value_mappings_club_id",
+                        column: x => x.club_id,
+                        principalTable: "select_value_mappings",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -86,6 +103,11 @@ namespace Orso.Arpa.Persistence.Migrations
                 name: "ix_person_memberships_payment_frequency_id",
                 table: "person_memberships",
                 column: "payment_frequency_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_person_memberships_club_id",
+                table: "person_memberships",
+                column: "club_id");
         }
 
         /// <inheritdoc />
