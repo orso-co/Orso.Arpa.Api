@@ -30,10 +30,11 @@ namespace Orso.Arpa.Domain.TicketDomain.Model
             Description = description;
         }
 
-        public void UpdateAdminFields(TicketStatus? status, int? adminPriority, TicketEffort? effort, int? estimatedMinutes, int? spentMinutes)
+        public void UpdateAdminFields(TicketStatus? status, int? adminPriority, TicketEffort? effort, int? estimatedMinutes, int? spentMinutes, TicketType? type)
         {
             if (status.HasValue) Status = status.Value;
             if (adminPriority.HasValue) AdminPriority = adminPriority.Value;
+            if (type.HasValue) Type = type.Value;
             Effort = effort;
             EstimatedMinutes = estimatedMinutes;
             SpentMinutes = spentMinutes;

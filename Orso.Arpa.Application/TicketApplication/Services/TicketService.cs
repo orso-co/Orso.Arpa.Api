@@ -190,7 +190,11 @@ namespace Orso.Arpa.Application.TicketApplication.Services
                 if (!string.IsNullOrEmpty(dto.Effort) && Enum.TryParse<TicketEffort>(dto.Effort, true, out var e))
                     effortEnum = e;
 
-                ticket.UpdateAdminFields(statusEnum, dto.AdminPriority, effortEnum, dto.EstimatedMinutes, dto.SpentMinutes);
+                TicketType? typeEnum = null;
+                if (!string.IsNullOrEmpty(dto.Type) && Enum.TryParse<TicketType>(dto.Type, true, out var t))
+                    typeEnum = t;
+
+                ticket.UpdateAdminFields(statusEnum, dto.AdminPriority, effortEnum, dto.EstimatedMinutes, dto.SpentMinutes, typeEnum);
             }
 
             await _context.SaveChangesAsync(cancellationToken);

@@ -80,20 +80,9 @@ namespace Orso.Arpa.Api.Hubs
 
         private Guid GetUserId()
         {
-            // There are multiple nameidentifier claims - one is the username, one is the GUID
-            // Find the one that is a valid GUID
-            var nameIdentifierClaims = Context.User?.Claims?
-                .Where(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)
-                .Select(c => c.Value);
-
-            foreach (var claim in nameIdentifierClaims ?? Enumerable.Empty<string>())
-            {
-                if (Guid.TryParse(claim, out var userId))
-                {
-                    return userId;
-                }
-            }
-            return Guid.Empty;
+            // With MapInboundClaims=false, the user ID GUID is in the "sub" claim
+            var subClaim = Context.User?.Claims?.FirstOrDefault(c => c.Type == "sub")?.Value;
+            return Guid.TryParse(subClaim, out var userId) ? userId : Guid.Empty;
         }
 
         private Guid GetPersonId()

@@ -4,6 +4,7 @@ namespace Orso.Arpa.Domain.TicketDomain.Enums
     {
         Bug = 1,
         Feature = 2,
-        Optimization = 3
+        Optimization = 3,
+        Support = 4
     }
 }
