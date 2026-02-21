@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.General.Services;
 using Orso.Arpa.Application.PersonApplication.Interfaces;
 using Orso.Arpa.Application.PersonApplication.Model;
@@ -23,8 +24,11 @@ namespace Orso.Arpa.Application.PersonApplication.Services
         PersonModifyBodyDto,
         ModifyPerson.Command>, IPersonService
     {
-        public PersonService(IMediator mediator, IMapper mapper) : base(mediator, mapper)
+        private readonly IArpaContext _arpaContext;
+
+        public PersonService(IMediator mediator, IMapper mapper, IArpaContext arpaContext) : base(mediator, mapper)
         {
+            _arpaContext = arpaContext;
         }
 
         public async Task AddStakeholderGroupAsync(PersonAddStakeholderGroupDto addStakeholderGroupDto)
@@ -78,6 +82,49 @@ namespace Orso.Arpa.Application.PersonApplication.Services
         public async Task<IList<ReducedPersonDto>> GetBirthdayChildrenAsync(DateTime date) {
             var persons = await _mediator.Send(new ListBirthdayChildren.Query { Date = date });
             return _mapper.Map<IList<ReducedPersonDto>>(persons);
+        }
+
+        public async Task<IEnumerable<PersonSearchResultDto>> SearchAsync(string query, int take, bool? hasAccount)
+        {
+            var normalizedQuery = (query ?? "").Trim().ToLower();
+
+            IQueryable<Person> queryable = _arpaContext.Persons
+                .AsNoTracking()
+                .Include(p => p.User);
+
+            if (!string.IsNullOrEmpty(normalizedQuery))
+            {
+                queryable = queryable.Where(p =>
+                    p.GivenName.ToLower().Contains(normalizedQuery) ||
+                    p.Surname.ToLower().Contains(normalizedQuery) ||
+                    p.DisplayName.ToLower().Contains(normalizedQuery));
+            }
+
+            if (hasAccount == true)
+            {
+                queryable = queryable.Where(p => p.User != null);
+            }
+            else if (hasAccount == false)
+            {
+                queryable = queryable.Where(p => p.User == null);
+            }
+
+            var results = await queryable
+                .OrderBy(p => p.Surname)
+                .ThenBy(p => p.GivenName)
+                .Take(take)
+                .Select(p => new PersonSearchResultDto
+                {
+                    Id = p.Id,
+                    GivenName = p.GivenName,
+                    Surname = p.Surname,
+                    DisplayName = p.DisplayName,
+                    HasUser = p.User != null,
+                    UserId = p.User != null ? p.User.Id : (Guid?)null
+                })
+                .ToListAsync();
+
+            return results;
         }
     }
 }

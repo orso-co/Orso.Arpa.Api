@@ -32,6 +32,26 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Searches persons by name (lightweight, available to all authenticated users)
+        /// </summary>
+        /// <param name="query">Search query for given name, surname or display name</param>
+        /// <param name="take">Max results (default 50, max 100)</param>
+        /// <param name="hasAccount">Filter by user account: true = only with account, false = only without, null = all</param>
+        /// <returns>A list of matching persons with basic info</returns>
+        [Authorize]
+        [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<PersonSearchResultDto>>> Search(
+            [FromQuery] string query = "",
+            [FromQuery] int take = 50,
+            [FromQuery] bool? hasAccount = null)
+        {
+            if (take > 100) take = 100;
+            if (take < 1) take = 1;
+            return Ok(await _personService.SearchAsync(query, take, hasAccount));
+        }
+
+        /// <summary>
         /// Gets a person by id
         /// </summary>
         /// <param name="id"></param>
@@ -39,7 +59,7 @@ namespace Orso.Arpa.Api.Controllers
         /// <response code="200"></response>
         /// <response code="404">If no person could be found for the supplied id</response>
         [Authorize(Roles = RoleNames.Staff)]
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PersonDto>> GetById([FromRoute] Guid id)

@@ -23,6 +23,7 @@ namespace Orso.Arpa.Infrastructure.WebPush
             { NotificationEventType.AppointmentReminder, NotificationChannel.Push | NotificationChannel.Email },
             { NotificationEventType.ProjectParticipationChanged, NotificationChannel.Push | NotificationChannel.Email },
             { NotificationEventType.AccountActivated, NotificationChannel.Push | NotificationChannel.Email },
+            { NotificationEventType.MediathekAccessGranted, NotificationChannel.Push | NotificationChannel.Email },
         };
 
         public NotificationDispatcher(

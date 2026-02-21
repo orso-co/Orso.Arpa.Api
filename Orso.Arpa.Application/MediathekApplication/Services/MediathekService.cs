@@ -11,6 +11,7 @@ using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.MediathekDomain.Commands;
 using Orso.Arpa.Domain.MediathekDomain.Enums;
 using Orso.Arpa.Domain.MediathekDomain.Model;
+using Orso.Arpa.Domain.MediathekDomain.Notifications;
 
 namespace Orso.Arpa.Application.MediathekApplication.Services;
 
@@ -54,6 +55,17 @@ public class MediathekService : IMediathekService
         };
 
         MediathekAccess result = await _mediator.Send(command);
+
+        var accessWithPerson = await _arpaContext.MediathekAccesses
+            .Include(a => a.Person).ThenInclude(p => p.User)
+            .Include(a => a.Person).ThenInclude(p => p.ContactDetails)
+            .FirstOrDefaultAsync(a => a.Id == result.Id);
+
+        if (accessWithPerson != null)
+        {
+            await _mediator.Publish(new MediathekAccessGrantedNotification { MediathekAccess = accessWithPerson });
+        }
+
         return _mapper.Map<MediathekAccessDto>(result);
     }
 
@@ -86,6 +98,17 @@ public class MediathekService : IMediathekService
         };
 
         MediathekAccess result = await _mediator.Send(command);
+
+        var accessWithPerson = await _arpaContext.MediathekAccesses
+            .Include(a => a.Person).ThenInclude(p => p.User)
+            .Include(a => a.Person).ThenInclude(p => p.ContactDetails)
+            .FirstOrDefaultAsync(a => a.Id == result.Id);
+
+        if (accessWithPerson != null)
+        {
+            await _mediator.Publish(new MediathekAccessGrantedNotification { MediathekAccess = accessWithPerson });
+        }
+
         return _mapper.Map<MediathekAccessDto>(result);
     }
 

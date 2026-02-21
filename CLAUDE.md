@@ -8,14 +8,14 @@
 - GraphQL (HotChocolate) + REST
 - Entity Framework Core
 
-## Branch-Struktur
+## Branch-Struktur (seit 19.02.2026)
 
 | Branch | Zweck | Deploy-Ziel |
 |--------|-------|-------------|
-| `develop` | Hauptentwicklung | Azure Dev, GitHub Actions CI |
-| `master` | Produktion | Azure Prod |
-| `raspi-prod` | Raspberry Pi Produktion | raspi3:/home/wolf/arpa-prod |
-| `raspi-dev` | Raspberry Pi Development | raspi3:/home/wolf/arpa |
+| `develop` | Hauptentwicklung | raspi3 DEV (arpa.loopus.it:8080) + Azure Dev |
+| `main` | Produktion | raspi3 PROD (arpax.loopus.it:8082) + Azure Prod |
+
+**Alte Branches (`raspi-dev`, `raspi-prod`, `master`) sind obsolet.**
 
 ## Deployment-Umgebungen
 
@@ -28,8 +28,8 @@
 - **Host:** r3.loopus.it:2222 (SSH)
 - **Lokal:** 192.168.1.59 (SSH Port 22 deaktiviert)
 - **Deployments:**
-  - `/home/wolf/arpa` → raspi-dev Branch
-  - `/home/wolf/arpa-prod` → raspi-prod Branch
+  - `/home/wolf/arpa` → develop Branch (DEV)
+  - `/home/wolf/arpa-prod` → main Branch (PROD)
 - **PostgreSQL:** 16-alpine (Docker)
 - **CI/CD:**
   - **GitHub:** `.github/workflows/raspi-deploy.yml` (baut auf GitHub, pusht zu ghcr.io)
@@ -61,8 +61,10 @@ git remote add gitlab "https://Wolf:TOKEN@git.loopus.it/arpa/arpa-api.git"
 
 **Deployment via GitLab:**
 ```bash
-git push gitlab raspi-dev   # → Deploy auf arpa.loopus.it
-git push gitlab raspi-prod  # → Deploy auf arpax.loopus.it
+git push gitlab develop  # → Deploy auf arpa.loopus.it (DEV)
+
+# PROD:
+git checkout main && git merge develop && git push gitlab main && git checkout develop
 ```
 
 **Vorteile gegenüber GitHub Actions:**
@@ -93,21 +95,22 @@ git push gitlab raspi-prod  # → Deploy auf arpax.loopus.it
 5. Alle Änderungen committen
 ```
 
-### 2. Nach raspi-dev deployen
+### 2. Nach DEV deployen
 ```
-git push origin raspi-dev
-# Workflow baut und deployed automatisch
+git push gitlab develop
+# Pipeline baut und deployed automatisch
 # Andere Mitarbeiter testen auf arpa.loopus.it
 ```
 
-### 3. Nach raspi-prod deployen (erst nach erfolgreichem Test!)
+### 3. Nach PROD deployen (erst nach erfolgreichem Test!)
 ```
-git checkout raspi-prod
-git merge raspi-dev
-git push origin raspi-prod
+git checkout main
+git merge develop
+git push gitlab main
+git checkout develop
 ```
 
-**Niemals direkt nach raspi-dev/prod pushen ohne lokalen Test!**
+**Niemals direkt nach PROD pushen ohne Test auf DEV!**
 **Niemals Datenbank-Änderungen manuell machen ohne Migration im Code!**
 
 ## Datenbank-Migrationen (KRITISCH!)
@@ -203,10 +206,11 @@ azurite --skipApiVersionCheck
 
 ### Deploy nach raspi3
 ```bash
-git checkout raspi-prod
-git merge develop
-git push origin raspi-prod
-# Workflow läuft automatisch
+# DEV
+git push gitlab develop
+
+# PROD
+git checkout main && git merge develop && git push gitlab main && git checkout develop
 ```
 
 ### Manueller Container-Neustart auf raspi3
@@ -280,6 +284,26 @@ return builder.AddJwtBearer(opt =>
 **WICHTIG:** Beide Fixes sind nötig:
 1. `TokenAccessor.cs` prüft "nameid" UND ClaimTypes.NameIdentifier
 2. `JwtBearerConfiguration.cs` setzt MapInboundClaims=false
+
+### JWT Email Claim fehlte (19.02.2026)
+
+**Problem:** Frontend Avatar-Dropdown zeigte Vornamen statt E-Mail-Adresse.
+
+**Ursache:** `JwtGenerator.cs` hatte keinen `email`-Claim im Token.
+
+**Fix in `Orso.Arpa.Infrastructure/Authentication/JwtGenerator.cs`:**
+```csharp
+var claims = new List<Claim>
+{
+    new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
+    new Claim(JwtRegisteredClaimNames.Name, user.DisplayName),
+    new Claim(JwtRegisteredClaimNames.Email, user.Email),  // ← NEU
+    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+    new Claim($"{_jwtConfiguration.Issuer}/person_id", user.PersonId.ToString())
+};
+```
+
+**WICHTIG:** Nach Deploy müssen User sich neu einloggen — alte Tokens haben keinen Email-Claim.
 
 ### Account-Entsperrung nach fehlgeschlagenen Login-Versuchen
 
