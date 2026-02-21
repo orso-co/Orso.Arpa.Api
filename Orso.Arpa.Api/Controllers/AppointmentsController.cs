@@ -61,7 +61,7 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize]
         [HttpGet("recently-modified")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> GetRecentlyModified([FromQuery] int days = 14)
+        public async Task<ActionResult<IEnumerable<AppointmentRecentlyModifiedDto>>> GetRecentlyModified([FromQuery] int days = 14)
         {
             return Ok(await _appointmentService.GetRecentlyModifiedAsync(days));
         }
