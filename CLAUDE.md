@@ -76,11 +76,51 @@ git checkout main && git merge develop && git push gitlab main && git checkout d
 **Pipeline-Logs:** https://git.loopus.it/arpa/arpa-api/-/pipelines
 
 ### Lokal (Entwicklung)
-- `docker-compose.yml` im Repo
-- PostgreSQL 18-alpine (Container) oder 17.x (manuell)
-- **WICHTIG: Port 5000 ist durch macOS AirPlay belegt!**
-  - Backend läuft auf Port **5001** (HTTPS) oder **5002** (HTTP)
-  - Niemals Port 5000 für lokale Entwicklung verwenden
+- `docker-compose.yml` im Repo (PostgreSQL 18-alpine, MailHog, Azurite)
+- Backend: `dotnet run` auf Port **5080** (siehe `launchSettings.json`)
+- Frontend: `ng serve` auf Port **4200** (proxy auf 5080)
+- **WICHTIG:** Homebrew PostgreSQL muss gestoppt sein (`brew services stop postgresql@14`), sonst blockiert sie Port 5432 und der Docker-Container ist nicht erreichbar.
+
+#### Lokale Umgebungen
+
+| Umgebung | Backend | Frontend | DB | Zweck |
+|----------|---------|----------|----|-------|
+| **Localhost** | `dotnet run` (Port 5080) | `ng serve` (Port 4200) | Docker PostgreSQL (Port 5432) | Entwicklung, offline-fähig |
+| **DEV** | arpa.loopus.it:8080 | arpa.loopus.it | raspi3 PostgreSQL | Integration-Test nach Deploy |
+| **PROD** | arpax.loopus.it:8082 | arpax.loopus.it | raspi3 PostgreSQL | Live für echte User |
+
+#### Hilfs-Skripte (`scripts/`)
+
+| Skript | Beschreibung |
+|--------|-------------|
+| `local-backend.sh` | Backend starten mit allen Env-Vars (ConnectionString, JWT, Seed-Passwort) |
+| `local-db-reset.sh` | Lokale DB droppen + neu erstellen (Backend-Start wendet Migrationen + Seed an) |
+| `local-db-sync-dev.sh` | DEV-Dump von raspi3 holen und lokal importieren |
+| `local-reset-passwords.sh` | Lockout der Seed-User zurücksetzen |
+
+#### Seed-User (Development)
+
+| Username | Passwort | Rollen |
+|----------|----------|--------|
+| `admin` | `Pa$$w0rd` | Admin |
+| `performer` | `Pa$$w0rd` | Performer |
+| `staff` | `Pa$$w0rd` | Staff |
+| `testwolf` | `Pa$$w0rd` | Admin + Staff + Performer |
+
+`testwolf` wird durch `SeedTestWolf: true` in `appsettings.Development.json` aktiviert.
+
+#### Schnellstart (empfohlen: DEV-Dump)
+
+```bash
+brew services stop postgresql@14        # Homebrew-PostgreSQL stoppen!
+docker compose up -d postgres mail       # DB + Mail starten
+./scripts/local-db-sync-dev.sh           # DEV-Dump holen (echte Daten)
+./scripts/local-backend.sh               # Backend (Migrationen + Seed automatisch)
+cd ../orso-arpa-web-extended && ng serve  # Frontend
+# Login: TestWolf / Pa$$w0rd (alle Rollen)
+```
+
+**ACHTUNG:** `local-db-reset.sh` (frische DB) funktioniert aktuell NICHT, weil 3 Migrationen (`20260122130000_AddPersonMembership`, `20260122140000_AddClubToPersonMembership`, `20260210100000_AddMandateFieldsToPersonMembership`) keine Designer.cs-Dateien haben und von EF Core ignoriert werden. Deshalb DEV-Dump verwenden.
 
 ## Entwicklungs-Workflow (WICHTIG!)
 
@@ -88,11 +128,12 @@ git checkout main && git merge develop && git push gitlab main && git checkout d
 
 ### 1. Lokal entwickeln und testen
 ```
-1. Datenbank starten (Docker oder lokal)
-2. Migrationen anwenden: dotnet ef database update
-3. Backend starten und testen
-4. Frontend starten und testen
-5. Alle Änderungen committen
+1. Homebrew PostgreSQL stoppen: brew services stop postgresql@14
+2. Docker starten: docker compose up -d postgres mail
+3. DB befüllen: ./scripts/local-db-sync-dev.sh (oder local-db-reset.sh wenn Migrationen repariert)
+4. Backend starten: ./scripts/local-backend.sh
+5. Frontend starten: cd ../orso-arpa-web-extended && ng serve
+6. Alle Änderungen committen
 ```
 
 ### 2. Nach DEV deployen
@@ -315,3 +356,38 @@ ssh -p 2222 wolf@r3.loopus.it
 docker exec arpa-prod-postgres psql -U postgres -d orso-arpa -c \
   "UPDATE \"AspNetUsers\" SET lockout_end = NULL, access_failed_count = 0 WHERE email = 'user@example.com';"
 ```
+
+### GraphQL war Staff-only → Chat-403 für Performer (21.02.2026)
+
+**Problem:** Alle Nicht-Staff-User bekamen 403 → Redirect auf `/error/access-denied` beim Chat.
+
+**Ursache:** `Startup.cs:713` — `endpoints.MapGraphQL().RequireAuthorization(Roles = RoleNames.Staff)`
+- Chat-Dialoge (Personensuche) nutzten Apollo/GraphQL → 403 für Performer
+- `auth.interceptor.ts` im Frontend redirectete bei 403 auf `/error/access-denied`
+
+**Fix:** Neuer REST-Endpoint für Personensuche (ersetzt GraphQL in Chat-Dialogen):
+- `GET /api/persons/search?query=xxx&take=50&hasAccount=true|false`
+- Controller: `PersonsController.Search()` mit `[Authorize]` (kein Rollen-Check)
+- Service: `PersonService.SearchAsync()` — LINQ-Query auf `_arpaContext.Persons`
+- DTO: `PersonSearchResultDto` (id, givenName, surname, displayName, hasUser, userId)
+
+**Wichtig:** `DisplayName` ist kein DB-Feld auf Person → im Select manuell berechnen:
+```csharp
+DisplayName = (p.GivenName + " " + p.Surname).Trim()
+```
+
+## Features (Februar 2026)
+
+### Mediathek Bridge-Endpoint (21.02.2026)
+
+**Endpoint:** `GET /api/mediathek/check/{username}`
+- Validiert `X-Bridge-Key` Header gegen `MediathekBridgeKey` in appsettings
+- Ruft `MediathekService.CheckAccessByUsernameAsync()` auf
+- Gibt `true`/`false` zurück (JSON)
+
+**Konfiguration (appsettings.Production.json auf raspi3):**
+```json
+"MediathekBridgeKey": "-ifMAG-cFLOrhLryDtSBf19MYWdU62VOQkf7Ot7Ze6k"
+```
+
+**Genutzt von:** Mediathek AuthBridge auf Zelos neu (Freiburg) — prüft ob User Mediathek-Zugang hat bevor Jellyfin-Autologin durchgeführt wird.
