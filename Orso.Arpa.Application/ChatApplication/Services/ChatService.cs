@@ -129,13 +129,20 @@ namespace Orso.Arpa.Application.ChatApplication.Services
                 ?? throw new ArgumentException("Person has no user account");
 
             var otherUserId = otherUser.Id;
+            var isSelfChat = otherUserId == userId;
 
             // Check if direct chat already exists between these users
-            var existingRoom = await _context.ChatRooms
-                .Where(r => r.Type == ChatRoomType.Direct && !r.Deleted)
-                .Where(r => r.Members.Any(m => m.UserId == userId && !m.Deleted) &&
-                           r.Members.Any(m => m.UserId == otherUserId && !m.Deleted))
-                .FirstOrDefaultAsync(cancellationToken);
+            var existingRoom = isSelfChat
+                ? await _context.ChatRooms
+                    .Where(r => r.Type == ChatRoomType.Direct && !r.Deleted)
+                    .Where(r => r.Members.Count(m => !m.Deleted) == 1 &&
+                               r.Members.Any(m => m.UserId == userId && !m.Deleted))
+                    .FirstOrDefaultAsync(cancellationToken)
+                : await _context.ChatRooms
+                    .Where(r => r.Type == ChatRoomType.Direct && !r.Deleted)
+                    .Where(r => r.Members.Any(m => m.UserId == userId && !m.Deleted) &&
+                               r.Members.Any(m => m.UserId == otherUserId && !m.Deleted))
+                    .FirstOrDefaultAsync(cancellationToken);
 
             if (existingRoom != null)
             {
@@ -146,12 +153,15 @@ namespace Orso.Arpa.Application.ChatApplication.Services
             var room = new ChatRoom(Guid.NewGuid(), ChatRoomType.Direct);
             _context.ChatRooms.Add(room);
 
-            // Add both users as members
+            // Add members (self-chat: only one member)
             var member1 = new ChatRoomMember(Guid.NewGuid(), room.Id, userId);
-            var member2 = new ChatRoomMember(Guid.NewGuid(), room.Id, otherUserId);
-
             _context.ChatRoomMembers.Add(member1);
-            _context.ChatRoomMembers.Add(member2);
+
+            if (!isSelfChat)
+            {
+                var member2 = new ChatRoomMember(Guid.NewGuid(), room.Id, otherUserId);
+                _context.ChatRoomMembers.Add(member2);
+            }
 
             await _context.SaveChangesAsync(cancellationToken);
 
@@ -830,6 +840,14 @@ namespace Orso.Arpa.Application.ChatApplication.Services
                 if (otherMember?.User?.Person != null)
                 {
                     return otherMember.User.Person.DisplayName;
+                }
+
+                // Self-chat (only one member = the current user)
+                var memberCount = await _context.ChatRoomMembers
+                    .CountAsync(m => m.ChatRoomId == room.Id && !m.Deleted, cancellationToken);
+                if (memberCount == 1)
+                {
+                    return "Notizen";
                 }
             }
 
