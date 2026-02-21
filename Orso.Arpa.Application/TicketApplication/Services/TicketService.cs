@@ -332,6 +332,15 @@ namespace Orso.Arpa.Application.TicketApplication.Services
 
         public async Task<TicketLinkDto> AddLinkAsync(Guid ticketId, CreateTicketLinkDto dto, CancellationToken cancellationToken = default)
         {
+            var ticket = await _context.Tickets.FindAsync([ticketId], cancellationToken)
+                ?? throw new KeyNotFoundException($"Ticket {ticketId} not found");
+
+            var currentUserId = _userAccessor.UserId;
+            var isStaff = _userAccessor.GetUserRoles().Contains("Staff") || _userAccessor.GetUserRoles().Contains("Admin");
+
+            if (!isStaff && ticket.CreatorId != currentUserId)
+                throw new UnauthorizedAccessException("Only the creator or staff can add links to this ticket");
+
             var link = new TicketLink(null, ticketId, dto.Label, dto.Url);
             _context.TicketLinks.Add(link);
             await _context.SaveChangesAsync(cancellationToken);
@@ -343,6 +352,15 @@ namespace Orso.Arpa.Application.TicketApplication.Services
         {
             var link = await _context.TicketLinks.FindAsync([linkId], cancellationToken)
                 ?? throw new KeyNotFoundException($"Link {linkId} not found");
+
+            var ticket = await _context.Tickets.FindAsync([link.TicketId], cancellationToken)
+                ?? throw new KeyNotFoundException($"Ticket {link.TicketId} not found");
+
+            var currentUserId = _userAccessor.UserId;
+            var isStaff = _userAccessor.GetUserRoles().Contains("Staff") || _userAccessor.GetUserRoles().Contains("Admin");
+
+            if (!isStaff && ticket.CreatorId != currentUserId)
+                throw new UnauthorizedAccessException("Only the creator or staff can remove links from this ticket");
 
             _context.Remove(link);
             await _context.SaveChangesAsync(cancellationToken);
