@@ -96,8 +96,7 @@ namespace Orso.Arpa.Application.PersonApplication.Services
             {
                 queryable = queryable.Where(p =>
                     p.GivenName.ToLower().Contains(normalizedQuery) ||
-                    p.Surname.ToLower().Contains(normalizedQuery) ||
-                    p.DisplayName.ToLower().Contains(normalizedQuery));
+                    p.Surname.ToLower().Contains(normalizedQuery));
             }
 
             if (hasAccount == true)
@@ -118,7 +117,7 @@ namespace Orso.Arpa.Application.PersonApplication.Services
                     Id = p.Id,
                     GivenName = p.GivenName,
                     Surname = p.Surname,
-                    DisplayName = p.DisplayName,
+                    DisplayName = (p.GivenName + " " + p.Surname).Trim(),
                     HasUser = p.User != null,
                     UserId = p.User != null ? p.User.Id : (Guid?)null
                 })
