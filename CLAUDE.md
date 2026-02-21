@@ -109,18 +109,27 @@ git checkout main && git merge develop && git push gitlab main && git checkout d
 
 `testwolf` wird durch `SeedTestWolf: true` in `appsettings.Development.json` aktiviert.
 
-#### Schnellstart (empfohlen: DEV-Dump)
+#### Schnellstart (frische DB)
 
 ```bash
 brew services stop postgresql@14        # Homebrew-PostgreSQL stoppen!
 docker compose up -d postgres mail       # DB + Mail starten
-./scripts/local-db-sync-dev.sh           # DEV-Dump holen (echte Daten)
+./scripts/local-db-reset.sh              # DB droppen + neu erstellen
 ./scripts/local-backend.sh               # Backend (Migrationen + Seed automatisch)
 cd ../orso-arpa-web-extended && ng serve  # Frontend
-# Login: TestWolf / Pa$$w0rd (alle Rollen)
+# Login: testwolf / Pa$$w0rd (alle Rollen)
 ```
 
-**ACHTUNG:** `local-db-reset.sh` (frische DB) funktioniert aktuell NICHT, weil 3 Migrationen (`20260122130000_AddPersonMembership`, `20260122140000_AddClubToPersonMembership`, `20260210100000_AddMandateFieldsToPersonMembership`) keine Designer.cs-Dateien haben und von EF Core ignoriert werden. Deshalb DEV-Dump verwenden.
+#### Alternativ: Mit DEV-Daten
+
+```bash
+brew services stop postgresql@14
+docker compose up -d postgres mail
+./scripts/local-db-sync-dev.sh           # DEV-Dump holen (echte Daten)
+./scripts/local-backend.sh               # Migrationen + Seed laufen automatisch
+cd ../orso-arpa-web-extended && ng serve
+# Login: TestWolf / Pa$$w0rd (alle Rollen, DEV-Username mit Großbuchstaben)
+```
 
 ## Entwicklungs-Workflow (WICHTIG!)
 
@@ -130,7 +139,7 @@ cd ../orso-arpa-web-extended && ng serve  # Frontend
 ```
 1. Homebrew PostgreSQL stoppen: brew services stop postgresql@14
 2. Docker starten: docker compose up -d postgres mail
-3. DB befüllen: ./scripts/local-db-sync-dev.sh (oder local-db-reset.sh wenn Migrationen repariert)
+3. DB befüllen: ./scripts/local-db-reset.sh (frisch) oder ./scripts/local-db-sync-dev.sh (DEV-Daten)
 4. Backend starten: ./scripts/local-backend.sh
 5. Frontend starten: cd ../orso-arpa-web-extended && ng serve
 6. Alle Änderungen committen
@@ -171,19 +180,30 @@ Wenn Tabellen manuell erstellt werden:
 ### Korrekter Ablauf bei neuem Feature mit DB-Änderungen
 ```bash
 # 1. Lokal: Entity/DbContext ändern
-# 2. Migration erstellen
-dotnet ef migrations add FeatureName -p Orso.Arpa.Persistence -s Orso.Arpa.Api
+# 2. Migration erstellen (IMMER mit dotnet ef — NIEMALS .cs manuell schreiben!)
+dotnet ef migrations add FeatureName -p Orso.Arpa.Persistence -s Orso.Arpa.Api --context ArpaContext
+# → Erstellt 3 Dateien: Migration.cs, Migration.Designer.cs, ArpaContextModelSnapshot.cs
+# → ALLE 3 DATEIEN COMMITTEN! Ohne Designer.cs erkennt EF Core die Migration nicht.
 
-# 3. Lokal testen
-dotnet ef database update -p Orso.Arpa.Persistence -s Orso.Arpa.Api
+# 3. Lokal testen mit frischer DB
+./scripts/local-db-reset.sh
+./scripts/local-backend.sh
 
 # 4. Code + Migration committen und pushen
-git add . && git commit -m "Add FeatureName" && git push origin raspi-dev
+git add . && git commit -m "Add FeatureName" && git push gitlab develop
 
 # 5. API startet neu → Migration wird automatisch angewendet
 # 6. Testen auf arpa.loopus.it
-# 7. Nach raspi-prod mergen wenn OK
+# 7. Nach PROD mergen wenn OK
 ```
+
+### Bekanntes Problem: Migrations ohne Designer.cs (behoben 21.02.2026)
+
+3 Migrationen für PersonMembership wurden manuell (per Write-Tool) erstellt statt mit `dotnet ef migrations add`. Dadurch fehlte die Designer.cs und EF Core ignorierte sie. Frische DBs konnten nicht aufgebaut werden.
+
+**Fix:** Konsolidiert zu `20260122100000_AddPersonMembershipConsolidated` (mit auto-generierter Designer.cs). DEV+PROD Migrations-History per SQL aktualisiert.
+
+**Lektion:** Migrationen **IMMER** mit `dotnet ef migrations add` erstellen. Nie `.cs`-Dateien manuell schreiben — die Designer.cs (15.000+ Zeilen Model-Snapshot) kann nicht von Hand erstellt werden.
 
 ### Bei Azure-Dump-Import auf Raspi
 ```bash
