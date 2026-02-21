@@ -38,6 +38,35 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Queries all appointments for the given date range (for all authenticated users, without internal details)
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="range"></param>
+        /// <returns>A list of appointments without internal details</returns>
+        /// <response code="200"></response>
+        [Authorize]
+        [HttpGet("all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> GetAll([FromQuery] DateTime? date, [FromQuery] DateRange range)
+        {
+            return Ok(await _appointmentService.GetAllAsync(date, range));
+        }
+
+        /// <summary>
+        /// Queries recently modified appointments (for all authenticated users, without internal details)
+        /// </summary>
+        /// <param name="days">Number of days to look back (default: 14)</param>
+        /// <returns>A list of recently modified appointments</returns>
+        /// <response code="200"></response>
+        [Authorize]
+        [HttpGet("recently-modified")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<AppointmentListDto>>> GetRecentlyModified([FromQuery] int days = 14)
+        {
+            return Ok(await _appointmentService.GetRecentlyModifiedAsync(days));
+        }
+
+        /// <summary>
         /// Gets an appointment by id
         /// </summary>
         /// <param name="id"></param>

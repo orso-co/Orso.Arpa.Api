@@ -22,6 +22,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
 
         public string City { get; set; }
 
+        public string VenueName { get; set; }
+
         public AppointmentStatus? Status { get; set; }
 
         public AppointmentType Type { get; set; }
@@ -34,6 +36,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
         public string PublicDetails { get; set; }
 
         public string InternalDetails { get; set; }
+
+        public DateTime? ModifiedAt { get; set; }
     }
 
     public class AppointmentListDtoMappingProfile : Profile
@@ -42,6 +46,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Model
         {
             _ = CreateMap<Appointment, AppointmentListDto>()
                 .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.Venue != null && src.Venue.Address != null ? src.Venue.Address.City : null))
+                .ForMember(dto => dto.VenueName, opt => opt.MapFrom(src => src.Venue != null ? src.Venue.Name : null))
                 .ForMember(dto => dto.Category, opt => opt.MapFrom(src => src.Category != null && src.Category.SelectValue != null ? src.Category.SelectValue.Name : null))
                 .ForMember(dto => dto.Projects, opt => opt.MapFrom(src => src.ProjectAppointments.Select(pa => pa.Project)))
                 .AfterMap<LocalizeAction<Appointment, AppointmentListDto>>();

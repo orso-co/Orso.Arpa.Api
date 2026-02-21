@@ -10,6 +10,8 @@ namespace Orso.Arpa.Application.AppointmentApplication.Interfaces
     public interface IAppointmentService
     {
         Task<IEnumerable<AppointmentListDto>> GetAsync(DateTime? date, DateRange range);
+        Task<IEnumerable<AppointmentListDto>> GetAllAsync(DateTime? date, DateRange range);
+        Task<IEnumerable<AppointmentListDto>> GetRecentlyModifiedAsync(int days);
 
         Task<AppointmentDto> GetByIdAsync(Guid id, bool includeParticipations);
 

@@ -71,6 +71,36 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
             return [.. _mapper.ProjectTo<AppointmentListDto>(entities)];
         }
 
+        public async Task<IEnumerable<AppointmentListDto>> GetAllAsync(DateTime? date, DateRange range)
+        {
+            IEnumerable<AppointmentListDto> result = await GetAsync(date, range);
+            // Strip internal details for non-staff users
+            foreach (AppointmentListDto dto in result)
+            {
+                dto.InternalDetails = null;
+            }
+            return result;
+        }
+
+        public async Task<IEnumerable<AppointmentListDto>> GetRecentlyModifiedAsync(int days)
+        {
+            DateTime cutoff = DateTime.UtcNow.AddDays(-days);
+
+            IQueryable<Appointment> entities = await _mediator.Send(new List.Query<Appointment>(
+                predicate: a => a.ModifiedAt != null && a.ModifiedAt >= cutoff,
+                asSplitQuery: true));
+
+            IEnumerable<AppointmentListDto> result = [.. _mapper.ProjectTo<AppointmentListDto>(
+                entities.OrderByDescending(a => a.ModifiedAt))];
+
+            // Strip internal details for non-staff users
+            foreach (AppointmentListDto dto in result)
+            {
+                dto.InternalDetails = null;
+            }
+            return result;
+        }
+
         public async Task<AppointmentDto> GetByIdAsync(Guid id, bool includeParticipations)
         {
             Appointment appointment = await _mediator.Send(new Details.Query<Appointment>(id));
