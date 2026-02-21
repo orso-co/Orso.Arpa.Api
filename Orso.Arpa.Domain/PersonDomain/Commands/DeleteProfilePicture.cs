@@ -46,6 +46,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
             {
                 Person person = await _arpaContext.FindAsync<Person>(new object[] { request.PersonId }, cancellationToken);
                 var profilePictureFileName = person.ProfilePictureFileName;
+                var originalProfilePictureFileName = person.OriginalProfilePictureFileName;
 
                 if (string.IsNullOrWhiteSpace(profilePictureFileName))
                 {
@@ -53,6 +54,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
                 }
 
                 person.SetProfilePitureName(null);
+                person.SetOriginalProfilePictureFileName(null);
                 _ = _arpaContext.Persons.Update(person);
 
                 if (await _arpaContext.SaveChangesAsync(cancellationToken) < 1)
@@ -61,6 +63,11 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
                 }
 
                 await _fileAccessor.DeleteAsync(profilePictureFileName);
+
+                if (!string.IsNullOrWhiteSpace(originalProfilePictureFileName))
+                {
+                    await _fileAccessor.DeleteAsync(originalProfilePictureFileName);
+                }
 
                 return Unit.Value;
             }

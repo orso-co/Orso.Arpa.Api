@@ -74,6 +74,11 @@ namespace Orso.Arpa.Application.PersonApplication.Services
             return await _mediator.Send(new LoadProfilePicture.Query(personId));
         }
 
+        public async Task<IFileResult> GetOriginalProfilePictureAsync(Guid personId)
+        {
+            return await _mediator.Send(new LoadProfilePicture.Query(personId, loadOriginal: true));
+        }
+
         public async Task DeleteProfilePictureAsync(Guid personId)
         {
             _ = await _mediator.Send(new DeleteProfilePicture.Command(personId));

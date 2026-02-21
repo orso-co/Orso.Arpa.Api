@@ -10,12 +10,14 @@ namespace Orso.Arpa.Domain.PersonDomain.Queries
     {
         public class Query : IRequest<IFileResult>
         {
-            public Query(Guid personId)
+            public Query(Guid personId, bool loadOriginal = false)
             {
                 PersonId = personId;
+                LoadOriginal = loadOriginal;
             }
 
             public Guid PersonId { get; }
+            public bool LoadOriginal { get; }
         }
 
         public class Handler : IRequestHandler<Query, IFileResult>
@@ -31,11 +33,27 @@ namespace Orso.Arpa.Domain.PersonDomain.Queries
 
             async Task<IFileResult> IRequestHandler<Query, IFileResult>.Handle(Query request, CancellationToken cancellationToken)
             {
-                var profilePictureFileName = (await _arpaContext.Persons.FindAsync(new object[] { request.PersonId }, cancellationToken))?.ProfilePictureFileName;
+                var person = await _arpaContext.Persons.FindAsync(new object[] { request.PersonId }, cancellationToken);
 
-                return profilePictureFileName is null
+                if (person is null)
+                {
+                    return null;
+                }
+
+                string fileName;
+
+                if (request.LoadOriginal)
+                {
+                    fileName = person.OriginalProfilePictureFileName;
+                }
+                else
+                {
+                    fileName = person.ProfilePictureFileName;
+                }
+
+                return fileName is null
                     ? null
-                    : await _fileAccessor.GetAsync(profilePictureFileName);
+                    : await _fileAccessor.GetAsync(fileName);
             }
         }
     }

@@ -22,6 +22,7 @@ namespace Orso.Arpa.Application.PersonApplication.Interfaces
         Task<PersonInviteResultDto> InviteAsync(PersonInviteDto dto);
         Task<IFileResult> SetProfilePictureAsync(ProfilePictureCreateDto profilePictureCreateDto);
         Task<IFileResult> GetProfilePictureAsync(Guid personId);
+        Task<IFileResult> GetOriginalProfilePictureAsync(Guid personId);
         Task DeleteProfilePictureAsync(Guid personId);
         Task<IList<ReducedPersonDto>> GetBirthdayChildrenAsync(DateTime date);
         Task<IEnumerable<PersonSearchResultDto>> SearchAsync(string query, int take, bool? hasAccount);

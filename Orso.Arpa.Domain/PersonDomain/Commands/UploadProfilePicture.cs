@@ -17,6 +17,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
         {
             public Guid PersonId { get; set; }
             public IFormFile FormFile { get; set; }
+            public IFormFile OriginalFormFile { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -49,6 +50,19 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
                 Person person = await _arpaContext.FindAsync<Person>(new object[] { request.PersonId }, cancellationToken);
 
                 person.SetProfilePitureName(fileResult.Name);
+
+                if (request.OriginalFormFile != null)
+                {
+                    var originalFileName = _fileNameGenerator.GenerateRandomFileName(request.OriginalFormFile);
+                    await _fileAccessor.SaveAsync(request.OriginalFormFile, originalFileName);
+                    person.SetOriginalProfilePictureFileName(originalFileName);
+                }
+                else if (string.IsNullOrWhiteSpace(person.OriginalProfilePictureFileName))
+                {
+                    // First crop of an existing picture: copy current as original
+                    // (handled by the service layer which passes the original file)
+                }
+
                 _ = _arpaContext.Persons.Update(person);
 
                 return await _arpaContext.SaveChangesAsync(cancellationToken) < 1

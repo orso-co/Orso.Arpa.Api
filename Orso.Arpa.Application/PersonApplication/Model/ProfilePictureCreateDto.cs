@@ -16,6 +16,9 @@ namespace Orso.Arpa.Application.PersonApplication.Model
 
         [FromForm]
         public IFormFile File { get; set; }
+
+        [FromForm]
+        public IFormFile OriginalFile { get; set; }
     }
 
     public class ProfilePictureCreateDtoMappingProfile : Profile
@@ -24,7 +27,8 @@ namespace Orso.Arpa.Application.PersonApplication.Model
         {
             CreateMap<ProfilePictureCreateDto, UploadProfilePicture.Command>()
                 .ForMember(cmd => cmd.PersonId, opt => opt.MapFrom(dto => dto.Id))
-                .ForMember(cmd => cmd.FormFile, opt => opt.MapFrom(dto => dto.File));
+                .ForMember(cmd => cmd.FormFile, opt => opt.MapFrom(dto => dto.File))
+                .ForMember(cmd => cmd.OriginalFormFile, opt => opt.MapFrom(dto => dto.OriginalFile));
         }
     }
 
@@ -58,6 +62,17 @@ namespace Orso.Arpa.Application.PersonApplication.Model
                 .Must(HasSupportedFileType)
                 .WithMessage($"The provided file type is not supported. Supported file types are: {string.Join(", ", SupportedFileTypes)}")
                 .When(f => f.File != null);
+
+            _ = RuleFor(f => f.OriginalFile.Length)
+                .ExclusiveBetween(0, MaxBytes)
+                .WithMessage($"Original file size should be greater than 0 and less than {MaxBytes / 1024 / 1024} MB")
+                .When(f => f.OriginalFile != null);
+
+            _ = RuleFor(f => f.OriginalFile.FileName)
+                .NotEmpty()
+                .Must(HasSupportedFileType)
+                .WithMessage($"The provided original file type is not supported. Supported file types are: {string.Join(", ", SupportedFileTypes)}")
+                .When(f => f.OriginalFile != null);
         }
     }
 }

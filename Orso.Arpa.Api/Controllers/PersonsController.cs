@@ -300,6 +300,27 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Gets the original (uncropped) profile picture for the given person
+        /// </summary>
+        /// <response code="200"></response>
+        /// <response code="204">If no original profile picture exists</response>
+        [Authorize]
+        [HttpGet("{id}/profilepicture/original")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> GetOriginalProfilePicture([FromRoute] Guid id)
+        {
+            IFileResult fileResult = await _personService.GetOriginalProfilePictureAsync(id);
+
+            if (fileResult is null)
+            {
+                return NoContent();
+            }
+
+            return File(fileResult.Content, fileResult.ContentType, $"Arpa_Profile_Picture_Original_{id}{fileResult.Extension}");
+        }
+
+        /// <summary>
         /// Deletes the profile picture for the given person
         /// </summary>
         /// <response code="204"></response>

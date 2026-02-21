@@ -41,6 +41,10 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasMaxLength(100);
 
             _ = builder
+                .Property(e => e.OriginalProfilePictureFileName)
+                .HasMaxLength(100);
+
+            _ = builder
                 .HasOne(e => e.Gender)
                 .WithMany()
                 .HasForeignKey(e => e.GenderId)
