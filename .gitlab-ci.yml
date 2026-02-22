@@ -53,7 +53,8 @@ sonarcloud:
     - apt-get install -y nodejs
     - dotnet tool install --global dotnet-sonarscanner
     - export PATH="$PATH:$HOME/.dotnet/tools"
-    - export SONAR_SCANNER_JAVA_OPTS="-Xmx2g"
+    - export SONAR_SCANNER_JAVA_OPTS="-Xmx1g"
+    - export DOTNET_GCHeapHardLimit=0x40000000
   script:
     - |
       mkdir -p "${SONAR_USER_HOME}"
