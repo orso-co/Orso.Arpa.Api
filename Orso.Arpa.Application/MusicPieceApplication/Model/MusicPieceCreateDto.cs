@@ -21,6 +21,7 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Model
         public Guid? DifficultyLevelId { get; set; }
         public string PerformanceNotes { get; set; }
         public string InternalNotes { get; set; }
+        public Guid? ParentId { get; set; }
     }
 
     public class MusicPieceCreateDtoMappingProfile : Profile

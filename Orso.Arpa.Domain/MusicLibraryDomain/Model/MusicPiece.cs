@@ -25,6 +25,7 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Model
             DifficultyLevelId = command.DifficultyLevelId;
             PerformanceNotes = command.PerformanceNotes;
             InternalNotes = command.InternalNotes;
+            ParentId = command.ParentId;
             IsArchived = false;
         }
 
@@ -48,6 +49,7 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Model
             DifficultyLevelId = command.DifficultyLevelId;
             PerformanceNotes = command.PerformanceNotes;
             InternalNotes = command.InternalNotes;
+            ParentId = command.ParentId;
         }
 
         public void SetArchived(bool isArchived)
@@ -89,10 +91,17 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Model
         public string PerformanceNotes { get; private set; }
         public string InternalNotes { get; private set; }
 
+        // Parent-Child hierarchy
+        public Guid? ParentId { get; private set; }
+        public virtual MusicPiece Parent { get; private set; }
+
         // Soft archive flag
         public bool IsArchived { get; private set; }
 
         // Navigation properties
+        [CascadingSoftDelete]
+        public virtual ICollection<MusicPiece> Children { get; private set; } = new HashSet<MusicPiece>();
+
         [CascadingSoftDelete]
         public virtual ICollection<MusicPiecePart> Parts { get; private set; } = new HashSet<MusicPiecePart>();
 

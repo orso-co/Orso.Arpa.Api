@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.General.Model;
@@ -22,7 +23,9 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Model
         public SelectValueDto DifficultyLevel { get; set; }
         public string PerformanceNotes { get; set; }
         public string InternalNotes { get; set; }
+        public Guid? ParentId { get; set; }
         public bool IsArchived { get; set; }
+        public IList<ReducedMusicPieceDto> Children { get; set; } = [];
         public IList<MusicPiecePartDto> Parts { get; set; } = [];
         public IList<MusicPieceFileDto> Files { get; set; } = [];
         public IList<MusicPieceUrlDto> Urls { get; set; } = [];

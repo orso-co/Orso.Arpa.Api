@@ -24,6 +24,7 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Commands
             public Guid? DifficultyLevelId { get; set; }
             public string PerformanceNotes { get; set; }
             public string InternalNotes { get; set; }
+            public Guid? ParentId { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -62,6 +63,10 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Commands
 
                 RuleFor(c => c.DifficultyLevelId)
                     .SelectValueMapping<Command, MusicPiece>(arpaContext, m => m.DifficultyLevel);
+
+                RuleFor(c => c.ParentId)
+                    .EntityExists<Command, MusicPiece>(arpaContext)
+                    .When(c => c.ParentId.HasValue);
             }
         }
     }

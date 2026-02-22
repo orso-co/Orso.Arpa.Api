@@ -22,6 +22,7 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Model
         public Guid? DifficultyLevelId { get; set; }
         public string PerformanceNotes { get; set; }
         public string InternalNotes { get; set; }
+        public Guid? ParentId { get; set; }
     }
 
     public class MusicPieceModifyDto : IdFromRouteDto<MusicPieceModifyBodyDto>
@@ -45,7 +46,8 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Model
                 .ForMember(dest => dest.GenreId, opt => opt.MapFrom(src => src.Body.GenreId))
                 .ForMember(dest => dest.DifficultyLevelId, opt => opt.MapFrom(src => src.Body.DifficultyLevelId))
                 .ForMember(dest => dest.PerformanceNotes, opt => opt.MapFrom(src => src.Body.PerformanceNotes))
-                .ForMember(dest => dest.InternalNotes, opt => opt.MapFrom(src => src.Body.InternalNotes));
+                .ForMember(dest => dest.InternalNotes, opt => opt.MapFrom(src => src.Body.InternalNotes))
+                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.Body.ParentId));
         }
     }
 

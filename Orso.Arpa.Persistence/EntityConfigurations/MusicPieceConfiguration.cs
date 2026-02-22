@@ -46,6 +46,15 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             _ = builder.HasIndex(e => e.Composer);
             _ = builder.HasIndex(e => e.IsArchived);
 
+            // Self-referencing parent-child hierarchy
+            _ = builder
+                .HasOne(e => e.Parent)
+                .WithMany(p => p.Children)
+                .HasForeignKey(e => e.ParentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            _ = builder.HasIndex(e => e.ParentId);
+
             // SelectValue relationships
             _ = builder
                 .HasOne(e => e.Epoch)
