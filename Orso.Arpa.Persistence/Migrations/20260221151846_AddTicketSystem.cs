@@ -11,11 +11,7 @@ namespace Orso.Arpa.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "image_file_name",
-                table: "news",
-                type: "text",
-                nullable: true);
+            // image_file_name on news removed — already in AddNewsImageFileName migration
 
             migrationBuilder.AddColumn<int>(
                 name: "message_type",
@@ -398,9 +394,7 @@ namespace Orso.Arpa.Persistence.Migrations
             migrationBuilder.DropTable(
                 name: "tickets");
 
-            migrationBuilder.DropColumn(
-                name: "image_file_name",
-                table: "news");
+            // image_file_name on news removed — already in AddNewsImageFileName migration
 
             migrationBuilder.DropColumn(
                 name: "message_type",
