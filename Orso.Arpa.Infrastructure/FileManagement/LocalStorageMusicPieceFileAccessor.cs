@@ -30,7 +30,8 @@ namespace Orso.Arpa.Infrastructure.FileManagement
         /// Allowed file extensions for sheet music files.
         /// </summary>
         private static readonly string[] AllowedExtensions =
-            [".pdf", ".jpg", ".jpeg", ".png", ".webp", ".gif", ".xml", ".musicxml", ".mxl", ".mp3", ".wav"];
+            [".pdf", ".jpg", ".jpeg", ".png", ".webp", ".gif", ".xml", ".musicxml", ".mxl", ".mp3", ".wav",
+             ".m4a", ".flac", ".aiff", ".mid", ".midi", ".sib", ".mscz", ".mus", ".zip"];
 
         /// <summary>
         /// Magic bytes for file type validation.
@@ -47,7 +48,15 @@ namespace Orso.Arpa.Infrastructure.FileManagement
             { ".musicxml", [[0x3C, 0x3F, 0x78, 0x6D, 0x6C]] }, // <?xml
             { ".mxl", [[0x50, 0x4B, 0x03, 0x04]] }, // PK (ZIP archive)
             { ".mp3", [[0x49, 0x44, 0x33], [0xFF, 0xFB], [0xFF, 0xF3], [0xFF, 0xF2]] }, // ID3 tag or MPEG sync
-            { ".wav", [[0x52, 0x49, 0x46, 0x46]] } // RIFF header
+            { ".wav", [[0x52, 0x49, 0x46, 0x46]] }, // RIFF header
+            { ".m4a", [[0x00, 0x00, 0x00]] }, // ISO base media (ftyp box, variable offset)
+            { ".flac", [[0x66, 0x4C, 0x61, 0x43]] }, // fLaC
+            { ".aiff", [[0x46, 0x4F, 0x52, 0x4D]] }, // FORM
+            { ".mid", [[0x4D, 0x54, 0x68, 0x64]] }, // MThd
+            { ".midi", [[0x4D, 0x54, 0x68, 0x64]] }, // MThd
+            { ".zip", [[0x50, 0x4B, 0x03, 0x04]] }, // PK (ZIP archive)
+            { ".mscz", [[0x50, 0x4B, 0x03, 0x04]] }, // PK (ZIP-based MuseScore)
+            // .sib and .mus have proprietary formats - skip magic byte validation
         };
 
         public LocalStorageMusicPieceFileAccessor(IConfiguration configuration)
