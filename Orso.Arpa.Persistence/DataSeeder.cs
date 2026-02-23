@@ -67,6 +67,9 @@ namespace Orso.Arpa.Persistence
                 await SeedTestNewsAsync();
             }
 
+            await SeedSupportSystemPersonAsync();
+            await SeedSupportSystemUserAsync();
+
             await SeedViewsAndFunctionsAsync();
         }
 
@@ -221,6 +224,35 @@ namespace Orso.Arpa.Persistence
                 {
                     _ = await _arpaUserManager.AddToRoleAsync(existingUser, RoleNames.Performer);
                 }
+            }
+        }
+
+        private async Task SeedSupportSystemPersonAsync()
+        {
+            Person supportSystem = PersonSeedData.SupportSystem;
+
+            if (!await _arpaContext.EntityExistsAsync<Person>(supportSystem.Id, CancellationToken.None))
+            {
+                _ = await _arpaContext.Persons.AddAsync(supportSystem);
+                _ = await _arpaContext.SaveChangesAsync(CancellationToken.None);
+            }
+        }
+
+        private async Task SeedSupportSystemUserAsync()
+        {
+            User seedSupportSystem = UserSeedData.SupportSystem;
+
+            var existingUser = await _arpaUserManager.FindByNameAsync(seedSupportSystem.UserName);
+            if (existingUser is null)
+            {
+                var randomPassword = $"Sys${Guid.NewGuid():N}!";
+                _ = await _arpaUserManager.CreateAsync(seedSupportSystem, randomPassword);
+                existingUser = await _arpaUserManager.FindByNameAsync(seedSupportSystem.UserName);
+            }
+
+            if (existingUser is not null && !await _arpaUserManager.IsInRoleAsync(existingUser, RoleNames.Performer))
+            {
+                _ = await _arpaUserManager.AddToRoleAsync(existingUser, RoleNames.Performer);
             }
         }
 

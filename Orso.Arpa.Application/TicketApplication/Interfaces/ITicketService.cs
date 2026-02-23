@@ -22,5 +22,6 @@ namespace Orso.Arpa.Application.TicketApplication.Interfaces
         Task<TicketStatsDto> GetStatsAsync(CancellationToken cancellationToken = default);
         Task<int> GetUnreadCountAsync(CancellationToken cancellationToken = default);
         Task<(byte[] content, string fileName, string contentType)?> GetAttachmentFileAsync(Guid attachmentId, CancellationToken cancellationToken = default);
+        Task<Guid> CreateSupportTicketAsync(CreateSupportTicketDto dto, CancellationToken cancellationToken = default);
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.TicketApplication.Interfaces;
@@ -27,6 +28,16 @@ namespace Orso.Arpa.Api.Controllers
         public TicketsController(ITicketService ticketService)
         {
             _ticketService = ticketService;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("support")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> CreateSupportTicket([FromBody] CreateSupportTicketDto dto)
+        {
+            var ticketId = await _ticketService.CreateSupportTicketAsync(dto);
+            return StatusCode(StatusCodes.Status201Created, new { id = ticketId });
         }
 
         [HttpGet]
@@ -57,7 +68,7 @@ namespace Orso.Arpa.Api.Controllers
             return Ok(count);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TicketDto>> GetTicket(Guid id)
@@ -87,7 +98,7 @@ namespace Orso.Arpa.Api.Controllers
             return CreatedAtAction(nameof(GetTicket), new { id = ticket.Id }, ticket);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TicketDto>> UpdateTicket(Guid id, [FromBody] UpdateTicketDto dto)
@@ -107,7 +118,7 @@ namespace Orso.Arpa.Api.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteTicket(Guid id)
@@ -127,7 +138,7 @@ namespace Orso.Arpa.Api.Controllers
             }
         }
 
-        [HttpPost("{ticketId}/messages")]
+        [HttpPost("{ticketId:guid}/messages")]
         [RequestSizeLimit(104_857_600)]
         [RequestFormLimits(MultipartBodyLengthLimit = 104_857_600)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -143,7 +154,7 @@ namespace Orso.Arpa.Api.Controllers
             return Ok(message);
         }
 
-        [HttpPost("{ticketId}/vote")]
+        [HttpPost("{ticketId:guid}/vote")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TicketListItemDto>> Vote(Guid ticketId, [FromBody] VoteDto dto)
         {
@@ -151,7 +162,7 @@ namespace Orso.Arpa.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{ticketId}/links")]
+        [HttpPost("{ticketId:guid}/links")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TicketLinkDto>> AddLink(Guid ticketId, [FromBody] CreateTicketLinkDto dto)
         {
@@ -182,7 +193,7 @@ namespace Orso.Arpa.Api.Controllers
             return Ok(reactions);
         }
 
-        [HttpPost("{ticketId}/read")]
+        [HttpPost("{ticketId:guid}/read")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> MarkAsRead(Guid ticketId)
         {

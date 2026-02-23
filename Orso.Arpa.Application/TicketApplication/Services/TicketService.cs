@@ -4,12 +4,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Orso.Arpa.Application.TicketApplication.Interfaces;
 using Orso.Arpa.Application.TicketApplication.Model;
+using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.TicketDomain.Enums;
 using Orso.Arpa.Domain.TicketDomain.Interfaces;
 using Orso.Arpa.Domain.TicketDomain.Model;
+using Orso.Arpa.Mail.Interfaces;
+using Orso.Arpa.Mail.Templates;
+using Orso.Arpa.Persistence.Seed;
 
 namespace Orso.Arpa.Application.TicketApplication.Services
 {
@@ -18,12 +23,35 @@ namespace Orso.Arpa.Application.TicketApplication.Services
         private readonly IArpaContext _context;
         private readonly IUserAccessor _userAccessor;
         private readonly ITicketFileAccessor _fileAccessor;
+        private readonly IEmailSender _emailSender;
+        private readonly JwtConfiguration _jwtConfiguration;
+        private readonly ClubConfiguration _clubConfiguration;
+        private readonly ILogger<TicketService> _logger;
 
-        public TicketService(IArpaContext context, IUserAccessor userAccessor, ITicketFileAccessor fileAccessor)
+        private static readonly Dictionary<string, string> TopicLabels = new()
+        {
+            { "loginFailed", "Login schlägt fehl" },
+            { "passwordMailNotReceived", "Mail mit Link für neues Passwort kommt nicht an" },
+            { "forgotUsername", "Benutzername/E-Mail-Adresse vergessen" },
+            { "other", "Etwas anderes" }
+        };
+
+        public TicketService(
+            IArpaContext context,
+            IUserAccessor userAccessor,
+            ITicketFileAccessor fileAccessor,
+            IEmailSender emailSender,
+            JwtConfiguration jwtConfiguration,
+            ClubConfiguration clubConfiguration,
+            ILogger<TicketService> logger)
         {
             _context = context;
             _userAccessor = userAccessor;
             _fileAccessor = fileAccessor;
+            _emailSender = emailSender;
+            _jwtConfiguration = jwtConfiguration;
+            _clubConfiguration = clubConfiguration;
+            _logger = logger;
         }
 
         public async Task<List<TicketListItemDto>> GetTicketsAsync(string status, string type, Guid? creatorId, string search, CancellationToken cancellationToken = default)
@@ -432,6 +460,81 @@ namespace Orso.Arpa.Application.TicketApplication.Services
                 return null;
 
             return (result.Content, attachment.FileName, attachment.ContentType);
+        }
+
+        public async Task<Guid> CreateSupportTicketAsync(CreateSupportTicketDto dto, CancellationToken cancellationToken = default)
+        {
+            var topicsFormatted = string.Join(", ", dto.Topics
+                .Select(t => TopicLabels.TryGetValue(t, out var label) ? label : t));
+
+            var title = $"Support: {topicsFormatted}";
+            var username = string.IsNullOrEmpty(dto.Username) ? "(nicht angegeben)" : dto.Username;
+
+            var description = $"--- Kontaktdaten ---\n" +
+                $"Name: {dto.GivenName} {dto.Surname}\n" +
+                $"E-Mail: {dto.Email}\n" +
+                $"Benutzername: {username}\n" +
+                $"Themen: {topicsFormatted}\n" +
+                $"---\n\n" +
+                dto.Message;
+
+            var ticket = new Ticket(null, title, description, TicketType.Bug, UserSeedData.SupportSystemUserId);
+            ticket.UpdateAdminFields(null, 1, null, null, null, null);
+            _context.Tickets.Add(ticket);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            // Admin-Benachrichtigung
+            try
+            {
+                var adminTemplate = new SupportRequestTemplate
+                {
+                    GivenName = dto.GivenName,
+                    Surname = dto.Surname,
+                    Email = dto.Email,
+                    Username = username,
+                    Message = dto.Message,
+                    TopicsFormatted = topicsFormatted,
+                    ArpaLogo = _jwtConfiguration.ArpaLogo,
+                    ClubAddress = _clubConfiguration.Address,
+                    ClubMail = _clubConfiguration.ContactEmail,
+                    ClubName = _clubConfiguration.Name,
+                    ClubPhoneNumber = _clubConfiguration.Phone
+                };
+
+                var supportEmail = !string.IsNullOrEmpty(_clubConfiguration.SupportEmail)
+                    ? _clubConfiguration.SupportEmail
+                    : _clubConfiguration.ContactEmail;
+
+                await _emailSender.SendTemplatedEmailAsync(adminTemplate, supportEmail);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send admin notification for support ticket {TicketId}", ticket.Id);
+            }
+
+            // User-Bestätigung
+            try
+            {
+                var confirmationTemplate = new SupportTicketConfirmationTemplate
+                {
+                    GivenName = dto.GivenName,
+                    Surname = dto.Surname,
+                    TopicsFormatted = topicsFormatted,
+                    ArpaLogo = _jwtConfiguration.ArpaLogo,
+                    ClubAddress = _clubConfiguration.Address,
+                    ClubMail = _clubConfiguration.ContactEmail,
+                    ClubName = _clubConfiguration.Name,
+                    ClubPhoneNumber = _clubConfiguration.Phone
+                };
+
+                await _emailSender.SendTemplatedEmailAsync(confirmationTemplate, dto.Email);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send confirmation email for support ticket {TicketId}", ticket.Id);
+            }
+
+            return ticket.Id;
         }
     }
 }
