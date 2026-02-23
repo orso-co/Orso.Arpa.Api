@@ -42,6 +42,7 @@ using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Domain.MediathekDomain.Model;
 using Orso.Arpa.Domain.TicketDomain.Model;
+using Orso.Arpa.Domain.FinanceDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
 
@@ -182,6 +183,11 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<TicketVote> TicketVotes { get; set; }
         public DbSet<TicketReaction> TicketReactions { get; set; }
         public DbSet<TicketReadStatus> TicketReadStatuses { get; set; }
+
+        // Finance
+        public DbSet<OrganizationBankAccount> OrganizationBankAccounts { get; set; }
+        public DbSet<BankAccountBalanceSnapshot> BankAccountBalanceSnapshots { get; set; }
+        public DbSet<PendingTanRequest> PendingTanRequests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

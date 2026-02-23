@@ -64,6 +64,10 @@ using Orso.Arpa.Application.TodoApplication.Interfaces;
 using Orso.Arpa.Application.TodoApplication.Services;
 using Orso.Arpa.Application.BankAccountApplication.Interfaces;
 using Orso.Arpa.Application.BankAccountApplication.Services;
+using Orso.Arpa.Application.FinanceApplication.Interfaces;
+using Orso.Arpa.Application.FinanceApplication.Services;
+using Orso.Arpa.Domain.FinanceDomain.Interfaces;
+using Orso.Arpa.Infrastructure.Finance;
 using Orso.Arpa.Application.ClubApplication.Interfaces;
 using Orso.Arpa.Application.ClubApplication.Services;
 using Orso.Arpa.Application.ContactDetailApplication.Interfaces;
@@ -126,6 +130,7 @@ using Orso.Arpa.Application.VenueApplication.Services;
 using Orso.Arpa.Domain._General.Errors;
 using Orso.Arpa.Domain.AuditLogDomain.Model;
 using Orso.Arpa.Domain.General.Configuration;
+using FinanceConfiguration = Orso.Arpa.Domain.General.Configuration.FinanceConfiguration;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
 using Orso.Arpa.Domain.ProjectDomain.Commands;
@@ -254,6 +259,7 @@ namespace Orso.Arpa.Api
             // EmailCampaignWorker runs in all environments (uses MailHog in Development)
             services.AddHostedService<EmailCampaignWorker>();
             services.AddHostedService<LiveLocationExpiryWorker>();
+            services.AddHostedService<BankBalanceSyncWorker>();
         }
 
         private void ConfigureStorageAccount(IServiceCollection services)
@@ -563,6 +569,7 @@ namespace Orso.Arpa.Api
             _ = AddConfiguration<ClubConfiguration>(services);
             _ = AddConfiguration<SeedConfiguration>(services);
             _ = AddConfiguration<VapidConfiguration>(services);
+            _ = AddConfiguration<FinanceConfiguration>(services);
 
             // Mediathek
             _ = services.AddScoped<IMediathekService, MediathekService>();
@@ -571,6 +578,13 @@ namespace Orso.Arpa.Api
             _ = services.AddScoped<IWebPushService, WebPushService>();
             _ = services.AddScoped<INotificationDispatcher, NotificationDispatcher>();
             _ = services.AddScoped<IRealtimeNotificationSender, RealtimeNotificationSender>();
+
+            // Finance
+            _ = services.AddHttpClient();
+            _ = services.AddScoped<IFinanceService, FinanceService>();
+            _ = services.AddScoped<ICredentialEncryptionService, CredentialEncryptionService>();
+            _ = services.AddScoped<IPayPalBalanceService, PayPalBalanceService>();
+            _ = services.AddScoped<IFinTsBalanceService, FinTsBalanceService>();
         }
 
         private T AddConfiguration<T>(IServiceCollection services) where T : class

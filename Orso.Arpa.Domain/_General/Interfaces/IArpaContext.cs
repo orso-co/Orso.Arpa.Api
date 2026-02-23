@@ -29,6 +29,7 @@ using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Domain.MediathekDomain.Model;
 using Orso.Arpa.Domain.TicketDomain.Model;
+using Orso.Arpa.Domain.FinanceDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
 {
@@ -134,6 +135,11 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<TicketVote> TicketVotes { get; set; }
         DbSet<TicketReaction> TicketReactions { get; set; }
         DbSet<TicketReadStatus> TicketReadStatuses { get; set; }
+
+        // Finance
+        DbSet<OrganizationBankAccount> OrganizationBankAccounts { get; set; }
+        DbSet<BankAccountBalanceSnapshot> BankAccountBalanceSnapshots { get; set; }
+        DbSet<PendingTanRequest> PendingTanRequests { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
