@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Application.ChatApplication.Interfaces;
 using Orso.Arpa.Application.ChatApplication.Model;
+using Orso.Arpa.Domain.ChatDomain.Enums;
 using Orso.Arpa.Domain.ChatDomain.Model;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
@@ -295,6 +296,16 @@ namespace Orso.Arpa.Application.ChatApplication.Services
         {
             EnsureStaffOrAdmin();
             await GetSystemFolderAsync(folderId, cancellationToken);
+
+            // Block Direct (1:1) chats from being assigned to system folders
+            ChatRoom room = await _context.ChatRooms
+                .FirstOrDefaultAsync(r => r.Id == dto.ChatRoomId, cancellationToken)
+                ?? throw new InvalidOperationException($"Chat room {dto.ChatRoomId} not found.");
+
+            if (room.Type == ChatRoomType.Direct)
+            {
+                throw new InvalidOperationException("Direct (1:1) chats cannot be assigned to system folders. They may only be placed in personal folders.");
+            }
 
             // Remove existing system assignments for this room in ANY system folder (not just target)
             List<ChatFolderRoomAssignment> existingAll = await _context.Set<ChatFolderRoomAssignment>()
