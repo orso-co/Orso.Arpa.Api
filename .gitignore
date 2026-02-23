@@ -360,3 +360,5 @@ c:azurite
 .dccache
 # Local environment
 .env
+.env.local
+scripts/.env.local
