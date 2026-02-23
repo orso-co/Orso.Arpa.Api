@@ -45,5 +45,8 @@
     <None Update="Templates\Html\Support_Ticket_Confirmation.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\Html\Chat_Room_Reminder.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

@@ -11,10 +11,13 @@ using Orso.Arpa.Application.ChatApplication.Model;
 using Orso.Arpa.Domain.ChatDomain.Enums;
 using Orso.Arpa.Domain.ChatDomain.Interfaces;
 using Orso.Arpa.Domain.ChatDomain.Model;
+using Orso.Arpa.Domain.General.Configuration;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.General.Model;
 using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Infrastructure.Presence;
+using Orso.Arpa.Mail.Interfaces;
+using Orso.Arpa.Mail.Templates;
 
 namespace Orso.Arpa.Application.ChatApplication.Services
 {
@@ -24,6 +27,9 @@ namespace Orso.Arpa.Application.ChatApplication.Services
         private readonly IUserAccessor _userAccessor;
         private readonly IPresenceTracker _presenceTracker;
         private readonly IChatAttachmentFileAccessor _fileAccessor;
+        private readonly IEmailSender _emailSender;
+        private readonly JwtConfiguration _jwtConfiguration;
+        private readonly ClubConfiguration _clubConfiguration;
         private readonly ILogger<ChatService> _logger;
 
         // Edit window: 15 minutes
@@ -34,12 +40,18 @@ namespace Orso.Arpa.Application.ChatApplication.Services
             IUserAccessor userAccessor,
             IPresenceTracker presenceTracker,
             IChatAttachmentFileAccessor fileAccessor,
+            IEmailSender emailSender,
+            JwtConfiguration jwtConfiguration,
+            ClubConfiguration clubConfiguration,
             ILogger<ChatService> logger)
         {
             _context = context;
             _userAccessor = userAccessor;
             _presenceTracker = presenceTracker;
             _fileAccessor = fileAccessor;
+            _emailSender = emailSender;
+            _jwtConfiguration = jwtConfiguration;
+            _clubConfiguration = clubConfiguration;
             _logger = logger;
         }
 
@@ -987,6 +999,94 @@ namespace Orso.Arpa.Application.ChatApplication.Services
             // Get the main instrument from the user's first musician profile
             var section = user?.Person?.MusicianProfiles?.FirstOrDefault()?.Instrument;
             return section?.Name;
+        }
+
+        #endregion
+
+        #region Notifications
+
+        public async Task<int> SendRoomNotificationEmailsAsync(Guid roomId, CancellationToken cancellationToken = default)
+        {
+            var userId = _userAccessor.UserId;
+
+            var room = await _context.ChatRooms
+                .FirstOrDefaultAsync(r => r.Id == roomId, cancellationToken)
+                ?? throw new ArgumentException("Chat room not found");
+
+            // Verify sender is member
+            var isMember = await _context.ChatRoomMembers
+                .AnyAsync(m => m.ChatRoomId == roomId && m.UserId == userId && !m.Deleted, cancellationToken);
+            if (!isMember)
+                throw new UnauthorizedAccessException("You are not a member of this room");
+
+            // Get sender info
+            var senderUser = await _context.Users
+                .Include(u => u.Person)
+                .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+            var senderName = senderUser?.Person != null
+                ? $"{senderUser.Person.GivenName} {senderUser.Person.Surname}".Trim()
+                : senderUser?.UserName ?? "Unknown";
+
+            // Get last message for preview
+            var lastMessage = await _context.ChatMessages
+                .Where(m => m.ChatRoomId == roomId && !m.Deleted)
+                .OrderByDescending(m => m.SentAt)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            var preview = lastMessage?.Content ?? "";
+            if (preview.Length > 150)
+                preview = preview[..150] + "...";
+
+            // Build deep link
+            var chatLink = $"{_jwtConfiguration.Audience}/#/chat?room={roomId}";
+            if (lastMessage != null)
+                chatLink += $"&message={lastMessage.Id}";
+
+            // Get all members except sender
+            var members = await _context.ChatRoomMembers
+                .Where(m => m.ChatRoomId == roomId && m.UserId != userId && !m.Deleted)
+                .ToListAsync(cancellationToken);
+
+            var emailsSent = 0;
+            foreach (var member in members)
+            {
+                var user = await _context.Users
+                    .Include(u => u.Person)
+                    .FirstOrDefaultAsync(u => u.Id == member.UserId, cancellationToken);
+
+                if (user?.Email == null)
+                    continue;
+
+                var displayName = user.Person != null
+                    ? $"{user.Person.GivenName} {user.Person.Surname}".Trim()
+                    : user.UserName;
+
+                try
+                {
+                    var template = new ChatRoomReminderTemplate
+                    {
+                        DisplayName = displayName,
+                        RoomName = room.Name ?? "Chat",
+                        SenderName = senderName,
+                        LastMessagePreview = preview,
+                        ChatLink = chatLink,
+                        ArpaLogo = _jwtConfiguration.ArpaLogo,
+                        ClubName = _clubConfiguration.Name,
+                        ClubMail = _clubConfiguration.ContactEmail,
+                        ClubAddress = _clubConfiguration.Address,
+                        ClubPhoneNumber = _clubConfiguration.Phone,
+                    };
+
+                    await _emailSender.SendTemplatedEmailAsync(template, user.Email);
+                    emailsSent++;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to send chat reminder to {Email}", user.Email);
+                }
+            }
+
+            return emailsSent;
         }
 
         #endregion

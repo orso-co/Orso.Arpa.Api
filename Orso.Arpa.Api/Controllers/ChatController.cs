@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR;
 using Orso.Arpa.Api.Hubs;
 using Orso.Arpa.Application.ChatApplication.Interfaces;
 using Orso.Arpa.Application.ChatApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers
 {
@@ -282,6 +283,33 @@ namespace Orso.Arpa.Api.Controllers
                 return NotFound("Chat room not found or you are not a member");
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Sends reminder emails to all members of a chat room (Staff only).
+        /// </summary>
+        /// <param name="roomId">Chat room ID</param>
+        /// <returns>Number of emails sent</returns>
+        [HttpPost("rooms/{roomId}/notify-members")]
+        [Authorize(Roles = RoleNames.Staff)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<object>> NotifyRoomMembers(Guid roomId)
+        {
+            try
+            {
+                var emailsSent = await _chatService.SendRoomNotificationEmailsAsync(roomId);
+                return Ok(new { emailsSent });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         #endregion

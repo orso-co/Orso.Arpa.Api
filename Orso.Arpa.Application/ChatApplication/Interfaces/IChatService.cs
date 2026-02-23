@@ -163,6 +163,15 @@ namespace Orso.Arpa.Application.ChatApplication.Interfaces
 
         #endregion
 
+        #region Notifications
+
+        /// <summary>
+        /// Send reminder emails to all members of a chat room (except the sender)
+        /// </summary>
+        Task<int> SendRoomNotificationEmailsAsync(Guid roomId, CancellationToken cancellationToken = default);
+
+        #endregion
+
         #region Location Sharing
 
         Task<ChatMessageDto> SendLocationAsync(Guid roomId, SendLocationDto dto, CancellationToken cancellationToken = default);
