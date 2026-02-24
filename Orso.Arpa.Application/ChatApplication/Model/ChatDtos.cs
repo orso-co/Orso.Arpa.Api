@@ -8,6 +8,7 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         Direct = 0,
         Project = 1,
         Global = 2,
+        Todo = 3,
         Entity = 4,
         Group = 5
     }

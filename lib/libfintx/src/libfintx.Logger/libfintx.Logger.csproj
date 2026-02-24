@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net6.0;net8.0;net10.0</TargetFrameworks>
+    <RootNamespace>libfintx.Logger</RootNamespace>
+    <Description>Logging framework for libfintx</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- If all members are not documented, you can disable the compiler warnings -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\libfintx.Globals\libfintx.Globals.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="docs\README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+</Project>

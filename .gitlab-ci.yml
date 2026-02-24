@@ -100,6 +100,16 @@ sonarcloud:
         set -e
         cd ~/$DEPLOY_DIR
 
+        echo "=== Pre-deploy database backup ==="
+        BACKUP_DIR=~/backups/pre-deploy
+        mkdir -p \$BACKUP_DIR
+        POSTGRES_CONTAINER=\$(docker compose ps -q postgres)
+        BACKUP_FILE="\$BACKUP_DIR/${DEPLOY_ENV}-\$(date +%Y%m%d-%H%M%S).sql.gz"
+        docker exec \$POSTGRES_CONTAINER pg_dump -U postgres orso-arpa | gzip > "\$BACKUP_FILE"
+        echo "Backup saved: \$BACKUP_FILE (\$(du -h "\$BACKUP_FILE" | cut -f1))"
+        # Keep only last 10 pre-deploy backups per environment
+        ls -t \$BACKUP_DIR/${DEPLOY_ENV}-*.sql.gz 2>/dev/null | tail -n +11 | xargs rm -f 2>/dev/null || true
+
         echo "=== Pulling latest code ==="
         BUILD_DIR="/tmp/arpa-build-\$\$"
         mkdir -p \$BUILD_DIR

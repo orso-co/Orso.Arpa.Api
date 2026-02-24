@@ -803,6 +803,33 @@ namespace Orso.Arpa.Api
                     logger.LogInformation("Pending migrations: {Migrations}", string.Join(", ", pendingMigrations));
                 }
 
+                // Install SQL functions/extensions BEFORE migrations — some migrations
+                // reference functions (e.g. fn_list_parent_sections) that are normally
+                // created by the DataSeeder AFTER migrations.
+                // On a fresh DB, migrations would fail without these functions.
+                // Only install functions and extensions (not views, which depend on tables).
+                var sqlDirectory = Path.Combine(AppContext.BaseDirectory, "SqlStatements");
+                if (Directory.Exists(sqlDirectory))
+                {
+                    foreach (var sqlFile in Directory.EnumerateFiles(sqlDirectory, "*.sql")
+                        .Where(f => Path.GetFileName(f).Contains("Function", StringComparison.OrdinalIgnoreCase)
+                                 || Path.GetFileName(f).StartsWith("00_"))
+                        .OrderBy(f => f))
+                    {
+                        try
+                        {
+                            var sql = File.ReadAllText(sqlFile);
+                            context.Database.ExecuteSqlRaw(sql);
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogWarning("Pre-migration SQL {File} failed (may be OK on fresh DB): {Error}",
+                                Path.GetFileName(sqlFile), ex.Message);
+                        }
+                    }
+                    logger.LogInformation("Pre-migration SQL functions installed from {Dir}", sqlDirectory);
+                }
+
                 context.Database.Migrate();
 
                 // Verify after migration

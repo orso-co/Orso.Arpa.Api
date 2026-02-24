@@ -396,6 +396,69 @@ docker exec arpa-prod-postgres psql -U postgres -d orso-arpa -c \
 DisplayName = (p.GivenName + " " + p.Surname).Trim()
 ```
 
+## Bekannte Fixes (Februar 2026, Fortsetzung)
+
+### Chat: Gruppenchats als Direct gespeichert → 1:1-Chat öffnet Gruppe (24.02.2026)
+
+**Problem:** Klick auf Chat-Icon bei Online-Users öffnete einen Gruppenchat (z.B. 280 Mitglieder) statt 1:1-Direktchat.
+
+**Ursache:** `CreateGroupChatAsync` in `ChatService.cs` erstellte Gruppenräume mit `ChatRoomType.Direct` (es gab keinen Group-Typ). `CreateDirectChatAsync` suchte nach `Type==Direct` + beide User als Member → fand den großen Gruppenchat.
+
+**Fix:**
+1. Neuer Enum-Wert `ChatRoomType.Group = 5` in `Orso.Arpa.Domain/ChatDomain/Enums/ChatRoomType.cs`
+2. `ChatRoomTypeDto.Group = 5` in `Orso.Arpa.Application/ChatApplication/Model/ChatDtos.cs`
+3. `CreateGroupChatAsync` nutzt `ChatRoomType.Group` statt `Direct`
+4. `CreateDirectChatAsync` prüft zusätzlich `Members.Count == 2`
+5. `GetRoomDisplayNameAsync` behandelt `Group`-Typ separat
+
+**PROD-Datenfix (nach Deploy nötig!):**
+```sql
+-- Bestehende Gruppenchats (>2 Mitglieder) von Direct (0) auf Group (5) umstellen
+UPDATE chat_rooms SET type = 5
+WHERE type = 0 AND NOT deleted
+AND id IN (
+  SELECT chat_room_id FROM chat_room_members
+  WHERE NOT deleted GROUP BY chat_room_id HAVING COUNT(*) > 2
+);
+```
+
+### ChatRoomType Enum (vollständig, Stand 24.02.2026)
+
+| Wert | Name | Beschreibung |
+|------|------|-------------|
+| 0 | Direct | 1:1 Privatnachricht (genau 2 Mitglieder) |
+| 1 | Project | Projekt-Gruppenchat |
+| 2 | Global | Globaler Chat (alle User) |
+| 3 | Todo | Chat für TODO-Kommentare |
+| 4 | Entity | Chat verknüpft mit Entity (Ticket, Person, etc.) |
+| 5 | Group | Manuell erstellter Gruppenchat |
+
+**JSON-Serialisierung:** `JsonStringEnumConverter(SnakeCaseUpper)` → `"DIRECT"`, `"GROUP"`, etc.
+
+### Chat Read-Receipts / Gelesen-Anzeige (24.02.2026)
+
+**Feature:** Blaue/graue Häkchen (✓/✓✓) an eigenen Chat-Nachrichten.
+
+**Konzept:** Raum-Level Tracking via `ChatRoomMember.LastReadAt` (kein per-Nachricht-Tracking, keine neue Migration).
+Eine Nachricht gilt als "gelesen" wenn `message.SentAt <= otherMember.LastReadAt`.
+
+**Backend-Änderungen:**
+- `ChatMemberDto` hat neues Feld `LastReadAt` (gemappt aus `ChatRoomMember.LastReadAt`)
+- `ChatController.MarkAsRead()` sendet jetzt SignalR `MessageRead` Event an alle Raum-Mitglieder
+  ```csharp
+  await _chatHubContext.Clients.Group($"chat_{roomId}")
+      .SendAsync("MessageRead", new { RoomId = roomId, UserId = userId, ReadAt = DateTime.UtcNow });
+  ```
+
+**Frontend-Änderungen:**
+- `ReadReceiptEvent` Interface in `chat.model.ts`
+- `MessageRead` SignalR-Handler in `chat.service.ts` → `updateMemberLastReadAt()`
+- Häkchen-Anzeige in `chat-messages.component.ts`:
+  - ✓ grau = gesendet (default)
+  - ✓✓ blau = gelesen (mindestens ein anderer Member hat `lastReadAt >= sentAt`)
+
+**Status:** Auf develop gepusht, noch nicht auf PROD getestet.
+
 ## Features (Februar 2026)
 
 ### Mediathek Bridge-Endpoint (21.02.2026)

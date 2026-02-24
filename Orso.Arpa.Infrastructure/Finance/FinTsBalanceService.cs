@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,21 +56,21 @@ namespace Orso.Arpa.Infrastructure.Finance
                 _logger.LogInformation("FinTS connecting to {Url} with BLZ {Blz}, User {UserId}, Account {Account}, IBAN {Iban}, BIC {Bic}",
                     credentials.BankUrl, credentials.BankCode, credentials.UserId, credentials.AccountNumber, credentials.Iban, credentials.Bic);
 
+                // Single client (anonymous=true) — our patched libfintx falls back from
+                // failed anonymous BPD to authenticated Init with PIN:1.
+                // After Init, Parse_Segments auto-sets HIRMS from bank's "3920" response.
+                // HKSAL then uses PIN:2+TAN method (per python-fints approach: PIN:1 for
+                // Init, PIN:2 for business transactions).
                 var client = new FinTsClient(connectionDetails, true, null, _loggerFactory);
 
-                // Set TAN method (HIRMS) and medium BEFORE sync — required for PSD2 compliance
-                if (!string.IsNullOrWhiteSpace(credentials.TanMethod))
-                {
-                    client.HIRMS = credentials.TanMethod;
-                    _logger.LogInformation("FinTS TAN method (HIRMS) set to: {TanMethod}", credentials.TanMethod);
-                }
+                // Set TAN medium name (used for HKTAN segments)
                 if (!string.IsNullOrWhiteSpace(credentials.TanMediumName))
                 {
                     client.HITAB = credentials.TanMediumName;
                     _logger.LogInformation("FinTS TAN medium (HITAB) set to: {TanMediumName}", credentials.TanMediumName);
                 }
 
-                // Synchronize first to establish session
+                // Sync to get CustomerSystemId
                 _logger.LogInformation("FinTS synchronization starting...");
                 try
                 {
@@ -81,6 +82,41 @@ namespace Orso.Arpa.Infrastructure.Finance
                     {
                         return new FinTsBalanceResult(null, null, null, false, syncResult.IsTanRequired,
                             ErrorMessage: $"FinTS sync failed: {string.Join("; ", syncResult.Messages)}");
+                    }
+
+                    connectionDetails.CustomerSystemId = client.SystemId;
+                    _logger.LogInformation("FinTS CustomerSystemId set to: {SystemId}", client.SystemId);
+
+                    _logger.LogInformation("FinTS HIRMS after sync: {HIRMS}, HITANS: {HITANS}",
+                        client.HIRMS, client.HITANS);
+
+                    // HITANS may be 0 after Sync due to parse order: HITANS segments
+                    // arrive BEFORE the "3920" return code in the response. When HITANS
+                    // segments are parsed, HIRMSf is still empty → HITANS stays 0.
+                    // Fix: re-evaluate HITANS from BPD now that HIRMS is known.
+                    if (client.HITANS == 0 && !string.IsNullOrEmpty(client.HIRMS))
+                    {
+                        var bpd = client.BPD;
+                        if (bpd?.HITANS != null)
+                        {
+                            var hirmsCode = Convert.ToInt32(client.HIRMS);
+                            foreach (var hitans in bpd.HITANS.OrderByDescending(h => h.Version))
+                            {
+                                if (hitans.TanProcesses.Any(tp => tp.TanCode == hirmsCode))
+                                {
+                                    client.HITANS = hitans.Version;
+                                    _logger.LogInformation("FinTS HITANS re-evaluated from BPD to {HITANS}", client.HITANS);
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Fallback: if BPD had no matching HITANS, force version 7
+                        if (client.HITANS == 0)
+                        {
+                            client.HITANS = 7;
+                            _logger.LogInformation("FinTS HITANS forced to 7 for PSD2 compliance");
+                        }
                     }
                 }
                 catch (Exception syncEx)
@@ -97,7 +133,17 @@ namespace Orso.Arpa.Infrastructure.Finance
 
                 var tanDialog = new TANDialog(async (dialog) =>
                 {
-                    // TAN required — create a pending request and wait
+                    // For decoupled TAN (pushTAN-dec), the bank sends code 3955
+                    // ("Bitte Auftrag in Ihrer App freigeben"). The library handles
+                    // polling automatically — we must NOT block here, just return
+                    // immediately so the polling loop in ProcessSCA can start.
+                    if (dialog.DialogResult?.IsApprovalRequired == true)
+                    {
+                        _logger.LogInformation("FinTS decoupled TAN: waiting for approval in banking app");
+                        return string.Empty;
+                    }
+
+                    // Manual TAN entry (e.g. SMS-TAN) — create a pending request and wait
                     tanRequestId = Guid.NewGuid();
                     tanChallenge = dialog.DialogResult?.RawData ?? "TAN eingeben";
                     var tcs = new TaskCompletionSource<string>();
@@ -118,6 +164,8 @@ namespace Orso.Arpa.Infrastructure.Finance
                     }
                 });
 
+                _logger.LogInformation("FinTS requesting balance (PIN:2+HKTAN{HITANS}, HIRMS={HIRMS})...",
+                    client.HITANS, client.HIRMS);
                 var balanceResult = await client.Balance(tanDialog);
 
                 if (tanRequestId.HasValue && _pendingTanRequests.ContainsKey(tanRequestId.Value))
