@@ -87,6 +87,8 @@ namespace Orso.Arpa.Application.FinanceApplication.Model
     {
         public Guid AccountId { get; set; }
         public string Name { get; set; }
+        public string Iban { get; set; }
+        public string BankName { get; set; }
         public string AccountType { get; set; }
         public decimal Balance { get; set; }
         public decimal? AvailableBalance { get; set; }

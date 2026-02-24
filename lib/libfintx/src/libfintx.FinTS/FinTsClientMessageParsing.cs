@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using libfintx.FinTS.Camt;
@@ -341,24 +342,24 @@ public partial class FinTsClient
             if (hisalBalanceParts[1].IndexOf("e-9", StringComparison.OrdinalIgnoreCase) >= 0)
                 balance.Balance = 0; // Deutsche Bank liefert manchmal "E-9", wenn der Kontostand 0 ist. Siehe Test_Parse_Balance und https://homebanking-hilfe.de/forum/topic.php?t=24155
             else
-                balance.Balance = Convert.ToDecimal($"{(hisalBalanceParts[0] == "D" ? "-" : "")}{hisalBalanceParts[1]}");
+                balance.Balance = ParseGermanDecimal($"{(hisalBalanceParts[0] == "D" ? "-" : "")}{hisalBalanceParts[1]}");
 
 
             //from here on optional fields / see page 46 in "FinTS_3.0_Messages_Geschaeftsvorfaelle_2015-08-07_final_version.pdf"
             if (hisalParts.Length > 5 && hisalParts[5].Contains(":"))
             {
                 var hisalMarkedBalanceParts = hisalParts[5].Split(':');
-                balance.MarkedTransactions = Convert.ToDecimal($"{(hisalMarkedBalanceParts[0] == "D" ? "-" : "")}{hisalMarkedBalanceParts[1]}");
+                balance.MarkedTransactions = ParseGermanDecimal($"{(hisalMarkedBalanceParts[0] == "D" ? "-" : "")}{hisalMarkedBalanceParts[1]}");
             }
 
             if (hisalParts.Length > 6 && hisalParts[6].Contains(":"))
             {
-                balance.CreditLine = Convert.ToDecimal(hisalParts[6].Split(':')[0].TrimEnd(','));
+                balance.CreditLine = ParseGermanDecimal(hisalParts[6].Split(':')[0].TrimEnd(','));
             }
 
             if (hisalParts.Length > 7 && hisalParts[7].Contains(":"))
             {
-                balance.AvailableBalance = Convert.ToDecimal(hisalParts[7].Split(':')[0].TrimEnd(','));
+                balance.AvailableBalance = ParseGermanDecimal(hisalParts[7].Split(':')[0].TrimEnd(','));
             }
 
             /* ---------------------------------------------------------------------------------------------------------
@@ -506,5 +507,19 @@ public partial class FinTsClient
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Parse a German-formatted decimal string (comma as decimal separator).
+    /// FinTS/HISAL amounts use German locale: "10514,38" means 10514.38 EUR.
+    /// </summary>
+    private static decimal ParseGermanDecimal(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return 0;
+
+        // German banks use comma as decimal separator in HISAL responses.
+        // Replace comma with period and parse with InvariantCulture.
+        return decimal.Parse(value.Replace(",", "."), CultureInfo.InvariantCulture);
     }
 }

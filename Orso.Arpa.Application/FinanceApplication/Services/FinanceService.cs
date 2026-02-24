@@ -165,6 +165,8 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
                 {
                     AccountId = account.Id,
                     Name = account.Name,
+                    Iban = account.Iban,
+                    BankName = account.BankName,
                     AccountType = account.AccountType.ToString(),
                     Balance = latestSnapshot?.Balance ?? 0,
                     AvailableBalance = latestSnapshot?.AvailableBalance,
