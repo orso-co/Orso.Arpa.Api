@@ -9,5 +9,6 @@ namespace Orso.Arpa.Infrastructure.Presence
         public string DisplayName { get; set; } = string.Empty;
         public string? InstrumentName { get; set; }
         public DateTime ConnectedAt { get; set; }
+        public DateTime? LastSeenAt { get; set; }
     }
 }

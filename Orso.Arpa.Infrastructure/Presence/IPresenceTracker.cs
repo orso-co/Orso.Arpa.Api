@@ -8,6 +8,7 @@ namespace Orso.Arpa.Infrastructure.Presence
         Task<bool> UserConnected(OnlineUserDto user, string connectionId);
         Task<bool> UserDisconnected(Guid userId, string connectionId);
         Task<OnlineUserDto[]> GetOnlineUsers();
+        Task<OnlineUserDto[]> GetRecentlyOnlineUsers(TimeSpan window);
         Task<OnlineUserDto?> GetUser(Guid userId);
     }
 }

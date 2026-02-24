@@ -9,6 +9,7 @@ namespace Orso.Arpa.Infrastructure.Presence
     {
         private readonly object _lock = new();
         private readonly Dictionary<Guid, (OnlineUserDto User, HashSet<string> ConnectionIds)> _onlineUsers = new();
+        private readonly Dictionary<Guid, OnlineUserDto> _recentlyOffline = new();
 
         /// <summary>
         /// Adds a user connection. Returns true if this is the user's first connection (user just came online).
@@ -19,6 +20,9 @@ namespace Orso.Arpa.Infrastructure.Presence
 
             lock (_lock)
             {
+                // Remove from recently offline if reconnecting
+                _recentlyOffline.Remove(user.UserId);
+
                 if (_onlineUsers.TryGetValue(user.UserId, out var existing))
                 {
                     existing.ConnectionIds.Add(connectionId);
@@ -48,8 +52,31 @@ namespace Orso.Arpa.Infrastructure.Presence
 
                     if (existing.ConnectionIds.Count == 0)
                     {
+                        // Move to recently offline with LastSeenAt timestamp
+                        var offlineUser = new OnlineUserDto
+                        {
+                            UserId = existing.User.UserId,
+                            PersonId = existing.User.PersonId,
+                            DisplayName = existing.User.DisplayName,
+                            InstrumentName = existing.User.InstrumentName,
+                            ConnectedAt = existing.User.ConnectedAt,
+                            LastSeenAt = DateTime.UtcNow
+                        };
+                        _recentlyOffline[userId] = offlineUser;
+
                         _onlineUsers.Remove(userId);
                         isLastConnection = true;
+
+                        // Cleanup: remove entries older than 2 hours
+                        var cutoff = DateTime.UtcNow.AddHours(-2);
+                        var stale = _recentlyOffline
+                            .Where(kv => kv.Value.LastSeenAt < cutoff)
+                            .Select(kv => kv.Key)
+                            .ToList();
+                        foreach (var key in stale)
+                        {
+                            _recentlyOffline.Remove(key);
+                        }
                     }
                 }
             }
@@ -69,6 +96,25 @@ namespace Orso.Arpa.Infrastructure.Presence
                 users = _onlineUsers.Values
                     .Select(x => x.User)
                     .OrderBy(x => x.DisplayName)
+                    .ToArray();
+            }
+
+            return Task.FromResult(users);
+        }
+
+        /// <summary>
+        /// Gets users who went offline within the specified time window.
+        /// </summary>
+        public Task<OnlineUserDto[]> GetRecentlyOnlineUsers(TimeSpan window)
+        {
+            OnlineUserDto[] users;
+
+            lock (_lock)
+            {
+                var cutoff = DateTime.UtcNow - window;
+                users = _recentlyOffline.Values
+                    .Where(u => u.LastSeenAt >= cutoff)
+                    .OrderByDescending(u => u.LastSeenAt)
                     .ToArray();
             }
 

@@ -58,6 +58,9 @@ namespace Orso.Arpa.Api.Hubs
             var onlineUsers = await _presenceTracker.GetOnlineUsers();
             await Clients.Caller.SendAsync("OnlineUsersList", onlineUsers);
 
+            var recentlyOnline = await _presenceTracker.GetRecentlyOnlineUsers(TimeSpan.FromHours(1));
+            await Clients.Caller.SendAsync("RecentlyOnlineUsersList", recentlyOnline);
+
             await base.OnConnectedAsync();
         }
 
@@ -72,6 +75,9 @@ namespace Orso.Arpa.Api.Hubs
                 if (isLastConnection)
                 {
                     await Clients.Others.SendAsync("UserIsOffline", new { userId });
+
+                    var recentlyOnline = await _presenceTracker.GetRecentlyOnlineUsers(TimeSpan.FromHours(1));
+                    await Clients.Others.SendAsync("RecentlyOnlineUsersList", recentlyOnline);
                 }
             }
 
