@@ -75,6 +75,16 @@ namespace Orso.Arpa.Application.ChatApplication.Interfaces
         /// </summary>
         Task<List<ChatMemberDto>> GetRoomMembersAsync(Guid roomId, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Get or create a chat room linked to an entity
+        /// </summary>
+        Task<ChatRoomDto> GetOrCreateEntityChatAsync(CreateEntityChatDto dto, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get a chat room linked to a specific entity (null if none exists)
+        /// </summary>
+        Task<ChatRoomDto> GetEntityChatAsync(string entityType, Guid entityId, CancellationToken cancellationToken = default);
+
         #endregion
 
         #region Message Operations

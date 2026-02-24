@@ -49,6 +49,10 @@ namespace Orso.Arpa.Application.FinanceApplication.Model
         public string Pin { get; set; }
         public string AccountNumber { get; set; }
         public string SubAccountFeature { get; set; }
+        public string Iban { get; set; }
+        public string Bic { get; set; }
+        public string TanMethod { get; set; }
+        public string TanMediumName { get; set; }
     }
 
     public class PayPalCredentialsDto

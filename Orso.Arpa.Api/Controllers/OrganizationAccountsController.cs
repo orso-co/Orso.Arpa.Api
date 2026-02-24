@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Orso.Arpa.Application.FinanceApplication.Interfaces;
 using Orso.Arpa.Application.FinanceApplication.Model;
 using Orso.Arpa.Domain.UserDomain.Enums;
@@ -13,10 +15,17 @@ namespace Orso.Arpa.Api.Controllers
     public class OrganizationAccountsController : BaseController
     {
         private readonly IFinanceService _financeService;
+        private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ILogger<OrganizationAccountsController> _logger;
 
-        public OrganizationAccountsController(IFinanceService financeService)
+        public OrganizationAccountsController(
+            IFinanceService financeService,
+            IServiceScopeFactory scopeFactory,
+            ILogger<OrganizationAccountsController> logger)
         {
             _financeService = financeService;
+            _scopeFactory = scopeFactory;
+            _logger = logger;
         }
 
         [Authorize(Roles = $"{RoleNames.Staff},{RoleNames.Admin}")]
@@ -71,11 +80,24 @@ namespace Orso.Arpa.Api.Controllers
 
         [Authorize(Roles = RoleNames.Admin)]
         [HttpPost("{id}/sync")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> TriggerSync(Guid id)
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        public ActionResult TriggerSync(Guid id)
         {
-            await _financeService.TriggerSyncAsync(id);
-            return Ok();
+            // Fire-and-forget: FinTS sync can take minutes (TAN wait)
+            _ = Task.Run(async () =>
+            {
+                using var scope = _scopeFactory.CreateScope();
+                var service = scope.ServiceProvider.GetRequiredService<IFinanceService>();
+                try
+                {
+                    await service.TriggerSyncAsync(id);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Background sync failed for account {AccountId}", id);
+                }
+            });
+            return Accepted();
         }
 
         [Authorize(Roles = RoleNames.Admin)]

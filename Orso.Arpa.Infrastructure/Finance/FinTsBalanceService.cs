@@ -47,17 +47,49 @@ namespace Orso.Arpa.Infrastructure.Finance
                     UserId = credentials.UserId,
                     Pin = credentials.Pin,
                     Account = credentials.AccountNumber,
-                    SubAccount = credentials.SubAccountFeature
+                    SubAccount = credentials.SubAccountFeature,
+                    Iban = credentials.Iban,
+                    Bic = credentials.Bic,
                 };
 
-                var client = new FinTsClient(connectionDetails, false, null, _loggerFactory);
+                _logger.LogInformation("FinTS connecting to {Url} with BLZ {Blz}, User {UserId}, Account {Account}, IBAN {Iban}, BIC {Bic}",
+                    credentials.BankUrl, credentials.BankCode, credentials.UserId, credentials.AccountNumber, credentials.Iban, credentials.Bic);
+
+                var client = new FinTsClient(connectionDetails, true, null, _loggerFactory);
+
+                // Set TAN method (HIRMS) and medium BEFORE sync — required for PSD2 compliance
+                if (!string.IsNullOrWhiteSpace(credentials.TanMethod))
+                {
+                    client.HIRMS = credentials.TanMethod;
+                    _logger.LogInformation("FinTS TAN method (HIRMS) set to: {TanMethod}", credentials.TanMethod);
+                }
+                if (!string.IsNullOrWhiteSpace(credentials.TanMediumName))
+                {
+                    client.HITAB = credentials.TanMediumName;
+                    _logger.LogInformation("FinTS TAN medium (HITAB) set to: {TanMediumName}", credentials.TanMediumName);
+                }
 
                 // Synchronize first to establish session
-                var syncResult = await client.Synchronization();
-                if (!syncResult.IsSuccess)
+                _logger.LogInformation("FinTS synchronization starting...");
+                try
                 {
-                    return new FinTsBalanceResult(null, null, null, false, syncResult.IsTanRequired,
-                        ErrorMessage: $"FinTS sync failed: {string.Join("; ", syncResult.Messages)}");
+                    var syncResult = await client.Synchronization();
+                    _logger.LogInformation("FinTS sync result: Success={Success}, Messages={Messages}",
+                        syncResult.IsSuccess, string.Join("; ", syncResult.Messages));
+
+                    if (!syncResult.IsSuccess)
+                    {
+                        return new FinTsBalanceResult(null, null, null, false, syncResult.IsTanRequired,
+                            ErrorMessage: $"FinTS sync failed: {string.Join("; ", syncResult.Messages)}");
+                    }
+                }
+                catch (Exception syncEx)
+                {
+                    var innerMsg = syncEx.InnerException?.Message ?? "no inner exception";
+                    var innerType = syncEx.InnerException?.GetType().Name ?? "none";
+                    _logger.LogError(syncEx, "FinTS synchronization threw exception. Inner: [{InnerType}] {InnerMessage}", innerType, innerMsg);
+                    return new FinTsBalanceResult(null, null, null, false, false,
+                        ErrorMessage: $"FinTS sync exception: {syncEx.Message} (Inner: [{innerType}] {innerMsg})");
                 }
 
                 Guid? tanRequestId = null;
@@ -171,5 +203,9 @@ namespace Orso.Arpa.Infrastructure.Finance
         public string Pin { get; set; }
         public string AccountNumber { get; set; }
         public string SubAccountFeature { get; set; }
+        public string Iban { get; set; }
+        public string Bic { get; set; }
+        public string TanMethod { get; set; }
+        public string TanMediumName { get; set; }
     }
 }

@@ -9,6 +9,10 @@ namespace Orso.Arpa.Application.AppointmentApplication.Interfaces
 {
     public interface IAppointmentService
     {
+        Task<IEnumerable<CalendarFeedTokenDto>> GetFeedTokensAsync(Guid userId, string baseUrl);
+        Task<CalendarFeedTokenDto> CreateFeedTokenAsync(Guid userId, CreateCalendarFeedTokenDto dto, string baseUrl);
+        Task DeleteFeedTokenAsync(Guid userId, Guid tokenId);
+        Task<string> GenerateCalendarFeedAsync(string token);
         Task<IEnumerable<AppointmentListDto>> GetAsync(DateTime? date, DateRange range);
         Task<IEnumerable<AppointmentListDto>> GetAllAsync(DateTime? date, DateRange range);
         Task<IEnumerable<AppointmentRecentlyModifiedDto>> GetRecentlyModifiedAsync(int days);

@@ -20,6 +20,16 @@ namespace Orso.Arpa.Domain.ChatDomain.Enums
         /// <summary>
         /// Chat room for TODO item comments/discussion
         /// </summary>
-        Todo = 3
+        Todo = 3,
+
+        /// <summary>
+        /// Chat room linked to an entity (Ticket, Person, Appointment, etc.)
+        /// </summary>
+        Entity = 4,
+
+        /// <summary>
+        /// Manually created group chat (not tied to a project)
+        /// </summary>
+        Group = 5
     }
 }

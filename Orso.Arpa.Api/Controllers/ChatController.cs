@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR;
 using Orso.Arpa.Api.Hubs;
 using Orso.Arpa.Application.ChatApplication.Interfaces;
 using Orso.Arpa.Application.ChatApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers
@@ -16,6 +17,7 @@ namespace Orso.Arpa.Api.Controllers
     {
         private readonly IChatService _chatService;
         private readonly IHubContext<ChatHub> _chatHubContext;
+        private readonly ITokenAccessor _tokenAccessor;
 
         private static readonly HashSet<string> AllowedExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
@@ -47,10 +49,12 @@ namespace Orso.Arpa.Api.Controllers
 
         public ChatController(
             IChatService chatService,
-            IHubContext<ChatHub> chatHubContext)
+            IHubContext<ChatHub> chatHubContext,
+            ITokenAccessor tokenAccessor)
         {
             _chatService = chatService;
             _chatHubContext = chatHubContext;
+            _tokenAccessor = tokenAccessor;
         }
 
         #region Chat Rooms
@@ -123,6 +127,40 @@ namespace Orso.Arpa.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Gets or creates a chat room linked to an entity.
+        /// </summary>
+        [HttpPost("rooms/entity")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ChatRoomDto>> GetOrCreateEntityChat([FromBody] CreateEntityChatDto dto)
+        {
+            try
+            {
+                var room = await _chatService.GetOrCreateEntityChatAsync(dto);
+                return Ok(room);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the chat room linked to a specific entity.
+        /// </summary>
+        [HttpGet("rooms/entity/{entityType}/{entityId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ChatRoomDto>> GetEntityChat(string entityType, Guid entityId)
+        {
+            var room = await _chatService.GetEntityChatAsync(entityType, entityId);
+            if (room == null)
+                return NotFound();
+
+            return Ok(room);
         }
 
         /// <summary>
@@ -432,6 +470,12 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<IActionResult> MarkAsRead(Guid roomId)
         {
             await _chatService.MarkRoomAsReadAsync(roomId);
+
+            var userId = _tokenAccessor.UserId;
+            var readAt = DateTime.UtcNow;
+            await _chatHubContext.Clients.Group($"chat_{roomId}")
+                .SendAsync("MessageRead", new { RoomId = roomId, UserId = userId, ReadAt = readAt });
+
             return NoContent();
         }
 

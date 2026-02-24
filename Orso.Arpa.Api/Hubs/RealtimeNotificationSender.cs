@@ -44,5 +44,10 @@ namespace Orso.Arpa.Api.Hubs
                 timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });
         }
+
+        public async Task SendAnnouncementToAllAsync(object announcement)
+        {
+            await _hubContext.Clients.All.SendAsync("NewAnnouncement", announcement);
+        }
     }
 }

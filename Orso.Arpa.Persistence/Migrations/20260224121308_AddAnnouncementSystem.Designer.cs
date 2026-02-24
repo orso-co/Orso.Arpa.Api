@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -11,9 +12,11 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20260224121308_AddAnnouncementSystem")]
+    partial class AddAnnouncementSystem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,9 +319,9 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("valid_until");
 
                     b.HasKey("Id")
-                        .HasName("pk_announcements");
+                        .HasName("pk_announcement");
 
-                    b.ToTable("announcements", (string)null);
+                    b.ToTable("announcement", (string)null);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.AnnouncementDomain.Model.AnnouncementRead", b =>
@@ -345,16 +348,16 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_announcement_reads");
+                        .HasName("pk_announcement_read");
 
                     b.HasIndex("UserId")
-                        .HasDatabaseName("ix_announcement_reads_user_id");
+                        .HasDatabaseName("ix_announcement_read_user_id");
 
                     b.HasIndex("AnnouncementId", "UserId")
                         .IsUnique()
-                        .HasDatabaseName("ix_announcement_reads_announcement_id_user_id");
+                        .HasDatabaseName("ix_announcement_read_announcement_id_user_id");
 
-                    b.ToTable("announcement_reads", (string)null);
+                    b.ToTable("announcement_read", (string)null);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.AppointmentDomain.Model.Appointment", b =>
@@ -16190,14 +16193,14 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasForeignKey("AnnouncementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_announcement_reads_announcements_announcement_id");
+                        .HasConstraintName("fk_announcement_read_announcement_announcement_id");
 
                     b.HasOne("Orso.Arpa.Domain.UserDomain.Model.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_announcement_reads_users_user_id");
+                        .HasConstraintName("fk_announcement_read_users_user_id");
 
                     b.Navigation("Announcement");
 

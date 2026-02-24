@@ -7,7 +7,9 @@ namespace Orso.Arpa.Application.ChatApplication.Model
     {
         Direct = 0,
         Project = 1,
-        Global = 2
+        Global = 2,
+        Entity = 4,
+        Group = 5
     }
 
     public class ChatRoomDto
@@ -23,6 +25,11 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         public ChatMessageDto LastMessage { get; set; }
         public int UnreadCount { get; set; }
         public List<ChatMemberDto> Members { get; set; } = new();
+
+        // Entity link (for entity-bound chats)
+        public string LinkedEntityType { get; set; }
+        public Guid? LinkedEntityId { get; set; }
+        public string LinkedEntityDisplayName { get; set; }
     }
 
     public class ChatMemberDto
@@ -35,6 +42,7 @@ namespace Orso.Arpa.Application.ChatApplication.Model
         public DateTime JoinedAt { get; set; }
         public bool IsMuted { get; set; }
         public bool IsOnline { get; set; }
+        public DateTime? LastReadAt { get; set; }
     }
 
     public enum ChatMessageTypeDto
@@ -136,6 +144,14 @@ namespace Orso.Arpa.Application.ChatApplication.Model
     public class CreateProjectChatDto
     {
         public Guid ProjectId { get; set; }
+    }
+
+    public class CreateEntityChatDto
+    {
+        public string EntityType { get; set; }
+        public Guid EntityId { get; set; }
+        public string EntityDisplayName { get; set; }
+        public List<Guid> MemberUserIds { get; set; } = new();
     }
 
     public class InviteUsersToChatDto

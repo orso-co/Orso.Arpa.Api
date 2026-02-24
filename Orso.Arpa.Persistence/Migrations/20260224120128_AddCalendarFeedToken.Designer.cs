@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Orso.Arpa.Persistence.DataAccess;
@@ -11,9 +12,11 @@ using Orso.Arpa.Persistence.DataAccess;
 namespace Orso.Arpa.Persistence.Migrations
 {
     [DbContext(typeof(ArpaContext))]
-    partial class ArpaContextModelSnapshot : ModelSnapshot
+    [Migration("20260224120128_AddCalendarFeedToken")]
+    partial class AddCalendarFeedToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,119 +245,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasDatabaseName("ix_addresses_type_id");
 
                     b.ToTable("addresses", (string)null);
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.AnnouncementDomain.Model.Announcement", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean")
-                        .HasColumnName("active");
-
-                    b.Property<string>("Content")
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)")
-                        .HasColumnName("content");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("created_by");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("deleted");
-
-                    b.Property<string>("Link")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("link");
-
-                    b.Property<string>("LinkText")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("link_text");
-
-                    b.Property<DateTime?>("ModifiedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("modified_at");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(110)
-                        .HasColumnType("character varying(110)")
-                        .HasColumnName("modified_by");
-
-                    b.Property<string>("Priority")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasDefaultValue("info")
-                        .HasColumnName("priority");
-
-                    b.Property<int>("SortOrder")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(0)
-                        .HasColumnName("sort_order");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("title");
-
-                    b.Property<DateTime?>("ValidUntil")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("valid_until");
-
-                    b.HasKey("Id")
-                        .HasName("pk_announcements");
-
-                    b.ToTable("announcements", (string)null);
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.AnnouncementDomain.Model.AnnouncementRead", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<Guid>("AnnouncementId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("announcement_id");
-
-                    b.Property<DateTime>("ReadAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("read_at");
-
-                    b.Property<bool>("TickerPinned")
-                        .HasColumnType("boolean")
-                        .HasColumnName("ticker_pinned");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_announcement_reads");
-
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_announcement_reads_user_id");
-
-                    b.HasIndex("AnnouncementId", "UserId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_announcement_reads_announcement_id_user_id");
-
-                    b.ToTable("announcement_reads", (string)null);
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.AppointmentDomain.Model.Appointment", b =>
@@ -16183,27 +16073,6 @@ namespace Orso.Arpa.Persistence.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("Orso.Arpa.Domain.AnnouncementDomain.Model.AnnouncementRead", b =>
-                {
-                    b.HasOne("Orso.Arpa.Domain.AnnouncementDomain.Model.Announcement", "Announcement")
-                        .WithMany("Reads")
-                        .HasForeignKey("AnnouncementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_announcement_reads_announcements_announcement_id");
-
-                    b.HasOne("Orso.Arpa.Domain.UserDomain.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_announcement_reads_users_user_id");
-
-                    b.Navigation("Announcement");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Orso.Arpa.Domain.AppointmentDomain.Model.Appointment", b =>
                 {
                     b.HasOne("Orso.Arpa.Domain.SelectValueDomain.Model.SelectValueMapping", "Category")
@@ -18105,11 +17974,6 @@ namespace Orso.Arpa.Persistence.Migrations
                         .HasConstraintName("fk_venues_addresses_address_id");
 
                     b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("Orso.Arpa.Domain.AnnouncementDomain.Model.Announcement", b =>
-                {
-                    b.Navigation("Reads");
                 });
 
             modelBuilder.Entity("Orso.Arpa.Domain.AppointmentDomain.Model.Appointment", b =>

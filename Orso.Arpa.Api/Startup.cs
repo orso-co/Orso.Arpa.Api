@@ -41,6 +41,8 @@ using Orso.Arpa.Api.Swagger;
 using Orso.Arpa.Api.Workers;
 using Orso.Arpa.Application.AddressApplication.Interfaces;
 using Orso.Arpa.Application.AddressApplication.Services;
+using Orso.Arpa.Application.AnnouncementApplication.Interfaces;
+using Orso.Arpa.Application.AnnouncementApplication.Services;
 using Orso.Arpa.Application.AppointmentApplication.Interfaces;
 using Orso.Arpa.Application.AppointmentApplication.Services;
 using Orso.Arpa.Application.AuditLogApplication.Interfaces;
@@ -570,6 +572,9 @@ namespace Orso.Arpa.Api
             _ = AddConfiguration<SeedConfiguration>(services);
             _ = AddConfiguration<VapidConfiguration>(services);
             _ = AddConfiguration<FinanceConfiguration>(services);
+
+            // Announcements
+            _ = services.AddScoped<IAnnouncementService, AnnouncementService>();
 
             // Mediathek
             _ = services.AddScoped<IMediathekService, MediathekService>();

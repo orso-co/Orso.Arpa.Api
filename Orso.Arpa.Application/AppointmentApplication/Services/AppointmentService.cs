@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -372,6 +373,121 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
         {
             var query = new ExportAppointmentsToIcs.Query();
             return await _mediator.Send(query);
+        }
+
+        public async Task<IEnumerable<CalendarFeedTokenDto>> GetFeedTokensAsync(Guid userId, string baseUrl)
+        {
+            var tokens = await _arpaContext.CalendarFeedTokens
+                .Where(t => t.UserId == userId && t.IsActive && !t.Deleted)
+                .ToListAsync();
+
+            return tokens.Select(t => MapToDto(t, baseUrl));
+        }
+
+        public async Task<CalendarFeedTokenDto> CreateFeedTokenAsync(Guid userId, CreateCalendarFeedTokenDto dto, string baseUrl)
+        {
+            string tokenValue = Convert.ToHexString(RandomNumberGenerator.GetBytes(32)).ToLowerInvariant();
+
+            var feedToken = new CalendarFeedToken(
+                id: null,
+                userId: userId,
+                token: tokenValue,
+                feedType: dto.FeedType,
+                projectId: dto.ProjectId);
+
+            _arpaContext.CalendarFeedTokens.Add(feedToken);
+            await _arpaContext.SaveChangesAsync(default);
+
+            // Reload to get Project navigation property
+            if (dto.ProjectId.HasValue)
+            {
+                await _arpaContext.Entry(feedToken).Reference("Project").LoadAsync();
+            }
+
+            return MapToDto(feedToken, baseUrl);
+        }
+
+        public async Task DeleteFeedTokenAsync(Guid userId, Guid tokenId)
+        {
+            CalendarFeedToken token = await _arpaContext.CalendarFeedTokens
+                .FirstOrDefaultAsync(t => t.Id == tokenId && t.UserId == userId && !t.Deleted);
+
+            if (token == null)
+            {
+                throw new KeyNotFoundException($"Feed token {tokenId} not found");
+            }
+
+            token.Deactivate();
+            await _arpaContext.SaveChangesAsync(default);
+        }
+
+        public async Task<string> GenerateCalendarFeedAsync(string token)
+        {
+            CalendarFeedToken feedToken = await _arpaContext.CalendarFeedTokens
+                .Include(t => t.User)
+                .Include(t => t.Project)
+                .FirstOrDefaultAsync(t => t.Token == token && t.IsActive && !t.Deleted);
+
+            if (feedToken == null)
+            {
+                return null;
+            }
+
+            // Check user is still active
+            if (feedToken.User == null || feedToken.User.LockoutEnd > DateTimeOffset.UtcNow)
+            {
+                return null;
+            }
+
+            Guid? personId = null;
+            string calendarName = "ARPA Termine";
+
+            switch (feedToken.FeedType)
+            {
+                case "my":
+                    personId = feedToken.User.PersonId;
+                    calendarName = "ARPA - Meine Termine";
+                    break;
+                case "project":
+                    calendarName = feedToken.Project != null
+                        ? $"ARPA - {feedToken.Project.Title}"
+                        : "ARPA - Projekt-Termine";
+                    break;
+                default:
+                    calendarName = "ARPA - Alle Termine";
+                    break;
+            }
+
+            var query = new ExportAppointmentsToIcs.Query
+            {
+                PersonId = personId,
+                ProjectId = feedToken.ProjectId,
+                CalendarName = calendarName,
+            };
+
+            string result = await _mediator.Send(query);
+
+            feedToken.UpdateLastAccessed(DateTime.UtcNow);
+            await _arpaContext.SaveChangesAsync(default);
+
+            return result;
+        }
+
+        private static CalendarFeedTokenDto MapToDto(CalendarFeedToken token, string baseUrl)
+        {
+            string feedUrl = $"{baseUrl}/api/appointments/feed?token={token.Token}";
+
+            return new CalendarFeedTokenDto
+            {
+                Id = token.Id,
+                FeedType = token.FeedType,
+                ProjectId = token.ProjectId,
+                ProjectName = token.Project?.Title,
+                FeedUrl = feedUrl,
+                CreatedAt = token.CreatedAt,
+                LastAccessedAt = token.LastAccessedAt,
+                IsActive = token.IsActive,
+            };
         }
 
         public async Task<AppointmentDto> CopyAsync(AppointmentCopyDto appointmentCopyDto)

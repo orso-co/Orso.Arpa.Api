@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +19,9 @@ public class ExportAppointmentsToIcs
 {
     public class Query : IRequest<string>
     {
+        public Guid? PersonId { get; set; }
+        public Guid? ProjectId { get; set; }
+        public string CalendarName { get; set; } = "ARPA Termine";
     }
 
     public class Handler : IRequestHandler<Query, string>
@@ -30,9 +35,31 @@ public class ExportAppointmentsToIcs
 
         public async Task<string> Handle(Query request, CancellationToken cancellationToken)
         {
-            var appointmentList = await _arpaContext.Appointments
+            IQueryable<Model.Appointment> query = _arpaContext.Appointments;
+
+            // Filter by person (eligible appointments)
+            List<Guid> eligibleIds = null;
+            if (request.PersonId.HasValue)
+            {
+                eligibleIds = await _arpaContext
+                    .GetAppointmentIdsForPerson(request.PersonId.Value)
+                    .Select(r => r.Id)
+                    .ToListAsync(cancellationToken);
+
+                query = query.Where(a => eligibleIds.Contains(a.Id));
+            }
+
+            // Filter by project
+            if (request.ProjectId.HasValue)
+            {
+                query = query.Where(a =>
+                    a.ProjectAppointments.Any(pa => pa.ProjectId == request.ProjectId.Value));
+            }
+
+            var appointmentList = await query
                 .Select(a => new
                 {
+                    a.Id,
                     a.Name,
                     CategoryName = a.Category != null ? a.Category.SelectValue.Name : "-",
                     a.PublicDetails,
@@ -48,6 +75,7 @@ public class ExportAppointmentsToIcs
             {
                 var calEvent = new CalendarEvent
                 {
+                    Uid = a.Id.ToString(),
                     Summary = a.Name,
                     Description = a.CategoryName + " | " +
                                   (string.IsNullOrEmpty(a.PublicDetails) ? "-" : a.PublicDetails) +
@@ -69,6 +97,7 @@ public class ExportAppointmentsToIcs
             }).ToList();
 
             var calendar = new Calendar();
+            calendar.Properties.Add(new CalendarProperty("X-WR-CALNAME", request.CalendarName));
 
             string timeZoneId = "Europe/Berlin";
             var timeZone = new VTimeZone(timeZoneId);

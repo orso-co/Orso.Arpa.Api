@@ -9,6 +9,7 @@ using Orso.Arpa.Application.AppointmentApplication.Interfaces;
 using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers
@@ -16,10 +17,12 @@ namespace Orso.Arpa.Api.Controllers
     public class AppointmentsController : BaseController
     {
         private readonly IAppointmentService _appointmentService;
+        private readonly ITokenAccessor _tokenAccessor;
 
-        public AppointmentsController(IAppointmentService appointmentService)
+        public AppointmentsController(IAppointmentService appointmentService, ITokenAccessor tokenAccessor)
         {
             _appointmentService = appointmentService;
+            _tokenAccessor = tokenAccessor;
         }
 
         /// <summary>
@@ -435,6 +438,78 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> RemovePrioritizedPiece([FromRoute] Guid id, [FromRoute] Guid setlistPieceId)
         {
             await _appointmentService.RemovePrioritizedPieceAsync(id, setlistPieceId);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Returns an iCal feed for a given feed token (anonymous, token-based auth)
+        /// </summary>
+        /// <param name="token">The feed token</param>
+        /// <response code="200">Returns the iCal feed</response>
+        /// <response code="401">If the token is invalid</response>
+        [AllowAnonymous]
+        [HttpGet("feed")]
+        [Produces("text/calendar")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> CalendarFeed([FromQuery] string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized();
+            }
+
+            string calendarData = await _appointmentService.GenerateCalendarFeedAsync(token);
+            if (calendarData == null)
+            {
+                return Unauthorized();
+            }
+
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            return File(Encoding.UTF8.GetBytes(calendarData), "text/calendar");
+        }
+
+        /// <summary>
+        /// Gets all feed tokens for the current user
+        /// </summary>
+        /// <response code="200">Returns a list of feed tokens</response>
+        [Authorize]
+        [HttpGet("feed/tokens")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<CalendarFeedTokenDto>>> GetMyFeedTokens()
+        {
+            string baseUrl = $"{Request.Scheme}://{Request.Host}";
+            return Ok(await _appointmentService.GetFeedTokensAsync(_tokenAccessor.UserId, baseUrl));
+        }
+
+        /// <summary>
+        /// Creates a new feed token for the current user
+        /// </summary>
+        /// <param name="dto">Feed token configuration</param>
+        /// <response code="201">Returns the created feed token</response>
+        [Authorize]
+        [HttpPost("feed/tokens")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<CalendarFeedTokenDto>> CreateFeedToken([FromBody] CreateCalendarFeedTokenDto dto)
+        {
+            string baseUrl = $"{Request.Scheme}://{Request.Host}";
+            CalendarFeedTokenDto result = await _appointmentService.CreateFeedTokenAsync(_tokenAccessor.UserId, dto, baseUrl);
+            return StatusCode(StatusCodes.Status201Created, result);
+        }
+
+        /// <summary>
+        /// Deletes (deactivates) a feed token
+        /// </summary>
+        /// <param name="id">The feed token ID</param>
+        /// <response code="204"></response>
+        /// <response code="404">If the token was not found</response>
+        [Authorize]
+        [HttpDelete("feed/tokens/{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteFeedToken([FromRoute] Guid id)
+        {
+            await _appointmentService.DeleteFeedTokenAsync(_tokenAccessor.UserId, id);
             return NoContent();
         }
     }

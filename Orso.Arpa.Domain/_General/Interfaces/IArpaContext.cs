@@ -86,6 +86,7 @@ namespace Orso.Arpa.Domain.General.Interfaces
         // Chat
         DbSet<ChatRoom> ChatRooms { get; set; }
         DbSet<ChatRoomMember> ChatRoomMembers { get; set; }
+        DbSet<ChatRoomEntityLink> ChatRoomEntityLinks { get; set; }
         DbSet<ChatMessage> ChatMessages { get; set; }
         DbSet<ChatMessageAttachment> ChatMessageAttachments { get; set; }
         DbSet<MessageReaction> MessageReactions { get; set; }
@@ -135,6 +136,9 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<TicketVote> TicketVotes { get; set; }
         DbSet<TicketReaction> TicketReactions { get; set; }
         DbSet<TicketReadStatus> TicketReadStatuses { get; set; }
+
+        // Calendar Feed
+        DbSet<CalendarFeedToken> CalendarFeedTokens { get; set; }
 
         // Finance
         DbSet<OrganizationBankAccount> OrganizationBankAccounts { get; set; }

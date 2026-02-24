@@ -42,6 +42,7 @@ using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Domain.MediathekDomain.Model;
 using Orso.Arpa.Domain.TicketDomain.Model;
+using Orso.Arpa.Domain.AnnouncementDomain.Model;
 using Orso.Arpa.Domain.FinanceDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
@@ -141,6 +142,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<ChatFolder> ChatFolders { get; set; }
         public DbSet<ChatFolderRoomAssignment> ChatFolderRoomAssignments { get; set; }
         public DbSet<ChatLiveLocationShare> ChatLiveLocationShares { get; set; }
+        public DbSet<ChatRoomEntityLink> ChatRoomEntityLinks { get; set; }
 
         // Push Notifications
         public DbSet<PushSubscription> PushSubscriptions { get; set; }
@@ -183,6 +185,13 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<TicketVote> TicketVotes { get; set; }
         public DbSet<TicketReaction> TicketReactions { get; set; }
         public DbSet<TicketReadStatus> TicketReadStatuses { get; set; }
+
+        // Calendar Feed
+        public DbSet<CalendarFeedToken> CalendarFeedTokens { get; set; }
+
+        // Announcements
+        public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<AnnouncementRead> AnnouncementReads { get; set; }
 
         // Finance
         public DbSet<OrganizationBankAccount> OrganizationBankAccounts { get; set; }

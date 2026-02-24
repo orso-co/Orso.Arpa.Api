@@ -89,6 +89,7 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
 
             if (dto.FinTsCredentials != null)
             {
+                EnrichFinTsCredentials(dto.FinTsCredentials, dto.Iban, dto.Bic);
                 var json = JsonSerializer.Serialize(dto.FinTsCredentials);
                 account.SetEncryptedFinTsCredentials(_encryptionService.Encrypt(json));
             }
@@ -117,6 +118,7 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
 
             if (dto.FinTsCredentials != null)
             {
+                EnrichFinTsCredentials(dto.FinTsCredentials, dto.Iban ?? account.Iban, dto.Bic ?? account.Bic);
                 var json = JsonSerializer.Serialize(dto.FinTsCredentials);
                 account.SetEncryptedFinTsCredentials(_encryptionService.Encrypt(json));
             }
@@ -343,6 +345,16 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
                 _logger.LogError(ex, "Error submitting TAN for request {TanRequestId}", dto.TanRequestId);
                 throw;
             }
+        }
+
+        private static void EnrichFinTsCredentials(FinTsCredentialsDto credentials, string iban, string bic)
+        {
+            if (string.IsNullOrEmpty(credentials.Iban) && !string.IsNullOrEmpty(iban))
+                credentials.Iban = iban;
+            if (string.IsNullOrEmpty(credentials.Bic) && !string.IsNullOrEmpty(bic))
+                credentials.Bic = bic;
+            if (string.IsNullOrEmpty(credentials.AccountNumber) && !string.IsNullOrEmpty(iban) && iban.Length >= 10)
+                credentials.AccountNumber = iban[^10..].TrimStart('0');
         }
     }
 }

@@ -64,6 +64,11 @@ namespace Orso.Arpa.Domain.ChatDomain.Model
         /// </summary>
         public DateTime? LastMessageAt { get; private set; }
 
+        /// <summary>
+        /// For entity chats - links to the associated entity
+        /// </summary>
+        public virtual ChatRoomEntityLink EntityLink { get; private set; }
+
         // Navigation properties
         [CascadingSoftDelete]
         public virtual ICollection<ChatRoomMember> Members { get; private set; } = new HashSet<ChatRoomMember>();
