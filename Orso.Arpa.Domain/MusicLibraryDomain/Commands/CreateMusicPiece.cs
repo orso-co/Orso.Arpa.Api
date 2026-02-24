@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.MusicLibraryDomain.Model;
@@ -66,6 +68,28 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Commands
 
                 RuleFor(c => c.ParentId)
                     .EntityExists<Command, MusicPiece>(arpaContext)
+                    .MustAsync(async (parentId, cancellation) =>
+                    {
+                        // Max 3 hierarchy levels: parent's ancestor depth must be <= 1
+                        var parent = await arpaContext.Set<MusicPiece>()
+                            .FirstOrDefaultAsync(p => p.Id == parentId.Value, cancellation);
+                        if (parent == null) return true;
+
+                        // Count ancestors of the parent
+                        int ancestorDepth = 0;
+                        var current = parent;
+                        while (current.ParentId.HasValue && ancestorDepth < 3)
+                        {
+                            current = await arpaContext.Set<MusicPiece>()
+                                .FirstOrDefaultAsync(p => p.Id == current.ParentId.Value, cancellation);
+                            if (current == null) break;
+                            ancestorDepth++;
+                        }
+
+                        // New piece at level ancestorDepth + 2 (parent level + 1), must be <= 3
+                        return ancestorDepth + 2 <= 3;
+                    })
+                    .WithMessage("Maximum hierarchy depth of 3 levels exceeded. The selected parent is already at the maximum depth.")
                     .When(c => c.ParentId.HasValue);
             }
         }
