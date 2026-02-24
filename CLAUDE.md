@@ -457,7 +457,45 @@ Eine Nachricht gilt als "gelesen" wenn `message.SentAt <= otherMember.LastReadAt
   - ✓ grau = gesendet (default)
   - ✓✓ blau = gelesen (mindestens ein anderer Member hat `lastReadAt >= sentAt`)
 
-**Status:** Auf develop gepusht, noch nicht auf PROD getestet.
+**Status:** Auf PROD deployed.
+
+### Benachrichtigungssystem / Announcements (24.02.2026)
+
+**Feature:** In-App-Benachrichtigungen für alle User, Deploy-Ankündigungen via CI/CD.
+
+**Backend-Dateien:**
+- `Orso.Arpa.Domain/AnnouncementDomain/Model/Announcement.cs` — BaseEntity mit Title, Content, Priority, Link, Active, ValidUntil
+- `Orso.Arpa.Domain/AnnouncementDomain/Model/AnnouncementRead.cs` — [HardDelete], Tracking (ReadAt, TickerPinned)
+- `Orso.Arpa.Persistence/EntityConfigurations/AnnouncementConfiguration.cs` — Unique-Index (AnnouncementId, UserId)
+- `Orso.Arpa.Application/AnnouncementApplication/` — DTOs, IAnnouncementService, AnnouncementService
+- `Orso.Arpa.Api/Controllers/AnnouncementsController.cs` — 11 Endpoints
+
+**Endpoints:**
+| Endpoint | Auth | Zweck |
+|----------|------|-------|
+| `GET /api/announcements/unread` | [Authorize] | Bell-Dropdown |
+| `GET /api/announcements/ticker` | [Authorize] | Ticker-Banner |
+| `GET /api/announcements` | Staff | Admin-Liste |
+| `POST /api/announcements` | Staff | Erstellen |
+| `PUT /api/announcements/{id}` | Staff | Bearbeiten |
+| `DELETE /api/announcements/{id}` | Staff | Löschen |
+| `PUT /api/announcements/{id}/toggle-active` | Staff | Aktiv/Inaktiv |
+| `POST /api/announcements/{id}/read` | [Authorize] | Als gelesen |
+| `POST /api/announcements/read-all` | [Authorize] | Alle gelesen |
+| `POST /api/announcements/{id}/toggle-pin` | [Authorize] | Ticker-Pin |
+| `POST /api/announcements/deploy` | [AllowAnonymous] | CI/CD (Secret) |
+
+**Deploy-Endpoint:** Liest `DeployAnnouncementSecret` aus IConfiguration, erstellt Announcement + pinnt für ALLE aktiven User.
+
+**Konfiguration:**
+- `DeployAnnouncementSecret` als Environment-Variable in DEV + PROD docker-compose.yml
+- Secret: `poWvG0Qhyuwen6CGBac3Vdzf5I/Er/weskWrTxZ7mD8=`
+
+**SignalR:** `NewAnnouncement` Event via `IRealtimeNotificationSender.SendAnnouncementToAllAsync()`
+
+**Migration:** `20260224121308_AddAnnouncementSystem` (idempotent, IF NOT EXISTS)
+
+**Status:** Auf PROD deployed.
 
 ## Features (Februar 2026)
 
