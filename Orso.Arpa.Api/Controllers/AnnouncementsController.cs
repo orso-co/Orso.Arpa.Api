@@ -25,6 +25,10 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult<UnreadAnnouncementsDto>> GetUnread()
             => Ok(await _announcementService.GetUnreadAsync());
 
+        [HttpGet("user")]
+        public async Task<ActionResult<UserAnnouncementsResponseDto>> GetAllForUser()
+            => Ok(await _announcementService.GetAllForUserAsync());
+
         [HttpGet("ticker")]
         public async Task<ActionResult<List<AnnouncementDto>>> GetTicker()
             => Ok(await _announcementService.GetTickerItemsAsync());

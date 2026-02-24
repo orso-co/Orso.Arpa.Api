@@ -61,6 +61,55 @@ public class AnnouncementService : IAnnouncementService
         };
     }
 
+    public async Task<UserAnnouncementsResponseDto> GetAllForUserAsync()
+    {
+        var userId = _tokenAccessor.UserId;
+        var now = _dateTimeProvider.GetUtcNow();
+
+        var announcements = await _context.Announcements
+            .AsNoTracking()
+            .IgnoreQueryFilters()
+            .Where(a => !a.Deleted && a.Active && (a.ValidUntil == null || a.ValidUntil > now))
+            .OrderByDescending(a => a.SortOrder)
+            .ThenByDescending(a => a.CreatedAt)
+            .ToListAsync();
+
+        var reads = await _context.AnnouncementReads
+            .AsNoTracking()
+            .Where(r => r.UserId == userId && announcements.Select(a => a.Id).Contains(r.AnnouncementId))
+            .ToListAsync();
+
+        var readLookup = reads.ToDictionary(r => r.AnnouncementId);
+
+        var items = announcements.Select(a =>
+        {
+            readLookup.TryGetValue(a.Id, out var read);
+            return new UserAnnouncementDto
+            {
+                Id = a.Id,
+                Title = a.Title,
+                Content = a.Content,
+                Priority = a.Priority,
+                Link = a.Link,
+                LinkText = a.LinkText,
+                Active = a.Active,
+                ValidUntil = a.ValidUntil,
+                SortOrder = a.SortOrder,
+                CreatedAt = a.CreatedAt,
+                CreatedBy = a.CreatedBy,
+                IsRead = read?.ReadAt != null,
+                ReadAt = read?.ReadAt,
+                TickerPinned = read?.TickerPinned ?? false,
+            };
+        }).ToList();
+
+        return new UserAnnouncementsResponseDto
+        {
+            Items = items,
+            UnreadCount = items.Count(i => !i.IsRead),
+        };
+    }
+
     public async Task<List<AnnouncementDto>> GetTickerItemsAsync()
     {
         var userId = _tokenAccessor.UserId;

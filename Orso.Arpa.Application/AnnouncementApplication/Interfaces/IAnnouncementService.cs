@@ -8,6 +8,7 @@ namespace Orso.Arpa.Application.AnnouncementApplication.Interfaces;
 public interface IAnnouncementService
 {
     Task<UnreadAnnouncementsDto> GetUnreadAsync();
+    Task<UserAnnouncementsResponseDto> GetAllForUserAsync();
     Task<List<AnnouncementDto>> GetTickerItemsAsync();
     Task<List<AnnouncementAdminDto>> GetAllAsync();
     Task<AnnouncementDto> CreateAsync(CreateAnnouncementDto dto);

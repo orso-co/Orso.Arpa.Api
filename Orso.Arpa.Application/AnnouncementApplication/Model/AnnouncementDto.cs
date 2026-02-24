@@ -62,6 +62,19 @@ public class AnnouncementReadInfoDto
     public bool TickerPinned { get; set; }
 }
 
+public class UserAnnouncementDto : AnnouncementDto
+{
+    public bool IsRead { get; set; }
+    public DateTime? ReadAt { get; set; }
+    public bool TickerPinned { get; set; }
+}
+
+public class UserAnnouncementsResponseDto
+{
+    public List<UserAnnouncementDto> Items { get; set; } = new();
+    public int UnreadCount { get; set; }
+}
+
 public class DeployAnnouncementDto
 {
     public string Version { get; set; }
