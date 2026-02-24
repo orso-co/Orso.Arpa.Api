@@ -13,7 +13,7 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
             _ = builder.Property(e => e.Description).HasMaxLength(10000).IsRequired();
 
             _ = builder.Property(e => e.Type).HasConversion<string>().HasMaxLength(50).IsRequired();
-            _ = builder.Property(e => e.Status).HasConversion<string>().HasMaxLength(50).HasDefaultValue(TicketStatus.Open);
+            _ = builder.Property(e => e.Status).HasConversion<string>().HasMaxLength(50).HasDefaultValue(TicketStatus.Open).HasSentinel((TicketStatus)0);
             _ = builder.Property(e => e.Effort).HasConversion<string>().HasMaxLength(50);
 
             _ = builder.HasIndex(e => e.Status);

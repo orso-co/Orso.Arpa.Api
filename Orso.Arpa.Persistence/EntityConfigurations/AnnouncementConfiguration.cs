@@ -27,6 +27,7 @@ public class AnnouncementReadConfiguration : IEntityTypeConfiguration<Announceme
         builder.HasOne(e => e.Announcement)
             .WithMany(a => a.Reads)
             .HasForeignKey(e => e.AnnouncementId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(e => e.User)

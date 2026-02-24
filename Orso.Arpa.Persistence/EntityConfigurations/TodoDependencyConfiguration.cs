@@ -20,12 +20,14 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
                 .HasOne(e => e.DependentTask)
                 .WithMany(t => t.DependentOn)
                 .HasForeignKey(e => e.DependentTaskId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
 
             _ = builder
                 .HasOne(e => e.DependsOnTask)
                 .WithMany(t => t.DependedOnBy)
                 .HasForeignKey(e => e.DependsOnTaskId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
