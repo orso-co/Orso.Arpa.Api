@@ -197,6 +197,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<OrganizationBankAccount> OrganizationBankAccounts { get; set; }
         public DbSet<BankAccountBalanceSnapshot> BankAccountBalanceSnapshots { get; set; }
         public DbSet<PendingTanRequest> PendingTanRequests { get; set; }
+        public DbSet<FinanceClubAccess> FinanceClubAccesses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

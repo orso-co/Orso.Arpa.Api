@@ -37,10 +37,18 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
             _logger = logger;
         }
 
-        public async Task<List<OrganizationAccountDto>> GetAccountsAsync(CancellationToken cancellationToken = default)
+        public async Task<List<OrganizationAccountDto>> GetAccountsAsync(Guid? userId = null, bool isAdmin = true, CancellationToken cancellationToken = default)
         {
-            return await _context.OrganizationBankAccounts
-                .Where(a => !a.Deleted)
+            var query = _context.OrganizationBankAccounts
+                .Where(a => !a.Deleted);
+
+            if (!isAdmin && userId.HasValue)
+            {
+                var accessibleClubIds = await GetAccessibleClubIdsForUserAsync(userId.Value, cancellationToken);
+                query = query.Where(a => a.ClubId != null && accessibleClubIds.Contains(a.ClubId.Value));
+            }
+
+            return await query
                 .OrderBy(a => a.Name)
                 .Select(a => new OrganizationAccountDto
                 {
@@ -53,6 +61,8 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
                     IsActive = a.IsActive,
                     HasFinTsCredentials = a.EncryptedFinTsCredentials != null,
                     HasPayPalCredentials = a.EncryptedPayPalCredentials != null,
+                    ClubId = a.ClubId,
+                    ClubName = a.Club != null ? a.Club.Name : null,
                     CreatedAt = a.CreatedAt,
                     ModifiedAt = a.ModifiedAt
                 })
@@ -74,6 +84,8 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
                     IsActive = a.IsActive,
                     HasFinTsCredentials = a.EncryptedFinTsCredentials != null,
                     HasPayPalCredentials = a.EncryptedPayPalCredentials != null,
+                    ClubId = a.ClubId,
+                    ClubName = a.Club != null ? a.Club.Name : null,
                     CreatedAt = a.CreatedAt,
                     ModifiedAt = a.ModifiedAt
                 })
@@ -85,7 +97,7 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
             if (!Enum.TryParse<OrganizationAccountType>(dto.AccountType, true, out var accountType))
                 throw new ArgumentException($"Invalid account type: {dto.AccountType}");
 
-            var account = new OrganizationBankAccount(null, dto.Name, dto.Iban, dto.Bic, dto.BankName, accountType);
+            var account = new OrganizationBankAccount(null, dto.Name, dto.Iban, dto.Bic, dto.BankName, accountType, dto.ClubId);
 
             if (dto.FinTsCredentials != null)
             {
@@ -114,7 +126,7 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
             if (!Enum.TryParse<OrganizationAccountType>(dto.AccountType, true, out var accountType))
                 throw new ArgumentException($"Invalid account type: {dto.AccountType}");
 
-            account.Update(dto.Name, dto.Iban, dto.Bic, dto.BankName, accountType, dto.IsActive);
+            account.Update(dto.Name, dto.Iban, dto.Bic, dto.BankName, accountType, dto.IsActive, dto.ClubId);
 
             if (dto.FinTsCredentials != null)
             {
@@ -142,11 +154,18 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<BalanceSummaryDto> GetBalanceSummaryAsync(CancellationToken cancellationToken = default)
+        public async Task<BalanceSummaryDto> GetBalanceSummaryAsync(Guid? userId = null, bool isAdmin = true, CancellationToken cancellationToken = default)
         {
-            var accounts = await _context.OrganizationBankAccounts
-                .Where(a => !a.Deleted && a.IsActive)
-                .ToListAsync(cancellationToken);
+            var query = _context.OrganizationBankAccounts
+                .Where(a => !a.Deleted && a.IsActive);
+
+            if (!isAdmin && userId.HasValue)
+            {
+                var accessibleClubIds = await GetAccessibleClubIdsForUserAsync(userId.Value, cancellationToken);
+                query = query.Where(a => a.ClubId != null && accessibleClubIds.Contains(a.ClubId.Value));
+            }
+
+            var accounts = await query.ToListAsync(cancellationToken);
 
             var summary = new BalanceSummaryDto
             {
@@ -172,7 +191,9 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
                     AvailableBalance = latestSnapshot?.AvailableBalance,
                     Currency = latestSnapshot?.Currency ?? "EUR",
                     LastSyncedAt = latestSnapshot?.SyncedAt,
-                    SyncStatus = latestSnapshot?.SyncStatus.ToString()
+                    SyncStatus = latestSnapshot?.SyncStatus.ToString(),
+                    ClubId = account.ClubId,
+                    ClubName = account.Club?.Name
                 });
             }
 
@@ -347,6 +368,65 @@ namespace Orso.Arpa.Application.FinanceApplication.Services
                 _logger.LogError(ex, "Error submitting TAN for request {TanRequestId}", dto.TanRequestId);
                 throw;
             }
+        }
+
+        // === Finance Club Access ===
+
+        public async Task<List<Guid>> GetAccessibleClubIdsForUserAsync(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return await _context.FinanceClubAccesses
+                .Where(a => a.UserId == userId && !a.Deleted)
+                .Select(a => a.ClubId)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<bool> HasAnyFinanceAccessAsync(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return await _context.FinanceClubAccesses
+                .AnyAsync(a => a.UserId == userId && !a.Deleted, cancellationToken);
+        }
+
+        public async Task GrantFinanceAccessAsync(Guid userId, Guid clubId, string grantedBy, CancellationToken cancellationToken = default)
+        {
+            var exists = await _context.FinanceClubAccesses
+                .AnyAsync(a => a.UserId == userId && a.ClubId == clubId && !a.Deleted, cancellationToken);
+
+            if (exists) return;
+
+            var access = new Domain.FinanceDomain.Model.FinanceClubAccess(null, userId, clubId, grantedBy);
+            _context.FinanceClubAccesses.Add(access);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task RevokeFinanceAccessAsync(Guid userId, Guid clubId, CancellationToken cancellationToken = default)
+        {
+            var access = await _context.FinanceClubAccesses
+                .FirstOrDefaultAsync(a => a.UserId == userId && a.ClubId == clubId && !a.Deleted, cancellationToken);
+
+            if (access == null) return;
+
+            _context.Remove(access);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<List<FinanceClubAccessDto>> GetAllFinanceAccessesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.FinanceClubAccesses
+                .Where(a => !a.Deleted)
+                .Select(a => new FinanceClubAccessDto
+                {
+                    UserId = a.UserId,
+                    UserDisplayName = a.User.Person != null
+                        ? (a.User.Person.GivenName + " " + a.User.Person.Surname).Trim()
+                        : a.User.UserName,
+                    ClubId = a.ClubId,
+                    ClubName = a.Club.Name,
+                    GrantedBy = a.GrantedBy,
+                    GrantedAt = a.GrantedAt
+                })
+                .OrderBy(a => a.UserDisplayName)
+                .ThenBy(a => a.ClubName)
+                .ToListAsync(cancellationToken);
         }
 
         private static void EnrichFinTsCredentials(FinTsCredentialsDto credentials, string iban, string bic)

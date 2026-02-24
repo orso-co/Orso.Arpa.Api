@@ -144,6 +144,7 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<OrganizationBankAccount> OrganizationBankAccounts { get; set; }
         DbSet<BankAccountBalanceSnapshot> BankAccountBalanceSnapshots { get; set; }
         DbSet<PendingTanRequest> PendingTanRequests { get; set; }
+        DbSet<FinanceClubAccess> FinanceClubAccesses { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

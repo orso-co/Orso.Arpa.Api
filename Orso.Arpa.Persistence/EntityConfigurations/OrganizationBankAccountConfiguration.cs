@@ -19,6 +19,13 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             _ = builder.HasIndex(e => e.AccountType);
             _ = builder.HasIndex(e => e.IsActive);
+
+            _ = builder.HasOne(e => e.Club)
+                .WithMany()
+                .HasForeignKey(e => e.ClubId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            _ = builder.HasIndex(e => e.ClubId);
         }
     }
 }

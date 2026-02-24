@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Orso.Arpa.Application.FinanceApplication.Interfaces;
 using Orso.Arpa.Application.FinanceApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
 
 namespace Orso.Arpa.Api.Controllers
@@ -16,24 +18,29 @@ namespace Orso.Arpa.Api.Controllers
     {
         private readonly IFinanceService _financeService;
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly ITokenAccessor _tokenAccessor;
         private readonly ILogger<OrganizationAccountsController> _logger;
 
         public OrganizationAccountsController(
             IFinanceService financeService,
             IServiceScopeFactory scopeFactory,
+            ITokenAccessor tokenAccessor,
             ILogger<OrganizationAccountsController> logger)
         {
             _financeService = financeService;
             _scopeFactory = scopeFactory;
+            _tokenAccessor = tokenAccessor;
             _logger = logger;
         }
+
+        private bool IsAdmin => _tokenAccessor.GetUserRoles().Contains(RoleNames.Admin);
 
         [Authorize(Roles = $"{RoleNames.Staff},{RoleNames.Admin}")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<OrganizationAccountDto>>> GetAccounts()
         {
-            return Ok(await _financeService.GetAccountsAsync());
+            return Ok(await _financeService.GetAccountsAsync(_tokenAccessor.UserId, IsAdmin));
         }
 
         [Authorize(Roles = RoleNames.Admin)]
@@ -67,7 +74,7 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<BalanceSummaryDto>> GetBalances()
         {
-            return Ok(await _financeService.GetBalanceSummaryAsync());
+            return Ok(await _financeService.GetBalanceSummaryAsync(_tokenAccessor.UserId, IsAdmin));
         }
 
         [Authorize(Roles = $"{RoleNames.Staff},{RoleNames.Admin}")]
@@ -83,7 +90,6 @@ namespace Orso.Arpa.Api.Controllers
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         public ActionResult TriggerSync(Guid id)
         {
-            // Fire-and-forget: FinTS sync can take minutes (TAN wait)
             _ = Task.Run(async () =>
             {
                 using var scope = _scopeFactory.CreateScope();
@@ -115,6 +121,53 @@ namespace Orso.Arpa.Api.Controllers
         {
             await _financeService.SubmitTanAsync(dto);
             return Ok();
+        }
+
+        // === Finance Club Access ===
+
+        [Authorize(Roles = RoleNames.Admin)]
+        [HttpGet("access")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<FinanceClubAccessDto>>> GetFinanceAccesses()
+        {
+            return Ok(await _financeService.GetAllFinanceAccessesAsync());
+        }
+
+        [Authorize(Roles = RoleNames.Admin)]
+        [HttpPost("access")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GrantAccess([FromBody] GrantFinanceAccessDto dto)
+        {
+            await _financeService.GrantFinanceAccessAsync(dto.UserId, dto.ClubId, _tokenAccessor.DisplayName);
+            return Ok();
+        }
+
+        [Authorize(Roles = RoleNames.Admin)]
+        [HttpDelete("access/{userId}/{clubId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> RevokeAccess(Guid userId, Guid clubId)
+        {
+            await _financeService.RevokeFinanceAccessAsync(userId, clubId);
+            return Ok();
+        }
+
+        [Authorize(Roles = $"{RoleNames.Staff},{RoleNames.Admin}")]
+        [HttpGet("my-access")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<MyFinanceAccessDto>> GetMyAccess()
+        {
+            var userId = _tokenAccessor.UserId;
+            if (IsAdmin)
+            {
+                return Ok(new MyFinanceAccessDto { HasAccess = true, AccessibleClubIds = new List<Guid>() });
+            }
+
+            var clubIds = await _financeService.GetAccessibleClubIdsForUserAsync(userId);
+            return Ok(new MyFinanceAccessDto
+            {
+                HasAccess = clubIds.Count > 0,
+                AccessibleClubIds = clubIds
+            });
         }
     }
 }

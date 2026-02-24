@@ -14,6 +14,8 @@ namespace Orso.Arpa.Application.FinanceApplication.Model
         public bool IsActive { get; set; }
         public bool HasFinTsCredentials { get; set; }
         public bool HasPayPalCredentials { get; set; }
+        public Guid? ClubId { get; set; }
+        public string ClubName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
     }
@@ -25,6 +27,7 @@ namespace Orso.Arpa.Application.FinanceApplication.Model
         public string Bic { get; set; }
         public string BankName { get; set; }
         public string AccountType { get; set; }
+        public Guid? ClubId { get; set; }
         public FinTsCredentialsDto FinTsCredentials { get; set; }
         public PayPalCredentialsDto PayPalCredentials { get; set; }
     }
@@ -37,6 +40,7 @@ namespace Orso.Arpa.Application.FinanceApplication.Model
         public string BankName { get; set; }
         public string AccountType { get; set; }
         public bool IsActive { get; set; }
+        public Guid? ClubId { get; set; }
         public FinTsCredentialsDto FinTsCredentials { get; set; }
         public PayPalCredentialsDto PayPalCredentials { get; set; }
     }
@@ -95,6 +99,8 @@ namespace Orso.Arpa.Application.FinanceApplication.Model
         public string Currency { get; set; }
         public DateTime? LastSyncedAt { get; set; }
         public string SyncStatus { get; set; }
+        public Guid? ClubId { get; set; }
+        public string ClubName { get; set; }
     }
 
     public class PendingTanRequestDto
@@ -112,5 +118,33 @@ namespace Orso.Arpa.Application.FinanceApplication.Model
     {
         public Guid TanRequestId { get; set; }
         public string Tan { get; set; }
+    }
+
+    public class FinanceClubAccessDto
+    {
+        public Guid UserId { get; set; }
+        public string UserDisplayName { get; set; }
+        public Guid ClubId { get; set; }
+        public string ClubName { get; set; }
+        public string GrantedBy { get; set; }
+        public DateTime GrantedAt { get; set; }
+    }
+
+    public class GrantFinanceAccessDto
+    {
+        public Guid UserId { get; set; }
+        public Guid ClubId { get; set; }
+    }
+
+    public class RevokeFinanceAccessDto
+    {
+        public Guid UserId { get; set; }
+        public Guid ClubId { get; set; }
+    }
+
+    public class MyFinanceAccessDto
+    {
+        public bool HasAccess { get; set; }
+        public List<Guid> AccessibleClubIds { get; set; } = new();
     }
 }
