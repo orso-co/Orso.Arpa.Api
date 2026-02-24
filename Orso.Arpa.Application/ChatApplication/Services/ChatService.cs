@@ -61,10 +61,13 @@ namespace Orso.Arpa.Application.ChatApplication.Services
         {
             var userId = _userAccessor.UserId;
 
-            var rooms = await _context.ChatRoomMembers
+            var roomIds = await _context.ChatRoomMembers
                 .Where(m => m.UserId == userId && !m.Deleted)
-                .Select(m => m.ChatRoom)
-                .Where(r => !r.Deleted)
+                .Select(m => m.ChatRoomId)
+                .ToListAsync(cancellationToken);
+
+            var rooms = await _context.ChatRooms
+                .Where(r => roomIds.Contains(r.Id) && !r.Deleted)
                 .Include(r => r.EntityLink)
                 .OrderByDescending(r => r.LastMessageAt ?? r.CreatedAt)
                 .ToListAsync(cancellationToken);
