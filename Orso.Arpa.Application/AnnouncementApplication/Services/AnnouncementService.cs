@@ -333,7 +333,7 @@ public class AnnouncementService : IAnnouncementService
 
         var announcement = new Announcement(
             null, title, content, "feature",
-            null, null, true, null, 100);
+            "/user/system-info", "Changelog", true, null, 100);
 
         _context.Announcements.Add(announcement);
         await _context.SaveChangesAsync();
