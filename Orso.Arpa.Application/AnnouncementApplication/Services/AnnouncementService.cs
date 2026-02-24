@@ -263,8 +263,70 @@ public class AnnouncementService : IAnnouncementService
         await _context.SaveChangesAsync();
     }
 
+    public async Task<AnnouncementDto> CreateDeployStartingAnnouncementAsync(DeployAnnouncementDto dto)
+    {
+        var component = string.IsNullOrEmpty(dto.Component) ? "ARPA" : dto.Component;
+        var title = $"Wartung: {component} wird aktualisiert";
+        var content = "Das System wird in wenigen Minuten aktualisiert. Bitte speichere deine Arbeit. Wir sind gleich zurück!";
+        var now = _dateTimeProvider.GetUtcNow();
+
+        // Deactivate old maintenance announcements (duplicate protection)
+        var oldMaintenanceAnnouncements = await _context.Announcements
+            .IgnoreQueryFilters()
+            .Where(a => !a.Deleted && a.Active && a.Title.StartsWith("Wartung:"))
+            .ToListAsync();
+
+        foreach (var old in oldMaintenanceAnnouncements)
+        {
+            old.Deactivate();
+        }
+
+        var announcement = new Announcement(
+            null, title, content, "warning",
+            null, null, true, now.AddMinutes(30), 200);
+
+        _context.Announcements.Add(announcement);
+        await _context.SaveChangesAsync();
+
+        // Pin for all active users
+        var userIds = await _context.Users
+            .AsNoTracking()
+            .Where(u => u.EmailConfirmed)
+            .Select(u => u.Id)
+            .ToListAsync();
+
+        foreach (var userId in userIds)
+        {
+            _context.AnnouncementReads.Add(new AnnouncementRead
+            {
+                Id = Guid.NewGuid(),
+                AnnouncementId = announcement.Id,
+                UserId = userId,
+                ReadAt = now,
+                TickerPinned = true,
+            });
+        }
+
+        await _context.SaveChangesAsync();
+
+        await _notificationSender.SendDashboardUpdateToAllAsync("announcement", announcement.Id);
+
+        return MapToDto(announcement);
+    }
+
     public async Task<AnnouncementDto> CreateDeployAnnouncementAsync(DeployAnnouncementDto dto)
     {
+        // Deactivate maintenance warnings (deploy is done)
+        var maintenanceAnnouncements = await _context.Announcements
+            .IgnoreQueryFilters()
+            .Where(a => !a.Deleted && a.Active && a.Title.StartsWith("Wartung:"))
+            .ToListAsync();
+
+        foreach (var maintenance in maintenanceAnnouncements)
+        {
+            maintenance.Deactivate();
+        }
+
         var component = string.IsNullOrEmpty(dto.Component) ? "ARPA" : dto.Component;
         var title = $"{component} v{dto.Version} deployed";
         var content = $"Version {dto.Version} wurde erfolgreich bereitgestellt.";

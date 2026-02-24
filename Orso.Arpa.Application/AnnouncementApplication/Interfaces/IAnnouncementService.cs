@@ -18,4 +18,5 @@ public interface IAnnouncementService
     Task MarkAllAsReadAsync();
     Task ToggleTickerPinAsync(Guid id);
     Task<AnnouncementDto> CreateDeployAnnouncementAsync(DeployAnnouncementDto dto);
+    Task<AnnouncementDto> CreateDeployStartingAnnouncementAsync(DeployAnnouncementDto dto);
 }

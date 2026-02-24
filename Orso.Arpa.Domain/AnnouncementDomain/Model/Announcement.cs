@@ -48,5 +48,10 @@ namespace Orso.Arpa.Domain.AnnouncementDomain.Model
         {
             Active = !Active;
         }
+
+        public void Deactivate()
+        {
+            Active = false;
+        }
     }
 }

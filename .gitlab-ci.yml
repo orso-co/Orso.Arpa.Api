@@ -80,7 +80,7 @@ sonarcloud:
   image: alpine:latest
   needs: []  # Start sofort, nicht auf Security/Quality warten
   before_script:
-    - apk add --no-cache openssh-client git
+    - apk add --no-cache openssh-client git curl
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo "$SSH_PRIVATE_KEY_B64" | base64 -d > ~/.ssh/deploy_key
@@ -109,6 +109,19 @@ sonarcloud:
         echo "Backup saved: \$BACKUP_FILE (\$(du -h "\$BACKUP_FILE" | cut -f1))"
         # Keep only last 10 pre-deploy backups per environment
         ls -t \$BACKUP_DIR/${DEPLOY_ENV}-*.sql.gz 2>/dev/null | tail -n +11 | xargs rm -f 2>/dev/null || true
+      ENDSSH
+
+      # Pre-deploy maintenance warning (PROD only)
+      if [ "$DEPLOY_ENV" = "PROD" ]; then
+        echo "Sending deploy-starting notification for Backend..."
+        curl -s --max-time 5 -X POST "https://arpax.loopus.it/api/announcements/deploy-starting" \
+          -H "Content-Type: application/json" \
+          -d "{\"version\":\"${CI_COMMIT_SHORT_SHA}\",\"secret\":\"${DEPLOY_SECRET}\",\"component\":\"Backend\"}" || true
+      fi
+
+      ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 2222 ${SSH_USERNAME}@${SSH_HOST} << ENDSSH
+        set -e
+        cd ~/$DEPLOY_DIR
 
         echo "=== Pulling latest code ==="
         BUILD_DIR="/tmp/arpa-build-\$\$"
@@ -145,6 +158,14 @@ sonarcloud:
 
         echo "=== Deployment complete ==="
       ENDSSH
+
+      # Post-deploy announcement (PROD only)
+      if [ "$DEPLOY_ENV" = "PROD" ]; then
+        echo "Sending deploy announcement for Backend..."
+        curl -s --max-time 5 -X POST "https://arpax.loopus.it/api/announcements/deploy" \
+          -H "Content-Type: application/json" \
+          -d "{\"version\":\"${CI_COMMIT_SHORT_SHA}\",\"secret\":\"${DEPLOY_SECRET}\",\"component\":\"Backend\"}" || true
+      fi
   tags:
     - docker
 

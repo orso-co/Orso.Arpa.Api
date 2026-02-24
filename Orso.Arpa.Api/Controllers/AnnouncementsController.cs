@@ -101,5 +101,19 @@ namespace Orso.Arpa.Api.Controllers
             var created = await _announcementService.CreateDeployAnnouncementAsync(dto);
             return Ok(created);
         }
+
+        [AllowAnonymous]
+        [HttpPost("deploy-starting")]
+        public async Task<ActionResult<AnnouncementDto>> DeployStarting([FromBody] DeployAnnouncementDto dto)
+        {
+            var configuredSecret = _configuration["DeployAnnouncementSecret"];
+            if (string.IsNullOrEmpty(configuredSecret) || dto.Secret != configuredSecret)
+            {
+                return Unauthorized();
+            }
+
+            var created = await _announcementService.CreateDeployStartingAnnouncementAsync(dto);
+            return Ok(created);
+        }
     }
 }
