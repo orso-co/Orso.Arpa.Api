@@ -20,6 +20,7 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -608,6 +609,16 @@ namespace Orso.Arpa.Api
 
         private void ConfigureAuthentication(IServiceCollection services)
         {
+            // Persist Data Protection keys so encrypted credentials survive container restarts.
+            // In Docker, /publish/storage is volume-mounted → keys persist across deploys.
+            var keysDir = Directory.Exists("/publish/storage")
+                ? "/publish/storage/keys"
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "arpa", "keys");
+            Directory.CreateDirectory(keysDir);
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(keysDir))
+                .SetApplicationName("Orso.Arpa.Api");
+
             IdentityBuilder builder = services.AddIdentityCore<User>();
             var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             _ = identityBuilder
