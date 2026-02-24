@@ -67,4 +67,5 @@ public class DeployAnnouncementDto
     public string Version { get; set; }
     public string Secret { get; set; }
     public string Component { get; set; }
+    public string Changelog { get; set; }
 }

@@ -328,8 +328,10 @@ public class AnnouncementService : IAnnouncementService
         }
 
         var component = string.IsNullOrEmpty(dto.Component) ? "ARPA" : dto.Component;
-        var title = $"{component} v{dto.Version} deployed";
-        var content = $"Version {dto.Version} wurde erfolgreich bereitgestellt.";
+        var title = $"{component} v{dto.Version}";
+        var content = !string.IsNullOrWhiteSpace(dto.Changelog)
+            ? dto.Changelog
+            : $"Version {dto.Version} wurde erfolgreich bereitgestellt.";
 
         var announcement = new Announcement(
             null, title, content, "feature",
