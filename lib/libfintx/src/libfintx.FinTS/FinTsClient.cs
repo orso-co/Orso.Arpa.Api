@@ -464,10 +464,17 @@ namespace libfintx.FinTS
                 await tanDialog.WaitForTanAsync(); // Dem Benutzer signalisieren, dass auf die Freigabe gewartet wird
 
                 const int Delay = 2000; // Der minimale Zeitraum zwischen zwei Statusabfragen steht in HITANS, wir nehmen einfach 2 Sek
+                const int MaxPollDurationMs = 5 * 60 * 1000; // 5 Minuten max
+                var pollStart = Environment.TickCount64;
                 await Task.Delay(Delay);
                 result = await TAN(null);
                 while (!result.IsSuccess && !result.HasError && result.IsWaitingForApproval) // Freigabe wurde noch nicht erteilt
                 {
+                    if (Environment.TickCount64 - pollStart > MaxPollDurationMs)
+                    {
+                        Logger.LogWarning("Decoupled TAN polling timed out after {MaxSeconds}s", MaxPollDurationMs / 1000);
+                        break;
+                    }
                     await Task.Delay(Delay);
                     if (tanDialog.IsCancelWaitForApproval)
                     {
