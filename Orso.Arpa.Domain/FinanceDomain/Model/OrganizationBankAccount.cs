@@ -51,6 +51,11 @@ namespace Orso.Arpa.Domain.FinanceDomain.Model
             ClubId = clubId;
         }
 
+        public void Deactivate()
+        {
+            IsActive = false;
+        }
+
         public void SetEncryptedFinTsCredentials(string encryptedCredentials)
         {
             EncryptedFinTsCredentials = encryptedCredentials;
