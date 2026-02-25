@@ -84,8 +84,8 @@ public class ExportAppointmentsToIcs
                                       ? "-"
                                       : a.InternalDetails),
                     Location = a.Location,
-                    Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.StartTime)),
-                    End = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.EndTime))
+                    Start = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.StartTime), "Europe/Berlin"),
+                    End = new CalDateTime(DateTimeExtensions.ConvertToLocalTimeBerlin(a.EndTime), "Europe/Berlin")
                 };
 
                 if (a.Type == AppointmentType.InfoOnly)
@@ -100,7 +100,8 @@ public class ExportAppointmentsToIcs
             calendar.Properties.Add(new CalendarProperty("X-WR-CALNAME", request.CalendarName));
 
             string timeZoneId = "Europe/Berlin";
-            var timeZone = new VTimeZone(timeZoneId);
+            var tzInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+            var timeZone = VTimeZone.FromSystemTimeZone(tzInfo);
             calendar.AddTimeZone(timeZone);
 
             calendar.Events.AddRange(events);

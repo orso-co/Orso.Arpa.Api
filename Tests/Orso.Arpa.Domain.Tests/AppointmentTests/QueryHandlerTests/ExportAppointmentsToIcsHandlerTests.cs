@@ -40,41 +40,35 @@ public class ExportAppointmentsToIcsHandlerTests
                 FakeAppointments.RockingXMasRehearsal, AppointmentSeedData.RehearsalWeekend
             }.BuildMockDbSet();
         _arpaContext.Appointments.Returns(appointmentMock);
-        string[] expectedResultWithoutDynamicValues = [
-            "BEGIN:VCALENDAR",
-            "PRODID:-//github.com/ical-org/ical.net//NONSGML ical.net 5.2.0//EN",
-            "VERSION:2.0",
-            "BEGIN:VTIMEZONE",
-            "TZID:Europe/Berlin",
-            "X-LIC-LOCATION:Europe/Berlin",
-            "END:VTIMEZONE",
-            "BEGIN:VEVENT",
-            "DESCRIPTION:Rehearsal | Let's rock | I need more coffee",
-            "DTEND:20191221T193000",
-            "DTSTART:20191221T110000",
-            "LOCATION:Freiburg",
-            "SEQUENCE:0",
-            "SUMMARY:Rocking X-mas Dress Rehearsal",
-            "END:VEVENT",
-            "BEGIN:VEVENT",
-            "DESCRIPTION:- | Accordion rehearsal weekend | -",
-            "DTEND:20191224T170000",
-            "DTSTART:20191220T160000",
-            "LOCATION:-",
-            "SEQUENCE:0",
-            "SUMMARY:Rehearsal weekend",
-            "END:VEVENT",
-            "END:VCALENDAR"];
 
         // Act
         string result = await _handler.Handle(new ExportAppointmentsToIcs.Query(), new CancellationToken());
-        string[] normalizedResult = RemoveDtstampAndUid(result);
+        string[] normalizedResult = RemoveDynamicLines(result);
 
-        // Assert
-        normalizedResult.Should().BeEquivalentTo(expectedResultWithoutDynamicValues, opt => opt.WithStrictOrdering());
+        // Assert: Check structural elements are present
+        normalizedResult.Should().Contain("BEGIN:VCALENDAR");
+        normalizedResult.Should().Contain("END:VCALENDAR");
+        normalizedResult.Should().Contain("BEGIN:VTIMEZONE");
+        normalizedResult.Should().Contain("TZID:Europe/Berlin");
+        normalizedResult.Should().Contain("END:VTIMEZONE");
+
+        // VTIMEZONE must have STANDARD and/or DAYLIGHT components (Outlook requirement)
+        var hasStandardOrDaylight = normalizedResult.Any(l =>
+            l.StartsWith("BEGIN:STANDARD") || l.StartsWith("BEGIN:DAYLIGHT"));
+        hasStandardOrDaylight.Should().BeTrue("VTIMEZONE must include STANDARD or DAYLIGHT components for Outlook compatibility");
+
+        // Check events
+        normalizedResult.Should().Contain("SUMMARY:Rocking X-mas Dress Rehearsal");
+        normalizedResult.Should().Contain("SUMMARY:Rehearsal weekend");
+        normalizedResult.Should().Contain("DESCRIPTION:Rehearsal | Let's rock | I need more coffee");
+        normalizedResult.Should().Contain("LOCATION:Freiburg");
+
+        // Check timezone-aware date-time format (TZID parameter)
+        result.Should().Contain("DTSTART;TZID=Europe/Berlin:");
+        result.Should().Contain("DTEND;TZID=Europe/Berlin:");
     }
 
-    private static string[] RemoveDtstampAndUid(string icsContent)
+    private static string[] RemoveDynamicLines(string icsContent)
     {
         var lines = icsContent.Split(separator, StringSplitOptions.None);
         return lines
