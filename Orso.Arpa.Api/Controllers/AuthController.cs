@@ -1,9 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
 
 namespace Orso.Arpa.Api.Controllers
@@ -225,6 +227,24 @@ namespace Orso.Arpa.Api.Controllers
         {
             await _authService.SendSupportRequestAsync(supportRequestDto);
             return NoContent();
+        }
+
+        /// <summary>
+        /// Generates an impersonation token for the given person. Admin only.
+        /// </summary>
+        /// <param name="personId">The person ID to impersonate</param>
+        /// <returns>A JWT access token with the target user's claims plus impersonation metadata</returns>
+        /// <response code="200">Impersonation token generated</response>
+        /// <response code="400">If person has no user account or other validation error</response>
+        /// <response code="403">If caller is not Admin</response>
+        [Authorize(Roles = RoleNames.Admin)]
+        [HttpPost("impersonate/{personId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<TokenDto>> Impersonate(Guid personId)
+        {
+            return await _authService.ImpersonateAsync(personId);
         }
     }
 }

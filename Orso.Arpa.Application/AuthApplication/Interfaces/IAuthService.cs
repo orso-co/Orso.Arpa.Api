@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Orso.Arpa.Application.AuthApplication.Model;
 
@@ -26,5 +27,7 @@ namespace Orso.Arpa.Application.AuthApplication.Interfaces
         Task RevokeRefreshTokenAsync(string refreshToken, string remoteIpAddress);
 
         Task SendSupportRequestAsync(SupportRequestDto supportRequestDto);
+
+        Task<TokenDto> ImpersonateAsync(Guid personId);
     }
 }

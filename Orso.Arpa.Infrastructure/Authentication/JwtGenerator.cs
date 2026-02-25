@@ -106,6 +106,42 @@ namespace Orso.Arpa.Infrastructure.Authentication
             }
         }
 
+        public async Task<string> CreateImpersonationTokenAsync(User targetUser, User adminUser)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.NameId, targetUser.UserName),
+                new Claim(JwtRegisteredClaimNames.Name, targetUser.DisplayName),
+                new Claim(JwtRegisteredClaimNames.Email, targetUser.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, targetUser.Id.ToString()),
+                new Claim($"{_jwtConfiguration.Issuer}/person_id", targetUser.PersonId.ToString()),
+                new Claim($"{_jwtConfiguration.Issuer}/impersonated_by", adminUser.Id.ToString()),
+                new Claim($"{_jwtConfiguration.Issuer}/impersonated_by_name", adminUser.DisplayName)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, "Token");
+
+            foreach (var role in await _userManager.GetRolesAsync(targetUser))
+            {
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = claimsIdentity,
+                Expires = _dateTimeProvider.GetUtcNow().AddMinutes(_jwtConfiguration.AccessTokenExpiryInMinutes),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration.TokenKey)),
+                    SecurityAlgorithms.HmacSha512Signature),
+                Issuer = _jwtConfiguration.Issuer,
+                Audience = _jwtConfiguration.Audience
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
         private RefreshToken GernerateRefreshToken(User user, string ipAddress)
         {
             var randomBytes = RandomNumberGenerator.GetBytes(64);

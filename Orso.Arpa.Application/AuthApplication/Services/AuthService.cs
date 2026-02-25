@@ -1,12 +1,17 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Application.AuthApplication.Interfaces;
 using Orso.Arpa.Application.AuthApplication.Model;
+using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Commands;
 using Orso.Arpa.Domain.UserDomain.Enums;
+using Orso.Arpa.Domain.UserDomain.Model;
 using Orso.Arpa.Domain.UserDomain.Notifications;
+using Orso.Arpa.Domain.UserDomain.Repositories;
 
 namespace Orso.Arpa.Application.AuthApplication.Services
 {
@@ -14,11 +19,25 @@ namespace Orso.Arpa.Application.AuthApplication.Services
     {
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
+        private readonly ArpaUserManager _userManager;
+        private readonly IJwtGenerator _jwtGenerator;
+        private readonly IUserAccessor _userAccessor;
+        private readonly IArpaContext _arpaContext;
 
-        public AuthService(IMediator mediator, IMapper mapper)
+        public AuthService(
+            IMediator mediator,
+            IMapper mapper,
+            ArpaUserManager userManager,
+            IJwtGenerator jwtGenerator,
+            IUserAccessor userAccessor,
+            IArpaContext arpaContext)
         {
             _mapper = mapper;
             _mediator = mediator;
+            _userManager = userManager;
+            _jwtGenerator = jwtGenerator;
+            _userAccessor = userAccessor;
+            _arpaContext = arpaContext;
         }
 
         public async Task<TokenDto> LoginAsync(LoginDto loginDto, string remoteIpAddress)
@@ -115,6 +134,23 @@ namespace Orso.Arpa.Application.AuthApplication.Services
         {
             SendSupportRequest.Command command = _mapper.Map<SendSupportRequest.Command>(supportRequestDto);
             await _mediator.Send(command);
+        }
+
+        public async Task<TokenDto> ImpersonateAsync(Guid personId)
+        {
+            User adminUser = await _userAccessor.GetCurrentUserAsync();
+
+            User targetUser = await _userManager.Users
+                .FirstOrDefaultAsync(u => u.PersonId == personId)
+                ?? throw new InvalidOperationException($"No user account found for person {personId}");
+
+            if (targetUser.Id == adminUser.Id)
+            {
+                throw new InvalidOperationException("Cannot impersonate yourself");
+            }
+
+            string token = await _jwtGenerator.CreateImpersonationTokenAsync(targetUser, adminUser);
+            return new TokenDto { Token = token };
         }
     }
 }
