@@ -21,6 +21,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
             public Guid Id { get; set; }
             public Guid PersonId { get; set; }
             public AppointmentParticipationResult Result { get; set; }
+            public DateTime? CheckedInAt { get; set; }
+            public DateTime? CheckedOutAt { get; set; }
         }
 
         public class MappingProfile : Profile

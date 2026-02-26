@@ -30,6 +30,14 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
         public void Update(SetAppointmentParticipationResult.Command command)
         {
             Result = command.Result;
+            if (command.CheckedInAt.HasValue)
+            {
+                CheckedInAt = command.CheckedInAt.Value;
+            }
+            if (command.CheckedOutAt.HasValue)
+            {
+                CheckedOutAt = command.CheckedOutAt.Value;
+            }
         }
 
         public Guid PersonId { get; private set; }
@@ -40,6 +48,8 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Model
         public AppointmentParticipationPrediction? Prediction { get; private set; }
         public string CommentByPerformerInner { get; private set; }
         public string CommentByStaffInner { get; private set; }
+        public DateTime? CheckedInAt { get; private set; }
+        public DateTime? CheckedOutAt { get; private set; }
 
         public void SetCommentByStaffInner(string comment)
         {

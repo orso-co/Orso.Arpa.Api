@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using Orso.Arpa.Application.General.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
@@ -13,6 +14,8 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
 
         public string CommentByPerformerInner { get; set; }
         public string CommentByStaffInner { get; set; }
+        public DateTime? CheckedInAt { get; set; }
+        public DateTime? CheckedOutAt { get; set; }
     }
 
     public class AppointmentParticipationDtoMappingProfile : Profile

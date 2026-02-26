@@ -17,6 +17,8 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
     public class AppointmentParticipationSetResultBodyDto
     {
         public AppointmentParticipationResult Result { get; set; }
+        public DateTime? CheckedInAt { get; set; }
+        public DateTime? CheckedOutAt { get; set; }
     }
 
     public class AppointmentParticipationSetResultDtoValidator : IdFromRouteDtoValidator<AppointmentParticipationSetResultDto, AppointmentParticipationSetResultBodyDto>
@@ -44,7 +46,9 @@ namespace Orso.Arpa.Application.AppointmentParticipationApplication.Model
         public AppointmentParticipationSetResultDtoMappingProfile()
         {
             _ = CreateMap<AppointmentParticipationSetResultDto, SetAppointmentParticipationResult.Command>()
-                .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Body.Result));
+                .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Body.Result))
+                .ForMember(dest => dest.CheckedInAt, opt => opt.MapFrom(src => src.Body.CheckedInAt))
+                .ForMember(dest => dest.CheckedOutAt, opt => opt.MapFrom(src => src.Body.CheckedOutAt));
         }
     }
 }
