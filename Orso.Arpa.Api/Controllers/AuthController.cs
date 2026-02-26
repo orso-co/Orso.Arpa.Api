@@ -230,6 +230,34 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Resets the password of a user. Admin only.
+        /// </summary>
+        [Authorize(Roles = RoleNames.Admin)]
+        [HttpPost("admin-reset-password")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult> AdminResetPassword([FromBody] AdminResetPasswordDto dto)
+        {
+            await _authService.AdminResetPasswordAsync(dto);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Unlocks a locked user account. Admin only.
+        /// </summary>
+        [Authorize(Roles = RoleNames.Admin)]
+        [HttpPost("unlock/{userName}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult> UnlockUser(string userName)
+        {
+            await _authService.UnlockUserAsync(userName);
+            return NoContent();
+        }
+
+        /// <summary>
         /// Generates an impersonation token for the given person. Admin only.
         /// </summary>
         /// <param name="personId">The person ID to impersonate</param>

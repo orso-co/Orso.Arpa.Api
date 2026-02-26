@@ -20,6 +20,8 @@ namespace Orso.Arpa.Application.UserApplication.Model
         public IList<SectionDto> StakeholderGroups { get; set; } = [];
         public UserStatus Status { get; set; }
         public Guid PersonId { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
+        public int AccessFailedCount { get; set; }
     }
 
     public class UserDtoMappingProfile : Profile

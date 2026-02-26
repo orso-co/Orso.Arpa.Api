@@ -34,17 +34,29 @@ namespace Orso.Arpa.Api.Controllers
         [Authorize(Roles = RoleNames.Admin)]
         [HttpGet]
         public async Task<ActionResult<ActivityLogResultDto>> GetLogs([FromQuery] ActivityLogFilterDto filter)
-            => Ok(await _activityLogService.GetLogsAsync(filter));
+        {
+            if (_tokenAccessor.UserName != "Wolfgang")
+                return Forbid();
+            return Ok(await _activityLogService.GetLogsAsync(filter));
+        }
 
         [Authorize(Roles = RoleNames.Admin)]
         [HttpGet("stats")]
         public async Task<ActionResult<ActivityLogStatsDto>> GetStats()
-            => Ok(await _activityLogService.GetStatsAsync());
+        {
+            if (_tokenAccessor.UserName != "Wolfgang")
+                return Forbid();
+            return Ok(await _activityLogService.GetStatsAsync());
+        }
 
         [Authorize(Roles = RoleNames.Admin)]
         [HttpGet("users")]
         public async Task<ActionResult<List<ActivityLogUserDto>>> GetUsers()
-            => Ok(await _activityLogService.GetDistinctUsersAsync());
+        {
+            if (_tokenAccessor.UserName != "Wolfgang")
+                return Forbid();
+            return Ok(await _activityLogService.GetDistinctUsersAsync());
+        }
 
         [HttpPost("batch")]
         public ActionResult PostBatch([FromBody] CreateActivityLogBatchDto dto)

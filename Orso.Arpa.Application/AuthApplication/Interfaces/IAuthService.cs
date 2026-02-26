@@ -29,5 +29,9 @@ namespace Orso.Arpa.Application.AuthApplication.Interfaces
         Task SendSupportRequestAsync(SupportRequestDto supportRequestDto);
 
         Task<TokenDto> ImpersonateAsync(Guid personId);
+
+        Task AdminResetPasswordAsync(AdminResetPasswordDto dto);
+
+        Task UnlockUserAsync(string userName);
     }
 }

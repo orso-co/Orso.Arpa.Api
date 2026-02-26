@@ -136,6 +136,33 @@ namespace Orso.Arpa.Application.AuthApplication.Services
             await _mediator.Send(command);
         }
 
+        public async Task AdminResetPasswordAsync(AdminResetPasswordDto dto)
+        {
+            var user = await _userManager.FindByNameAsync(dto.UserName)
+                ?? throw new InvalidOperationException($"User '{dto.UserName}' not found");
+
+            var removeResult = await _userManager.RemovePasswordAsync(user);
+            if (!removeResult.Succeeded)
+            {
+                throw new InvalidOperationException($"Failed to remove password: {string.Join(", ", removeResult.Errors.Select(e => e.Description))}");
+            }
+
+            var addResult = await _userManager.AddPasswordAsync(user, dto.NewPassword);
+            if (!addResult.Succeeded)
+            {
+                throw new InvalidOperationException($"Failed to set password: {string.Join(", ", addResult.Errors.Select(e => e.Description))}");
+            }
+        }
+
+        public async Task UnlockUserAsync(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName)
+                ?? throw new InvalidOperationException($"User '{userName}' not found");
+
+            await _userManager.SetLockoutEndDateAsync(user, null);
+            await _userManager.ResetAccessFailedCountAsync(user);
+        }
+
         public async Task<TokenDto> ImpersonateAsync(Guid personId)
         {
             User adminUser = await _userAccessor.GetCurrentUserAsync();
