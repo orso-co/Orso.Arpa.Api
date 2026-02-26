@@ -10,5 +10,7 @@ namespace Orso.Arpa.Infrastructure.Presence
         public string? InstrumentName { get; set; }
         public DateTime ConnectedAt { get; set; }
         public DateTime? LastSeenAt { get; set; }
+        public string Status { get; set; } = "active";
+        public DateTime LastHeartbeat { get; set; }
     }
 }

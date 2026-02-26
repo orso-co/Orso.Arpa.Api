@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Orso.Arpa.Infrastructure.Presence
@@ -10,5 +11,7 @@ namespace Orso.Arpa.Infrastructure.Presence
         Task<OnlineUserDto[]> GetOnlineUsers();
         Task<OnlineUserDto[]> GetRecentlyOnlineUsers(TimeSpan window);
         Task<OnlineUserDto?> GetUser(Guid userId);
+        Task UpdateHeartbeat(Guid userId, bool isActive);
+        Task<List<Guid>> CleanupStaleConnections(TimeSpan timeout);
     }
 }

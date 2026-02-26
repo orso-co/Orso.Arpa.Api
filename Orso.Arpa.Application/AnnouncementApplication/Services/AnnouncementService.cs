@@ -46,18 +46,28 @@ public class AnnouncementService : IAnnouncementService
             .Take(20)
             .ToListAsync();
 
-        var readIds = await _context.AnnouncementReads
+        var reads = await _context.AnnouncementReads
             .AsNoTracking()
             .Where(r => r.UserId == userId && announcements.Select(a => a.Id).Contains(r.AnnouncementId))
-            .Select(r => r.AnnouncementId)
             .ToListAsync();
 
+        var readIds = reads.Select(r => r.AnnouncementId).ToHashSet();
         var unread = announcements.Where(a => !readIds.Contains(a.Id)).ToList();
+
+        // Load last 5 recently read announcements
+        var recentlyRead = announcements
+            .Where(a => readIds.Contains(a.Id))
+            .Select(a => new { Announcement = a, ReadAt = reads.First(r => r.AnnouncementId == a.Id).ReadAt })
+            .OrderByDescending(x => x.ReadAt)
+            .Take(5)
+            .Select(x => MapToDto(x.Announcement))
+            .ToList();
 
         return new UnreadAnnouncementsDto
         {
             Items = unread.Take(10).Select(MapToDto).ToList(),
             TotalCount = unread.Count,
+            RecentlyRead = recentlyRead,
         };
     }
 
@@ -389,28 +399,7 @@ public class AnnouncementService : IAnnouncementService
         _context.Announcements.Add(announcement);
         await _context.SaveChangesAsync();
 
-        // Pin for all active users
-        var userIds = await _context.Users
-            .AsNoTracking()
-            .Where(u => u.EmailConfirmed)
-            .Select(u => u.Id)
-            .ToListAsync();
-
-        var now = _dateTimeProvider.GetUtcNow();
-        foreach (var userId in userIds)
-        {
-            _context.AnnouncementReads.Add(new AnnouncementRead
-            {
-                Id = Guid.NewGuid(),
-                AnnouncementId = announcement.Id,
-                UserId = userId,
-                ReadAt = now,
-                TickerPinned = true,
-            });
-        }
-
-        await _context.SaveChangesAsync();
-
+        // No auto-pin: the announcement appears as unread in the bell for all users
         await _notificationSender.SendDashboardUpdateToAllAsync("announcement", announcement.Id);
 
         return MapToDto(announcement);

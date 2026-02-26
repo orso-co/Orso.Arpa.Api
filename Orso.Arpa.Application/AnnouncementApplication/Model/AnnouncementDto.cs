@@ -22,6 +22,7 @@ public class UnreadAnnouncementsDto
 {
     public List<AnnouncementDto> Items { get; set; } = new();
     public int TotalCount { get; set; }
+    public List<AnnouncementDto> RecentlyRead { get; set; } = new();
 }
 
 public class CreateAnnouncementDto

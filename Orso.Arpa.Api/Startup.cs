@@ -263,6 +263,7 @@ namespace Orso.Arpa.Api
             services.AddHostedService<EmailCampaignWorker>();
             services.AddHostedService<LiveLocationExpiryWorker>();
             services.AddHostedService<BankBalanceSyncWorker>();
+            services.AddHostedService<Hubs.PresenceCleanupService>();
         }
 
         private void ConfigureStorageAccount(IServiceCollection services)

@@ -29,6 +29,8 @@ namespace Orso.Arpa.Infrastructure.Presence
                 }
                 else
                 {
+                    user.LastHeartbeat = DateTime.UtcNow;
+                    user.Status = "active";
                     _onlineUsers[user.UserId] = (user, new HashSet<string> { connectionId });
                     isFirstConnection = true;
                 }
@@ -137,6 +139,61 @@ namespace Orso.Arpa.Infrastructure.Presence
             }
 
             return Task.FromResult(user);
+        }
+
+        /// <summary>
+        /// Updates the heartbeat timestamp and activity status for a user.
+        /// </summary>
+        public Task UpdateHeartbeat(Guid userId, bool isActive)
+        {
+            lock (_lock)
+            {
+                if (_onlineUsers.TryGetValue(userId, out var existing))
+                {
+                    existing.User.LastHeartbeat = DateTime.UtcNow;
+                    existing.User.Status = isActive ? "active" : "idle";
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Removes users whose last heartbeat is older than the timeout. Returns removed user IDs.
+        /// </summary>
+        public Task<List<Guid>> CleanupStaleConnections(TimeSpan timeout)
+        {
+            var removedUserIds = new List<Guid>();
+
+            lock (_lock)
+            {
+                var cutoff = DateTime.UtcNow - timeout;
+                var staleUsers = _onlineUsers
+                    .Where(kv => kv.Value.User.LastHeartbeat < cutoff)
+                    .Select(kv => kv.Key)
+                    .ToList();
+
+                foreach (var userId in staleUsers)
+                {
+                    if (_onlineUsers.TryGetValue(userId, out var existing))
+                    {
+                        var offlineUser = new OnlineUserDto
+                        {
+                            UserId = existing.User.UserId,
+                            PersonId = existing.User.PersonId,
+                            DisplayName = existing.User.DisplayName,
+                            InstrumentName = existing.User.InstrumentName,
+                            ConnectedAt = existing.User.ConnectedAt,
+                            LastSeenAt = DateTime.UtcNow
+                        };
+                        _recentlyOffline[userId] = offlineUser;
+                        _onlineUsers.Remove(userId);
+                        removedUserIds.Add(userId);
+                    }
+                }
+            }
+
+            return Task.FromResult(removedUserIds);
         }
     }
 }

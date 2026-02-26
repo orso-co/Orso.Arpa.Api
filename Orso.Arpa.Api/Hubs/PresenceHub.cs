@@ -64,6 +64,13 @@ namespace Orso.Arpa.Api.Hubs
             await base.OnConnectedAsync();
         }
 
+        public async Task Heartbeat(bool isActive)
+        {
+            var userId = GetUserId();
+            if (userId == Guid.Empty) return;
+            await _presenceTracker.UpdateHeartbeat(userId, isActive);
+        }
+
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             var userId = GetUserId();
