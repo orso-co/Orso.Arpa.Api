@@ -2,6 +2,7 @@ stages:
   - security       # Snyk vulnerability scanning
   - quality        # SonarCloud code analysis
   - build-and-deploy
+  - version-bump   # Auto-increment patch version nach PROD deploy
 
 # =============================================================================
 # BRANCH-STRATEGIE:
@@ -196,3 +197,47 @@ deploy-prod:
   environment:
     name: PROD
     url: https://arpax.loopus.it
+
+# =============================================================================
+# VERSION BUMP STAGE - Auto-increment patch version nach PROD deploy
+# =============================================================================
+version-bump:
+  stage: version-bump
+  image: alpine:latest
+  needs:
+    - deploy-prod
+  before_script:
+    - apk add --no-cache git sed
+  script:
+    - |
+      # Git konfigurieren
+      git config --global user.name "CI Bot"
+      git config --global user.email "ci@loopus.it"
+
+      # Repo klonen (develop Branch)
+      GIT_URL="https://gitlab-ci-token:${CI_JOB_TOKEN}@git.loopus.it/arpa/backend.git"
+      git clone --depth 5 --branch develop "$GIT_URL" /tmp/repo
+      cd /tmp/repo
+
+      # Aktuelle Version lesen
+      CURRENT=$(sed -n 's/.*<Version>\(.*\)<\/Version>.*/\1/p' Orso.Arpa.Api/Orso.Arpa.Api.csproj)
+      MAJOR=$(echo "$CURRENT" | cut -d. -f1)
+      MINOR=$(echo "$CURRENT" | cut -d. -f2)
+      PATCH=$(echo "$CURRENT" | cut -d. -f3)
+      NEW_PATCH=$((PATCH + 1))
+      NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}"
+
+      echo "Version bumped: ${CURRENT} -> ${NEW_VERSION}"
+
+      # .csproj aktualisieren
+      sed -i "s|<Version>${CURRENT}</Version>|<Version>${NEW_VERSION}</Version>|" Orso.Arpa.Api/Orso.Arpa.Api.csproj
+
+      # Commit und Push
+      git add Orso.Arpa.Api/Orso.Arpa.Api.csproj
+      git commit -m "chore: bump version to ${NEW_VERSION} [skip ci]"
+      git push origin develop
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  tags:
+    - docker
