@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using Orso.Arpa.Application.AppointmentApplication.Interfaces;
 using Orso.Arpa.Application.AppointmentApplication.Model;
 using Orso.Arpa.Application.AppointmentParticipationApplication.Model;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
+using Orso.Arpa.Domain.AppointmentDomain.Notifications;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.UserDomain.Enums;
 
@@ -18,11 +20,13 @@ namespace Orso.Arpa.Api.Controllers
     {
         private readonly IAppointmentService _appointmentService;
         private readonly ITokenAccessor _tokenAccessor;
+        private readonly IMediator _mediator;
 
-        public AppointmentsController(IAppointmentService appointmentService, ITokenAccessor tokenAccessor)
+        public AppointmentsController(IAppointmentService appointmentService, ITokenAccessor tokenAccessor, IMediator mediator)
         {
             _appointmentService = appointmentService;
             _tokenAccessor = tokenAccessor;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -239,6 +243,14 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> Put(AppointmentModifyDto appointmentModifyDto)
         {
             await _appointmentService.ModifyAsync(appointmentModifyDto);
+
+            _ = _mediator.Publish(new AppointmentChangedNotification
+            {
+                AppointmentId = appointmentModifyDto.Id,
+                AppointmentName = appointmentModifyDto.Body.Name,
+                StartTime = appointmentModifyDto.Body.StartTime
+            });
+
             return NoContent();
         }
 

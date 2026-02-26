@@ -6,6 +6,11 @@ namespace Orso.Arpa.Domain.UserDomain.Enums
         AppointmentReminder = 2,
         ProjectParticipationChanged = 3,
         AccountActivated = 4,
-        MediathekAccessGranted = 5
+        MediathekAccessGranted = 5,
+        AppointmentChanged = 6,
+        SetlistChanged = 7,
+        ProjectInfoChanged = 8,
+        AppointmentParticipationChanged = 9,
+        NewAnnouncement = 10
     }
 }

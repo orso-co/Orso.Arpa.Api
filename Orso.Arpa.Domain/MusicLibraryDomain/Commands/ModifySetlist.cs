@@ -7,6 +7,7 @@ using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.MusicLibraryDomain.Model;
+using Orso.Arpa.Domain.MusicLibraryDomain.Notifications;
 
 namespace Orso.Arpa.Domain.MusicLibraryDomain.Commands
 {
@@ -39,10 +40,12 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Commands
         public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly IArpaContext _context;
+            private readonly IMediator _mediator;
 
-            public Handler(IArpaContext context)
+            public Handler(IArpaContext context, IMediator mediator)
             {
                 _context = context;
+                _mediator = mediator;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -56,6 +59,13 @@ namespace Orso.Arpa.Domain.MusicLibraryDomain.Commands
 
                 _context.Setlists.Update(setlist);
                 await _context.SaveChangesAsync(cancellationToken);
+
+                _ = _mediator.Publish(new SetlistChangedNotification
+                {
+                    SetlistId = request.Id,
+                    SetlistName = request.Name
+                }, cancellationToken);
+
                 return Unit.Value;
             }
         }

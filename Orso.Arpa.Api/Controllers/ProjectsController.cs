@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Orso.Arpa.Application.ProjectApplication.Interfaces;
 using Orso.Arpa.Application.ProjectApplication.Model;
 using Orso.Arpa.Application.UrlApplication.Interfaces;
 using Orso.Arpa.Application.UrlApplication.Model;
+using Orso.Arpa.Domain.ProjectDomain.Notifications;
 using Orso.Arpa.Domain.UserDomain.Enums;
 using Orso.Arpa.Infrastructure.Authorization;
 
@@ -21,12 +23,14 @@ namespace Orso.Arpa.Api.Controllers
         private readonly IProjectService _projectService;
         private readonly IUrlService _urlService;
         private readonly IInstrumentationService _instrumentationService;
+        private readonly IMediator _mediator;
 
-        public ProjectsController(IProjectService projectService, IUrlService urlService, IInstrumentationService instrumentationService)
+        public ProjectsController(IProjectService projectService, IUrlService urlService, IInstrumentationService instrumentationService, IMediator mediator)
         {
             _projectService = projectService;
             _urlService = urlService;
             _instrumentationService = instrumentationService;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -111,6 +115,12 @@ namespace Orso.Arpa.Api.Controllers
         public async Task<ActionResult> Put(ProjectModifyDto projectModifyDto)
         {
             await _projectService.ModifyAsync(projectModifyDto);
+
+            _ = _mediator.Publish(new ProjectInfoChangedNotification
+            {
+                ProjectId = projectModifyDto.Id,
+                ProjectName = projectModifyDto.Body.Title
+            });
 
             return NoContent();
         }

@@ -2,10 +2,12 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Orso.Arpa.Application.ChatApplication.Interfaces;
 using Orso.Arpa.Application.ChatApplication.Model;
+using Orso.Arpa.Domain.ChatDomain.Notifications;
 
 namespace Orso.Arpa.Api.Hubs
 {
@@ -13,10 +15,12 @@ namespace Orso.Arpa.Api.Hubs
     public class ChatHub : Hub
     {
         private readonly IChatService _chatService;
+        private readonly IMediator _mediator;
 
-        public ChatHub(IChatService chatService)
+        public ChatHub(IChatService chatService, IMediator mediator)
         {
             _chatService = chatService;
+            _mediator = mediator;
         }
 
         #region Connection Management
@@ -160,6 +164,15 @@ namespace Orso.Arpa.Api.Hubs
 
                 // Broadcast to all users in the room
                 await Clients.Group($"chat_{roomId}").SendAsync("ReceiveMessage", message);
+
+                // Send push notifications to offline room members
+                _ = _mediator.Publish(new ChatMessageCreatedNotification
+                {
+                    RoomId = roomId,
+                    SenderUserId = userId,
+                    SenderDisplayName = GetDisplayName(),
+                    MessageContent = content
+                });
             }
             catch (Exception)
             {

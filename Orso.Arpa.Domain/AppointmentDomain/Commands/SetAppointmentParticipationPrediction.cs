@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Orso.Arpa.Domain.AppointmentDomain.Enums;
 using Orso.Arpa.Domain.AppointmentDomain.Model;
+using Orso.Arpa.Domain.AppointmentDomain.Notifications;
 using Orso.Arpa.Domain.General.Errors;
 using Orso.Arpa.Domain.General.Extensions;
 using Orso.Arpa.Domain.General.Interfaces;
@@ -59,13 +60,16 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
         {
             private readonly IArpaContext _arpaContext;
             private readonly IMapper _mapper;
+            private readonly IMediator _mediator;
 
             public Handler(
                 IArpaContext arpaContext,
-                IMapper mapper)
+                IMapper mapper,
+                IMediator mediator)
             {
                 _arpaContext = arpaContext;
                 _mapper = mapper;
+                _mediator = mediator;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -84,9 +88,33 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Commands
                     _ = _arpaContext.AppointmentParticipations.Update(appointmentParticipation);
                 }
 
-                return await _arpaContext.SaveChangesAsync(cancellationToken) == 2 // participation + audtit trail
-                    ? Unit.Value
-                    : throw new AffectedRowCountMismatchException(nameof(AppointmentParticipation));
+                if (await _arpaContext.SaveChangesAsync(cancellationToken) != 2)
+                {
+                    throw new AffectedRowCountMismatchException(nameof(AppointmentParticipation));
+                }
+
+                // Send push notification about participation change
+                var appointment = await _arpaContext.Appointments
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
+                var person = await _arpaContext.Persons
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Id == request.PersonId, cancellationToken);
+
+                if (appointment != null && person != null)
+                {
+                    _ = _mediator.Publish(new AppointmentParticipationChangedNotification
+                    {
+                        AppointmentId = request.Id,
+                        AppointmentName = appointment.Name ?? appointment.ToString(),
+                        PersonId = request.PersonId,
+                        PersonName = $"{person.GivenName} {person.Surname}".Trim(),
+                        Prediction = request.Prediction.ToString(),
+                        ChangedByStaff = false
+                    }, cancellationToken);
+                }
+
+                return Unit.Value;
             }
         }
     }
