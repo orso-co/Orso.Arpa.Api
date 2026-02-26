@@ -148,6 +148,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<PushSubscription> PushSubscriptions { get; set; }
         public DbSet<NotificationPreference> NotificationPreferences { get; set; }
         public DbSet<UserDashboardLayout> UserDashboardLayouts { get; set; }
+        public DbSet<UserSettings> UserSettings { get; set; }
 
         // Email Campaigns
         public DbSet<EmailTemplate> EmailTemplates { get; set; }

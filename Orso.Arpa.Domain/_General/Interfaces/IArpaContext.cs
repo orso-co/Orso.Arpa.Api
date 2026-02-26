@@ -99,6 +99,7 @@ namespace Orso.Arpa.Domain.General.Interfaces
         DbSet<PushSubscription> PushSubscriptions { get; set; }
         DbSet<NotificationPreference> NotificationPreferences { get; set; }
         DbSet<UserDashboardLayout> UserDashboardLayouts { get; set; }
+        DbSet<UserSettings> UserSettings { get; set; }
 
         // Email Campaigns
         DbSet<EmailTemplate> EmailTemplates { get; set; }

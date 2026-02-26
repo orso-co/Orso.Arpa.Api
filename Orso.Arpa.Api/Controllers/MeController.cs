@@ -191,5 +191,65 @@ namespace Orso.Arpa.Api.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Gets the settings for the current user
+        /// </summary>
+        /// <response code="200"></response>
+        [HttpGet("settings")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<UserSettingsDto>> GetSettings()
+        {
+            Guid userId = _tokenAccessor.UserId;
+
+            UserSettings settings = await _arpaContext.UserSettings
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            return Ok(new UserSettingsDto
+            {
+                IsDarkMode = settings?.IsDarkMode ?? true,
+                Language = settings?.Language ?? "de",
+                SoundOnUserOnline = settings?.SoundOnUserOnline ?? true,
+                SoundOnAnnouncement = settings?.SoundOnAnnouncement ?? true
+            });
+        }
+
+        /// <summary>
+        /// Saves the settings for the current user
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <response code="204"></response>
+        [HttpPut("settings")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> PutSettings([FromBody] UserSettingsDto dto)
+        {
+            Guid userId = _tokenAccessor.UserId;
+
+            UserSettings existing = await _arpaContext.UserSettings
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+
+            if (existing != null)
+            {
+                existing.IsDarkMode = dto.IsDarkMode;
+                existing.Language = dto.Language;
+                existing.SoundOnUserOnline = dto.SoundOnUserOnline;
+                existing.SoundOnAnnouncement = dto.SoundOnAnnouncement;
+            }
+            else
+            {
+                _arpaContext.Add(new UserSettings
+                {
+                    UserId = userId,
+                    IsDarkMode = dto.IsDarkMode,
+                    Language = dto.Language,
+                    SoundOnUserOnline = dto.SoundOnUserOnline,
+                    SoundOnAnnouncement = dto.SoundOnAnnouncement
+                });
+            }
+
+            await _arpaContext.SaveChangesAsync(CancellationToken.None);
+
+            return NoContent();
+        }
     }
 }
