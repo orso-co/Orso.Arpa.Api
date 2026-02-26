@@ -193,18 +193,30 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                         _arpaContext.Set<Person>().Add(person);
                         personId = person.Id;
                         result.PersonsCreated++;
+                    }
 
-                        // Add email as contact detail
-                        if (!string.IsNullOrWhiteSpace(row.Email))
+                    // Add email if not already present on person (additive — works for new and existing persons)
+                    if (!string.IsNullOrWhiteSpace(row.Email))
+                    {
+                        var emailNormalized = row.Email.Trim().ToLowerInvariant();
+                        var existingEmail = await _arpaContext.Set<ContactDetail>()
+                            .AnyAsync(cd => cd.PersonId == personId
+                                && cd.Key == ContactDetailKey.EMail
+                                && cd.Value.ToLower() == emailNormalized
+                                && !cd.Deleted, cancellationToken);
+
+                        if (!existingEmail)
                         {
                             var contactDetail = new ContactDetail(Guid.NewGuid(), new CreateContactDetail.Command
                             {
-                                PersonId = person.Id,
+                                PersonId = personId,
                                 Key = ContactDetailKey.EMail,
                                 Value = row.Email.Trim(),
                                 Preference = 1,
                             });
+                            contactDetail.ImportBatchId = batchId;
                             _arpaContext.Set<ContactDetail>().Add(contactDetail);
+                            result.ContactDetailsCreated++;
                         }
                     }
 
@@ -274,6 +286,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                                 PersonId = personId,
                                 Iban = row.Iban.Replace(" ", ""),
                             });
+                            bankAccount.ImportBatchId = batchId;
                             _arpaContext.Set<BankAccount>().Add(bankAccount);
                             result.BankAccountsCreated++;
                         }
@@ -322,19 +335,29 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     result.HistoryEntriesDeleted++;
                 }
 
-                // Hard-delete bank accounts for this person (created during same import)
-                var bankAccounts = await _arpaContext.Set<BankAccount>()
-                    .Where(ba => ba.PersonId == membership.PersonId && !ba.Deleted)
-                    .ToListAsync(cancellationToken);
-                foreach (var ba in bankAccounts)
-                {
-                    _arpaContext.Set<BankAccount>().Remove(ba);
-                    result.BankAccountsDeleted++;
-                }
-
                 // Hard-delete the membership
                 _arpaContext.Set<PersonMembership>().Remove(membership);
                 result.MembershipsDeleted++;
+            }
+
+            // Delete only bank accounts created by this import batch (not pre-existing ones)
+            var bankAccounts = await _arpaContext.Set<BankAccount>()
+                .Where(ba => ba.ImportBatchId == importBatchId)
+                .ToListAsync(cancellationToken);
+            foreach (var ba in bankAccounts)
+            {
+                _arpaContext.Set<BankAccount>().Remove(ba);
+                result.BankAccountsDeleted++;
+            }
+
+            // Delete only contact details created by this import batch (not pre-existing ones)
+            var contactDetails = await _arpaContext.Set<ContactDetail>()
+                .Where(cd => cd.ImportBatchId == importBatchId)
+                .ToListAsync(cancellationToken);
+            foreach (var cd in contactDetails)
+            {
+                _arpaContext.Set<ContactDetail>().Remove(cd);
+                result.ContactDetailsDeleted++;
             }
 
             // Find and delete persons created by this batch
@@ -344,11 +367,11 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
 
             foreach (var person in persons)
             {
-                // Delete contact details
-                var contactDetails = await _arpaContext.Set<ContactDetail>()
+                // Delete remaining contact details for created persons (safety net)
+                var remainingCds = await _arpaContext.Set<ContactDetail>()
                     .Where(cd => cd.PersonId == person.Id)
                     .ToListAsync(cancellationToken);
-                foreach (var cd in contactDetails)
+                foreach (var cd in remainingCds)
                 {
                     _arpaContext.Set<ContactDetail>().Remove(cd);
                     result.ContactDetailsDeleted++;

@@ -57,5 +57,8 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
         public byte Preference { get; private set; }
         public Guid PersonId { get; private set; }
         public virtual Person Person { get; private set; }
+
+        // Import tracking
+        public Guid? ImportBatchId { get; set; }
     }
 }

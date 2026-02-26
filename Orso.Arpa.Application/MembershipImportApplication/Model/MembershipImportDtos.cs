@@ -90,6 +90,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
         public int MembershipsCreated { get; set; }
         public int BankAccountsCreated { get; set; }
         public int HistoryEntriesCreated { get; set; }
+        public int ContactDetailsCreated { get; set; }
         public int Skipped { get; set; }
         public List<string> Errors { get; set; } = new();
     }
