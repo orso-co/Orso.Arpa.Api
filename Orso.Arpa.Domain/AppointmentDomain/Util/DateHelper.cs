@@ -33,7 +33,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Util
         {
             return range switch
             {
-                DateRange.Month => FirstDayOfMonth(date),
+                DateRange.Month => FirstDayOfWeek(FirstDayOfMonth(date)),
                 DateRange.Week => FirstDayOfWeek(date),
                 DateRange.Day => new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, DateTimeKind.Local),
                 _ => throw new NotSupportedException("Requested DateRange is not supported"),
@@ -44,7 +44,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Util
         {
             return range switch
             {
-                DateRange.Month => LastDayOfMonth(date),
+                DateRange.Month => LastDayOfWeek(LastDayOfMonth(date)),
                 DateRange.Week => LastDayOfWeek(date),
                 DateRange.Day => new DateTime(date.Year, date.Month, date.Day, 23, 59, 59, DateTimeKind.Local),
                 _ => throw new NotSupportedException("Requested DateRange is not supported"),
