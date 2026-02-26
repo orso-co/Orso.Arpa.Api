@@ -16,8 +16,8 @@ namespace Orso.Arpa.Persistence.Migrations
                     user_id uuid NOT NULL,
                     is_dark_mode boolean NOT NULL DEFAULT true,
                     language character varying(10) DEFAULT 'de',
-                    sound_on_user_online boolean NOT NULL DEFAULT true,
-                    sound_on_announcement boolean NOT NULL DEFAULT true,
+                    sound_on_user_online boolean NOT NULL DEFAULT false,
+                    sound_on_announcement boolean NOT NULL DEFAULT false,
                     CONSTRAINT pk_user_settings PRIMARY KEY (user_id),
                     CONSTRAINT fk_user_settings_asp_net_users_user_id FOREIGN KEY (user_id)
                         REFERENCES ""AspNetUsers"" (id) ON DELETE CASCADE

@@ -209,8 +209,8 @@ namespace Orso.Arpa.Api.Controllers
             {
                 IsDarkMode = settings?.IsDarkMode ?? true,
                 Language = settings?.Language ?? "de",
-                SoundOnUserOnline = settings?.SoundOnUserOnline ?? true,
-                SoundOnAnnouncement = settings?.SoundOnAnnouncement ?? true
+                SoundOnUserOnline = settings?.SoundOnUserOnline ?? false,
+                SoundOnAnnouncement = settings?.SoundOnAnnouncement ?? false
             });
         }
 

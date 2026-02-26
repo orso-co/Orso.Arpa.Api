@@ -21,11 +21,11 @@ namespace Orso.Arpa.Persistence.EntityConfigurations
 
             builder
                 .Property(e => e.SoundOnUserOnline)
-                .HasDefaultValue(true);
+                .HasDefaultValue(false);
 
             builder
                 .Property(e => e.SoundOnAnnouncement)
-                .HasDefaultValue(true);
+                .HasDefaultValue(false);
 
             builder
                 .HasOne(e => e.User)
