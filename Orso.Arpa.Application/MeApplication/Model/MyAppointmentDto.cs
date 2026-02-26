@@ -28,6 +28,7 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public AppointmentParticipationPrediction? Prediction { get; set; }
         public SelectValueDto Category { get; set; }
         public AppointmentStatus? Status { get; set; }
+        public AppointmentType Type { get; set; }
         public string CommentByPerformerInner { get; set; }
         public IList<SetlistPieceDto> PrioritizedPieces { get; set; } = [];
         public int PredictionYesCount { get; set; }
