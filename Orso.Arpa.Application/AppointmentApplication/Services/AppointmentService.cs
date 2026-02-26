@@ -107,7 +107,7 @@ namespace Orso.Arpa.Application.AppointmentApplication.Services
 
             // Load latest audit log per appointment (TableName can be "Appointment" or "AppointmentProxy" due to EF lazy loading proxies)
             List<AuditLog> auditLogs = await _arpaContext.AuditLogs
-                .Where(al => al.TableName.StartsWith("Appointment") && al.Type == AuditLogType.Update)
+                .Where(al => al.TableName.StartsWith("Appointment") && al.Type == AuditLogType.Update && al.CreatedAt >= cutoff)
                 .OrderByDescending(al => al.CreatedAt)
                 .ToListAsync();
 
