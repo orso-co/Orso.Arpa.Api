@@ -32,6 +32,7 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public IList<SetlistPieceDto> PrioritizedPieces { get; set; } = [];
         public int PredictionYesCount { get; set; }
         public int PredictionNoCount { get; set; }
+        public int PredictionPartlyCount { get; set; }
         public int PredictionDontKnowCount { get; set; }
         public int PredictionUnsetCount { get; set; }
     }
@@ -55,6 +56,7 @@ namespace Orso.Arpa.Application.MeApplication.Model
                 .ForMember(dest => dest.PrioritizedPieces, opt => opt.MapFrom(src => src.PrioritizedPieces.Select(pp => pp.SetlistPiece)))
                 .ForMember(dest => dest.PredictionYesCount, opt => opt.Ignore())
                 .ForMember(dest => dest.PredictionNoCount, opt => opt.Ignore())
+                .ForMember(dest => dest.PredictionPartlyCount, opt => opt.Ignore())
                 .ForMember(dest => dest.PredictionDontKnowCount, opt => opt.Ignore())
                 .ForMember(dest => dest.PredictionUnsetCount, opt => opt.Ignore());
             // CommentByPerformerInner, Result and Prediction will be set manually in service

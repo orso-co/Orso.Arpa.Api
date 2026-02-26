@@ -243,9 +243,9 @@ namespace Orso.Arpa.Application.MeApplication.Services
                 .Select(g => new
                 {
                     AppointmentId = g.Key,
-                    Yes = g.Count(ap => ap.Prediction == AppointmentParticipationPrediction.Yes
-                                     || ap.Prediction == AppointmentParticipationPrediction.Partly),
+                    Yes = g.Count(ap => ap.Prediction == AppointmentParticipationPrediction.Yes),
                     No = g.Count(ap => ap.Prediction == AppointmentParticipationPrediction.No),
+                    Partly = g.Count(ap => ap.Prediction == AppointmentParticipationPrediction.Partly),
                     DontKnow = g.Count(ap => ap.Prediction == AppointmentParticipationPrediction.DontKnowYet),
                     Unset = g.Count(ap => ap.Prediction == null)
                 })
@@ -258,6 +258,7 @@ namespace Orso.Arpa.Application.MeApplication.Services
                 {
                     dto.PredictionYesCount = s.Yes;
                     dto.PredictionNoCount = s.No;
+                    dto.PredictionPartlyCount = s.Partly;
                     dto.PredictionDontKnowCount = s.DontKnow;
                     dto.PredictionUnsetCount = s.Unset;
                 }
