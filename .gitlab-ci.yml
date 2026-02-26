@@ -214,8 +214,8 @@ version-bump:
       git config --global user.name "CI Bot"
       git config --global user.email "ci@loopus.it"
 
-      # Repo klonen (develop Branch)
-      GIT_URL="https://gitlab-ci-token:${CI_JOB_TOKEN}@git.loopus.it/arpa/backend.git"
+      # Repo klonen (develop Branch) mit Push-fähigem Token
+      GIT_URL="https://Wolf:${GIT_PUSH_TOKEN}@git.loopus.it/arpa/backend.git"
       git clone --depth 5 --branch develop "$GIT_URL" /tmp/repo
       cd /tmp/repo
 
