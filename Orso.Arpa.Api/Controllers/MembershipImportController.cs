@@ -102,6 +102,18 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
+        /// Returns the history of all previous imports
+        /// </summary>
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [HttpGet("history")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<MembershipImportHistoryDto>>> GetHistory(CancellationToken cancellationToken)
+        {
+            var result = await _importService.GetHistoryAsync(cancellationToken);
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Rolls back a previous import by deleting all entities created in that batch
         /// </summary>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]

@@ -159,4 +159,14 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
     {
         public Dictionary<string, string> ColumnMapping { get; set; }
     }
+
+    public class MembershipImportHistoryDto
+    {
+        public Guid ImportBatchId { get; set; }
+        public DateTime ImportedAt { get; set; }
+        public string ImportedBy { get; set; }
+        public string Club { get; set; }
+        public int MembershipsCount { get; set; }
+        public int PersonsCreatedCount { get; set; }
+    }
 }

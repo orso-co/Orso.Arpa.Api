@@ -21,6 +21,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
         Task<MembershipImportPreviewDto> PreviewAsync(Stream csvStream, CancellationToken cancellationToken, Dictionary<string, string> columnMapping = null);
         Task<MembershipImportResultDto> ExecuteAsync(MembershipImportExecuteDto executeDto, CancellationToken cancellationToken);
         Task<MembershipImportRollbackResultDto> RollbackAsync(Guid importBatchId, CancellationToken cancellationToken);
+        Task<List<MembershipImportHistoryDto>> GetHistoryAsync(CancellationToken cancellationToken);
     }
 
     public class MembershipImportService : IMembershipImportService
@@ -359,6 +360,46 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
 
             await _arpaContext.SaveChangesAsync(cancellationToken);
             return result;
+        }
+
+        public async Task<List<MembershipImportHistoryDto>> GetHistoryAsync(CancellationToken cancellationToken)
+        {
+            var clubMappings = await _arpaContext.Set<SelectValueMapping>()
+                .Where(m => !m.Deleted && m.SelectValueCategory.Table == "PersonMembership" && m.SelectValueCategory.Property == "Club")
+                .Select(m => new { m.Id, m.SelectValue.Name })
+                .ToListAsync(cancellationToken);
+            var clubLookup = clubMappings.ToDictionary(c => c.Id, c => c.Name);
+
+            var batches = await _arpaContext.Set<PersonMembership>()
+                .Where(m => m.ImportBatchId.HasValue)
+                .GroupBy(m => m.ImportBatchId)
+                .Select(g => new
+                {
+                    ImportBatchId = g.Key.Value,
+                    ImportedAt = g.Min(m => m.CreatedAt),
+                    ImportedBy = g.First().CreatedBy,
+                    ClubId = g.First().ClubId,
+                    MembershipsCount = g.Count(),
+                })
+                .OrderByDescending(b => b.ImportedAt)
+                .ToListAsync(cancellationToken);
+
+            var personsBatches = await _arpaContext.Set<Person>()
+                .Where(p => p.ImportBatchId.HasValue)
+                .GroupBy(p => p.ImportBatchId)
+                .Select(g => new { BatchId = g.Key.Value, Count = g.Count() })
+                .ToListAsync(cancellationToken);
+            var personsLookup = personsBatches.ToDictionary(p => p.BatchId, p => p.Count);
+
+            return batches.Select(b => new MembershipImportHistoryDto
+            {
+                ImportBatchId = b.ImportBatchId,
+                ImportedAt = b.ImportedAt,
+                ImportedBy = b.ImportedBy,
+                Club = b.ClubId.HasValue && clubLookup.TryGetValue(b.ClubId.Value, out var name) ? name : null,
+                MembershipsCount = b.MembershipsCount,
+                PersonsCreatedCount = personsLookup.TryGetValue(b.ImportBatchId, out var cnt) ? cnt : 0,
+            }).ToList();
         }
 
         private void MatchPerson(MembershipImportRowDto row, List<Person> persons)
