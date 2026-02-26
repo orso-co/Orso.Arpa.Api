@@ -17,7 +17,8 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
 {
     public interface IMembershipImportService
     {
-        Task<MembershipImportPreviewDto> PreviewAsync(Stream csvStream, CancellationToken cancellationToken);
+        CsvHeadersResponseDto ExtractHeaders(Stream csvStream);
+        Task<MembershipImportPreviewDto> PreviewAsync(Stream csvStream, CancellationToken cancellationToken, Dictionary<string, string> columnMapping = null);
         Task<MembershipImportResultDto> ExecuteAsync(MembershipImportExecuteDto executeDto, CancellationToken cancellationToken);
         Task<MembershipImportRollbackResultDto> RollbackAsync(Guid importBatchId, CancellationToken cancellationToken);
     }
@@ -26,14 +27,83 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
     {
         private readonly IArpaContext _arpaContext;
 
+        // System field keys → known CSV header aliases
+        private static readonly Dictionary<string, string[]> SystemFieldAliases = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ["lastName"] = new[] { "Nachname", "Familienname", "Last Name" },
+            ["firstName"] = new[] { "Vorname", "First Name" },
+            ["email"] = new[] { "E-Mail", "Email", "Mail" },
+            ["entryDate"] = new[] { "Eintrittsdatum", "Eintritt", "Entry Date" },
+            ["exitDate"] = new[] { "Austritt", "Austrittsdatum", "Exit Date" },
+            ["membershipType"] = new[] { "Mitgliedstyp", "Mitgliedstypus", "Typ", "Type", "Membership Type", "Status" },
+            ["supportLevel"] = new[] { "Förderstufe", "Support Level" },
+            ["fee2025"] = new[] { "Beitrag 2025", "Jahresbeitrag 2025" },
+            ["fee2024"] = new[] { "Beitrag 2024", "Jahresbeitrag 2024" },
+            ["annualFee"] = new[] { "Jahresbeitrag", "Beitrag", "Annual Fee" },
+            ["isReduced"] = new[] { "Ermässigt", "Ermäßigt", "Ermäßigung", "Ermässigung" },
+            ["iban"] = new[] { "IBAN", "Iban" },
+            ["bic"] = new[] { "BIC", "Bic" },
+            ["mandateReference"] = new[] { "Mandatsreferenz", "Mandate Reference", "Mandat" },
+            ["mandateDate"] = new[] { "Mandatsdatum", "Mandate Date" },
+            ["staffComment"] = new[] { "Hinweise", "Bemerkungen", "Remarks", "Notizen" },
+            ["isSpecialCase"] = new[] { "Sonderfall", "Special Case" },
+            ["choirActive"] = new[] { "Chor - aktiv", "Chor -aktiv" },
+            ["choirInactive"] = new[] { "Chor  - inaktiv", "Chor - inaktiv", "Chor -inaktiv" },
+            ["orchestra"] = new[] { "Orchester", "Orchestra", "Chor/Orchester" },
+        };
+
         public MembershipImportService(IArpaContext arpaContext)
         {
             _arpaContext = arpaContext;
         }
 
-        public async Task<MembershipImportPreviewDto> PreviewAsync(Stream csvStream, CancellationToken cancellationToken)
+        public CsvHeadersResponseDto ExtractHeaders(Stream csvStream)
         {
-            var rows = ParseCsv(csvStream);
+            using var reader = new StreamReader(csvStream);
+            var headerLine = reader.ReadLine();
+            if (headerLine == null)
+            {
+                return new CsvHeadersResponseDto();
+            }
+            headerLine = headerLine.TrimStart('\uFEFF');
+            char delimiter = DetectDelimiter(headerLine);
+            var headers = ParseCsvLine(headerLine, delimiter).Select(h => h.Trim()).ToList();
+
+            var suggestedMapping = new Dictionary<string, string>();
+            foreach (var csvHeader in headers)
+            {
+                var matchedField = FindSystemFieldForHeader(csvHeader);
+                if (matchedField != null)
+                {
+                    suggestedMapping[csvHeader] = matchedField;
+                }
+            }
+
+            return new CsvHeadersResponseDto
+            {
+                Headers = headers,
+                SuggestedMapping = suggestedMapping,
+            };
+        }
+
+        private static string FindSystemFieldForHeader(string csvHeader)
+        {
+            foreach (var kvp in SystemFieldAliases)
+            {
+                foreach (var alias in kvp.Value)
+                {
+                    if (alias.Equals(csvHeader, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return kvp.Key;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public async Task<MembershipImportPreviewDto> PreviewAsync(Stream csvStream, CancellationToken cancellationToken, Dictionary<string, string> columnMapping = null)
+        {
+            var rows = ParseCsv(csvStream, columnMapping);
             var result = new MembershipImportPreviewDto
             {
                 TotalRows = rows.Count,
@@ -67,6 +137,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     MandateDate = row.MandateDate,
                     Remarks = row.Remarks,
                     ChoirOrchestra = row.ChoirOrchestra,
+                    IsSpecialCase = row.IsSpecialCase,
                 };
 
                 MatchPerson(importRow, persons);
@@ -145,10 +216,13 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                         AnnualFee = row.AnnualFee,
                         SupportLevelId = row.SupportLevelId,
                         MembershipStatusId = row.MembershipStatusId,
+                        PaymentMethodId = row.PaymentMethodId,
+                        PaymentFrequencyId = row.PaymentFrequencyId,
                         ClubId = executeDto.ClubId,
                         MandateReference = row.MandateReference,
                         MandateDate = row.MandateDate,
                         StaffComment = row.StaffComment,
+                        IsSpecialCase = row.IsSpecialCase,
                     });
                     membership.ImportBatchId = batchId;
                     _arpaContext.Set<PersonMembership>().Add(membership);
@@ -390,7 +464,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             return emails.Distinct().ToList();
         }
 
-        private static List<CsvRow> ParseCsv(Stream stream)
+        private static List<CsvRow> ParseCsv(Stream stream, Dictionary<string, string> columnMapping = null)
         {
             var rows = new List<CsvRow>();
             using var reader = new StreamReader(stream);
@@ -403,7 +477,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             }
             headerLine = headerLine.TrimStart('\uFEFF');
 
-            // Auto-detect delimiter: count semicolons vs commas in header (outside quotes)
+            // Auto-detect delimiter
             char delimiter = DetectDelimiter(headerLine);
 
             var headers = ParseCsvLine(headerLine, delimiter);
@@ -413,8 +487,43 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                 headerMap[headers[i].Trim()] = i;
             }
 
-            // Debug: Log headers
+            // Build field index map: systemFieldKey → column index
+            // If columnMapping is provided, use it; otherwise use alias-based auto-detection
+            var fieldIndex = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            var mappedColumnIndices = new HashSet<int>();
+
+            if (columnMapping != null && columnMapping.Count > 0)
+            {
+                // Custom mapping: csvHeader → systemFieldKey
+                foreach (var kvp in columnMapping)
+                {
+                    if (kvp.Value == "_ignore") continue;
+                    if (headerMap.TryGetValue(kvp.Key, out int idx))
+                    {
+                        fieldIndex[kvp.Value] = idx;
+                        mappedColumnIndices.Add(idx);
+                    }
+                }
+            }
+            else
+            {
+                // Auto-detection via aliases
+                foreach (var kvp in SystemFieldAliases)
+                {
+                    foreach (var alias in kvp.Value)
+                    {
+                        if (headerMap.TryGetValue(alias, out int idx) && !fieldIndex.ContainsKey(kvp.Key))
+                        {
+                            fieldIndex[kvp.Key] = idx;
+                            mappedColumnIndices.Add(idx);
+                            break;
+                        }
+                    }
+                }
+            }
+
             Console.WriteLine($"[CSV-Import] Delimiter: '{delimiter}', Headers ({headers.Length}): {string.Join(" | ", headers.Select(h => $"'{h.Trim()}'"))}");
+            Console.WriteLine($"[CSV-Import] Field mapping: {string.Join(", ", fieldIndex.Select(f => $"{f.Key}→{f.Value}"))}");
 
             int rowNumber = 1;
             string line;
@@ -427,62 +536,62 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
 
                 rowNumber++;
                 var values = ParseCsvLine(line, delimiter);
+
+                string GetField(string key)
+                {
+                    if (!fieldIndex.TryGetValue(key, out int idx) || idx >= values.Length) return null;
+                    var v = values[idx].Trim();
+                    return string.IsNullOrWhiteSpace(v) ? null : v;
+                }
+
                 var row = new CsvRow
                 {
                     RowNumber = rowNumber,
-                    LastName = GetValue(values, headerMap, "Nachname", "Familienname", "Last Name"),
-                    FirstName = GetValue(values, headerMap, "Vorname", "First Name"),
-                    Email = GetValue(values, headerMap, "E-Mail", "Email", "Mail"),
-                    MembershipType = GetValue(values, headerMap, "Mitgliedstyp", "Mitgliedstypus", "Typ", "Type", "Membership Type", "Status"),
-                    SupportLevel = GetValue(values, headerMap, "Förderstufe", "Support Level"),
-                    Iban = GetValue(values, headerMap, "IBAN"),
-                    MandateReference = GetValue(values, headerMap, "Mandatsreferenz", "Mandate Reference", "Mandat"),
-                    Remarks = GetValue(values, headerMap, "Hinweise", "Bemerkungen", "Remarks", "Notizen"),
+                    LastName = GetField("lastName"),
+                    FirstName = GetField("firstName"),
+                    Email = GetField("email"),
+                    MembershipType = GetField("membershipType"),
+                    SupportLevel = GetField("supportLevel"),
+                    Iban = GetField("iban"),
+                    MandateReference = GetField("mandateReference"),
+                    Remarks = GetField("staffComment"),
                 };
 
-                // Build ChoirOrchestra from separate columns (Numbers export)
-                row.ChoirOrchestra = BuildChoirOrchestra(values, headerMap);
+                // Parse boolean fields
+                var isReducedStr = GetField("isReduced");
+                row.IsReduced = isReducedStr?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true;
 
-                // Parse Ermässigt flag
-                var ermaessigt = GetValue(values, headerMap, "Ermässigt", "Ermäßigt", "Ermäßigung", "Ermässigung");
-                row.IsReduced = ermaessigt?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true;
+                var isSpecialCaseStr = GetField("isSpecialCase");
+                row.IsSpecialCase = isSpecialCaseStr?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true;
 
-                // Collect all unmapped columns as extra remarks
-                var knownHeaders = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-                {
-                    "Nachname", "Familienname", "Last Name",
-                    "Vorname", "First Name",
-                    "E-Mail", "Email", "Mail",
-                    "Eintrittsdatum", "Eintritt", "Entry Date",
-                    "Austritt", "Austrittsdatum", "Exit Date",
-                    "Mitgliedstyp", "Mitgliedstypus", "Typ", "Type", "Membership Type", "Status",
-                    "Förderstufe", "Förderstatus", "Support Level",
-                    "Beitrag 2025", "Jahresbeitrag 2025", "Beitrag 2024", "Jahresbeitrag 2024",
-                    "Jahresbeitrag", "Beitrag", "Annual Fee",
-                    "Ermässigt", "Ermäßigt", "Ermäßigung", "Ermässigung",
-                    "IBAN", "Iban",
-                    "BIC", "Bic", "BIc",
-                    "Mandatsreferenz", "Mandate Reference", "Mandat",
-                    "Mandatsdatum", "Mandate Date",
-                    "Hinweise", "Bemerkungen", "Remarks", "Notizen",
-                    "Chor - aktiv", "Chor -aktiv", "Chor  - inaktiv", "Chor - inaktiv", "Chor -inaktiv",
-                    "Orchester", "Orchestra", "Chor/Orchester",
-                    "Anrede", "Geburtsjahr", "Geburtsdatum", "Alter",
-                    "Telefon", "UUID", "UUID Person",
-                };
+                // Build ChoirOrchestra
+                var choirActiveParts = new List<string>();
+                var choirActiveStr = GetField("choirActive");
+                var choirInactiveStr = GetField("choirInactive");
+                var orchestraStr = GetField("orchestra");
+                if (choirActiveStr?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
+                    choirActiveParts.Add("Chor aktiv");
+                else if (choirInactiveStr?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
+                    choirActiveParts.Add("Chor inaktiv");
+                if (orchestraStr?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
+                    choirActiveParts.Add("Orchester");
+                row.ChoirOrchestra = choirActiveParts.Count > 0 ? string.Join(", ", choirActiveParts) : null;
+
+                // Collect unmapped columns as extra remarks
                 var extraParts = new List<string>();
-                foreach (var kvp in headerMap)
+                for (int i = 0; i < values.Length && i < headers.Length; i++)
                 {
-                    if (knownHeaders.Contains(kvp.Key)) continue;
-                    if (kvp.Value < values.Length)
+                    if (mappedColumnIndices.Contains(i)) continue;
+                    var val = values[i].Trim();
+                    if (!string.IsNullOrWhiteSpace(val) && !val.Equals("FALSCH", StringComparison.OrdinalIgnoreCase))
                     {
-                        var val = values[kvp.Value].Trim();
-                        if (!string.IsNullOrWhiteSpace(val) && !val.Equals("FALSCH", StringComparison.OrdinalIgnoreCase))
-                        {
-                            extraParts.Add(val.Equals("WAHR", StringComparison.OrdinalIgnoreCase)
-                                ? kvp.Key
-                                : $"{kvp.Key}: {val}");
-                        }
+                        var headerName = headers[i].Trim();
+                        // Skip common non-informative headers
+                        if (new[] { "Anrede", "Geburtsjahr", "Geburtsdatum", "Alter", "Telefon", "UUID", "UUID Person" }
+                            .Any(h => h.Equals(headerName, StringComparison.OrdinalIgnoreCase))) continue;
+                        extraParts.Add(val.Equals("WAHR", StringComparison.OrdinalIgnoreCase)
+                            ? headerName
+                            : $"{headerName}: {val}");
                     }
                 }
                 if (extraParts.Count > 0)
@@ -496,87 +605,43 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     row.Remarks = string.IsNullOrEmpty(row.Remarks) ? "Ermäßigt" : $"{row.Remarks} | Ermäßigt";
                 }
 
-                // Parse dates (German format: dd.MM.yyyy)
-                var entryDateStr = GetValue(values, headerMap, "Eintrittsdatum", "Eintritt", "Entry Date");
+                // Parse dates
+                var entryDateStr = GetField("entryDate");
                 if (!string.IsNullOrWhiteSpace(entryDateStr))
-                {
                     row.EntryDate = ParseGermanDate(entryDateStr);
-                }
 
-                var exitDateStr = GetValue(values, headerMap, "Austritt", "Austrittsdatum", "Exit Date");
+                var exitDateStr = GetField("exitDate");
                 if (!string.IsNullOrWhiteSpace(exitDateStr))
-                {
                     row.ExitDate = ParseGermanDate(exitDateStr);
-                }
 
-                var mandateDateStr = GetValue(values, headerMap, "Mandatsdatum", "Mandate Date");
+                var mandateDateStr = GetField("mandateDate");
                 if (!string.IsNullOrWhiteSpace(mandateDateStr))
-                {
                     row.MandateDate = ParseGermanDate(mandateDateStr);
-                }
 
-                // Parse annual fees per year (German format: 1.234,56 or 1234,56)
-                var fee2025Str = GetValue(values, headerMap, "Beitrag 2025", "Jahresbeitrag 2025");
+                // Parse annual fees
+                var fee2025Str = GetField("fee2025");
                 if (!string.IsNullOrWhiteSpace(fee2025Str))
-                {
                     row.Fee2025 = ParseGermanDecimal(fee2025Str);
-                }
 
-                var fee2024Str = GetValue(values, headerMap, "Beitrag 2024", "Jahresbeitrag 2024");
+                var fee2024Str = GetField("fee2024");
                 if (!string.IsNullOrWhiteSpace(fee2024Str))
-                {
                     row.Fee2024 = ParseGermanDecimal(fee2024Str);
-                }
 
-                // Fallback: single "Jahresbeitrag" / "Beitrag" / "Annual Fee" column
+                // Fallback: single "annualFee" column
                 if (row.Fee2025 == null && row.Fee2024 == null)
                 {
-                    var feeStr = GetValue(values, headerMap, "Jahresbeitrag", "Beitrag", "Annual Fee");
+                    var feeStr = GetField("annualFee");
                     if (!string.IsNullOrWhiteSpace(feeStr))
-                    {
                         row.Fee2025 = ParseGermanDecimal(feeStr);
-                    }
                 }
 
-                // AnnualFee on membership = most recent value (2025, fallback 2024)
+                // AnnualFee on membership = most recent value
                 row.AnnualFee = row.Fee2025 ?? row.Fee2024;
 
                 rows.Add(row);
             }
 
             return rows;
-        }
-
-        private static string BuildChoirOrchestra(string[] values, Dictionary<string, int> headerMap)
-        {
-            // Handle separate columns: "Chor - aktiv", "Chor  - inaktiv", "Orchester"
-            var parts = new List<string>();
-
-            var choirActive = GetValue(values, headerMap, "Chor - aktiv", "Chor -aktiv");
-            var choirInactive = GetValue(values, headerMap, "Chor  - inaktiv", "Chor - inaktiv", "Chor -inaktiv");
-            var orchestra = GetValue(values, headerMap, "Orchester", "Orchestra");
-
-            if (choirActive?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                parts.Add("Chor aktiv");
-            }
-            else if (choirInactive?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                parts.Add("Chor inaktiv");
-            }
-
-            if (orchestra?.Equals("WAHR", StringComparison.OrdinalIgnoreCase) == true)
-            {
-                parts.Add("Orchester");
-            }
-
-            if (parts.Count > 0)
-            {
-                return string.Join(", ", parts);
-            }
-
-            // Fallback: single combined column
-            return GetValue(values, headerMap, "Chor/Orchester");
         }
 
         private static char DetectDelimiter(string headerLine)
@@ -721,6 +786,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             public DateTime? MandateDate { get; set; }
             public string Remarks { get; set; }
             public string ChoirOrchestra { get; set; }
+            public bool IsSpecialCase { get; set; }
         }
     }
 }

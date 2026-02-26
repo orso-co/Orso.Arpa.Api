@@ -7,5 +7,6 @@ namespace Orso.Arpa.Domain.ChatDomain.Enums
         public const string Project = "Project";
         public const string Appointment = "Appointment";
         public const string Organization = "Organization";
+        public const string PersonMembership = "PersonMembership";
     }
 }

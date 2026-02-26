@@ -24,6 +24,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             PersonId = command.PersonId;
             MandateReference = command.MandateReference;
             MandateDate = command.MandateDate;
+            IsSpecialCase = command.IsSpecialCase;
         }
 
         protected PersonMembership() { }
@@ -42,6 +43,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             PerformerComment = command.PerformerComment;
             MandateReference = command.MandateReference;
             MandateDate = command.MandateDate;
+            IsSpecialCase = command.IsSpecialCase;
         }
 
         // Dates
@@ -81,6 +83,9 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
         // Mandate (SEPA)
         public string MandateReference { get; private set; }
         public DateTime? MandateDate { get; private set; }
+
+        // Special case flag
+        public bool IsSpecialCase { get; private set; }
 
         // Import tracking
         public Guid? ImportBatchId { get; set; }

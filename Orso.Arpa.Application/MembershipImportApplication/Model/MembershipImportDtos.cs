@@ -37,6 +37,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
         public DateTime? MandateDate { get; set; }
         public string Remarks { get; set; }
         public string ChoirOrchestra { get; set; }
+        public bool IsSpecialCase { get; set; }
     }
 
     public class PersonMatchCandidateDto
@@ -77,6 +78,9 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
         public string MandateReference { get; set; }
         public DateTime? MandateDate { get; set; }
         public string StaffComment { get; set; }
+        public Guid? PaymentMethodId { get; set; }
+        public Guid? PaymentFrequencyId { get; set; }
+        public bool IsSpecialCase { get; set; }
     }
 
     public class MembershipImportResultDto
@@ -143,5 +147,16 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
         public string Aliases { get; set; }
         public bool Required { get; set; }
         public string Description { get; set; }
+    }
+
+    public class CsvHeadersResponseDto
+    {
+        public List<string> Headers { get; set; } = new();
+        public Dictionary<string, string> SuggestedMapping { get; set; } = new();
+    }
+
+    public class MembershipImportPreviewRequestDto
+    {
+        public Dictionary<string, string> ColumnMapping { get; set; }
     }
 }

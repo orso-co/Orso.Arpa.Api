@@ -25,6 +25,7 @@ namespace Orso.Arpa.Domain.PersonDomain.Commands
             public string PerformerComment { get; set; }
             public string MandateReference { get; set; }
             public DateTime? MandateDate { get; set; }
+            public bool IsSpecialCase { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>

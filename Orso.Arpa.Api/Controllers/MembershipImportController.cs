@@ -33,18 +33,13 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Previews a CSV membership import by matching persons
+        /// Extracts CSV headers and suggests auto-mapping to system fields
         /// </summary>
-        /// <param name="file">CSV file with membership data</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Preview with match results</returns>
         [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
-        [HttpPost("preview")]
+        [HttpPost("headers")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<MembershipImportPreviewDto>> Preview(
-            IFormFile file,
-            CancellationToken cancellationToken)
+        public ActionResult<CsvHeadersResponseDto> ExtractHeaders(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -52,7 +47,34 @@ namespace Orso.Arpa.Api.Controllers
             }
 
             using var stream = file.OpenReadStream();
-            var result = await _importService.PreviewAsync(stream, cancellationToken);
+            return Ok(_importService.ExtractHeaders(stream));
+        }
+
+        /// <summary>
+        /// Previews a CSV membership import by matching persons
+        /// </summary>
+        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
+        [HttpPost("preview")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<MembershipImportPreviewDto>> Preview(
+            IFormFile file,
+            [FromForm] string columnMappingJson,
+            CancellationToken cancellationToken)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded");
+            }
+
+            Dictionary<string, string> columnMapping = null;
+            if (!string.IsNullOrWhiteSpace(columnMappingJson))
+            {
+                columnMapping = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(columnMappingJson);
+            }
+
+            using var stream = file.OpenReadStream();
+            var result = await _importService.PreviewAsync(stream, cancellationToken, columnMapping);
             return Ok(result);
         }
 
