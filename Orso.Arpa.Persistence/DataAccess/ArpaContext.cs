@@ -121,6 +121,7 @@ namespace Orso.Arpa.Persistence.DataAccess
         public DbSet<MusicPieceFileSection> MusicPieceFileSections { get; set; }
         public DbSet<MusicPieceUrl> MusicPieceUrls { get; set; }
         public DbSet<MusicPieceTodo> MusicPieceTodos { get; set; }
+        public DbSet<MusicPieceFileAnnotation> MusicPieceFileAnnotations { get; set; }
         public DbSet<Setlist> Setlists { get; set; }
         public DbSet<SetlistPiece> SetlistPieces { get; set; }
 

@@ -15,6 +15,7 @@ using Orso.Arpa.Domain.General.Interfaces;
 using Orso.Arpa.Domain.MusicLibraryDomain;
 using Orso.Arpa.Domain.MusicLibraryDomain.Commands;
 using Orso.Arpa.Domain.MusicLibraryDomain.Model;
+using Microsoft.Extensions.Logging;
 
 namespace Orso.Arpa.Application.MusicPieceApplication.Services
 {
@@ -30,15 +31,18 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Services
     {
         private readonly IArpaContext _arpaContext;
         private readonly IMusicPieceFileAccessor _fileAccessor;
+        private readonly ITokenAccessor _tokenAccessor;
 
         public MusicPieceService(
             IMediator mediator,
             IMapper mapper,
             IArpaContext arpaContext,
-            IMusicPieceFileAccessor fileAccessor) : base(mediator, mapper)
+            IMusicPieceFileAccessor fileAccessor,
+            ITokenAccessor tokenAccessor) : base(mediator, mapper)
         {
             _arpaContext = arpaContext;
             _fileAccessor = fileAccessor;
+            _tokenAccessor = tokenAccessor;
         }
 
         public async Task<IEnumerable<MusicPieceDto>> GetAsync(bool includeArchived = false)
@@ -195,6 +199,42 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Services
         public async Task RemoveTodoAsync(Guid todoId)
         {
             await _mediator.Send(new Delete.Command<MusicPieceTodo>() { Id = todoId });
+        }
+
+        // Annotation methods
+        public async Task<string> GetAnnotationsAsync(Guid fileId)
+        {
+            Guid userId = _tokenAccessor.UserId;
+            MusicPieceFileAnnotation annotation = await _arpaContext.MusicPieceFileAnnotations
+                .FirstOrDefaultAsync(a => a.MusicPieceFileId == fileId && a.UserId == userId);
+            return annotation?.AnnotationData;
+        }
+
+        public async Task SaveAnnotationsAsync(Guid fileId, string annotationData)
+        {
+            Guid userId = _tokenAccessor.UserId;
+            MusicPieceFileAnnotation annotation = await _arpaContext.MusicPieceFileAnnotations
+                .FirstOrDefaultAsync(a => a.MusicPieceFileId == fileId && a.UserId == userId);
+
+            if (annotation == null)
+            {
+                annotation = new MusicPieceFileAnnotation
+                {
+                    Id = Guid.NewGuid(),
+                    MusicPieceFileId = fileId,
+                    UserId = userId,
+                    AnnotationData = annotationData,
+                    ModifiedAt = DateTime.UtcNow,
+                };
+                _arpaContext.MusicPieceFileAnnotations.Add(annotation);
+            }
+            else
+            {
+                annotation.AnnotationData = annotationData;
+                annotation.ModifiedAt = DateTime.UtcNow;
+            }
+
+            _ = await _arpaContext.SaveChangesAsync(default);
         }
     }
 }

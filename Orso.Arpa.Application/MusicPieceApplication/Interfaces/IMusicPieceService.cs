@@ -30,6 +30,10 @@ namespace Orso.Arpa.Application.MusicPieceApplication.Interfaces
         Task ModifyUrlAsync(MusicPieceUrlModifyDto modifyDto);
         Task RemoveUrlAsync(Guid urlId);
 
+        // Annotation operations
+        Task<string> GetAnnotationsAsync(Guid fileId);
+        Task SaveAnnotationsAsync(Guid fileId, string annotationData);
+
         // Todo operations
         Task<MusicPieceTodoDto> AddTodoAsync(Guid musicPieceId, MusicPieceTodoCreateDto createDto);
         Task ModifyTodoAsync(Guid todoId, MusicPieceTodoModifyDto modifyDto);

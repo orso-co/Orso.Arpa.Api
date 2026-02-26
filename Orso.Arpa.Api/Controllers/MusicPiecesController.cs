@@ -273,6 +273,40 @@ namespace Orso.Arpa.Api.Controllers
             return NoContent();
         }
 
+        #region Annotations
+
+        /// <summary>
+        /// Gets the current user's annotations for a music piece file
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="fileId">File id</param>
+        /// <returns>The annotation data</returns>
+        [Authorize]
+        [HttpGet("{id}/files/{fileId}/annotations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<object>> GetAnnotations([FromRoute] Guid id, [FromRoute] Guid fileId)
+        {
+            string data = await _musicPieceService.GetAnnotationsAsync(fileId);
+            return Ok(new { annotationData = data });
+        }
+
+        /// <summary>
+        /// Saves the current user's annotations for a music piece file
+        /// </summary>
+        /// <param name="id">Music piece id</param>
+        /// <param name="fileId">File id</param>
+        /// <param name="body">Annotation data</param>
+        [Authorize]
+        [HttpPut("{id}/files/{fileId}/annotations")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult> SaveAnnotations([FromRoute] Guid id, [FromRoute] Guid fileId, [FromBody] SaveAnnotationsDto body)
+        {
+            await _musicPieceService.SaveAnnotationsAsync(fileId, body.AnnotationData);
+            return NoContent();
+        }
+
+        #endregion
+
         #region Todos
 
         /// <summary>
