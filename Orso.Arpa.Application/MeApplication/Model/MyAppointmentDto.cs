@@ -30,6 +30,10 @@ namespace Orso.Arpa.Application.MeApplication.Model
         public AppointmentStatus? Status { get; set; }
         public string CommentByPerformerInner { get; set; }
         public IList<SetlistPieceDto> PrioritizedPieces { get; set; } = [];
+        public int PredictionYesCount { get; set; }
+        public int PredictionNoCount { get; set; }
+        public int PredictionDontKnowCount { get; set; }
+        public int PredictionUnsetCount { get; set; }
     }
 
     public class MyAppointmentDtoMappingProfile : Profile
@@ -48,7 +52,11 @@ namespace Orso.Arpa.Application.MeApplication.Model
                 .ForMember(dest => dest.Expectation, opt => opt.MapFrom(src => src.Expectation.SelectValue.Name))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-                .ForMember(dest => dest.PrioritizedPieces, opt => opt.MapFrom(src => src.PrioritizedPieces.Select(pp => pp.SetlistPiece)));
+                .ForMember(dest => dest.PrioritizedPieces, opt => opt.MapFrom(src => src.PrioritizedPieces.Select(pp => pp.SetlistPiece)))
+                .ForMember(dest => dest.PredictionYesCount, opt => opt.Ignore())
+                .ForMember(dest => dest.PredictionNoCount, opt => opt.Ignore())
+                .ForMember(dest => dest.PredictionDontKnowCount, opt => opt.Ignore())
+                .ForMember(dest => dest.PredictionUnsetCount, opt => opt.Ignore());
             // CommentByPerformerInner, Result and Prediction will be set manually in service
         }
     }

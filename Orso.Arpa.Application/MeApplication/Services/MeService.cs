@@ -38,17 +38,20 @@ namespace Orso.Arpa.Application.MeApplication.Services
         private readonly IMapper _mapper;
         private readonly IUserAccessor _userAccessor;
         private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly IArpaContext _arpaContext;
 
         public MeService(
             IMediator mediator,
             IMapper mapper,
             IUserAccessor userAccessor,
-            IDateTimeProvider dateTimeProvider)
+            IDateTimeProvider dateTimeProvider,
+            IArpaContext arpaContext)
         {
             _mediator = mediator;
             _mapper = mapper;
             _userAccessor = userAccessor;
             _dateTimeProvider = dateTimeProvider;
+            _arpaContext = arpaContext;
         }
 
         public async Task<MyUserProfileDto> GetMyUserProfileAsync()
@@ -85,6 +88,8 @@ namespace Orso.Arpa.Application.MeApplication.Services
                     dto.CommentByPerformerInner = participation.CommentByPerformerInner;
                 }
             }
+
+            await PopulatePredictionStatsAsync(myAppointmentDtos);
 
             return new MyAppointmentListDto
             {
@@ -222,8 +227,41 @@ namespace Orso.Arpa.Application.MeApplication.Services
                 }
             }
 
+            await PopulatePredictionStatsAsync(myAppointmentDtos);
+
             return myAppointmentDtos;
         }
 
+        private async Task PopulatePredictionStatsAsync(IList<MyAppointmentDto> dtos)
+        {
+            var ids = dtos.Select(d => d.Id).ToList();
+            if (ids.Count == 0) return;
+
+            var stats = await _arpaContext.AppointmentParticipations
+                .Where(ap => ids.Contains(ap.AppointmentId))
+                .GroupBy(ap => ap.AppointmentId)
+                .Select(g => new
+                {
+                    AppointmentId = g.Key,
+                    Yes = g.Count(ap => ap.Prediction == AppointmentParticipationPrediction.Yes
+                                     || ap.Prediction == AppointmentParticipationPrediction.Partly),
+                    No = g.Count(ap => ap.Prediction == AppointmentParticipationPrediction.No),
+                    DontKnow = g.Count(ap => ap.Prediction == AppointmentParticipationPrediction.DontKnowYet),
+                    Unset = g.Count(ap => ap.Prediction == null)
+                })
+                .ToListAsync();
+
+            var statsDict = stats.ToDictionary(s => s.AppointmentId);
+            foreach (MyAppointmentDto dto in dtos)
+            {
+                if (statsDict.TryGetValue(dto.Id, out var s))
+                {
+                    dto.PredictionYesCount = s.Yes;
+                    dto.PredictionNoCount = s.No;
+                    dto.PredictionDontKnowCount = s.DontKnow;
+                    dto.PredictionUnsetCount = s.Unset;
+                }
+            }
+        }
     }
 }
