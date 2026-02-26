@@ -375,18 +375,19 @@ public class AnnouncementService : IAnnouncementService
 
     public async Task<AnnouncementDto> CreateDeployAnnouncementAsync(DeployAnnouncementDto dto)
     {
-        // Deactivate maintenance warnings (deploy is done)
-        var maintenanceAnnouncements = await _context.Announcements
+        var component = string.IsNullOrEmpty(dto.Component) ? "ARPA" : dto.Component;
+
+        // Deactivate maintenance warnings and previous deploy announcements for this component
+        var oldAnnouncements = await _context.Announcements
             .IgnoreQueryFilters()
-            .Where(a => !a.Deleted && a.Active && a.Title.StartsWith("Wartung:"))
+            .Where(a => !a.Deleted && a.Active &&
+                (a.Title.StartsWith("Wartung:") || a.Title.StartsWith($"{component} v")))
             .ToListAsync();
 
-        foreach (var maintenance in maintenanceAnnouncements)
+        foreach (var old in oldAnnouncements)
         {
-            maintenance.Deactivate();
+            old.Deactivate();
         }
-
-        var component = string.IsNullOrEmpty(dto.Component) ? "ARPA" : dto.Component;
         var title = $"{component} v{dto.Version}";
         var content = !string.IsNullOrWhiteSpace(dto.Changelog)
             ? dto.Changelog
