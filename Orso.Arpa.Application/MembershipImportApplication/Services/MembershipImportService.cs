@@ -51,6 +51,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             ["choirActive"] = new[] { "Chor - aktiv", "Chor -aktiv" },
             ["choirInactive"] = new[] { "Chor  - inaktiv", "Chor - inaktiv", "Chor -inaktiv" },
             ["orchestra"] = new[] { "Orchester", "Orchestra", "Chor/Orchester" },
+            ["dateOfBirth"] = new[] { "Geburtsdatum", "Geburtstag", "Date of Birth", "Birthday", "Geb.Datum", "Geb.-Datum" },
         };
 
         public MembershipImportService(IArpaContext arpaContext)
@@ -139,6 +140,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     Remarks = row.Remarks,
                     ChoirOrchestra = row.ChoirOrchestra,
                     IsSpecialCase = row.IsSpecialCase,
+                    DateOfBirth = row.DateOfBirth,
                 };
 
                 MatchPerson(importRow, persons);
@@ -188,11 +190,19 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                             GivenName = row.FirstName,
                             Surname = row.LastName,
                             GenderId = diverseGenderId,
+                            DateOfBirth = row.DateOfBirth,
                         });
                         person.ImportBatchId = batchId;
                         _arpaContext.Set<Person>().Add(person);
                         personId = person.Id;
                         result.PersonsCreated++;
+                    }
+                    else if (row.DateOfBirth.HasValue)
+                    {
+                        // Additive: only set DateOfBirth if the existing person doesn't have one yet
+                        var existingPerson = await _arpaContext.Persons
+                            .FirstOrDefaultAsync(p => p.Id == personId && !p.Deleted, cancellationToken);
+                        existingPerson?.SetDateOfBirthIfEmpty(row.DateOfBirth.Value);
                     }
 
                     // Add email if not already present on person (additive — works for new and existing persons)
@@ -651,7 +661,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                     {
                         var headerName = headers[i].Trim();
                         // Skip common non-informative headers
-                        if (new[] { "Anrede", "Geburtsjahr", "Geburtsdatum", "Alter", "Telefon", "UUID", "UUID Person" }
+                        if (new[] { "Anrede", "Geburtsjahr", "Alter", "Telefon", "UUID", "UUID Person" }
                             .Any(h => h.Equals(headerName, StringComparison.OrdinalIgnoreCase))) continue;
                         extraParts.Add(val.Equals("WAHR", StringComparison.OrdinalIgnoreCase)
                             ? headerName
@@ -681,6 +691,10 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
                 var mandateDateStr = GetField("mandateDate");
                 if (!string.IsNullOrWhiteSpace(mandateDateStr))
                     row.MandateDate = ParseGermanDate(mandateDateStr);
+
+                var dateOfBirthStr = GetField("dateOfBirth");
+                if (!string.IsNullOrWhiteSpace(dateOfBirthStr))
+                    row.DateOfBirth = ParseGermanDate(dateOfBirthStr);
 
                 // Parse annual fees
                 var fee2025Str = GetField("fee2025");
@@ -851,6 +865,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
             public string Remarks { get; set; }
             public string ChoirOrchestra { get; set; }
             public bool IsSpecialCase { get; set; }
+            public DateTime? DateOfBirth { get; set; }
         }
     }
 }

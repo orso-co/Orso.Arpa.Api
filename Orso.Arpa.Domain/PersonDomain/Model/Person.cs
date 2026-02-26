@@ -87,6 +87,14 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
             GeneralPreference = command.GeneralPreference;
         }
 
+        public void SetDateOfBirthIfEmpty(DateTime dateOfBirth)
+        {
+            if (!DateOfBirth.HasValue)
+            {
+                DateOfBirth = dateOfBirth;
+            }
+        }
+
         public void SetProfilePitureName(string profilePitureName)
         {
             ProfilePictureFileName = profilePitureName;

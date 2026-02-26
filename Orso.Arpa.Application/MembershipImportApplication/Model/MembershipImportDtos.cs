@@ -38,6 +38,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
         public string Remarks { get; set; }
         public string ChoirOrchestra { get; set; }
         public bool IsSpecialCase { get; set; }
+        public DateTime? DateOfBirth { get; set; }
     }
 
     public class PersonMatchCandidateDto
@@ -81,6 +82,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
         public Guid? PaymentMethodId { get; set; }
         public Guid? PaymentFrequencyId { get; set; }
         public bool IsSpecialCase { get; set; }
+        public DateTime? DateOfBirth { get; set; }
     }
 
     public class MembershipImportResultDto
@@ -133,6 +135,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Model
                 new() { Name = "IBAN", Aliases = "Iban", Required = false, Description = "Bankverbindung (max. 34 Zeichen, Leerzeichen werden entfernt)" },
                 new() { Name = "Mandatsreferenz", Aliases = "Mandate Reference, Mandat", Required = false, Description = "SEPA-Mandatsreferenz (max. 100 Zeichen)" },
                 new() { Name = "Mandatsdatum", Aliases = "Mandate Date", Required = false, Description = "Datum des SEPA-Mandats (gleiche Formate wie Eintritt)" },
+                new() { Name = "Geburtsdatum", Aliases = "Geburtstag, Date of Birth, Birthday", Required = false, Description = "Geburtsdatum. Formate: dd.MM.yyyy, yyyy-MM-dd oder nur Jahreszahl" },
                 new() { Name = "Hinweise", Aliases = "Bemerkungen, Remarks, Notizen", Required = false, Description = "Freitext-Hinweise" },
                 new() { Name = "Chor - aktiv", Aliases = "Chor -aktiv", Required = false, Description = "WAHR/FALSCH — Aktives Chormitglied" },
                 new() { Name = "Chor - inaktiv", Aliases = "Chor -inaktiv", Required = false, Description = "WAHR/FALSCH — Inaktives Chormitglied" },
