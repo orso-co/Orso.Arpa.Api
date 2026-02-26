@@ -50,6 +50,9 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 if (resetPasswordResult.Succeeded)
                 {
+                    // Clear lockout so user can log in immediately after password reset
+                    await _userManager.SetLockoutEndDateAsync(user, null);
+                    await _userManager.ResetAccessFailedCountAsync(user);
                     return Unit.Value;
                 }
 
