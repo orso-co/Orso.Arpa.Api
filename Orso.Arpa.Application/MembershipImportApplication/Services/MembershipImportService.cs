@@ -683,7 +683,7 @@ namespace Orso.Arpa.Application.MembershipImportApplication.Services
         private static decimal? ParseGermanDecimal(string str)
         {
             // Remove currency symbols and whitespace
-            str = str.Trim().Replace("€", "").Replace(" ", "").Trim();
+            str = str.Trim().Replace("€", "").Replace(" ", "").Replace("\u00A0", "").Trim();
             if (string.IsNullOrEmpty(str) || str == "-")
             {
                 return null;
