@@ -98,9 +98,8 @@ namespace Orso.Arpa.Api.Controllers
         }
 
         /// <summary>
-        /// Sends a test push notification to the current user (Staff only)
+        /// Sends a test push notification to the current user
         /// </summary>
-        [Authorize(Policy = AuthorizationPolicies.AtLeastStaffPolicy)]
         [HttpPost("test")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> SendTestPush()
