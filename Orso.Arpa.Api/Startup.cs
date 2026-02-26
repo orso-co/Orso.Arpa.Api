@@ -40,6 +40,8 @@ using Orso.Arpa.Api.Middleware;
 using Orso.Arpa.Api.ModelBinding;
 using Orso.Arpa.Api.Swagger;
 using Orso.Arpa.Api.Workers;
+using Orso.Arpa.Application.ActivityLogApplication.Interfaces;
+using Orso.Arpa.Application.ActivityLogApplication.Services;
 using Orso.Arpa.Application.AddressApplication.Interfaces;
 using Orso.Arpa.Application.AddressApplication.Services;
 using Orso.Arpa.Application.AnnouncementApplication.Interfaces;
@@ -264,6 +266,7 @@ namespace Orso.Arpa.Api
             services.AddHostedService<LiveLocationExpiryWorker>();
             services.AddHostedService<BankBalanceSyncWorker>();
             services.AddHostedService<Hubs.PresenceCleanupService>();
+            services.AddHostedService<Workers.ActivityLogCleanupWorker>();
         }
 
         private void ConfigureStorageAccount(IServiceCollection services)
@@ -574,6 +577,9 @@ namespace Orso.Arpa.Api
             _ = AddConfiguration<SeedConfiguration>(services);
             _ = AddConfiguration<VapidConfiguration>(services);
             _ = AddConfiguration<FinanceConfiguration>(services);
+
+            // Activity Logs
+            _ = services.AddScoped<IActivityLogService, ActivityLogService>();
 
             // Announcements
             _ = services.AddScoped<IAnnouncementService, AnnouncementService>();

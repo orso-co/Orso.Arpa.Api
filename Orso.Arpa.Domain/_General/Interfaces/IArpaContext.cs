@@ -29,6 +29,7 @@ using Orso.Arpa.Domain.SurveyDomain.Model;
 using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Domain.MediathekDomain.Model;
 using Orso.Arpa.Domain.TicketDomain.Model;
+using Orso.Arpa.Domain.ActivityLogDomain.Model;
 using Orso.Arpa.Domain.FinanceDomain.Model;
 
 namespace Orso.Arpa.Domain.General.Interfaces
@@ -140,6 +141,9 @@ namespace Orso.Arpa.Domain.General.Interfaces
 
         // Calendar Feed
         DbSet<CalendarFeedToken> CalendarFeedTokens { get; set; }
+
+        // Activity Logs
+        DbSet<ActivityLog> ActivityLogs { get; set; }
 
         // Finance
         DbSet<OrganizationBankAccount> OrganizationBankAccounts { get; set; }

@@ -43,6 +43,7 @@ using Orso.Arpa.Domain.TodoDomain.Model;
 using Orso.Arpa.Domain.MediathekDomain.Model;
 using Orso.Arpa.Domain.TicketDomain.Model;
 using Orso.Arpa.Domain.AnnouncementDomain.Model;
+using Orso.Arpa.Domain.ActivityLogDomain.Model;
 using Orso.Arpa.Domain.FinanceDomain.Model;
 using Orso.Arpa.Misc;
 using Orso.Arpa.Persistence.EntityConfigurations;
@@ -193,6 +194,9 @@ namespace Orso.Arpa.Persistence.DataAccess
         // Announcements
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<AnnouncementRead> AnnouncementReads { get; set; }
+
+        // Activity Logs
+        public DbSet<ActivityLog> ActivityLogs { get; set; }
 
         // Finance
         public DbSet<OrganizationBankAccount> OrganizationBankAccounts { get; set; }
