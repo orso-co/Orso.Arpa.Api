@@ -29,6 +29,14 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Util
             return new DateTime(lastDay.Year, lastDay.Month, lastDay.Day, 23, 59, 59, DateTimeKind.Local);
         }
 
+        private static DateTime EndOfMonthView(DateTime date)
+        {
+            // FullCalendar always shows 6 weeks (fixedWeekCount=true)
+            DateTime viewStart = FirstDayOfWeek(FirstDayOfMonth(date));
+            DateTime lastDay = viewStart.AddDays(41); // 6 weeks - 1 day = 41 days
+            return new DateTime(lastDay.Year, lastDay.Month, lastDay.Day, 23, 59, 59, DateTimeKind.Local);
+        }
+
         public static DateTime GetStartTime(DateTime date, DateRange range)
         {
             return range switch
@@ -44,7 +52,7 @@ namespace Orso.Arpa.Domain.AppointmentDomain.Util
         {
             return range switch
             {
-                DateRange.Month => LastDayOfWeek(LastDayOfMonth(date)),
+                DateRange.Month => EndOfMonthView(date),
                 DateRange.Week => LastDayOfWeek(date),
                 DateRange.Day => new DateTime(date.Year, date.Month, date.Day, 23, 59, 59, DateTimeKind.Local),
                 _ => throw new NotSupportedException("Requested DateRange is not supported"),
