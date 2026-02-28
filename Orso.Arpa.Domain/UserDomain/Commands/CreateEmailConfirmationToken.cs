@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -63,12 +64,28 @@ namespace Orso.Arpa.Domain.UserDomain.Commands
 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                var param = new Dictionary<string, string>
-                        {
-                            { "token", token },
-                            { "email", user.Email }
-                        };
-                var uri = QueryHelpers.AddQueryString(request.ClientUri, param);
+                // Build the callback URL
+                // Handle hash-based routing (Angular HashLocationStrategy):
+                // Input: https://example.com/#/auth/email-confirmation
+                // Output: https://example.com/#/auth/email-confirmation?token=xxx&email=xxx
+                // Standard QueryHelpers would produce: https://example.com/?token=xxx&email=xxx#/auth/email-confirmation
+                // which doesn't work with hash routing
+                string uri;
+                if (request.ClientUri.Contains('#'))
+                {
+                    var encodedToken = HttpUtility.UrlEncode(token);
+                    var encodedEmail = HttpUtility.UrlEncode(user.Email);
+                    uri = $"{request.ClientUri}?token={encodedToken}&email={encodedEmail}";
+                }
+                else
+                {
+                    var param = new Dictionary<string, string>
+                    {
+                        { "token", token },
+                        { "email", user.Email }
+                    };
+                    uri = QueryHelpers.AddQueryString(request.ClientUri, param);
+                }
 
                 var template = new ConfirmEmailTemplate
                 {
