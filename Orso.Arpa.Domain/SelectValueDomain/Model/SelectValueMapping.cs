@@ -5,7 +5,7 @@ namespace Orso.Arpa.Domain.SelectValueDomain.Model
 {
     public class SelectValueMapping : BaseEntity
     {
-        public SelectValueMapping(Guid? id, Guid selectValueCategoryId, Guid selectValueId, int? sortOrder = null) : base(id)
+        public SelectValueMapping(Guid id, Guid selectValueCategoryId, Guid selectValueId, int? sortOrder = null) : base(id)
         {
             SelectValueCategoryId = selectValueCategoryId;
             SelectValueId = selectValueId;

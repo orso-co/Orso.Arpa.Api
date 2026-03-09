@@ -16,13 +16,14 @@ namespace Orso.Arpa.Domain.General.Model
         public DateTime? ModifiedAt { get; private set; }
         public bool Deleted { get; private set; }
 
-        protected BaseEntity(Guid? id)
+        protected BaseEntity(Guid id)
         {
-            Id = id ?? Guid.NewGuid();
+            Id = id;
         }
 
         protected BaseEntity()
         {
+            Id = Guid.NewGuid();
         }
 
         public virtual void Create(string createdBy, DateTime createdAt)

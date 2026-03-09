@@ -9,7 +9,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
     [HardDelete]
     public class MusicianProfileDeactivation : BaseEntity
     {
-        public MusicianProfileDeactivation(Guid? id, CreateMusicianProfileDeactivation.Command command) : base(id)
+        public MusicianProfileDeactivation(Guid id, CreateMusicianProfileDeactivation.Command command) : base(id)
         {
             DeactivationStart = command.DeactivationStart;
             Purpose = command.Purpose;

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using Orso.Arpa.Application.TranslationApplication.Model;
 using Orso.Arpa.Domain.LocalizationDomain.Model;
+using Orso.Arpa.Misc;
 
 namespace Orso.Arpa.Application.TranslationApplication.Services
 {
@@ -16,7 +17,7 @@ namespace Orso.Arpa.Application.TranslationApplication.Services
             {
                 foreach (KeyValuePair<string, string> t in rk.Value)
                 {
-                    var localization = new Localization(null, t.Key, t.Value, null, rk.Key);
+                    var localization = new Localization(t.Key.CreateGuid(), t.Key, t.Value, null, rk.Key);
                     translations.Add(localization);
                 }
             }

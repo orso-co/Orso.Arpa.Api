@@ -11,7 +11,7 @@ namespace Orso.Arpa.Domain.ClubDomain.Model
     /// </summary>
     public class ClubMembershipContribution : BaseEntity, IVersionedEntity
     {
-        public ClubMembershipContribution(Guid? id, CreateClubMembershipContribution.Command command) : base(id)
+        public ClubMembershipContribution(Guid id, CreateClubMembershipContribution.Command command) : base(id)
         {
             ContributionPerYearInEuro = command.ContributionPerYearInEuro;
             ValidFrom = command.ValidFrom;

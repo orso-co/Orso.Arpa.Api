@@ -11,13 +11,13 @@ namespace Orso.Arpa.Domain.AddressDomain.Model
 {
     public class Address : BaseEntity
     {
-        public Address(Guid? id, CreateAddress.Command command) : this(id, (BaseAddressCreateCommand)command) {
+        public Address(Guid id, CreateAddress.Command command) : this(id, (BaseAddressCreateCommand)command) {
             PersonId = command.PersonId;
         }
 
-        public Address(Guid? id, CreateVenue.Command command) : this(id, (BaseAddressCreateCommand)command) {}
+        public Address(Guid id, CreateVenue.Command command) : this(id, (BaseAddressCreateCommand)command) {}
 
-        private Address(Guid? id, BaseAddressCreateCommand command) : base(id)
+        private Address(Guid id, BaseAddressCreateCommand command) : base(id)
         {
             Address1 = command.Address1;
             Address2 = command.Address2;
@@ -30,7 +30,7 @@ namespace Orso.Arpa.Domain.AddressDomain.Model
             TypeId = command.TypeId;
         }
 
-        internal Address(Guid? id) : base(id)
+        internal Address(Guid id) : base(id)
         {
         }
 

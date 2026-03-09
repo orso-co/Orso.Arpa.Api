@@ -7,7 +7,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
 {
     public class RoomEquipment : BaseEntity
     {
-        public RoomEquipment(Guid? id, SelectValueMapping equipment, Room room, int? count, string description = null) : base(id)
+        public RoomEquipment(Guid id, SelectValueMapping equipment, Room room, int? count, string description = null) : base(id)
         {
             Equipment = equipment;
             Room = room;
@@ -15,7 +15,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
             Description = description;
         }
 
-        public RoomEquipment(Guid? id, CreateRoomEquipment.Command command) : base(id)
+        public RoomEquipment(Guid id, CreateRoomEquipment.Command command) : base(id)
         {
             EquipmentId = command.EquipmentId;
             RoomId = command.RoomId;
@@ -32,7 +32,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
             Quantity = command.Quantity;
             Description = command.Description;
         }
-        
+
         public Guid? EquipmentId { get; private set; }
         public virtual SelectValueMapping Equipment { get; private set; }
         public Guid? RoomId { get; private set; }

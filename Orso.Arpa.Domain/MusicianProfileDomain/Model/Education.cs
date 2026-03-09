@@ -8,7 +8,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
 {
     public class Education : BaseEntity
     {
-        public Education(Guid? id, CreateEducation.Command command) : base(id)
+        public Education(Guid id, CreateEducation.Command command) : base(id)
         {
             TimeSpan = command.TimeSpan;
             Institution = command.Institution;
@@ -18,7 +18,7 @@ namespace Orso.Arpa.Domain.MusicianProfileDomain.Model
             MusicianProfileId = command.MusicianProfileId;
         }
 
-        internal Education(Guid? id) : base(id)
+        internal Education(Guid id) : base(id)
         {
         }
 

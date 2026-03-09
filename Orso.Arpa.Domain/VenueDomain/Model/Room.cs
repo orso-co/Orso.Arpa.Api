@@ -12,7 +12,7 @@ namespace Orso.Arpa.Domain.VenueDomain.Model
 {
     public class Room : BaseEntity
     {
-        public Room(Guid? id, CreateRoom.Command command) : base(id)
+        public Room(Guid id, CreateRoom.Command command) : base(id)
         {
             VenueId = command.VenueId;
             Building = command.Building;

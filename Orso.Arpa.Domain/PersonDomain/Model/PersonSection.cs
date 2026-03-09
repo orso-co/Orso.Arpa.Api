@@ -6,13 +6,13 @@ namespace Orso.Arpa.Domain.PersonDomain.Model
 {
     public class PersonSection : BaseEntity
     {
-        public PersonSection(Guid? id, Person person, Section section) : base(id)
+        public PersonSection(Guid? id, Person person, Section section) : base(id ?? Guid.NewGuid())
         {
             Person = person;
             Section = section;
         }
 
-        public PersonSection(Guid? id, Guid personId, Guid sectionId) : base(id)
+        public PersonSection(Guid? id, Guid personId, Guid sectionId) : base(id ?? Guid.NewGuid())
         {
             PersonId = personId;
             SectionId = sectionId;
