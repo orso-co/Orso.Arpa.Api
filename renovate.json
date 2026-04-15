@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard"
+  ],
+  "baseBranches": ["develop"],
+  "labels": ["dependencies", "renovate"],
+  "commitMessagePrefix": "chore(deps):",
+  "schedule": ["before 7am on monday"],
+  "timezone": "Europe/Berlin",
+  "rebaseWhen": "conflicted",
+  "packageRules": [
+    {
+      "matchManagers": ["nuget"],
+      "groupName": "dotnet dependencies",
+      "groupSlug": "dotnet"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "major-update"]
+    }
+  ]
+}
